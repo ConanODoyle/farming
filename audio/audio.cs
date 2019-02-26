@@ -1,6 +1,6 @@
 datablock AudioProfile(AmbientRainSound) 
 {
-	filename = "./audio/Rain/rain_low.ogg";
+	filename = "./Rain/rain_low.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
 	uiName = "";
@@ -8,7 +8,7 @@ datablock AudioProfile(AmbientRainSound)
 
 datablock AudioProfile(AmbientRainFadeInSound) 
 {
-	filename = "./audio/rain_low_fadein.ogg";
+	filename = "./rain_low_fadein.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
 	uiName = "";
@@ -16,7 +16,7 @@ datablock AudioProfile(AmbientRainFadeInSound)
 
 datablock AudioProfile(AmbientRainFadeOutSound) 
 {
-	filename = "./audio/rain_low_fadeout.ogg";
+	filename = "./rain_low_fadeout.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
 	uiName = "";
@@ -24,7 +24,7 @@ datablock AudioProfile(AmbientRainFadeOutSound)
 
 datablock AudioProfile(AmbientMeadowsSound)
 {
-	filename = "./audio/Ambient/meadows_day.ogg";
+	filename = "./Ambient/meadows_day.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
 	uiName = "Meadow";
@@ -32,7 +32,7 @@ datablock AudioProfile(AmbientMeadowsSound)
 
 datablock AudioProfile(AmbientSeaSound)
 {
-	filename = "./audio/Sea/sea_calm.ogg";
+	filename = "./Sea/sea_calm.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
 	uiName = "Sea";
@@ -40,7 +40,7 @@ datablock AudioProfile(AmbientSeaSound)
 
 datablock AudioProfile(AmbientSeaWavesSound)
 {
-	filename = "./audio/Sea/sea_waves_crashing.ogg";
+	filename = "./Sea/sea_waves_crashing.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
 	uiName = "Sea Cliff";

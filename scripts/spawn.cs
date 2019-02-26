@@ -1,8 +1,3 @@
-$startingAmount = 90;
-$betaBonus = 200;
-
-exec("config/Farming/scoreGrant.cs");
-
 package FarmingSpawn
 {
 	function GameConnection::spawnPlayer(%cl) 
@@ -91,9 +86,7 @@ package FarmingSpawn
 		parent::serverCmdSuicide(%cl);
 	}
 };
-deactivatePackage(BotBuyProduce);
 activatePackage(FarmingSpawn);
-activatePackage(BotBuyProduce);
 
 RegisterPersistenceVar("playerDatablock", false, "");
 

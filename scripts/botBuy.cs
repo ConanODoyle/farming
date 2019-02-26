@@ -379,6 +379,8 @@ function attemptBuy(%cl, %num)
 	}
 }
 
+if(isPackage(BotBuyProduce))
+	deactivatePackage(BotBuyProduce);
 package BotBuyProduce
 {
 	function serverCmdMessageSent(%cl, %msg)

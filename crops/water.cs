@@ -1,12 +1,3 @@
-$DirtWaterColor0 = 54;
-$DirtWaterColor1 = 55;
-$DirtWaterColor2 = 56;
-$DirtWaterColor3 = 57;
-$DirtWaterColor4 = 58;
-$DirtWaterColor5 = 59;
-$DirtWaterColor6 = 60;
-$DirtWaterColorCount = 7;
-
 function fxDTSBrick::setWaterLevel(%b, %amt)
 {
 	if (!%b.getDatablock().isDirt && !%b.getDatablock().isWaterTank)

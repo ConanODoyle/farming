@@ -1,0 +1,3 @@
+version	3.0.0
+channel	release
+repository	visolator.block.land/repository/repository.txt

@@ -1,0 +1,12 @@
+exec("./util.cs");
+exec("./datablocks.cs");
+exec("./growth.cs");
+exec("./plantData.cs");
+exec("./water.cs");
+exec("./sprinklers.cs");
+exec("./harvest.cs");
+exec("./fertilizer.cs");
+exec("./seeds/seedDatablocks.cs");
+exec("./crops/cropDatablocks.cs");
+exec("./shinyPlants.cs");
+exec("./writePlantData.cs");

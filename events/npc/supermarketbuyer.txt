@@ -1,0 +1,8 @@
++-EVENT	0	1	onBotSpawn	0	Bot		SetIdleBehavior	8			
++-EVENT	1	1	onBotSpawn	0	Bot		setProduceData	0		Supermarket Buyer	50
++-EVENT	2	1	onBotSpawn	0	Bot		SetIdleBehavior	4			
++-EVENT	3	1	onBotSpawn	0	Bot		SetIdleBehavior	2			
++-EVENT	4	1	onBotSpawn	0	Bot		SetWanderDistance	0	64		
++-EVENT	5	1	onBotSpawn	0	Bot		SetAppearance	6	1 4 0 0 0 0 0 0 0 0 0 0 0 ChefSmiley Mod-Suit	1.0 0.6 0.4 0.0 0.1 0.3 0.9 0.0 0.0 0.7 0.1 0.1 0.1 0.5 0.8 0.2 0.2 0.2 0.7 0.1 0.1	0.1 0.1 0.1 0.1 0.1 0.1 1.0 1.0 1.0 1.0 1.0 1.0 1.0 0.6 0.4 1.0 0.6 0.4
++-EVENT	6	1	onBotActivated	0	Client		ChatMessage	<bitmap:base/client/ui/ci/star> <color:ffff00>Supermarket Buyer<color:ffffff>: I buy all your produce!			
++-EVENT	7	1	onBotActivated	0	Bot		LookAtPlayer	1			

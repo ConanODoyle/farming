@@ -1,0 +1,10 @@
++-EVENT	0	1	onBotSpawn	0	Bot		SetIdleBehavior	8			
++-EVENT	1	1	onBotSpawn	0	Bot		setProduceData	1	PotatoSeedItem 1	Potato Seeds $1	15
++-EVENT	2	1	onBotSpawn	0	Bot		SetIdleBehavior	4			
++-EVENT	3	1	onBotSpawn	0	Bot		SetIdleBehavior	2			
++-EVENT	4	1	onBotSpawn	0	Bot		SetWanderDistance	0	8		
++-EVENT	5	1	onBotSpawn	0	Bot		SetAppearance	6	1 0 0 2 0 0 0 1 1 0 0 0 0 memeYaranika worm_engineer	1.0 0.9 0.6 0.9 0.0 0.0 0.4 0.2 0.0 0.4 0.2 0.0 0.5 0.5 0.5 0.0 0.1 0.3 0.9 0.9 0.9	0.0 0.1 0.3 0.0 0.1 0.3 0.2 0.2 0.2 0.2 0.2 0.2 1.0 0.9 0.6 1.0 0.9 0.6
++-EVENT	6	1	onBotActivated	0	Bot		startSell				
++-EVENT	7	1	onBotSpawn	0	Bot		SetBotName	Potato Farmer			
++-EVENT	8	1	onBotSpawn	0	Bot		SetRunSpeed	0.5			
++-EVENT	9	1	onBotSpawn	0	Bot		ChangeDataBlock	PlayerStandardArmor			
