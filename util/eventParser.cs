@@ -98,14 +98,11 @@ function servercmdnpcevents(%cl, %file) {
   if(!%cl.player) return;
 
   %pl = %cl.player;
-  talk("bar " @ %pl.getEyePoint() SPC %pl.getEyeVector());
   %start = %pl.getEyePoint();
   %vec = vectorScale(%pl.getMuzzleVector(0), 10);
   %brick = containerraycast(%start, vectorAdd(%start, %vec), $TypeMasks::FxBrickAlwaysObjectType);
 
-  talk(%brick);
   if(!%brick) return;
-  talk("foo");
 
   if(%brick.getDatablock() == BrickBlockheadBot_HoleSpawnData.getId()) {
     %num = applyEventsFromFile(%brick, %file);
