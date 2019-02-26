@@ -1,0 +1,10 @@
++-EVENT	0	1	onBotSpawn	0	Bot		SetBotName	Store Clerk			
++-EVENT	1	1	onBotSpawn	0	Bot		setProduceData	0		Store Clerk	1000
++-EVENT	2	1	onBotSpawn	0	Bot		SetIdleBehavior	4			
++-EVENT	3	1	onBotSpawn	0	Bot		SetIdleBehavior	2			
++-EVENT	4	1	onBotSpawn	0	Bot		SetWanderDistance	0	64		
++-EVENT	5	1	onBotSpawn	0	Bot		SetAppearance	6	1 0 0 0 0 1 0 0 0 0 0 0 0 smiley Mod-Suit	1.0 0.9 0.6 0.0 0.1 0.3 0.9 0.0 0.0 0.7 0.1 0.1 0.5 0.7 0.6 0.2 0.2 0.2 0.7 0.1 0.1	0.1 0.1 0.1 0.1 0.1 0.1 1.0 1.0 1.0 1.0 1.0 1.0 1.0 0.9 0.6 1.0 0.9 0.6
++-EVENT	6	1	onBotActivated	0	Bot		LookAtPlayer	1			
++-EVENT	7	1	onBotSpawn	0	Bot		doRandomEventLoop	420	sellSeeds sellItem sellItem sellInstrument	0	
++-EVENT	8	1	onBotActivated	0	Bot		talkProduceInfo				
++-EVENT	9	1	onBotSpawn	0	Bot		SetIdleBehavior	8			

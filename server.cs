@@ -20,6 +20,7 @@ exec("./util/clearScripts.cs");
 exec("./util/dualClient.cs");
 exec("./util/stuck.cs");
 exec("./util/scorefix.cs");
+exec("./util/eventParser.cs");
 
 echo("\c4Loading Farming Assets");
 
