@@ -3,7 +3,6 @@ echo("\c4Loading Farming Dependencies");
 
 // Generic libraries this depends on
 exec("./lib/Script_Player_Persistence.cs");
-exec("./lib/Support_AutoSaver/server.cs");
 exec("./lib/Support_CenterprintMenuSystem.cs");
 exec("./lib/Support_CustomBrickRadius.cs");
 exec("./lib/Support_DropItemsOnDeath.cs");
