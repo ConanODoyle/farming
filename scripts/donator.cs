@@ -218,7 +218,7 @@ package Donators
 			for (%i = 0; %i < 4; %i++)
 			{
 				if (isObject(%pl.getMountedImage(%i) &&
-					%pl.getMountedImage(%i).getID() == %pl.tool[%slot].image.donatorImage.getID())
+					%pl.getMountedImage(%i).getID() == %pl.tool[%slot].image.donatorImage.getID()))
 				{
 					%pl.unmountImage(%i);
 				}

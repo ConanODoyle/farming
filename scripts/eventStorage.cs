@@ -1,30 +1,3 @@
-$StorageMax_Tomato = 30;
-$StorageMax_Potato = 30;
-$StorageMax_Carrot = 45;
-$StorageMax_Corn = 45;
-$StorageMax_Cabbage = 45;
-$StorageMax_Onion = 90;
-$StorageMax_Blueberry = 84;
-$StorageMax_Turnip = 8;
-$StorageMax_Apple = 72;
-$StorageMax_Mango = 30;
-
-$StorageMax_TomatoSeed = 24;
-$StorageMax_PotatoSeed = 60;
-$StorageMax_CarrotSeed = 24;
-$StorageMax_CornSeed = 36;
-$StorageMax_CabbageSeed = 36;
-$StorageMax_OnionSeed = 48;
-$StorageMax_BlueberrySeed = 48;
-$StorageMax_TurnipSeed = 24;
-$StorageMax_AppleSeed = 4;
-$StorageMax_MangoSeed = 4;
-
-$StorageMax_DaisySeed = 48;
-$StorageMax_LilySeed = 48;
-
-$StorageMax_Fertilizer = 120;
-
 function validateStorageContents(%string, %brick)
 {
 	if (%string $= "")
