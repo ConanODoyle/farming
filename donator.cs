@@ -1,0 +1,495 @@
+//Donors
+$Farming::MaxPlayers = 45;
+$isDonator_["blid"] = 1 TAB "comment here";
+
+$isVIP_["4928"] 	= 1 TAB "Conan";
+$isVIP_["33152"] 	= 1 TAB "Trinko";
+$isVIP_["1768"] 	= 1 TAB "Zeustal";
+$isVIP_["691"] 		= 1 TAB "Boltster";
+$isVIP_["12027"] 	= 1 TAB "Sentry";
+$isVIP_["4382"] 	= 1 TAB "Skill4Life";
+$isVIP_["2227"] 	= 1 TAB "The Brighter Dark";
+$isVIP_["10661"] 	= 1 TAB "Dart";
+$isVIP_["3898"] 	= 1 TAB "The Titanium (Donator but doesnt want perks)";
+
+$isDonator_["53456"] 	= 1 TAB "celau";
+$isDonator_["20061"] 	= 1 TAB "Cavik";
+$isDonator_["49865"] 	= 1 TAB "Jasa";
+$isDonator_["14516"] 	= 1 TAB "ExecPaper";
+$isDonator_["12027"] 	= 1 TAB "Sentry";
+$isDonator_["23751"] 	= 1 TAB "Shy_Guy";
+$isDonator_["3306"] 	= 1 TAB "Mr.LoL";
+
+$isBetaTester_["30881"] 	= 1 TAB "Allun Pentax";
+$isBetaTester_["39617"] 	= 1 TAB "Queuenard";
+$isBetaTester_["155122"] 	= 1 TAB "";
+$isBetaTester_["53456"] 	= 1 TAB "celau";
+$isBetaTester_["35003"] 	= 1 TAB "Qube?";
+$isBetaTester_["46098"] 	= 1 TAB "";
+$isBetaTester_["10661"] 	= 1 TAB "Dart";
+$isBetaTester_["3180"] 		= 1 TAB "";
+$isBetaTester_["3636"] 		= 1 TAB "";
+$isBetaTester_["14610"] 	= 1 TAB "";
+$isBetaTester_["28116"] 	= 1 TAB "";
+$isBetaTester_["27312"] 	= 1 TAB "";
+$isBetaTester_["52730"] 	= 1 TAB "";
+$isBetaTester_["33688"] 	= 1 TAB "";
+$isBetaTester_["21824"] 	= 1 TAB "";
+$isBetaTester_["256895"] 	= 1 TAB "";
+$isBetaTester_["49862"] 	= 1 TAB "";
+$isBetaTester_["203441"] 	= 1 TAB "";
+$isBetaTester_["691"] 		= 1 TAB "Boltster";
+$isBetaTester_["32598"] 	= 1 TAB "Nozero";
+$isBetaTester_["33152"] 	= 1 TAB "Trinko";
+$isBetaTester_["12027"] 	= 1 TAB "Sentry";
+$isBetaTester_["4342"] 		= 1 TAB "NEkram";
+$isBetaTester_["9373"] 		= 1 TAB "Smallguy";
+$isBetaTester_["4382"] 		= 1 TAB "Skill4Life";
+$isBetaTester_["166680"] 	= 1 TAB "Wetback/Nothing";
+
+function checkIfDonator(%bl_id)
+{
+	return $isDonator_[%bl_id];
+}
+
+function checkIfBetaTester(%bl_id)
+{
+	return $isBetaTester_[%bl_id];
+}
+
+function checkIfVIP(%bl_id)
+{
+	return $isVIP_[%bl_id];
+}
+
+function applyDonatorSettings(%cl)
+{
+	%cl.nameColor = "0.95 0.85 0";
+	// %cl.messagePrefix = "<shadow:4:4><shadowcolor:303030><color:ffffff>";
+	%cl.isDonator = 1;
+	messageAll('', "<bitmap:base/client/ui/ci/star> \c3" @ %cl.name @ "\c6 is a donator!");
+}
+
+function applyBetaTesterSettings(%cl)
+{
+	%cl.isBetaTester = 1;
+	messageAll('', "<bitmap:base/client/ui/ci/star> \c3" @ %cl.name @ "\c6 is a beta tester!");
+}
+
+function getDonatorMessage(%msg)
+{
+	%msg = stripMLControlChars(%msg);
+	for (%i = 0; %i < getWordCount(%msg); %i++)
+	{
+		%word = getWord(%msg, %i);
+		if (getSubStr(%word, 0, 7) $= "http://")
+		{
+			%url = stripChars(%word, "<>{}#|^");
+			%urlFormat = "<a:" @ %url @ ">";
+			%msg = setWord(%msg, %i, %urlFormat @ %word);
+		}
+	}
+	return %msg;
+}
+
+function updateServerPlayerCount() {
+
+	commandToAll('NewPlayerListGui_UpdateWindowTitle', $Pref::Server::Name, $Pref::Server::maxPlayers);
+}
+
+package Donators
+{
+	function serverCmdMissionStartPhase3Ack(%cl, %val) 
+	{
+		%cl.hasLoaded = 1;
+		return parent::serverCmdMissionStartPhase3Ack(%cl, %val);
+	}
+
+	function GameConnection::onConnectRequest(%client, %netAddress, %LANname, %netName, %clanPrefix, %clanSuffix, %clientNonce) 
+	{
+		if (ClientGroup.getCount() == $Pref::Server::maxPlayers) 
+		{
+			$Pref::Server::maxPlayers++;
+		} 
+		else if (ClientGroup.getCount() > $Pref::Server::maxPlayers) 
+		{
+			$Pref::Server::maxPlayers = ClientGroup.getCount() + 1;
+		}
+		messageClient(fcn(Conan), '', "\c4Attempt to join by \c3" @ %netName);
+		return parent::onConnectRequest(%client, %netAddress, %LANname, %netName, %clanPrefix, %clanSuffix, %clientNonce);
+	}
+
+	function GameConnection::onDrop(%client) 
+	{
+		if ($Pref::Server::maxPlayers > $Farming::MaxPlayers) 
+		{
+			$Pref::Server::maxPlayers--;
+			updateServerPlayerCount();
+		}
+		else if ($Pref::Server::maxPlayers > ClientGroup.getCount() && ClientGroup.getCount() > $Farming::MaxPlayers) 
+		{
+			$Pref::Server::maxPlayers = $Farming::MaxPlayers;
+			updateServerPlayerCount();
+		}
+		return parent::onDrop(%client);
+	}
+
+	function servAuthTCPObj::onLine(%this, %line) 
+	{
+		%word = getWord(%line, 0);
+		if (%word $= "YES")
+		{
+			%cl = %this.client;
+			if (%cl.hasLoaded) 
+			{
+				return parent::onLine(%this, %line);
+			}
+			%blid = getWord(%line, 1);
+
+			%isDonator = checkIfDonator(%blid);
+			%isVIP = checkIfVIP(%blid);
+			
+			echo("Checking for betatester/donator status (" @ %blid @ ", " @ %cl.name @ ") " @ getDateTime());
+
+			if (%isDonator || %isVIP)
+			{
+				messageClient(fcn(Conan), '', "\c4    Attempt to join succeeded");
+				echo("    betatester/donator status confirmed. Upping player limit...");
+				%ret = parent::onLine(%this, %line);
+				updateServerPlayerCount();
+				webcom_postserver();
+				pushServerName();
+				return %ret;
+			}
+
+			if ($Pref::Server::maxPlayers > $Farming::MaxPlayers) 
+			{
+				messageClient(fcn(Conan), '', "\c4    Attempt to join failed");
+				%cl.isBanReject = 1;
+				%cl.schedule(10, delete, "The server is full!");
+				schedule(10, 0, eval, "$Pref::Server::maxPlayers--;");
+				return;
+			}
+
+			//schedule(30, 0, updateServerPlayerCount);
+		}
+		else if (%word $= "NO")
+		{
+			return parent::onLine(%this, %line);
+		}
+		return parent::onLine(%this, %line);
+	}
+
+	function Player::mountImage(%obj, %img, %slot)
+	{
+		if (%obj.client.isDonator && isObject(%img.donatorImage) && %img.donatorImage.getID() != %img.getID())
+		{
+			return %obj.mountImage(%img.donatorImage, %slot);
+		}
+		return parent::mountImage(%obj, %img, %slot);
+	}
+
+	function serverCmdMessageSent(%cl, %msg)
+	{
+		if (%cl.isDonator && getSubStr(%msg, 0, 1) !$= "\\")
+		{
+			messageAll('', "\c7" @ %cl.clanprefix @ "<color:ffaa00>" @ %cl.name @ "\c7" @ %cl.clansuffix @ "\c6: " @ %cl.messagePrefix @ stripMLControlChars(%msg));
+		}
+		else
+		{
+			return parent::serverCmdMessageSent(%cl, %msg);
+		}
+	}
+
+	function GameConnection::spawnPlayer(%cl)
+	{
+		%ret = parent::spawnPlayer(%cl);
+		if (%cl.nameColor !$= "")
+		{
+			%cl.player.setShapeNameColor(%cl.nameColor);
+		}
+		return %ret;
+	}
+
+	function serverCmdDropTool(%cl, %slot)
+	{
+		if (isObject(%pl = %cl.player) && isObject(%pl.tool[%slot].image.donatorImage))
+		{
+			for (%i = 0; %i < 4; %i++)
+			{
+				if (isObject(%pl.getMountedImage(%i) &&
+					%pl.getMountedImage(%i).getID() == %pl.tool[%slot].image.donatorImage.getID())
+				{
+					%pl.unmountImage(%i);
+				}
+			}
+		}
+		return parent::serverCmdDropTool(%cl, %slot);
+	}
+
+	function GameConnection::autoAdminCheck(%cl)
+	{
+		%ret = parent::autoAdminCheck(%cl);
+
+		if (checkIfDonator(%cl.bl_id))
+		{
+			applyDonatorSettings(%cl);
+		}
+		if (checkIfBetaTester(%cl.bl_id))
+		{
+			applyBetaTesterSettings(%cl);
+		}
+
+		return %ret;
+	}
+};
+schedule(1000, 0, activatePackage, Donators);
+
+//donator images
+
+//fertilizer
+FertilizerBag0Image.donatorImage = GoldenFertilizerBag0Image;
+FertilizerBag1Image.donatorImage = GoldenFertilizerBag1Image;
+FertilizerBag2Image.donatorImage = GoldenFertilizerBag2Image;
+
+datablock ShapeBaseImageData(GoldenFertilizerBag0Image : FertilizerBag0Image)
+{
+	colorShiftColor = "0.95 0.85 0 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+};
+
+datablock ShapeBaseImageData(GoldenFertilizerBag1Image : FertilizerBag1Image)
+{
+	colorShiftColor = "0.95 0.85 0 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+};
+
+datablock ShapeBaseImageData(GoldenFertilizerBag2Image : FertilizerBag2Image)
+{
+	colorShiftColor = "0.95 0.85 0 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+};
+
+
+function GoldenFertilizerBag0Image::onFire(%this, %obj, %slot)
+{
+	fertilizeCrop(%this, %obj, %slot);
+}
+
+function GoldenFertilizerBag1Image::onFire(%this, %obj, %slot)
+{
+	fertilizeCrop(%this, %obj, %slot);
+}
+
+function GoldenFertilizerBag2Image::onFire(%this, %obj, %slot)
+{
+	fertilizeCrop(%this, %obj, %slot);
+}
+
+
+
+function GoldenFertilizerBag0Image::onLoop(%this, %obj, %slot)
+{
+	fertilizerLoop(%this, %obj);
+}
+
+function GoldenFertilizerBag1Image::onLoop(%this, %obj, %slot)
+{
+	fertilizerLoop(%this, %obj);
+}
+
+function GoldenFertilizerBag2Image::onLoop(%this, %obj, %slot)
+{
+	fertilizerLoop(%this, %obj);
+}
+
+//planter
+PlanterImage.donatorImage = GoldenPlanterImage;
+PlanterV2Image.donatorImage = GoldenPlanterV2Image;
+
+datablock ShapeBaseImageData(GoldenPlanterImage : PlanterImage)
+{
+	colorShiftColor = "1 0.95 0.3 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+};
+
+datablock ShapeBaseImageData(GoldenPlanterV2Image : PlanterV2Image)
+{
+	colorShiftColor = "0.95 0.85 0.5 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+};
+
+function GoldenPlanterImage::onLoop(%this, %obj, %slot)
+{
+	PlanterImage::onLoop(%this, %obj, %slot);
+}
+
+function GoldenPlanterImage::onFire(%this, %obj, %slot)
+{
+	PlanterImage::onFire(%this, %obj, %slot);
+}
+
+function GoldenPlanterV2Image::onLoop(%this, %obj, %slot)
+{
+	PlanterV2Image::onLoop(%this, %obj, %slot);
+}
+
+function GoldenPlanterV2Image::onFire(%this, %obj, %slot)
+{
+	PlanterImage::onFire(%this, %obj, %slot);
+}
+
+//watering can
+WateringCanImage.donatorImage = GoldenWateringCanImage;
+WateringCan2Image.donatorImage = GoldenWateringCan2Image;
+WateringCan3Image.donatorImage = GoldenWateringCan3Image;
+HoseImage.donatorImage = GoldenHoseImage;
+HoseV2Image.donatorImage = GoldenHoseV2Image;
+
+datablock ShapeBaseImageData(GoldenWateringCanImage : WateringCanImage)
+{
+	colorShiftColor = "0.95 0.85 0 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+
+	stateEmitter[3] = GoldenEmitter;
+	stateEmitterTime[3] = 1000;
+};
+
+datablock ShapeBaseImageData(GoldenWateringCan2Image : WateringCan2Image)
+{
+	colorShiftColor = "0.95 0.85 0 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+
+	stateEmitter[3] = GoldenEmitter;
+	stateEmitterTime[3] = 1000;
+};
+
+datablock ShapeBaseImageData(GoldenWateringCan3Image : WateringCan3Image)
+{
+	colorShiftColor = "0.95 0.85 0 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+
+	stateEmitter[3] = GoldenEmitter;
+	stateEmitterTime[3] = 1000;
+};
+
+datablock ShapeBaseImageData(GoldenHoseImage : HoseImage)
+{
+	colorShiftColor = "1 0.95 0.3 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+
+	stateEmitter[3] = GoldenEmitter;
+	stateEmitterTime[3] = 1000;
+};
+
+datablock ShapeBaseImageData(GoldenHoseV2Image : HoseV2Image)
+{
+	colorShiftColor = "0.95 0.85 0.5 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+
+	stateEmitter[3] = GoldenEmitter;
+	stateEmitterTime[3] = 1000;
+};
+
+function GoldenWateringCanImage::onFire(%this, %obj, %slot)
+{
+	waterCanFire(%this, %obj, %slot);
+}
+
+function GoldenWateringCan2Image::onFire(%this, %obj, %slot)
+{
+	waterCanFire(%this, %obj, %slot);
+}
+
+function GoldenWateringCan3Image::onFire(%this, %obj, %slot)
+{
+	waterCanFire(%this, %obj, %slot);
+}
+
+function GoldenHoseImage::onFire(%this, %obj, %slot)
+{
+	waterCanFire(%this, %obj, %slot);
+}
+
+function GoldenHoseV2Image::onFire(%this, %obj, %slot)
+{
+	waterCanFire(%this, %obj, %slot);
+}
+
+
+
+//harvest tools
+TrowelImage.donatorImage = GoldenTrowelImage;
+ClipperImage.donatorImage = GoldenClipperImage;
+HoeImage.donatorImage = GoldenHoeImage;
+SickleImage.donatorImage = GoldenSickleImage;
+
+datablock ShapeBaseImageData(GoldenTrowelImage : TrowelImage)
+{
+	colorShiftColor = "0.95 0.85 0 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+
+	stateEmitter[3] = GoldenEmitter;
+	stateEmitterTime[3] = 1000;
+};
+
+datablock ShapeBaseImageData(GoldenClipperImage : ClipperImage)
+{
+	colorShiftColor = "0.95 0.85 0 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+
+	stateEmitter[3] = GoldenEmitter;
+	stateEmitterTime[3] = 1000;
+};
+
+datablock ShapeBaseImageData(GoldenHoeImage : HoeImage)
+{
+	colorShiftColor = "0.95 0.85 0 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+
+	stateEmitter[3] = GoldenEmitter;
+	stateEmitterTime[3] = 1000;
+};
+
+datablock ShapeBaseImageData(GoldenSickleImage : SickleImage)
+{
+	colorShiftColor = "0.95 0.85 0 1";
+	stateEmitter[1] = GoldenEmitter;
+	stateEmitterTime[1] = 1000;
+
+	stateEmitter[3] = GoldenEmitter;
+	stateEmitterTime[3] = 1000;
+};
+
+function GoldenTrowelImage::onFire(%this, %obj, %slot)
+{
+	toolHarvest(%this, %obj, %slot);
+}
+
+function GoldenClipperImage::onFire(%this, %obj, %slot)
+{
+	toolHarvest(%this, %obj, %slot);
+}
+
+function GoldenHoeImage::onFire(%this, %obj, %slot)
+{
+	toolHarvest(%this, %obj, %slot);
+}
+
+function GoldenSickleImage::onFire(%this, %obj, %slot)
+{
+	toolHarvest(%this, %obj, %slot);
+}

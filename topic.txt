@@ -1,0 +1,37 @@
+-Farming- A server where you grow crops, freebuild, and explore!
+
+
+
+
+[center]
+[size=36pt]
+[logo]
+[/size]
+Conan, Zeustal, Qube, Trinko, Dart, c[_], and Allun Pentax bring you this farming server - coded, built, and modeled from the ground up!
+
+[table]
+[tr]
+[td][img width=350]https://i.imgur.com/jKL2kw5.png[/img][/td]
+[td][img width=350]https://i.imgur.com/TnPZWp5.png[/img][/td]
+[td][img width=350]https://i.imgur.com/pij3etq.png[/img][/td]
+[/tr]
+[tr]
+[td][img width=350]https://i.imgur.com/NlhHakn.png[/img][/td]
+[td][/td]
+[td][/td]
+[/tr]
+[/table]
+
+
+[b]-What is this?-[/b]
+Build, explore, and farm on this expansive map to earn money and grow your business! Even if you don't 
+want to farm, there's plenty to see and explore, and other ways you can make money to buy vehicles and items. 
+Building is completely free, as well as your first plot of land, so freebuilds are allowed and encouraged!
+
+[b]-How do I farm?-[/b]
+Farming is very simple - buy dirt, buy seeds, plant the crops, and water them! No need for tilling or weeding, 
+and crops don't die from dehydration! And no /slash commands to mess with either - everything is an item!
+
+As you expand, you can purchase new items, vehicles, bricks, and crops to increase your income and make it 
+easier to sell and buy large quantities of stuff at the market. Refer to the ingame tutorial for more information.
+[/center]

@@ -1,0 +1,22 @@
+
+Exporting group 'planterBox'.
+Processing definition objects.
+  [WARNING:IOBLBW001] Defined bounds have a non-integer size 3.999999 1.000000 3.00000, rounding to a precision of 0.1.
+  Defined brick size: 4 wide 1 deep and 1 brick tall
+  [WARNING:IOBLBW004] No brick grid definitions found. Full cuboid brick grid may be undesirable.
+  No custom collision definitions found.
+  Using bounds as the collision cuboid.
+Processing meshes.
+  Exporting object: qs planter
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+  Exporting object: qe planter.001
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+  Exporting object: qw planter.002
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+  Exporting object: qn planter.003
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+  Exporting object: planter
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+  Brick quads: 22
+Writing to file.
+  Output file: C:\Users\Samuel\Downloads\BL\Add-Ons\Server_Farming\crops\bricks\planterBox.blb

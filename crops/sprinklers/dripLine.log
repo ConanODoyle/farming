@@ -1,0 +1,16 @@
+Export Properties:
+  Scale: 1
+  Floating point precision: 0.000001
+Exporting multiple bricks.
+
+Exporting group 'dripLine'.
+Processing definition objects.
+  Defined brick size: 8 wide 1 deep 0 bricks and 1 plate tall
+  Processed 1 of 1 brick grid definition.
+  Processed 1 of 1 collision definition.
+Processing meshes.
+  Exporting object: dripLine
+    [WARNING:IOBLBW011] 14 triangles converted to quads.
+  Brick quads: 76
+Writing to file.
+  Output file: C:\Users\Samuel\Downloads\BL\Add-Ons\Server_Farming\crops\sprinklers\dripLine.blb

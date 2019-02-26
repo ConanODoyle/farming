@@ -1,0 +1,12 @@
+
+Exporting group 'mango8'.
+Processing definition objects.
+  Defined brick size: 8 wide 8 deep and 15 bricks tall
+  Processed 1 of 1 brick grid definition.
+  Processed 3 of 3 collision definitions.
+Processing meshes.
+  Exporting object: mangi tre.034
+    [WARNING:IOBLBW011] 60 triangles converted to quads.
+  Brick quads: 166
+Writing to file.
+  Output file: C:\Users\Samuel\Downloads\BL\Add-Ons\Server_Farming\crops\bricks\mango8.blb

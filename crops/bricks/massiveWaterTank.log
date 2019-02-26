@@ -1,0 +1,12 @@
+
+Exporting group 'massiveWaterTank'.
+Processing definition objects.
+  Defined brick size: 8 wide 8 deep 9 bricks and 1 plate tall
+  Processed 1 of 1 brick grid definition.
+  Processed 6 of 6 collision definitions.
+Processing meshes.
+  Exporting object: massiveWaterTank
+    [WARNING:IOBLBW011] 26 triangles converted to quads.
+  Brick quads: 209
+Writing to file.
+  Output file: C:\Users\Samuel\Downloads\BL\Add-Ons\Server_Farming\crops\bricks\massiveWaterTank.blb
