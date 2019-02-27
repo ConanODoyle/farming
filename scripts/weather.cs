@@ -332,16 +332,22 @@ package rainPackage
 };
 activatePackage(rainPackage);
 
-function createRainSound(%vol)
+function createRainSound(%vol, %db)
 {
 	if (isObject(ambientRain))
 	{
 		ambientRain.delete();
 	}
+	
+	if (!isObject(%db))
+	{
+		%db = AmbientRainSound;
+	}
+
 	%m = new AudioEmitter(ambientRain)
 	{
 		position = "0 0 10000";
-		profile = AmbientRainSound;
+		profile = %db;
 		useProfileDescription = false;
 		description = "";
 		type = "0";
@@ -356,17 +362,12 @@ function createRainSound(%vol)
 
 function startRainSound()
 {
-	for (%i = 0; %i < 8; %i++)
-	{
-		schedule(1000 * (%i + 1) + getRandom(0, 6) * 500, 0, createRainSound, 0.4 / 8 * (%i + 1));
-	}
+	createRainSound(1, AmbientRainFadeInSound);
+	schedule(4500, 0, createRainSound, 1, AmbientRainSound);
 }
 
 function stopRainSound()
 {
-	for (%i = 0; %i < 8; %i++)
-	{
-		schedule(1000 * (%i + 1) + getRandom(0, 6) * 500, 0, createRainSound, 0.4 / 8 * (8 - %i));
-	}
-	schedule(%i * 1500, 0, eval, "AmbientRain.delete();");
+	createRainSound(1, AmbientRainFadeOutSound);
+	ambientrain.schedule(4800, delete);
 }
