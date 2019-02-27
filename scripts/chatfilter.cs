@@ -41,4 +41,4 @@ package chatFilter
 		parent::serverCmdMessageSent(%cl, %msg);
 	}
 };
-activatePackage(chatFilter);
+schedule(10000, 0, activatePackage, chatFilter);

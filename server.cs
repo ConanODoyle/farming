@@ -40,6 +40,7 @@ echo("\c4--Loading Farming Scripts");
 // Game mechanic scripts
 exec("./scripts/spawn.cs");
 exec("./scripts/bus.cs");
+exec("./scripts/chatFilter.cs");
 exec("./scripts/sacrifice.cs");
 exec("./scripts/donator.cs");
 exec("./scripts/lots.cs");
