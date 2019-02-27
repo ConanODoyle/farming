@@ -88,11 +88,11 @@ function applyEventsFromFile(%brick, %file) {
   return getLineCount(%events);
 }
 
-/*
-  Applies bot events to a bot brick
-  Usage: /npcevents npc/potatofarmer
-  See the files in the `events/` folder to see what's available/add more
- */
+//
+//  Applies bot events to a bot brick
+//  Usage: /npcevents npc/potatofarmer
+//  See the files in the `events/` folder to see what's available/add more
+//
 function servercmdnpcevents(%cl, %file) {
   if(!%cl.isAdmin) return;
   if(!%cl.player) return;
