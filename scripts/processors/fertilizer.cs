@@ -117,9 +117,8 @@ function createFertilizer(%brick, %client, %count)
 	%item = new Item(GeneratedFertilizer)
 	{
 		dataBlock = FertilizerBag2Item;
-		sourceClient = %client;
-		souceObject = %brick;
 		count = getMax(1, %count);
+		harvestedBG = getBrickgroupFromObject(%brick);
 	};
 	MissionCleanup.add(%item);
 	%item.setTransform(%top SPC getWords(%brick.getTransform(), 3, 6));
@@ -190,7 +189,7 @@ datablock fxDTSBrickData(brickCompostBinData)
 
 	cost = 800;
 	isProcessor = 1;
-	processorFunction = "createFertilizer";
+	processorFunction = "processIntoFertilizer";
 	activateFunction = "compostBinInfo";
 };
 
