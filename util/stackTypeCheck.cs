@@ -10,7 +10,7 @@ function isProduce(%cropType)
 		%produce = getWord($ProduceList_[%i], 0);
 		if (%cropType $= %produce)
 		{
-			return = 1;
+			return 1;
 		}
 	}
 	return 0;

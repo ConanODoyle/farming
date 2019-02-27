@@ -11,6 +11,7 @@ $isVIP_["4382"] 	= 1 TAB "Skill4Life";
 $isVIP_["2227"] 	= 1 TAB "The Brighter Dark";
 $isVIP_["10661"] 	= 1 TAB "Dart";
 $isVIP_["3898"] 	= 1 TAB "The Titanium (Donator but doesnt want perks)";
+$isVIP_["51914"] 	= 1 TAB "MARBLE MAN";
 
 $isDonator_["53456"] 	= 1 TAB "celau";
 $isDonator_["20061"] 	= 1 TAB "Cavik";

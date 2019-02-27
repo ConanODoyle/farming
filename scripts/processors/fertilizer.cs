@@ -116,7 +116,7 @@ function createFertilizer(%brick, %client, %count)
 
 	%item = new Item(GeneratedFertilizer)
 	{
-		dataBlock = FertilizerBag2Item;
+		dataBlock = FertilizerBag0Item;
 		count = getMax(1, %count);
 		harvestedBG = getBrickgroupFromObject(%brick);
 	};
