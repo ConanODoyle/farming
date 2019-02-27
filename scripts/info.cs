@@ -133,6 +133,11 @@ function bottomprintInfoLoop(%cl)
 					{
 						%owner = getBrickgroupFromObject(%hit).name;
 						%bl_id = getBrickgroupFromObject(%hit).bl_id;
+						if (%hit.getDatablock().isSingle)
+						{
+							%isSingle = 1;
+							%single = "Single ";
+						}
 						break;
 					}
 					%ray = containerRaycast(vectorSub(getWords(%ray, 1, 3), "0 0 0.1"), %end, $Typemasks::fxBrickAlwaysObjectType, %hit);
@@ -140,11 +145,11 @@ function bottomprintInfoLoop(%cl)
 
 				if (%owner !$= "" && %bl_id != 888888 && %bl_id != 999999)
 				{
-					%pre = %pre @ "<color:ffffff>      [Lot Owner: <color:ffff00>" @ %owner @ "<color:ffffff>]";
+					%pre = %pre @ "<color:ffffff>      [" @ %single @ "Lot Owner: <color:ffff00>" @ %owner @ "<color:ffffff>]";
 				}
 				else if (%owner !$= "")
 				{
-					%pre = %pre @ "<color:ffffff>      [Lot Owner: None]";
+					%pre = %pre @ "<color:ffffff>      [" @ %single @ "Lot Owner: None]";
 				}
 			}
 		}
@@ -164,7 +169,7 @@ function bottomprintInfoLoop(%cl)
 					if (%hit.getDatablock().isSingle)
 					{
 						%isSingle = 1;
-						%single = "Single";
+						%single = "Single ";
 					}
 					break;
 				}
@@ -173,11 +178,11 @@ function bottomprintInfoLoop(%cl)
 
 			if (%owner !$= "" && %bl_id != 888888 && %bl_id != 999999)
 			{
-				%pre = %pre @ "<color:ffffff>      [" @ %single @ " Lot Owner: <color:ffff00>" @ %owner @ "<color:ffffff>]";
+				%pre = %pre @ "<color:ffffff>      [" @ %single @ "Lot Owner: <color:ffff00>" @ %owner @ "<color:ffffff>]";
 			}
 			else if (%owner !$= "")
 			{
-				%pre = %pre @ "<color:ffffff>      [" @ %single @ " Lot Owner: None]";
+				%pre = %pre @ "<color:ffffff>      [" @ %single @ "Lot Owner: None]";
 			}
 		}
 	}
