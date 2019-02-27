@@ -55,7 +55,7 @@ function messageIPLog(%cl)
 	%fields = listMultipleIPs();
 	%fields = removeField(%fields, 0);
 
-	echo(%cl.getPlayerName() @ " checked for alts on same IP...");
+	echo(getSafeVariableName(%cl.getPlayerName()) @ " checked for alts on same IP...");
 	echo("----------------------------------------");
 	for (%j = 0; %j < getFieldCount(%fields); %j++)
 	{
