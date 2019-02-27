@@ -244,6 +244,17 @@ package Donators
 
 		return %ret;
 	}
+
+	function serverCmdHat(%cl, %a, %b, %c, %d, %e)
+	{
+		if (!%cl.isDonator)
+		{
+			messageClient(%cl, '', "You must be a donator to wear hats!");
+			return;
+		}
+
+		return parent::serverCmdHat(%cl, %a, %b, %c, %d, %e);
+	}
 };
 schedule(1000, 0, activatePackage, Donators);
 
