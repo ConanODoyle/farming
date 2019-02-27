@@ -60,23 +60,6 @@ datablock fxDTSBrickData(brick4xPlanterDirtData : brick1x1Data)
 
 
 ///////////////
-//Compost Bin//
-///////////////
-
-datablock fxDTSBrickData(brickCompostBinData)
-{
-	category = "Farming";
-	subCategory = "Extra";
-	uiName = "Compost Bin";
-
-	brickFile = "./bricks/compostBin.blb";
-
-	cost = 800;
-	isCompostBin = 1;
-};
-
-
-///////////////
 //Water Tanks//
 ///////////////
 

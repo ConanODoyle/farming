@@ -1,14 +1,15 @@
 
-echo("\c4Loading Farming Dependencies");
+echo("\c4--Loading Farming Dependencies");
 
 // Generic libraries this depends on
+exec("./lib/Support_StackableItems.cs");
+exec("./lib/Support_BrickProcessors.cs");
 exec("./lib/Script_Player_Persistence.cs");
 exec("./lib/Support_CenterprintMenuSystem.cs");
 exec("./lib/Support_CustomBrickRadius.cs");
 exec("./lib/Support_DropItemsOnDeath.cs");
 exec("./lib/Support_MultipleSlots.cs");
 exec("./lib/Support_ShapeLines/server.cs");
-exec("./lib/Support_StackableItems.cs");
 exec("./lib/swolset.cs");
 
 // Scripts specific to this mod
@@ -21,7 +22,7 @@ exec("./util/stuck.cs");
 exec("./util/scorefix.cs");
 exec("./util/eventParser.cs");
 
-echo("\c4Loading Farming Assets");
+echo("\c4--Loading Farming Assets");
 
 // Generic libraries this depends on
 exec("./config.cs");
@@ -33,7 +34,7 @@ exec("./crops/crops.cs");
 exec("./vehicles/cart.cs");
 exec("./audio/audio.cs");
 
-echo("\c4Loading Farming Scripts");
+echo("\c4--Loading Farming Scripts");
 
 // Game mechanic scripts
 exec("./scripts/spawn.cs");
@@ -52,6 +53,7 @@ exec("./scripts/weather.cs");
 exec("./scripts/eventStorage.cs");
 exec("./scripts/tutorial.cs");
 exec("./scripts/builder.cs");
+exec("./scripts/processorDefinitions.cs");
 // exec("./scripts/mailCatalog.cs");
 
 // Debug code
