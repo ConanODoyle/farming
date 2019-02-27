@@ -22,7 +22,7 @@ package chatFilter
 		for (%i = 0; %i < getWordCount($slurs); %i++)
 		{
 			%currWord = getWord($slurs, %i);
-			if (strPos(strLwr(%checkMsg), %currWord))
+			if (strPos(strLwr(%checkMsg), %currWord) >= 0)
 			{
 				if (!%cl.hasBeenWarned)
 				{
