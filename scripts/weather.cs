@@ -35,11 +35,11 @@ function rainCheckLoop()
 			echo("[" @ getDateTime() @ "] It has started raining");
 			startRain();
 		}
-		// else if (getRandom() < %heatWaveChance)
-		// {
-		// 	echo("[" @ getDateTime() @ "] A heat wave has started");
-		// 	startHeatWave();
-		// }
+		else if (getRandom() < %heatWaveChance)
+		{
+			echo("[" @ getDateTime() @ "] A heat wave has started");
+			startHeatWave();
+		}
 	}
 	else if ($isRaining ||$isHeatWave)
 	{
@@ -52,15 +52,15 @@ function rainCheckLoop()
 				stopRain();
 			}
 		}
-		// else if ($isHeatWave)
-		// {
-		// 	$HeatWaveTicksLeft--;
-		// 	if ($HeatWaveTicksLeft <= 0)
-		// 	{
-		// 		echo("[" @ getDateTime() @ "] The heat wave has stopped");
-		// 		stopHeatWave();
-		// 	}
-		// }
+		else if ($isHeatWave)
+		{
+			$HeatWaveTicksLeft--;
+			if ($HeatWaveTicksLeft <= 0)
+			{
+				echo("[" @ getDateTime() @ "] The heat wave has stopped");
+				stopHeatWave();
+			}
+		}
 	}
 
 	$masterRainCheckLoop = schedule(15000, 0, rainCheckLoop);
@@ -116,10 +116,55 @@ function stopRain()
 	cancel($masterRainLoop);
 }
 
+function startHeatWave()
+{
+	%targetVigColor = "0.57 0.44 0.294";
+	gradualVignetteColorshift(getWord(%targetVigColor, 0), getWord(%targetVigColor, 1), getWord(%targetVigColor, 2), 10000);
+	$isHeatWave = 1;
+
+	%HeatWaveTicks = 0;
+	%rand = getRandom();
+	%rand *= %rand;
+
+	%HeatWaveTicks = mFloor(%rand * 40) + 8;
+
+	// talk("HeatWaveTicks: " @ %HeatWaveTicks);
+	// talk("currChance: " @ %currChance + $rainKeepModifier / %HeatWaveTicks);
+	// talk("rand: " @ %rand);
+	$HeatWaveTicksLeft = %HeatWaveTicks;
+
+}
+
+function stopHeatWave()
+{
+	%targetVigColor = "0 0 0";
+	gradualVignetteColorshift(getWord(%targetVigColor, 0), getWord(%targetVigColor, 1), getWord(%targetVigColor, 2), 10000);
+
+	$isHeatWave = 0;
+	$HeatWaveTicksLeft = 0;
+}
+
 function roundToDecPoint(%num, %numDec)
 {
 	%factor = mPow(10, %numDec);
 	return mFloor(%num * %factor + 0.5) / %factor;
+}
+
+function gradualVignetteColorshift(%x, %y, %z, %time)
+{
+	%ticks = mFloor(%time / 200);
+	%vig = $EnvGuiServer::VignetteColor; %vigA = getWord(%vig, 3);
+	%x = (%x - getWord(%vig, 0)) / %ticks;
+	%y = (%y - getWord(%vig, 1)) / %ticks;
+	%z = (%z - getWord(%vig, 2)) / %ticks;
+
+	for (%i = 0; %i < %ticks; %i++)
+	{
+		%time = (%i + 1) * 200;
+		%newVig = vectorAdd(%vig, 
+			%x * (1.0 + %i) SPC %y * (1.0 + %i) SPC %z * (1.0 + %i)) SPC %vigA;
+		schedule(%time, 0, setWeatherVignetteColor, %newVig, 1);
+	}
 }
 
 function gradualEnvColorshift(%xF, %yF, %zF, %time)
@@ -168,6 +213,13 @@ function setEnvColors(%amb, %col, %sha, %fog, %sky)
 
 	Sun.sendUpdate();
 	Sky.sendUpdate();
+}
+
+function setWeatherVignetteColor(%color, %multiply)
+{
+	$EnvGuiServer::VignetteColor = %color;
+	$EnvGuiServer::VignetteMultiply = %multiply;
+	EnvGuiServer::SendVignetteAll();
 }
 
 function createRain(%drops)
@@ -371,3 +423,4 @@ function stopRainSound()
 	createRainSound(1, AmbientRainFadeOutSound);
 	ambientrain.schedule(4800, delete);
 }
+
