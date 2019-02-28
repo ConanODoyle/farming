@@ -329,7 +329,7 @@ function attemptBuy(%cl, %num)
 		%total = %bot.produceCost * %num;
 		if (%total > %cl.score)
 		{
-			%message = "You don't have $" @ %total @ "!";
+			%message = "You don't have $" @ mFloatLength(%total, 2) @ "!";
 			messageClient(%cl, '', %star @ "\c3" @ (%bot.name $= "" ? "Farmer" : %bot.name) @ "\c6: " @ %message);
 			return;
 		}
@@ -337,7 +337,7 @@ function attemptBuy(%cl, %num)
 		{
 			%cl.setScore(%cl.score - %total);
 			%plural = %num > 1 ? "s" : "";
-			%message = "$" @ %total @ " for " @ %num SPC %item.uiName @ %plural @ "! Thanks!";
+			%message = "$" @ mFloatLength(%total, 2) @ " for " @ %num SPC %item.uiName @ %plural @ "! Thanks!";
 			messageClient(%cl, '', %star @ "\c3" @ (%bot.name $= "" ? "Farmer" : %bot.name) @ "\c6: " @ %message);
 
 			%i = new Item(purchasedItems)

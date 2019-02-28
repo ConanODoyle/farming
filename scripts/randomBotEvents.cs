@@ -25,7 +25,16 @@ function pickRandomEvent(%bot, %rand)
 			{
 				%price = 1000 * (5 - getRandom(0, 2)) / 4;
 			}
-			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ "s!";
+
+			if (getSubStr(%item.uiName, strLen(%item.uiName) - 1, 1) $= "s")
+			{
+				%plural = "";
+			}
+			else
+			{
+				%plural = "s";
+			}
+			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %plural @ "!";
 		default: //nothing
 			return "";
 	}
@@ -156,6 +165,10 @@ function serverCmdRefreshDeal(%cl)
 			if (isObject(%hit = getWord(%ray, 0)) && %hit.getClassName() $= "AIPlayer" && %hit.canRefresh !$= "")
 			{
 				%hit.refreshOption(%cl);
+			}
+			else
+			{
+				messageClient(%cl, '', "\c6Use this command on bots with active deals to refresh them!");
 			}
 		}
 	}
