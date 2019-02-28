@@ -2,6 +2,7 @@ exec("./util.cs");
 exec("./datablocks.cs");
 exec("./growth.cs");
 exec("./plantData.cs");
+exec("./desertPlantData.cs");
 exec("./water.cs");
 exec("./sprinklers.cs");
 exec("./harvest.cs");
