@@ -198,7 +198,7 @@ function serverCmdTutorial(%client, %type, %t1, %t2, %t3)
 	else if (%type $= "Greenhouse")
 	{
 		%head = "Tutorial - Greenhouse";
-		%text = "Greenhouses make plants inside them grow 2x as fast and use 1/2 as much water.<br><br>They also increase yield by +2";
+		%text = "Greenhouses make plants inside them grow 2x as fast and use 1/2 as much water.<br><br>They also increase maximum possible yield by +2";
 		commandToClient(%client, 'messageBoxOK', %head, %text);
 	}
 	else if (%type $= "Experience")

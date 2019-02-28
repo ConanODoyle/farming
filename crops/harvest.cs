@@ -71,7 +71,7 @@ function harvestBrick(%brick, %tool, %harvester)
 
 		if (%brick.greenhouseBonus)
 		{
-			%extraYield = vectorAdd(%extraYield, vectorScale(%buff, 3));
+			%extraYield = vectorAdd(%extraYield, 0 SPC vectorScale(getWord(%buff, 1), 2));
 		}
 
 		%extraYield = vectorAdd(%extraYield, %brick.bonusYield);

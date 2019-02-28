@@ -167,14 +167,21 @@ function doGrowCalculations(%brick, %db)
 	{
 		%waterReq = mFloor(%waterReq / 2);
 	}
-	else if ($isRaining)
+	
+	if ($isRaining)
 	{
-		%waterReq = mFloor(%waterReq * $Farming::Crops::PlantData_["rainWaterModifier"]);
+		if (!%greenhouseFound)
+		{
+			%waterReq = mFloor(%waterReq * $Farming::Crops::PlantData_["rainWaterModifier"]);
+		}
 		%tickTime = mFloor(%tickTime * $Farming::Crops::PlantData_["rainTimeModifier"]);
 	}
 	else if ($isHeatWave)
 	{
-		%waterReq = mFloor(%waterReq * $Farming::Crops::PlantData_["heatWaveWaterModifier"]);
+		if (!%greenhouseFound)
+		{
+			%waterReq = mFloor(%waterReq * $Farming::Crops::PlantData_["heatWaveWaterModifier"]);
+		}
 		%tickTime = mFloor(%tickTime * $Farming::Crops::PlantData_["heatWaveTimeModifier"]);
 	}
 
