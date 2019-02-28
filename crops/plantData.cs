@@ -168,6 +168,7 @@ $Farming::Crops::PlantData_["Tomato", "plantSpace"]					= "3";
 $Farming::Crops::PlantData_["Tomato", "experienceRequired"]			= "120";
 $Farming::Crops::PlantData_["Tomato", "harvestExperience"]			= "0";
 $Farming::Crops::PlantData_["Tomato", "plantingExperience"]			= "1";
+$Farming::Crops::PlantData_["Tomato", "loopStages"]					= "2 3 4";
 
 $Farming::Crops::PlantData_["Tomato", 0, "timePerTick"]				= "10000";
 $Farming::Crops::PlantData_["Tomato", 0, "nextStage"]				= "brickTomato1CropData";
@@ -284,7 +285,7 @@ $Farming::Crops::PlantData_["Corn", 4, "waterPerTick"]				= "1";
 $Farming::Crops::PlantData_["Corn", 4, "numGrowTicks"]				= "10";
 $Farming::Crops::PlantData_["Corn", 4, "numDryTicks"]				= "-1";
 
-$Farming::Crops::PlantData_["Corn", 4, "yield"]						= "1 3";
+$Farming::Crops::PlantData_["Corn", 4, "yield"]						= "1 4";
 $Farming::Crops::PlantData_["Corn", 4, "item"]						= "CornItem";
 $Farming::Crops::PlantData_["Corn", 4, "dieOnHarvest"]				= "1";
 $Farming::Crops::PlantData_["Corn", 4, "harvestTool"]				= "Clipper";
@@ -680,6 +681,7 @@ $Farming::Crops::PlantData_["Apple", "experienceRequired"]			= "1000";
 $Farming::Crops::PlantData_["Apple", "experienceCost"]				= "1000";
 $Farming::Crops::PlantData_["Apple", "harvestExperience"]			= "0";
 $Farming::Crops::PlantData_["Apple", "plantingExperience"]			= "0";
+$Farming::Crops::PlantData_["Apple", "loopStages"]					= "7 10 11 12";
 
 $Farming::Crops::PlantData_["Apple", 0, "timePerTick"]				= "20000";
 $Farming::Crops::PlantData_["Apple", 0, "nextStage"]				= "brickAppleTree1CropData";
@@ -835,6 +837,7 @@ $Farming::Crops::PlantData_["Mango", "experienceRequired"]			= "1500";
 $Farming::Crops::PlantData_["Mango", "experienceCost"]				= "1500";
 $Farming::Crops::PlantData_["Mango", "harvestExperience"]			= "0";
 $Farming::Crops::PlantData_["Mango", "plantingExperience"]			= "0";
+$Farming::Crops::PlantData_["Mango", "loopStages"]					= "8 9 10 11";
 
 $Farming::Crops::PlantData_["Mango", 0, "timePerTick"]				= "20000";
 $Farming::Crops::PlantData_["Mango", 0, "nextStage"]				= "brickMangoTree1CropData";

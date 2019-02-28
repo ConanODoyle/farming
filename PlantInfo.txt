@@ -1,4 +1,4 @@
-Generated 02/28/19 09:07:26
+Generated 02/28/19 09:35:15
 
 
 
@@ -51,6 +51,7 @@ Water: 128
 Water/sec: 0.16
 Water/sec/8x8: 0.64
 8x8 Income: 10.00
+LoopTime: 416
 Income/min: 1.442310
 ------
 
@@ -60,16 +61,16 @@ Income/min: 1.442310
 -Corn-
 $1.50 per seed
 $2.00 per produce
-Avg 2 per harvest (range: 1 3)
-Avg Income Per Harvest: 4
+Avg 2.5 per harvest (range: 1 4)
+Avg Income Per Seed: 3.5
 
 TTime: 265
 Water: 190
 8x8 Density: 9
 Water/sec: 0.72
 Water/sec/8x8: 6.48
-8x8 Income: 36.00
-Income/min: 13.500000
+8x8 Income: 31.50
+Income/min: 7.132080
 ------
 
 
@@ -79,15 +80,15 @@ Income/min: 13.500000
 $1.00 per seed
 $3.50 per produce
 Avg 2 per harvest (range: 1 3)
-Avg Income Per Harvest: 7
+Avg Income Per Seed: 6
 
 TTime: 246
 Water: 610
 8x8 Density: 9
 Water/sec: 2.48
 Water/sec/8x8: 22.32
-8x8 Income: 63.00
-Income/min: 27.000000
+8x8 Income: 54.00
+Income/min: 13.170700
 ------
 
 
@@ -97,15 +98,15 @@ Income/min: 27.000000
 $1.00 per seed
 $1.50 per produce
 Avg 2 per harvest (range: 1 3)
-Avg Income Per Harvest: 3
+Avg Income Per Seed: 2
 
 TTime: 205
 Water: 95
 8x8 Density: 9
 Water/sec: 0.46
 Water/sec/8x8: 4.14
-8x8 Income: 27.00
-Income/min: 20.250000
+8x8 Income: 18.00
+Income/min: 5.268290
 ------
 
 
@@ -115,15 +116,15 @@ Income/min: 20.250000
 $2.00 per seed
 $2.00 per produce
 Avg 4.5 per harvest (range: 3 6)
-Avg Income Per Harvest: 9
+Avg Income Per Seed: 7
 
 TTime: 362
 Water: 440
 8x8 Density: 4
 Water/sec: 1.22
 Water/sec/8x8: 4.88
-8x8 Income: 36.00
-Income/min: 10.800000
+8x8 Income: 28.00
+Income/min: 4.640880
 ------
 
 
@@ -133,15 +134,15 @@ Income/min: 10.800000
 $2.00 per seed
 $10.00 per produce
 Avg 1 per harvest (range: 1 1)
-Avg Income Per Harvest: 10
+Avg Income Per Seed: 8
 
 TTime: 370
 Water: 500
 8x8 Density: 4
 Water/sec: 1.35
 Water/sec/8x8: 5.4
-8x8 Income: 40.00
-Income/min: 12.000000
+8x8 Income: 32.00
+Income/min: 5.189190
 ------
 
 
@@ -150,16 +151,17 @@ Income/min: 12.000000
 -Apple-
 $1200.00 per seed
 $12.00 per produce
-Avg 9 per harvest (range: 6 12)
-Avg Income Per Harvest: 108
+Avg 12 per harvest (range: 10 14)
+Avg Income Per Harvest: 144
 
 TTime: 2450
 Water: 1900
 8x8 Density: 1
 Water/sec: 0.78
 Water/sec/8x8: 0.78
-8x8 Income: 108.00
-Income/min: 3.240000
+8x8 Income: 144.00
+LoopTime: 1275
+Income/min: 6.776470
 ------
 
 
@@ -177,5 +179,6 @@ Water: 3600
 Water/sec: 0.80
 Water/sec/8x8: 0.4
 8x8 Income: 120.00
-Income/min: 1.846150
+LoopTime: 1200
+Income/min: 6.000000
 ------
