@@ -197,7 +197,8 @@ package Donators
 	{
 		if (%cl.isDonator && getSubStr(%msg, 0, 1) !$= "\\")
 		{
-			messageAll('', "\c7" @ %cl.clanprefix @ "<color:ffaa00>" @ %cl.name @ "\c7" @ %cl.clansuffix @ "\c6: " @ %cl.messagePrefix @ stripMLControlChars(%msg));
+			// messageAll('', "\c7" @ %cl.clanprefix @ "<color:ffaa00>" @ %cl.name @ "\c7" @ %cl.clansuffix @ "\c6: " @ %cl.messagePrefix @ stripMLControlChars(%msg));
+			chatMessageAll(%cl, '\c7%1<color:ffaa00>%2\c7%3\c6: %4', %cl.clanPrefix, %cl.getPlayerName(), %cl.clanSuffix, getDonatorMessage(%msg));
 		}
 		else
 		{
