@@ -25,10 +25,19 @@ $Farming::Crops::PlantData_["Example", "experienceCost"]			= "int";
 $Farming::Crops::PlantData_["Example", "harvestExperience"]			= "int";
 $Farming::Crops::PlantData_["Example", "plantingExperience"]		= "int";
 
+$Farming::Crops::PlantData_["Example", "heatWaveTimeModifier"]		= "float";
+$Farming::Crops::PlantData_["Example", "heatWaveWaterModifier"]		= "float";
+$Farming::Crops::PlantData_["Example", "rainTimeModifier"]			= "float";
+$Farming::Crops::PlantData_["Example", "rainWaterModifier"]			= "float";
+
 
 
 //Potato//
 
+$Farming::Crops::PlantData_["Potato", "heatWaveTimeModifier"]			= "1";
+$Farming::Crops::PlantData_["Potato", "heatWaveWaterModifier"]			= "2";
+$Farming::Crops::PlantData_["Potato", "rainTimeModifier"]				= "1";
+$Farming::Crops::PlantData_["Potato", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Potato", "plantSpace"]					= "1";
 $Farming::Crops::PlantData_["Potato", "experienceRequired"]			= "0";
 $Farming::Crops::PlantData_["Potato", "harvestExperience"]			= "0";
@@ -37,7 +46,7 @@ $Farming::Crops::PlantData_["Potato", "plantingExperience"]			= "2";
 $Farming::Crops::PlantData_["Potato", 0, "timePerTick"]				= "4000";
 $Farming::Crops::PlantData_["Potato", 0, "nextStage"]				= "brickPotato1CropData";
 $Farming::Crops::PlantData_["Potato", 0, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Potato", 0, "waterPerTick"]			= "2";
+$Farming::Crops::PlantData_["Potato", 0, "waterPerTick"]			= "1";
 $Farming::Crops::PlantData_["Potato", 0, "numGrowTicks"]			= "5";
 $Farming::Crops::PlantData_["Potato", 0, "numDryTicks"]				= "-1";
 
@@ -46,7 +55,7 @@ $Farming::Crops::PlantData_["Potato", 0, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Potato", 1, "timePerTick"]				= "4000";
 $Farming::Crops::PlantData_["Potato", 1, "nextStage"]				= "brickPotato2CropData";
 $Farming::Crops::PlantData_["Potato", 1, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Potato", 1, "waterPerTick"]			= "2";
+$Farming::Crops::PlantData_["Potato", 1, "waterPerTick"]			= "1";
 $Farming::Crops::PlantData_["Potato", 1, "numGrowTicks"]			= "5";
 $Farming::Crops::PlantData_["Potato", 1, "numDryTicks"]				= "-1";
 
@@ -55,7 +64,7 @@ $Farming::Crops::PlantData_["Potato", 1, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Potato", 2, "timePerTick"]				= "6000";
 $Farming::Crops::PlantData_["Potato", 2, "nextStage"]				= "brickPotato3CropData";
 $Farming::Crops::PlantData_["Potato", 2, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Potato", 2, "waterPerTick"]			= "5";
+$Farming::Crops::PlantData_["Potato", 2, "waterPerTick"]			= "3";
 $Farming::Crops::PlantData_["Potato", 2, "numGrowTicks"]			= "10";
 $Farming::Crops::PlantData_["Potato", 2, "numDryTicks"]				= "-1";
 
@@ -88,6 +97,10 @@ $Farming::Crops::PlantData_["Potato", 3, "changeOnHarvest"]			= "";
 
 //Carrot//
 
+$Farming::Crops::PlantData_["Carrot", "heatWaveTimeModifier"]			= "1";
+$Farming::Crops::PlantData_["Carrot", "heatWaveWaterModifier"]			= "2";
+$Farming::Crops::PlantData_["Carrot", "rainTimeModifier"]				= "1";
+$Farming::Crops::PlantData_["Carrot", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Carrot", "plantSpace"]					= "1";
 $Farming::Crops::PlantData_["Carrot", "experienceRequired"]			= "0";
 $Farming::Crops::PlantData_["Carrot", "harvestExperience"]			= "0";
@@ -96,7 +109,7 @@ $Farming::Crops::PlantData_["Carrot", "plantingExperience"]			= "1";
 $Farming::Crops::PlantData_["Carrot", 0, "timePerTick"]				= "6000";
 $Farming::Crops::PlantData_["Carrot", 0, "nextStage"]				= "brickCarrot1CropData";
 $Farming::Crops::PlantData_["Carrot", 0, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Carrot", 0, "waterPerTick"]			= "5";
+$Farming::Crops::PlantData_["Carrot", 0, "waterPerTick"]			= "3";
 $Farming::Crops::PlantData_["Carrot", 0, "numGrowTicks"]			= "5";
 $Farming::Crops::PlantData_["Carrot", 0, "numDryTicks"]				= "-1";
 
@@ -105,7 +118,7 @@ $Farming::Crops::PlantData_["Carrot", 0, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Carrot", 1, "timePerTick"]				= "6000";
 $Farming::Crops::PlantData_["Carrot", 1, "nextStage"]				= "brickCarrot2CropData";
 $Farming::Crops::PlantData_["Carrot", 1, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Carrot", 1, "waterPerTick"]			= "8";
+$Farming::Crops::PlantData_["Carrot", 1, "waterPerTick"]			= "5";
 $Farming::Crops::PlantData_["Carrot", 1, "numGrowTicks"]			= "10";
 $Farming::Crops::PlantData_["Carrot", 1, "numDryTicks"]				= "-1";
 
@@ -114,7 +127,7 @@ $Farming::Crops::PlantData_["Carrot", 1, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Carrot", 2, "timePerTick"]				= "7000";
 $Farming::Crops::PlantData_["Carrot", 2, "nextStage"]				= "brickCarrot3CropData";
 $Farming::Crops::PlantData_["Carrot", 2, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Carrot", 2, "waterPerTick"]			= "10";
+$Farming::Crops::PlantData_["Carrot", 2, "waterPerTick"]			= "5";
 $Farming::Crops::PlantData_["Carrot", 2, "numGrowTicks"]			= "10";
 $Farming::Crops::PlantData_["Carrot", 2, "numDryTicks"]				= "-1";
 
@@ -147,6 +160,10 @@ $Farming::Crops::PlantData_["Carrot", 3, "changeOnHarvest"]			= "";
 
 //Tomato//
 
+$Farming::Crops::PlantData_["Tomato", "heatWaveTimeModifier"]			= "1";
+$Farming::Crops::PlantData_["Tomato", "heatWaveWaterModifier"]			= "2";
+$Farming::Crops::PlantData_["Tomato", "rainTimeModifier"]				= "1";
+$Farming::Crops::PlantData_["Tomato", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Tomato", "plantSpace"]					= "2";
 $Farming::Crops::PlantData_["Tomato", "experienceRequired"]			= "120";
 $Farming::Crops::PlantData_["Tomato", "harvestExperience"]			= "0";
@@ -155,7 +172,7 @@ $Farming::Crops::PlantData_["Tomato", "plantingExperience"]			= "1";
 $Farming::Crops::PlantData_["Tomato", 0, "timePerTick"]				= "10000";
 $Farming::Crops::PlantData_["Tomato", 0, "nextStage"]				= "brickTomato1CropData";
 $Farming::Crops::PlantData_["Tomato", 0, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Tomato", 0, "waterPerTick"]			= "5";
+$Farming::Crops::PlantData_["Tomato", 0, "waterPerTick"]			= "2";
 $Farming::Crops::PlantData_["Tomato", 0, "numGrowTicks"]			= "16";
 $Farming::Crops::PlantData_["Tomato", 0, "numDryTicks"]				= "-1";
 
@@ -164,7 +181,7 @@ $Farming::Crops::PlantData_["Tomato", 0, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Tomato", 1, "timePerTick"]				= "10000";
 $Farming::Crops::PlantData_["Tomato", 1, "nextStage"]				= "brickTomato2CropData";
 $Farming::Crops::PlantData_["Tomato", 1, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Tomato", 1, "waterPerTick"]			= "5";
+$Farming::Crops::PlantData_["Tomato", 1, "waterPerTick"]			= "3";
 $Farming::Crops::PlantData_["Tomato", 1, "numGrowTicks"]			= "20";
 $Farming::Crops::PlantData_["Tomato", 1, "numDryTicks"]				= "-1";
 
@@ -207,6 +224,10 @@ $Farming::Crops::PlantData_["Tomato", 4, "changeOnHarvest"]			= "brickTomato2Cro
 
 //Corn//
 
+$Farming::Crops::PlantData_["Corn", "heatWaveTimeModifier"]			= "1";
+$Farming::Crops::PlantData_["Corn", "heatWaveWaterModifier"]			= "2";
+$Farming::Crops::PlantData_["Corn", "rainTimeModifier"]				= "1";
+$Farming::Crops::PlantData_["Corn", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Corn", "plantSpace"]					= "1";
 $Farming::Crops::PlantData_["Corn", "experienceRequired"]			= "400";
 $Farming::Crops::PlantData_["Corn", "harvestExperience"]			= "0";
@@ -215,7 +236,7 @@ $Farming::Crops::PlantData_["Corn", "plantingExperience"]			= "1";
 $Farming::Crops::PlantData_["Corn", 0, "timePerTick"]				= "7000";
 $Farming::Crops::PlantData_["Corn", 0, "nextStage"]					= "brickCorn1CropData";
 $Farming::Crops::PlantData_["Corn", 0, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Corn", 0, "waterPerTick"]				= "7";
+$Farming::Crops::PlantData_["Corn", 0, "waterPerTick"]				= "5";
 $Farming::Crops::PlantData_["Corn", 0, "numGrowTicks"]				= "5";
 $Farming::Crops::PlantData_["Corn", 0, "numDryTicks"]				= "-1";
 
@@ -224,7 +245,7 @@ $Farming::Crops::PlantData_["Corn", 0, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Corn", 1, "timePerTick"]				= "7000";
 $Farming::Crops::PlantData_["Corn", 1, "nextStage"]					= "brickCorn2CropData";
 $Farming::Crops::PlantData_["Corn", 1, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Corn", 1, "waterPerTick"]				= "4";
+$Farming::Crops::PlantData_["Corn", 1, "waterPerTick"]				= "5";
 $Farming::Crops::PlantData_["Corn", 1, "numGrowTicks"]				= "10";
 $Farming::Crops::PlantData_["Corn", 1, "numDryTicks"]				= "-1";
 
@@ -233,7 +254,7 @@ $Farming::Crops::PlantData_["Corn", 1, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Corn", 2, "timePerTick"]				= "8000";
 $Farming::Crops::PlantData_["Corn", 2, "nextStage"]					= "brickCorn3CropData";
 $Farming::Crops::PlantData_["Corn", 2, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Corn", 2, "waterPerTick"]				= "4";
+$Farming::Crops::PlantData_["Corn", 2, "waterPerTick"]				= "5";
 $Farming::Crops::PlantData_["Corn", 2, "numGrowTicks"]				= "10";
 $Farming::Crops::PlantData_["Corn", 2, "numDryTicks"]				= "-1";
 
@@ -242,7 +263,7 @@ $Farming::Crops::PlantData_["Corn", 2, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Corn", 3, "timePerTick"]				= "8000";
 $Farming::Crops::PlantData_["Corn", 3, "nextStage"]					= "brickCorn4CropData";
 $Farming::Crops::PlantData_["Corn", 3, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Corn", 3, "waterPerTick"]				= "4";
+$Farming::Crops::PlantData_["Corn", 3, "waterPerTick"]				= "5";
 $Farming::Crops::PlantData_["Corn", 3, "numGrowTicks"]				= "10";
 $Farming::Crops::PlantData_["Corn", 3, "numDryTicks"]				= "-1";
 
@@ -275,6 +296,10 @@ $Farming::Crops::PlantData_["Corn", 4, "changeOnHarvest"]			= "";
 
 //Cabbage//
 
+$Farming::Crops::PlantData_["Cabbage", "heatWaveTimeModifier"]			= "1";
+$Farming::Crops::PlantData_["Cabbage", "heatWaveWaterModifier"]			= "2";
+$Farming::Crops::PlantData_["Cabbage", "rainTimeModifier"]				= "1";
+$Farming::Crops::PlantData_["Cabbage", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Cabbage", "plantSpace"]				= "2";
 $Farming::Crops::PlantData_["Cabbage", "experienceRequired"]		= "400";
 $Farming::Crops::PlantData_["Cabbage", "harvestExperience"]			= "0";
@@ -283,7 +308,7 @@ $Farming::Crops::PlantData_["Cabbage", "plantingExperience"]		= "1";
 $Farming::Crops::PlantData_["Cabbage", 0, "timePerTick"]			= "5500";
 $Farming::Crops::PlantData_["Cabbage", 0, "nextStage"]				= "brickCabbage1CropData";
 $Farming::Crops::PlantData_["Cabbage", 0, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Cabbage", 0, "waterPerTick"]			= "15";
+$Farming::Crops::PlantData_["Cabbage", 0, "waterPerTick"]			= "10";
 $Farming::Crops::PlantData_["Cabbage", 0, "numGrowTicks"]			= "6";
 $Farming::Crops::PlantData_["Cabbage", 0, "numDryTicks"]			= "-1";
 
@@ -343,16 +368,20 @@ $Farming::Crops::PlantData_["Cabbage", 4, "changeOnHarvest"]		= "";
 
 //Onion//
 
+$Farming::Crops::PlantData_["Onion", "heatWaveTimeModifier"]			= "1";
+$Farming::Crops::PlantData_["Onion", "heatWaveWaterModifier"]			= "2";
+$Farming::Crops::PlantData_["Onion", "rainTimeModifier"]				= "1";
+$Farming::Crops::PlantData_["Onion", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Onion", "plantSpace"]					= "1";
 $Farming::Crops::PlantData_["Onion", "experienceRequired"]			= "250";
 $Farming::Crops::PlantData_["Onion", "harvestExperience"]			= "0";
 $Farming::Crops::PlantData_["Onion", "plantingExperience"]			= "1";
 
-$Farming::Crops::PlantData_["Onion", 0, "timePerTick"]				= "8000";
+$Farming::Crops::PlantData_["Onion", 0, "timePerTick"]				= "9000";
 $Farming::Crops::PlantData_["Onion", 0, "nextStage"]				= "brickOnion1CropData";
 $Farming::Crops::PlantData_["Onion", 0, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Onion", 0, "waterPerTick"]				= "5";
-$Farming::Crops::PlantData_["Onion", 0, "numGrowTicks"]				= "8";
+$Farming::Crops::PlantData_["Onion", 0, "waterPerTick"]				= "3";
+$Farming::Crops::PlantData_["Onion", 0, "numGrowTicks"]				= "5";
 $Farming::Crops::PlantData_["Onion", 0, "numDryTicks"]				= "-1";
 
 //
@@ -360,7 +389,7 @@ $Farming::Crops::PlantData_["Onion", 0, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Onion", 1, "timePerTick"]				= "8000";
 $Farming::Crops::PlantData_["Onion", 1, "nextStage"]				= "brickOnion2CropData";
 $Farming::Crops::PlantData_["Onion", 1, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Onion", 1, "waterPerTick"]				= "5";
+$Farming::Crops::PlantData_["Onion", 1, "waterPerTick"]				= "4";
 $Farming::Crops::PlantData_["Onion", 1, "numGrowTicks"]				= "10";
 $Farming::Crops::PlantData_["Onion", 1, "numDryTicks"]				= "-1";
 
@@ -369,7 +398,7 @@ $Farming::Crops::PlantData_["Onion", 1, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Onion", 2, "timePerTick"]				= "8000";
 $Farming::Crops::PlantData_["Onion", 2, "nextStage"]				= "brickOnion3CropData";
 $Farming::Crops::PlantData_["Onion", 2, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Onion", 2, "waterPerTick"]				= "5";
+$Farming::Crops::PlantData_["Onion", 2, "waterPerTick"]				= "4";
 $Farming::Crops::PlantData_["Onion", 2, "numGrowTicks"]				= "10";
 $Farming::Crops::PlantData_["Onion", 2, "numDryTicks"]				= "-1";
 
@@ -402,6 +431,10 @@ $Farming::Crops::PlantData_["Onion", 3, "changeOnHarvest"]			= "";
 
 //Blueberry//
 
+$Farming::Crops::PlantData_["Blueberry", "heatWaveTimeModifier"]		= "1";
+$Farming::Crops::PlantData_["Blueberry", "heatWaveWaterModifier"]		= "2";
+$Farming::Crops::PlantData_["Blueberry", "rainTimeModifier"]			= "1";
+$Farming::Crops::PlantData_["Blueberry", "rainWaterModifier"]			= "0.5";
 $Farming::Crops::PlantData_["Blueberry", "plantSpace"]				= "2";
 $Farming::Crops::PlantData_["Blueberry", "experienceRequired"]		= "100";
 $Farming::Crops::PlantData_["Blueberry", "experienceCost"]			= "1";
@@ -411,7 +444,7 @@ $Farming::Crops::PlantData_["Blueberry", "plantingExperience"]		= "0";
 $Farming::Crops::PlantData_["Blueberry", 0, "timePerTick"]			= "9000";
 $Farming::Crops::PlantData_["Blueberry", 0, "nextStage"]			= "brickBlueberry1CropData";
 $Farming::Crops::PlantData_["Blueberry", 0, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Blueberry", 0, "waterPerTick"]			= "10";
+$Farming::Crops::PlantData_["Blueberry", 0, "waterPerTick"]			= "5";
 $Farming::Crops::PlantData_["Blueberry", 0, "numGrowTicks"]			= "8";
 $Farming::Crops::PlantData_["Blueberry", 0, "numDryTicks"]			= "-1";
 
@@ -463,6 +496,10 @@ $Farming::Crops::PlantData_["Blueberry", 4, "changeOnHarvest"]		= "";
 
 //Turnip//
 
+$Farming::Crops::PlantData_["Turnip", "heatWaveTimeModifier"]			= "1";
+$Farming::Crops::PlantData_["Turnip", "heatWaveWaterModifier"]			= "2";
+$Farming::Crops::PlantData_["Turnip", "rainTimeModifier"]				= "1";
+$Farming::Crops::PlantData_["Turnip", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Turnip", "plantSpace"]					= "2";
 $Farming::Crops::PlantData_["Turnip", "experienceRequired"]			= "100";
 $Farming::Crops::PlantData_["Turnip", "experienceCost"]				= "1";
@@ -534,6 +571,10 @@ $Farming::Crops::PlantData_["Turnip", 4, "changeOnHarvest"]			= "";
 
 //Daisy//
 
+$Farming::Crops::PlantData_["Daisy", "heatWaveTimeModifier"]			= "1";
+$Farming::Crops::PlantData_["Daisy", "heatWaveWaterModifier"]			= "1";
+$Farming::Crops::PlantData_["Daisy", "rainTimeModifier"]				= "1";
+$Farming::Crops::PlantData_["Daisy", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Daisy", "plantSpace"]					= "0";
 $Farming::Crops::PlantData_["Daisy", "experienceRequired"]			= "100";
 $Farming::Crops::PlantData_["Daisy", "experienceCost"]				= "1";
@@ -573,6 +614,10 @@ $Farming::Crops::PlantData_["Daisy", 2, "changeOnHarvest"]			= "brickDaisy0CropD
 
 //Lily//
 
+$Farming::Crops::PlantData_["Lily", "heatWaveTimeModifier"]			= "1";
+$Farming::Crops::PlantData_["Lily", "heatWaveWaterModifier"]			= "1";
+$Farming::Crops::PlantData_["Lily", "rainTimeModifier"]				= "1";
+$Farming::Crops::PlantData_["Lily", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Lily", "plantSpace"]					= "0";
 $Farming::Crops::PlantData_["Lily", "experienceRequired"]			= "100";
 $Farming::Crops::PlantData_["Lily", "experienceCost"]				= "1";
@@ -626,6 +671,10 @@ $Farming::Crops::PlantData_["Lily", 2, "changeOnHarvest"]			= "brickLily0CropDat
 
 //Apple Tree//
 
+$Farming::Crops::PlantData_["Apple", "heatWaveTimeModifier"]			= "2";
+$Farming::Crops::PlantData_["Apple", "heatWaveWaterModifier"]			= "3";
+$Farming::Crops::PlantData_["Apple", "rainTimeModifier"]				= "1";
+$Farming::Crops::PlantData_["Apple", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Apple", "plantSpace"]					= "7";
 $Farming::Crops::PlantData_["Apple", "experienceRequired"]			= "1000";
 $Farming::Crops::PlantData_["Apple", "experienceCost"]				= "1000";
@@ -777,6 +826,10 @@ $Farming::Crops::PlantData_["Apple", 22, "changeOnHarvest"]			= "brickAppleTree7
 
 //Mango Tree//
 
+$Farming::Crops::PlantData_["Mango", "heatWaveTimeModifier"]			= "2";
+$Farming::Crops::PlantData_["Mango", "heatWaveWaterModifier"]			= "3";
+$Farming::Crops::PlantData_["Mango", "rainTimeModifier"]				= "1";
+$Farming::Crops::PlantData_["Mango", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Mango", "plantSpace"]					= "15";
 $Farming::Crops::PlantData_["Mango", "experienceRequired"]			= "1500";
 $Farming::Crops::PlantData_["Mango", "experienceCost"]				= "1500";
