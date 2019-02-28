@@ -1,4 +1,4 @@
-Generated 02/19/19 09:03:41
+Generated 02/28/19 09:07:26
 
 
 
@@ -6,17 +6,16 @@ Generated 02/19/19 09:03:41
 -Potato-
 $1.00 per seed
 $1.00 per produce
-Avg 2 per harvest (range: 1 3)
-Avg Income Per Seed: 1
+Avg 2.5 per harvest (range: 1 4)
+Avg Income Per Seed: 1.5
 
 TTime: 100
-Water: 70
-8x8 Density: 16
-Water/sec: 0.70
-Water/sec/8x8: 11.2
-8x8 Income: 16.00
-Income/min: 9.600000
-Harvest Income/min: 7.529410
+Water: 40
+8x8 Density: 9
+Water/sec: 0.40
+Water/sec/8x8: 3.6
+8x8 Income: 13.50
+Income/min: 8.100000
 ------
 
 
@@ -29,13 +28,12 @@ Avg 1.5 per harvest (range: 1 2)
 Avg Income Per Seed: 2
 
 TTime: 160
-Water: 205
-8x8 Density: 16
-Water/sec: 1.28
-Water/sec/8x8: 20.48
-8x8 Income: 32.00
-Income/min: 12.000000
-Harvest Income/min: 10.240000
+Water: 95
+8x8 Density: 9
+Water/sec: 0.59
+Water/sec/8x8: 5.31
+8x8 Income: 18.00
+Income/min: 6.750000
 ------
 
 
@@ -48,13 +46,12 @@ Avg 2.5 per harvest (range: 1 4)
 Avg Income Per Harvest: 2.5
 
 TTime: 776
-Water: 232
-8x8 Density: 9
-Water/sec: 0.30
-Water/sec/8x8: 2.7
-8x8 Income: 22.50
-Income/min: 3.245190
-Harvest Income/min: 3.150530
+Water: 128
+8x8 Density: 4
+Water/sec: 0.16
+Water/sec/8x8: 0.64
+8x8 Income: 10.00
+Income/min: 1.442310
 ------
 
 
@@ -64,16 +61,15 @@ Harvest Income/min: 3.150530
 $1.50 per seed
 $2.00 per produce
 Avg 2 per harvest (range: 1 3)
-Avg Income Per Seed: 2.5
+Avg Income Per Harvest: 4
 
 TTime: 265
-Water: 235
-8x8 Density: 16
-Water/sec: 0.89
-Water/sec/8x8: 14.24
-8x8 Income: 40.00
-Income/min: 9.056600
-Harvest Income/min: 8.205130
+Water: 190
+8x8 Density: 9
+Water/sec: 0.72
+Water/sec/8x8: 6.48
+8x8 Income: 36.00
+Income/min: 13.500000
 ------
 
 
@@ -83,16 +79,15 @@ Harvest Income/min: 8.205130
 $1.00 per seed
 $3.50 per produce
 Avg 2 per harvest (range: 1 3)
-Avg Income Per Seed: 6
+Avg Income Per Harvest: 7
 
-TTime: 198
-Water: 560
+TTime: 246
+Water: 610
 8x8 Density: 9
-Water/sec: 2.83
-Water/sec/8x8: 25.47
-8x8 Income: 54.00
-Income/min: 16.363600
-Harvest Income/min: 14.798700
+Water/sec: 2.48
+Water/sec/8x8: 22.32
+8x8 Income: 63.00
+Income/min: 27.000000
 ------
 
 
@@ -102,16 +97,15 @@ Harvest Income/min: 14.798700
 $1.00 per seed
 $1.50 per produce
 Avg 2 per harvest (range: 1 3)
-Avg Income Per Seed: 2
+Avg Income Per Harvest: 3
 
-TTime: 224
-Water: 140
-8x8 Density: 16
-Water/sec: 0.63
-Water/sec/8x8: 10.08
-8x8 Income: 32.00
-Income/min: 8.571430
-Harvest Income/min: 7.634190
+TTime: 205
+Water: 95
+8x8 Density: 9
+Water/sec: 0.46
+Water/sec/8x8: 4.14
+8x8 Income: 27.00
+Income/min: 20.250000
 ------
 
 
@@ -121,16 +115,15 @@ Harvest Income/min: 7.634190
 $2.00 per seed
 $2.00 per produce
 Avg 4.5 per harvest (range: 3 6)
-Avg Income Per Seed: 7
+Avg Income Per Harvest: 9
 
 TTime: 362
-Water: 480
-8x8 Density: 9
-Water/sec: 1.33
-Water/sec/8x8: 11.97
-8x8 Income: 63.00
-Income/min: 10.442000
-Harvest Income/min: 9.871060
+Water: 440
+8x8 Density: 4
+Water/sec: 1.22
+Water/sec/8x8: 4.88
+8x8 Income: 36.00
+Income/min: 10.800000
 ------
 
 
@@ -138,35 +131,51 @@ Harvest Income/min: 9.871060
 ------
 -Turnip-
 $2.00 per seed
-$12.00 per produce
+$10.00 per produce
 Avg 1 per harvest (range: 1 1)
-Avg Income Per Seed: 10
+Avg Income Per Harvest: 10
 
 TTime: 370
 Water: 500
-8x8 Density: 9
+8x8 Density: 4
 Water/sec: 1.35
-Water/sec/8x8: 12.15
-8x8 Income: 90.00
-Income/min: 14.594600
-Harvest Income/min: 13.812900
+Water/sec/8x8: 5.4
+8x8 Income: 40.00
+Income/min: 12.000000
 ------
 
 
 
 ------
 -Apple-
-$600.00 per seed
-$8.00 per produce
+$1200.00 per seed
+$12.00 per produce
 Avg 9 per harvest (range: 6 12)
-Avg Income Per Seed: -528
+Avg Income Per Harvest: 108
 
 TTime: 2450
 Water: 1900
-8x8 Density: 7
+8x8 Density: 1
 Water/sec: 0.78
-Water/sec/8x8: 5.46
-8x8 Income: -3696.00
-Income/min: -90.514300
-Harvest Income/min: -89.815500
+Water/sec/8x8: 0.78
+8x8 Income: 108.00
+Income/min: 3.240000
+------
+
+
+
+------
+-Mango-
+$1600.00 per seed
+$16.00 per produce
+Avg 15 per harvest (range: 12 18)
+Avg Income Per Harvest: 240
+
+TTime: 4500
+Water: 3600
+8x8 Density: 0.5
+Water/sec: 0.80
+Water/sec/8x8: 0.4
+8x8 Income: 120.00
+Income/min: 1.846150
 ------
