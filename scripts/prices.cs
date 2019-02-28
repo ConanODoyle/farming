@@ -98,7 +98,7 @@ function generateInstrumentList()
 
 	%prob = 1 / $InstrumentCount;
 
-	%nonKeytarProb = (2 * $InstrumentCount) / (2 * $InstrumentCount - 1);
+	%nonKeytarProb = 2 / (2 * ($InstrumentCount - 1) + 1);
 	%keytarProb = %nonKeytarProb / 2;
 	if (%keytarFound)
 	{
