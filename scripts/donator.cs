@@ -10,7 +10,7 @@ $isVIP_["12027"] 	= 1 TAB "Sentry";
 $isVIP_["4382"] 	= 1 TAB "Skill4Life";
 $isVIP_["2227"] 	= 1 TAB "The Brighter Dark";
 $isVIP_["10661"] 	= 1 TAB "Dart";
-$isVIP_["3898"] 	= 1 TAB "The Titanium (Donator but doesnt want perks)";
+$isVIP_["3898"] 	= 1 TAB "The Titanium (Donator but only wants join/reroll perks)";
 $isVIP_["51914"] 	= 1 TAB "MARBLE MAN";
 $isVIP_["9373"] 	= 1 TAB "Smallguy";
 $isVIP_["33468"] 	= 1 TAB "Wolfly";
@@ -72,6 +72,7 @@ function applyDonatorSettings(%cl)
 	// %cl.messagePrefix = "<shadow:4:4><shadowcolor:303030><color:ffffff>";
 	%cl.isDonator = 1;
 	messageAll('', "<bitmap:base/client/ui/ci/star> \c3" @ %cl.name @ "\c6 is a donator!");
+	chatMessageClient(%cl, '', "You are now able to use /refreshDeal and /hat!");
 }
 
 function applyBetaTesterSettings(%cl)
@@ -153,12 +154,12 @@ package Donators
 			%isDonator = checkIfDonator(%blid);
 			%isVIP = checkIfVIP(%blid);
 			
-			echo("Checking for betatester/donator status (" @ %blid @ ", " @ %cl.name @ ") " @ getDateTime());
+			echo("Checking for VIP/donator status (" @ %blid @ ", " @ %cl.name @ ") " @ getDateTime());
 
 			if (%isDonator || %isVIP)
 			{
 				messageClient(fcn(Conan), '', "\c4    Attempt to join succeeded");
-				echo("    betatester/donator status confirmed. Upping player limit...");
+				echo("    VIP/donator status confirmed. Upping player limit...");
 				%ret = parent::onLine(%this, %line);
 				updateServerPlayerCount();
 				webcom_postserver();
@@ -237,11 +238,11 @@ package Donators
 
 		if (checkIfDonator(%cl.bl_id))
 		{
-			applyDonatorSettings(%cl);
+			schedule(100, %cl, applyDonatorSettings, %cl);
 		}
 		if (checkIfBetaTester(%cl.bl_id))
 		{
-			applyBetaTesterSettings(%cl);
+			schedule(100, %cl, applyBetaTesterSettings, %cl);
 		}
 
 		return %ret;
