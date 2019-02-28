@@ -8,6 +8,8 @@ if (!isObject(RainFillSimSet))
 
 $rainChance = 0.003;
 $noRainModifier = 0.0001;
+$heatWaveChance = 0.005;
+$heatWaveRainReduction = 0.0005;
 
 function rainCheckLoop()
 {
@@ -25,7 +27,7 @@ function rainCheckLoop()
 	}
 
 	%rainChance = $rainChance + $noRainModifier * mFloor(($Sim::Time - $lastRained + 0.1) / 15);
-	%heatWaveChance = 0.004;
+	%heatWaveChance = $heatWaveChance - (6 - mFloor(($Sim::Time - $lastRained) / 15) / 20) * $heatWaveRainReduction;
 	if (!$isRaining && !$isHeatWave)
 	{
 		if (getRandom() < %rainChance)
@@ -33,11 +35,13 @@ function rainCheckLoop()
 			// talk("Rainchance: " @ %rainChance);
 			// talk("Last Rained: " @ $Sim::Time - $lastRained);
 			echo("[" @ getDateTime() @ "] It has started raining");
+			messageAll('MsgUploadStart',"\c6[\c3It has started to rain...\c6]");
 			startRain();
 		}
 		else if (getRandom() < %heatWaveChance)
 		{
 			echo("[" @ getDateTime() @ "] A heat wave has started");
+			messageAll('MsgUploadStart',"\c6[\c3A heat wave has started...\c6]");
 			startHeatWave();
 		}
 	}
@@ -49,6 +53,7 @@ function rainCheckLoop()
 			if ($RainTicksLeft <= 0)
 			{
 				echo("[" @ getDateTime() @ "] It has stopped raining");
+				messageAll('MsgUploadStart',"\c6[\c3The rain stopped...\c6]");
 				stopRain();
 			}
 		}
@@ -58,6 +63,7 @@ function rainCheckLoop()
 			if ($HeatWaveTicksLeft <= 0)
 			{
 				echo("[" @ getDateTime() @ "] The heat wave has stopped");
+				messageAll('MsgUploadStart',"\c6[\c3The heat wave ended...\c6]");
 				stopHeatWave();
 			}
 		}
@@ -118,7 +124,7 @@ function stopRain()
 
 function startHeatWave()
 {
-	%targetVigColor = "0.57 0.44 0.294";
+	%targetVigColor = "0.439 0.341 0.215";
 	gradualVignetteColorshift(getWord(%targetVigColor, 0), getWord(%targetVigColor, 1), getWord(%targetVigColor, 2), 10000);
 	$isHeatWave = 1;
 
@@ -126,13 +132,12 @@ function startHeatWave()
 	%rand = getRandom();
 	%rand *= %rand;
 
-	%HeatWaveTicks = mFloor(%rand * 40) + 8;
+	%HeatWaveTicks = mFloor(%rand * 40) + 12;
 
 	// talk("HeatWaveTicks: " @ %HeatWaveTicks);
 	// talk("currChance: " @ %currChance + $rainKeepModifier / %HeatWaveTicks);
 	// talk("rand: " @ %rand);
 	$HeatWaveTicksLeft = %HeatWaveTicks;
-
 }
 
 function stopHeatWave()
