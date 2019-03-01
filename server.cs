@@ -13,16 +13,17 @@ exec("./lib/Support_ShapeLines/server.cs");
 exec("./lib/swolset.cs");
 
 // Scripts specific to this mod
-exec("./util/shortcuts.cs");
+exec("./util/eventParser.cs");
 exec("./util/disableWrenchAndBuild.cs");
-exec("./util/ipCheck.cs");
 exec("./util/clearScripts.cs");
 exec("./util/dualClient.cs");
+exec("./util/ipCheck.cs");
 exec("./util/makeLotSingle.cs");
-exec("./util/stuck.cs");
 exec("./util/scorefix.cs");
+exec("./util/shortcuts.cs");
 exec("./util/stackTypeCheck.cs");
-exec("./util/eventParser.cs");
+exec("./util/strLastPos.cs");
+exec("./util/stuck.cs");
 
 echo("\c4--Loading Farming Assets");
 
@@ -39,24 +40,23 @@ exec("./audio/audio.cs");
 echo("\c4--Loading Farming Scripts");
 
 // Game mechanic scripts
-exec("./scripts/spawn.cs");
-exec("./scripts/bus.cs");
+exec("./scripts/core/info.cs");
+exec("./scripts/core/buildCost.cs");
+exec("./scripts/core/wrenchCost.cs");
+exec("./scripts/core/botBuy.cs");
+exec("./scripts/core/eventStorage.cs");
+exec("./scripts/core/tutorial.cs");
+exec("./scripts/core/spawn.cs");
+exec("./scripts/core/builder.cs");
+
+exec("./scripts/modules.cs");
+
 exec("./scripts/chatFilter.cs");
-exec("./scripts/sacrifice.cs");
 exec("./scripts/donator.cs");
 exec("./scripts/lots.cs");
 exec("./scripts/wateringCat.cs");
-exec("./scripts/info.cs");
-exec("./scripts/buildCost.cs");
-exec("./scripts/wrenchCost.cs");
-exec("./scripts/botBuy.cs");
-exec("./scripts/prices.cs");
-exec("./scripts/randomBotEvents.cs");
 exec("./scripts/weather.cs");
-exec("./scripts/eventStorage.cs");
-exec("./scripts/tutorial.cs");
-exec("./scripts/builder.cs");
-exec("./scripts/processorDefinitions.cs");
+
 // exec("./scripts/mailCatalog.cs");
 
 // Debug code

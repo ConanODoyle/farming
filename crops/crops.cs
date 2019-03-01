@@ -2,7 +2,7 @@ exec("./util.cs");
 exec("./datablocks.cs");
 
 //Exec plant info
-echo("Executing plant data...");
+echo("--Loading plant data");
 exec("./plantDatablocks.cs");
 exec("./desertPlantDatablocks.cs");
 
@@ -10,7 +10,7 @@ exec("./plantData.cs");
 exec("./desertPlantData.cs");
 
 //Exec tools
-echo("Executing farming data...");
+echo("--Loading farming data");
 exec("./growth.cs");
 exec("./water.cs");
 exec("./sprinklers.cs");
