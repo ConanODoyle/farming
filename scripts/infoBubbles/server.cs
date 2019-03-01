@@ -93,7 +93,8 @@ function registerAllInfoParticles()
 		%pos1 = strLastPos(%dir, "/")+1;
 		%pos2 = strPos(%dir, ".", %pos1 + 1);
 		%name = getSubStr(%dir, %pos1, %pos2 - %pos1);
-		%name = stripChars(%name, " (){},.<>?/\\!@#$%^&*:;'\"-+=[]|");
+		%name = strReplace(%name, " ", "_");
+		%name = stripChars(%name, "(){},.<>?/\\!@#$%^&*:;'\"-+=[]|");
 		// echo("NAME:" SPC %name);
 
 		if (!isObject("Info" @ %name @ "Particle"))
@@ -121,9 +122,49 @@ function registerAllInfoParticles()
 			eval(%db);
 			echo("    Registered \"" @ %name @ "\" info bubble");
 			%count++;
+			$InfoBubbles_Type[$InfoBubbles_TypeCount++ - 1] = %name TAB "Info" @ %name @ "Projectile";
 		}
 	}
 	echo("Registered " @ %count @ " new info bubbles");
 }
 
 registerAllInfoParticles();
+
+function popupLoop()
+{
+	cancel($masterPopupSchedule);
+
+	if (!isObject(MissionCleanup))
+	{
+		return;
+	}
+
+	for (%i = 0; %i < $InfoBubbles_TypeCount; %i++)
+	{
+		%name = "_" @ getField($InfoBubbles_Type[%i], 0);
+		%proj = getField($InfoBubbles_Type[%i], 1);
+
+		%arrayCount = 0;
+		while (isObject(%name))
+		{
+			%id = %name.getID();
+			%id.setName("temp");
+			%array[%arrayCount++ - 1] = %id;
+			%bg = getBrickgroupFromObject(%id);
+			if (%id.getClassName() $= "fxDTSBrick" && 
+				(%bg.bl_id == 888888 || %bg.bl_id = 4928))
+			{
+				%id.spawnProjectile("0 0 0", %proj.getID(), "0 0 0", 1);
+			}
+		}
+
+		for (%j = 0; %j < %arrayCount; %j++)
+		{
+			%array[%j].setName(%name);
+		}
+	}
+
+	$masterPopupSchedule = schedule(20000, 0, popupLoop);
+}
+
+schedule(10000, 0, popupLoop);
