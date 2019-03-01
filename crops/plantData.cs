@@ -403,7 +403,7 @@ $Farming::Crops::PlantData_["Onion", 2, "waterPerTick"]				= "4";
 $Farming::Crops::PlantData_["Onion", 2, "numGrowTicks"]				= "10";
 $Farming::Crops::PlantData_["Onion", 2, "numDryTicks"]				= "-1";
 
-$Farming::Crops::PlantData_["Onion", 2, "yield"]					= "0 2";
+$Farming::Crops::PlantData_["Onion", 2, "yield"]					= "1 3";
 $Farming::Crops::PlantData_["Onion", 2, "item"]						= "OnionItem";
 $Farming::Crops::PlantData_["Onion", 2, "dieOnHarvest"]				= "1";
 $Farming::Crops::PlantData_["Onion", 2, "harvestTool"]				= "Trowel";
@@ -420,7 +420,7 @@ $Farming::Crops::PlantData_["Onion", 3, "waterPerTick"]				= "1";
 $Farming::Crops::PlantData_["Onion", 3, "numGrowTicks"]				= "3";
 $Farming::Crops::PlantData_["Onion", 3, "numDryTicks"]				= "-1";
 
-$Farming::Crops::PlantData_["Onion", 3, "yield"]					= "1 3";
+$Farming::Crops::PlantData_["Onion", 3, "yield"]					= "1 4";
 $Farming::Crops::PlantData_["Onion", 3, "item"]						= "OnionItem";
 $Farming::Crops::PlantData_["Onion", 3, "dieOnHarvest"]				= "1";
 $Farming::Crops::PlantData_["Onion", 3, "harvestTool"]				= "Trowel";

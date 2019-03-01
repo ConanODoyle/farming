@@ -1,8 +1,17 @@
 exec("./util.cs");
 exec("./datablocks.cs");
-exec("./growth.cs");
+
+//Exec plant info
+echo("Executing plant data...");
+exec("./plantDatablocks.cs");
+exec("./desertPlantDatablocks.cs");
+
 exec("./plantData.cs");
 exec("./desertPlantData.cs");
+
+//Exec tools
+echo("Executing farming data...");
+exec("./growth.cs");
 exec("./water.cs");
 exec("./sprinklers.cs");
 exec("./harvest.cs");

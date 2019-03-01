@@ -38,6 +38,9 @@ $Produce::BuyCost_["Turnip"] = 10.00;
 $Produce::BuyCost_["Apple"] = 12.00;
 $Produce::BuyCost_["Mango"] = 16.00;
 
+$Produce::BuyCost_["Chili"] = 3.00;
+$Produce::BuyCost_["Cactus"] = 5.00;
+
 $ProduceList_[$ProduceCount++ - 1]  = "Potato" TAB    60;
 $ProduceList_[$ProduceCount++ - 1]  = "Carrot" TAB    70;
 $ProduceList_[$ProduceCount++ - 1]  = "Tomato" TAB    60;
@@ -48,6 +51,8 @@ $ProduceList_[$ProduceCount++ - 1]  = "Blueberry" TAB 10;//10;
 $ProduceList_[$ProduceCount++ - 1]  = "Turnip" TAB    6;//10;
 $ProduceList_[$ProduceCount++ - 1]  = "Apple" TAB   6;
 $ProduceList_[$ProduceCount++ - 1]  = "Mango" TAB   6;
+$ProduceList_[$ProduceCount++ - 1]  = "Chili" TAB   0;
+$ProduceList_[$ProduceCount++ - 1]  = "Cactus" TAB   0;
 
 //Seeds
 $SeedCount = 0;
@@ -61,6 +66,9 @@ $Produce::BuyCost_["BlueberrySeed"] = 2.00;
 $Produce::BuyCost_["TurnipSeed"] = 2.00;
 $Produce::BuyCost_["AppleSeed"] = 1200.00;
 $Produce::BuyCost_["MangoSeed"] = 1600.00;
+
+$Produce::BuyCost_["ChiliSeed"] = 4.00;
+$Produce::BuyCost_["CactusSeed"] = 75.00;
 
 $Produce::BuyCost_["DaisySeed"] = 1.00;
 $Produce::BuyCost_["LilySeed"] = 1.00;
@@ -77,6 +85,8 @@ $SeedList_[$SeedCount++ - 1]  = "DaisySeedItem" TAB   25;//5;
 $SeedList_[$SeedCount++ - 1]  = "LilySeedItem" TAB    25;//5;
 $SeedList_[$SeedCount++ - 1]  = "AppleSeedItem" TAB   10;
 $SeedList_[$SeedCount++ - 1]  = "MangoSeedItem" TAB   5;
+$SeedList_[$SeedCount++ - 1]  = "ChiliSeedItem" TAB   0;
+$SeedList_[$SeedCount++ - 1]  = "CactusSeedItem" TAB   0;
 
 //Extra stackable items
 
