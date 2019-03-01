@@ -2,6 +2,7 @@
 
 //How to use: 	brickDatablock.processorFunction = "functionName";
 //				brickDatablock.activateFunction = "functionName";
+//				brickDatablock.placerItem = "datablockName"; //defined if the brick must be placed with a special item
 
 package Processors
 {
@@ -40,10 +41,24 @@ package Processors
 					call(%func, %hit, %obj);
 					return;
 				}
-			}	
+			}
 		}
 
 		return parent::activateStuff(%obj);
+	}
+
+	function fxDTSBrick::onDeath(%this, %obj)
+	{
+		if (isObject(%this.getDatablock().placerItem))
+		{
+			%i = new Item(BrickPlacers) {
+				dataBlock = %this.getDatablock().placerItem;
+				harvestedBG = getBrickgroupFromObject(%this);
+			};
+			MissionCleanup.add(%i);
+			%i.schedule(60000, schedulePop);
+		}	
+		return parent::onDeath(%this, %obj);
 	}
 };
 activatePackage(Processors);
