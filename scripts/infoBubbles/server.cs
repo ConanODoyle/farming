@@ -126,4 +126,4 @@ function registerAllInfoParticles()
 	echo("Registered " @ %count @ " new info bubbles");
 }
 
-function
+registerAllInfoParticles();
