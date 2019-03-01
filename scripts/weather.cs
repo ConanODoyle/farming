@@ -147,6 +147,7 @@ function stopHeatWave()
 
 	$isHeatWave = 0;
 	$HeatWaveTicksLeft = 0;
+	$lastHeatWave = $Sim::Time;
 }
 
 function roundToDecPoint(%num, %numDec)
