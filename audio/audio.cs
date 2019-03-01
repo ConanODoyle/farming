@@ -8,7 +8,7 @@ datablock AudioProfile(AmbientRainSound)
 
 datablock AudioProfile(AmbientRainFadeInSound) 
 {
-	filename = "./rain_low_fadein.ogg";
+	filename = "./rain_low_fadein.wav";
 	description = AudioMusicLooping3d;
 	preload = true;
 	uiName = "";
@@ -16,7 +16,7 @@ datablock AudioProfile(AmbientRainFadeInSound)
 
 datablock AudioProfile(AmbientRainFadeOutSound) 
 {
-	filename = "./rain_low_fadeout.ogg";
+	filename = "./rain_low_fadeout.wav";
 	description = AudioMusicLooping3d;
 	preload = true;
 	uiName = "";
