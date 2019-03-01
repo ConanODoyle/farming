@@ -55,6 +55,7 @@ datablock fxDTSBrickData(brickCactus0CropData)
 	cropType = "Cactus";
 	stage = 0;
 	isPlant = 1;
+	isTree = 1;
 };
 
 datablock fxDTSBrickData(brickCactus1CropData)
@@ -65,6 +66,7 @@ datablock fxDTSBrickData(brickCactus1CropData)
 	cropType = "Cactus";
 	stage = 1;
 	isPlant = 1;
+	isTree = 1;
 };
 
 datablock fxDTSBrickData(brickCactus2CropData)
@@ -75,6 +77,7 @@ datablock fxDTSBrickData(brickCactus2CropData)
 	cropType = "Cactus";
 	stage = 2;
 	isPlant = 1;
+	isTree = 1;
 };
 
 datablock fxDTSBrickData(brickCactus3CropData)
@@ -85,6 +88,7 @@ datablock fxDTSBrickData(brickCactus3CropData)
 	cropType = "Cactus";
 	stage = 3;
 	isPlant = 1;
+	isTree = 1;
 };
 
 datablock fxDTSBrickData(brickCactus4CropData)
@@ -95,6 +99,7 @@ datablock fxDTSBrickData(brickCactus4CropData)
 	cropType = "Cactus";
 	stage = 4;
 	isPlant = 1;
+	isTree = 1;
 };
 
 datablock fxDTSBrickData(brickCactus5CropData)
@@ -105,6 +110,7 @@ datablock fxDTSBrickData(brickCactus5CropData)
 	cropType = "Cactus";
 	stage = 5;
 	isPlant = 1;
+	isTree = 1;
 };
 
 datablock fxDTSBrickData(brickCactus6CropData)
@@ -115,6 +121,7 @@ datablock fxDTSBrickData(brickCactus6CropData)
 	cropType = "Cactus";
 	stage = 6;
 	isPlant = 1;
+	isTree = 1;
 };
 
 datablock fxDTSBrickData(brickCactus7CropData)
@@ -125,4 +132,5 @@ datablock fxDTSBrickData(brickCactus7CropData)
 	cropType = "Cactus";
 	stage = 7;
 	isPlant = 1;
+	isTree = 1;
 };

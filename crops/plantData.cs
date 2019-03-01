@@ -755,10 +755,10 @@ $Farming::Crops::PlantData_["Apple", 7, "numDryTicks"]				= "-1";
 
 // Unpruned
 
-$Farming::Crops::PlantData_["Apple", 10, "timePerTick"]				= "25000";
+$Farming::Crops::PlantData_["Apple", 10, "timePerTick"]				= "30000";
 $Farming::Crops::PlantData_["Apple", 10, "nextStage"]				= "brickAppleTree11CropData";
 $Farming::Crops::PlantData_["Apple", 10, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Apple", 10, "waterPerTick"]			= "5";
+$Farming::Crops::PlantData_["Apple", 10, "waterPerTick"]			= "10";
 $Farming::Crops::PlantData_["Apple", 10, "numGrowTicks"]			= "30";
 $Farming::Crops::PlantData_["Apple", 10, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Apple", 10, "pruneTool"]				= "Clipper";
@@ -766,7 +766,7 @@ $Farming::Crops::PlantData_["Apple", 10, "changeOnPrune"]			= "brickAppleTree20C
 
 //
 
-$Farming::Crops::PlantData_["Apple", 11, "timePerTick"]				= "25000";
+$Farming::Crops::PlantData_["Apple", 11, "timePerTick"]				= "20000";
 $Farming::Crops::PlantData_["Apple", 11, "nextStage"]				= "brickAppleTree12CropData";
 $Farming::Crops::PlantData_["Apple", 11, "dryStage"]				= "";
 $Farming::Crops::PlantData_["Apple", 11, "waterPerTick"]			= "10";
@@ -791,16 +791,16 @@ $Farming::Crops::PlantData_["Apple", 12, "changeOnHarvest"]			= "brickAppleTree7
 
 // Pruned
 
-$Farming::Crops::PlantData_["Apple", 20, "timePerTick"]				= "25000";
+$Farming::Crops::PlantData_["Apple", 20, "timePerTick"]				= "30000";
 $Farming::Crops::PlantData_["Apple", 20, "nextStage"]				= "brickAppleTree21CropData";
 $Farming::Crops::PlantData_["Apple", 20, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Apple", 20, "waterPerTick"]			= "5";
+$Farming::Crops::PlantData_["Apple", 20, "waterPerTick"]			= "10";
 $Farming::Crops::PlantData_["Apple", 20, "numGrowTicks"]			= "30";
 $Farming::Crops::PlantData_["Apple", 20, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Apple", 21, "timePerTick"]				= "25000";
+$Farming::Crops::PlantData_["Apple", 21, "timePerTick"]				= "20000";
 $Farming::Crops::PlantData_["Apple", 21, "nextStage"]				= "brickAppleTree22CropData";
 $Farming::Crops::PlantData_["Apple", 21, "dryStage"]				= "";
 $Farming::Crops::PlantData_["Apple", 21, "waterPerTick"]			= "10";
@@ -911,28 +911,28 @@ $Farming::Crops::PlantData_["Mango", 7, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Mango", 8, "timePerTick"]				= "25000";
+$Farming::Crops::PlantData_["Mango", 8, "timePerTick"]				= "55000";
 $Farming::Crops::PlantData_["Mango", 8, "nextStage"]				= "brickMangoTree9CropData";
 $Farming::Crops::PlantData_["Mango", 8, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Mango", 8, "waterPerTick"]				= "10";
+$Farming::Crops::PlantData_["Mango", 8, "waterPerTick"]				= "5";
 $Farming::Crops::PlantData_["Mango", 8, "numGrowTicks"]				= "20";
 $Farming::Crops::PlantData_["Mango", 8, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Mango", 9, "timePerTick"]				= "35000";
+$Farming::Crops::PlantData_["Mango", 9, "timePerTick"]				= "10000";
 $Farming::Crops::PlantData_["Mango", 9, "nextStage"]				= "brickMangoTree10CropData";
 $Farming::Crops::PlantData_["Mango", 9, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Mango", 9, "waterPerTick"]				= "20";
+$Farming::Crops::PlantData_["Mango", 9, "waterPerTick"]				= "30";
 $Farming::Crops::PlantData_["Mango", 9, "numGrowTicks"]				= "10";
 $Farming::Crops::PlantData_["Mango", 9, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Mango", 10, "timePerTick"]				= "35000";
+$Farming::Crops::PlantData_["Mango", 10, "timePerTick"]				= "10000";
 $Farming::Crops::PlantData_["Mango", 10, "nextStage"]				= "brickMangoTree11CropData";
 $Farming::Crops::PlantData_["Mango", 10, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Mango", 10, "waterPerTick"]			= "20";
+$Farming::Crops::PlantData_["Mango", 10, "waterPerTick"]			= "30";
 $Farming::Crops::PlantData_["Mango", 10, "numGrowTicks"]			= "10";
 $Farming::Crops::PlantData_["Mango", 10, "numDryTicks"]				= "-1";
 
