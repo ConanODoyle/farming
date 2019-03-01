@@ -18,12 +18,12 @@ function serverCmdMakeLotSingle(%cl)
 			if (!%hit.getDatablock().isSingle)
 			{
 				%hit.setDatablock(brick32x32SingleLotData);
-				messageClient(%cl, '', "\c6Made " @ %owner "\c6's lot single!");
+				messageClient(%cl, '', "\c6Made " @ %owner @ "\c6's lot single!");
 				return;
 			}
 			else
 			{
-				messageClient(%cl, '', %owner "\c6's lot is already single!");
+				messageClient(%cl, '', %owner @ "\c6's lot is already single!");
 				return;	
 			}
 			break;
