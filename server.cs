@@ -18,6 +18,7 @@ exec("./util/disableWrenchAndBuild.cs");
 exec("./util/ipCheck.cs");
 exec("./util/clearScripts.cs");
 exec("./util/dualClient.cs");
+exec("./util/makeLotSingle.cs");
 exec("./util/stuck.cs");
 exec("./util/scorefix.cs");
 exec("./util/stackTypeCheck.cs");
