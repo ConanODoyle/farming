@@ -420,7 +420,7 @@ package BotBuyProduce
 		if (%obj.getClassName() $= "AIPlayer" && !isObject(%obj.client) && %obj.getState() !$= "Dead" && %obj.getDamagePercent() < 1.0)
 		{
 			%itemDB = %col.getDatablock();
-			if (%col.getClassName() $= "Item" && %itemDB.isStackable && %obj.saleType $= "Buy")
+			if (%col.getClassName() $= "Item" && (%itemDB.isStackable || %itemDB.isSellable) && %obj.saleType $= "Buy")
 			{
 				%success = %obj.attemptBuy(%col);
 
