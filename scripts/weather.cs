@@ -288,7 +288,7 @@ function fadeInRain()
 	for (%i = 0; %i < 10; %i++)
 	{
 		%drops = $Rain::numDrops / 10 * (%i + 1);
-		schedule((%i + 1) * 1200, 0, createRain, %drops);
+		schedule((%i + 1) * 800, 0, createRain, %drops);
 	}
 
 	for (%i = 0; %i < 100; %i++)
@@ -306,7 +306,7 @@ function clearRain()
 	for (%i = 0; %i < 10; %i++)
 	{
 		%drops = Rain.numDrops / 10 * (10 - %i);
-		schedule((%i + 1) * 1200, 0, createRain, %drops);
+		schedule((%i + 1) * 800, 0, createRain, %drops);
 	}
 	schedule((%i + 1) * 1200, 0, createRain, 0);
 
@@ -420,13 +420,13 @@ function createRainSound(%vol, %db)
 
 function startRainSound()
 {
-	createRainSound(1, AmbientRainFadeInSound);
-	schedule(4500, 0, createRainSound, 1, AmbientRainSound);
+	schedule(2000, 0, createRainSound, 1, AmbientRainFadeInSound);
+	schedule(6500, 0, createRainSound, 1, AmbientRainSound);
 }
 
 function stopRainSound()
 {
-	createRainSound(1, AmbientRainFadeOutSound);
-	ambientrain.schedule(4800, delete);
+	schedule(3000, ambientRain, createRainSound, 1, AmbientRainFadeOutSound);
+	schedule(7800, 0, eval, "if (isObject(ambientRain)) ambientRain.delete();");
 }
 
