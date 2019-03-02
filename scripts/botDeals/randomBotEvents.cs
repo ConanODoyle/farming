@@ -70,14 +70,14 @@ function AIPlayer::doRandomEventLoop(%bot, %time, %randOptions, %speak)
 			%prefix = "<bitmap:base/data/particles/exclamation><bitmap:base/client/ui/ci/star>";
 			if (%speak)
 			{
-				announce(%prefix @ "\c3" SPC %bot.name @ "\c6: " @ %info);
+				radiusAnnounce(%prefix @ "\c3" SPC %bot.name @ "\c6: " @ %info, %bot.getPosition(), 1000);
 				%timeString = mFloor(%time / 60 + 0.5);
 				%plural = %timeString > 1 ? "s" : "";
-				announce(%prefix @ "\c3" SPC %bot.name @ "\c6: This deal lasts for " @ %timeString @ " minute" @ %plural @ "!");
+				radiusAnnounce(%prefix @ "\c3" SPC %bot.name @ "\c6: This deal lasts for " @ %timeString @ " minute" @ %plural @ "!", %bot.getPosition(), 1000);
 			}
 			else
 			{
-				announce(%prefix @ "\c3" SPC %bot.name @ "\c6: I got some new deals at the market!");
+				radiusAnnounce(%prefix @ "\c3" SPC %bot.name @ "\c6: I got some new deals at the market!", %bot.getPosition(), 1000);
 			}
 		}
 		else

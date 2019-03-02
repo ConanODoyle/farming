@@ -19,6 +19,7 @@ exec("./util/clearScripts.cs");
 exec("./util/dualClient.cs");
 exec("./util/ipCheck.cs");
 exec("./util/makeLotSingle.cs");
+exec("./util/radiusAnnounce.cs");
 exec("./util/scorefix.cs");
 exec("./util/shortcuts.cs");
 exec("./util/stackTypeCheck.cs");
