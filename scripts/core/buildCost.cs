@@ -101,6 +101,11 @@ function sellObject(%b)
 	%db = %b.getDatablock();
 	%cl = %group.client;
 
+	if (%cl.bypassRestrictions)
+	{
+		return;
+	}
+
 	if (%b.createdTimeout < $Sim::Time)
 	{
 		if (%cl.refundRatio <= 0.75)
