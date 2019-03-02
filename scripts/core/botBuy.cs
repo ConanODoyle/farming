@@ -197,7 +197,7 @@ function messageSale(%cl, %money, %count, %type)
 	messageClient(%cl, '', "\c6You received \c2$" @ mFloatLength(%money, 2) @ "\c6 for selling \c3" @ %count SPC %type @ %plural @ "\c6!");
 }
 
-function AIPlayer::startSell(%bot, %cl)
+function AIPlayer::startSell(%bot, %welcome, %cl)
 {
 	if (%bot.saleType !$= "Sell" || !isObject(%cl.player))
 	{
@@ -240,7 +240,11 @@ function AIPlayer::startSell(%bot, %cl)
 	}
 
 	%cost = mFloatLength(%cost, 2);
-	%message = "Howdy! I'm selling " @ %itemDB.uiName @ "s for $" @ %cost @ " each! How many would ya like?";
+	if (%welcome $= "")
+	{
+		%welcome = "Howdy!";
+	}
+	%message = trim(%welcome) SPC "I'm selling " @ %itemDB.uiName @ "s for $" @ %cost @ " each! How many would ya like?";
 	%cl.talkingToDist = vectorDist(%cl.player.getHackPosition(), %bot.getHackPosition());
 	%cl.talkingType = "Buy" TAB %itemDB;
 	%cl.talkingToLoop(%bot);
@@ -253,7 +257,7 @@ function AIPlayer::startSell(%bot, %cl)
 	messageClient(%cl, '', %star @ "\c3" @ (%bot.name $= "" ? "Farmer" : %bot.name) @ "\c6: " @ %message);
 }
 
-registerOutputEvent("Bot", "startSell", "", 1);
+registerOutputEvent("Bot", "startSell", "string 200 100", 1);
 
 function GameConnection::talkingToLoop(%cl, %bot) 
 {
