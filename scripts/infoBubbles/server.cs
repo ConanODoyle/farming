@@ -167,7 +167,7 @@ function popupLoop()
 		}
 	}
 
-	$masterPopupSchedule = schedule(20000, 0, popupLoop);
+	$masterPopupSchedule = schedule(15000, 0, popupLoop);
 }
 
 schedule(10000, 0, popupLoop);
