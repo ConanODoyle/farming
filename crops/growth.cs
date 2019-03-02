@@ -17,11 +17,25 @@ package NoPlantBuild
 		%db = %obj.getDatablock();
 		if (%db.isPlant && !%obj.seedPlant && isEventPending($masterGrowSchedule))
 		{
+			%obj.isPlanted = 0;
 			%obj.schedule(33, delete);
 			return;
 		}
 
 		return parent::onAdd(%obj);
+	}
+	
+	function fxDTSBrick::plant(%obj)
+	{
+		%ret = parent::plant(%obj);
+
+		%db = %obj.getDatablock();
+		if (%db.isPlant && !%obj.seedPlant && isEventPending($masterGrowSchedule)) {
+			%obj.isPlanted = 0;
+			%obj.schedule(0, delete);
+		}
+
+		return %ret;
 	}
 };
 schedule(1000, 0, activatePackage, NoPlantBuild);
