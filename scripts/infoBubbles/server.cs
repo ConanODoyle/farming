@@ -16,7 +16,7 @@ datablock ParticleData(InfoBaseParticle)
 	colors[0]	  = "1 1 1 1";
 	colors[1]	  = "1 1 1 1";
 	colors[2]	  = "1 1 1 1";
-	colors[3]	  = "1 1 1 1";
+	colors[3]	  = "1 1 1 0";
 
 	sizes[0]		= 0;
 	sizes[1]		= 4;
@@ -25,7 +25,7 @@ datablock ParticleData(InfoBaseParticle)
 
 	times[0]		= 0.0;
 	times[1]		= 0.05;
-	times[2]		= 0.1;
+	times[2]		= 0.9;
 	times[3]		= 1;
 };
 
@@ -84,6 +84,7 @@ datablock ProjectileData(InfoBaseProjectile)
 	explodeOnDeath = true;
 };
 
+$InfoBubbles_TypeCount = 0;
 function registerAllInfoParticles()
 {
 	%loc = "Add-ons/Server_Farming/scripts/infoBubbles/*.png";
@@ -97,16 +98,16 @@ function registerAllInfoParticles()
 		%name = stripChars(%name, "(){},.<>?/\\!@#$%^&*:;'\"-+=[]|");
 		// echo("NAME:" SPC %name);
 
-		if (!isObject("Info" @ %name @ "Particle"))
+		if (!isObject("Info" @ %name @ "ParticleA"))
 		{
-			%db = %db @ "datablock ParticleData(Info" @ %name @ "Particle : InfoBaseParticle)";
+			%db = %db @ "datablock ParticleData(Info" @ %name @ "ParticleA : InfoBaseParticle)";
 			%db = %db @ "{";
-			%db = %db @ 	"textureName = \"./" @ %name @ "\";";
+			%db = %db @ 	"textureName = \"Add-ons/Server_Farming/scripts/infoBubbles/" @ %name @ "\";";
 			%db = %db @ "};";
 
 			%db = %db @ "datablock ParticleEmitterData(Info" @ %name @ "Emitter : InfoBaseEmitter)";
 			%db = %db @ "{";
-			%db = %db @ 	"particles = Info" @ %name @ "Particle;";
+			%db = %db @ 	"particles = Info" @ %name @ "ParticleA;";
 			%db = %db @ "};";
 
 			%db = %db @ "datablock ExplosionData(Info" @ %name @ "Explosion : InfoBaseExplosion)";
@@ -152,9 +153,11 @@ function popupLoop()
 			%array[%arrayCount++ - 1] = %id;
 			%bg = getBrickgroupFromObject(%id);
 			if (%id.getClassName() $= "fxDTSBrick" && 
-				(%bg.bl_id == 888888 || %bg.bl_id = 4928))
+				(%bg.bl_id == 888888 || %bg.bl_id == 999999 || %bg.bl_id = 4928))
 			{
-				%id.spawnProjectile("0 0 0", %proj.getID(), "0 0 0", 1);
+				%id.setRaycasting(1);
+				%id.spawnExplosion(%proj.getID(), 2);
+				%id.setRaycasting(0);
 			}
 		}
 
