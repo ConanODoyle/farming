@@ -147,6 +147,7 @@ datablock fxDTSBrickData(brickMassiveWaterTankData)
 	maxDistance = 68;
 };
 
+
 //////////////
 //Greenhouse//
 //////////////
@@ -164,6 +165,26 @@ datablock fxDTSBrickData(brickGreenhouseData)
 	isGreenhouse = 1;
 
 	cost = 4000;
+};
+
+
+///////////////
+//Shop Bricks//
+///////////////
+
+datablock fxDTSBrickData(brickShopStallData)
+{
+	category = "Farming";
+	subCategory = "Extra";
+	uiName = "Shop Stall";
+
+	brickFile = "./bricks/shopBrick.blb";
+
+	// iconName = "Add-Ons/Server_Farming/crops/icons/greenhouse";
+
+	isShopBrick = 1;
+
+	cost = -1;
 };
 
 
