@@ -45,3 +45,23 @@ datablock AudioProfile(AmbientSeaWavesSound)
 	preload = true;
 	uiName = "Sea Cliff";
 };
+
+
+
+
+
+datablock AudioProfile(UFOHoverSound)
+{
+	filename = "./Hover.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "UFO Hover";
+};
+
+datablock AudioProfile(SpicyItalianThrowSound) 
+{
+	filename = "./spicyitalian_throw.wav";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "";
+};
