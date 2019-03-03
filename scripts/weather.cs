@@ -6,9 +6,9 @@ if (!isObject(RainFillSimSet))
 	$RainFillSimSet = new SimSet(RainFillSimSet){ };
 }
 
-$rainChance = 0.003;
+$rainChance = 0.0025;
 $noRainModifier = 0.0001;
-$heatWaveChance = 0.005;
+$heatWaveChance = 0.0055;
 $heatWaveRainReduction = 0.0005;
 
 function rainCheckLoop()
@@ -138,12 +138,15 @@ function startHeatWave()
 	// talk("currChance: " @ %currChance + $rainKeepModifier / %HeatWaveTicks);
 	// talk("rand: " @ %rand);
 	$HeatWaveTicksLeft = %HeatWaveTicks;
+	schedule(5000, 0, heatLoop, 0);
 }
 
 function stopHeatWave()
 {
 	%targetVigColor = "0 0 0";
 	gradualVignetteColorshift(getWord(%targetVigColor, 0), getWord(%targetVigColor, 1), getWord(%targetVigColor, 2), 10000);
+
+	cancel($masterHeatLoop);
 
 	$isHeatWave = 0;
 	$HeatWaveTicksLeft = 0;
@@ -359,11 +362,11 @@ function rainLoop(%index)
 			{
 				if (%db.isDirt)
 				{
-					%brick.setWaterLevel(%brick.waterLevel + 30 * %numTimes);
+					%brick.setWaterLevel(%brick.waterLevel + 40 * %numTimes);
 				}
 				else if (%db.isWaterTank && !isObject(%ray))
 				{
-					%brick.setWaterLevel(%brick.waterLevel + 50 * %numTimes); //%db.maxWater * %numTimes / 500);
+					%brick.setWaterLevel(%brick.waterLevel + 30 * %numTimes); //%db.maxWater * %numTimes / 500);
 				}
 			}
 			%brick.nextRain = $Sim::Time + 2;
@@ -373,6 +376,60 @@ function rainLoop(%index)
 	}
 
 	$masterRainLoop = schedule(33, 0, rainLoop, %index - %totalBricksProcessed);
+}
+
+function heatLoop(%index)
+{
+	cancel($masterHeatLoop);
+
+	if (%index < 0)
+	{
+		%index = RainFillSimSet.getCount() - 1;
+	}
+	else if (%index > RainFillSimSet.getCount() - 1)
+	{
+		%index = RainFillSimSet.getCount() - 1;
+	}
+	// echo("CurrIndex: " @ %index);
+
+	%max = 16;
+	for (%i = 0; %i < %max; %i++)
+	{
+		if (%i > %index) //we reached end of plant simset
+		{
+			break;
+		}
+		%brick = RainFillSimSet.getObject(%index - %i);
+
+		if (%brick.nextHeat $= "")
+		{
+			%brick.nextHeat = $Sim::Time;
+		}
+
+		%db = %brick.getDatablock();
+		%ray = %brick.getPosition();
+		%ray = containerRaycast(%ray, vectorAdd(%ray, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
+		if (%brick.nextHeat < $Sim::Time)
+		{
+			%numTimes = mFloor(($Sim::Time - %brick.nextHeat) / 2) + 1;
+			if (!%brick.inGreenhouse && %brick.waterLevel > %db.maxWater)
+			{
+				if (%db.isDirt)
+				{
+					%brick.setWaterLevel(%brick.waterLevel - 5 * %numTimes);
+				}
+				else if (%db.isWaterTank && !isObject(%ray))
+				{
+					%brick.setWaterLevel(%brick.waterLevel - 10 * %numTimes); //%db.maxWater * %numTimes / 500);
+				}
+			}
+			%brick.nextHeat = $Sim::Time + 2;
+		}
+		
+		%totalBricksProcessed++;
+	}
+
+	$masterHeatLoop = schedule(33, 0, heatLoop, %index - %totalBricksProcessed);
 }
 
 package rainPackage
