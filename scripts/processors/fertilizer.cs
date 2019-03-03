@@ -187,6 +187,8 @@ datablock fxDTSBrickData(brickCompostBinData)
 
 	brickFile = "./resources/compostBin.blb";
 
+	iconName = "Add-Ons/Server_Farming/crops/icons/compost_bin";
+
 	cost = 800;
 	isProcessor = 1;
 	processorFunction = "processIntoFertilizer";
