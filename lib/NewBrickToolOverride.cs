@@ -1,4 +1,8 @@
 //override package to add builder-only-support for newbricktool
+if (!isPackage(NewBrickTool)) //port's new brick tool isnt enabled
+{
+    return;
+}
 
 package NewBrickTool
 {
