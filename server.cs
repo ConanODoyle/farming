@@ -54,6 +54,7 @@ exec("./scripts/core/builder.cs");
 exec("./scripts/modules.cs");
 
 exec("./scripts/chatFilter.cs");
+exec("./scripts/chestScore.cs");
 exec("./scripts/donator.cs");
 exec("./scripts/lots.cs");
 exec("./scripts/wateringCat.cs");
