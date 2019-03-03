@@ -32,7 +32,7 @@ datablock fxDTSBrickData(brickFlowerPotDirtData : brick1x1Data)
 
 	brickFile = "./bricks/flowerPot.blb";
 
-	iconName = "";
+	iconName = "Add-Ons/Server_Farming/crops/icons/flower_pot";
 
 	cost = 80;
 	isDirt = 1;
@@ -49,7 +49,7 @@ datablock fxDTSBrickData(brick4xPlanterDirtData : brick1x1Data)
 
 	brickFile = "./bricks/4xPlanter.blb";
 
-	iconName = "";
+	iconName = "Add-Ons/Server_Farming/crops/icons/4x_planter";
 
 	cost = 150;
 	isDirt = 1;
@@ -71,6 +71,8 @@ datablock fxDTSBrickData(brickSmallWaterTankData)
 
 	brickFile = "./bricks/smallWaterTank.blb";
 
+	iconName = "Add-Ons/Server_Farming/crops/icons/small_water_tank";
+
 	cost = 200;
 	isWaterTank = 1;
 	maxWater = 5000;
@@ -83,6 +85,8 @@ datablock fxDTSBrickData(brickSmallWaterInfiniteTankData)
 	uiName = "Infinite Small Water Tank";
 
 	brickFile = "./bricks/smallWaterTank.blb";
+
+	iconName = "Add-Ons/Server_Farming/crops/icons/small_water_tank";
 
 	cost = -1;
 	isInfiniteWaterSource = 1;
@@ -100,6 +104,8 @@ datablock fxDTSBrickData(brickMediumWaterTankData)
 
 	brickFile = "./bricks/medWaterTank.blb";
 
+	iconName = "Add-Ons/Server_Farming/crops/icons/medium_water_tank";
+
 	cost = 800;
 	isWaterTank = 1;
 	maxWater = 25000;
@@ -115,6 +121,8 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 
 	brickFile = "./bricks/largeWaterTank.blb";
 
+	iconName = "Add-Ons/Server_Farming/crops/icons/large_water_tank";
+
 	cost = 2200;
 	isWaterTank = 1;
 	maxWater = 75000;
@@ -129,6 +137,8 @@ datablock fxDTSBrickData(brickMassiveWaterTankData)
 	uiName = "Massive Water Tank";
 
 	brickFile = "./bricks/massiveWaterTank.blb";
+
+	iconName = "Add-Ons/Server_Farming/crops/icons/massive_water_tank";
 
 	cost = 4000;
 	isWaterTank = 1;
@@ -149,6 +159,8 @@ datablock fxDTSBrickData(brickGreenhouseData)
 
 	brickFile = "./bricks/Greenhouse.blb";
 
+	iconName = "Add-Ons/Server_Farming/crops/icons/greenhouse";
+
 	isGreenhouse = 1;
 
 	cost = 4000;
@@ -167,6 +179,8 @@ datablock fxDTSBrickData(brickStorageCrateData)
 
 	brickFile = "./bricks/storageCrate.blb";
 
+	iconName = "Add-Ons/Server_Farming/crops/icons/storage_crate";
+
 	isStorageBrick = 1;
 	storageBonus = 1;
 
@@ -180,6 +194,8 @@ datablock fxDTSBrickData(brickSiloData)
 	uiName = "Silo (6x Storage)";
 
 	brickFile = "./bricks/Silo.blb";
+
+	iconName = "Add-Ons/Server_Farming/crops/icons/silo_(6x_storage)";
 
 	isStorageBrick = 1;
 	storageBonus = 6;
@@ -200,6 +216,8 @@ datablock fxDTSBrickData(brickSmallSprinklerData)
 
 	brickFile = "./sprinklers/smallSprinkler.blb";
 
+	iconName = "Add-Ons/Server_Farming/crops/icons/small_sprinkler";
+
 	cost = 200;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
@@ -214,6 +232,8 @@ datablock fxDTSBrickData(brickSmallSprinklerDownData)
 	uiName = "Small Sprinkler Down";
 
 	brickFile = "./sprinklers/smallSprinklerDown.blb";
+
+	iconName = "Add-Ons/Server_Farming/crops/icons/small_sprinkler_down";
 
 	cost = 200;
 	isSprinkler = 1;
@@ -231,6 +251,8 @@ datablock fxDTSBrickData(brickMedSprinklerData)
 
 	brickFile = "./sprinklers/MedSprinkler.blb";
 
+	iconName = "Add-Ons/Server_Farming/crops/icons/medium_sprinkler";
+
 	cost = 800;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
@@ -245,6 +267,8 @@ datablock fxDTSBrickData(brickLargeSprinklerData)
 	uiName = "Large Sprinkler";
 
 	brickFile = "./sprinklers/LargeSprinkler.blb";
+
+	iconName = "Add-Ons/Server_Farming/crops/icons/large_sprinkler";
 
 	cost = 1500;
 	isSprinkler = 1;
@@ -261,6 +285,8 @@ datablock fxDTSBrickData(brickDripLineData)
 
 	brickFile = "./sprinklers/DripLine.blb";
 
+	iconName = "Add-Ons/Server_Farming/crops/icons/drip_line";
+
 	cost = 50;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.2";
@@ -276,6 +302,8 @@ datablock fxDTSBrickData(brickStraightSprinklerData)
 
 	brickFile = "./sprinklers/StraightSprinkler.blb";
 
+	iconName = "Add-Ons/Server_Farming/crops/icons/straight_sprinkler";
+
 	cost = 600;
 	isSprinkler = 1;
 	directionalOffset = "4.5 0 -0.3";
@@ -290,6 +318,8 @@ datablock fxDTSBrickData(brickSwaySprinklerData)
 	uiName = "Sway Sprinkler";
 
 	brickFile = "./sprinklers/SwaySprinkler.blb";
+
+	iconName = "Add-Ons/Server_Farming/crops/icons/sway_sprinkler";
 
 	cost = 700;
 	isSprinkler = 1;
