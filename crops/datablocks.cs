@@ -32,7 +32,7 @@ datablock fxDTSBrickData(brickFlowerPotDirtData : brick1x1Data)
 
 	brickFile = "./bricks/flowerPot.blb";
 
-	iconName = "./icons/flower_pot";
+	iconName = "Add-Ons/Server_Farming/icons/flower_pot";
 
 	cost = 80;
 	isDirt = 1;
@@ -49,7 +49,7 @@ datablock fxDTSBrickData(brick4xPlanterDirtData : brick1x1Data)
 
 	brickFile = "./bricks/4xPlanter.blb";
 
-	iconName = "./icons/4x_planter";
+	iconName = "Add-Ons/Server_Farming/icons/4x_planter";
 
 	cost = 150;
 	isDirt = 1;
@@ -71,7 +71,7 @@ datablock fxDTSBrickData(brickSmallWaterTankData)
 
 	brickFile = "./bricks/smallWaterTank.blb";
 
-	iconName = "./icons/small_water_tank";
+	iconName = "Add-Ons/Server_Farming/icons/small_water_tank";
 
 	cost = 200;
 	isWaterTank = 1;
@@ -86,7 +86,7 @@ datablock fxDTSBrickData(brickSmallWaterInfiniteTankData)
 
 	brickFile = "./bricks/smallWaterTank.blb";
 
-	iconName = "./icons/small_water_tank";
+	iconName = "Add-Ons/Server_Farming/icons/small_water_tank";
 
 	cost = -1;
 	isInfiniteWaterSource = 1;
@@ -104,7 +104,7 @@ datablock fxDTSBrickData(brickMediumWaterTankData)
 
 	brickFile = "./bricks/medWaterTank.blb";
 
-	iconName = "./icons/medium_water_tank";
+	iconName = "Add-Ons/Server_Farming/icons/medium_water_tank";
 
 	cost = 800;
 	isWaterTank = 1;
@@ -121,7 +121,7 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 
 	brickFile = "./bricks/largeWaterTank.blb";
 
-	iconName = "./icons/large_water_tank";
+	iconName = "Add-Ons/Server_Farming/icons/large_water_tank";
 
 	cost = 2200;
 	isWaterTank = 1;
@@ -138,7 +138,7 @@ datablock fxDTSBrickData(brickMassiveWaterTankData)
 
 	brickFile = "./bricks/massiveWaterTank.blb";
 
-	iconName = "./icons/massive_water_tank";
+	iconName = "Add-Ons/Server_Farming/icons/massive_water_tank";
 
 	cost = 4000;
 	isWaterTank = 1;
@@ -159,7 +159,7 @@ datablock fxDTSBrickData(brickGreenhouseData)
 
 	brickFile = "./bricks/Greenhouse.blb";
 
-	iconName = "./icons/greenhouse";
+	iconName = "Add-Ons/Server_Farming/icons/greenhouse";
 
 	isGreenhouse = 1;
 
@@ -179,7 +179,7 @@ datablock fxDTSBrickData(brickStorageCrateData)
 
 	brickFile = "./bricks/storageCrate.blb";
 
-	iconName = "./icons/storage_crate";
+	iconName = "Add-Ons/Server_Farming/icons/storage_crate";
 
 	isStorageBrick = 1;
 	storageBonus = 1;
@@ -195,7 +195,7 @@ datablock fxDTSBrickData(brickSiloData)
 
 	brickFile = "./bricks/Silo.blb";
 
-	iconName = "./icons/silo_(6x_storage)";
+	iconName = "Add-Ons/Server_Farming/icons/silo_(6x_storage)";
 
 	isStorageBrick = 1;
 	storageBonus = 6;
@@ -216,7 +216,7 @@ datablock fxDTSBrickData(brickSmallSprinklerData)
 
 	brickFile = "./sprinklers/smallSprinkler.blb";
 
-	iconName = "./icons/small_sprinkler";
+	iconName = "Add-Ons/Server_Farming/icons/small_sprinkler";
 
 	cost = 200;
 	isSprinkler = 1;
@@ -233,7 +233,7 @@ datablock fxDTSBrickData(brickSmallSprinklerDownData)
 
 	brickFile = "./sprinklers/smallSprinklerDown.blb";
 
-	iconName = "./icons/small_sprinkler_down";
+	iconName = "Add-Ons/Server_Farming/icons/small_sprinkler_down";
 
 	cost = 200;
 	isSprinkler = 1;
@@ -251,7 +251,7 @@ datablock fxDTSBrickData(brickMedSprinklerData)
 
 	brickFile = "./sprinklers/MedSprinkler.blb";
 
-	iconName = "./icons/medium_sprinkler";
+	iconName = "Add-Ons/Server_Farming/icons/medium_sprinkler";
 
 	cost = 800;
 	isSprinkler = 1;
@@ -268,7 +268,7 @@ datablock fxDTSBrickData(brickLargeSprinklerData)
 
 	brickFile = "./sprinklers/LargeSprinkler.blb";
 
-	iconName = "./icons/large_sprinkler";
+	iconName = "Add-Ons/Server_Farming/icons/large_sprinkler";
 
 	cost = 1500;
 	isSprinkler = 1;
@@ -285,7 +285,7 @@ datablock fxDTSBrickData(brickDripLineData)
 
 	brickFile = "./sprinklers/DripLine.blb";
 
-	iconName = "./icons/drip_line";
+	iconName = "Add-Ons/Server_Farming/icons/drip_line";
 
 	cost = 50;
 	isSprinkler = 1;
@@ -302,7 +302,7 @@ datablock fxDTSBrickData(brickStraightSprinklerData)
 
 	brickFile = "./sprinklers/StraightSprinkler.blb";
 
-	iconName = "./icons/straight_sprinkler";
+	iconName = "Add-Ons/Server_Farming/icons/straight_sprinkler";
 
 	cost = 600;
 	isSprinkler = 1;
@@ -319,7 +319,7 @@ datablock fxDTSBrickData(brickSwaySprinklerData)
 
 	brickFile = "./sprinklers/SwaySprinkler.blb";
 
-	iconName = "./icons/sway_sprinkler";
+	iconName = "Add-Ons/Server_Farming/icons/sway_sprinkler";
 
 	cost = 700;
 	isSprinkler = 1;
