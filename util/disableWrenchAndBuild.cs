@@ -133,7 +133,7 @@ package disableWrenchData
 		{
 			%db = %pl.tempBrick.getDatablock();
 			if ((%db.category $= "Baseplates" && %db.subCategory !$= "Plain") || %db.subCategory $= "Drinks" || %db.subCategory $= "Holes"
-				|| %db.uiName $= "Treasure Chest" || %db.isLot || %db.musicDescription !$= "")
+				|| %db.uiName $= "Treasure Chest" || %db.isLot || %db.isTeledoor || %db.musicDescription !$= "")
 			{
 				if (%db.subCategory $= "Cube" && getWord(%db.uiname, 0) < 16)
 				{
@@ -142,7 +142,7 @@ package disableWrenchData
 				messageClient(%cl, '', "You cannot plant " @ %db.uiname @ " bricks!");
 				if (%db.isLot)
 				{
-					messageClient(%cl, '', "Find an empty single lot (red) and do /buylot to purchase a lot!");
+					messageClient(%cl, '', "Find an empty single lot (red-colored) and do /buylot to purchase a lot!");
 				}
 				serverCmdCancelBrick(%cl);
 				return;
