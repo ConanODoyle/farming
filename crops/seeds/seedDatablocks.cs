@@ -155,8 +155,8 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 					continue;
 				}
 
-				%xDiff = mAbs(getWord(%nextPos, 0) - getWord(%pos, 0));
-				%yDiff = mAbs(getWord(%nextPos, 1) - getWord(%pos, 1));
+				%xDiff = mAbs(getWord(%nextPos, 0) - getWord(%pos, 0)) + %inGreenhouse * 0.5;
+				%yDiff = mAbs(getWord(%nextPos, 1) - getWord(%pos, 1)) + %inGreenhouse * 0.5;
 
 				// talk(%xDiff SPC %yDiff);
 				// talk("rad: " @ %rad @ " pRad: " @ %plantRad);

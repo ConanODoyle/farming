@@ -140,9 +140,7 @@ function PlanterImage::onLoop(%this, %obj, %slot)
 	}
 }
 
-
-
-function testPlanterFire(%this, %obj, %slot)
+function PlanterImage::onFire(%this, %obj, %slot)
 {
 	%obj.playThread(0, plant);
 
@@ -192,7 +190,7 @@ function testPlanterFire(%this, %obj, %slot)
 		%plantMax = %this.min;
 		%originalCurrTool = %obj.currTool;
 
-		talk("planter found " @ %count);
+		// talk("planter found " @ %count);
 		for (%i = 0; %i < %count; %i++)
 		{
 			%currSlot = getField(%seed[%i], 0);
@@ -205,16 +203,18 @@ function testPlanterFire(%this, %obj, %slot)
 			%obj.currTool = %currSlot;
 
 			%plantingSpace = vectorScale(%plantingDir, %plantRadius);
-			talk("Planting items idx: " @ %i);
+			// talk("Planting items idx: " @ %i @ " currPlantcount: " @ %plantCount);
+			// talk("type: " @ %currStackType @ " count: " @ %currStackCount);
 			if (%plantCount < %plantMax)
 			{
-				for (%j = 0; %j < getMin(%currStackCount, %plantMax - %plantCount); %j++)
+				%total = getMin(%currStackCount, %plantMax - %plantCount);
+				for (%j = 0; %j < %total; %j++)
 				{
 					if (%plantCount > 0)
 					{
 						%hitloc = vectorAdd(%hitloc, %plantingSpace);
 					}
-					%valid = plantCrop(%item.image, %obj, "", %hitloc);
+					%valid = plantCrop(%curritem.image, %obj, "", %hitloc);
 					if (!%valid) //could not plant, immediately exit
 					{
 						%obj.currTool = %originalCurrTool;
@@ -224,6 +224,7 @@ function testPlanterFire(%this, %obj, %slot)
 					// %shape = createBoxAt(%hitloc, "1 0 0 1", 0.1);
 					// %shape.schedule(2000, delete);
 				}
+				// talk("currPlantcount: " @ %plantCount);
 			}
 			else //plantcount >= plantMax,  we maxed out
 			{
