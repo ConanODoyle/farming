@@ -45,6 +45,17 @@ datablock fxDTSBrickData(brickChili3CropData)
 	isPlant = 1;
 };
 
+datablock fxDTSBrickData(brickChili4CropData)
+{
+	uiName = "Chili4";
+
+	brickFile = "./bricks/Chili4.blb";
+	cropType = "Chili";
+	stage = 4;
+	isPlant = 1;
+};
+
+
 
 //pokey
 datablock fxDTSBrickData(brickCactus0CropData)

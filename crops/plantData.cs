@@ -46,7 +46,7 @@ $Farming::Crops::PlantData_["Potato", "plantingExperience"]			= "2";
 $Farming::Crops::PlantData_["Potato", 0, "timePerTick"]				= "4000";
 $Farming::Crops::PlantData_["Potato", 0, "nextStage"]				= "brickPotato1CropData";
 $Farming::Crops::PlantData_["Potato", 0, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Potato", 0, "waterPerTick"]			= "1";
+$Farming::Crops::PlantData_["Potato", 0, "waterPerTick"]			= "2";
 $Farming::Crops::PlantData_["Potato", 0, "numGrowTicks"]			= "5";
 $Farming::Crops::PlantData_["Potato", 0, "numDryTicks"]				= "-1";
 
@@ -55,7 +55,7 @@ $Farming::Crops::PlantData_["Potato", 0, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Potato", 1, "timePerTick"]				= "4000";
 $Farming::Crops::PlantData_["Potato", 1, "nextStage"]				= "brickPotato2CropData";
 $Farming::Crops::PlantData_["Potato", 1, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Potato", 1, "waterPerTick"]			= "1";
+$Farming::Crops::PlantData_["Potato", 1, "waterPerTick"]			= "2";
 $Farming::Crops::PlantData_["Potato", 1, "numGrowTicks"]			= "5";
 $Farming::Crops::PlantData_["Potato", 1, "numDryTicks"]				= "-1";
 
@@ -301,7 +301,7 @@ $Farming::Crops::PlantData_["Cabbage", "heatWaveTimeModifier"]			= "1";
 $Farming::Crops::PlantData_["Cabbage", "heatWaveWaterModifier"]			= "2";
 $Farming::Crops::PlantData_["Cabbage", "rainTimeModifier"]				= "1";
 $Farming::Crops::PlantData_["Cabbage", "rainWaterModifier"]				= "0.5";
-$Farming::Crops::PlantData_["Cabbage", "plantSpace"]				= "2";
+$Farming::Crops::PlantData_["Cabbage", "plantSpace"]				= "3";
 $Farming::Crops::PlantData_["Cabbage", "experienceRequired"]		= "400";
 $Farming::Crops::PlantData_["Cabbage", "harvestExperience"]			= "0";
 $Farming::Crops::PlantData_["Cabbage", "plantingExperience"]		= "1";

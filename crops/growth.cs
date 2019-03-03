@@ -179,24 +179,24 @@ function doGrowCalculations(%brick, %db)
 
 	if (%greenhouseFound) //halve the water usage due to double growth time
 	{
-		%waterReq = mFloor(%waterReq / 2);
+		%waterReq = mCeil(%waterReq / 2);
 	}
 	
 	if ($isRaining)
 	{
 		if (!%greenhouseFound)
 		{
-			%waterReq = mFloor(%waterReq * $Farming::Crops::PlantData_["rainWaterModifier"]);
+			%waterReq = mCeil(%waterReq * $Farming::Crops::PlantData_[%type, "rainWaterModifier"]);
 		}
-		%tickTime = mFloor(%tickTime * $Farming::Crops::PlantData_["rainTimeModifier"]);
+		%tickTime = mCeil(%tickTime * $Farming::Crops::PlantData_[%type, "rainTimeModifier"]);
 	}
 	else if ($isHeatWave)
 	{
 		if (!%greenhouseFound)
 		{
-			%waterReq = mFloor(%waterReq * $Farming::Crops::PlantData_["heatWaveWaterModifier"]);
+			%waterReq = mCeil(%waterReq * $Farming::Crops::PlantData_[%type, "heatWaveWaterModifier"]);
 		}
-		%tickTime = mFloor(%tickTime * $Farming::Crops::PlantData_["heatWaveTimeModifier"]);
+		%tickTime = mCeil(%tickTime * $Farming::Crops::PlantData_[%type, "heatWaveTimeModifier"]);
 	}
 
 	if (%db.brickSizeX % 2 == 1)

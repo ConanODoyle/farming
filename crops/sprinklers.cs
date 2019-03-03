@@ -49,7 +49,7 @@ function sprinklerTick(%index)
 		if (%brick.age $= "")
 		{
 			%brick.age = $Sim::Time;
-			echo("Initialized " @ %brick @ " age");
+			// echo("Initialized " @ %brick @ " age");
 		}
 		if (%brick.age + 60 < $Sim::Time)
 		{

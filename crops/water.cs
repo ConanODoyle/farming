@@ -28,7 +28,6 @@ function fxDTSBrick::setWaterLevel(%b, %amt)
 			}
 		}
 		%b.setWaterColor = 1;
-		echo("Setting color");
 		%b.setColor($DirtWaterColor[%best + 0]);
 		%b.setWaterColor = 0;
 	}
