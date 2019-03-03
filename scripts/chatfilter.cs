@@ -1,4 +1,4 @@
-$slurs = "nigger autism";
+$slurs = "nigger";
 $warningExpireTime = 2 * 60;
 
 package chatFilter
