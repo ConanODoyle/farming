@@ -7,7 +7,8 @@ package noDualClienting
 			%t = Clientgroup.getObject(%i);
 			if (%t != %cl && %t.bl_id == %cl.bl_id)
 			{
-				%cl.delete("No dual clienting allowed!");
+				%t.savePersistence();
+				%t.delete("No dual clienting allowed!");
 				return;
 			}
 		}
