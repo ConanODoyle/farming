@@ -50,6 +50,26 @@ datablock AudioProfile(AmbientSeaWavesSound)
 
 
 
+datablock AudioProfile(AmbientUndergroundSound)
+{
+	filename = "./Desert/desert_growling.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Desert Underground";
+};
+
+datablock AudioProfile(AmbientRustlingSound)
+{
+	filename = "./Desert/desert_rustling.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Desert Rustling";
+};
+
+
+
+
+
 datablock AudioProfile(UFOHoverSound)
 {
 	filename = "./Hover.ogg";
