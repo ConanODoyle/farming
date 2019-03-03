@@ -45,7 +45,7 @@ function AIPlayer::talkProduceInfo(%bot, %cl)
 
 	if (%bot.saleType $= "Sell")
 	{
-		%bot.startSell(%cl);
+		%bot.startSell("", %cl);
 		messageClient(%cl, '', %star @ "\c3" @ (%bot.name $= "" ? "Farmer" : %bot.name) @ "\c6: " @ %timeLeftMsg);
 		return;
 	}

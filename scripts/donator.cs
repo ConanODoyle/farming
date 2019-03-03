@@ -10,7 +10,6 @@ $isVIP_["12027"] 	= 1 TAB "Sentry";
 $isVIP_["4382"] 	= 1 TAB "Skill4Life";
 $isVIP_["2227"] 	= 1 TAB "The Brighter Dark";
 $isVIP_["10661"] 	= 1 TAB "Dart";
-$isVIP_["3898"] 	= 1 TAB "The Titanium (Donator but only wants join/reroll perks)";
 $isVIP_["51914"] 	= 1 TAB "MARBLE MAN";
 $isVIP_["9373"] 	= 1 TAB "Smallguy";
 $isVIP_["33468"] 	= 1 TAB "Wolfly";
@@ -24,6 +23,7 @@ $isDonator_["23751"] 	= 1 TAB "Shy_Guy";
 $isDonator_["3306"] 	= 1 TAB "Mr.LoL";
 $isDonator_["256895"]	= 1 TAB "YetiBTW";
 $isDonator_["42119"]	= 1 TAB "Motortruck";
+$isDonator_["3898"] 	= 1 TAB "The Titanium (Donator but only wants join/reroll perks)";
 
 $isBetaTester_["30881"] 	= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"] 	= 1 TAB "Queuenard";
@@ -69,10 +69,16 @@ function checkIfVIP(%bl_id)
 
 function applyDonatorSettings(%cl)
 {
-	%cl.nameColor = "0.95 0.85 0";
 	// %cl.messagePrefix = "<shadow:4:4><shadowcolor:303030><color:ffffff>";
-	%cl.isDonator = 1;
-	messageAll('', "<bitmap:base/client/ui/ci/star> \c3" @ %cl.name @ "\c6 is a donator!");
+	%cl.canWearHats = 1;
+	%cl.canRefreshDeal = 1;
+
+	if (%cl.name !$= "The Titanium")
+	{
+		%cl.isDonator = 1;
+		%cl.nameColor = "0.95 0.85 0";
+		messageAll('', "<bitmap:base/client/ui/ci/star> \c3" @ %cl.name @ "\c6 is a donator!");
+	}
 	chatMessageClient(%cl, '', "You are now able to use /refreshDeal and /hat!");
 }
 
@@ -251,7 +257,7 @@ package Donators
 
 	function serverCmdHat(%cl, %a, %b, %c, %d, %e)
 	{
-		if (!%cl.isDonator)
+		if (!%cl.canWearHats)
 		{
 			messageClient(%cl, '', "You must be a donator to wear hats!");
 			return;

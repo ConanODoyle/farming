@@ -70,14 +70,14 @@ function AIPlayer::doRandomEventLoop(%bot, %time, %randOptions, %speak)
 			%prefix = "<bitmap:base/data/particles/exclamation><bitmap:base/client/ui/ci/star>";
 			if (%speak)
 			{
-				radiusAnnounce(%prefix @ "\c3" SPC %bot.name @ "\c6: " @ %info, %bot.getPosition(), 800);
+				radiusAnnounce(%prefix @ "\c3" SPC %bot.name @ "\c6: " @ %info, %bot.getPosition(), 1000);
 				%timeString = mFloor(%time / 60 + 0.5);
 				%plural = %timeString > 1 ? "s" : "";
-				radiusAnnounce(%prefix @ "\c3" SPC %bot.name @ "\c6: This deal lasts for " @ %timeString @ " minute" @ %plural @ "!", %bot.getPosition(), 800);
+				radiusAnnounce(%prefix @ "\c3" SPC %bot.name @ "\c6: This deal lasts for " @ %timeString @ " minute" @ %plural @ "!", %bot.getPosition(), 1000);
 			}
 			else
 			{
-				radiusAnnounce(%prefix @ "\c3" SPC %bot.name @ "\c6: I got some new deals at the market!", %bot.getPosition(), 800);
+				radiusAnnounce(%prefix @ "\c3" SPC %bot.name @ "\c6: I got some new deals at the market!", %bot.getPosition(), 1000);
 			}
 		}
 		else
@@ -148,7 +148,7 @@ function AIPlayer::refreshOption(%bot, %cl)
 
 function serverCmdRefreshDeal(%cl)
 {
-	if (!%cl.isDonator)
+	if (!%cl.canRefreshDeal)
 	{
 		messageClient(%cl, '', "You must be a donator to do this! <a:https://forum.blockland.us/index.php?topic=322462.0>Check the topic for the donation link!</a>");
 		return;
