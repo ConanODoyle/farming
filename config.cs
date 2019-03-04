@@ -95,7 +95,7 @@ $Produce::BuyCost_["Fertilizer"] = 3.00;
 //Normal item prices defined in their datablock
 $ItemCount = 0;
 
-$ItemList_[$ItemCount++ - 1]  = "WateringCan2Item" TAB  140;
+$ItemList_[$ItemCount++ - 1]  = "WateringCan2Item" TAB  120;
 $ItemList_[$ItemCount++ - 1]  = "WateringCan3Item" TAB  120;
 $ItemList_[$ItemCount++ - 1]  = "HoseItem" TAB      50;
 $ItemList_[$ItemCount++ - 1]  = "HoseV2Item" TAB      20;
@@ -104,7 +104,7 @@ $ItemList_[$ItemCount++ - 1]  = "ClipperItem" TAB     50;
 $ItemList_[$ItemCount++ - 1]  = "HoeItem" TAB       35;
 $ItemList_[$ItemCount++ - 1]  = "SickleItem" TAB      35;
 $ItemList_[$ItemCount++ - 1]  = "PlanterItem" TAB     25;
-$ItemList_[$ItemCount++ - 1]  = "PlanterV2Item" TAB   20;
+$ItemList_[$ItemCount++ - 1]  = "PlanterV2Item" TAB   15;
 $ItemList_[$ItemCount++ - 1]  = "ReclaimerItem" TAB   20;
 $ItemList_[$ItemCount++ - 1]  = "WateringCatItem" TAB   5;
 
