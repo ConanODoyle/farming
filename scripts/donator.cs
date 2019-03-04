@@ -25,6 +25,8 @@ $isDonator_["256895"]	= 1 TAB "YetiBTW";
 $isDonator_["42119"]	= 1 TAB "Motortruck";
 $isDonator_["3898"] 	= 1 TAB "The Titanium (Donator but only wants join/reroll perks)";
 $isDonator_["33688"] 	= 1 TAB "Redconer";
+$isDonator_["5518"] 	= 1 TAB "L";
+$isDonator_["27312"] 	= 1 TAB "FlavouredGames";
 
 $isBetaTester_["30881"] 	= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"] 	= 1 TAB "Queuenard";
@@ -78,9 +80,14 @@ function applyDonatorSettings(%cl)
 	{
 		%cl.isDonator = 1;
 		%cl.nameColor = "0.95 0.85 0";
+		if (isObject(%cl.player))
+		{
+			%cl.player.setShapeNameColor(%cl.nameColor);
+		}
 		messageAll('', "<bitmap:base/client/ui/ci/star> \c3" @ %cl.name @ "\c6 is a donator!");
 	}
 	chatMessageClient(%cl, '', "You are now able to use /refreshDeal and /hat!");
+	echo("Applied donator settings to " @ %cl.getPlayerName());
 }
 
 function applyBetaTesterSettings(%cl)
