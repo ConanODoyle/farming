@@ -40,17 +40,17 @@ $Produce::BuyCost_["Mango"] = 14.00;
 
 $Produce::BuyCost_["Chili"] = 3.00;
 $Produce::BuyCost_["Cactus"] = 5.00;
-
+//big buyer
 $ProduceList_[$ProduceCount++ - 1]  = "Potato" TAB    60;
 $ProduceList_[$ProduceCount++ - 1]  = "Carrot" TAB    70;
 $ProduceList_[$ProduceCount++ - 1]  = "Tomato" TAB    60;
-$ProduceList_[$ProduceCount++ - 1]  = "Corn" TAB    30;
+$ProduceList_[$ProduceCount++ - 1]  = "Corn" TAB    40;
 $ProduceList_[$ProduceCount++ - 1]  = "Cabbage" TAB   15;
-$ProduceList_[$ProduceCount++ - 1]  = "Onion" TAB   40;
-$ProduceList_[$ProduceCount++ - 1]  = "Blueberry" TAB 10;//10;
-$ProduceList_[$ProduceCount++ - 1]  = "Turnip" TAB    6;//10;
-$ProduceList_[$ProduceCount++ - 1]  = "Apple" TAB   6;
-$ProduceList_[$ProduceCount++ - 1]  = "Mango" TAB   6;
+$ProduceList_[$ProduceCount++ - 1]  = "Onion" TAB   50;
+$ProduceList_[$ProduceCount++ - 1]  = "Blueberry" TAB 8;//10;
+$ProduceList_[$ProduceCount++ - 1]  = "Turnip" TAB    8;//10;
+$ProduceList_[$ProduceCount++ - 1]  = "Apple" TAB   8;
+$ProduceList_[$ProduceCount++ - 1]  = "Mango" TAB   4;
 $ProduceList_[$ProduceCount++ - 1]  = "Chili" TAB   0;
 $ProduceList_[$ProduceCount++ - 1]  = "Cactus" TAB   0;
 
@@ -74,17 +74,17 @@ $Produce::BuyCost_["DaisySeed"] = 1.00;
 $Produce::BuyCost_["LilySeed"] = 1.00;
 
 $SeedList_[$SeedCount++ - 1]  = "PotatoSeedItem" TAB    60;
-$SeedList_[$SeedCount++ - 1]  = "CarrotSeedItem" TAB    80;
+$SeedList_[$SeedCount++ - 1]  = "CarrotSeedItem" TAB    60;
 $SeedList_[$SeedCount++ - 1]  = "TomatoSeedItem" TAB    40;
 $SeedList_[$SeedCount++ - 1]  = "CornSeedItem" TAB    40;
 $SeedList_[$SeedCount++ - 1]  = "CabbageSeedItem" TAB   30;
 $SeedList_[$SeedCount++ - 1]  = "OnionSeedItem" TAB   60;
-$SeedList_[$SeedCount++ - 1]  = "BlueberrySeedItem" TAB 15;
-$SeedList_[$SeedCount++ - 1]  = "TurnipSeedItem" TAB    15;//5;
-$SeedList_[$SeedCount++ - 1]  = "DaisySeedItem" TAB   25;//5;
+$SeedList_[$SeedCount++ - 1]  = "BlueberrySeedItem" TAB 10;
+$SeedList_[$SeedCount++ - 1]  = "TurnipSeedItem" TAB    10;//5;
+$SeedList_[$SeedCount++ - 1]  = "DaisySeedItem" TAB   250;//5;
 $SeedList_[$SeedCount++ - 1]  = "LilySeedItem" TAB    25;//5;
-$SeedList_[$SeedCount++ - 1]  = "AppleSeedItem" TAB   10;
-$SeedList_[$SeedCount++ - 1]  = "MangoSeedItem" TAB   5;
+$SeedList_[$SeedCount++ - 1]  = "AppleSeedItem" TAB   8;
+$SeedList_[$SeedCount++ - 1]  = "MangoSeedItem" TAB   4;
 $SeedList_[$SeedCount++ - 1]  = "ChiliSeedItem" TAB   0;
 $SeedList_[$SeedCount++ - 1]  = "CactusSeedItem" TAB   0;
 
@@ -95,7 +95,7 @@ $Produce::BuyCost_["Fertilizer"] = 3.00;
 //Normal item prices defined in their datablock
 $ItemCount = 0;
 
-$ItemList_[$ItemCount++ - 1]  = "WateringCan2Item" TAB  150;
+$ItemList_[$ItemCount++ - 1]  = "WateringCan2Item" TAB  140;
 $ItemList_[$ItemCount++ - 1]  = "WateringCan3Item" TAB  120;
 $ItemList_[$ItemCount++ - 1]  = "HoseItem" TAB      50;
 $ItemList_[$ItemCount++ - 1]  = "HoseV2Item" TAB      20;
