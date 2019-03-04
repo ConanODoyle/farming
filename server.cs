@@ -10,7 +10,9 @@ exec("./lib/Support_CenterprintMenuSystem.cs");
 exec("./lib/Support_CustomBrickRadius.cs");
 exec("./lib/Support_DropItemsOnDeath.cs");
 exec("./lib/Support_MultipleSlots.cs");
+
 exec("./lib/Support_ShapeLines/server.cs");
+exec("./lib/Support_GasMod/server.cs");
 exec("./lib/swolset.cs");
 
 // Scripts specific to this mod

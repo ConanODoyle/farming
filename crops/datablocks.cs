@@ -24,23 +24,6 @@ datablock fxDTSBrickData(brick8x8DirtData : brick8x8Data)
 	maxWater = 1200;
 };
 
-datablock fxDTSBrickData(brickFlowerPotDirtData : brick1x1Data) 
-{
-	category = "Farming";
-	subCategory = "Extra";
-	uiName = "Flower Pot";
-
-	brickFile = "./bricks/flowerPot.blb";
-
-	iconName = "Add-Ons/Server_Farming/crops/icons/flower_pot";
-
-	cost = 80;
-	isDirt = 1;
-	maxWater = 30;
-	isPot = 1;
-	customRadius = -1.05;
-};
-
 datablock fxDTSBrickData(brick4xPlanterDirtData : brick1x1Data) 
 {
 	category = "Farming";

@@ -31,12 +31,12 @@ $Produce::BuyCost_["Potato"] = 0.75;
 $Produce::BuyCost_["Carrot"] = 1.75;
 $Produce::BuyCost_["Tomato"] = 1.00;
 $Produce::BuyCost_["Corn"] = 1.75;
-$Produce::BuyCost_["Cabbage"] = 4.50;
+$Produce::BuyCost_["Cabbage"] = 4.25;
 $Produce::BuyCost_["Onion"] = 1.25;
 $Produce::BuyCost_["Blueberry"] = 2.50;
 $Produce::BuyCost_["Turnip"] = 12.00;
-$Produce::BuyCost_["Apple"] = 12.00;
-$Produce::BuyCost_["Mango"] = 16.00;
+$Produce::BuyCost_["Apple"] = 11.00;
+$Produce::BuyCost_["Mango"] = 14.00;
 
 $Produce::BuyCost_["Chili"] = 3.00;
 $Produce::BuyCost_["Cactus"] = 5.00;
