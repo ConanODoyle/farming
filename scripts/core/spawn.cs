@@ -36,6 +36,7 @@ package FarmingSpawn
 			{
 				$Farming::ScoreGrant[%cl.bl_id] = 1 TAB %cl.name;
 				messageClient(%cl, '', "\c6You received \c2$" @ $startingAmount @ "\c6 to start off with!");
+				schedule(3000, %cl, serverCmdTutorial, %cl, "");
 				%cl.setScore($startingAmount);
 
 				if (%cl.isBetaTester)

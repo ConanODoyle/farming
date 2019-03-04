@@ -267,20 +267,72 @@ function compostBinInfo(%brick, %pl)
 
 datablock fxDTSBrickData(brickCompostBinData)
 {
-	category = "Farming";
-	subCategory = "Extra";
+	// category = "Farming";
+	// subCategory = "Extra";
 	uiName = "Compost Bin";
 
 	brickFile = "./resources/compostBin.blb";
 
 	iconName = "Add-Ons/Server_Farming/crops/icons/compost_bin";
 
-	cost = 800;
+	cost = 0;
 	isProcessor = 1;
 	processorFunction = "processIntoFertilizer";
 	activateFunction = "compostBinInfo";
+	placerItem = "CompostBinItem";
 };
 
+
+
+///////////////
+//Placer Item//
+///////////////
+
+datablock ItemData(CompostBinItem : brickPlacerItem)
+{
+	shapeFile = "./resources/package.dts";
+	uiName = "Compost Bin";
+	image = "CompostBinBrickImage";
+	colorShiftColor = "0.787 0.577 0.289 1";
+
+	cost = 800;
+};
+
+datablock ShapeBaseImageData(CompostBinBrickImage : BrickPlacerImage)
+{
+	shapeFile = "./resources/package.dts";
+	
+	offset = "-0.53 0.1 -0.155";
+	eyeOffset = "0 0 0";
+
+	item = CompostBinItem;
+	
+	doColorshift = true;
+	colorShiftColor = CompostBinItem.colorShiftColor;
+
+	toolTip = "Places a Compost Bin";
+	placeBrick = "brickCompostBinData";
+};
+
+function FlowerpotBrickImage::onMount(%this, %obj, %slot)
+{
+	brickPlacerItem_onMount(%this, %obj, %slot);
+}
+
+function FlowerpotBrickImage::onUnmount(%this, %obj, %slot)
+{
+	brickPlacerItem_onUnmount(%this, %obj, %slot);
+}
+
+function FlowerpotBrickImage::onLoop(%this, %obj, %slot)
+{
+	brickPlacerItemLoop(%this, %obj, %slot);
+}
+
+function FlowerpotBrickImage::onFire(%this, %obj, %slot)
+{
+	brickPlacerItemFire(%this, %obj, %slot);
+}
 
 ////////
 //Item//
