@@ -24,6 +24,7 @@ $isDonator_["3306"] 	= 1 TAB "Mr.LoL";
 $isDonator_["256895"]	= 1 TAB "YetiBTW";
 $isDonator_["42119"]	= 1 TAB "Motortruck";
 $isDonator_["3898"] 	= 1 TAB "The Titanium (Donator but only wants join/reroll perks)";
+$isDonator_["33688"] 	= 1 TAB "Redconer";
 
 $isBetaTester_["30881"] 	= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"] 	= 1 TAB "Queuenard";
@@ -95,6 +96,12 @@ function getDonatorMessage(%msg)
 	{
 		%word = getWord(%msg, %i);
 		if (getSubStr(%word, 0, 7) $= "http://")
+		{
+			%url = stripChars(%word, "<>{}#|^");
+			%urlFormat = "<a:" @ %url @ ">";
+			%msg = setWord(%msg, %i, %urlFormat @ %word);
+		}
+		else if (getSubStr(%word, 0, 8) $= "https://")
 		{
 			%url = stripChars(%word, "<>{}#|^");
 			%urlFormat = "<a:" @ %url @ ">";
