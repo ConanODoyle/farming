@@ -37,6 +37,7 @@ datablock ItemData(FlowerPotItem : HammerItem)
 
 	isSellable = 1;
 	cost = 100;
+	canPickupMultiple = 1;
 };
 
 datablock ShapeBaseImageData(FlowerpotBrickImage)

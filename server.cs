@@ -9,6 +9,7 @@ exec("./lib/Script_Player_Persistence.cs");
 exec("./lib/Support_CenterprintMenuSystem.cs");
 exec("./lib/Support_CustomBrickRadius.cs");
 exec("./lib/Support_DropItemsOnDeath.cs");
+exec("./lib/Support_PickupDuplicateItems.cs");
 exec("./lib/Support_MultipleSlots.cs");
 
 exec("./lib/Support_ShapeLines/server.cs");
