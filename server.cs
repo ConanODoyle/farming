@@ -3,6 +3,7 @@ echo("\c4--Loading Farming Dependencies");
 
 // Generic libraries this depends on
 exec("./lib/NewBrickToolOverride.cs");
+exec("./lib/disableMinigameCreation.cs");
 exec("./lib/Support_StackableItems.cs");
 exec("./lib/Support_BrickProcessors.cs");
 exec("./lib/Script_Player_Persistence.cs");
