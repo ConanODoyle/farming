@@ -1,6 +1,7 @@
 
 function serverCmdContinueTutorial(%client)
 {
+	%client.hasReadBasicTutorial = 1;
 	switch(%client.tutorialPosition)
 	{
 		case 0:
@@ -17,7 +18,7 @@ function serverCmdContinueTutorial(%client)
 			%text = "You buy seeds and sell produce at the shop.<br><br>Click bots to find out what they do or sell! Some bots have limited time deals.";
 		case 4:
 			%head = "Tutorial - Basics";
-			%text = "If you don't know what something does, do /tutorial [name] to find out more.<br><br>Examples: storage, water, shop, money";
+			%text = "If you don't know what something does, do /tutorial [name] to find out more.<br><br>Examples: storage, water, shop, money, planting";
 		default:
 			commandToClient(%client, 'messageBoxOK', "Tutorial - End", "This is the end of the basic tutorial. Have fun!<br><br>Do /tutorial if you wish to view this again.");
 			return;
@@ -167,7 +168,7 @@ function serverCmdContinuePlantingTutorial(%client)
 function serverCmdTutorial(%client, %type, %t1, %t2, %t3)
 {
 	%client.tutorialPosition = 0;
-	if (%type $= "" || %type $= "Basic")
+	if ((%type $= "" && !%client.hasReadBasicTutorial) || %type $= "Basic")
 	{
 		serverCmdContinueTutorial(%client);
 		return;
