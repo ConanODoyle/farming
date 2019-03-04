@@ -60,7 +60,7 @@ function fertilizeCrop(%img, %obj, %slot)
 
 			if (!isObject(%crop.emitter))
 			{
-				if (getRandom() < 0.015 + %obj.client.isDonator * 0.002)
+				if (getRandom() < 0.010)
 				{
 					%rand = getRandom();
 					if (%rand < 0.05)
@@ -124,7 +124,7 @@ function fertilizeCrop(%img, %obj, %slot)
 
 		if (!isObject(%crop.emitter))
 		{
-			if (getRandom() < 0.015 + %obj.client.isDonator * 0.002)
+			if (getRandom() < 0.015)
 			{
 				%rand = getRandom();
 				if (%rand < 0.05)
