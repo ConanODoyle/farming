@@ -1,12 +1,27 @@
+
+$canBuilder_["4928"] 	= 1 TAB "Conan";
+$canBuilder_["33152"] 	= 1 TAB "Trinko";
+$canBuilder_["1768"] 	= 1 TAB "Zeustal";
+$canBuilder_["691"] 	= 1 TAB "Boltster";
+$canBuilder_["12027"] 	= 1 TAB "Sentry";
+$canBuilder_["4382"] 	= 1 TAB "Skill4Life";
+$canBuilder_["2227"] 	= 1 TAB "The Brighter Dark";
+$canBuilder_["12027"] 	= 1 TAB "Sentry";
+$canBuilder_["33688"] 	= 1 TAB "Redconer";
+$canBuilder_["30881"] 	= 1 TAB "Allun Pentax";
+
+
 function serverCmdBuilder(%cl, %target)
 {
-	if (%cl.isSuperAdmin)
+	if (%cl.isSuperAdmin || $canBuilder_[%cl.bl_id])
 	{
+		%name = %cl.getPlayerName();
 		if (strlen(%target) > 1 && isObject(%targ = findClientByName(%target)))
 		{
 			messageClient(%cl, '', "\c6You gave \c3" @ %targ.name @ "\c6 builder mode!");
 			%cl = %targ;
 		}
+		echo("[" @ getDateTime() @ "] " @ %name @ " gave " @ %targ.getPlayerName() @ " builder!");
 		%cl.bypassRestrictions = 1;
 		%cl.player.setDatablock(PlayerStandardArmor);
 		messageClient(%cl, '', "\c6You are now a builder!");
@@ -15,13 +30,16 @@ function serverCmdBuilder(%cl, %target)
 
 function serverCmdUnbuilder(%cl, %target)
 {
-	if (%cl.isSuperAdmin)
+	if (%cl.isSuperAdmin || %cl.bypassRestrictions || $canBuilder_[%cl.bl_id])
 	{
-		if (strlen(%target) > 1 && isObject(%targ = findClientByName(%target)))
+		%name = %cl.getPlayerName();
+		if (strlen(%target) > 1 && isObject(%targ = findClientByName(%target)) &&
+			(%cl.isSuperAdmin || $canBuilder_[%cl.bl_id]))
 		{
 			messageClient(%cl, '', "\c6You removed \c3" @ %targ.name @ "\c6's builder mode!");
 			%cl = %targ;
 		}
+		echo("[" @ getDateTime() @ "] " @ %name @ " removed " @ %targ.getPlayerName() @ " builder!");
 		%cl.bypassRestrictions = 0;
 		%cl.player.setDatablock(isObject(%cl.playerDatablock) ? %cl.playerDatablock : PlayerNoJet);
 		messageClient(%cl, '', "\c6You are not a builder anymore!");
