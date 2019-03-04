@@ -9,65 +9,151 @@ function fertilizeCrop(%img, %obj, %slot)
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
 	%brick = getWord(%ray, 0);
 
-	if (!isObject(%brick) || !%brick.getDatablock().isPlant)
+	if (%brick.getDatablock().isPlant && !%brick.getDatablock().isTree)
+	{
+		%brick = %brick.getDownBrick(0);
+	}
+
+	if (!isObject(%brick) || !(%brick.getDatablock().isTree || %brick.getDatablock().isDirt))
 	{
 		return;
 	}
 
-	%hitloc = getWords(%ray, 1, 3);
-	%p = new Projectile() { dataBlock = PushBroomProjectile; initialPosition = %hitloc; };
-	%p.setScale("0.5 0.5 0.5");
-	%p.explode();
-
-	%type = %brick.getDatablock().cropType;
-	%stage = %brick.getDatablock().stage;
-
-	if (getTrustLevel(%brick, %obj) < 1)
+	if (%brick.getDatablock().isDirt)
 	{
-		%obj.client.centerprint(%brick.getGroup().name @ "<color:ff0000> does not trust you enough to do that!", 1);
-		return;
-	}
-	else if ($Farming::Crops::PlantData_[%type, %stage, "timePerTick"] <= 1)
-	{
-		%obj.client.centerprint("This plant already is fully grown!");
-		return;
-	}
-
-	%brick.growTick += %img.bonusGrowTicks;
-	%brick.nextGrow -= %img.bonusGrowTime;
-
-	if (!isObject(%brick.emitter))
-	{
-		if (getRandom() < 0.015 + %obj.client.isDonator * 0.002)
+		%numGrown = 0;
+		%numCrops = 0;
+		for (%i = 0; %i < %brick.getNumUpBricks(); %i++)
 		{
-			%rand = getRandom();
-			if (%rand < 0.05)
+			%crop = %brick.getUpBrick(%i);
+
+			if (!%crop.getDatablock().isPlant || %crop.getDatablock().isTree)
 			{
-				//gold plant
-				%brick.setEmitter(goldenEmitter.getID());
-				%type = "<color:faef00>Golden";
-			}
-			else if (%rand < 0.25)
-			{
-				//silver plant
-				%brick.setEmitter(silverEmitter.getID());
-				%type = "<color:fafafa>Silver";
-			}
-			else
-			{
-				//bronze plant
-				%brick.setEmitter(bronzeEmitter.getID());
-				%type = "<color:fafafa>Bronze";
+				continue;
 			}
 
-			if (isObject(%cl = %obj.client))
+			%type = %crop.getDatablock().cropType;
+			%stage = %crop.getDatablock().stage;
+
+			if (getTrustLevel(%crop, %obj) < 1)
 			{
-				messageAll('MsgUploadStart', "<bitmap:base/client/ui/ci/star> \c3" @ 
-					%cl.name @ "\c6 fertilized a " @ %type SPC %brick.getDatablock().cropType @ "\c6!");
+				%obj.client.centerprint(%crop.getGroup().name @ "<color:ff0000> does not trust you enough to do that!", 1);
+				continue;
+			}
+			else if ($Farming::Crops::PlantData_[%type, %stage, "timePerTick"] <= 1)
+			{
+				%obj.client.centerprint("This plant already is fully grown!");
+				%numGrown++;
+				%numCrops++;
+				continue;
+			}
+			
+			%numCrops++;
+
+			%hitloc = %crop.getPosition();
+			%p = new Projectile() { dataBlock = PushBroomProjectile; initialPosition = %hitloc; };
+			%p.setScale("0.5 0.5 0.5");
+			%p.explode();
+
+			%crop.growTick += %img.bonusGrowTicks;
+			%crop.nextGrow -= %img.bonusGrowTime;
+
+			if (!isObject(%crop.emitter))
+			{
+				if (getRandom() < 0.015 + %obj.client.isDonator * 0.002)
+				{
+					%rand = getRandom();
+					if (%rand < 0.05)
+					{
+						//gold plant
+						%crop.setEmitter(goldenEmitter.getID());
+						%type = "<color:faef00>Golden";
+					}
+					else if (%rand < 0.25)
+					{
+						//silver plant
+						%crop.setEmitter(silverEmitter.getID());
+						%type = "<color:fafafa>Silver";
+					}
+					else
+					{
+						//bronze plant
+						%crop.setEmitter(bronzeEmitter.getID());
+						%type = "<color:fafafa>Bronze";
+					}
+
+					if (isObject(%cl = %obj.client))
+					{
+						messageAll('MsgUploadStart', "<bitmap:base/client/ui/ci/star> \c3" @
+							%cl.name @ "\c6 fertilized a " @ %type SPC %crop.getDatablock().cropType @ "\c6!");
+					}
+				}
+			}
+		}
+		if (%numGrown == %numCrops)
+		{
+			%obj.client.centerprint("All of these plants are already fully grown!");
+			return;
+		}
+	}
+	else
+	{
+		%crop = %brick;
+
+		%type = %crop.getDatablock().cropType;
+		%stage = %crop.getDatablock().stage;
+
+		if (getTrustLevel(%crop, %obj) < 1)
+		{
+			%obj.client.centerprint(%crop.getGroup().name @ "<color:ff0000> does not trust you enough to do that!", 1);
+			return;
+		}
+		else if ($Farming::Crops::PlantData_[%type, %stage, "timePerTick"] <= 1)
+		{
+			%obj.client.centerprint("This plant already is fully grown!");
+			return;
+		}
+
+		%hitloc = getWords(%ray, 1, 3);
+		%p = new Projectile() { dataBlock = PushBroomProjectile; initialPosition = %hitloc; };
+		%p.setScale("0.5 0.5 0.5");
+		%p.explode();
+
+		%crop.growTick += %img.bonusGrowTicks;
+		%crop.nextGrow -= %img.bonusGrowTime;
+
+		if (!isObject(%crop.emitter))
+		{
+			if (getRandom() < 0.015 + %obj.client.isDonator * 0.002)
+			{
+				%rand = getRandom();
+				if (%rand < 0.05)
+				{
+					//gold plant
+					%crop.setEmitter(goldenEmitter.getID());
+					%type = "<color:faef00>Golden";
+				}
+				else if (%rand < 0.25)
+				{
+					//silver plant
+					%crop.setEmitter(silverEmitter.getID());
+					%type = "<color:fafafa>Silver";
+				}
+				else
+				{
+					//bronze plant
+					%crop.setEmitter(bronzeEmitter.getID());
+					%type = "<color:fafafa>Bronze";
+				}
+
+				if (isObject(%cl = %obj.client))
+				{
+					messageAll('MsgUploadStart', "<bitmap:base/client/ui/ci/star> \c3" @
+						%cl.name @ "\c6 fertilized a " @ %type SPC %crop.getDatablock().cropType @ "\c6!");
+				}
 			}
 		}
 	}
-
 	//plant successful, update item
 
 	%count = %obj.toolStackCount[%obj.currTool]--;
