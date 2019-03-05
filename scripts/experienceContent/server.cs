@@ -34,7 +34,7 @@ function Player::sacrificeKill(%pl, %modifier, %max, %announcement)
 
 registerOutputEvent("Player", "sacrificeKill", "float 0 2 0.1 0.5" TAB "int 0 100000 1000" TAB "string 200 100");
 
-function fxDTSBrick::checkExperience(%this, %check, %action, %amount, %cl)
+function fxDTSBrick::checkExperience(%this, %check, %cl)
 {
 	%exp = %cl.farmingExperience;
 	if (%exp >= %check)
@@ -45,15 +45,22 @@ function fxDTSBrick::checkExperience(%this, %check, %action, %amount, %cl)
 	{
 		%this.onExperienceCheckFail(%cl);
 	}
-
-	switch (%action)
-	{
-		case 1: %cl.addExperience(-1 * %amount);
-		case 2: %cl.addExperience(%amount);
-	}
 }
 
-registerOutputEvent("fxDTSBrick", "checkExperience", "int 0 100000 100" TAB "list None 0 SubtractEXP 1 AddEXP 2" TAB "int 0 100000", 1);
+registerOutputEvent("fxDTSBrick", "checkExperience", "int 0 100000 100", 1);
+
+function fxDTSBrick::addExperience(%this, %amt, %underflow, %cl)
+{
+	if (%underflow && %amt * -1 > %cl.farmingExperience)
+	{
+		%cl.addExperience(-1 * %cl.farmingExperience);
+	}
+	else
+	{
+		%cl.addExperience(%amt);
+	}
+}
+registerOutputEvent("fxDTSBrick", "addExperience", "int -100000 100000 0" TAB "bool", 1);
 
 function fxDTSBrick::onExperienceCheckPass(%this, %cl)
 {
