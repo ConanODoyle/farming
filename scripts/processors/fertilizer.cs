@@ -290,19 +290,19 @@ datablock fxDTSBrickData(brickCompostBinData)
 
 datablock ItemData(CompostBinItem : brickPlacerItem)
 {
-	shapeFile = "./resources/package.dts";
+	shapeFile = "./resources/toolbox.dts";
 	uiName = "Compost Bin";
 	image = "CompostBinBrickImage";
-	colorShiftColor = "0.787 0.577 0.289 1";
+	colorShiftColor = "0.9 0 0 1";
 
 	cost = 800;
 };
 
 datablock ShapeBaseImageData(CompostBinBrickImage : BrickPlacerImage)
 {
-	shapeFile = "./resources/package.dts";
+	shapeFile = "./resources/toolbox.dts";
 	
-	offset = "-0.53 0.1 -0.155";
+	offset = "-0.56 0 0";
 	eyeOffset = "0 0 0";
 
 	item = CompostBinItem;
