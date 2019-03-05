@@ -9,6 +9,11 @@ package PlayerPersistencePackage
 {
    function serverCmdChangeMap(%client, %mapName)
    {
+      echo(%client.getPlayerName() @ " (" @ %client.bl_id @ ") is trying to change the map...");
+      if (!%client.isAdmin)
+      {
+         return;
+      }
       saveAllClientPersistence();
       Parent::serverCmdChangeMap(%client, %mapName);
    }
