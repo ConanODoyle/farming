@@ -1,4 +1,4 @@
-function Player::sacrificeKill(%pl, %modifier, %announcement)
+function Player::sacrificeKill(%pl, %modifier, %max, %announcement)
 {
 	%prefix = "<bitmap:base/data/particles/exclamation><bitmap:base/client/ui/ci/star>";
 	if (isObject(%cl = %pl.client))
@@ -19,7 +19,7 @@ function Player::sacrificeKill(%pl, %modifier, %announcement)
 			}
 		}
 
-		%exp = mCeil(%totalCost * %modifier);
+		%exp = getMin(%max, mCeil(%totalCost * %modifier));
 		%cl.addExperience(%exp);
 		if (%exp > 0)
 			messageAll('', %prefix @ " \c3" @ %cl.name @ "\c6 has sacrificed themself for \c3" @ %exp @ " \c6experience...");
@@ -32,7 +32,7 @@ function Player::sacrificeKill(%pl, %modifier, %announcement)
 	%pl.kill();
 }
 
-registerOutputEvent("Player", "sacrificeKill", "float 0 2 0.1 0.5", "string 200 100");
+registerOutputEvent("Player", "sacrificeKill", "float 0 2 0.1 0.5" TAB "int 0 100000 1000" TAB "string 200 100");
 
 function fxDTSBrick::checkExperience(%this, %check, %action, %amount, %cl)
 {
