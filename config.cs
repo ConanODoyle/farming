@@ -64,8 +64,8 @@ $Produce::BuyCost_["CabbageSeed"] = 1.00;
 $Produce::BuyCost_["OnionSeed"] = 1.00;
 $Produce::BuyCost_["BlueberrySeed"] = 2.00;
 $Produce::BuyCost_["TurnipSeed"] = 2.00;
-$Produce::BuyCost_["AppleSeed"] = 1200.00;
-$Produce::BuyCost_["MangoSeed"] = 1600.00;
+$Produce::BuyCost_["AppleSeed"] = 600.00;
+$Produce::BuyCost_["MangoSeed"] = 800.00;
 
 $Produce::BuyCost_["ChiliSeed"] = 4.00;
 $Produce::BuyCost_["CactusSeed"] = 75.00;

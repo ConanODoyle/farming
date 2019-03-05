@@ -8,9 +8,18 @@ function pickRandomEvent(%bot, %rand)
 			return "BUY 0" TAB %crop TAB %price TAB "I'm buying each " @ %crop @ " for double the price!";
 		case "sellSeeds": //Seed sell discount
 			%seed = getRandomSeedType();
-			%price = $Produce::BuyCost_[%seed.stackType] / 2;
 			%fixedName = strReplace(getSubStr(%seed, 0, strLen(%seed) - 8), "_", " ") SPC "seeds";
-			return "SELL 1" TAB %seed TAB %price TAB "I'm selling " @ %fixedName @ " for half the price!";
+			if (%price < 100)
+			{
+				%price = $Produce::BuyCost_[%seed.stackType] / 2;
+				%msg = "I'm selling " @ %fixedName @ " for half the price!";
+			}
+			else
+			{
+				%price = $Produce::BuyCost_[%seed.stackType];
+				%msg = "I'm selling " @ %fixedName @ "!";	
+			}
+			return "SELL 1" TAB %seed TAB %price TAB %msg;
 		case "sellItem": //Special item
 			%item = getRandomSpecialItem();
 			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
