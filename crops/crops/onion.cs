@@ -21,7 +21,7 @@ datablock ItemData(OnionBasket0Item : HammerItem)
 	image = "OnionBasket0Image";
 	doColorShift = false;
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/Onion_Basket";
 
 	isStackable = 1;
 	stackType = "Onion";
@@ -35,7 +35,7 @@ datablock ItemData(OnionBasket1Item : HammerItem)
 	image = "OnionBasket1Image";
 	doColorShift = false;
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/Onion_Basket_Half";
 
 	isStackable = 1;
 	stackType = "Onion";
@@ -49,7 +49,7 @@ datablock ItemData(OnionBasket2Item : HammerItem)
 	image = "OnionBasket2Image";
 	doColorShift = false;
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/Onion_Star";
 
 	isStackable = 1;
 	stackType = "Onion";

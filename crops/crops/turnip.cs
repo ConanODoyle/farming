@@ -30,7 +30,7 @@ datablock ItemData(TurnipBasket0Item : HammerItem)
 	image = "TurnipBasket0Image";
 	doColorShift = false;
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/Turnip_Basket_Quarter";
 
 	isStackable = 1;
 	stackType = "Turnip";
@@ -44,7 +44,7 @@ datablock ItemData(TurnipBasket1Item : HammerItem)
 	image = "TurnipBasket1Image";
 	doColorShift = false;
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/Turnip_Basket_Half";
 
 	isStackable = 1;
 	stackType = "Turnip";
@@ -58,7 +58,7 @@ datablock ItemData(TurnipBasket2Item : HammerItem)
 	image = "TurnipBasket2Image";
 	doColorShift = false;
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/Turnip_Basket_Third";
 
 	isStackable = 1;
 	stackType = "Turnip";
@@ -72,7 +72,7 @@ datablock ItemData(TurnipBasket3Item : HammerItem)
 	image = "TurnipBasket3Image";
 	doColorShift = false;
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/Turnip_Star";
 
 	isStackable = 1;
 	stackType = "Turnip";

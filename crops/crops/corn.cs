@@ -21,7 +21,7 @@ datablock ItemData(CornBasket0Item : HammerItem)
 	image = "CornBasket0Image";
 	doColorShift = false;
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/Corn_Basket";
 
 	isStackable = 1;
 	stackType = "Corn";
@@ -35,7 +35,7 @@ datablock ItemData(CornBasket1Item : HammerItem)
 	image = "CornBasket1Image";
 	doColorShift = false;
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/Corn_Basket_Half";
 
 	isStackable = 1;
 	stackType = "Corn";
@@ -49,7 +49,7 @@ datablock ItemData(CornBasket2Item : HammerItem)
 	image = "CornBasket2Image";
 	doColorShift = false;
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/Corn_Star";
 
 	isStackable = 1;
 	stackType = "Corn";

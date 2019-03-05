@@ -20,7 +20,7 @@ datablock ItemData(AppleBasket0Item : HammerItem)
 	image = "AppleBasket0Image";
 	doColorShift = false;
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/Apple_Basket";
 
 	isStackable = 1;
 	stackType = "Apple";
@@ -34,7 +34,7 @@ datablock ItemData(AppleBasket1Item : HammerItem)
 	image = "AppleBasket1Image";
 	doColorShift = false;
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/Apple_Star";
 
 	isStackable = 1;
 	stackType = "Apple";
