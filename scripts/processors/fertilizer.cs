@@ -295,6 +295,8 @@ datablock ItemData(CompostBinItem : brickPlacerItem)
 	image = "CompostBinBrickImage";
 	colorShiftColor = "0.9 0 0 1";
 
+	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
+	
 	cost = 800;
 };
 

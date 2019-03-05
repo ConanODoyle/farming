@@ -33,6 +33,8 @@ datablock ItemData(FlowerPotItem : brickPlacerItem)
 	image = "FlowerpotBrickImage";
 	colorShiftColor = "0.5 0.5 0.5 1";
 
+	iconName = "Add-ons/Server_Farming/crops/icons/flower_pot";
+
 	cost = 100;
 };
 
