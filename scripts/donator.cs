@@ -16,6 +16,7 @@ $isVIP_["33468"] 	= 1 TAB "Wolfly";
 
 $isDonator_["53456"] 	= 1 TAB "celau";
 $isDonator_["20061"] 	= 1 TAB "Cavik";
+$isDonator_["378"] 		= 1 TAB "Sylvanor";
 $isDonator_["49865"] 	= 1 TAB "Jasa";
 $isDonator_["14516"] 	= 1 TAB "ExecPaper";
 $isDonator_["12027"] 	= 1 TAB "Sentry";
