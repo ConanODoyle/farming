@@ -155,7 +155,7 @@ function fxDTSBrick::updateShopMenus(%this, %str1, %str2, %str3, %str4)
 	{
 		%lastTakenBy = "None";
 	}
-	%this.shopStorageMenu.menuOption[4] = "$" @ %money @ " - " %lastTakenBy;
+	%this.shopStorageMenu.menuOption[4] = "$" @ %money @ " - " @ %lastTakenBy;
 }
 
 function removeMoney(%cl, %menu, %option)

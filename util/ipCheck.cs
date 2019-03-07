@@ -108,11 +108,11 @@ function serverCmdLastPlayed(%cl, %blid)
 
 	%lastPlayed = getRealTime() - $Pref::TimeLogger::BLID_[%blid];
 	%time = %lastPlayed / 1000 / 60 / 60 | 0;
-	%day = %time / 24 | 0;
+	%day = mFloor(%time / 24 | 0);
 	%hour = %time % 24;
 	%dP = %day > 1 ? "s" : "";
 	%hP = %hour > 1 ? "s" : "";
-	%msg = (%day > 0 : %day @ " day" @ %dP : "") @ %hour @ " hour" @ %hP;
+	%msg = (%day > 0 ? %day @ " day" @ %dP : "") @ %hour @ " hour" @ %hP;
 	messageClient(%cl, '', "\c6BLID \c3" @ %blid @ "\c6 was last on the server" @ %time @ " ago!");
 	return;
 }
