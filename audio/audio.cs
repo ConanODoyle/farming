@@ -81,7 +81,51 @@ datablock AudioProfile(UFOHoverSound)
 datablock AudioProfile(SpicyItalianThrowSound) 
 {
 	filename = "./spicyitalian_throw.wav";
-	description = AudioMusicLooping3d;
+	description = AudioDefault3d;
+	preload = true;
+	uiName = "";
+};
+
+
+
+
+
+datablock AudioProfile(Fun1Sound)
+{
+	filename = "./fun/vo_slime_awe_01.ogg";
+	description = AudioClosest3D;
+	preload = true;
+	uiName = "";
+};
+
+datablock AudioProfile(Fun2Sound)
+{
+	filename = "./fun/vo_slime_damage_02.ogg";
+	description = AudioClosest3D;
+	preload = true;
+	uiName = "";
+};
+
+datablock AudioProfile(Fun3Sound)
+{
+	filename = "./fun/vo_slime_jump_01.ogg";
+	description = AudioClosest3D;
+	preload = true;
+	uiName = "";
+};
+
+datablock AudioProfile(Fun4Sound)
+{
+	filename = "./fun/vo_slime_splat_01.ogg";
+	description = AudioClosest3D;
+	preload = true;
+	uiName = "";
+};
+
+datablock AudioProfile(Fun0Sound)
+{
+	filename = "./fun/vo_slime_splat_02.ogg";
+	description = AudioClosest3D;
 	preload = true;
 	uiName = "";
 };
