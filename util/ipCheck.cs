@@ -10,8 +10,22 @@ package IPLogger
 			$Pref::IPLogger::BLID_[%blid] = trim($Pref::IPLogger::BLID_[%blid] SPC %ip);
 			export("$Pref*", "config/server/prefs.cs");
 		}
+
+		$Pref::TimeLogger::BLID_[%blid] = getRealTime();
+		$Pref::TimeLogger::IP_[%ip] = getRealTime();
 		
 		return parent::autoAdminCheck(%cl);
+	}
+
+	function GameConnection::onDrop(%cl)
+	{
+		%ip = %cl.getRawIP();
+		%blid = %cl.bl_id;
+
+		$Pref::TimeLogger::BLID_[%blid] = getRealTime();
+		$Pref::TimeLogger::IP_[%ip] = getRealTime();
+
+		return parent::onDrop(%cl);
 	}
 };
 activatePackage(IPLogger);
@@ -54,6 +68,7 @@ function messageIPLog(%cl)
 {
 	%fields = listMultipleIPs();
 	%fields = removeField(%fields, 0);
+	messageClient(%cl, '', "\c6Checking for same-ip users...");
 
 	echo(getSafeVariableName(%cl.getPlayerName()) @ " checked for alts on same IP...");
 	echo("----------------------------------------");
@@ -71,4 +86,33 @@ function serverCmdListDualIPs(%cl)
 	{
 		messageIPLog(%cl);
 	}
+}
+
+function serverCmdLastPlayed(%cl, %blid)
+{
+	if (!%cl.isAdmin)
+	{
+		return;
+	}
+
+	if ($Pref::TimeLogger::BLID_[%blid] $= "")
+	{
+		messageClient(%cl, '', "\c6BLID \c3" @ %blid @ "\c6 is not logged!");
+		return;
+	}
+	else if (isObject(%t = findClientByBL_ID(%blid)))
+	{
+		messageClient(%cl, '', "\c3" @ %t.name @ "\c6 is on the server!");
+		return;
+	}
+
+	%lastPlayed = getRealTime() - $Pref::TimeLogger::BLID_[%blid];
+	%time = %lastPlayed / 1000 / 60 / 60 | 0;
+	%day = %time / 24 | 0;
+	%hour = %time % 24;
+	%dP = %day > 1 ? "s" : "";
+	%hP = %hour > 1 ? "s" : "";
+	%msg = (%day > 0 : %day @ " day" @ %dP : "") @ %hour @ " hour" @ %hP;
+	messageClient(%cl, '', "\c6BLID \c3" @ %blid @ "\c6 was last on the server" @ %time @ " ago!");
+	return;
 }
