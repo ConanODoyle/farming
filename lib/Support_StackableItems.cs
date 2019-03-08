@@ -29,7 +29,7 @@ function getMaxPickup(%pl, %stackType)
 		{
 			if (%requireEmpty)
 			{
-				return 1;
+				%totalEmpty++;
 			}
 			
 			%total += %absoluteMax;
@@ -46,7 +46,14 @@ function getMaxPickup(%pl, %stackType)
 		}
 	}
 
-	return %total;
+	if (%requireEmpty)
+	{
+		return %totalEmpty TAB 1;
+	}
+	else
+	{
+		return %total;
+	}
 }
 
 function stackedCanPickup(%pl, %item)

@@ -344,20 +344,29 @@ function attemptBuy(%cl, %num)
 			%message = "$" @ mFloatLength(%total, 2) @ " for " @ %num SPC %item.uiName @ %plural @ "! Thanks!";
 			messageClient(%cl, '', %star @ "\c3" @ (%bot.name $= "" ? "Farmer" : %bot.name) @ "\c6: " @ %message);
 
-			%i = new Item(purchasedItems)
+			%numItems = 1;
+			if (getField(%max, 1))
 			{
-				dataBlock = %item;
-				count = %num;
-				client = %cl;
-				bl_id = %cl.bl_id;
-			};
-			%i.setTransform(%cl.player.getHackPosition() SPC getWords(%bot.getTransform(), 3, 6));
-			%i.setCollisionTimeout(%bot);
-			%i.schedule(60000, schedulePop);
+				%numItems = getField(%max, 0);
+			}
+
+			for (%ind = 0; %ind < %numItems; %ind++)
+			{
+				%i = new Item(purchasedItems)
+				{
+					dataBlock = %item;
+					count = %num;
+					client = %cl;
+					bl_id = %cl.bl_id;
+				};
+				%i.setTransform(%cl.player.getHackPosition() SPC getWords(%bot.getTransform(), 3, 6));
+				%i.setCollisionTimeout(%bot);
+				%i.schedule(60000, schedulePop);
+			}
 			%bot.playThread(0, activate);
 
 			%pos = %cl.player.getHackPosition();
-			for (%ind = 0; %ind < 5; %ind++)
+			for (%ind = 0; %ind < 10; %ind++)
 			{
 				if (!isObject(%i))
 				{

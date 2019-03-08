@@ -368,7 +368,7 @@ function serverCmdBuyLot(%cl)
 	}
 
 	%cl.setScore(%cl.score - %cost);
-	clearLot(%hit);
+	clearLotRecursive(%hit, %cl);
 	%cl.brickGroup.add(%hit);
 	%hit.updateLotCount(1);
 	%hit.setTrusted(1);
@@ -734,22 +734,6 @@ function getLotCount(%bg)
 	return %bg.lotCount;
 }
 
-function clearLot(%lotBrick)
-{
-	%top = vectorAdd(%lotBrick.getPosition(), "0 0 0.1");
-	%pos = vectorAdd(%top, "0 0 100");
-	%box = %lotBrick.getDatablock().brickSizeX * 0.5 - 0.05;
-	%box = %box SPC %box SPC 199.95;
-
-	initContainerBoxSearch(%pos, %box, $TypeMasks::fxBrickAlwaysObjectType);
-	while (isObject(%next = containerSearchNext()) && %count < 10000)
-	{
-		%next.delete();
-		%count++;
-	}
-	return %count;
-}
-
 function clearLotRecursive(%lotBrick, %client)
 {
 	%top = vectorAdd(%lotBrick.getPosition(), "0 0 0.1");
@@ -758,6 +742,7 @@ function clearLotRecursive(%lotBrick, %client)
 	%box = %box SPC %box SPC 199.95;
 
 
+	%lotBounds = getBrickBounds(%lotBrick);
 
 	initContainerBoxSearch(%pos, %box, $TypeMasks::fxBrickAlwaysObjectType);
 	for (%i = 0; %i < 1024; %i++)
@@ -769,7 +754,11 @@ function clearLotRecursive(%lotBrick, %client)
 			return;
 		}
 
-		%next.delete();
+		
+		if (isContainedInBounds(%next.getPosition() TAB %next.getPosition(), %lotBounds))
+		{
+			%next.delete();
+		}
 	}
 	schedule(1, 0, clearLotRecursive, %lotBrick, %client);
 }

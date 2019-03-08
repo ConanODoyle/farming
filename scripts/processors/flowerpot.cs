@@ -31,7 +31,7 @@ datablock ItemData(FlowerPotItem : brickPlacerItem)
 	shapeFile = "./resources/FlowerpotItem.dts";
 	uiName = "Flower Pot";
 	image = "FlowerpotBrickImage";
-	colorShiftColor = "0.5 0.5 0.5 1";
+	colorShiftColor = "0.90 0.48 0 1";
 
 	iconName = "Add-ons/Server_Farming/crops/icons/flower_pot";
 
