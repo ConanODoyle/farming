@@ -4,8 +4,8 @@
 
 datablock fxDTSBrickData(brickFlowerPotData : brick1x1Data) 
 {
-	// category = "Farming";
-	// subCategory = "Extra";
+	category = "";
+	subCategory = "";
 	uiName = "Flower Pot";
 
 	brickFile = "./resources/flowerPot.blb";
@@ -51,6 +51,7 @@ datablock ShapeBaseImageData(FlowerpotBrickImage : BrickPlacerImage)
 	colorShiftColor = FlowerpotItem.colorShiftColor;
 
 	toolTip = "Places a Flower Pot";
+	loopTip = "Allows a plant to ignore radius limitations";
 	placeBrick = "brickFlowerpotData";
 };
 

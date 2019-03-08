@@ -1,4 +1,4 @@
-$fertCount = 6;
+$fertCount = "4 8";
 
 function fertilizeCrop(%img, %obj, %slot)
 {
@@ -249,8 +249,9 @@ function processIntoFertilizer(%brick, %cl, %slot)
 		serverCmdUnuseTool(%cl);
 		messageClient(%cl, 'MsgItemPickup', '', %slot, 0);
 
-		createFertilizer(%brick, %cl, $fertCount);
-		%cl.centerprint("<color:ffffff>You made <color:ffff00>" @ $fertCount @ "<color:ffffff> fertilizer out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
+		%rand = getRandom(getWord($fertCount, 0), getWord($fertCount, 1));
+		createFertilizer(%brick, %cl, %rand);
+		%cl.centerprint("<color:ffffff>You made <color:ffff00>" @ %rand @ "<color:ffffff> fertilizer out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
 		return;
 	}
 }
@@ -313,25 +314,26 @@ datablock ShapeBaseImageData(CompostBinBrickImage : BrickPlacerImage)
 	colorShiftColor = CompostBinItem.colorShiftColor;
 
 	toolTip = "Places a Compost Bin";
+	loopTip = "Lets you convert produce into fertilizer";
 	placeBrick = "brickCompostBinData";
 };
 
-function FlowerpotBrickImage::onMount(%this, %obj, %slot)
+function CompostBinBrickImage::onMount(%this, %obj, %slot)
 {
 	brickPlacerItem_onMount(%this, %obj, %slot);
 }
 
-function FlowerpotBrickImage::onUnmount(%this, %obj, %slot)
+function CompostBinBrickImage::onUnmount(%this, %obj, %slot)
 {
 	brickPlacerItem_onUnmount(%this, %obj, %slot);
 }
 
-function FlowerpotBrickImage::onLoop(%this, %obj, %slot)
+function CompostBinBrickImage::onLoop(%this, %obj, %slot)
 {
 	brickPlacerItemLoop(%this, %obj, %slot);
 }
 
-function FlowerpotBrickImage::onFire(%this, %obj, %slot)
+function CompostBinBrickImage::onFire(%this, %obj, %slot)
 {
 	brickPlacerItemFire(%this, %obj, %slot);
 }

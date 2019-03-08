@@ -85,7 +85,7 @@ function brickPlacerItemLoop(%this, %obj, %slot)
 {
 	if (isObject(%cl = %obj.client))
 	{
-		%cl.centerprint("<color:ffff00>-" @ %this.item.uiname @ "-<br><color:ffffff>Click to place ghost brick", 1);
+		%cl.centerprint("<color:ffff00>-" @ %this.item.uiname @ "-<br><color:ffffff>Click to place ghost brick <br><color:ffffff>" @ %this.loopTip @ " ", 1);
 	}
 }
 
