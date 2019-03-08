@@ -3,7 +3,7 @@
 datablock ItemData(BrickPlacerItem : HammerItem)
 {
 	// shapeFile = "./resources/FlowerpotItem.dts";
-	// uiName = "Flower Pot";
+	uiName = "";
 	image = "BrickPlacerImage";
 	// colorShiftColor = "0.5 0.5 0.5 1";
 
