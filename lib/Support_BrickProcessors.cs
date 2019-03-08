@@ -49,7 +49,7 @@ package Processors
 
 	function fxDTSBrick::onDeath(%this, %obj)
 	{
-		talk(%this.getDatablock().placerItem);
+		// talk(%this.getDatablock().placerItem);
 		if (isObject(%this.getDatablock().placerItem))
 		{
 			%i = new Item(BrickPlacers) {
