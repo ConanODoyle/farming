@@ -199,7 +199,9 @@ function buyUnit(%cl, %menu, %option)
 	if (%menu.menuOption[%option] $= "Empty")
 	{
 		if (%cl.nextMessageEmpty < $Sim::Time)
+		{
 			messageClient(%cl, '', "That slot is empty!", 1);
+		}
 
 		%cl.nextMessageEmpty = $Sim::Time + 2;
 
@@ -209,22 +211,61 @@ function buyUnit(%cl, %menu, %option)
 	}
 
 	//check if they can buy here
-
-
-
-
-	//actual removal of item
 	%storageSlot = %option + 1;
 	%storageData = validateStorageContents(%brick.eventOutputParameter[0, %storageSlot], %this);
 	%storageCount = getField(%storageData, 1);
 	%stackType = getField(%storageData, 0);
 
+	%total = 1;
+	if (%cl.lastPurchased[%stackType] + 0.3 > $Sim::Time)
+	{
+		if (%cl.purchaseCombo[%stackType] >= 5)
+		{
+			%total = 5;
+		}
+	}
+	else
+	{
+		%cl.purchaseCombo[%stackType] = 0;
+	}
+	%cl.lastPurchased[%stackType] = $Sim::Time;
+	%cl.purchaseCombo[%stackType]++;
+
+	if (!isObject(%stackType)) //this is a stackable item
+	{
+		%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2) * %total;
+	}
+	else //this is a normal item
+	{
+		%price = mCeil(%stackType.cost * 1.2);
+		if (%price <= 10)
+		{
+			%price = 10;
+		}
+	}
+
+	if (%price > %cl.score)
+	{
+		// if (%cl.nextMessageAfford[%stackType] < $Sim::Time)
+		// {
+			messageClient(%cl, '', "You can't afford this!");
+		// }
+
+		// %cl.nextMessageAfford[%stackType] = $Sim::Time + 2;
+
+		%brick.displayStorageContents(%brick.eventOutputParameter0_1, %brick.eventOutputParameter0_2, %brick.eventOutputParameter0_3, %brick.eventOutputParameter0_4, %cl);
+		%cl.displayCenterprintMenu(%option);
+		return;
+	}
+
+	%cl.setScore(%cl.score - %price);
+	purchasedMessageSchedule(%cl, %stackType, %total, %price);
+
+
+	//actual removal of item
 	if (!isObject(%stackType)) //stackable item
 	{
-		%max = $Stackable_[%stackType, "stackedItemTotal"] - 1;
-		%max = getWord($Stackable_[%stackType, "stackedItem" @ %max], 1);
-
-		%amt = getMin(1, %storageCount);
+		%amt = getMin(%total, %storageCount);
 		%left = %storageCount - %amt;
 		if (%left > 0)
 		{
@@ -264,4 +305,27 @@ function buyUnit(%cl, %menu, %option)
 
 	%brick.displayStorageContents(%brick.eventOutputParameter0_1, %brick.eventOutputParameter0_2, %brick.eventOutputParameter0_3, %brick.eventOutputParameter0_4, %cl);
 	%cl.displayCenterprintMenu(%option);
+}
+
+function purchasedMessageSchedule(%cl, %stackType, %count, %amount)
+{
+	cancel(%cl.shopPurchaseSched[%stackType]);
+
+	%cl.shopPurchaseSched[%stackType] = schedule(1000, %cl, messagePurchaseTotal, %cl, %stackType);
+	%cl.shopPurchaseCount[%stackType] += %count;
+	%cl.shopPurchaseAmount[%stackType] += %amount;
+}
+
+function messagePurchaseTotal(%cl, %stackType)
+{
+	cancel(%cl.shopPurchaseSched[%stackType]);
+
+	%count = %cl.shopPurchaseCount[%stackType];
+	%amount = %cl.shopPurchaseAmount[%stackType];
+	%name = %stackType.uiName !$= "" ? %stackType.uiName : %stackType;
+	messageClient(%cl, '', "\c6You purchased \c6" @ %count @ " " @ %name @ " for \c0$" @ mFloatLength(%amount, 2));
+
+	%cl.shopPurchaseCount[%stackType] = "";
+	%cl.shopPurchaseAmount[%stackType] = "";
+	%cl.shopPurchaseSched[%stackType] = "";
 }
