@@ -347,7 +347,7 @@ function attemptBuy(%cl, %num)
 			%numItems = 1;
 			if (getField(%max, 1))
 			{
-				%numItems = getField(%max, 0);
+				%numItems = getMin(%num, getField(%max, 0));
 			}
 
 			for (%ind = 0; %ind < %numItems; %ind++)
