@@ -24,23 +24,6 @@ datablock fxDTSBrickData(brick8x8DirtData : brick8x8Data)
 	maxWater = 1200;
 };
 
-datablock fxDTSBrickData(brick4xPlanterDirtData : brick1x1Data) 
-{
-	category = "Farming";
-	subCategory = "Extra";
-	uiName = "4x Planter";
-
-	brickFile = "./bricks/4xPlanter.blb";
-
-	iconName = "Add-Ons/Server_Farming/crops/icons/4x_planter";
-
-	cost = 150;
-	isDirt = 1;
-	maxWater = 150;
-	// isPot = 1;
-	isPlanter = 1;
-};
-
 
 ///////////////
 //Water Tanks//

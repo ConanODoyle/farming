@@ -2,7 +2,7 @@
 //Define core datablocks first
 datablock ItemData(BrickPlacerItem : HammerItem)
 {
-	// shapeFile = "./resources/FlowerpotItem.dts";
+	shapeFile = "base/data/shapes/empty.dst";
 	uiName = "";
 	image = "BrickPlacerImage";
 	// colorShiftColor = "0.5 0.5 0.5 1";
@@ -63,6 +63,7 @@ datablock ShapeBaseImageData(BrickPlacerImage)
 
 exec("./fertilizer.cs");
 exec("./flowerpot.cs");
+exec("./planterBox.cs");
 
 function brickPlacerItem_onMount(%this, %obj, %slot)
 {
