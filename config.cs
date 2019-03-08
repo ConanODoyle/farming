@@ -106,6 +106,8 @@ $ItemList_[$ItemCount++ - 1]  = "SickleItem" TAB      35;
 $ItemList_[$ItemCount++ - 1]  = "PlanterItem" TAB     25;
 $ItemList_[$ItemCount++ - 1]  = "PlanterV2Item" TAB   15;
 $ItemList_[$ItemCount++ - 1]  = "ReclaimerItem" TAB   20;
+$ItemList_[$ItemCount++ - 1]  = "FlowerPotItem" TAB   20;
+$ItemList_[$ItemCount++ - 1]  = "CompostBinItem" TAB   20;
 $ItemList_[$ItemCount++ - 1]  = "WateringCatItem" TAB   5;
 
 // Storage
