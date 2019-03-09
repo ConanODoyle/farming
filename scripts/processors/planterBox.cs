@@ -16,7 +16,7 @@ datablock fxDTSBrickData(brickPlanterBoxData : brick1x1Data)
 	isDirt = 1;
 	maxWater = 150;
 	// isPot = 1;
-	isPlanter = 1
+	isPlanter = 1;
 	placerItem = "PlanterBoxItem";
 	isProcessor = 1;
 };

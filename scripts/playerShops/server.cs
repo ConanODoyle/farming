@@ -24,13 +24,13 @@ package PlayerShops
 				{
 					//they're trying to buy stuff!!
 					//open buy menu here
-
+					%cl.startCenterprintMenu(%this.shopBuyerMenu);
 					storageLoop(%cl, %this);
 				}
 				return;
 			}
 
-			%cl.startShopMenu(%this.shopStorageMenu);
+			%cl.startCenterprintMenu(%this.shopStorageMenu);
 
 			//potential here for mobile shops!!!!!
 			// if (isObject(%this.vehicle) && %this.vehicle.getDatablock().isStorageCart)
@@ -57,6 +57,17 @@ package PlayerShops
 		}
 		%obj.settingName = 0;
 		return parent::setNTObjectName(%obj, %name);
+	}
+
+	function attemptStorage(%brick, %cl, %slot, %multiplier)
+	{
+		%ret = parent::attemptStorage(%brick, %cl, %slot, %multiplier);
+		
+		if (%ret && %brick.getDatablock().isShopBrick)
+		{
+			%brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
+		}
+		return %ret;
 	}
 };
 activatePackage(PlayerShops);
@@ -133,9 +144,9 @@ function fxDTSBrick::updateShopMenus(%this, %str1, %str2, %str3, %str4)
 			else //this is a normal item
 			{
 				%price = mCeil(%stackType.cost * 1.2);
-				if (%price <= 0)
+				if (%price <= 10)
 				{
-					%price = 1;
+					%price = 10;
 				}
 				%this.shopStorageMenu.menuOption[%i] = "$" @ %price @ ": " @ strUpr(getSubStr(%stackType.uiName, 0, 1)) @ getSubStr(%stackType.uiName, 1, 100);
 				%this.shopBuyerMenu.menuOption[%i] = "$" @ %price @ ": " @ strUpr(getSubStr(%stackType.uiName, 0, 1)) @ getSubStr(%stackType.uiName, 1, 100);
@@ -149,8 +160,8 @@ function fxDTSBrick::updateShopMenus(%this, %str1, %str2, %str3, %str4)
 	}
 
 	%brickName = getSubStr(%this.getName(), 1, 64);
-	%money = getWord(%brickName, 0);
-	%lastTakenBy = trim(getSubStr(getWords(%brickName, 1, 3), 0, 20));
+	%money = getSubStr(%brickName, 0, strPos(%brickName, "_"));
+	%lastTakenBy = trim(getSubStr(%brickName, strPos(%brickName, "_") + 1, 30));
 	if (%lastTakenBy $= "")
 	{
 		%lastTakenBy = "None";
@@ -166,19 +177,53 @@ function removeMoney(%cl, %menu, %option)
 		return;
 	}
 
-	%brickName = getSubStr(%this.getName(), 1, 64);
-	%money = getWord(%brickName, 0);
+	%brickName = getSubStr(%brick.getName(), 1, 64);
+	// talk("raw: " @ getSubStr(%brickName, 0, strPos(%brickName, "_")));
+	%money = getMax(getSubStr(%brickName, 0, strPos(%brickName, "_")) + 0, 0);
 	%lastTakenBy = %cl.getPlayerName();
 	
 	%pre = %cl.score;
-	%post = %cl.setScore(%cl.score + %money);
+	%cl.setScore(%cl.score + %money);
+	%post = %cl.score;
 	%diff = %post - %pre;
+
+	if (%diff <= 0)
+	{
+		messageClient(%cl, '', "\c6The cash register is empty!");
+	}
 	
 	%money = %money - %diff;
 	%brick.settingName = 1;
+	// talk("M: " @ %money @ " name: " @ %cl.getPlayerName());
 	%brick.setNTObjectName(%money SPC %cl.getPlayerName());
 
-	%brick.updateCenterprintMenu(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
+	messageClient(%cl, '', "\c6You removed \c2$" @ %diff @ "\c6 from the cash register!");
+
+	%brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
+}
+
+function fxDTSBrick::storeMoney(%brick, %amount)
+{
+	if (!%brick.getDatablock().isShopBrick)
+	{
+		return;
+	}
+
+	%brickName = getSubStr(%brick.getName(), 1, 64);
+	// talk("raw: " @ getSubStr(%brickName, 0, strPos(%brickName, "_")));
+	%money = getMax(getSubStr(%brickName, 0, strPos(%brickName, "_")) + 0, 0);
+	%lastTakenBy = getSubStr(%brickName, strPos(%brickName, "_"), 30);
+	if (%lastTakenBy $= "")
+	{
+		%lastTakenBy = "_None";
+	}
+	
+	%money = %money + %amount;
+	%brick.settingName = 1;
+	// talk("M: " @ %money @ " name: " @ %cl.getPlayerName());
+	%brick.setNTObjectName(%money @ %lastTakenBy);
+
+	%brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
 }
 
 function buyUnit(%cl, %menu, %option)
@@ -217,19 +262,19 @@ function buyUnit(%cl, %menu, %option)
 	%stackType = getField(%storageData, 0);
 
 	%total = 1;
-	if (%cl.lastPurchased[%stackType] + 0.3 > $Sim::Time)
-	{
-		if (%cl.purchaseCombo[%stackType] >= 5)
-		{
-			%total = 5;
-		}
-	}
-	else
-	{
-		%cl.purchaseCombo[%stackType] = 0;
-	}
-	%cl.lastPurchased[%stackType] = $Sim::Time;
-	%cl.purchaseCombo[%stackType]++;
+	// if (%cl.lastPurchased[%stackType] + 0.3 > $Sim::Time)
+	// {
+	// 	if (%cl.purchaseCombo[%stackType] >= 5)
+	// 	{
+	// 		%total = 5;
+	// 	}
+	// }
+	// else
+	// {
+	// 	%cl.purchaseCombo[%stackType] = 0;
+	// }
+	// %cl.lastPurchased[%stackType] = $Sim::Time;
+	// %cl.purchaseCombo[%stackType]++;
 
 	if (!isObject(%stackType)) //this is a stackable item
 	{
@@ -258,8 +303,10 @@ function buyUnit(%cl, %menu, %option)
 		return;
 	}
 
+	//can buy, bought!
 	%cl.setScore(%cl.score - %price);
 	purchasedMessageSchedule(%cl, %stackType, %total, %price);
+	%menu.brick.storeMoney(%price);
 
 
 	//actual removal of item
@@ -289,7 +336,7 @@ function buyUnit(%cl, %menu, %option)
 	}
 
 	//update centerprint menu
-	%brick.updateCenterprintMenu(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
+	%brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
 	
 	%i = new Item()
 	{
