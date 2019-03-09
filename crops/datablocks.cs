@@ -151,6 +151,10 @@ datablock fxDTSBrickData(brickShopStallData)
 	isShopBrick = 1;
 
 	cost = -1;
+	itemPos0 = "1 0.7 0";
+	itemPos1 = "1 -0.7 0";
+	itemPos2 = "0 0.7 0.4";
+	itemPos3 = "0 -0.7 0.4";
 };
 
 
