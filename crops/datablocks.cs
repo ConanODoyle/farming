@@ -154,6 +154,26 @@ datablock fxDTSBrickData(brickShopStallData)
 };
 
 
+////////////////
+//Money Bricks//
+////////////////
+
+datablock fxDTSBrickData(brickGoldIngotData)
+{
+	category = "Farming";
+	subCategory = "Extra";
+	uiName = "Gold Ingot";
+
+	brickFile = "./bricks/goldingot.blb";
+
+	iconName = "Add-Ons/Server_Farming/crops/icons/GoldIngot";
+
+	isGreenhouse = 1;
+
+	cost = 4000;
+};
+
+
 ///////////
 //Storage//
 ///////////
