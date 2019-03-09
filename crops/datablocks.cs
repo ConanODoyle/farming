@@ -174,7 +174,7 @@ datablock fxDTSBrickData(brickGoldIngotData)
 
 	isGreenhouse = 1;
 
-	cost = 4000;
+	cost = 5000;
 };
 
 

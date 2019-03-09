@@ -131,10 +131,10 @@ function GameConnection::displayCenterprintMenu(%cl, %diff)
 			%dist = %max - %min;
 	}
 
-	%fontA = "<font:Arial:18><color:ffffff>";
-	%fontB = "<font:Arial Bold:18><color:ffff00>";
+	%fontA = "<font:Arial:18>\c6";
+	%fontB = "<font:Arial Bold:18>\c3";
 
-	%line = "<just:right><color:ffff00>" @ %menuName @ " <br>" @ %fontA;
+	%line = "<just:right>\c3" @ %menuName @ " <br>" @ %fontA;
 	for (%i = 0; %i <= getMin(%dist, 6); %i++)
 	{
 		%option = %i + %min;
@@ -144,7 +144,7 @@ function GameConnection::displayCenterprintMenu(%cl, %diff)
 		}
 		else
 		{
-			%line = %line @ %menu.menuOption[%option] @ " <br>";
+			%line = %line @ %menu.menuOption[%option] @ " <br>\c6";
 		}
 	}
 
