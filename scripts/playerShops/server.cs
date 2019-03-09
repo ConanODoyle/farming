@@ -66,8 +66,58 @@ package PlayerShops
 		if (%ret && %brick.getDatablock().isShopBrick)
 		{
 			%brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
+			%brick.updateShopDisplay();
 		}
 		return %ret;
+	}
+
+	function fxDTSBrick::onDeath(%this, %obj)
+	{
+		if (%this.getDatablock().isShopBrick)
+		{
+			for (%i = 0; %i < 4; %i++)
+			{
+				if (isObject(%this.shopDisplayItem[%i]))
+				{
+					%this.shopDisplayItem[%i].delete();
+				}
+			}
+		}
+		return parent::onDeath(%this, %obj);
+	}
+
+	function fxDTSBrick::onRemove(%this, %obj)
+	{
+		if (%this.getDatablock().isShopBrick)
+		{
+			for (%i = 0; %i < 4; %i++)
+			{
+				if (isObject(%this.shopDisplayItem[%i]))
+				{
+					%this.shopDisplayItem[%i].delete();
+				}
+			}
+		}
+		return parent::onRemove(%this, %obj);
+	}
+
+	function fxDTSBrick::onAdd(%this, %obj)
+	{
+		if (%this.getDatablock().isShopBrick)
+		{
+			%this.schedule(1000, updateShopDisplay);
+		}
+		return parent::onAdd(%this, %obj);
+	}
+
+	function removeStack(%cl, %menu, %option)
+	{
+		%ret = parent::removeStack(%cl, %menu, %option);
+
+		if (isObject(%menu.brick) && %menu.brick.getDatablock().isShopBrick)
+		{
+			%menu.brick.updateShopDisplay();
+		}
 	}
 };
 activatePackage(PlayerShops);
@@ -167,7 +217,105 @@ function fxDTSBrick::updateShopMenus(%this, %str1, %str2, %str3, %str4)
 		%lastTakenBy = "None";
 	}
 	%this.shopStorageMenu.menuOption[4] = "$" @ %money @ " - " @ %lastTakenBy;
+
+	%this.updateShopDisplay();
 }
+
+//angleID 0
+//1 +-0.7 0
+//0 +- 0.7 0.4
+
+function fxDTSBrick::updateShopDisplay(%this)
+{
+	if (!%this.getDatablock().isShopBrick)
+	{
+		return;
+	}
+
+	for (%i = 1; %i < 5; %i++)
+	{
+		%str[%i - 1] = validateStorageContents(%this.eventOutputParameter[0,%i], %this);
+	}
+
+	%rotation = getWords(%this.getTransform(), 3, 6);
+
+	for (%i = 0; %i < 4; %i++)
+	{
+		%currPos = %this.getDatablock().itemPos[%i];
+		switch(%this.angleID)
+		{
+			case 0: %currPos = %currPos;
+			case 1: %currPos = getWord(%currPos, 1) SPC  -1 * getWord(%currPos, 0) SPC getWord(%currPos, 2);
+			case 2: %currPos = -1 * getWord(%currPos, 0) SPC -1 * getWord(%currPos, 1) SPC getWord(%currPos, 2);
+			case 3: %currPos = -1 * getWord(%currPos, 1) SPC getWord(%currPos, 0) SPC getWord(%currPos, 2);
+		}
+		%currPos = vectorAdd(%this.getPosition(), %currPos);
+		// %p = createBoxAt(%currPos, "0 0 1 1", 0.1);
+		// %p.schedule(1000, delete);
+		%info = %str[%i];
+		%stackType = getField(%info, 0);
+		%count = getField(%info, 1);
+
+		if (%stackType !$= "")
+		{
+			if (isObject(%stackType)) //not a stackable id
+			{
+				%itemDB = %stackType;
+			}
+			else
+			{
+				%itemDB = getWord($Stackable_[%stackType, "stackedItem0"], 0);
+			}
+
+			if (!isObject(%this.shopDisplayItem[%i]))
+			{
+				%item = %this.shopDisplayItem[%i] = new Item(ShopDisplayItems)
+				{
+					dataBlock = %itemDB;
+					static = 1;
+				};
+				%item.setTransform(%item.getPosition() SPC %rotation);
+				MissionCleanup.add(%item);
+				%item.canPickup = 0;
+
+				%height = %item.getWorldBox();
+				%height = getWord(%height, 5) - getWord(%height, 2);
+
+				// %item.setTransform(vectorAdd(%currPos, "0 0 " @ %height) SPC %rotation);
+				
+				%offset = %item.getWorldBox();
+				%center = vectorScale(vectorAdd(getWords(%offset, 0, 1), getWords(%offset, 3, 4)), 0.5);
+				%offset = getWords(vectorSub(%item.getTransform(), %center), 0, 1) SPC %height;
+				%item.setTransform(vectorAdd(%currPos, %offset) SPC %rotation);
+			}
+			else //if (%this.shopDisplayItem[%i].getDatablock() != %itemDB.getID())
+			{
+				%item = %this.shopDisplayItem[%i];
+				%this.shopDisplayItem[%i].setDatablock(%itemDB);
+				if (%itemDB.doColorShift)
+				{
+					%item.setNodeColor("ALL", %itemDB.colorShiftColor);
+				}
+
+				%height = %item.getWorldBox();
+				%height = getWord(%height, 5) - getWord(%height, 2);
+				
+				%offset = %item.getWorldBox();
+				%center = vectorScale(vectorAdd(getWords(%offset, 0, 1), getWords(%offset, 3, 4)), 0.5);
+				%offset = getWords(vectorSub(%item.getTransform(), %center), 0, 1) SPC %height;
+				%item.setTransform(vectorAdd(%currPos, %offset) SPC %rotation);
+			}
+		}
+		else
+		{
+			if (isObject(%this.shopDisplayItem[%i]))
+			{
+				%this.shopDisplayItem[%i].delete();
+			}
+		}
+	}
+}
+
 
 function removeMoney(%cl, %menu, %option)
 {
@@ -307,6 +455,7 @@ function buyUnit(%cl, %menu, %option)
 	%cl.setScore(%cl.score - %price);
 	purchasedMessageSchedule(%cl, %stackType, %total, %price);
 	%menu.brick.storeMoney(%price);
+	%menu.brick.updateShopDisplay();
 
 
 	//actual removal of item

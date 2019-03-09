@@ -28,7 +28,7 @@ function pickRandomEvent(%bot, %rand)
 			%item = getRandomInstrument();
 			if (%item.uiName !$= "Keytar")
 			{
-				%price = 1000 * (5 - getRandom(0, 2)) / 4;
+				%price = 2000 * (5 - getRandom(0, 2)) / 4;
 			}
 			else
 			{

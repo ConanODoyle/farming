@@ -85,10 +85,12 @@ function generateInstrumentList()
 		if (isObject(%db.image) && %db.image.instrumentType !$= "")
 		{
 			$InstrumentList_[$InstrumentCount + 0] = %db;
+			%db.cost = 1000;
 			$InstrumentCount++;
 
 			if (%db.uiName $= "Keytar")
 			{
+				%db.cost = 1500;
 				%keytarFound = 1;
 				%keytarIDX = $InstrumentCount - 1;
 			}
