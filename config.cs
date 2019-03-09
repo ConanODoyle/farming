@@ -22,6 +22,8 @@ JeepVehicle.maxWheelSpeed = 18;
 JeepVehicle.uiName = "Jeep - $1000";
 JeepVehicle.cost = 1000;
 HorseArmor.cost = 250;
+HorseArmor.maxForwardSpeed = 9;
+HorseArmor.maxForwardCrouchSpeed = 9;
 HorseArmor.uiName = "Horse - $250";
 
 //Produce
@@ -90,7 +92,7 @@ $SeedList_[$SeedCount++ - 1]  = "CactusSeedItem" TAB   0;
 
 //Extra stackable items
 
-$Produce::BuyCost_["Fertilizer"] = 3.00;
+$Produce::BuyCost_["Fertilizer"] = 2.00;
 
 //Normal item prices defined in their datablock
 $ItemCount = 0;

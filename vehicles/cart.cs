@@ -25,10 +25,8 @@ datablock PlayerData(HorseStorageCartArmor : HorseArmor)
 	shapeFile = "./horseCart.dts";
 
 	uiName = "Horse Cart - $2000";
-	maxForwardSpeed = 10;
-	maxBackwardSpeed = 6.3;
-	maxForwardCrouchSpeed = 10;
-	maxBackwardCrouchSpeed = 6.3;
+	maxForwardSpeed = 9;
+	maxForwardCrouchSpeed = 9;
 
 	jumpForce = 1000;
 
@@ -54,16 +52,16 @@ datablock PlayerData(LargeStorageCartArmor : StorageCartArmor)
 	cost = 1200;
 };
 
-datablock PlayerData(LargeHorseStorageCartArmor : HorseStorageCartArmor)
-{
-	shapeFile = "./largeHorseCart.dts";
+// datablock PlayerData(LargeHorseStorageCartArmor : HorseStorageCartArmor)
+// {
+// 	shapeFile = "./largeHorseCart.dts";
 
-	uiName = "Large Horse Cart (2x) - $3800";
+// 	uiName = "Large Horse Cart (2x) - $3800";
 
-	isStorageCart = 1;
-	storageBonus = 2;
-	cost = 3800;
-};
+// 	isStorageCart = 1;
+// 	storageBonus = 2;
+// 	cost = 3800;
+// };
 
 function StorageCartArmor::onAdd(%this, %obj)
 {
@@ -106,7 +104,7 @@ package Cart
 {
 	function Armor::onMount(%this, %obj, %mount, %slot)
 	{
-		if (getTrustLevel(%obj, %mount) < 2)
+		if (getTrustLevel(%obj, %mount) < 2 && isObject(%obj.client))
 		{
 			%obj.schedule(10, dismount);
 			%obj.client.centerprint(getBrickgroupFromObject(%mount).name @ " does not trust you enough to do that!", 1);

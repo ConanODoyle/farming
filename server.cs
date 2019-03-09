@@ -1,4 +1,5 @@
 
+echo("");
 echo("\c4--Loading Farming Dependencies");
 
 // Generic libraries this depends on
@@ -31,6 +32,7 @@ exec("./util/stackTypeCheck.cs");
 exec("./util/strLastPos.cs");
 exec("./util/stuck.cs");
 
+echo("");
 echo("\c4--Loading Farming Assets");
 
 // Generic libraries this depends on

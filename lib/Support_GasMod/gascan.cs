@@ -7,7 +7,7 @@ if(isFile("Add-Ons/System_ReturnToBlockland/server.cs"))
 }
 else
 {
-	$gc_gasCan::Amount = 200;
+	$gc_gasCan::Amount = 50;
 }
 
 //### Sounds
@@ -80,8 +80,10 @@ function gc_gasCanImage::onFire(%this,%obj,%slot)
 	if(isObject(%thing) && %thing.getClassName() !$= "fxDTSBrick")
 	{
 		%thing.VGM_Gas += $gc_gasCan::Amount; //200
-		serverPlay3D(gc_gasCanRefuelSound,%obj.getTransform());
-		centerPrint(%obj.client,"Fuel: " @ mCeil(%thing.VGM_Gas),1);
+		serverPlay3D(gc_gasCanRefuelSound, %obj.getTransform());
+		centerPrint(%obj.client,"Fuel: \c3" @ mCeil(%thing.VGM_Gas) @ " ", 1);
+
+		//remove item
 		%currSlot = %obj.currTool;
 		%obj.tool[%currSlot] = 0;
 		%obj.weaponCount--;

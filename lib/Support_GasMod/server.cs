@@ -23,11 +23,11 @@ if(isFile("Add-Ons/System_ReturnToBlockland/server.cs"))
 		exec("Add-Ons/System_ReturnToBlockland/RTBR_ServerControl_Hook.cs");
 	}
 	RTB_registerPref("Enabled", "Gas Mod", "$VGM::Enabled", "bool", "Server_GasMod", 1, 0, 0, "VGM_tick");
-	RTB_registerPref("Default Gas", "Gas Mod", "$VGM::DefaultGas", "int 0 1000000", "Server_GasMod", 500, 0, 0);
+	RTB_registerPref("Default Gas", "Gas Mod", "$VGM::DefaultGas", "int 0 1000000", "Server_GasMod", 200, 0, 0);
 }
 else
 {
-	$VGM::DefaultGas = 500;
+	$VGM::DefaultGas = 200;
 }
 
 if(isFile("Add-Ons/Event_Variables/changelog.txt") && $AddOn__Event_Variables)
@@ -89,7 +89,7 @@ function VGM_tick()
 			}
 			else
 			{
-				bottomprint(%cl, "Fuel: \c3" @ mCeil(%vech.VGM_Gas), 1);
+				centerprint(%cl, "<just:right>Fuel: \c3" @ mCeil(%vech.VGM_Gas) @ " ", 1);
 			}
 		}
 		%vech.VGM_OldPos = %vech.position;
@@ -103,8 +103,8 @@ package VGM
 	{
 		parent::spawnVehicle(%this);
 		%vehicle = %this.vehicle;
-		if(%vehicle.getclassname() $= "AIPlayer")
-			return;
+		// if(%vehicle.getclassname() $= "AIPlayer")
+		// 	return;
 		
 		%loop = 0;
 		while(isobject($VGM::Vech[%loop]))
