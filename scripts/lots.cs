@@ -742,7 +742,7 @@ function clearLotRecursive(%lotBrick, %client)
 	%box = %box SPC %box SPC 199.95;
 
 
-	%lotBounds = getBrickBounds(%lotBrick);
+	%lotBounds = getBrickBounds(%lotBrick, 70);
 
 	initContainerBoxSearch(%pos, %box, $TypeMasks::fxBrickAlwaysObjectType);
 	for (%i = 0; %i < 1024; %i++)
