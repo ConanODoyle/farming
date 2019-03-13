@@ -146,6 +146,11 @@ function AIPlayer::attemptBuy(%bot, %item)
 	{
 		%money = %count * %bot.produceCost;
 	}
+	if (%bot.nextEventTime > $Sim::Time) //reduce time left on seller
+	{
+		%bot.nextEventTime -= 6;
+		%bot.refreshTime -= 6;
+	}
 	%blid = %item.bl_id;
 
 	if (isObject(%cl = findClientByBL_ID(%blid)))

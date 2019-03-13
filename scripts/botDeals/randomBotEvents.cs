@@ -4,8 +4,8 @@ function pickRandomEvent(%bot, %rand)
 	{
 		case "buyProduce": //Produce Buy Bonus
 			%crop = getRandomProduceType();
-			%price = $Produce::BuyCost_[%crop] * 2;
-			return "BUY 0" TAB %crop TAB %price TAB "I'm buying each " @ %crop @ " for double the price!";
+			%price = mFloor($Produce::BuyCost_[%crop] * 1.5 * 4) / 4;
+			return "BUY 0" TAB %crop TAB %price TAB "I'm buying each " @ %crop @ " for 50% more!";
 		case "sellSeeds": //Seed sell discount
 			%seed = getRandomSeedType();
 			%fixedName = strReplace(getSubStr(%seed, 0, strLen(%seed) - 8), "_", " ") SPC "seeds";
@@ -98,6 +98,7 @@ function AIPlayer::doRandomEventLoop(%bot, %time, %randOptions, %speak)
 			// %bot.spawnBrick.setEventEnabled(1, 1);
 			// %bot.spawnBrick.setEventEnabled(2, 0);
 			%timeBonus = %time / 2;
+			%bot.refreshTime = 0;
 		}
 
 		%bot.nextEventTime = $Sim::Time + %time - %timeBonus;
