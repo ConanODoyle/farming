@@ -52,7 +52,7 @@ $Farming::Crops::PlantData_["Potato", 0, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Potato", 1, "timePerTick"]				= "4000";
+$Farming::Crops::PlantData_["Potato", 1, "timePerTick"]				= "5000";
 $Farming::Crops::PlantData_["Potato", 1, "nextStage"]				= "brickPotato2CropData";
 $Farming::Crops::PlantData_["Potato", 1, "dryStage"]				= "";
 $Farming::Crops::PlantData_["Potato", 1, "waterPerTick"]			= "2";
@@ -115,7 +115,7 @@ $Farming::Crops::PlantData_["Carrot", 0, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Carrot", 1, "timePerTick"]				= "6000";
+$Farming::Crops::PlantData_["Carrot", 1, "timePerTick"]				= "7000";
 $Farming::Crops::PlantData_["Carrot", 1, "nextStage"]				= "brickCarrot2CropData";
 $Farming::Crops::PlantData_["Carrot", 1, "dryStage"]				= "";
 $Farming::Crops::PlantData_["Carrot", 1, "waterPerTick"]			= "3";
@@ -243,7 +243,7 @@ $Farming::Crops::PlantData_["Corn", 0, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Corn", 1, "timePerTick"]				= "7000";
+$Farming::Crops::PlantData_["Corn", 1, "timePerTick"]				= "8000";
 $Farming::Crops::PlantData_["Corn", 1, "nextStage"]					= "brickCorn2CropData";
 $Farming::Crops::PlantData_["Corn", 1, "dryStage"]					= "";
 $Farming::Crops::PlantData_["Corn", 1, "waterPerTick"]				= "7";
@@ -318,7 +318,7 @@ $Farming::Crops::PlantData_["Cabbage", 0, "numDryTicks"]			= "-1";
 $Farming::Crops::PlantData_["Cabbage", 1, "timePerTick"]			= "7000";
 $Farming::Crops::PlantData_["Cabbage", 1, "nextStage"]				= "brickCabbage2CropData";
 $Farming::Crops::PlantData_["Cabbage", 1, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Cabbage", 1, "waterPerTick"]			= "15";
+$Farming::Crops::PlantData_["Cabbage", 1, "waterPerTick"]			= "12";
 $Farming::Crops::PlantData_["Cabbage", 1, "numGrowTicks"]			= "10";
 $Farming::Crops::PlantData_["Cabbage", 1, "numDryTicks"]			= "-1";
 
@@ -378,7 +378,7 @@ $Farming::Crops::PlantData_["Onion", "experienceRequired"]			= "250";
 $Farming::Crops::PlantData_["Onion", "harvestExperience"]			= "0";
 $Farming::Crops::PlantData_["Onion", "plantingExperience"]			= "1";
 
-$Farming::Crops::PlantData_["Onion", 0, "timePerTick"]				= "9000";
+$Farming::Crops::PlantData_["Onion", 0, "timePerTick"]				= "8000";
 $Farming::Crops::PlantData_["Onion", 0, "nextStage"]				= "brickOnion1CropData";
 $Farming::Crops::PlantData_["Onion", 0, "dryStage"]					= "";
 $Farming::Crops::PlantData_["Onion", 0, "waterPerTick"]				= "3";
@@ -387,7 +387,7 @@ $Farming::Crops::PlantData_["Onion", 0, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Onion", 1, "timePerTick"]				= "8000";
+$Farming::Crops::PlantData_["Onion", 1, "timePerTick"]				= "9000";
 $Farming::Crops::PlantData_["Onion", 1, "nextStage"]				= "brickOnion2CropData";
 $Farming::Crops::PlantData_["Onion", 1, "dryStage"]					= "";
 $Farming::Crops::PlantData_["Onion", 1, "waterPerTick"]				= "4";
@@ -396,7 +396,7 @@ $Farming::Crops::PlantData_["Onion", 1, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Onion", 2, "timePerTick"]				= "8000";
+$Farming::Crops::PlantData_["Onion", 2, "timePerTick"]				= "9000";
 $Farming::Crops::PlantData_["Onion", 2, "nextStage"]				= "brickOnion3CropData";
 $Farming::Crops::PlantData_["Onion", 2, "dryStage"]					= "";
 $Farming::Crops::PlantData_["Onion", 2, "waterPerTick"]				= "4";
@@ -528,7 +528,7 @@ $Farming::Crops::PlantData_["Turnip", 1, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Turnip", 2, "timePerTick"]				= "10000";
 $Farming::Crops::PlantData_["Turnip", 2, "nextStage"]				= "brickTurnip3CropData";
 $Farming::Crops::PlantData_["Turnip", 2, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Turnip", 2, "waterPerTick"]			= "15";
+$Farming::Crops::PlantData_["Turnip", 2, "waterPerTick"]			= "10";
 $Farming::Crops::PlantData_["Turnip", 2, "numGrowTicks"]			= "10";
 $Farming::Crops::PlantData_["Turnip", 2, "numDryTicks"]				= "-1";
 
@@ -911,28 +911,28 @@ $Farming::Crops::PlantData_["Mango", 7, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Mango", 8, "timePerTick"]				= "55000";
+$Farming::Crops::PlantData_["Mango", 8, "timePerTick"]				= "50000";
 $Farming::Crops::PlantData_["Mango", 8, "nextStage"]				= "brickMangoTree9CropData";
 $Farming::Crops::PlantData_["Mango", 8, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Mango", 8, "waterPerTick"]				= "5";
+$Farming::Crops::PlantData_["Mango", 8, "waterPerTick"]				= "25";
 $Farming::Crops::PlantData_["Mango", 8, "numGrowTicks"]				= "20";
 $Farming::Crops::PlantData_["Mango", 8, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Mango", 9, "timePerTick"]				= "10000";
+$Farming::Crops::PlantData_["Mango", 9, "timePerTick"]				= "15000";
 $Farming::Crops::PlantData_["Mango", 9, "nextStage"]				= "brickMangoTree10CropData";
 $Farming::Crops::PlantData_["Mango", 9, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Mango", 9, "waterPerTick"]				= "30";
+$Farming::Crops::PlantData_["Mango", 9, "waterPerTick"]				= "35";
 $Farming::Crops::PlantData_["Mango", 9, "numGrowTicks"]				= "10";
 $Farming::Crops::PlantData_["Mango", 9, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Mango", 10, "timePerTick"]				= "10000";
+$Farming::Crops::PlantData_["Mango", 10, "timePerTick"]				= "15000";
 $Farming::Crops::PlantData_["Mango", 10, "nextStage"]				= "brickMangoTree11CropData";
 $Farming::Crops::PlantData_["Mango", 10, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Mango", 10, "waterPerTick"]			= "30";
+$Farming::Crops::PlantData_["Mango", 10, "waterPerTick"]			= "35";
 $Farming::Crops::PlantData_["Mango", 10, "numGrowTicks"]			= "10";
 $Farming::Crops::PlantData_["Mango", 10, "numDryTicks"]				= "-1";
 

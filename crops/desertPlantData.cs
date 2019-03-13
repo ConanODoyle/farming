@@ -9,7 +9,7 @@ $Farming::Crops::PlantData_["Chili", "experienceRequired"]			= "0";
 $Farming::Crops::PlantData_["Chili", "harvestExperience"]			= "0";
 $Farming::Crops::PlantData_["Chili", "plantingExperience"]			= "2";
 
-$Farming::Crops::PlantData_["Chili", 0, "timePerTick"]				= "6000";
+$Farming::Crops::PlantData_["Chili", 0, "timePerTick"]				= "7000";
 $Farming::Crops::PlantData_["Chili", 0, "nextStage"]				= "brickChili1CropData";
 $Farming::Crops::PlantData_["Chili", 0, "dryStage"]					= "";
 $Farming::Crops::PlantData_["Chili", 0, "waterPerTick"]				= "1";
@@ -18,28 +18,28 @@ $Farming::Crops::PlantData_["Chili", 0, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Chili", 1, "timePerTick"]				= "7000";
+$Farming::Crops::PlantData_["Chili", 1, "timePerTick"]				= "8000";
 $Farming::Crops::PlantData_["Chili", 1, "nextStage"]				= "brickChili2CropData";
 $Farming::Crops::PlantData_["Chili", 1, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Chili", 1, "waterPerTick"]				= "1";
+$Farming::Crops::PlantData_["Chili", 1, "waterPerTick"]				= "2";
 $Farming::Crops::PlantData_["Chili", 1, "numGrowTicks"]				= "15";
 $Farming::Crops::PlantData_["Chili", 1, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Chili", 2, "timePerTick"]				= "5000";
+$Farming::Crops::PlantData_["Chili", 2, "timePerTick"]				= "6000";
 $Farming::Crops::PlantData_["Chili", 2, "nextStage"]				= "brickChili3CropData";
 $Farming::Crops::PlantData_["Chili", 2, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Chili", 2, "waterPerTick"]				= "3";
+$Farming::Crops::PlantData_["Chili", 2, "waterPerTick"]				= "2";
 $Farming::Crops::PlantData_["Chili", 2, "numGrowTicks"]				= "20";
 $Farming::Crops::PlantData_["Chili", 2, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Chili", 3, "timePerTick"]				= "5000";
+$Farming::Crops::PlantData_["Chili", 3, "timePerTick"]				= "6000";
 $Farming::Crops::PlantData_["Chili", 3, "nextStage"]				= "brickChili4CropData";
 $Farming::Crops::PlantData_["Chili", 3, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Chili", 3, "waterPerTick"]				= "3";
+$Farming::Crops::PlantData_["Chili", 3, "waterPerTick"]				= "2";
 $Farming::Crops::PlantData_["Chili", 3, "numGrowTicks"]				= "20";
 $Farming::Crops::PlantData_["Chili", 3, "numDryTicks"]				= "-1";
 
@@ -120,7 +120,7 @@ $Farming::Crops::PlantData_["Cactus", 4, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Cactus", 5, "timePerTick"]				= "12000";
+$Farming::Crops::PlantData_["Cactus", 5, "timePerTick"]				= "14000";
 $Farming::Crops::PlantData_["Cactus", 5, "nextStage"]				= "brickCactus6CropData";
 $Farming::Crops::PlantData_["Cactus", 5, "dryStage"]				= "";
 $Farming::Crops::PlantData_["Cactus", 5, "waterPerTick"]			= "1";
@@ -129,7 +129,7 @@ $Farming::Crops::PlantData_["Cactus", 5, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Cactus", 6, "timePerTick"]				= "5000";
+$Farming::Crops::PlantData_["Cactus", 6, "timePerTick"]				= "8000";
 $Farming::Crops::PlantData_["Cactus", 6, "nextStage"]				= "brickCactus7CropData";
 $Farming::Crops::PlantData_["Cactus", 6, "dryStage"]				= "";
 $Farming::Crops::PlantData_["Cactus", 6, "waterPerTick"]			= "2";
@@ -145,7 +145,7 @@ $Farming::Crops::PlantData_["Cactus", 7, "waterPerTick"]			= "1";
 $Farming::Crops::PlantData_["Cactus", 7, "numGrowTicks"]			= "3";
 $Farming::Crops::PlantData_["Cactus", 7, "numDryTicks"]				= "-1";
 
-$Farming::Crops::PlantData_["Cactus", 7, "yield"]					= "2 6";
+$Farming::Crops::PlantData_["Cactus", 7, "yield"]					= "2 5";
 $Farming::Crops::PlantData_["Cactus", 7, "item"]					= "CactusItem";
 $Farming::Crops::PlantData_["Cactus", 7, "dieOnHarvest"]			= "1";
 $Farming::Crops::PlantData_["Cactus", 7, "harvestTool"]				= "Clipper";
