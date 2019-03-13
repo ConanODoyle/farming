@@ -1,2 +1,2 @@
-exec("./prices.cs");
+exec("./selection.cs");
 exec("./randomBotEvents.cs");
