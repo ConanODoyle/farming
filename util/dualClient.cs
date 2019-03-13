@@ -9,7 +9,7 @@ package noDualClienting
 			{
 				%t.savePersistence();
 				%t.delete("No dual clienting allowed!");
-				return;
+				return parent::autoAdminCheck(%cl);
 			}
 		}
 
