@@ -281,6 +281,14 @@ function fxDTSBrick::updateShopDisplay(%this)
 				%height = %item.getWorldBox();
 				%height = getWord(%height, 5) - getWord(%height, 2);
 
+				switch$ (%item.getDatablock().uiName)
+				{
+					case "Hammer ": %height = %height - 0.6;
+					case "Wrench": %height = %height - 0.8;
+					case "Printer": %height = %height - 0.4;
+					default: %height = %height;
+				}
+
 				// %item.setTransform(vectorAdd(%currPos, "0 0 " @ %height) SPC %rotation);
 				
 				%offset = %item.getWorldBox();
@@ -300,6 +308,14 @@ function fxDTSBrick::updateShopDisplay(%this)
 				%height = %item.getWorldBox();
 				%height = getWord(%height, 5) - getWord(%height, 2);
 				
+				switch$ (%item.getDatablock().uiName)
+				{
+					case "Hammer ": %height = %height - 0.6;
+					case "Wrench": %height = %height - 0.8;
+					case "Printer": %height = %height - 0.4;
+					default: %height = %height;
+				}
+
 				%offset = %item.getWorldBox();
 				%center = vectorScale(vectorAdd(getWords(%offset, 0, 1), getWords(%offset, 3, 4)), 0.5);
 				%offset = getWords(vectorSub(%item.getTransform(), %center), 0, 1) SPC %height;
