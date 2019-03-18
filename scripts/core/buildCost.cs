@@ -101,7 +101,7 @@ function sellObject(%b)
 	%db = %b.getDatablock();
 	%cl = %group.client;
 
-	if (%cl.bypassRestrictions)
+	if (%cl.bypassRestrictions || %cl.noRefund)
 	{
 		return;
 	}
