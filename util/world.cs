@@ -1,6 +1,6 @@
 $WorldCount = 0;
 $World[$WorldCount++ - 1]	= "Coast"	TAB	"1000 1000"		TAB	"-1000 -1000";
-$World[$WorldCount++ - 1]	= "Desert"	TAB	"-1000 1000"		TAB	"-2000 -1000";
+$World[$WorldCount++ - 1]	= "Desert"	TAB	"-1000 1000"	TAB	"-2000 -1000";
 
 function getWorld(%pos)
 {

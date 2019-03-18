@@ -227,12 +227,24 @@ datablock ItemData(ClipperItem : HammerItem)
 	cost = 1500;
 };
 
+datablock ExplosionData(ClipperExplosion : swordExplosion) 
+{
+	soundProfile = "ClipperSound";
+};
+
+datablock ProjectileData(ClipperProjectile : swordProjectile) 
+{
+	explosion = "ClipperExplosion";
+};
+
 datablock ShapeBaseImageData(ClipperImage : TrowelImage)
 {
 	shapeFile = "./tools/Clipper.dts";
 
 	item = ClipperItem;
 	doColorShift = true;
+
+	projectile = "ClipperProjectile";
 
 	toolTip = "+1 harvest to above ground crops";
 };
@@ -320,9 +332,18 @@ function toolHarvest(%img, %obj, %slot)
 
 	if (isObject(%ray))
 	{
+		if (!isObject(%img.projectile))
+		{
+			%db = swordProjectile;
+		}
+		else
+		{
+			%db = %img.projectile;
+		}
+
 		%p = new Projectile()
 		{
-			dataBlock = swordProjectile;
+			dataBlock = %db;
 			initialPosition = getWords(%ray, 1, 3);
 			initialVelocity = "0 0 0";
 		};

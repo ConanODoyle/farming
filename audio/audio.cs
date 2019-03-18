@@ -46,6 +46,30 @@ datablock AudioProfile(AmbientSeaWavesSound)
 	uiName = "Sea Cliff";
 };
 
+datablock AudioProfile(AmbientForestSound)
+{
+	filename = "./amb_forest.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Forest";
+};
+
+datablock AudioProfile(AmbientLakeSound)
+{
+	filename = "./amb_lake.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Lake";
+};
+
+datablock AudioProfile(AmbientRiverSound)
+{
+	filename = "./amb_river.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Lake";
+};
+
 
 
 
@@ -82,6 +106,22 @@ datablock AudioProfile(SpicyItalianThrowSound)
 {
 	filename = "./spicyitalian_throw.wav";
 	description = AudioDefault3d;
+	preload = true;
+	uiName = "";
+};
+
+datablock AudioProfile(UndergroundHarvestSound) 
+{
+	filename = "./harvest_underground.wav";
+	description = AudioClosest3d;
+	preload = true;
+	uiName = "";
+};
+
+datablock AudioProfile(ClipperSound) 
+{
+	filename = "./clippers.wav";
+	description = AudioClosest3d;
 	preload = true;
 	uiName = "";
 };
