@@ -1,4 +1,4 @@
-function pickRandomEvent(%bot, %rand)
+function pickRandomEvent(%obj, %rand)
 {
 	switch$ (%rand)
 	{
