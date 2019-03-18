@@ -1,5 +1,6 @@
-function fxDTSBrick::generateRandomSale(%this, %options)
+function fxDTSBrick::generateRandomSale(%this, %time, %options)
 {
+	cancel(%this.generateRandomSaleSched);
 	if (!%this.getDatablock().isShopBrick)
 	{
 		return;
@@ -10,12 +11,13 @@ function fxDTSBrick::generateRandomSale(%this, %options)
 		%str[%i] = validateStorageContents(%this.eventOutputParameter0_[%i], %this);
 		if (trim(%str[%i]) $= "")
 		{
-			%foundEmpty = 1;
+			%foundEmpty = %i;
 		}
 	}
 
-	if (!%foundEmpty)
+	if (%foundEmpty < 1)
 	{
+		%this.generateRandomSaleSched = %this.schedule(%time / 2, %options);
 		return;
 	}
 
@@ -23,6 +25,7 @@ function fxDTSBrick::generateRandomSale(%this, %options)
 	%event = pickRandomEvent(%this, %option);
 	%stackType = getField(%event, 1);
 	%price = getField(%event, 2);
+	%msg = getField(%event, 3);
 	if (isObject(%stackType)) //is an item db
 	{
 		%count = getRandom(1, 3);
@@ -33,4 +36,16 @@ function fxDTSBrick::generateRandomSale(%this, %options)
 
 		%count = getRandom(1, %adjustedMax);
 	}
+
+	%newStr = %stackType @ "\"" @ %count;
+	%this.eventOutputParameter0_[%foundEmpty] = %newStr;
+
+	for (%i = 1; %i < 5; %i++)
+	{
+		%rawstr[%i] = %this.eventOutputParameter0_[%i];
+	}
+	%this.updateShopMenus(%rawstr1, %rawstr2, %rawstr3, %rawstr4);
+	%this.generateRandomSaleSched = %this.schedule(%time, %options);
 }
+
+registerOutputEvent("fxDTSBrick", "generateRandomSale", "int 0 100000 1200" TAB "string 200 100", 1);

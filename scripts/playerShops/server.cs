@@ -7,9 +7,6 @@
 //in fact, we can just package the base event function displayStorageContents
 //money left in shop brick will be saved in the brick name
 
-//function validateStorageContents(%string, %brick)
-//
-
 package PlayerShops
 {
 	function fxDTSBrick::displayStorageContents(%this, %str1, %str2, %str3, %str4, %cl)
