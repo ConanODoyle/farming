@@ -12,7 +12,6 @@ function validateStorageContents(%string, %brick)
 	if ($Stackable_[%stackType, "stackedItemTotal"] $= "" && !isObject(%stackType))
 	{
 		return "";
-		talk("ERROR: Cannot find stacktype " @ %stacktype @ " in storage! Brick: " @ %brick);
 	}
 
 	return %stackType TAB %count;
