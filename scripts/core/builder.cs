@@ -9,6 +9,7 @@ $canBuilder_["2227"] 	= 1 TAB "The Brighter Dark";
 $canBuilder_["10661"] 	= 1 TAB "Dart";
 $canBuilder_["33468"] 	= 1 TAB "Wolfly";
 $canBuilder_["33688"] 	= 1 TAB "Redconer";
+$canBuilder_["378"] 	= 1 TAB "Sylvanor";
 $canBuilder_["30881"] 	= 1 TAB "Allun Pentax";
 
 
