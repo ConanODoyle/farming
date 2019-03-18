@@ -31,6 +31,7 @@ exec("./util/shortcuts.cs");
 exec("./util/stackTypeCheck.cs");
 exec("./util/strLastPos.cs");
 exec("./util/stuck.cs");
+exec("./util/world.cs");
 
 echo("");
 echo("\c4--Loading Farming Assets");
