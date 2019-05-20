@@ -790,4 +790,6 @@ function fixLotColor(%brick)
 			%brick.setColor(48);
 		}
 	}
+	%brick.setShapeFX(0);
+	%brick.setColorFX(0);
 }
