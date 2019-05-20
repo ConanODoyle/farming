@@ -149,6 +149,7 @@ datablock fxDTSBrickData(brickShopStallData)
 	// iconName = "Add-Ons/Server_Farming/crops/icons/greenhouse";
 
 	isShopBrick = 1;
+	isStorageBrick = 1;
 
 	cost = -1;
 	itemPos0 = "1 0.7 0";

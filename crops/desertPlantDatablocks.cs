@@ -145,3 +145,72 @@ datablock fxDTSBrickData(brickCactus7CropData)
 	isPlant = 1;
 	isTree = 1;
 };
+
+
+
+//watery boi
+datablock fxDTSBrickData(brickWatermelon0CropData)
+{
+	uiName = "Watermelon0";
+
+	brickFile = "./bricks/Watermelon0.blb";
+	cropType = "Watermelon";
+	stage = 0;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickWatermelon1CropData)
+{
+	uiName = "Watermelon1";
+
+	brickFile = "./bricks/Watermelon1.blb";
+	cropType = "Watermelon";
+	stage = 1;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickWatermelon2CropData)
+{
+	uiName = "Watermelon2";
+
+	brickFile = "./bricks/Watermelon2.blb";
+	cropType = "Watermelon";
+	stage = 2;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickWatermelon3CropData)
+{
+	uiName = "Watermelon3";
+
+	brickFile = "./bricks/Watermelon3.blb";
+	cropType = "Watermelon";
+	stage = 3;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickWatermelon4CropData)
+{
+	uiName = "Watermelon4";
+
+	brickFile = "./bricks/Watermelon4.blb";
+	cropType = "Watermelon";
+	stage = 4;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickWatermelon5CropData)
+{
+	uiName = "Watermelon5";
+
+	brickFile = "./bricks/Watermelon5.blb";
+	cropType = "Watermelon";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
