@@ -23,9 +23,9 @@ function serverCmdGiveMoney(%cl, %amount, %t1, %t2, %t3, %t4)
 		messageClient(%cl, '', "You cannot give less than $0.25!");
 		return;
 	}
-	else if (mFloor(%amount * 4) / 4 > 5000)
+	else if (mFloor(%amount * 4) / 4 > 10000)
 	{
-		messageClient(%cl, '', "You cannot give more than $5000 at a time!");
+		messageClient(%cl, '', "You cannot give more than $10000 at a time!");
 		return;
 	}
 	else if (%cl.nextGive > $Sim::Time)
@@ -53,7 +53,7 @@ function serverCmdGiveMoney(%cl, %amount, %t1, %t2, %t3, %t4)
 	messageClient(%cl, 'MsgUploadEnd', "\c6You gave \c3" @ %target.name @ "\c2 $" @ %amt);
 	messageClient(%target, 'MsgUploadEnd', "\c3" @ %cl.name @ "\c6 gave you\c2 $" @ %amt);
 
-	%cl.lastGive = $Sim::Time + getMax(mFloor(3 * %amount / 100), 3);
+	%cl.nextGive = $Sim::Time + getMax(mFloor(3 * %amount / 1000), 3);
 }
 
 package ScoreGrant
