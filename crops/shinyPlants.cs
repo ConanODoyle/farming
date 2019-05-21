@@ -72,7 +72,7 @@ datablock ParticleEmitterData(goldenEmitter)
 	useEmitterColors = false;
 
 	uiName = "Golden Shine";
-	bonusYield = "16 32";
+	bonusYield = "22 32";
 };
 
 ////

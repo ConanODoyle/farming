@@ -92,7 +92,7 @@ $SeedList_[$SeedCount++ - 1]  = "CactusSeedItem" TAB   0;
 
 //Extra stackable items
 
-$Produce::BuyCost_["Fertilizer"] = 2.00;
+$Produce::BuyCost_["Fertilizer"] = 1.60;
 
 //Normal item prices defined in their datablock
 $ItemCount = 0;
@@ -138,4 +138,4 @@ $StorageMax_MangoSeed = 4;
 $StorageMax_DaisySeed = 48;
 $StorageMax_LilySeed = 48;
 
-$StorageMax_Fertilizer = 120;
+$StorageMax_Fertilizer = 240;

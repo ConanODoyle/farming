@@ -86,7 +86,7 @@ function harvestBrick(%brick, %tool, %harvester)
 	%bg = getBrickgroupFromObject(%brick);
 	for (%i = 0; %i < %pickedTotal; %i++)
 	{
-		%vel = (getRandom(6) - 3) / 2 SPC  (getRandom(6) - 3) / 2 SPC 6;
+		%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
 		if (%brick.isColliding())
 		{
 			%vel = vectorAdd(%vel, vectorScale(vectorNormalize(getWords(%vel, 0, 1)), 3));

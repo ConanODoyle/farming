@@ -1,4 +1,4 @@
-$fertCount = "4 8";
+$fertCount = "8 16";
 
 function fertilizeCrop(%img, %obj, %slot)
 {
@@ -60,10 +60,10 @@ function fertilizeCrop(%img, %obj, %slot)
 
 			if (!isObject(%crop.emitter))
 			{
-				if (getRandom() < 0.010)
+				if (getRandom() < 0.005)
 				{
 					%rand = getRandom();
-					if (%rand < 0.05)
+					if (%rand < 0.025)
 					{
 						//gold plant
 						%crop.setEmitter(goldenEmitter.getID());
@@ -342,9 +342,9 @@ function CompostBinBrickImage::onFire(%this, %obj, %slot)
 //Item//
 ////////
 
-$Stackable_Fertilizer_StackedItem0 = "FertilizerBag0Item 20";
-$Stackable_Fertilizer_StackedItem1 = "FertilizerBag1Item 40";
-$Stackable_Fertilizer_StackedItem2 = "FertilizerBag2Item 60";
+$Stackable_Fertilizer_StackedItem0 = "FertilizerBag0Item 40";
+$Stackable_Fertilizer_StackedItem1 = "FertilizerBag1Item 80";
+$Stackable_Fertilizer_StackedItem2 = "FertilizerBag2Item 120";
 $Stackable_Fertilizer_StackedItemTotal = 3;
 
 datablock ItemData(FertilizerBag0Item : HammerItem)
