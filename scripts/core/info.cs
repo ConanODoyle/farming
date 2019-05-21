@@ -18,12 +18,12 @@ function serverCmdGiveMoney(%cl, %amount, %t1, %t2, %t3, %t4)
 		messageClient(%cl, '', "Cannot find recipient! They need to be alive and nearby.");
 		return;
 	}
-	else if (mFloor(%amount * 4) < 1)
+	else if (mFloor(%amount * 10) < 1)
 	{
-		messageClient(%cl, '', "You cannot give less than $0.25!");
+		messageClient(%cl, '', "You cannot give less than $0.10!");
 		return;
 	}
-	else if (mFloor(%amount * 4) / 4 > 10000)
+	else if (mFloor(%amount * 10) / 10 > 10000)
 	{
 		messageClient(%cl, '', "You cannot give more than $10000 at a time!");
 		return;
@@ -33,7 +33,7 @@ function serverCmdGiveMoney(%cl, %amount, %t1, %t2, %t3, %t4)
 		messageClient(%cl, '', "You must wait a few seconds before giving money again!");
 		return;
 	}
-	else if ((%amt = mFloor(%amount * 4) / 4) > %cl.score)
+	else if ((%amt = mFloor(%amount * 10) / 10) > %cl.score)
 	{
 		if (%amt < 1)
 		{

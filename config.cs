@@ -29,16 +29,16 @@ HorseArmor.uiName = "Horse - $250";
 //Produce
 $ProduceCount = 0;
 
-$Produce::BuyCost_["Potato"] = 0.75;
-$Produce::BuyCost_["Carrot"] = 1.75;
+$Produce::BuyCost_["Potato"] = 0.50;
+$Produce::BuyCost_["Carrot"] = 1.20;
 $Produce::BuyCost_["Tomato"] = 1.00;
-$Produce::BuyCost_["Corn"] = 1.75;
+$Produce::BuyCost_["Corn"] = 1.30;
 $Produce::BuyCost_["Cabbage"] = 4.00;
-$Produce::BuyCost_["Onion"] = 1.25;
-$Produce::BuyCost_["Blueberry"] = 2.50;
-$Produce::BuyCost_["Turnip"] = 10.00;
-$Produce::BuyCost_["Apple"] = 8.00;
-$Produce::BuyCost_["Mango"] = 12.00;
+$Produce::BuyCost_["Onion"] = 1.30;
+$Produce::BuyCost_["Blueberry"] = 1.90;
+$Produce::BuyCost_["Turnip"] = 8.00;
+$Produce::BuyCost_["Apple"] = 8.80;
+$Produce::BuyCost_["Mango"] = 14.50;
 
 $Produce::BuyCost_["Chili"] = 2.50;
 $Produce::BuyCost_["Cactus"] = 4.00;
@@ -60,7 +60,7 @@ $ProduceList_[$ProduceCount++ - 1]  = "Cactus" TAB   0;
 $SeedCount = 0;
 $Produce::BuyCost_["PotatoSeed"] = 1.00;
 $Produce::BuyCost_["CarrotSeed"] = 1.00;
-$Produce::BuyCost_["TomatoSeed"] = 10.00;
+$Produce::BuyCost_["TomatoSeed"] = 8.00;
 $Produce::BuyCost_["CornSeed"] = 1.50;
 $Produce::BuyCost_["CabbageSeed"] = 1.00;
 $Produce::BuyCost_["OnionSeed"] = 1.00;
