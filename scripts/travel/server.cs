@@ -73,7 +73,7 @@ registerOutputEvent("fxDTSBrick", "changeWorld", "string 200 100", 1);
 
 function serverCmdChangeWorld(%cl)
 {
-	else if (!isObject(%cl.player))
+	if (!isObject(%cl.player))
 	{
 		commandToClient(%cl, 'messageBoxOK', "Can't travel!", "You can't travel while dead!");
 	}
