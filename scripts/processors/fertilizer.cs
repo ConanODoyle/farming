@@ -1,11 +1,9 @@
-$fertCount = "8 16";
-
-if (!isObject(FertilizerSimSet)) 
+if (!isObject(CompostBinSimSet)) 
 {
-	$FertilizerSimSet = new SimSet(FertilizerSimSet) {};
+	$CompostBinSimSet = new SimSet(CompostBinSimSet) {};
 }
 
-package FertilizerSimSetCollector
+package CompostBinSimSetCollector
 {
 	function fxDTSBrick::onAdd(%brick) 
 	{
@@ -13,12 +11,66 @@ package FertilizerSimSetCollector
 
 		if (%brick.isPlanted && %brick.getDatablock().isCompostBin)
 		{
-			FertilizerSimSet.add(%brick);
+			CompostBinSimSet.add(%brick);
 		}
 		return %ret;
 	}
 };
-activatePackage(FertilizerSimSetCollector);
+activatePackage(CompostBinSimSetCollector);
+
+package CompostBinRetrieveOnly
+{
+	function attemptStorage(%brick, %cl, %slot, %multiplier)
+	{
+		if (%brick.getDatablock().isCompostBin)
+		{
+			return 0;
+		}
+		return parent::attemptStorage(%brick, %cl, %slot, %multiplier);
+	}
+};
+activatePackage(CompostBinRetrieveOnly);
+
+function compostTick(%index)
+{
+	cancel($masterCompostTickSchedule);
+	
+	if (!isObject(MissionCleanup)) 
+	{
+		return;
+	}
+
+	//if no compost bins just skip everything
+	%count = CompostBinSimSet.getCount();
+	if (%count <= 0)
+	{
+		$masterCompostTickSchedule = schedule(100, 0, compostTick, 0);
+		return;
+	}
+
+	%max = 16;
+	for (%i = 0; %i < %max; %i++)
+	{
+		if (%index + %i >= %count)
+		{
+			break;
+		}
+		%brick = CompostBinSimSet.getObject(%i + index);
+
+		if (%brick.nextCompostTime < $Sim::Time)
+		{
+			createFertilizer(%brick);
+		}
+	}
+
+
+	if (%index >= %count)
+	{
+		%index = 0;
+	}
+
+	$masterCompostTickSchedule = schedule(100, 0, compostTick, 0);
+}
 
 function fertilizeCrop(%img, %obj, %slot)
 {
@@ -217,20 +269,51 @@ function fertilizeCrop(%img, %obj, %slot)
 
 function createFertilizer(%brick, %client, %count)
 {
-	%top = vectorAdd(%brick.getPosition(), "0 0 " @ %brick.getDatablock().brickSizeZ * 0.1);
-	%vel = "0 0 5";
+	%name = %brick.getName();
+	%count = getSubStr(%name, 1, strLen(%name));
 
-	%item = new Item(GeneratedFertilizer)
+	if (%brick.nextCompostTime $= "")
 	{
-		dataBlock = FertilizerBag0Item;
-		count = getMax(1, %count);
-		harvestedBG = getBrickgroupFromObject(%brick);
-	};
-	MissionCleanup.add(%item);
-	%item.setTransform(%top SPC getWords(%brick.getTransform(), 3, 6));
-	%item.setVelocity(%vel);
+		%brick.nextCompostTime = $Sim::Time + $FertTickTime;
+		return;
+	}
 
-	return %item;
+	if (%count > 0)
+	{
+		%amt = getMin($FertTickAmt, %count);
+		%origAmt = %amt;
+	}
+	else
+	{
+		return;
+	}
+
+	//check if there's space for new fertilizer, if yes, add
+	%multiplier = %brick.getDatablock().storageBonus;
+	%storageMax = $StorageMax_["Fertilizer"] * (%multiplier < 1 ? 1 : %multiplier);
+	for (%i = 0; %i < 4; %i++) 
+	{
+		%curr = validateStorageContents(%brick.eventOutputParameter[0, %i + 1], %brick);
+		if (getField(%curr, 1) < %storageMax)
+		{
+			%addAmt = getMin(%storageMax - getField(%curr, 1), %amt);
+			%amt -= %addAmt;
+			%brick.eventOutputParameter[0, %i + 1] = "Fertilizer\" " @ getField(%curr, 1) + %addAmt;
+		}
+
+		if (%amt <= 0)
+		{
+			break;
+		}
+	}
+
+	%amtAdded = %origAmt - %amt;
+	if (%amtAdded > 0)
+	{
+		%count = %count - %amtAdded;
+		%brick.setName("_" @ %count);
+	}
+	%brick.nextCompostTime = $Sim::Time + $FertTickTime;
 }
 
 function processIntoFertilizer(%brick, %cl, %slot)
@@ -269,16 +352,18 @@ function processIntoFertilizer(%brick, %cl, %slot)
 		serverCmdUnuseTool(%cl);
 		messageClient(%cl, 'MsgItemPickup', '', %slot, 0);
 
-		%rand = getRandom(getWord($fertCount, 0), getWord($fertCount, 1));
-		createFertilizer(%brick, %cl, %rand);
-		%cl.centerprint("<color:ffffff>You made <color:ffff00>" @ %rand @ "<color:ffffff> fertilizer out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
+		%fertRange = ($FertCount_[%cropType] > 0 ? $FertCount_[%cropType] : $FertCount_Default);
+		%rand = getRandom(getWord(%fertRange, 0), getWord(%fertRange, 1));
+		%count = getSubStr(%brick.getName(), 1, 100);
+		%brick.setName("_" @ (%count + %rand));
+		%cl.centerprint("<color:ffffff>You started making <color:ffff00>" @ %rand @ "<color:ffffff> fertilizer out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
 		return;
 	}
 }
 
 function compostBinInfo(%brick, %pl)
 {
-	%pl.client.centerprint("<color:ffffff>Drop (Ctrl-W) a full basket of produce in here to make " @ $fertCount @ " fertilizer!", 2);
+	%pl.client.centerprint("<color:ffffff>Drop (Ctrl-W) a full basket of produce in here to make fertilizer! Amount varies with produce type.", 2);
 }
 
 
@@ -299,6 +384,7 @@ datablock fxDTSBrickData(brickCompostBinData)
 	cost = 0;
 	isProcessor = 1;
 	isCompostBin = 1;
+	isStorageBrick = 1;
 	processorFunction = "processIntoFertilizer";
 	activateFunction = "compostBinInfo";
 	placerItem = "CompostBinItem";

@@ -139,3 +139,12 @@ $StorageMax_DaisySeed = 48;
 $StorageMax_LilySeed = 48;
 
 $StorageMax_Fertilizer = 240;
+
+//Fertilizer production
+$FertCount_Potato = "8 16";
+$FertCount_Carrot = "10 16";
+$FertCount_Tomato = "6 14";
+
+$FertCount_Default = "5 12";
+$FertTickTime = 10;
+$FertTickAmt = 1;
