@@ -1,5 +1,25 @@
 $fertCount = "8 16";
 
+if (!isObject(FertilizerSimSet)) 
+{
+	$FertilizerSimSet = new SimSet(FertilizerSimSet) {};
+}
+
+package FertilizerSimSetCollector
+{
+	function fxDTSBrick::onAdd(%brick) 
+	{
+		%ret = parent::onAdd(%brick);
+
+		if (%brick.isPlanted && %brick.getDatablock().isCompostBin)
+		{
+			FertilizerSimSet.add(%brick);
+		}
+		return %ret;
+	}
+};
+activatePackage(FertilizerSimSetCollector);
+
 function fertilizeCrop(%img, %obj, %slot)
 {
 	%obj.playThread(0, plant);
@@ -278,6 +298,7 @@ datablock fxDTSBrickData(brickCompostBinData)
 
 	cost = 0;
 	isProcessor = 1;
+	isCompostBin = 1;
 	processorFunction = "processIntoFertilizer";
 	activateFunction = "compostBinInfo";
 	placerItem = "CompostBinItem";

@@ -32,7 +32,8 @@ package disableWrenchData
 			if (isObject(%cl.wrenchBrick))
 			{
 				%db = %cl.wrenchBrick.getDatablock();
-				if (%db.isPlant || %db.isStorageBrick || %db.isSprinkler || %db.isWaterTank || %db.isDirt || %db.isGreenhouse || %db.isLot)
+				if (%db.isPlant || %db.isStorageBrick || %db.isSprinkler || %db.isWaterTank || %db.isDirt || %db.isGreenhouse || %db.isLot
+					|| %db.isShopBrick || %db.isCompostBin)
 				{
 					messageClient(%cl, '', "You cannot edit wrench data on special bricks!");
 					return;
@@ -178,13 +179,13 @@ function checkBrickAllowed(%brick)
 {
 	if ((%db.category $= "Baseplates" && %db.subCategory !$= "Plain") || %db.subCategory $= "Drinks" || %db.subCategory $= "Holes"
 				|| %db.uiName $= "Treasure Chest" || %db.isLot)
-			{
-				if (%db.subCategory $= "Cube" && getWord(%db.uiname, 0) < 16)
-				{
-					return parent::serverCmdPlantBrick(%cl);
-				}
-				messageClient(%cl, '', "You cannot plant " @ %db.uiname @ " bricks!");
-				serverCmdCancelBrick(%cl);
-				return;
-			}
+	{
+		if (%db.subCategory $= "Cube" && getWord(%db.uiname, 0) < 16)
+		{
+			return parent::serverCmdPlantBrick(%cl);
+		}
+		messageClient(%cl, '', "You cannot plant " @ %db.uiname @ " bricks!");
+		serverCmdCancelBrick(%cl);
+		return;
+	}
 }
