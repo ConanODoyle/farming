@@ -16,12 +16,12 @@ function fxDTSBrick::busStopPrompt(%brick, %destination, %cost, %cl)
 	%head = "Travel Prompt";
 	%text = "Travel to " @ %cl.destinationName @ "?<br><br>Cost: $" @ mFloatLength(%cost, 2);
 
-	commandToClient(%cl, 'MessageBoxYesNo', %head, %text, 'goToBusStopObscure');
+	commandToClient(%cl, 'MessageBoxYesNo', %head, %text, 'goToBusStop');
 }
 
 registerOutputEvent("fxDTSBrick", "busStopPrompt", "string 200 100" TAB "string 200 100", 1);
 
-function serverCmdGoToBusStopObscure(%cl)
+function serverCmdGoToBusStop(%cl)
 {
 	if (%cl.score < %cl.busCost)
 	{
