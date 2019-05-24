@@ -348,7 +348,7 @@ function removeStack(%cl, %menu, %option)
 	}
 
 	%storageSlot = %option + 1;
-	%storageData = validateStorageContents(%brick.eventOutputParameter[0, %storageSlot], %this);
+	%storageData = validateStorageContents(%brick.eventOutputParameter[0, %storageSlot], %brick);
 	%storageCount = getField(%storageData, 1);
 	%stackType = getField(%storageData, 0);
 
@@ -403,7 +403,7 @@ function dropStoredItems(%brick)
 	for (%i = 0; %i < 4; %i++)
 	{
 		%storageSlot = %i + 1;
-		%storageData = validateStorageContents(%brick.eventOutputParameter[0, %storageSlot], %this);
+		%storageData = validateStorageContents(%brick.eventOutputParameter[0, %storageSlot], %brick);
 		%storageCount = getField(%storageData, 1);
 		%stackType = getField(%storageData, 0);
 		%packageInfo = getSubStr(%storageData, strPos(%storageData, "\"") + 1, strLen(%storageData));

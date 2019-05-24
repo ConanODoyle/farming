@@ -49,6 +49,7 @@ exec("./audio/audio.cs");
 echo("\c4--Loading Farming Scripts");
 
 // Game mechanic scripts
+exec("./scripts/core/startup.cs");
 exec("./scripts/core/info.cs");
 exec("./scripts/core/buildCost.cs");
 exec("./scripts/core/wrenchCost.cs");
