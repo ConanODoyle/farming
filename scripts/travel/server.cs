@@ -94,7 +94,7 @@ function serverCmdChangeWorld(%cl)
 		%cl.player.position = %cl.destination.getPosition();
 		%cl.player.schedule(100, spawnProjectile, "", "spawnProjectile", "", 1);
 
-		messageAll('', "<bitmap:base/client/ui/ci/star> \c3" @ %cl.name @ "\c6 has traveled to " %cl.destinationName);
+		messageAll('', "<bitmap:base/client/ui/ci/star> \c3" @ %cl.name @ "\c6 has traveled to " @ %cl.destinationName);
 		commandToClient(%cl, 'messageBoxOK', "Arrived!", "You have arrived at " @ %cl.destinationName @ "!<br><br>You may want to rejoin to unghost the bricks from the map you came from.");
 	}
 	%cl.destination = "";
