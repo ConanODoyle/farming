@@ -337,8 +337,12 @@ function serverCmdBuyLot(%cl)
 		messageClient(%cl, '', "This lot is claimed by " @ %hit.getGroup().name @ "!");
 		return;
 	}
-	else if (%cl.score < %cost)
+	else if (%cl.score < %cost || (!%hit.getDatablock().isSingle && %cl.farmingExperience < 100))
 	{
+		if (!%hit.getDatablock().isSingle)
+		{
+			%cost = %cost SPC ", 100 EXP";
+		}
 		messageClient(%cl, '', "You cannot afford this lot! (Cost: $" @ %cost @ ")");
 
 		if (%cost == 1000 && %cl.timePlayed < 100 && !%cl.newbieMessageLot)
@@ -360,6 +364,10 @@ function serverCmdBuyLot(%cl)
 	}
 	else if (%cl.repeatBuyLot != %hit)
 	{
+		if (!%hit.getDatablock().isSingle)
+		{
+			%cost = %cost SPC "and 100 EXP";
+		}
 		messageClient(%cl, '', "\c5This lot will cost you \c3$" @ %cost @ "\c5. Repeat /buylot to confirm.");
 		%cl.repeatBuyLot = %hit;
 		cancel(%cl.clearRepeatBuyLotSched);
@@ -368,6 +376,11 @@ function serverCmdBuyLot(%cl)
 	}
 
 	%cl.setScore(%cl.score - %cost);
+	if (!%hit.getDatablock().isSingle)
+	{
+		%cl.addExperience(-100);
+		%cost = %cost SPC "and 100 EXP";
+	}
 	clearLotRecursive(%hit, %cl);
 	%cl.brickGroup.add(%hit);
 	%hit.updateLotCount(1);
@@ -471,6 +484,12 @@ function serverCmdSellLot(%cl, %force)
 	// %cl.refundRatio = 0;
 	%cl.repeatSellLot = 0;
 
+	if (!%hit.getDatablock().isSingle && !%force)
+	{
+		%cl.addExperience(100);
+		%cost = %cost SPC "and 100 EXP";
+	}
+
 	if (!%force)
 	{
 		messageClient(%cl, '', "\c5You sold a lot for \c2$" @ %cost @ "\c5!");
@@ -515,6 +534,7 @@ function serverCmdSellAllLots(%cl)
 	if (%countCopy > 1 || getNumAdjacentLots(%list) > 0)
 	{
 		%totalRefund += 1000; //multiple lots, must have been adjacent, first must have cost 1k
+		%sellExperience = 1;
 	}
 	while (%countCopy > 1)
 	{
@@ -535,6 +555,10 @@ function serverCmdSellAllLots(%cl)
 		clearLotRecursive(%lot, %cl);
 		BrickGroup_888888.add(%lot);
 		fixLotColor(%lot);
+		if (%sellExperience)
+		{
+			%cl.addExperience(100);
+		}
 	}
 	%cl.repeatSellAllLots = 0;
 
@@ -544,6 +568,10 @@ function serverCmdSellAllLots(%cl)
 	fixLotList(%bg);
 	
 	%plural = %count > 1 ? "s" : "";
+	if (%sellExperience)
+	{
+		%totalRefund = %totalRefund SPC "and " @ (%i * 100) @ " EXP";
+	}
 	messageClient(%cl, '', "\c5You sold " @ %count @ " lot" @ %plural @ " for \c2$" @ %totalRefund @ "\c5!");
 }
 
