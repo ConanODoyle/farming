@@ -15,7 +15,7 @@ function rainCheckLoop()
 {
 	cancel($masterRainCheckLoop);
 
-	if (!isObject(MissionCleanup))
+	if (!isObject(MissionCleanup) || $disableWeather)
 	{
 		return;
 	}
