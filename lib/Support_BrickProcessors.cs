@@ -6,7 +6,7 @@
 
 package Processors
 {
-	function ServerCmdDropTool(%cl, %slot)
+	function serverCmdDropTool(%cl, %slot)
 	{
 		if (isObject(%pl = %cl.player))
 		{
@@ -90,6 +90,7 @@ package Processors
 				else
 				{
 					%item = %pl.tool[%pl.currTool];
+					%currTool = %pl.currTool;
 					if (%item.image.placeBrick.getID() != %db)
 					{
 						messageClient(%cl, '', "You cannot plant " @ %db.uiname @ " bricks without the item!");
@@ -100,13 +101,57 @@ package Processors
 					%pl.tool[%pl.currTool] = "";
 					messageClient(%cl, 'MsgItemPickup', '', %pl.currTool, 0);
 					%ret = parent::serverCmdPlantBrick(%cl);
+					// talk("Placed: " @ $LastAddedBrick SPC " isObject: " @ isObject($LastAddedBrick) SPC "Removed: " @ ($LastAddedBrick).removed);
 					serverCmdUnuseTool(%cl);
+					if (!isObject($LastAddedBrick))
+					{
+						%pl.tool[%currTool] = %item;
+						serverCmdUseTool(%cl, %currTool);
+						messageClient(%cl, 'MsgItemPickup', '', %currTool, %item);
+					}
+					else
+					{
+						%brick = $LastAddedBrick;
+						%brick.processorPlaced = $Sim::Time;
+						%brick.placer = %cl;
+						%brick.placerSlot = %currTool;
+					}
 					return %ret;
 				}
 			}
 		}
 
 		return parent::serverCmdPlantBrick(%cl);
+	}
+
+	function fxDTSBrickData::onAdd(%this, %obj)
+	{
+		$LastAddedBrick = %obj;
+		return parent::onAdd(%this, %obj);
+	}
+
+	function fxDTSBrickData::onRemove(%this, %obj)
+	{
+		// %obj.removed = 1;
+		// if (%obj.isPlanted)
+		// {
+		// 	talk("Removed: " @ %obj SPC "Removed: " @ %obj.removed);
+		// }
+		if (%obj.isPlanted && mAbs(%obj.processorPlaced - $Sim::Time) < 0.01)
+		{
+			// talk("Detected instant remove: " @ %	obj);
+			%cl = %obj.placer;
+			%pl = %cl.player;
+			%slot = %obj.placerSlot;
+			%item = %obj.getDatablock().placerItem.getID();
+			if (isObject(%pl))
+			{
+				%pl.tool[%slot] = %item;
+				serverCmdUseTool(%cl, %slot);
+				messageClient(%cl, 'MsgItemPickup', '', %slot, %item);
+			}
+		}
+		return parent::onRemove(%this, %obj);
 	}
 };
 activatePackage(Processors);
