@@ -9,6 +9,9 @@ exec("./turnip.cs");
 exec("./appleTree.cs");
 exec("./mangoTree.cs");
 
+exec("./chili.cs");
+exec("./cactus.cs");
+
 function foodLoop(%image, %obj)
 {
 	%item = %image.item;

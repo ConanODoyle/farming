@@ -158,6 +158,7 @@ datablock fxDTSBrickData(brickWatermelon0CropData)
 	stage = 0;
 	isPlant = 1;
 	isTree = 1;
+	noCollision = 1;
 };
 
 datablock fxDTSBrickData(brickWatermelon1CropData)
@@ -169,6 +170,7 @@ datablock fxDTSBrickData(brickWatermelon1CropData)
 	stage = 1;
 	isPlant = 1;
 	isTree = 1;
+	noCollision = 1;
 };
 
 datablock fxDTSBrickData(brickWatermelon2CropData)
@@ -180,6 +182,7 @@ datablock fxDTSBrickData(brickWatermelon2CropData)
 	stage = 2;
 	isPlant = 1;
 	isTree = 1;
+	noCollision = 1;
 };
 
 datablock fxDTSBrickData(brickWatermelon3CropData)
@@ -191,6 +194,7 @@ datablock fxDTSBrickData(brickWatermelon3CropData)
 	stage = 3;
 	isPlant = 1;
 	isTree = 1;
+	noCollision = 1;
 };
 
 datablock fxDTSBrickData(brickWatermelon4CropData)
@@ -202,6 +206,7 @@ datablock fxDTSBrickData(brickWatermelon4CropData)
 	stage = 4;
 	isPlant = 1;
 	isTree = 1;
+	noCollision = 1;
 };
 
 datablock fxDTSBrickData(brickWatermelon5CropData)
@@ -213,4 +218,5 @@ datablock fxDTSBrickData(brickWatermelon5CropData)
 	stage = 5;
 	isPlant = 1;
 	isTree = 1;
+	noCollision = 1;
 };
