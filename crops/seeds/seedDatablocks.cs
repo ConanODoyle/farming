@@ -209,7 +209,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 	}
 
 	%b.setTrusted(1);
-	if (!%isTree)
+	if (!%isTree && !%brickDB.noCollision)
 	{
 		%b.setColliding(0);
 	}
