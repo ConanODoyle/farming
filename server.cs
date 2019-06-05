@@ -1,6 +1,7 @@
 
 echo("");
-echo("\c4--Loading Farming Dependencies");
+echo("");
+echo("\c4    --Loading Farming Dependencies");
 
 // Generic libraries this depends on
 exec("./lib/NewBrickToolOverride.cs");
@@ -35,7 +36,8 @@ exec("./util/stuck.cs");
 exec("./util/world.cs");
 
 echo("");
-echo("\c4--Loading Farming Assets");
+echo("");
+echo("\c4    --Loading Farming Assets");
 
 // Generic libraries this depends on
 exec("./config.cs");
@@ -47,7 +49,10 @@ exec("./crops/exec.cs");
 exec("./vehicles/cart.cs");
 exec("./audio/audio.cs");
 
-echo("\c4--Loading Farming Scripts");
+
+echo("");
+echo("");
+echo("\c4    --Loading Farming Scripts");
 
 // Game mechanic scripts
 exec("./scripts/core/startup.cs");

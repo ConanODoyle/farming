@@ -1,6 +1,7 @@
 
 //Exec plant info
-echo("--Loading plant data");
+echo("");
+echo("  --Loading plant data");
 exec("./plants/plantDatablocks.cs");
 exec("./seeds/seedDatablocks.cs");
 exec("./crops/cropDatablocks.cs");
@@ -8,7 +9,9 @@ exec("./crops/cropDatablocks.cs");
 exec("./plants/plantData.cs");
 
 //Exec tools
-echo("--Loading farming data");
+
+echo("");
+echo("  --Loading farming data");
 exec("./sprinklers/sprinklers.cs");
 exec("./farm/datablocks.cs");
 
