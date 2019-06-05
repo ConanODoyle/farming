@@ -55,7 +55,7 @@ function compostTick(%index)
 		{
 			break;
 		}
-		%brick = CompostBinSimSet.getObject(%i + index);
+		%brick = CompostBinSimSet.getObject(%i + %index);
 
 		if (%brick.nextCompostTime < $Sim::Time)
 		{

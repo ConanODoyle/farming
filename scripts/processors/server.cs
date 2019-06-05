@@ -2,7 +2,7 @@
 //Define core datablocks first
 datablock ItemData(BrickPlacerItem : HammerItem)
 {
-	shapeFile = "base/data/shapes/empty.dst";
+	shapeFile = "base/data/shapes/empty.dts";
 	uiName = "";
 	image = "BrickPlacerImage";
 	// colorShiftColor = "0.5 0.5 0.5 1";
