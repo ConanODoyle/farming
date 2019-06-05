@@ -41,7 +41,7 @@ echo("\c4--Loading Farming Assets");
 exec("./config.cs");
 
 // Crop code
-exec("./crops/crops.cs");
+exec("./crops/exec.cs");
 
 // Datablocks
 exec("./vehicles/cart.cs");
