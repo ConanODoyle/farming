@@ -9,6 +9,12 @@ exec("./turnip.cs");
 exec("./appleTree.cs");
 exec("./mangoTree.cs");
 
+exec("./chili.cs");
+exec("./cactus.cs");
+exec("./watermelon.cs");
+exec("./dateTree.cs");
+exec("./peachTree.cs");
+
 exec("./daisy.cs");
 exec("./lily.cs");
 

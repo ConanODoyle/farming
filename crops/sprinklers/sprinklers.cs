@@ -3,6 +3,8 @@
 //brickDB.boxSize = Point3f Size;
 //brickDB.maxDispense = int;
 
+exec("./bricks.cs");
+
 $SprinklerMaxDistance = 20;
 $DebugOn = 0;
 
@@ -350,7 +352,7 @@ function getSprinklerCount(%brick)
 datablock ItemData(SprinklerLinkItem : HammerItem)
 {
 	iconName = "./icons/sprinklerHose";
-	shapeFile = "./sprinklers/sprinklerHoseItem.dts";
+	shapeFile = "./sprinklerHoseItem.dts";
 	uiName = "Sprinkler Hose";
 	image = SprinklerLinkImage;
 
@@ -360,7 +362,7 @@ datablock ItemData(SprinklerLinkItem : HammerItem)
 
 datablock ShapeBaseImageData(SprinklerLinkImage)
 {
-	shapeFile = "./sprinklers/sprinklerHose.dts";
+	shapeFile = "./sprinklerHose.dts";
 	emap = true;
 
 	doColorShift = true;

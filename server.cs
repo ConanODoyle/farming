@@ -27,6 +27,7 @@ exec("./util/ipCheck.cs");
 exec("./util/makeLotSingle.cs");
 exec("./util/radiusAnnounce.cs");
 exec("./util/scorefix.cs");
+exec("./util/setAllWaterLevelsFull.cs");
 exec("./util/shortcuts.cs");
 exec("./util/stackTypeCheck.cs");
 exec("./util/strLastPos.cs");

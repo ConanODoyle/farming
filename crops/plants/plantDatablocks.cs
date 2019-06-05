@@ -1,3 +1,4 @@
+exec("./desertPlantDatablocks");
 
 /////////
 //Crops//
