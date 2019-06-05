@@ -90,15 +90,13 @@ function growTick(%index)
 		%totalBricksProcessed++;
 	}
 
-	if (RemovePlantSimSet.getCount() > 0) //only remove after processing to prevent conflict with grow calc loop
+	//only remove after processing to prevent conflict with grow calc loop
+	for (%i = 0; %i < RemovePlantSimSet.getCount(); %i++)
 	{
-		for (%i = 0; %i < RemovePlantSimSet.getCount(); %i++)
-		{
-			%obj = RemovePlantSimSet.getObject(%i);
-			PlantSimSet.remove(%obj);
-		}
-		RemovePlantSimSet.clear();
+		%obj = RemovePlantSimSet.getObject(%i);
+		PlantSimSet.remove(%obj);
 	}
+	RemovePlantSimSet.clear();
 
 	if (PlantSimSet.getCount() <= 0)
 	{
