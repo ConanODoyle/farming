@@ -220,3 +220,251 @@ datablock fxDTSBrickData(brickWatermelon5CropData)
 	isTree = 1;
 	noCollision = 1;
 };
+
+
+
+//dating around
+datablock fxDTSBrickData(brickDateTree0CropData)
+{
+	uiName = "DateTree0";
+
+	brickFile = "./bricks/DateTree0.blb";
+	cropType = "Date";
+	stage = 0;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickDateTree1CropData)
+{
+	uiName = "DateTree1";
+
+	brickFile = "./bricks/DateTree1.blb";
+	cropType = "Date";
+	stage = 1;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickDateTree2CropData)
+{
+	uiName = "DateTree2";
+
+	brickFile = "./bricks/DateTree2.blb";
+	cropType = "Date";
+	stage = 2;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickDateTree3CropData)
+{
+	uiName = "DateTree3";
+
+	brickFile = "./bricks/DateTree3.blb";
+	cropType = "Date";
+	stage = 3;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickDateTree4CropData)
+{
+	uiName = "DateTree4";
+
+	brickFile = "./bricks/DateTree4.blb";
+	cropType = "Date";
+	stage = 4;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickDateTree5CropData)
+{
+	uiName = "DateTree5";
+
+	brickFile = "./bricks/DateTree5.blb";
+	cropType = "Date";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickDateTree6CropData)
+{
+	uiName = "DateTree6";
+
+	brickFile = "./bricks/DateTree6.blb";
+	cropType = "Date";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickDateTree7CropData)
+{
+	uiName = "DateTree7";
+
+	brickFile = "./bricks/DateTree7.blb";
+	cropType = "Date";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickDateTree8CropData)
+{
+	uiName = "DateTree8";
+
+	brickFile = "./bricks/DateTree8.blb";
+	cropType = "Date";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickDateTree9CropData)
+{
+	uiName = "DateTree9";
+
+	brickFile = "./bricks/DateTree9.blb";
+	cropType = "Date";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickDateTree10CropData)
+{
+	uiName = "DateTree10";
+
+	brickFile = "./bricks/DateTree10.blb";
+	cropType = "Date";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
+
+
+
+//peachy
+datablock fxDTSBrickData(brickPeachTree0CropData)
+{
+	uiName = "PeachTree0";
+
+	brickFile = "./bricks/PeachTree0.blb";
+	cropType = "Peach";
+	stage = 0;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickPeachTree1CropData)
+{
+	uiName = "PeachTree1";
+
+	brickFile = "./bricks/PeachTree1.blb";
+	cropType = "Peach";
+	stage = 1;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickPeachTree2CropData)
+{
+	uiName = "PeachTree2";
+
+	brickFile = "./bricks/PeachTree2.blb";
+	cropType = "Peach";
+	stage = 2;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickPeachTree3CropData)
+{
+	uiName = "PeachTree3";
+
+	brickFile = "./bricks/PeachTree3.blb";
+	cropType = "Peach";
+	stage = 3;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickPeachTree4CropData)
+{
+	uiName = "PeachTree4";
+
+	brickFile = "./bricks/PeachTree4.blb";
+	cropType = "Peach";
+	stage = 4;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickPeachTree5CropData)
+{
+	uiName = "PeachTree5";
+
+	brickFile = "./bricks/PeachTree5.blb";
+	cropType = "Peach";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickPeachTree6CropData)
+{
+	uiName = "PeachTree6";
+
+	brickFile = "./bricks/PeachTree6.blb";
+	cropType = "Peach";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickPeachTree7CropData)
+{
+	uiName = "PeachTree7";
+
+	brickFile = "./bricks/PeachTree7.blb";
+	cropType = "Peach";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickPeachTree8CropData)
+{
+	uiName = "PeachTree8";
+
+	brickFile = "./bricks/PeachTree8.blb";
+	cropType = "Peach";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickPeachTree9CropData)
+{
+	uiName = "PeachTree9";
+
+	brickFile = "./bricks/PeachTree9.blb";
+	cropType = "Peach";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
+
+datablock fxDTSBrickData(brickPeachTree10CropData)
+{
+	uiName = "PeachTree10";
+
+	brickFile = "./bricks/PeachTree10.blb";
+	cropType = "Peach";
+	stage = 5;
+	isPlant = 1;
+	isTree = 1;
+};
