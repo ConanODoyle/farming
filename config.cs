@@ -38,10 +38,13 @@ $Produce::BuyCost_["Onion"] = 1.30;
 $Produce::BuyCost_["Blueberry"] = 1.90;
 $Produce::BuyCost_["Turnip"] = 8.00;
 $Produce::BuyCost_["Apple"] = 8.80;
-$Produce::BuyCost_["Mango"] = 14.50;
+$Produce::BuyCost_["Mango"] = 14.00;
 
-$Produce::BuyCost_["Chili"] = 2.50;
-$Produce::BuyCost_["Cactus"] = 4.00;
+$Produce::BuyCost_["Chili"] = 2.20;
+$Produce::BuyCost_["Cactus"] = 3.00;
+$Produce::BuyCost_["Watermelon"] = 12.00;
+$Produce::BuyCost_["Date"] = 2.50;
+$Produce::BuyCost_["Peach"] = 10.00;
 //big buyer
 $ProduceList_[$ProduceCount++ - 1]  = "Potato" TAB    60;
 $ProduceList_[$ProduceCount++ - 1]  = "Carrot" TAB    70;
@@ -128,7 +131,7 @@ $StorageMax_Chili = 28;
 $StorageMax_Cactus = 16;
 $StorageMax_Watermelon = 1;
 $StorageMax_Date = 0;
-$StorageMax_Peach = 0;
+$StorageMax_Peach = 16;
 
 $StorageMax_TomatoSeed = 24;
 $StorageMax_PotatoSeed = 48;
