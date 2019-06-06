@@ -110,7 +110,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 	%hitDB = %hit.getDatablock();
 	if ((%hitDB.isPot || %hitDB.isPlanter) && %brickDB.isTree)
 	{
-		messageClient(%obj.client, '', "You can only plant trees on dirt!");
+		messageClient(%obj.client, '', "You can only plant large plants on dirt!");
 		return 0;
 	}
 
@@ -121,6 +121,11 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 		if (isObject(%greenhouseCheck) && %greenhouseCheck.getDatablock().isGreenhouse)
 		{
 			%inGreenhouse = 1;
+			if (%brickDB.isTree)
+			{
+				messageClient(%obj.client, '', "You cannot plant large plants in greenhouses!");
+				return 0;
+			}
 		}
 
 		//check around the brick for any other plants and make sure we dont violate their radius requirement
@@ -133,7 +138,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 				%nextType = %next.getDatablock().cropType;
 				%rad = $Farming::Crops::PlantData_[%nextType, "plantSpace"] * 0.5 - 0.01 + 0.5;
 				%nextPos = %next.getPosition();
-				%nextDirt = getWord(containerRaycast(%nextPos, vectorAdd(%nextPos, "0 0 -50"), $TypeMasks::fxBrickObjectType, %next), 0);
+				%nextDirt = %next.getDownBrick(0);//getWord(containerRaycast(%nextPos, vectorAdd(%nextPos, "0 0 -50"), $TypeMasks::fxBrickObjectType, %next), 0);
 
 				if (%next.getDatablock().isTree != %brickDB.isTree)
 				{
