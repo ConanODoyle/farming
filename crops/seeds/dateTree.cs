@@ -70,7 +70,7 @@ datablock ShapeBaseImageData(DateSeed0Image)
 
 	offset = "";
 
-	cropBrick = "brickDate0CropData";
+	cropBrick = "brickDateTree0CropData";
 	cropType = "Date";
 
 	stateName[0] = "Activate";

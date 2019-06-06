@@ -70,7 +70,7 @@ datablock ShapeBaseImageData(PeachSeed0Image)
 
 	offset = "";
 
-	cropBrick = "brickPeach0CropData";
+	cropBrick = "brickPeachTree0CropData";
 	cropType = "Peach";
 
 	stateName[0] = "Activate";
