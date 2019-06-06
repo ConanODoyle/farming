@@ -39,7 +39,10 @@ package Processors
 				if (isFunction(%func))
 				{
 					call(%func, %hit, %obj);
-					return;
+					if (!%hit.getDatablock().keepActivate)
+					{
+						return;
+					}
 				}
 			}
 		}

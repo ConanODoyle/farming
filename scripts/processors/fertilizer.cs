@@ -314,6 +314,8 @@ function createFertilizer(%brick, %client, %count)
 		%brick.setName("_" @ %count);
 	}
 	%brick.nextCompostTime = $Sim::Time + $FertTickTime;
+
+	%brick.updateCenterprintMenu(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
 }
 
 function processIntoFertilizer(%brick, %cl, %slot)
@@ -363,7 +365,11 @@ function processIntoFertilizer(%brick, %cl, %slot)
 
 function compostBinInfo(%brick, %pl)
 {
-	%pl.client.centerprint("<color:ffffff>Drop (Ctrl-W) a full basket of produce in here to make fertilizer! Amount varies with produce type.", 2);
+	if (%pl.client.lastMessagedCompostBinInfo + 5 < $Sim::Time)
+	{
+		messageClient(%pl.client, '', "\c3Drop (Ctrl-W) a full basket of produce in the bin to make fertilizer! Amount varies with produce type.", 2);
+		%pl.client.lastMessagedCompostBinInfo = $Sim::Time;
+	}
 }
 
 
@@ -388,6 +394,7 @@ datablock fxDTSBrickData(brickCompostBinData)
 	processorFunction = "processIntoFertilizer";
 	activateFunction = "compostBinInfo";
 	placerItem = "CompostBinItem";
+	keepActivate = 1;
 };
 
 
@@ -484,8 +491,8 @@ datablock ShapeBaseImageData(FertilizerBag0Image)
 
 	toolTip = "Make plants grow, chance for shiny";
 
-	bonusGrowTicks = 2; //bonus grow tick per use (does not consume water)
-	bonusGrowTime = 5; //reduction in seconds to next grow tick
+	bonusGrowTicks = 0; //bonus grow tick per use (does not consume water)
+	bonusGrowTime = 15; //reduction in seconds to next grow tick
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";
