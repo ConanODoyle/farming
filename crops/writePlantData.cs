@@ -29,8 +29,7 @@ function totalTime(%type, %startStage)
 
 function writePlantData(%writeType)
 {
-	exec("Add-ons/Server_Farming/crops/plantData.cs");
-	exec("Add-ons/Server_Farming/crops/desertPlantData.cs");
+	exec("Add-ons/Server_Farming/crops/plants/plantData.cs");
 	exec("Add-ons/Server_Farming/config.cs");
 	%file = new FileObject();
 	%file.openForWrite("Add-ons/Server_Farming/PlantInfo.txt");
