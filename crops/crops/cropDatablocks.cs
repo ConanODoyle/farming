@@ -11,6 +11,7 @@ exec("./mangoTree.cs");
 
 exec("./chili.cs");
 exec("./cactus.cs");
+exec("./watermelon.cs");
 
 function foodLoop(%image, %obj)
 {

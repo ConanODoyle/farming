@@ -1,7 +1,7 @@
-$Stackable_DateSeed_StackedItem0 = "DateSeed0Item 6";
-$Stackable_DateSeed_StackedItem1 = "DateSeed1Item 12";
-$Stackable_DateSeed_StackedItem2 = "DateSeed2Item 18";
-$Stackable_DateSeed_StackedItem3 = "DateSeed3Item 24";
+$Stackable_DateSeed_StackedItem0 = "DateSeed0Item 1";
+$Stackable_DateSeed_StackedItem1 = "DateSeed1Item 2";
+$Stackable_DateSeed_StackedItem2 = "DateSeed2Item 3";
+$Stackable_DateSeed_StackedItem3 = "DateSeed3Item 4";
 $Stackable_DateSeed_StackedItemTotal = 4;
 
 datablock ItemData(DateSeedItem : HammerItem)

@@ -1,7 +1,7 @@
-$Stackable_ChiliSeed_StackedItem0 = "ChiliSeed0Item 6";
-$Stackable_ChiliSeed_StackedItem1 = "ChiliSeed1Item 12";
-$Stackable_ChiliSeed_StackedItem2 = "ChiliSeed2Item 18";
-$Stackable_ChiliSeed_StackedItem3 = "ChiliSeed3Item 24";
+$Stackable_ChiliSeed_StackedItem0 = "ChiliSeed0Item 4";
+$Stackable_ChiliSeed_StackedItem1 = "ChiliSeed1Item 8";
+$Stackable_ChiliSeed_StackedItem2 = "ChiliSeed2Item 12";
+$Stackable_ChiliSeed_StackedItem3 = "ChiliSeed3Item 16";
 $Stackable_ChiliSeed_StackedItemTotal = 4;
 
 datablock ItemData(ChiliSeedItem : HammerItem)

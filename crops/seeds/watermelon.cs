@@ -1,7 +1,7 @@
-$Stackable_WatermelonSeed_StackedItem0 = "WatermelonSeed0Item 6";
-$Stackable_WatermelonSeed_StackedItem1 = "WatermelonSeed1Item 12";
-$Stackable_WatermelonSeed_StackedItem2 = "WatermelonSeed2Item 18";
-$Stackable_WatermelonSeed_StackedItem3 = "WatermelonSeed3Item 24";
+$Stackable_WatermelonSeed_StackedItem0 = "WatermelonSeed0Item 2";
+$Stackable_WatermelonSeed_StackedItem1 = "WatermelonSeed1Item 4";
+$Stackable_WatermelonSeed_StackedItem2 = "WatermelonSeed2Item 6";
+$Stackable_WatermelonSeed_StackedItem3 = "WatermelonSeed3Item 8";
 $Stackable_WatermelonSeed_StackedItemTotal = 4;
 
 datablock ItemData(WatermelonSeedItem : HammerItem)

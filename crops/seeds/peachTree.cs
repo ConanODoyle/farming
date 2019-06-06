@@ -1,7 +1,7 @@
-$Stackable_PeachSeed_StackedItem0 = "PeachSeed0Item 6";
-$Stackable_PeachSeed_StackedItem1 = "PeachSeed1Item 12";
-$Stackable_PeachSeed_StackedItem2 = "PeachSeed2Item 18";
-$Stackable_PeachSeed_StackedItem3 = "PeachSeed3Item 24";
+$Stackable_PeachSeed_StackedItem0 = "PeachSeed0Item 1";
+$Stackable_PeachSeed_StackedItem1 = "PeachSeed1Item 2";
+$Stackable_PeachSeed_StackedItem2 = "PeachSeed2Item 3";
+$Stackable_PeachSeed_StackedItem3 = "PeachSeed3Item 4";
 $Stackable_PeachSeed_StackedItemTotal = 4;
 
 datablock ItemData(PeachSeedItem : HammerItem)

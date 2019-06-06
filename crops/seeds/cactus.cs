@@ -1,7 +1,7 @@
-$Stackable_CactusSeed_StackedItem0 = "CactusSeed0Item 6";
-$Stackable_CactusSeed_StackedItem1 = "CactusSeed1Item 12";
-$Stackable_CactusSeed_StackedItem2 = "CactusSeed2Item 18";
-$Stackable_CactusSeed_StackedItem3 = "CactusSeed3Item 24";
+$Stackable_CactusSeed_StackedItem0 = "CactusSeed0Item 2";
+$Stackable_CactusSeed_StackedItem1 = "CactusSeed1Item 4";
+$Stackable_CactusSeed_StackedItem2 = "CactusSeed2Item 6";
+$Stackable_CactusSeed_StackedItem3 = "CactusSeed3Item 8";
 $Stackable_CactusSeed_StackedItemTotal = 4;
 
 datablock ItemData(CactusSeedItem : HammerItem)

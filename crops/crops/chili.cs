@@ -11,8 +11,6 @@ datablock ItemData(ChiliItem : HammerItem)
 	image = "";
 	doColorShift = false;
 
-	alt = ChiliFaceItem;
-
 	isStackable = 1;
 	stackType = "Chili";
 };
