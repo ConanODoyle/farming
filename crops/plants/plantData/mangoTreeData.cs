@@ -5,8 +5,8 @@ $Farming::Crops::PlantData_["Mango", "heatWaveWaterModifier"]			= "3";
 $Farming::Crops::PlantData_["Mango", "rainTimeModifier"]				= "1";
 $Farming::Crops::PlantData_["Mango", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Mango", "plantSpace"]					= "15";
-$Farming::Crops::PlantData_["Mango", "experienceRequired"]			= "1500";
-$Farming::Crops::PlantData_["Mango", "experienceCost"]				= "1500";
+$Farming::Crops::PlantData_["Mango", "experienceRequired"]			= "500";
+$Farming::Crops::PlantData_["Mango", "experienceCost"]				= "1000";
 $Farming::Crops::PlantData_["Mango", "harvestExperience"]			= "0";
 $Farming::Crops::PlantData_["Mango", "plantingExperience"]			= "0";
 $Farming::Crops::PlantData_["Mango", "loopStages"]					= "8 9 10 11";
@@ -14,7 +14,7 @@ $Farming::Crops::PlantData_["Mango", "loopStages"]					= "8 9 10 11";
 $Farming::Crops::PlantData_["Mango", 0, "timePerTick"]				= "40000";
 $Farming::Crops::PlantData_["Mango", 0, "nextStage"]				= "brickMangoTree1CropData";
 $Farming::Crops::PlantData_["Mango", 0, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Mango", 0, "waterPerTick"]				= "45";
+$Farming::Crops::PlantData_["Mango", 0, "waterPerTick"]				= "150";
 $Farming::Crops::PlantData_["Mango", 0, "numGrowTicks"]				= "15";
 $Farming::Crops::PlantData_["Mango", 0, "numDryTicks"]				= "-1";
 
@@ -23,7 +23,7 @@ $Farming::Crops::PlantData_["Mango", 0, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Mango", 1, "timePerTick"]				= "40000";
 $Farming::Crops::PlantData_["Mango", 1, "nextStage"]				= "brickMangoTree2CropData";
 $Farming::Crops::PlantData_["Mango", 1, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Mango", 1, "waterPerTick"]				= "35";
+$Farming::Crops::PlantData_["Mango", 1, "waterPerTick"]				= "65";
 $Farming::Crops::PlantData_["Mango", 1, "numGrowTicks"]				= "15";
 $Farming::Crops::PlantData_["Mango", 1, "numDryTicks"]				= "-1";
 
@@ -32,7 +32,7 @@ $Farming::Crops::PlantData_["Mango", 1, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Mango", 2, "timePerTick"]				= "50000";
 $Farming::Crops::PlantData_["Mango", 2, "nextStage"]				= "brickMangoTree3CropData";
 $Farming::Crops::PlantData_["Mango", 2, "dryStage"]					= "";
-$Farming::Crops::PlantData_["Mango", 2, "waterPerTick"]				= "20";
+$Farming::Crops::PlantData_["Mango", 2, "waterPerTick"]				= "55";
 $Farming::Crops::PlantData_["Mango", 2, "numGrowTicks"]				= "20";
 $Farming::Crops::PlantData_["Mango", 2, "numDryTicks"]				= "-1";
 

@@ -1,4 +1,4 @@
-Generated 05/24/19 01:30:57
+Generated 06/06/19 15:48:18
 
 
 
@@ -97,16 +97,16 @@ Income/min: 4.098670
 -Onion-
 $1.00 per seed
 $1.30 per produce
-Avg 3 per harvest (range: 2 4)
-Avg Income Per Seed: 2.9
+Avg 3.5 per harvest (range: 3 4)
+Avg Income Per Seed: 3.55
 
-TTime: 8:10
-Water: 280
+TTime: 13:20
+Water: 460
 8x8 Density: 9
 Water/sec: 0.57
 Water/sec/8x8: 5.13
-8x8 Income: 26.10
-Income/min: 3.195920
+8x8 Income: 31.95
+Income/min: 2.396250
 ------
 
 
@@ -155,10 +155,10 @@ Avg 11 per harvest (range: 10 12)
 Avg Income Per Harvest: 96.8
 
 TTime: 1:57:55
-Water: 2550
+Water: 4350
 8x8 Density: 1
-Water/sec: 0.36
-Water/sec/8x8: 0.36
+Water/sec: 0.61
+Water/sec/8x8: 0.61
 8x8 Income: 96.80
 LoopTime: 25:00
 Income/min: 3.872000
@@ -169,18 +169,18 @@ Income/min: 3.872000
 ------
 -Mango-
 $800.00 per seed
-$14.50 per produce
+$14.00 per produce
 Avg 14 per harvest (range: 12 16)
-Avg Income Per Harvest: 203
+Avg Income Per Harvest: 196
 
 TTime: 2:33:45
-Water: 5425
+Water: 8150
 8x8 Density: 0.5
-Water/sec: 0.59
-Water/sec/8x8: 0.295
-8x8 Income: 101.50
+Water/sec: 0.88
+Water/sec/8x8: 0.44
+8x8 Income: 98.00
 LoopTime: 25:25
-Income/min: 3.993440
+Income/min: 3.855740
 ------
 
 
@@ -188,17 +188,17 @@ Income/min: 3.993440
 ------
 -Chili-
 $4.00 per seed
-$2.50 per produce
+$2.20 per produce
 Avg 3.5 per harvest (range: 2 5)
-Avg Income Per Seed: 4.75
+Avg Income Per Seed: 3.7
 
 TTime: 7:45
 Water: 125
 8x8 Density: 9
 Water/sec: 0.27
 Water/sec/8x8: 2.43
-8x8 Income: 42.75
-Income/min: 5.516130
+8x8 Income: 33.30
+Income/min: 4.296770
 ------
 
 
@@ -206,16 +206,54 @@ Income/min: 5.516130
 ------
 -Cactus-
 $75.00 per seed
-$4.00 per produce
+$3.00 per produce
 Avg 3.5 per harvest (range: 2 5)
-Avg Income Per Harvest: 14
+Avg Income Per Harvest: 10.5
 
 TTime: 19:10
 Water: 190
 8x8 Density: 4
 Water/sec: 0.17
 Water/sec/8x8: 0.68
-8x8 Income: 56.00
+8x8 Income: 42.00
 LoopTime: 11:00
-Income/min: 5.090910
+Income/min: 3.818180
+------
+
+
+
+------
+-Date-
+$700.00 per seed
+$18.00 per produce
+Avg 9 per harvest (range: 6 12)
+Avg Income Per Harvest: 162
+
+TTime: 3:48:20
+Water: 6300
+8x8 Density: 1
+Water/sec: 0.46
+Water/sec/8x8: 0.46
+8x8 Income: 162.00
+LoopTime: 1:06:40
+Income/min: 2.430000
+------
+
+
+
+------
+-Peach-
+$800.00 per seed
+$16.00 per produce
+Avg 14 per harvest (range: 10 18)
+Avg Income Per Harvest: 224
+
+TTime: 4:30:25
+Water: 10900
+8x8 Density: 0.5
+Water/sec: 0.67
+Water/sec/8x8: 0.335
+8x8 Income: 112.00
+LoopTime: 27:05
+Income/min: 4.135380
 ------

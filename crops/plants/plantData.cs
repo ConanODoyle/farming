@@ -51,5 +51,5 @@ exec("./plantData/chiliData.cs");
 exec("./plantData/cactusData.cs");
 // exec("./plantData/watermelonData.cs");
 
-// exec("./plantData/dateTreeData.cs");
-// exec("./plantData/peachTreeData.cs");
+exec("./plantData/dateTreeData.cs");
+exec("./plantData/peachTreeData.cs");

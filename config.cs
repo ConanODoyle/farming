@@ -43,8 +43,8 @@ $Produce::BuyCost_["Mango"] = 14.00;
 $Produce::BuyCost_["Chili"] = 2.20;
 $Produce::BuyCost_["Cactus"] = 3.00;
 $Produce::BuyCost_["Watermelon"] = 12.00;
-$Produce::BuyCost_["Date"] = 14.00;
-$Produce::BuyCost_["Peach"] = 10.00;
+$Produce::BuyCost_["Date"] = 18.00;
+$Produce::BuyCost_["Peach"] = 16.00;
 //big buyer
 $ProduceList_[$ProduceCount++ - 1]  = "Potato" TAB    60;
 $ProduceList_[$ProduceCount++ - 1]  = "Carrot" TAB    70;
@@ -58,6 +58,9 @@ $ProduceList_[$ProduceCount++ - 1]  = "Apple" TAB   8;
 $ProduceList_[$ProduceCount++ - 1]  = "Mango" TAB   4;
 $ProduceList_[$ProduceCount++ - 1]  = "Chili" TAB   0;
 $ProduceList_[$ProduceCount++ - 1]  = "Cactus" TAB   0;
+// $ProduceList_[$ProduceCount++ - 1]  = "Watermelon" TAB   0;
+$ProduceList_[$ProduceCount++ - 1]  = "Date" TAB   0;
+$ProduceList_[$ProduceCount++ - 1]  = "Peach" TAB   0;
 
 //Seeds
 $SeedCount = 0;
@@ -74,6 +77,9 @@ $Produce::BuyCost_["MangoSeed"] = 800.00;
 
 $Produce::BuyCost_["ChiliSeed"] = 4.00;
 $Produce::BuyCost_["CactusSeed"] = 75.00;
+$Produce::BuyCost_["WatermelonSeed"] = 75.00;
+$Produce::BuyCost_["DateSeed"] = 700.00;
+$Produce::BuyCost_["PeachSeed"] = 800.00;
 
 $Produce::BuyCost_["DaisySeed"] = 1.00;
 $Produce::BuyCost_["LilySeed"] = 1.00;
@@ -86,12 +92,15 @@ $SeedList_[$SeedCount++ - 1]  = "CabbageSeedItem" TAB   30;
 $SeedList_[$SeedCount++ - 1]  = "OnionSeedItem" TAB   60;
 $SeedList_[$SeedCount++ - 1]  = "BlueberrySeedItem" TAB 10;
 $SeedList_[$SeedCount++ - 1]  = "TurnipSeedItem" TAB    10;//5;
-$SeedList_[$SeedCount++ - 1]  = "DaisySeedItem" TAB   250;//5;
+$SeedList_[$SeedCount++ - 1]  = "DaisySeedItem" TAB   25;//5;
 $SeedList_[$SeedCount++ - 1]  = "LilySeedItem" TAB    25;//5;
 $SeedList_[$SeedCount++ - 1]  = "AppleSeedItem" TAB   8;
 $SeedList_[$SeedCount++ - 1]  = "MangoSeedItem" TAB   4;
 $SeedList_[$SeedCount++ - 1]  = "ChiliSeedItem" TAB   0;
 $SeedList_[$SeedCount++ - 1]  = "CactusSeedItem" TAB   0;
+$SeedList_[$SeedCount++ - 1]  = "WatermelonSeedItem" TAB   0;
+$SeedList_[$SeedCount++ - 1]  = "DateSeedItem" TAB   0;
+$SeedList_[$SeedCount++ - 1]  = "PeachSeedItem" TAB   0;
 
 //Extra stackable items
 
