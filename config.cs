@@ -43,7 +43,7 @@ $Produce::BuyCost_["Mango"] = 14.00;
 $Produce::BuyCost_["Chili"] = 2.20;
 $Produce::BuyCost_["Cactus"] = 3.00;
 $Produce::BuyCost_["Watermelon"] = 12.00;
-$Produce::BuyCost_["Date"] = 2.50;
+$Produce::BuyCost_["Date"] = 14.00;
 $Produce::BuyCost_["Peach"] = 10.00;
 //big buyer
 $ProduceList_[$ProduceCount++ - 1]  = "Potato" TAB    60;
@@ -130,7 +130,7 @@ $StorageMax_Mango = 10 * 3;
 $StorageMax_Chili = 28;
 $StorageMax_Cactus = 16;
 $StorageMax_Watermelon = 1;
-$StorageMax_Date = 0;
+$StorageMax_Date = 9;
 $StorageMax_Peach = 16;
 
 $StorageMax_TomatoSeed = 24;
