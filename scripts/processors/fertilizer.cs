@@ -401,6 +401,30 @@ datablock fxDTSBrickData(brickCompostBinData)
 	tickAmt = 1;
 };
 
+datablock fxDTSBrickData(brickLargeCompostBinData)
+{
+	// category = "Farming";
+	// subCategory = "Extra";
+	uiName = "LargeCompost Bin";
+
+	brickFile = "./resources/largecompostBin.blb";
+
+	iconName = "Add-Ons/Server_Farming/crops/icons/large_compost_bin";
+
+	cost = 0;
+	isProcessor = 1;
+	isCompostBin = 1;
+	isStorageBrick = 1;
+	storageBonus = 3;
+	processorFunction = "processIntoFertilizer";
+	activateFunction = "compostBinInfo";
+	placerItem = "LargeCompostBinItem";
+	keepActivate = 1;
+
+	tickTime = 8;
+	tickAmt = 2;
+};
+
 
 
 ///////////////
@@ -432,7 +456,7 @@ datablock ShapeBaseImageData(CompostBinBrickImage : BrickPlacerImage)
 	colorShiftColor = CompostBinItem.colorShiftColor;
 
 	toolTip = "Places a Compost Bin";
-	loopTip = "Lets you convert produce into fertilizer";
+	loopTip = "Converts produce into fertilizer";
 	placeBrick = "brickCompostBinData";
 };
 
@@ -452,6 +476,57 @@ function CompostBinBrickImage::onLoop(%this, %obj, %slot)
 }
 
 function CompostBinBrickImage::onFire(%this, %obj, %slot)
+{
+	brickPlacerItemFire(%this, %obj, %slot);
+}
+
+
+
+datablock ItemData(LargeCompostBinItem : brickPlacerItem)
+{
+	shapeFile = "./resources/toolbox.dts";
+	uiName = "Large Compost Bin";
+	image = "LargeCompostBinBrickImage";
+	colorShiftColor = "0.9 0 0 1";
+
+	iconName = "Add-ons/Server_Farming/crops/icons/large_compost_bin";
+	
+	cost = 1600;
+};
+
+datablock ShapeBaseImageData(LargeCompostBinBrickImage : BrickPlacerImage)
+{
+	shapeFile = "./resources/toolbox.dts";
+	
+	offset = "-0.56 0 0";
+	eyeOffset = "0 0 0";
+
+	item = LargeCompostBinItem;
+	
+	doColorshift = true;
+	colorShiftColor = LargeCompostBinItem.colorShiftColor;
+
+	toolTip = "Places a Large Compost Bin";
+	loopTip = "Converts produce into fertilizer";
+	placeBrick = "brickLargeCompostBinData";
+};
+
+function LargeCompostBinBrickImage::onMount(%this, %obj, %slot)
+{
+	brickPlacerItem_onMount(%this, %obj, %slot);
+}
+
+function LargeCompostBinBrickImage::onUnmount(%this, %obj, %slot)
+{
+	brickPlacerItem_onUnmount(%this, %obj, %slot);
+}
+
+function LargeCompostBinBrickImage::onLoop(%this, %obj, %slot)
+{
+	brickPlacerItemLoop(%this, %obj, %slot);
+}
+
+function LargeCompostBinBrickImage::onFire(%this, %obj, %slot)
 {
 	brickPlacerItemFire(%this, %obj, %slot);
 }
