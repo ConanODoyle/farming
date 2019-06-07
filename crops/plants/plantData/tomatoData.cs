@@ -6,8 +6,8 @@ $Farming::Crops::PlantData_["Tomato", "rainTimeModifier"]				= "1";
 $Farming::Crops::PlantData_["Tomato", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Tomato", "plantSpace"]					= "3";
 $Farming::Crops::PlantData_["Tomato", "experienceRequired"]			= "0";
-$Farming::Crops::PlantData_["Tomato", "harvestExperience"]			= "0";
-$Farming::Crops::PlantData_["Tomato", "plantingExperience"]			= "2";
+$Farming::Crops::PlantData_["Tomato", "harvestExperience"]			= "1";
+$Farming::Crops::PlantData_["Tomato", "plantingExperience"]			= "0";
 $Farming::Crops::PlantData_["Tomato", "loopStages"]					= "2 3 4";
 
 $Farming::Crops::PlantData_["Tomato", 0, "timePerTick"]				= "10000";

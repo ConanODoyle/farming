@@ -5,9 +5,9 @@ $Farming::Crops::PlantData_["Chili", "heatWaveWaterModifier"]			= "1";
 $Farming::Crops::PlantData_["Chili", "rainTimeModifier"]				= "2";
 $Farming::Crops::PlantData_["Chili", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Chili", "plantSpace"]					= "2";
-$Farming::Crops::PlantData_["Chili", "experienceRequired"]			= "0";
+$Farming::Crops::PlantData_["Chili", "experienceRequired"]			= "50";
 $Farming::Crops::PlantData_["Chili", "harvestExperience"]			= "0";
-$Farming::Crops::PlantData_["Chili", "plantingExperience"]			= "2";
+$Farming::Crops::PlantData_["Chili", "plantingExperience"]			= "0";
 
 $Farming::Crops::PlantData_["Chili", 0, "timePerTick"]				= "7000";
 $Farming::Crops::PlantData_["Chili", 0, "nextStage"]				= "brickChili1CropData";
