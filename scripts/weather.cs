@@ -74,7 +74,7 @@ function rainCheckLoop()
 		}
 	}
 
-	$masterRainCheckLoop = schedule(15000, 0, rainCheckLoop);
+	$masterRainCheckLoop = schedule(20000, 0, rainCheckLoop);
 }
 
 function startRain()
