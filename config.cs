@@ -169,6 +169,5 @@ $FertCount_Potato = "12 20";
 $FertCount_Carrot = "16 20";
 $FertCount_Tomato = "8 16";
 
-$FertCount_Default = "5 12";
-$FertTickTime = 10;
+$FertCount_Default = "10 16";
 $FertTickAmt = 1;

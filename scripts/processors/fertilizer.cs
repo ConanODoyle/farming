@@ -132,7 +132,7 @@ function fertilizeCrop(%img, %obj, %slot)
 
 			if (!isObject(%crop.emitter))
 			{
-				if (getRandom() < 0.002)
+				if (getRandom() < %img.shinyChance)
 				{
 					%rand = getRandom();
 					if (%rand < 0.025)
@@ -196,7 +196,7 @@ function fertilizeCrop(%img, %obj, %slot)
 
 		if (!isObject(%crop.emitter))
 		{
-			if (getRandom() < 0.015)
+			if (getRandom() < %img.shinyChance * 3)
 			{
 				%rand = getRandom();
 				if (%rand < 0.05)
@@ -267,17 +267,18 @@ function fertilizeCrop(%img, %obj, %slot)
 	}
 }
 
-function createFertilizer(%brick, %client, %count)
+function createFertilizer(%brick)
 {
 	%name = %brick.getName();
 	%count = getSubStr(%name, 1, strLen(%name));
 
 	if (%brick.nextCompostTime $= "")
 	{
-		%brick.nextCompostTime = $Sim::Time + $FertTickTime;
+		%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
 		return;
 	}
 
+	%count = %brick.getDatablock().tickAmt;
 	if (%count > 0)
 	{
 		%amt = getMin($FertTickAmt, %count);
@@ -313,7 +314,7 @@ function createFertilizer(%brick, %client, %count)
 		%count = %count - %amtAdded;
 		%brick.setName("_" @ %count);
 	}
-	%brick.nextCompostTime = $Sim::Time + $FertTickTime;
+	%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
 
 	%brick.updateCenterprintMenu(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
 }
@@ -395,6 +396,9 @@ datablock fxDTSBrickData(brickCompostBinData)
 	activateFunction = "compostBinInfo";
 	placerItem = "CompostBinItem";
 	keepActivate = 1;
+
+	tickTime = 10;
+	tickAmt = 1;
 };
 
 
@@ -493,6 +497,7 @@ datablock ShapeBaseImageData(FertilizerBag0Image)
 
 	bonusGrowTicks = 0; //bonus grow tick per use (does not consume water)
 	bonusGrowTime = 10; //reduction in seconds to next grow tick
+	shinyChance = 0.004;
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";
