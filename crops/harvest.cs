@@ -13,6 +13,7 @@ function harvestBrick(%brick, %tool, %harvester)
 
 	%changeOnHarvest = $Farming::Crops::PlantData_[%type, %stage, "changeOnHarvest"];
 	%dieOnHarvest = $Farming::Crops::PlantData_[%type, %stage, "dieOnHarvest"];
+	%harvestMaxRange = $Farming::Crops::PlantData_[%type, %stage, "maxHarvestTimes"];
 
 	//check if we pruning
 	%pruneTool = $Farming::Crops::PlantData_[%type, %stage, "pruneTool"];
@@ -32,6 +33,12 @@ function harvestBrick(%brick, %tool, %harvester)
 	{
 		return 0;
 	}
+
+	if (getWordCount(%harvestMaxRange) == 2 && %brick.maxHarvestTimes <= 0)
+	{
+		%brick.maxHarvestTimes = getRandom(getWord(%harvestMaxRange, 0), getWord(%harvestMaxRange, 1));
+	}
+	%brick.harvestTimes++;
 	
 	if (getTrustLevel(%brick, %harvester) < 2)
 	{
@@ -110,6 +117,10 @@ function harvestBrick(%brick, %tool, %harvester)
 	}
 
 	if (%dieOnHarvest)
+	{
+		%brick.delete();
+	} 
+	else if (%brick.harvestTimes >= %brick.maxHarvestTimes)
 	{
 		%brick.delete();
 	}

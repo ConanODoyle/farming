@@ -57,7 +57,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 		%end = vectorAdd(%pos, "0 0 -0.1");
 	}
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
-
+	
 	if (!isObject(%hit = getWord(%ray, 0)) || vectorDist(getWords(%ray, 4, 6), "0 0 1") > 0.01)
 	{
 		return 0;
