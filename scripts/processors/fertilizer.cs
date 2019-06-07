@@ -568,7 +568,7 @@ datablock ShapeBaseImageData(FertilizerBag0Image)
 
 	offset = "";
 
-	toolTip = "Make plants grow, chance for shiny";
+	toolTip = "Make plants grow faster, chance of shiny";
 
 	bonusGrowTicks = 0; //bonus grow tick per use (does not consume water)
 	bonusGrowTime = 10; //reduction in seconds to next grow tick

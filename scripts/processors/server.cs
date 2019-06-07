@@ -60,11 +60,6 @@ datablock ShapeBaseImageData(BrickPlacerImage)
 	stateWaitForTimeout[3] = true;
 };
 
-
-exec("./fertilizer.cs");
-exec("./flowerpot.cs");
-exec("./planterBox.cs");
-
 function brickPlacerItem_onMount(%this, %obj, %slot)
 {
 	%obj.itemBrickSelection = %this.placeBrick.getID();
@@ -113,3 +108,8 @@ function brickPlacerItemFire(%this, %obj, %slot)
 		};
 	}
 }
+
+exec("./fertilizer.cs");
+exec("./superfertilizer.cs");
+exec("./flowerpot.cs");
+exec("./planterBox.cs");
