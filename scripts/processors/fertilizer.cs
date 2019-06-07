@@ -492,7 +492,7 @@ datablock ShapeBaseImageData(FertilizerBag0Image)
 	toolTip = "Make plants grow, chance for shiny";
 
 	bonusGrowTicks = 0; //bonus grow tick per use (does not consume water)
-	bonusGrowTime = 15; //reduction in seconds to next grow tick
+	bonusGrowTime = 10; //reduction in seconds to next grow tick
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";
