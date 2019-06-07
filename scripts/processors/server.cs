@@ -99,6 +99,7 @@ function brickPlacerItemFire(%this, %obj, %slot)
 		%obj.client.instantUseData = %this.placeBrick;
 
 		%p = new Projectile() {
+			colorID = %obj.client.currentColor;
 			dataBlock = %this.projectile;
 			initialPosition = vectorSub(getWords(%ray, 1, 3), %obj.getEyeVector());
 			initialVelocity = vectorScale(%obj.getEyeVector(), 100);

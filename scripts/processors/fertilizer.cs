@@ -449,6 +449,7 @@ datablock ShapeBaseImageData(CompostBinBrickImage : BrickPlacerImage)
 	
 	offset = "-0.56 0 0";
 	eyeOffset = "0 0 0";
+	rotation = eulerToMatrix("0 0 90");
 
 	item = CompostBinItem;
 	
@@ -487,7 +488,7 @@ datablock ItemData(LargeCompostBinItem : brickPlacerItem)
 	shapeFile = "./resources/toolbox.dts";
 	uiName = "Large Compost Bin";
 	image = "LargeCompostBinBrickImage";
-	colorShiftColor = "0.9 0 0 1";
+	colorShiftColor = "0.5 0 0 1";
 
 	iconName = "Add-ons/Server_Farming/crops/icons/large_compost_bin";
 	
@@ -500,6 +501,7 @@ datablock ShapeBaseImageData(LargeCompostBinBrickImage : BrickPlacerImage)
 	
 	offset = "-0.56 0 0";
 	eyeOffset = "0 0 0";
+	rotation = eulerToMatrix("0 0 90");
 
 	item = LargeCompostBinItem;
 	

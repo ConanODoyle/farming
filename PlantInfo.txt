@@ -1,4 +1,4 @@
-Generated 06/06/19 23:54:06
+Generated 06/07/19 15:23:59
 
 
 
@@ -171,18 +171,18 @@ Income/min: 3.872000
 ------
 -Mango-
 $800.00 per seed
-$14.00 per produce
+$12.00 per produce
 Avg 14 per harvest (range: 12 16)
-Avg Income Per Harvest: 196
+Avg Income Per Harvest: 168
 
 TTime: 2:33:45
 Water: 8150
 8x8 Density: 0.5
 Water/sec: 0.88
 Water/sec/8x8: 0.44
-8x8 Income: 98.00
+8x8 Income: 84.00
 LoopTime: 25:25
-Income/min: 3.855740
+Income/min: 3.304920
 ------
 
 
@@ -248,16 +248,16 @@ Income/min: 2.430000
 ------
 -Peach-
 $800.00 per seed
-$16.00 per produce
-Avg 14 per harvest (range: 10 18)
-Avg Income Per Harvest: 224
+$12.40 per produce
+Avg 9 per harvest (range: 6 12)
+Avg Income Per Harvest: 111.6
 
 TTime: 4:30:25
 Water: 10900
 8x8 Density: 1
 Water/sec: 0.67
 Water/sec/8x8: 0.67
-8x8 Income: 224.00
+8x8 Income: 111.60
 LoopTime: 27:05
-Income/min: 8.270770
+Income/min: 4.120620
 ------
