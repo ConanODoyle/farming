@@ -38,13 +38,13 @@ $Produce::BuyCost_["Onion"] = 1.30;
 $Produce::BuyCost_["Blueberry"] = 1.90;
 $Produce::BuyCost_["Turnip"] = 8.00;
 $Produce::BuyCost_["Apple"] = 8.80;
-$Produce::BuyCost_["Mango"] = 14.00;
+$Produce::BuyCost_["Mango"] = 12.00;
 
 $Produce::BuyCost_["Chili"] = 2.50;
 $Produce::BuyCost_["Cactus"] = 2.50;
 $Produce::BuyCost_["Watermelon"] = 12.00;
 $Produce::BuyCost_["Date"] = 18.00;
-$Produce::BuyCost_["Peach"] = 14.00;
+$Produce::BuyCost_["Peach"] = 12.40;
 //big buyer
 $ProduceList_[$ProduceCount++ - 1]  = "Potato" TAB    60;
 $ProduceList_[$ProduceCount++ - 1]  = "Carrot" TAB    70;
