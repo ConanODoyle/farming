@@ -6,8 +6,8 @@ $Farming::Crops::PlantData_["Onion", "rainTimeModifier"]				= "1";
 $Farming::Crops::PlantData_["Onion", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Onion", "plantSpace"]					= "2";
 $Farming::Crops::PlantData_["Onion", "experienceRequired"]			= "20";
-$Farming::Crops::PlantData_["Onion", "harvestExperience"]			= "0";
-$Farming::Crops::PlantData_["Onion", "plantingExperience"]			= "2";
+$Farming::Crops::PlantData_["Onion", "harvestExperience"]			= "2";
+$Farming::Crops::PlantData_["Onion", "plantingExperience"]			= "0";
 
 $Farming::Crops::PlantData_["Onion", 0, "timePerTick"]				= "10000";
 $Farming::Crops::PlantData_["Onion", 0, "nextStage"]				= "brickOnion1CropData";
