@@ -44,7 +44,7 @@ $Produce::BuyCost_["Chili"] = 2.50;
 $Produce::BuyCost_["Cactus"] = 2.50;
 $Produce::BuyCost_["Watermelon"] = 12.00;
 $Produce::BuyCost_["Date"] = 18.00;
-$Produce::BuyCost_["Peach"] = 16.00;
+$Produce::BuyCost_["Peach"] = 14.00;
 //big buyer
 $ProduceList_[$ProduceCount++ - 1]  = "Potato" TAB    60;
 $ProduceList_[$ProduceCount++ - 1]  = "Carrot" TAB    70;
