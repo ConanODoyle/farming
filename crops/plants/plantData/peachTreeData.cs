@@ -108,7 +108,7 @@ $Farming::Crops::PlantData_["Peach", 10, "waterPerTick"]			= "1";
 $Farming::Crops::PlantData_["Peach", 10, "numGrowTicks"]			= "1";
 $Farming::Crops::PlantData_["Peach", 10, "numDryTicks"]				= "-1";
 
-$Farming::Crops::PlantData_["Peach", 10, "yield"]					= "10 18";
+$Farming::Crops::PlantData_["Peach", 10, "yield"]					= "6 12";
 $Farming::Crops::PlantData_["Peach", 10, "item"]					= "PeachItem";
 $Farming::Crops::PlantData_["Peach", 10, "dieOnHarvest"]			= "0";
 $Farming::Crops::PlantData_["Peach", 10, "harvestTool"]				= "Clipper";
