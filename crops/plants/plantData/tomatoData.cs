@@ -60,3 +60,4 @@ $Farming::Crops::PlantData_["Tomato", 4, "harvestTool"]				= "Clipper";
 $Farming::Crops::PlantData_["Tomato", 4, "areaHarvestTool"]			= "Sickle";
 $Farming::Crops::PlantData_["Tomato", 4, "toolBuff"]				= "1 1";
 $Farming::Crops::PlantData_["Tomato", 4, "changeOnHarvest"]			= "brickTomato2CropData";
+$Farming::Crops::PlantData_["Tomato", 4, "maxHarvestTimes"]			= "8 12";

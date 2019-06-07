@@ -296,7 +296,7 @@ datablock fxDTSBrickData(brickDateTree6CropData)
 
 	brickFile = "./bricks/DateTree6.blb";
 	cropType = "Date";
-	stage = 5;
+	stage = 6;
 	isPlant = 1;
 	isTree = 1;
 };
@@ -307,7 +307,7 @@ datablock fxDTSBrickData(brickDateTree7CropData)
 
 	brickFile = "./bricks/DateTree7.blb";
 	cropType = "Date";
-	stage = 5;
+	stage = 7;
 	isPlant = 1;
 	isTree = 1;
 };
@@ -318,7 +318,7 @@ datablock fxDTSBrickData(brickDateTree8CropData)
 
 	brickFile = "./bricks/DateTree8.blb";
 	cropType = "Date";
-	stage = 5;
+	stage = 8;
 	isPlant = 1;
 	isTree = 1;
 };
@@ -329,7 +329,7 @@ datablock fxDTSBrickData(brickDateTree9CropData)
 
 	brickFile = "./bricks/DateTree9.blb";
 	cropType = "Date";
-	stage = 5;
+	stage = 9;
 	isPlant = 1;
 	isTree = 1;
 };
@@ -340,7 +340,7 @@ datablock fxDTSBrickData(brickDateTree10CropData)
 
 	brickFile = "./bricks/DateTree10.blb";
 	cropType = "Date";
-	stage = 5;
+	stage = 10;
 	isPlant = 1;
 	isTree = 1;
 };
@@ -420,7 +420,7 @@ datablock fxDTSBrickData(brickPeachTree6CropData)
 
 	brickFile = "./bricks/PeachTree6.blb";
 	cropType = "Peach";
-	stage = 5;
+	stage = 6;
 	isPlant = 1;
 	isTree = 1;
 };
@@ -431,7 +431,7 @@ datablock fxDTSBrickData(brickPeachTree7CropData)
 
 	brickFile = "./bricks/PeachTree7.blb";
 	cropType = "Peach";
-	stage = 5;
+	stage = 7;
 	isPlant = 1;
 	isTree = 1;
 };
@@ -442,7 +442,7 @@ datablock fxDTSBrickData(brickPeachTree8CropData)
 
 	brickFile = "./bricks/PeachTree8.blb";
 	cropType = "Peach";
-	stage = 5;
+	stage = 8;
 	isPlant = 1;
 	isTree = 1;
 };
@@ -453,7 +453,7 @@ datablock fxDTSBrickData(brickPeachTree9CropData)
 
 	brickFile = "./bricks/PeachTree9.blb";
 	cropType = "Peach";
-	stage = 5;
+	stage = 9;
 	isPlant = 1;
 	isTree = 1;
 };
@@ -464,7 +464,7 @@ datablock fxDTSBrickData(brickPeachTree10CropData)
 
 	brickFile = "./bricks/PeachTree10.blb";
 	cropType = "Peach";
-	stage = 5;
+	stage = 10;
 	isPlant = 1;
 	isTree = 1;
 };

@@ -18,6 +18,7 @@ $Farming::Crops::PlantData_["Example", 0, "pruneTool"]				= "item uiname";
 $Farming::Crops::PlantData_["Example", 0, "changeOnPrune"]			= "brickDB";
 $Farming::Crops::PlantData_["Example", 0, "toolBuff"]				= "intminChange intmaxChange";
 $Farming::Crops::PlantData_["Example", 0, "changeOnHarvest"]		= "brickDB";
+$Farming::Crops::PlantData_["Example", 0, "maxHarvestTimes"]		= "intmin intmax";
 
 $Farming::Crops::PlantData_["Example", "plantSpace"]				= "int";
 $Farming::Crops::PlantData_["Example", "experienceRequired"]		= "int";

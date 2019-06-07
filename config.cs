@@ -40,8 +40,8 @@ $Produce::BuyCost_["Turnip"] = 8.00;
 $Produce::BuyCost_["Apple"] = 8.80;
 $Produce::BuyCost_["Mango"] = 14.00;
 
-$Produce::BuyCost_["Chili"] = 2.20;
-$Produce::BuyCost_["Cactus"] = 2.40;
+$Produce::BuyCost_["Chili"] = 2.50;
+$Produce::BuyCost_["Cactus"] = 2.50;
 $Produce::BuyCost_["Watermelon"] = 12.00;
 $Produce::BuyCost_["Date"] = 18.00;
 $Produce::BuyCost_["Peach"] = 16.00;
@@ -76,7 +76,7 @@ $Produce::BuyCost_["AppleSeed"] = 600.00;
 $Produce::BuyCost_["MangoSeed"] = 800.00;
 
 $Produce::BuyCost_["ChiliSeed"] = 4.00;
-$Produce::BuyCost_["CactusSeed"] = 75.00;
+$Produce::BuyCost_["CactusSeed"] = 45.00;
 $Produce::BuyCost_["WatermelonSeed"] = 75.00;
 $Produce::BuyCost_["DateSeed"] = 700.00;
 $Produce::BuyCost_["PeachSeed"] = 800.00;

@@ -4,10 +4,10 @@ $Farming::Crops::PlantData_["Cactus", "heatWaveTimeModifier"]			= "0.5";
 $Farming::Crops::PlantData_["Cactus", "heatWaveWaterModifier"]			= "1";
 $Farming::Crops::PlantData_["Cactus", "rainTimeModifier"]				= "2";
 $Farming::Crops::PlantData_["Cactus", "rainWaterModifier"]				= "1";
-$Farming::Crops::PlantData_["Cactus", "plantSpace"]					= "4";
+$Farming::Crops::PlantData_["Cactus", "plantSpace"]					= "3";
 $Farming::Crops::PlantData_["Cactus", "experienceRequired"]			= "0";
-$Farming::Crops::PlantData_["Cactus", "harvestExperience"]			= "0";
-$Farming::Crops::PlantData_["Cactus", "plantingExperience"]			= "2";
+$Farming::Crops::PlantData_["Cactus", "harvestExperience"]			= "2";
+$Farming::Crops::PlantData_["Cactus", "plantingExperience"]			= "0";
 $Farming::Crops::PlantData_["Cactus", "loopStages"]					= "5 6 7";
 
 $Farming::Crops::PlantData_["Cactus", 0, "timePerTick"]				= "4000";
@@ -55,7 +55,7 @@ $Farming::Crops::PlantData_["Cactus", 4, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Cactus", 5, "timePerTick"]				= "14000";
+$Farming::Crops::PlantData_["Cactus", 5, "timePerTick"]				= "17000";
 $Farming::Crops::PlantData_["Cactus", 5, "nextStage"]				= "brickCactus6CropData";
 $Farming::Crops::PlantData_["Cactus", 5, "dryStage"]				= "";
 $Farming::Crops::PlantData_["Cactus", 5, "waterPerTick"]			= "1";
@@ -64,7 +64,7 @@ $Farming::Crops::PlantData_["Cactus", 5, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Cactus", 6, "timePerTick"]				= "8000";
+$Farming::Crops::PlantData_["Cactus", 6, "timePerTick"]				= "10000";
 $Farming::Crops::PlantData_["Cactus", 6, "nextStage"]				= "brickCactus7CropData";
 $Farming::Crops::PlantData_["Cactus", 6, "dryStage"]				= "";
 $Farming::Crops::PlantData_["Cactus", 6, "waterPerTick"]			= "2";
@@ -82,8 +82,9 @@ $Farming::Crops::PlantData_["Cactus", 7, "numDryTicks"]				= "-1";
 
 $Farming::Crops::PlantData_["Cactus", 7, "yield"]					= "2 5";
 $Farming::Crops::PlantData_["Cactus", 7, "item"]					= "CactusItem";
-$Farming::Crops::PlantData_["Cactus", 7, "dieOnHarvest"]			= "1";
+$Farming::Crops::PlantData_["Cactus", 7, "dieOnHarvest"]			= "0";
 $Farming::Crops::PlantData_["Cactus", 7, "harvestTool"]				= "Clipper";
 $Farming::Crops::PlantData_["Cactus", 7, "areaHarvestTool"]			= "";
 $Farming::Crops::PlantData_["Cactus", 7, "toolBuff"]				= "1 1";
-$Farming::Crops::PlantData_["Cactus", 7, "changeOnHarvest"]			= "";
+$Farming::Crops::PlantData_["Cactus", 7, "changeOnHarvest"]			= "brickCactus5CropData";
+$Farming::Crops::PlantData_["Cactus", 7, "maxHarvestTimes"]			= "8 12";

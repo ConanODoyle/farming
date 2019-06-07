@@ -80,7 +80,7 @@ function writePlantData(%writeType)
 
 			%isRepeatHarvest = 0;
 			%loopTime = 0;
-			if (%seedPrice > 100 || %type $= "Tomato" || $Farming::Crops::PlantData_[%type, "loopStages"] !$= "")
+			if (%seedPrice > 100 || $Farming::Crops::PlantData_[%type, "loopStages"] !$= "")
 			{
 				%seedPrice = 0;
 				%isRepeatHarvest = 1;
@@ -92,11 +92,20 @@ function writePlantData(%writeType)
 					if ($Farming::Crops::PlantData_[%type, %stage, "timePerTick"] > 0)
 						%loopTime += $Farming::Crops::PlantData_[%type, %stage, "timePerTick"] / 1000 * $Farming::Crops::PlantData_[%type, %stage, "numGrowTicks"];
 				}
+				%maxHarvestRange = $Farming::Crops::PlantData_[%type, getWord(%loopStages, %j - 1), "maxHarvestTimes"];
+				%avgHarvestTimes = (getWord(%maxHarvestRange, 0) + getWord(%maxHarvestRange, 1)) / 2;
 			}
 			if (!%isRepeatHarvest)
 				%file.writeLine("Avg Income Per Seed: " @ (%income = %avgHarvest * %sellPrice - %seedPrice) @ "");
 			else
+			{
 				%file.writeLine("Avg Income Per Harvest: " @ (%income = %avgHarvest * %sellPrice) @ "");
+				if (%avgHarvestTimes > 0)
+				{
+					%file.writeLine("Avg Total Harvests: " @ %avgHarvestTimes @ " (range: " @ %maxHarvestRange @ ")");
+					%file.writeLine("Avg Total Income: " @ %avgHarvestTimes * %income);
+				}
+			}
 			%file.writeLine("");
 		}
 
