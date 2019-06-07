@@ -146,12 +146,12 @@ datablock fxDTSBrickData(brickShopStallData)
 
 	brickFile = "./bricks/shopBrick.blb";
 
-	// iconName = "Add-Ons/Server_Farming/crops/icons/greenhouse";
+	iconName = "Add-Ons/Server_Farming/crops/icons/shopstall";
 
 	isShopBrick = 1;
 	isStorageBrick = 1;
 
-	cost = -1;
+	cost = 200;
 	itemPos0 = "1 0.7 0";
 	itemPos1 = "1 -0.7 0";
 	itemPos2 = "0 0.7 0.4";
