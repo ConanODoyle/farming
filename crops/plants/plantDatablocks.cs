@@ -473,6 +473,41 @@ datablock fxDTSBrickData(brickLily2CropData)
 };
 
 
+//rose
+datablock fxDTSBrickData(brickRose0CropData)
+{
+	uiName = "Rose0";
+
+	brickFile = "./bricks/Rose0.blb";
+	cropType = "Rose";
+	stage = 0;
+	isPlant = 1;
+	defaultColor = 0;
+};
+
+datablock fxDTSBrickData(brickRose1CropData)
+{
+	uiName = "Rose1";
+
+	brickFile = "./bricks/Rose1.blb";
+	cropType = "Rose";
+	stage = 1;
+	isPlant = 1;
+	defaultColor = 0;
+};
+
+datablock fxDTSBrickData(brickRose2CropData)
+{
+	uiName = "Rose2";
+
+	brickFile = "./bricks/Rose2.blb";
+	cropType = "Rose";
+	stage = 2;
+	isPlant = 1;
+	defaultColor = 0;
+};
+
+
 
 
 

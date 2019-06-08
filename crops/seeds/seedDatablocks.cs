@@ -17,6 +17,7 @@ exec("./peachTree.cs");
 
 exec("./daisy.cs");
 exec("./lily.cs");
+exec("./rose.cs");
 
 exec("./planter.cs");
 exec("./reclaimer.cs");
