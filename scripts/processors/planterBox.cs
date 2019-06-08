@@ -42,7 +42,7 @@ datablock ShapeBaseImageData(PlanterBoxBrickImage : BrickPlacerImage)
 {
 	shapeFile = "./resources/toolbox.dts";
 	
-	offset = "-0.56 0 -0.25";
+	offset = "-0.56 0 0";
 	eyeOffset = "0 0 0";
 	rotation = eulerToMatrix("0 0 90");
 
