@@ -31,6 +31,12 @@ $Farming::Crops::PlantData_["Example", "heatWaveWaterModifier"]		= "float";
 $Farming::Crops::PlantData_["Example", "rainTimeModifier"]			= "float";
 $Farming::Crops::PlantData_["Example", "rainWaterModifier"]			= "float";
 
+//flowers
+
+exec("./plantData/lilyData.cs");
+exec("./plantData/daisyData.cs");
+exec("./plantData/roseData.cs");
+
 //coast
 
 exec("./plantData/potatoData.cs");
