@@ -22,7 +22,7 @@ datablock ItemData(ChiliBasket0Item : HammerItem)
 	image = "ChiliBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Chili_Basket_Quarter";
+	iconName = "Add-ons/Server_Farming/crops/icons/Chili_Basket_1";
 
 	isStackable = 1;
 	stackType = "Chili";
@@ -36,7 +36,7 @@ datablock ItemData(ChiliBasket1Item : HammerItem)
 	image = "ChiliBasket1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Chili_Basket_Half";
+	iconName = "Add-ons/Server_Farming/crops/icons/Chili_Basket_2";
 
 	isStackable = 1;
 	stackType = "Chili";
@@ -50,7 +50,7 @@ datablock ItemData(ChiliBasket2Item : HammerItem)
 	image = "ChiliBasket2Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Chili_Basket_Third";
+	iconName = "Add-ons/Server_Farming/crops/icons/Chili_Basket_3";
 
 	isStackable = 1;
 	stackType = "Chili";

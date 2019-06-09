@@ -171,7 +171,7 @@ datablock fxDTSBrickData(brickGoldIngotData)
 
 	brickFile = "./bricks/goldingot.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/GoldIngot";
+	iconName = "Add-Ons/Server_Farming/crops/icons/Gold_Ingot";
 
 	isGreenhouse = 1;
 
