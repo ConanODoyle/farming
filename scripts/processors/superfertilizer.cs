@@ -11,7 +11,7 @@ datablock ItemData(SuperFertilizerBag0Item : HammerItem)
 	colorShiftColor = "1 0.7 0 1";
 	doColorShift = true;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Fertilizer_Bag";
+	iconName = "Add-ons/Server_Farming/crops/icons/Super_Fertilizer_Bag";
 
 	isStackable = 1;
 	stackType = "Fertilizer";
@@ -36,7 +36,7 @@ datablock ItemData(SuperFertilizerBag1Item : SuperFertilizerBag0Item)
 	image = "SuperFertilizerBag1Image";
 	uiName = "Half Super Fertilizer Bag";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Fertilizer_Bag_Half";
+	iconName = "Add-ons/Server_Farming/crops/icons/Super_Fertilizer_Bag_Half";
 };
 
 datablock ShapeBaseImageData(SuperFertilizerBag1Image : SuperFertilizerBag0Image)
@@ -51,7 +51,7 @@ datablock ItemData(SuperFertilizerBag2Item : SuperFertilizerBag0Item)
 	image = "SuperFertilizerBag2Image";
 	uiName = "Full Super Fertilizer Bag";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Fertilizer_Bag_Full";
+	iconName = "Add-ons/Server_Farming/crops/icons/Super_Fertilizer_Bag_Full";
 };
 
 datablock ShapeBaseImageData(SuperFertilizerBag2Image : SuperFertilizerBag0Image)
