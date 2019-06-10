@@ -1,8 +1,8 @@
 //Cactus//
 
-$Farming::Crops::PlantData_["Cactus", "heatWaveTimeModifier"]			= "0.5";
+$Farming::Crops::PlantData_["Cactus", "heatWaveTimeModifier"]			= "3";
 $Farming::Crops::PlantData_["Cactus", "heatWaveWaterModifier"]			= "1";
-$Farming::Crops::PlantData_["Cactus", "rainTimeModifier"]				= "2";
+$Farming::Crops::PlantData_["Cactus", "rainTimeModifier"]				= "0.25";
 $Farming::Crops::PlantData_["Cactus", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Cactus", "plantSpace"]					= "3";
 $Farming::Crops::PlantData_["Cactus", "experienceRequired"]			= "100";

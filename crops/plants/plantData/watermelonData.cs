@@ -1,8 +1,8 @@
 //Watermelon//
 
-$Farming::Crops::PlantData_["Watermelon", "heatWaveTimeModifier"]			= "0.5";
+$Farming::Crops::PlantData_["Watermelon", "heatWaveTimeModifier"]			= "2";
 $Farming::Crops::PlantData_["Watermelon", "heatWaveWaterModifier"]			= "1";
-$Farming::Crops::PlantData_["Watermelon", "rainTimeModifier"]				= "2";
+$Farming::Crops::PlantData_["Watermelon", "rainTimeModifier"]				= "0.25";
 $Farming::Crops::PlantData_["Watermelon", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Watermelon", "plantSpace"]					= "3";
 $Farming::Crops::PlantData_["Watermelon", "experienceRequired"]			= "100";
