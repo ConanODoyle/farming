@@ -31,6 +31,7 @@ function writePlantData(%writeType)
 {
 	exec("Add-ons/Server_Farming/crops/plants/plantData.cs");
 	exec("Add-ons/Server_Farming/config.cs");
+	exec("Add-ons/Server_Farming/scripts/botDeals/selectionConfig.cs");
 	%file = new FileObject();
 	%file.openForWrite("Add-ons/Server_Farming/PlantInfo.txt");
 	%file.writeLine("Generated " @ getDateTime() @ "");

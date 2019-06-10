@@ -4,8 +4,9 @@ function pickRandomEvent(%obj, %rand)
 	{
 		case "buyProduce": //Produce Buy Bonus
 			%crop = getRandomProduceType();
-			%price = mFloor($Produce::BuyCost_[%crop] * 1.5 * 4) / 4;
+			%price = mFloor($Produce::BuyCost_[%crop] * 1.5 * 10) / 10;
 			return "BUY 0" TAB %crop TAB %price TAB "I'm buying each " @ %crop @ " for 50% more!";
+
 		case "sellSeeds": //Seed sell discount
 			%seed = getRandomSeedType();
 			%fixedName = strReplace(getSubStr(%seed, 0, strLen(%seed) - 8), "_", " ") SPC "seeds";
@@ -20,10 +21,27 @@ function pickRandomEvent(%obj, %rand)
 				%msg = "I'm selling " @ %fixedName @ "!";	
 			}
 			return "SELL 1" TAB %seed TAB %price TAB %msg;
+
 		case "sellItem": //Special item
-			%item = getRandomSpecialItem();
+			%item = getRandomItem("All");
 			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
 			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ "s!";
+
+		case "sellTools": //Special item
+			%item = getRandomItem("Tools");
+			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
+			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ "s!";
+
+		case "sellWater": //Special item
+			%item = getRandomItem("Water");
+			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
+			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ "s!";
+
+		case "sellFurniture": //Special item
+			%item = getRandomItem("Furniture");
+			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
+			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ "s!";
+
 		case "sellInstrument": //Sell Instrument
 			%item = getRandomInstrument();
 			if (%item.uiName !$= "Keytar")
@@ -44,6 +62,7 @@ function pickRandomEvent(%obj, %rand)
 				%plural = "s";
 			}
 			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %plural @ "!";
+
 		default: //nothing
 			return "";
 	}
