@@ -40,6 +40,10 @@ function writePlantData(%writeType)
 		%type = getField($ProduceList_[%i], 0);
 		%sellPrice = mFloatLength($Produce::BuyCost_[%type], 2);
 		%seedPrice = mFloatLength($Produce::BuyCost_[%type @ "Seed"], 2);
+		%pExp = $Farming::Crops::PlantData_[%type, "plantingExperience"] + 0;
+		%hExp = $Farming::Crops::PlantData_[%type, "harvestExperience"] + 0;
+		%expCost = $Farming::Crops::PlantData_[%type, "experienceCost"] + 0;
+
 		%bestYield = "";
 		for (%j = 0; %j < 30; %j++)
 		{
@@ -51,7 +55,6 @@ function writePlantData(%writeType)
 			}
 		}
 		%growTime = totalTime(%type, 0) / 1000;
-		%tomatoGrowTime = totalTime(%type, 2) / 1000;
 		%water = totalWater(%type, 0);
 		%density = $Farming::Crops::PlantData_[%type, "plantSpace"];
 		switch (%density)
@@ -76,6 +79,7 @@ function writePlantData(%writeType)
 		{
 			%file.writeLine("$" @ %seedPrice @ " per seed");
 			%file.writeLine("$" @ %sellPrice @ " per produce");
+			%file.writeLine(%pExp @ "p + " @ %hExp @ "h - " @ %expCost @ " EXP");
 			%file.writeLine("Avg " @ %avgHarvest @ " per harvest (range: " @ %bestYield @ ")");
 
 			%isRepeatHarvest = 0;
@@ -96,7 +100,7 @@ function writePlantData(%writeType)
 				%avgHarvestTimes = (getWord(%maxHarvestRange, 0) + getWord(%maxHarvestRange, 1)) / 2;
 			}
 			if (!%isRepeatHarvest)
-				%file.writeLine("Avg Income Per Seed: " @ (%income = %avgHarvest * %sellPrice - %seedPrice) @ "");
+				%file.writeLine("Avg Profit Per Seed: " @ (%income = %avgHarvest * %sellPrice - %seedPrice) @ "");
 			else
 			{
 				%file.writeLine("Avg Income Per Harvest: " @ (%income = %avgHarvest * %sellPrice) @ "");
@@ -120,14 +124,13 @@ function writePlantData(%writeType)
 
 			if (!%isRepeatHarvest)
 			{
-				%file.writeLine("Income/min: " @ mFloatLength(%density * %income / %growTime * 60, 6) @ "");
+				%file.writeLine("Income/min: " @ mFloatLength(%density * %income / %growTime * 60, 3) @ "");
 				// %file.writeLine("Harvest Income/min: " @ mFloatLength(%density * %income / (%growTime + (200 + 15 * %density) / 16) * 60, 6) @ "");
 			}
 			else
 			{
 				%file.writeLine("LoopTime: " @ getTimeString(%loopTime));
-				%file.writeLine("Income/min: " @ mFloatLength(%density * %income / %loopTime * 60, 6) @ "");
-				// %file.writeLine("Harvest Income/min: " @ mFloatLength(%density * %income / (%tomatoGrowTime + 200 / 16) * 60, 6) @ "");
+				%file.writeLine("Income/min: " @ mFloatLength(%density * %income / %loopTime * 60, 3) @ "");
 			}
 		}
 		%file.writeLine("------");
