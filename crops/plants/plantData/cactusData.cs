@@ -14,7 +14,7 @@ $Farming::Crops::PlantData_["Cactus", "loopStages"]					= "5 6 7";
 $Farming::Crops::PlantData_["Cactus", 0, "timePerTick"]				= "4000";
 $Farming::Crops::PlantData_["Cactus", 0, "nextStage"]				= "brickCactus1CropData";
 $Farming::Crops::PlantData_["Cactus", 0, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Cactus", 0, "waterPerTick"]			= "1";
+$Farming::Crops::PlantData_["Cactus", 0, "waterPerTick"]			= "0";
 $Farming::Crops::PlantData_["Cactus", 0, "numGrowTicks"]			= "15";
 $Farming::Crops::PlantData_["Cactus", 0, "numDryTicks"]				= "-1";
 
@@ -23,7 +23,7 @@ $Farming::Crops::PlantData_["Cactus", 0, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Cactus", 1, "timePerTick"]				= "4000";
 $Farming::Crops::PlantData_["Cactus", 1, "nextStage"]				= "brickCactus2CropData";
 $Farming::Crops::PlantData_["Cactus", 1, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Cactus", 1, "waterPerTick"]			= "1";
+$Farming::Crops::PlantData_["Cactus", 1, "waterPerTick"]			= "0";
 $Farming::Crops::PlantData_["Cactus", 1, "numGrowTicks"]			= "20";
 $Farming::Crops::PlantData_["Cactus", 1, "numDryTicks"]				= "-1";
 
@@ -32,7 +32,7 @@ $Farming::Crops::PlantData_["Cactus", 1, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Cactus", 2, "timePerTick"]				= "5000";
 $Farming::Crops::PlantData_["Cactus", 2, "nextStage"]				= "brickCactus3CropData";
 $Farming::Crops::PlantData_["Cactus", 2, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Cactus", 2, "waterPerTick"]			= "1";
+$Farming::Crops::PlantData_["Cactus", 2, "waterPerTick"]			= "0";
 $Farming::Crops::PlantData_["Cactus", 2, "numGrowTicks"]			= "20";
 $Farming::Crops::PlantData_["Cactus", 2, "numDryTicks"]				= "-1";
 
@@ -41,7 +41,7 @@ $Farming::Crops::PlantData_["Cactus", 2, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Cactus", 3, "timePerTick"]				= "5000";
 $Farming::Crops::PlantData_["Cactus", 3, "nextStage"]				= "brickCactus4CropData";
 $Farming::Crops::PlantData_["Cactus", 3, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Cactus", 3, "waterPerTick"]			= "1";
+$Farming::Crops::PlantData_["Cactus", 3, "waterPerTick"]			= "0";
 $Farming::Crops::PlantData_["Cactus", 3, "numGrowTicks"]			= "20";
 $Farming::Crops::PlantData_["Cactus", 3, "numDryTicks"]				= "-1";
 
@@ -50,7 +50,7 @@ $Farming::Crops::PlantData_["Cactus", 3, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Cactus", 4, "timePerTick"]				= "6000";
 $Farming::Crops::PlantData_["Cactus", 4, "nextStage"]				= "brickCactus5CropData";
 $Farming::Crops::PlantData_["Cactus", 4, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Cactus", 4, "waterPerTick"]			= "1";
+$Farming::Crops::PlantData_["Cactus", 4, "waterPerTick"]			= "0";
 $Farming::Crops::PlantData_["Cactus", 4, "numGrowTicks"]			= "25";
 $Farming::Crops::PlantData_["Cactus", 4, "numDryTicks"]				= "-1";
 
@@ -68,7 +68,7 @@ $Farming::Crops::PlantData_["Cactus", 5, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Cactus", 6, "timePerTick"]				= "10000";
 $Farming::Crops::PlantData_["Cactus", 6, "nextStage"]				= "brickCactus7CropData";
 $Farming::Crops::PlantData_["Cactus", 6, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Cactus", 6, "waterPerTick"]			= "2";
+$Farming::Crops::PlantData_["Cactus", 6, "waterPerTick"]			= "1";
 $Farming::Crops::PlantData_["Cactus", 6, "numGrowTicks"]			= "30";
 $Farming::Crops::PlantData_["Cactus", 6, "numDryTicks"]				= "-1";
 
