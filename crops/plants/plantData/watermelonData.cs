@@ -14,7 +14,7 @@ $Farming::Crops::PlantData_["Watermelon", "loopStages"]					= "3 4 5";
 $Farming::Crops::PlantData_["Watermelon", 0, "timePerTick"]				= "6000";
 $Farming::Crops::PlantData_["Watermelon", 0, "nextStage"]				= "brickWatermelon1CropData";
 $Farming::Crops::PlantData_["Watermelon", 0, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Watermelon", 0, "waterPerTick"]			= "1";
+$Farming::Crops::PlantData_["Watermelon", 0, "waterPerTick"]			= "3";
 $Farming::Crops::PlantData_["Watermelon", 0, "numGrowTicks"]			= "15";
 $Farming::Crops::PlantData_["Watermelon", 0, "numDryTicks"]				= "-1";
 
@@ -23,7 +23,7 @@ $Farming::Crops::PlantData_["Watermelon", 0, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Watermelon", 1, "timePerTick"]				= "7000";
 $Farming::Crops::PlantData_["Watermelon", 1, "nextStage"]				= "brickWatermelon2CropData";
 $Farming::Crops::PlantData_["Watermelon", 1, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Watermelon", 1, "waterPerTick"]			= "1";
+$Farming::Crops::PlantData_["Watermelon", 1, "waterPerTick"]			= "4";
 $Farming::Crops::PlantData_["Watermelon", 1, "numGrowTicks"]			= "20";
 $Farming::Crops::PlantData_["Watermelon", 1, "numDryTicks"]				= "-1";
 
@@ -32,7 +32,7 @@ $Farming::Crops::PlantData_["Watermelon", 1, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Watermelon", 2, "timePerTick"]				= "8000";
 $Farming::Crops::PlantData_["Watermelon", 2, "nextStage"]				= "brickWatermelon3CropData";
 $Farming::Crops::PlantData_["Watermelon", 2, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Watermelon", 2, "waterPerTick"]			= "1";
+$Farming::Crops::PlantData_["Watermelon", 2, "waterPerTick"]			= "5";
 $Farming::Crops::PlantData_["Watermelon", 2, "numGrowTicks"]			= "20";
 $Farming::Crops::PlantData_["Watermelon", 2, "numDryTicks"]				= "-1";
 
@@ -41,18 +41,18 @@ $Farming::Crops::PlantData_["Watermelon", 2, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Watermelon", 3, "timePerTick"]				= "16000";
 $Farming::Crops::PlantData_["Watermelon", 3, "nextStage"]				= "brickWatermelon4CropData";
 $Farming::Crops::PlantData_["Watermelon", 3, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Watermelon", 3, "waterPerTick"]			= "1";
+$Farming::Crops::PlantData_["Watermelon", 3, "waterPerTick"]			= "8";
 $Farming::Crops::PlantData_["Watermelon", 3, "numGrowTicks"]			= "25";
 $Farming::Crops::PlantData_["Watermelon", 3, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Watermelon", 4, "timePerTick"]				= "8000";
+$Farming::Crops::PlantData_["Watermelon", 4, "timePerTick"]				= "4000";
 $Farming::Crops::PlantData_["Watermelon", 4, "nextStage"]				= "brickWatermelon5CropData";
-$Farming::Crops::PlantData_["Watermelon", 4, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Watermelon", 4, "waterPerTick"]			= "1";
-$Farming::Crops::PlantData_["Watermelon", 4, "numGrowTicks"]			= "20";
-$Farming::Crops::PlantData_["Watermelon", 4, "numDryTicks"]				= "-1";
+$Farming::Crops::PlantData_["Watermelon", 4, "dryStage"]				= "brickWatermelon3CropData";
+$Farming::Crops::PlantData_["Watermelon", 4, "waterPerTick"]			= "35";
+$Farming::Crops::PlantData_["Watermelon", 4, "numGrowTicks"]			= "40";
+$Farming::Crops::PlantData_["Watermelon", 4, "numDryTicks"]				= "10";
 
 //
 
@@ -70,4 +70,4 @@ $Farming::Crops::PlantData_["Watermelon", 5, "harvestTool"]				= "Clipper";
 $Farming::Crops::PlantData_["Watermelon", 5, "areaHarvestTool"]			= "";
 $Farming::Crops::PlantData_["Watermelon", 5, "toolBuff"]				= "1 1";
 $Farming::Crops::PlantData_["Watermelon", 5, "changeOnHarvest"]			= "brickWatermelon3CropData";
-$Farming::Crops::PlantData_["Watermelon", 5, "maxHarvestTimes"]			= "16 32";
+$Farming::Crops::PlantData_["Watermelon", 5, "maxHarvestTimes"]			= "9 24";

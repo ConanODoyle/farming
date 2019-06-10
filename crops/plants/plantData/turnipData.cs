@@ -22,7 +22,7 @@ $Farming::Crops::PlantData_["Turnip", 0, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Turnip", 1, "timePerTick"]				= "9000";
 $Farming::Crops::PlantData_["Turnip", 1, "nextStage"]				= "brickTurnip2CropData";
 $Farming::Crops::PlantData_["Turnip", 1, "dryStage"]				= "";
-$Farming::Crops::PlantData_["Turnip", 1, "waterPerTick"]			= "10";
+$Farming::Crops::PlantData_["Turnip", 1, "waterPerTick"]			= "8";
 $Farming::Crops::PlantData_["Turnip", 1, "numGrowTicks"]			= "10";
 $Farming::Crops::PlantData_["Turnip", 1, "numDryTicks"]				= "-1";
 

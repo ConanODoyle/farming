@@ -228,7 +228,7 @@ function doGrowCalculations(%brick, %db)
 				{
 					// talk("Death due to dryness	");
 					%brick.setDatablock(%dryGrow);
-					RemovePlantSimSet.add(%brick);
+					// RemovePlantSimSet.add(%brick);
 				}
 			}
 			else //do nothing, crop has no death penalty for being dry, just doesn't grow
