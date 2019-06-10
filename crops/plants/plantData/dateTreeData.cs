@@ -7,7 +7,7 @@ $Farming::Crops::PlantData_["Date", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Date", "plantSpace"]					= "7"; //8 due to 2x2 trees
 $Farming::Crops::PlantData_["Date", "experienceRequired"]			= "500";
 $Farming::Crops::PlantData_["Date", "experienceCost"]				= "700";
-$Farming::Crops::PlantData_["Date", "harvestExperience"]			= "0";
+$Farming::Crops::PlantData_["Date", "harvestExperience"]			= "2";
 $Farming::Crops::PlantData_["Date", "plantingExperience"]			= "0";
 $Farming::Crops::PlantData_["Date", "loopStages"]					= "7 8 9 10";
 

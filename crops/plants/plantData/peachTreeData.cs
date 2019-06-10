@@ -7,7 +7,7 @@ $Farming::Crops::PlantData_["Peach", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Peach", "plantSpace"]					= "7"; //16 due to 2x2 trees
 $Farming::Crops::PlantData_["Peach", "experienceRequired"]			= "500";
 $Farming::Crops::PlantData_["Peach", "experienceCost"]				= "1500";
-$Farming::Crops::PlantData_["Peach", "harvestExperience"]			= "0";
+$Farming::Crops::PlantData_["Peach", "harvestExperience"]			= "2";
 $Farming::Crops::PlantData_["Peach", "plantingExperience"]			= "0";
 $Farming::Crops::PlantData_["Peach", "loopStages"]					= "8 9 10";
 

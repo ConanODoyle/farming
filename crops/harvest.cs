@@ -235,7 +235,7 @@ datablock ItemData(ClipperItem : HammerItem)
 	image = "ClipperImage";
 	colorShiftColor = "0.4 0 0 1";
 
-	cost = 1500;
+	cost = 1600;
 };
 
 datablock ExplosionData(ClipperExplosion : swordExplosion) 
@@ -276,7 +276,7 @@ datablock ItemData(HoeItem : HammerItem)
 	image = "HoeImage";
 	colorShiftColor = "0.4 0 0 1";
 
-	cost = 1800;
+	cost = 1300;
 };
 
 datablock ShapeBaseImageData(HoeImage : TrowelImage)

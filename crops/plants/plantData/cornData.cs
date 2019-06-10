@@ -5,8 +5,9 @@ $Farming::Crops::PlantData_["Corn", "heatWaveWaterModifier"]			= "2";
 $Farming::Crops::PlantData_["Corn", "rainTimeModifier"]					= "1";
 $Farming::Crops::PlantData_["Corn", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Corn", "plantSpace"]					= "2";
-$Farming::Crops::PlantData_["Corn", "experienceRequired"]			= "10";
-$Farming::Crops::PlantData_["Corn", "harvestExperience"]			= "1";
+$Farming::Crops::PlantData_["Corn", "experienceRequired"]			= "20";
+$Farming::Crops::PlantData_["Corn", "experienceCost"]				= "5";
+$Farming::Crops::PlantData_["Corn", "harvestExperience"]			= "6";
 $Farming::Crops::PlantData_["Corn", "plantingExperience"]			= "0";
 
 $Farming::Crops::PlantData_["Corn", 0, "timePerTick"]				= "9000";

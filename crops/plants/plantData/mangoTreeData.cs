@@ -7,7 +7,7 @@ $Farming::Crops::PlantData_["Mango", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Mango", "plantSpace"]					= "15";
 $Farming::Crops::PlantData_["Mango", "experienceRequired"]			= "500";
 $Farming::Crops::PlantData_["Mango", "experienceCost"]				= "1000";
-$Farming::Crops::PlantData_["Mango", "harvestExperience"]			= "0";
+$Farming::Crops::PlantData_["Mango", "harvestExperience"]			= "2";
 $Farming::Crops::PlantData_["Mango", "plantingExperience"]			= "0";
 $Farming::Crops::PlantData_["Mango", "loopStages"]					= "8 9 10 11";
 

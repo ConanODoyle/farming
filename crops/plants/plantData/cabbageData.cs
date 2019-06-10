@@ -5,9 +5,10 @@ $Farming::Crops::PlantData_["Cabbage", "heatWaveWaterModifier"]			= "2";
 $Farming::Crops::PlantData_["Cabbage", "rainTimeModifier"]				= "1";
 $Farming::Crops::PlantData_["Cabbage", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Cabbage", "plantSpace"]				= "3";
-$Farming::Crops::PlantData_["Cabbage", "experienceRequired"]		= "10";
-$Farming::Crops::PlantData_["Cabbage", "harvestExperience"]			= "0";
-$Farming::Crops::PlantData_["Cabbage", "plantingExperience"]		= "1";
+$Farming::Crops::PlantData_["Cabbage", "experienceRequired"]		= "20";
+$Farming::Crops::PlantData_["Cabbage", "experienceCost"]			= "5";
+$Farming::Crops::PlantData_["Cabbage", "harvestExperience"]			= "6";
+$Farming::Crops::PlantData_["Cabbage", "plantingExperience"]		= "0";
 
 $Farming::Crops::PlantData_["Cabbage", 0, "timePerTick"]			= "6000";
 $Farming::Crops::PlantData_["Cabbage", 0, "nextStage"]				= "brickCabbage1CropData";

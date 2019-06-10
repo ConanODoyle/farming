@@ -6,7 +6,7 @@ $Farming::Crops::PlantData_["Potato", "rainTimeModifier"]				= "1";
 $Farming::Crops::PlantData_["Potato", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Potato", "plantSpace"]					= "2";
 $Farming::Crops::PlantData_["Potato", "experienceRequired"]			= "0";
-$Farming::Crops::PlantData_["Potato", "harvestExperience"]			= "0";
+$Farming::Crops::PlantData_["Potato", "harvestExperience"]			= "1";
 $Farming::Crops::PlantData_["Potato", "plantingExperience"]			= "0";
 
 $Farming::Crops::PlantData_["Potato", 0, "timePerTick"]				= "7000";

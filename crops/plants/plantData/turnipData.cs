@@ -6,8 +6,8 @@ $Farming::Crops::PlantData_["Turnip", "rainTimeModifier"]				= "1";
 $Farming::Crops::PlantData_["Turnip", "rainWaterModifier"]				= "0.5";
 $Farming::Crops::PlantData_["Turnip", "plantSpace"]					= "3";
 $Farming::Crops::PlantData_["Turnip", "experienceRequired"]			= "100";
-$Farming::Crops::PlantData_["Turnip", "experienceCost"]				= "1";
-$Farming::Crops::PlantData_["Turnip", "harvestExperience"]			= "0";
+$Farming::Crops::PlantData_["Turnip", "experienceCost"]				= "5";
+$Farming::Crops::PlantData_["Turnip", "harvestExperience"]			= "4";
 $Farming::Crops::PlantData_["Turnip", "plantingExperience"]			= "0";
 
 $Farming::Crops::PlantData_["Turnip", 0, "timePerTick"]				= "8000";

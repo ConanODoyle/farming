@@ -30,11 +30,11 @@ HorseArmor.uiName = "Horse - $250";
 $ProduceCount = 0;
 
 $Produce::BuyCost_["Potato"] = 0.50;
-$Produce::BuyCost_["Carrot"] = 1.20;
-$Produce::BuyCost_["Tomato"] = 1.00;
+$Produce::BuyCost_["Carrot"] = 1.30;
+$Produce::BuyCost_["Tomato"] = 0.50;
 $Produce::BuyCost_["Corn"] = 1.30;
 $Produce::BuyCost_["Cabbage"] = 4.00;
-$Produce::BuyCost_["Onion"] = 1.30;
+$Produce::BuyCost_["Onion"] = 1.20;
 $Produce::BuyCost_["Blueberry"] = 1.90;
 $Produce::BuyCost_["Turnip"] = 8.00;
 $Produce::BuyCost_["Apple"] = 8.80;
@@ -42,7 +42,7 @@ $Produce::BuyCost_["Mango"] = 12.00;
 
 $Produce::BuyCost_["Chili"] = 2.50;
 $Produce::BuyCost_["Cactus"] = 2.50;
-$Produce::BuyCost_["Watermelon"] = 12.00;
+$Produce::BuyCost_["Watermelon"] = 8.00;
 $Produce::BuyCost_["Date"] = 18.00;
 $Produce::BuyCost_["Peach"] = 12.40;
 //big buyer
@@ -58,7 +58,7 @@ $ProduceList_[$ProduceCount++ - 1]  = "Apple" TAB   8;
 $ProduceList_[$ProduceCount++ - 1]  = "Mango" TAB   4;
 $ProduceList_[$ProduceCount++ - 1]  = "Chili" TAB   0;
 $ProduceList_[$ProduceCount++ - 1]  = "Cactus" TAB   0;
-// $ProduceList_[$ProduceCount++ - 1]  = "Watermelon" TAB   0;
+$ProduceList_[$ProduceCount++ - 1]  = "Watermelon" TAB   0;
 $ProduceList_[$ProduceCount++ - 1]  = "Date" TAB   0;
 $ProduceList_[$ProduceCount++ - 1]  = "Peach" TAB   0;
 
@@ -66,7 +66,7 @@ $ProduceList_[$ProduceCount++ - 1]  = "Peach" TAB   0;
 $SeedCount = 0;
 $Produce::BuyCost_["PotatoSeed"] = 1.00;
 $Produce::BuyCost_["CarrotSeed"] = 1.00;
-$Produce::BuyCost_["TomatoSeed"] = 8.00;
+$Produce::BuyCost_["TomatoSeed"] = 6.00;
 $Produce::BuyCost_["CornSeed"] = 1.50;
 $Produce::BuyCost_["CabbageSeed"] = 1.00;
 $Produce::BuyCost_["OnionSeed"] = 1.00;
@@ -77,7 +77,7 @@ $Produce::BuyCost_["MangoSeed"] = 800.00;
 
 $Produce::BuyCost_["ChiliSeed"] = 4.00;
 $Produce::BuyCost_["CactusSeed"] = 45.00;
-$Produce::BuyCost_["WatermelonSeed"] = 75.00;
+$Produce::BuyCost_["WatermelonSeed"] = 60.00;
 $Produce::BuyCost_["DateSeed"] = 700.00;
 $Produce::BuyCost_["PeachSeed"] = 800.00;
 
@@ -136,11 +136,11 @@ $StorageMax_Turnip = 4 * 2;
 $StorageMax_Apple = 24 * 3;
 $StorageMax_Mango = 10 * 3;
 
-$StorageMax_Chili = 28;
-$StorageMax_Cactus = 16;
-$StorageMax_Watermelon = 1;
-$StorageMax_Date = 9;
-$StorageMax_Peach = 16;
+$StorageMax_Chili = 28 * 2;
+$StorageMax_Cactus = 16 * 4;
+$StorageMax_Watermelon = 1 * 4;
+$StorageMax_Date = 9 * 4;
+$StorageMax_Peach = 16 * 3;
 
 $StorageMax_TomatoSeed = 24;
 $StorageMax_PotatoSeed = 48;
@@ -165,9 +165,9 @@ $StorageMax_LilySeed = 48;
 $StorageMax_Fertilizer = 240;
 
 //Fertilizer production
-$FertCount_Potato = "12 20";
-$FertCount_Carrot = "16 20";
-$FertCount_Tomato = "8 16";
+$FertCount_Potato = "12 16";
+$FertCount_Carrot = "16 22";
+$FertCount_Tomato = "8 12";
 
 $FertCount_Default = "10 16";
 $FertTickAmt = 1;
