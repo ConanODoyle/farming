@@ -27,8 +27,6 @@ HorseArmor.maxForwardCrouchSpeed = 9;
 HorseArmor.uiName = "Horse - $250";
 
 //Produce
-$ProduceCount = 0;
-
 $Produce::BuyCost_["Potato"] = 0.50;
 $Produce::BuyCost_["Carrot"] = 1.30;
 $Produce::BuyCost_["Tomato"] = 0.50;
@@ -45,25 +43,8 @@ $Produce::BuyCost_["Cactus"] = 2.50;
 $Produce::BuyCost_["Watermelon"] = 8.00;
 $Produce::BuyCost_["Date"] = 18.00;
 $Produce::BuyCost_["Peach"] = 12.40;
-//big buyer
-$ProduceList_[$ProduceCount++ - 1]  = "Potato" TAB    60;
-$ProduceList_[$ProduceCount++ - 1]  = "Carrot" TAB    70;
-$ProduceList_[$ProduceCount++ - 1]  = "Tomato" TAB    60;
-$ProduceList_[$ProduceCount++ - 1]  = "Corn" TAB    40;
-$ProduceList_[$ProduceCount++ - 1]  = "Cabbage" TAB   15;
-$ProduceList_[$ProduceCount++ - 1]  = "Onion" TAB   50;
-$ProduceList_[$ProduceCount++ - 1]  = "Blueberry" TAB 8;//10;
-$ProduceList_[$ProduceCount++ - 1]  = "Turnip" TAB    8;//10;
-$ProduceList_[$ProduceCount++ - 1]  = "Apple" TAB   8;
-$ProduceList_[$ProduceCount++ - 1]  = "Mango" TAB   4;
-$ProduceList_[$ProduceCount++ - 1]  = "Chili" TAB   0;
-$ProduceList_[$ProduceCount++ - 1]  = "Cactus" TAB   0;
-$ProduceList_[$ProduceCount++ - 1]  = "Watermelon" TAB   0;
-$ProduceList_[$ProduceCount++ - 1]  = "Date" TAB   0;
-$ProduceList_[$ProduceCount++ - 1]  = "Peach" TAB   0;
 
 //Seeds
-$SeedCount = 0;
 $Produce::BuyCost_["PotatoSeed"] = 1.00;
 $Produce::BuyCost_["CarrotSeed"] = 1.00;
 $Produce::BuyCost_["TomatoSeed"] = 6.00;
@@ -84,45 +65,10 @@ $Produce::BuyCost_["PeachSeed"] = 800.00;
 $Produce::BuyCost_["DaisySeed"] = 1.00;
 $Produce::BuyCost_["LilySeed"] = 1.00;
 
-$SeedList_[$SeedCount++ - 1]  = "PotatoSeedItem" TAB    60;
-$SeedList_[$SeedCount++ - 1]  = "CarrotSeedItem" TAB    60;
-$SeedList_[$SeedCount++ - 1]  = "TomatoSeedItem" TAB    40;
-$SeedList_[$SeedCount++ - 1]  = "CornSeedItem" TAB    40;
-$SeedList_[$SeedCount++ - 1]  = "CabbageSeedItem" TAB   30;
-$SeedList_[$SeedCount++ - 1]  = "OnionSeedItem" TAB   60;
-$SeedList_[$SeedCount++ - 1]  = "BlueberrySeedItem" TAB 10;
-$SeedList_[$SeedCount++ - 1]  = "TurnipSeedItem" TAB    10;//5;
-$SeedList_[$SeedCount++ - 1]  = "DaisySeedItem" TAB   25;//5;
-$SeedList_[$SeedCount++ - 1]  = "LilySeedItem" TAB    25;//5;
-$SeedList_[$SeedCount++ - 1]  = "AppleSeedItem" TAB   8;
-$SeedList_[$SeedCount++ - 1]  = "MangoSeedItem" TAB   4;
-$SeedList_[$SeedCount++ - 1]  = "ChiliSeedItem" TAB   0;
-$SeedList_[$SeedCount++ - 1]  = "CactusSeedItem" TAB   0;
-$SeedList_[$SeedCount++ - 1]  = "WatermelonSeedItem" TAB   0;
-$SeedList_[$SeedCount++ - 1]  = "DateSeedItem" TAB   0;
-$SeedList_[$SeedCount++ - 1]  = "PeachSeedItem" TAB   0;
-
 //Extra stackable items
 
 $Produce::BuyCost_["Fertilizer"] = 1.60;
 
-//Normal item prices defined in their datablock
-$ItemCount = 0;
-
-$ItemList_[$ItemCount++ - 1]  = "WateringCan2Item" TAB  120;
-$ItemList_[$ItemCount++ - 1]  = "WateringCan3Item" TAB  120;
-$ItemList_[$ItemCount++ - 1]  = "HoseItem" TAB      50;
-$ItemList_[$ItemCount++ - 1]  = "HoseV2Item" TAB      20;
-$ItemList_[$ItemCount++ - 1]  = "TrowelItem" TAB      50;
-$ItemList_[$ItemCount++ - 1]  = "ClipperItem" TAB     50;
-$ItemList_[$ItemCount++ - 1]  = "HoeItem" TAB       35;
-$ItemList_[$ItemCount++ - 1]  = "SickleItem" TAB      35;
-$ItemList_[$ItemCount++ - 1]  = "PlanterItem" TAB     25;
-$ItemList_[$ItemCount++ - 1]  = "PlanterV2Item" TAB   15;
-$ItemList_[$ItemCount++ - 1]  = "ReclaimerItem" TAB   20;
-$ItemList_[$ItemCount++ - 1]  = "FlowerPotItem" TAB   20;
-$ItemList_[$ItemCount++ - 1]  = "CompostBinItem" TAB   20;
-$ItemList_[$ItemCount++ - 1]  = "WateringCatItem" TAB   5;
 
 // Storage
 $StorageMax_Tomato = 15 * 2;
