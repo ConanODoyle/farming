@@ -72,7 +72,7 @@ package ScoreGrant
 };
 activatePackage(ScoreGrant);
 
-function bottomprintInfoLoop(%cl)
+function bottomprintInfo(%cl)
 {
 	cancel(%cl.bottomprintMoneySched);
 
@@ -195,8 +195,42 @@ function bottomprintInfoLoop(%cl)
 	%amount = "<just:right><color:ffff00>Money: $" @ mFloatLength(%cl.score, 2);
 
 	%cl.bottomprint(%pre @ %amount @ " ", 2, 0);
+}
 
-	%cl.bottomprintMoneySched = schedule(300, %cl, bottomprintInfoLoop, %cl);
+function bottomprintInfoLoop(%idx)
+{
+	cancel($masterBottomPrintInfoLoop);
+
+	if (!isObject(MissionCleanup))
+	{
+		return;
+	}
+
+	%idx += 0;
+	%count = ClientGroup.getCount();
+	if (%idx >= %count)
+	{
+		%idx = 0;
+	}
+
+	%total = 0;
+	for (%idx = %idx; %idx < %count; %idx++)
+	{
+		if (%total >= 16)
+		{
+			break;
+		}
+		%total++;
+
+		if (%idx >= %count)
+		{
+			break;
+		}
+
+		bottomprintInfo(ClientGroup.getObject(%idx));
+	}
+
+	$masterBottomPrintInfoLoop = schedule(200, 0, bottomprintInfoLoop, %idx);
 }
 
 function GameConnection::addExperience(%cl, %exp)
