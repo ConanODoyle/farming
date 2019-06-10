@@ -16,20 +16,12 @@ package brickDeath
   {
     %ret = parent::onDeath(%obj);
     %obj.isDead = 1;
-    // if (%obj.getDatablock().isSprinkler)
-    // {
-    //  SprinklerSimSet.remove(%obj);
-    // }
     return %ret;
   }
 
   function fxDTSBrick::onRemove(%obj)
   {
     %ret = parent::onRemove(%obj);
-    // if (%obj.getDatablock().isSprinkler)
-    // {
-    //  SprinklerSimSet.remove(%obj);
-    // }
     return %ret;
   }
 };
