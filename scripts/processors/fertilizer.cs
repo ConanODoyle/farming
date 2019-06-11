@@ -278,14 +278,15 @@ function createFertilizer(%brick)
 		return;
 	}
 
-	%count = %brick.getDatablock().tickAmt;
+	%maxCount = %brick.getDatablock().tickAmt;
 	if (%count > 0)
 	{
-		%amt = getMin($FertTickAmt, %count);
+		%amt = getMin(%maxCount, %count);
 		%origAmt = %amt;
 	}
 	else
 	{
+		%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime / 10;
 		return;
 	}
 
