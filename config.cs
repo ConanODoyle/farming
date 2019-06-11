@@ -40,7 +40,7 @@ $Produce::BuyCost_["Mango"] = 12.00;
 
 $Produce::BuyCost_["Chili"] = 2.50;
 $Produce::BuyCost_["Cactus"] = 2.50;
-$Produce::BuyCost_["Watermelon"] = 8.00;
+$Produce::BuyCost_["Watermelon"] = 6.00;
 $Produce::BuyCost_["Date"] = 18.00;
 $Produce::BuyCost_["Peach"] = 12.40;
 
