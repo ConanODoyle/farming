@@ -1,26 +1,23 @@
+// datablock fxDTSBrickData(brickSuperFertilizerMachineData)
+// {
+// 	uiName = "Super Fert Machine";
 
-datablock fxDTSBrickData(brickSuperFertilizerMachineData)
-{
-	// category = "Farming";
-	// subCategory = "Extra";
-	uiName = "Compost Bin";
+// 	brickFile = "./resources/superFertilizerMachine.blb";
 
-	brickFile = "./resources/compostBin.blb";
+// 	iconName = "Add-Ons/Server_Farming/crops/icons/super_fertilizer_machine";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/compost_bin";
+// 	cost = 0;
+// 	isProcessor = 1;
+// 	isCompostBin = 1;
+// 	isStorageBrick = 1;
+// 	processorFunction = "processIntoSuperFertilizer";
+// 	activateFunction = "SuperFertilizerMachineInfo";
+// 	placerItem = "SuperFertilizerMachineItem";
+// 	keepActivate = 1;
 
-	cost = 0;
-	isProcessor = 1;
-	isCompostBin = 1;
-	isStorageBrick = 1;
-	processorFunction = "processIntoSuperFertilizer";
-	activateFunction = "SuperFertilizerMachineInfo";
-	placerItem = "SuperFertilizerMachineItem";
-	keepActivate = 1;
-
-	tickTime = 20;
-	tickAmt = 1;
-};
+// 	tickTime = 20;
+// 	tickAmt = 1;
+// };
 
 function processIntoSuperFertilizer(%brick, %cl, %slot)
 {
@@ -215,20 +212,20 @@ function SuperFertilizerBag2Image::onFire(%this, %obj, %slot)
 
 function SuperFertilizerBag0Image::onLoop(%this, %obj, %slot)
 {
-	fertilizerLoop(%this, %obj);
+	superFertilizerLoop(%this, %obj);
 }
 
 function SuperFertilizerBag1Image::onLoop(%this, %obj, %slot)
 {
-	fertilizerLoop(%this, %obj);
+	superFertilizerLoop(%this, %obj);
 }
 
 function SuperFertilizerBag2Image::onLoop(%this, %obj, %slot)
 {
-	fertilizerLoop(%this, %obj);
+	superFertilizerLoop(%this, %obj);
 }
 
-function fertilizerLoop(%image, %obj)
+function superFertilizerLoop(%image, %obj)
 {
 	%item = %image.item;
 	%type = %item.stackType;
@@ -237,6 +234,6 @@ function fertilizerLoop(%image, %obj)
 
 	if (isObject(%cl))
 	{
-		%cl.centerprint("<color:ffff00>-Fertilizer Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<color:ffff00>-Super Fertilizer Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
 	}
 }
