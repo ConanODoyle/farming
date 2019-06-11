@@ -841,7 +841,10 @@ datablock fxDTSBrickData(brickWeed0CropData)
 	cropType = "Weed";
 	stage = 0;
 	isPlant = 1;
+	growsWithoutSunlight = 1;
+	
 	isWeed = 1;
+	timeDelay = 1;
 };
 
 datablock fxDTSBrickData(brickWeed1CropData)
@@ -852,7 +855,10 @@ datablock fxDTSBrickData(brickWeed1CropData)
 	cropType = "Weed";
 	stage = 1;
 	isPlant = 1;
+	growsWithoutSunlight = 1;
+	
 	isWeed = 1;
+	timeDelay = 3;
 };
 
 datablock fxDTSBrickData(brickWeed2CropData)
@@ -863,5 +869,8 @@ datablock fxDTSBrickData(brickWeed2CropData)
 	cropType = "Weed";
 	stage = 2;
 	isPlant = 1;
+	growsWithoutSunlight = 1;
+	
 	isWeed = 1;
+	timeDelay = 6;
 };
