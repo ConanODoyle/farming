@@ -405,7 +405,7 @@ datablock fxDTSBrickData(brickLargeCompostBinData)
 {
 	// category = "Farming";
 	// subCategory = "Extra";
-	uiName = "LargeCompost Bin";
+	uiName = "Large Compost Bin";
 
 	brickFile = "./resources/largecompostBin.blb";
 
