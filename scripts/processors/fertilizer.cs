@@ -164,7 +164,7 @@ function fertilizeCrop(%img, %obj, %slot)
 		}
 		if (%numGrown == %numCrops)
 		{
-			%obj.client.centerprint("All of these plants are already fully grown!");
+			%obj.client.centerprint("All of the small plants are already fully grown!");
 			return;
 		}
 	}
@@ -226,7 +226,21 @@ function fertilizeCrop(%img, %obj, %slot)
 			}
 		}
 	}
-	//plant successful, update item
+
+	//increase weed chance on the dirt
+	if (%brick.getDatablock().isDirt)
+	{
+		%brick.fertilizerWeedModifier += 1;
+	}
+	else
+	{
+		for (%i = 0; %i < %brick.getNumDownBricks(); %i++)
+		{
+			%brick.getDownBrick(%i).fertilizerWeedModifier += 1;
+		}
+	}
+
+	//fertilization successful, update item
 
 	%count = %obj.toolStackCount[%obj.currTool]--;
 	%slot = %obj.currTool;

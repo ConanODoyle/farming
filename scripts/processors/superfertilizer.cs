@@ -159,7 +159,7 @@ datablock ShapeBaseImageData(SuperFertilizerBag0Image : FertilizerBag0Image)
 
 	bonusGrowTicks = 100; //bonus grow tick per use (does not consume water)
 	bonusGrowTime = 1000; //reduction in seconds to next grow tick
-	shinyChance = 0.01;
+	shinyChance = 0.008;
 };
 
 datablock ItemData(SuperFertilizerBag1Item : SuperFertilizerBag0Item)
