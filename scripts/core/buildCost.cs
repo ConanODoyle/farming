@@ -29,7 +29,7 @@ package BuildCost
 		%db = %obj.getDatablock();
 		if (%obj.isPlanted && %db.cost > 0 && !isEventPending(%obj.buySchedule) && !%obj.skipSell)
 		{
-			sellObject(%obj);
+			// sellObject(%obj);
 		}
 
 		return parent::onRemove(%obj);
