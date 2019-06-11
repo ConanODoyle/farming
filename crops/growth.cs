@@ -163,12 +163,13 @@ function doGrowCalculations(%brick, %db)
 		%brick.greenhouseBonus = 0;
 	}
 
-	if (isObject(%hit)) //has a brick above it/its greenhouse
+	if (isObject(%hit) && !%db.growsWithoutSunlight) //has a brick above it/its greenhouse
 	{
 		%brick.nextGrow = $Sim::Time + %tickTime / 1000;
 		return 0;
 	}
 
+	//grow calculations
 	%waterReq = $Farming::Crops::PlantData_[%type, %stage, "waterPerTick"];
 	%maxGrowTicks = $Farming::Crops::PlantData_[%type, %stage, "numGrowTicks"];
 	%maxDryTicks = $Farming::Crops::PlantData_[%type, %stage, "numDryTicks"];
