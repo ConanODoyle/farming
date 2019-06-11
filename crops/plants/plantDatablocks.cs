@@ -815,3 +815,53 @@ datablock fxDTSBrickData(brickMangoTree11CropData)
 	isPlant = 1;
 	isTree = 1;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//weed lmao
+
+
+//weed gang rise up
+datablock fxDTSBrickData(brickWeed0CropData)
+{
+	uiName = "Weed0";
+
+	brickFile = "./bricks/Weed0.blb";
+	cropType = "Weed";
+	stage = 0;
+	isPlant = 1;
+	isWeed = 1;
+};
+
+datablock fxDTSBrickData(brickWeed1CropData)
+{
+	uiName = "Weed1";
+
+	brickFile = "./bricks/Weed1.blb";
+	cropType = "Weed";
+	stage = 1;
+	isPlant = 1;
+	isWeed = 1;
+};
+
+datablock fxDTSBrickData(brickWeed2CropData)
+{
+	uiName = "Weed2";
+
+	brickFile = "./bricks/Weed2.blb";
+	cropType = "Weed";
+	stage = 2;
+	isPlant = 1;
+	isWeed = 1;
+};
