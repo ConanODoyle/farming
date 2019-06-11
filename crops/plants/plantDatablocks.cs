@@ -845,7 +845,7 @@ datablock fxDTSBrickData(brickWeed0CropData)
 	
 	isWeed = 1;
 	timeDelay = 2;
-	activateFunction = "removeWeed";
+	activateFunction = "pickWeed";
 };
 
 datablock fxDTSBrickData(brickWeed1CropData)

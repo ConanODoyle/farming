@@ -166,3 +166,21 @@ function getWeedTimeModifier(%plant)
 
 	return %multiplier;
 }
+
+function pickWeed(%brick, %pl)
+{
+	initContainerRadiusSearch(%brick.getPosition(), $WeedSearchRadius, $Typemasks::fxDTSBrick)
+	while (isObject(%next = containerSearchNext()))
+	{
+		if (%next == %brick)
+		{
+			continue;
+		}
+		if (!%next.getDatablock().isPlant || %next.getDatablock().isWeed)
+		{
+			continue;
+		}
+
+		removeWeed(%next, %brick);
+	}
+}
