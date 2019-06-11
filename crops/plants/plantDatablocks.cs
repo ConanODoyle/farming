@@ -844,7 +844,7 @@ datablock fxDTSBrickData(brickWeed0CropData)
 	growsWithoutSunlight = 1;
 	
 	isWeed = 1;
-	timeDelay = 1;
+	timeDelay = 2;
 	activateFunction = "removeWeed";
 };
 
@@ -859,7 +859,7 @@ datablock fxDTSBrickData(brickWeed1CropData)
 	growsWithoutSunlight = 1;
 	
 	isWeed = 1;
-	timeDelay = 3;
+	timeDelay = 8;
 	activateFunction = "pickWeed";
 };
 
@@ -874,6 +874,6 @@ datablock fxDTSBrickData(brickWeed2CropData)
 	growsWithoutSunlight = 1;
 	
 	isWeed = 1;
-	timeDelay = 6;
+	timeDelay = 16;
 	activateFunction = "pickWeed";
 };

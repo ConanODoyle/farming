@@ -37,6 +37,10 @@ exec("./plantData/lilyData.cs");
 exec("./plantData/daisyData.cs");
 exec("./plantData/roseData.cs");
 
+//weeds
+
+exec("./plantData/weedData.cs");
+
 //coast
 
 exec("./plantData/potatoData.cs");
