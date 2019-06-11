@@ -1,7 +1,7 @@
 //depends on the weather-generated RainFillSimSet (to fill dirt/water tanks with water during rain)
-function weedLoop(%index)
+function weedTick(%index)
 {
-	cancel($masterWeedLoop);
+	cancel($masterWeedSchedule);
 
 	if (%index < 0)
 	{
@@ -34,7 +34,7 @@ function weedLoop(%index)
 		}
 	}
 
-	$masterWeedLoop = schedule(66, 0, weedLoop, %index - %i);
+	$masterWeedSchedule = schedule(66, 0, weedTick, %index - %i);
 }
 
 function generateWeed(%brick)
@@ -163,6 +163,6 @@ function getWeedTimeModifier(%plant)
 		%multiplier += %obj.getDatablock().timeDelay;
 	}
 	%plant.weedList = trim(%final);
-	
+
 	return %multiplier;
 }

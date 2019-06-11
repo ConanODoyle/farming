@@ -1,4 +1,4 @@
-Generated 06/07/19 15:23:59
+Generated 06/11/19 10:11:51
 
 
 
@@ -6,8 +6,9 @@ Generated 06/07/19 15:23:59
 -Potato-
 $1.00 per seed
 $0.50 per produce
+0p + 1h - 0 EXP
 Avg 3 per harvest (range: 2 4)
-Avg Income Per Seed: 0.5
+Avg Profit Per Seed: 0.5
 
 TTime: 2:05
 Water: 50
@@ -15,7 +16,7 @@ Water: 50
 Water/sec: 0.40
 Water/sec/8x8: 3.6
 8x8 Income: 4.50
-Income/min: 2.160000
+Income/min: 2.160
 ------
 
 
@@ -23,38 +24,40 @@ Income/min: 2.160000
 ------
 -Carrot-
 $1.00 per seed
-$1.20 per produce
+$1.30 per produce
+1p + 0h - 0 EXP
 Avg 1.5 per harvest (range: 1 2)
-Avg Income Per Seed: 0.8
+Avg Profit Per Seed: 0.95
 
 TTime: 3:15
 Water: 75
 8x8 Density: 9
 Water/sec: 0.38
 Water/sec/8x8: 3.42
-8x8 Income: 7.20
-Income/min: 2.215380
+8x8 Income: 8.55
+Income/min: 2.631
 ------
 
 
 
 ------
 -Tomato-
-$8.00 per seed
-$1.00 per produce
-Avg 2 per harvest (range: 1 3)
-Avg Income Per Harvest: 2
+$6.00 per seed
+$0.50 per produce
+0p + 1h - 1 EXP
+Avg 3.5 per harvest (range: 2 5)
+Avg Income Per Harvest: 1.75
 Avg Total Harvests: 10 (range: 8 12)
-Avg Total Income: 20
+Avg Total Income: 17.5
 
-TTime: 12:24
-Water: 128
+TTime: 12:00
+Water: 131
 8x8 Density: 4
-Water/sec: 0.17
-Water/sec/8x8: 0.68
-8x8 Income: 8.00
-LoopTime: 6:24
-Income/min: 1.250000
+Water/sec: 0.18
+Water/sec/8x8: 0.72
+8x8 Income: 7.00
+LoopTime: 6:00
+Income/min: 1.167
 ------
 
 
@@ -63,8 +66,9 @@ Income/min: 1.250000
 -Corn-
 $1.50 per seed
 $1.30 per produce
+0p + 6h - 5 EXP
 Avg 3.5 per harvest (range: 3 4)
-Avg Income Per Seed: 3.05
+Avg Profit Per Seed: 3.05
 
 TTime: 9:03
 Water: 190
@@ -72,7 +76,7 @@ Water: 190
 Water/sec: 0.35
 Water/sec/8x8: 3.15
 8x8 Income: 27.45
-Income/min: 3.033150
+Income/min: 3.033
 ------
 
 
@@ -81,8 +85,9 @@ Income/min: 3.033150
 -Cabbage-
 $1.00 per seed
 $4.00 per produce
+0p + 6h - 5 EXP
 Avg 2.5 per harvest (range: 2 3)
-Avg Income Per Seed: 9
+Avg Profit Per Seed: 9
 
 TTime: 8:47
 Water: 732
@@ -90,7 +95,7 @@ Water: 732
 Water/sec: 1.39
 Water/sec/8x8: 5.56
 8x8 Income: 36.00
-Income/min: 4.098670
+Income/min: 4.099
 ------
 
 
@@ -98,17 +103,18 @@ Income/min: 4.098670
 ------
 -Onion-
 $1.00 per seed
-$1.30 per produce
+$1.20 per produce
+0p + 8h - 5 EXP
 Avg 3.5 per harvest (range: 3 4)
-Avg Income Per Seed: 3.55
+Avg Profit Per Seed: 3.2
 
 TTime: 13:20
-Water: 460
+Water: 360
 8x8 Density: 9
-Water/sec: 0.57
-Water/sec/8x8: 5.13
-8x8 Income: 31.95
-Income/min: 2.396250
+Water/sec: 0.45
+Water/sec/8x8: 4.05
+8x8 Income: 28.80
+Income/min: 2.160
 ------
 
 
@@ -117,16 +123,17 @@ Income/min: 2.396250
 -Blueberry-
 $2.00 per seed
 $1.90 per produce
-Avg 4.5 per harvest (range: 3 6)
-Avg Income Per Seed: 6.55
+0p + 4h - 5 EXP
+Avg 4 per harvest (range: 2 6)
+Avg Profit Per Seed: 5.6
 
 TTime: 6:02
-Water: 440
+Water: 370
 8x8 Density: 4
-Water/sec: 1.22
-Water/sec/8x8: 4.88
-8x8 Income: 26.20
-Income/min: 4.342540
+Water/sec: 1.02
+Water/sec/8x8: 4.08
+8x8 Income: 22.40
+Income/min: 3.713
 ------
 
 
@@ -135,16 +142,17 @@ Income/min: 4.342540
 -Turnip-
 $2.00 per seed
 $8.00 per produce
+0p + 4h - 5 EXP
 Avg 1 per harvest (range: 1 1)
-Avg Income Per Seed: 6
+Avg Profit Per Seed: 6
 
 TTime: 6:10
-Water: 450
+Water: 430
 8x8 Density: 4
-Water/sec: 1.22
-Water/sec/8x8: 4.88
+Water/sec: 1.16
+Water/sec/8x8: 4.64
 8x8 Income: 24.00
-Income/min: 3.891890
+Income/min: 3.892
 ------
 
 
@@ -153,6 +161,7 @@ Income/min: 3.891890
 -Apple-
 $600.00 per seed
 $8.80 per produce
+0p + 2h - 800 EXP
 Avg 11 per harvest (range: 10 12)
 Avg Income Per Harvest: 96.8
 
@@ -163,7 +172,7 @@ Water/sec: 0.61
 Water/sec/8x8: 0.61
 8x8 Income: 96.80
 LoopTime: 25:00
-Income/min: 3.872000
+Income/min: 3.872
 ------
 
 
@@ -172,6 +181,7 @@ Income/min: 3.872000
 -Mango-
 $800.00 per seed
 $12.00 per produce
+0p + 2h - 1000 EXP
 Avg 14 per harvest (range: 12 16)
 Avg Income Per Harvest: 168
 
@@ -182,7 +192,7 @@ Water/sec: 0.88
 Water/sec/8x8: 0.44
 8x8 Income: 84.00
 LoopTime: 25:25
-Income/min: 3.304920
+Income/min: 3.305
 ------
 
 
@@ -191,8 +201,9 @@ Income/min: 3.304920
 -Chili-
 $4.00 per seed
 $2.50 per produce
+0p + 8h - 10 EXP
 Avg 3.5 per harvest (range: 2 5)
-Avg Income Per Seed: 4.75
+Avg Profit Per Seed: 4.75
 
 TTime: 11:10
 Water: 125
@@ -200,7 +211,7 @@ Water: 125
 Water/sec: 0.19
 Water/sec/8x8: 1.71
 8x8 Income: 42.75
-Income/min: 3.828360
+Income/min: 3.828
 ------
 
 
@@ -209,19 +220,42 @@ Income/min: 3.828360
 -Cactus-
 $45.00 per seed
 $2.50 per produce
+0p + 2h - 20 EXP
 Avg 3.5 per harvest (range: 2 5)
 Avg Income Per Harvest: 8.75
 Avg Total Harvests: 10 (range: 8 12)
 Avg Total Income: 87.5
 
 TTime: 21:40
-Water: 190
+Water: 60
 8x8 Density: 4
-Water/sec: 0.15
-Water/sec/8x8: 0.6
+Water/sec: 0.05
+Water/sec/8x8: 0.2
 8x8 Income: 35.00
 LoopTime: 13:30
-Income/min: 2.592590
+Income/min: 2.593
+------
+
+
+
+------
+-Watermelon-
+$60.00 per seed
+$6.00 per produce
+0p + 2h - 100 EXP
+Avg 1.5 per harvest (range: 1 2)
+Avg Income Per Harvest: 9
+Avg Total Harvests: 16.5 (range: 9 24)
+Avg Total Income: 148.5
+
+TTime: 15:50
+Water: 1825
+8x8 Density: 4
+Water/sec: 1.92
+Water/sec/8x8: 7.68
+8x8 Income: 36.00
+LoopTime: 9:20
+Income/min: 3.857
 ------
 
 
@@ -230,6 +264,7 @@ Income/min: 2.592590
 -Date-
 $700.00 per seed
 $18.00 per produce
+0p + 2h - 700 EXP
 Avg 9 per harvest (range: 6 12)
 Avg Income Per Harvest: 162
 
@@ -240,7 +275,7 @@ Water/sec: 0.46
 Water/sec/8x8: 0.46
 8x8 Income: 162.00
 LoopTime: 1:06:40
-Income/min: 2.430000
+Income/min: 2.430
 ------
 
 
@@ -249,6 +284,7 @@ Income/min: 2.430000
 -Peach-
 $800.00 per seed
 $12.40 per produce
+0p + 2h - 1500 EXP
 Avg 9 per harvest (range: 6 12)
 Avg Income Per Harvest: 111.6
 
@@ -259,5 +295,5 @@ Water/sec: 0.67
 Water/sec/8x8: 0.67
 8x8 Income: 111.60
 LoopTime: 27:05
-Income/min: 4.120620
+Income/min: 4.121
 ------
