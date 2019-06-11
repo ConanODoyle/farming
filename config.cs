@@ -5,7 +5,12 @@ $betaBonus = 200;
 
 // Score grant tracking
 if(isFile("config/Farming/scoreGrant.cs"))
-  exec("config/Farming/scoreGrant.cs");
+	exec("config/Farming/scoreGrant.cs");
+
+//Weed chance
+$WeedBaseChance = 0.003;
+$WeedFertModifier = 0.00005;
+$WeedTickLength = 2;
 
 // Dirt colors
 $DirtWaterColor0 = 54;
