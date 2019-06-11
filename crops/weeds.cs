@@ -20,11 +20,17 @@ function weedLoop(%index)
 			break;
 		}
 		%brick = RainFillSimSet.getObject(%index - %i);
+		
 
 		if (%brick.getDatablock().isDirt && %brick.getGroup().bl_id != 888888 && %brick.nextWeedCheck < $Sim::Time)
 		{
-			generateWeed(%brick);
 			%brick.nextWeedCheck = $Sim::Time + $WeedTickLength;
+			%hit = containerRaycast(%brick.getPosition(), vectorAdd(%pos, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
+			if (isObject(%hit) && %hit.getDatablock().isGreenhouse)
+			{
+				continue;
+			}
+			generateWeed(%brick);
 		}
 	}
 
@@ -94,5 +100,69 @@ function generateWeed(%brick)
 
 function weedVictimSearch(%brick)
 {
+	initContainerRadiusSearch(%brick.getPosition(), $WeedSearchRadius, $Typemasks::fxDTSBrick)
+	while (isObject(%next = containerSearchNext()))
+	{
+		if (%next == %brick)
+		{
+			continue;
+		}
+		if (!%next.getDatablock().isPlant || %next.getDatablock().isWeed)
+		{
+			continue;
+		}
 
+		addWeed(%next, %brick);
+	}
+}
+
+function addWeed(%plant, %weed)
+{
+	if (!isObject(%plant) || !isObject(%weed))
+	{
+		return;
+	}
+
+	%weedList = " " @ %plant.weedList @ " ";
+	%weedSearch = " " @ %weed @ " ";
+
+	if (strPos(%weedList, %weedSearch) < 0)
+	{
+		%weedList = %weedList @ %weed @ " ";
+	}
+
+	%plant.weedList = trim(%weedList);
+}
+
+function removeWeed(%plant, %weed)
+{
+	if (!isObject(%plant) || !isObject(%weed))
+	{
+		return;
+	}
+
+	%weedList = " " @ %plant.weedList @ " ";
+	%weedSearch = " " @ %weed @ " ";
+
+	%weedList = strReplace(%weedList, %weedSearch, " ");
+
+	%plant.weedList = trim(%weedList);
+}
+
+function getWeedTimeModifier(%plant)
+{
+	%weedList = %plant.weedList;
+	for (%i = 0; %i < getWordCount(%weedList); %i++)
+	{
+		%obj = getWord(%weedList);
+		if (!isObject(%obj) || !%obj.getDatablock().isWeed)
+		{
+			continue;
+		}
+		%final = %final SPC %obj;
+		%multiplier += %obj.getDatablock().timeDelay;
+	}
+	%plant.weedList = trim(%final);
+	
+	return %multiplier;
 }

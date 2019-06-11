@@ -120,6 +120,8 @@ function doGrowCalculations(%brick, %db)
 	%type = %db.cropType;
 	%growTicks = %brick.growTicks;
 	%tickTime = $Farming::Crops::PlantData_[%type, %stage, "timePerTick"];
+	//weeds slow plant growth
+	%tickTime = %tickTime + %tickTime * getWeedTimeModifier(%brick);
 	
 	if (%tickTime <= 1) //check if its there is any grow time at all, remove from set if so
 	{
