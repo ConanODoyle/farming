@@ -1,7 +1,7 @@
 $Game::Item::PopTime = 90000;
 
-$startingAmount = 90;
-$betaBonus = 200;
+$startingAmount = 200;
+$betaBonus = 100;
 
 // Score grant tracking
 if(isFile("config/Farming/scoreGrant.cs"))

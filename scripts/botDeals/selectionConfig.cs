@@ -38,8 +38,8 @@ $ItemList_Water_[$ItemCount_Water++ - 1]  = "WateringCatItem" TAB   1;
 $ItemCount_Furniture = 0;
 $ItemList_Furniture_[$ItemCount_Furniture++ - 1]  = "FlowerPotItem" TAB   10;
 $ItemList_Furniture_[$ItemCount_Furniture++ - 1]  = "CompostBinItem" TAB   60;
-$ItemList_Furniture_[$ItemCount_Furniture++ - 1]  = "LargeCompostBinItem" TAB   30;
-$ItemList_Furniture_[$ItemCount_Furniture++ - 1]  = "PlanterBoxItem" TAB   20;
+$ItemList_Furniture_[$ItemCount_Furniture++ - 1]  = "LargeCompostBinItem" TAB   40;
+$ItemList_Furniture_[$ItemCount_Furniture++ - 1]  = "PlanterBoxItem" TAB   50;
 
 
 
