@@ -40,6 +40,11 @@ function weedTick(%index)
 function generateWeed(%brick)
 {
 	//check if we create a weed
+	if (%brick.weedImmunityTicks) {
+		%brick.weedImmunityTicks--;
+		return;
+	}
+
 	%rand = getRandom();
 	%chance = $WeedBaseChance + ($WeedFertModifier * %brick.fertilizerWeedModifier);
 
