@@ -25,22 +25,26 @@ function pickRandomEvent(%obj, %rand)
 		case "sellItem": //Special item
 			%item = getRandomItem("All");
 			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
-			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ "s!";
+			%e = getSubStr(%item.uiName, strLen(%item.uiName) - 1, 1) $= "x" ? "e" : "";
+			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %e @ "s!";
 
 		case "sellTools": //Special item
 			%item = getRandomItem("Tools");
 			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
-			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ "s!";
+			%e = getSubStr(%item.uiName, strLen(%item.uiName) - 1, 1) $= "x" ? "e" : "";
+			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %e @ "s!";
 
 		case "sellWater": //Special item
 			%item = getRandomItem("Water");
 			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
-			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ "s!";
+			%e = getSubStr(%item.uiName, strLen(%item.uiName) - 1, 1) $= "x" ? "e" : "";
+			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %e @ "s!";
 
 		case "sellFurniture": //Special item
 			%item = getRandomItem("Furniture");
 			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
-			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ "s!";
+			%e = getSubStr(%item.uiName, strLen(%item.uiName) - 1, 1) $= "x" ? "e" : "";
+			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %e @ "s!";
 
 		case "sellInstrument": //Sell Instrument
 			%item = getRandomInstrument();
