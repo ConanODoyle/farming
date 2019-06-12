@@ -134,7 +134,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 		initContainerRadiusSearch(%pos, 10, $Typemasks::fxBrickObjectType);
 		while (isObject(%next = containerSearchNext()))
 		{
-			if (%next.getDatablock().isPlant)
+			if (%next.getDatablock().isPlant && !%next.getDatablock().isWeed)
 			{
 				%nextType = %next.getDatablock().cropType;
 				%rad = $Farming::Crops::PlantData_[%nextType, "plantSpace"] * 0.5 - 0.01 + 0.5;
@@ -204,6 +204,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 	%error = %b.plant();
 	if (%error > 0 || %error $= "")
 	{
+		talk(%error);
 		%b.delete();
 
 		%b = new fxDTSBrick()
@@ -221,7 +222,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 	}
 
 	%b.setTrusted(1);
-	if (!%isTree && !%brickDB.noCollision)
+	if (!%isTree || %brickDB.noCollision)
 	{
 		%b.setColliding(0);
 	}

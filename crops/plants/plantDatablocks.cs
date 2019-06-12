@@ -845,6 +845,7 @@ datablock fxDTSBrickData(brickWeed0CropData)
 	
 	isWeed = 1;
 	timeDelay = 2;
+	isProcessor = 1;
 	activateFunction = "pickWeed";
 };
 
@@ -860,6 +861,7 @@ datablock fxDTSBrickData(brickWeed1CropData)
 	
 	isWeed = 1;
 	timeDelay = 8;
+	isProcessor = 1;
 	activateFunction = "pickWeed";
 };
 
@@ -875,5 +877,6 @@ datablock fxDTSBrickData(brickWeed2CropData)
 	
 	isWeed = 1;
 	timeDelay = 16;
+	isProcessor = 1;
 	activateFunction = "pickWeed";
 };

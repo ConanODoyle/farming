@@ -87,6 +87,7 @@ function generateWeed(%brick)
 	}
 
 	//weed planted, decrease modifier
+	%b.setTrusted(1);
 	%b.setColliding(0);
 
 	%brick.fertilizerWeedModifier -= 10;
@@ -100,7 +101,7 @@ function generateWeed(%brick)
 
 function weedVictimSearch(%brick)
 {
-	initContainerRadiusSearch(%brick.getPosition(), $WeedSearchRadius, $Typemasks::fxDTSBrick)
+	initContainerRadiusSearch(%brick.getPosition(), $WeedSearchRadius, $Typemasks::fxBrickObjectType);
 	while (isObject(%next = containerSearchNext()))
 	{
 		if (%next == %brick)
@@ -125,6 +126,7 @@ function addWeed(%plant, %weed)
 
 	%weedList = " " @ %plant.weedList @ " ";
 	%weedSearch = " " @ %weed @ " ";
+	// talk("Addweed: [" @ %weedList @ "] [" @ %weedSearch @ "]");
 
 	if (strPos(%weedList, %weedSearch) < 0)
 	{
@@ -152,9 +154,11 @@ function removeWeed(%plant, %weed)
 function getWeedTimeModifier(%plant)
 {
 	%weedList = %plant.weedList;
+	// if (!%plant.getDatablock().isWeed)
+		// talk("Time modifier: " @ %weedList);
 	for (%i = 0; %i < getWordCount(%weedList); %i++)
 	{
-		%obj = getWord(%weedList);
+		%obj = getWord(%weedList, %i);
 		if (!isObject(%obj) || !%obj.getDatablock().isWeed)
 		{
 			continue;
@@ -162,6 +166,8 @@ function getWeedTimeModifier(%plant)
 		%final = %final SPC %obj;
 		%multiplier += %obj.getDatablock().timeDelay;
 	}
+	// if (!%plant.getDatablock().isWeed)
+		// talk("Final: " @ %final);
 	%plant.weedList = trim(%final);
 
 	return %multiplier;
@@ -169,7 +175,7 @@ function getWeedTimeModifier(%plant)
 
 function pickWeed(%brick, %pl)
 {
-	initContainerRadiusSearch(%brick.getPosition(), $WeedSearchRadius, $Typemasks::fxDTSBrick)
+	initContainerRadiusSearch(%brick.getPosition(), $WeedSearchRadius, $Typemasks::fxBrickObjectType);
 	while (isObject(%next = containerSearchNext()))
 	{
 		if (%next == %brick)
@@ -183,4 +189,5 @@ function pickWeed(%brick, %pl)
 
 		removeWeed(%next, %brick);
 	}
+	%brick.delete();
 }
