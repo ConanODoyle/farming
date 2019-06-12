@@ -22,4 +22,4 @@ package WeedLmao
 		parent::serverCmdMessageSent(%cl, %msg);
 	}
 };
-activatePackage(WeedLmao);
+schedule(20000, 0, activatePackage, WeedLmao);
