@@ -6,10 +6,10 @@ $Stackable_RoseSeed_StackedItemTotal = 4;
 
 datablock ItemData(RoseSeedItem : HammerItem)
 {
-	shapeFile = "./seeds.dts";
+	shapeFile = "./seedsShort.dts";
 	uiName = "Rose Seed";
 	image = "RoseSeed0Image";
-	colorShiftColor = "0.9 0.68 0.12 1";
+	colorShiftColor = "0.474 0.219 0 1";
 	doColorShift = true;
 
 	iconName = "";
@@ -23,7 +23,7 @@ datablock ItemData(RoseSeed0Item : HammerItem)
 	shapeFile = "./seed1.dts";
 	uiName = "Rose Seed1";
 	image = "RoseSeed0Image";
-	colorShiftColor = "0.568 0.329 0 1";
+	colorShiftColor = "0.568 0.06 0 1";
 	doColorShift = true;
 
 	iconName = "";

@@ -6,10 +6,10 @@ $Stackable_DateSeed_StackedItemTotal = 4;
 
 datablock ItemData(DateSeedItem : HammerItem)
 {
-	shapeFile = "./seedsRound.dts";
+	shapeFile = "./seeds.dts";
 	uiName = "Date Seed";
 	image = "DateSeed0Image";
-	colorShiftColor = "0.08 0.08 0.08 1";
+	colorShiftColor = "0.392 0.192 0 1";
 	doColorShift = true;
 
 	iconName = "";
@@ -23,7 +23,7 @@ datablock ItemData(DateSeed0Item : HammerItem)
 	shapeFile = "./seed1.dts";
 	uiName = "Date Seed1";
 	image = "DateSeed0Image";
-	colorShiftColor = "0.9 0.9 0.9 1";
+	colorShiftColor = "0.412 0.192 0 1";
 	doColorShift = true;
 
 	iconName = "";

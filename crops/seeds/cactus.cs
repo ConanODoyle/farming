@@ -23,7 +23,7 @@ datablock ItemData(CactusSeed0Item : HammerItem)
 	shapeFile = "./seed1.dts";
 	uiName = "Cactus Seed1";
 	image = "CactusSeed0Image";
-	colorShiftColor = "0.9 0.9 0.9 1";
+	colorShiftColor = "0.329 0.419 0.184 1";
 	doColorShift = true;
 
 	iconName = "";

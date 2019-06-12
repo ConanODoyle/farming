@@ -6,7 +6,7 @@ $Stackable_WatermelonSeed_StackedItemTotal = 4;
 
 datablock ItemData(WatermelonSeedItem : HammerItem)
 {
-	shapeFile = "./seedsRound.dts";
+	shapeFile = "./seedsShort.dts";
 	uiName = "Watermelon Seed";
 	image = "WatermelonSeed0Image";
 	colorShiftColor = "0.08 0.08 0.08 1";
@@ -23,7 +23,7 @@ datablock ItemData(WatermelonSeed0Item : HammerItem)
 	shapeFile = "./seed1.dts";
 	uiName = "Watermelon Seed1";
 	image = "WatermelonSeed0Image";
-	colorShiftColor = "0.9 0.9 0.9 1";
+	colorShiftColor = "0.094 0.2 0.149 1";
 	doColorShift = true;
 
 	iconName = "";
