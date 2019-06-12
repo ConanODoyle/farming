@@ -438,7 +438,7 @@ function serverCmdSellLot(%cl, %force)
 	{
 		if (%force)
 		{
-			%forceText = "\c0force \c6";
+			%forceText = "\c0force \c5";
 		}
 		messageClient(%cl, '', "\c5Are you sure you want to " @ %forceText @ "sell this lot? Any bricks above it will be removed with 90% refund. Repeat /sellLot to confirm");
 		%cl.repeatSellLot = %hit;
