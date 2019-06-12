@@ -66,14 +66,6 @@ exec("./scripts/core/spawn.cs");
 exec("./scripts/core/builder.cs");
 
 exec("./scripts/modules.cs");
-
-exec("./scripts/chatFilter.cs");
-exec("./scripts/chestScore.cs");
-exec("./scripts/donator.cs");
-exec("./scripts/lots.cs");
-exec("./scripts/wateringCat.cs");
-exec("./scripts/weather.cs");
-
 // exec("./scripts/mailCatalog.cs");
 
 // Debug code
