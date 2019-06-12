@@ -1,4 +1,4 @@
-Generated 06/11/19 10:11:51
+Generated 06/12/19 09:16:07
 
 
 
@@ -160,19 +160,19 @@ Income/min: 3.892
 ------
 -Apple-
 $600.00 per seed
-$8.80 per produce
-0p + 2h - 800 EXP
-Avg 11 per harvest (range: 10 12)
-Avg Income Per Harvest: 96.8
+$5.00 per produce
+0p + 2h - 700 EXP
+Avg 14 per harvest (range: 10 18)
+Avg Income Per Harvest: 70
 
 TTime: 1:57:55
 Water: 4350
 8x8 Density: 1
 Water/sec: 0.61
 Water/sec/8x8: 0.61
-8x8 Income: 96.80
-LoopTime: 25:00
-Income/min: 3.872
+8x8 Income: 70.00
+LoopTime: 19:00
+Income/min: 3.684
 ------
 
 
@@ -218,13 +218,13 @@ Income/min: 3.828
 
 ------
 -Cactus-
-$45.00 per seed
+$35.00 per seed
 $2.50 per produce
-0p + 2h - 20 EXP
+0p + 2h - 25 EXP
 Avg 3.5 per harvest (range: 2 5)
 Avg Income Per Harvest: 8.75
-Avg Total Harvests: 10 (range: 8 12)
-Avg Total Income: 87.5
+Avg Total Harvests: 12 (range: 8 16)
+Avg Total Income: 105
 
 TTime: 21:40
 Water: 60
@@ -240,22 +240,22 @@ Income/min: 2.593
 
 ------
 -Watermelon-
-$60.00 per seed
-$6.00 per produce
+$45.00 per seed
+$8.00 per produce
 0p + 2h - 100 EXP
 Avg 1.5 per harvest (range: 1 2)
-Avg Income Per Harvest: 9
-Avg Total Harvests: 16.5 (range: 9 24)
-Avg Total Income: 148.5
+Avg Income Per Harvest: 12
+Avg Total Harvests: 17 (range: 10 24)
+Avg Total Income: 204
 
-TTime: 15:50
-Water: 1825
+TTime: 19:10
+Water: 2225
 8x8 Density: 4
-Water/sec: 1.92
-Water/sec/8x8: 7.68
-8x8 Income: 36.00
-LoopTime: 9:20
-Income/min: 3.857
+Water/sec: 1.93
+Water/sec/8x8: 7.72
+8x8 Income: 48.00
+LoopTime: 12:40
+Income/min: 3.789
 ------
 
 
@@ -264,7 +264,7 @@ Income/min: 3.857
 -Date-
 $700.00 per seed
 $18.00 per produce
-0p + 2h - 700 EXP
+0p + 2h - 800 EXP
 Avg 9 per harvest (range: 6 12)
 Avg Income Per Harvest: 162
 
@@ -282,7 +282,7 @@ Income/min: 2.430
 
 ------
 -Peach-
-$800.00 per seed
+$900.00 per seed
 $12.40 per produce
 0p + 2h - 1500 EXP
 Avg 9 per harvest (range: 6 12)
