@@ -7,44 +7,55 @@ function pickRandomEvent(%obj, %rand)
 			%price = mFloor($Produce::BuyCost_[%crop] * 1.5 * 10) / 10;
 			return "BUY 0" TAB %crop TAB %price TAB "I'm buying each " @ %crop @ " for 50% more!";
 
-		case "sellSeeds": //Seed sell discount
-			%seed = getRandomSeedType();
-			%fixedName = strReplace(getSubStr(%seed, 0, strLen(%seed) - 8), "_", " ") SPC "seeds";
-			if (%price < 100)
-			{
-				%price = $Produce::BuyCost_[%seed.stackType] / 2;
-				%msg = "I'm selling " @ %fixedName @ " for half the price!";
-			}
-			else
-			{
-				%price = $Produce::BuyCost_[%seed.stackType];
-				%msg = "I'm selling " @ %fixedName @ "!";	
-			}
-			return "SELL 1" TAB %seed TAB %price TAB %msg;
+		case "sSeed": //Seed sell discount
+			%seed = getRandomSeedType("All");
+			%seedSelling = 1;
+			break;
+
+		case "sSeedB":
+			%seed = getRandomSeedType("Basic");
+			%seedSelling = 1;
+			break;
+
+		case "sSeedS":
+			%seed = getRandomSeedType("Basic");
+			%seedSelling = 1;
+			break;
+
+		case "sSeedD":
+			%seed = getRandomSeedType("Desert");
+			%seedSelling = 1;
+			break;
+
+		case "sSeedT":
+			%seed = getRandomSeedType("Trees");
+			%seedSelling = 1;
+			break;
+
+		case "sSeedDT":
+			%seed = getRandomSeedType("DesertTrees");
+			%seedSelling = 1;
+			break;
 
 		case "sellItem": //Special item
 			%item = getRandomItem("All");
-			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
-			%e = getSubStr(%item.uiName, strLen(%item.uiName) - 1, 1) $= "x" ? "e" : "";
-			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %e @ "s!";
+			%toolSelling = 1;
+			break;
 
 		case "sellTools": //Special item
 			%item = getRandomItem("Tools");
-			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
-			%e = getSubStr(%item.uiName, strLen(%item.uiName) - 1, 1) $= "x" ? "e" : "";
-			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %e @ "s!";
+			%toolSelling = 1;
+			break;
 
 		case "sellWater": //Special item
 			%item = getRandomItem("Water");
-			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
-			%e = getSubStr(%item.uiName, strLen(%item.uiName) - 1, 1) $= "x" ? "e" : "";
-			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %e @ "s!";
+			%toolSelling = 1;
+			break;
 
 		case "sellFurniture": //Special item
 			%item = getRandomItem("Furniture");
-			%price = %item.cost * (10 - getRandom(0, 4)) / 8;
-			%e = getSubStr(%item.uiName, strLen(%item.uiName) - 1, 1) $= "x" ? "e" : "";
-			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %e @ "s!";
+			%toolSelling = 1;
+			break;
 
 		case "sellInstrument": //Sell Instrument
 			%item = getRandomInstrument();
@@ -71,6 +82,28 @@ function pickRandomEvent(%obj, %rand)
 			return "";
 	}
 
+	if (%seedSelling)
+	{
+		%fixedName = strReplace(getSubStr(%seed, 0, strLen(%seed) - 8), "_", " ") SPC "seeds";
+		if (%price < 100)
+		{
+			%price = $Produce::BuyCost_[%seed.stackType] / 2;
+			%msg = "I'm selling " @ %fixedName @ " for half the price!";
+		}
+		else
+		{
+			%price = $Produce::BuyCost_[%seed.stackType];
+			%msg = "I'm selling " @ %fixedName @ "!";	
+		}
+		return "SELL 1" TAB %seed TAB %price TAB %msg;
+	}
+	else if (%toolSelling)
+	{
+		%price = %item.cost * (10 - getRandom(0, 4)) / 8;
+		%e = getSubStr(%item.uiName, strLen(%item.uiName) - 1, 1) $= "x" ? "e" : "";
+		return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %e @ "s!";	
+	}
+
 	//shouldn't ever get here
 	return "";
 }
@@ -95,7 +128,8 @@ function AIPlayer::doRandomEventLoop(%bot, %time, %randOptions, %speak)
 			%bot.speak = %speak;
 			%bot.time = %time;
 			%bot.refreshTime = $Sim::Time + mCeil(%time * 2 / 3);
-			echo("[" @ getDateTime() @ "] " @ %bot.name @ " has offered " @ getWord(%event, 0) SPC getField(%event, 1) @ " for " @ getField(%event, 2));
+			echo("[" @ getDateTime() @ "] " @ %bot.name @ " has offered " @ getWord(%event, 0) SPC getField(%event, 1) @ 
+				" (" @ %option @ ") for " @ getField(%event, 2));
 			%bot.setProduceData(getWord(%event, 1), getField(%event, 1) SPC getField(%event, 2), %bot.name, 500);
 			// %bot.spawnBrick.setEventEnabled(1, 0);
 			// %bot.spawnBrick.setEventEnabled(2, 1);

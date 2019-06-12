@@ -24,19 +24,19 @@ function getRandomItem(%type)
 	return 0;
 }
 
-function getRandomSeedType()
+function getRandomSeedType(%type)
 {
 	%weight = 0;
-	for (%i = 0; %i < $SeedCount; %i++)
+	for (%i = 0; %i < $SeedCount_[%type]; %i++)
 	{
-		%weight += getField($SeedList_[%i], 1);
+		%weight += getField($SeedList_[%type, %i], 1);
 	}
 
 	%rand = getRandom();
 
-	for (%i = 0; %i < $SeedCount; %i++)
+	for (%i = 0; %i < $SeedCount_[%type]; %i++)
 	{
-		%curr = $SeedList_[%i];
+		%curr = $SeedList_[%type, %i];
 		%seed = getField(%curr, 0);
 		%total += getField(%curr, 1) / %weight;
 

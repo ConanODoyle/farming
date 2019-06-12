@@ -49,13 +49,6 @@ $ItemList_Furniture_[$ItemCount_Furniture++ - 1]  = "PlanterBoxItem" TAB   50;
 
 
 
-
-
-
-
-
-
-
 //big buyer
 $ProduceCount = 0;
 $ProduceList_[$ProduceCount++ - 1]  = "Potato" TAB    60;
@@ -74,22 +67,57 @@ $ProduceList_[$ProduceCount++ - 1]  = "Watermelon" TAB   0;
 $ProduceList_[$ProduceCount++ - 1]  = "Date" TAB   0;
 $ProduceList_[$ProduceCount++ - 1]  = "Peach" TAB   0;
 
+
+
+
+
+
+
+
 //Seed seller
-$SeedCount = 0;
-$SeedList_[$SeedCount++ - 1]  = "PotatoSeedItem" TAB    60;
-$SeedList_[$SeedCount++ - 1]  = "CarrotSeedItem" TAB    60;
-$SeedList_[$SeedCount++ - 1]  = "TomatoSeedItem" TAB    40;
-$SeedList_[$SeedCount++ - 1]  = "CornSeedItem" TAB    40;
-$SeedList_[$SeedCount++ - 1]  = "CabbageSeedItem" TAB   30;
-$SeedList_[$SeedCount++ - 1]  = "OnionSeedItem" TAB   60;
-$SeedList_[$SeedCount++ - 1]  = "BlueberrySeedItem" TAB 10;
-$SeedList_[$SeedCount++ - 1]  = "TurnipSeedItem" TAB    10;//5;
-$SeedList_[$SeedCount++ - 1]  = "DaisySeedItem" TAB   25;//5;
-$SeedList_[$SeedCount++ - 1]  = "LilySeedItem" TAB    25;//5;
-$SeedList_[$SeedCount++ - 1]  = "AppleSeedItem" TAB   8;
-$SeedList_[$SeedCount++ - 1]  = "MangoSeedItem" TAB   4;
-$SeedList_[$SeedCount++ - 1]  = "ChiliSeedItem" TAB   0;
-$SeedList_[$SeedCount++ - 1]  = "CactusSeedItem" TAB   0;
-$SeedList_[$SeedCount++ - 1]  = "WatermelonSeedItem" TAB   0;
-$SeedList_[$SeedCount++ - 1]  = "DateSeedItem" TAB   0;
-$SeedList_[$SeedCount++ - 1]  = "PeachSeedItem" TAB   0;
+$SeedCount_All = 0;
+$SeedList_All_[$SeedCount_All++ - 1]  = "PotatoSeedItem" TAB    60;
+$SeedList_All_[$SeedCount_All++ - 1]  = "CarrotSeedItem" TAB    60;
+$SeedList_All_[$SeedCount_All++ - 1]  = "TomatoSeedItem" TAB    40;
+$SeedList_All_[$SeedCount_All++ - 1]  = "CornSeedItem" TAB    40;
+$SeedList_All_[$SeedCount_All++ - 1]  = "CabbageSeedItem" TAB   30;
+$SeedList_All_[$SeedCount_All++ - 1]  = "OnionSeedItem" TAB   60;
+$SeedList_All_[$SeedCount_All++ - 1]  = "BlueberrySeedItem" TAB 10;
+$SeedList_All_[$SeedCount_All++ - 1]  = "TurnipSeedItem" TAB    10;//5;
+$SeedList_All_[$SeedCount_All++ - 1]  = "DaisySeedItem" TAB   25;//5;
+$SeedList_All_[$SeedCount_All++ - 1]  = "LilySeedItem" TAB    25;//5;
+$SeedList_All_[$SeedCount_All++ - 1]  = "RoseSeedItem" TAB    25;//5;
+$SeedList_All_[$SeedCount_All++ - 1]  = "AppleSeedItem" TAB   8;
+$SeedList_All_[$SeedCount_All++ - 1]  = "MangoSeedItem" TAB   4;
+$SeedList_All_[$SeedCount_All++ - 1]  = "ChiliSeedItem" TAB   25;
+$SeedList_All_[$SeedCount_All++ - 1]  = "CactusSeedItem" TAB   25;
+$SeedList_All_[$SeedCount_All++ - 1]  = "WatermelonSeedItem" TAB   15;
+$SeedList_All_[$SeedCount_All++ - 1]  = "DateSeedItem" TAB   5;
+$SeedList_All_[$SeedCount_All++ - 1]  = "PeachSeedItem" TAB   5;
+
+$SeedCount_Basic = 0;
+$SeedList_Basic_[$SeedCount_Basic++ - 1]  = "PotatoSeedItem" TAB    60;
+$SeedList_Basic_[$SeedCount_Basic++ - 1]  = "CarrotSeedItem" TAB    60;
+$SeedList_Basic_[$SeedCount_Basic++ - 1]  = "TomatoSeedItem" TAB    40;
+$SeedList_Basic_[$SeedCount_Basic++ - 1]  = "CornSeedItem" TAB    40;
+$SeedList_Basic_[$SeedCount_Basic++ - 1]  = "CabbageSeedItem" TAB   30;
+$SeedList_Basic_[$SeedCount_Basic++ - 1]  = "OnionSeedItem" TAB   60;
+$SeedList_Basic_[$SeedCount_Basic++ - 1]  = "BlueberrySeedItem" TAB 10;
+$SeedList_Basic_[$SeedCount_Basic++ - 1]  = "TurnipSeedItem" TAB    10;//5;
+
+$SeedCount_Special = 0;
+$SeedList_Special_[$SeedCount_Special++ - 1]  = "BlueberrySeedItem" TAB 10;
+$SeedList_Special_[$SeedCount_Special++ - 1]  = "TurnipSeedItem" TAB    10;//5;
+
+$SeedCount_Desert = 0;
+$SeedList_Desert_[$SeedCount_Desert++ - 1]  = "ChiliSeedItem" TAB   25;
+$SeedList_Desert_[$SeedCount_Desert++ - 1]  = "CactusSeedItem" TAB   25;
+$SeedList_Desert_[$SeedCount_Desert++ - 1]  = "WatermelonSeedItem" TAB   15;
+
+$SeedCount_Trees = 0;
+$SeedList_Trees_[$SeedCount_Trees++ - 1]  = "AppleSeedItem" TAB   25;
+$SeedList_Trees_[$SeedCount_Trees++ - 1]  = "MangoSeedItem" TAB   20;
+
+$SeedCount_DesertTrees = 0;
+$SeedList_DesertTrees_[$SeedCount_DesertTrees++ - 1]  = "DateSeedItem" TAB   20;
+$SeedList_DesertTrees_[$SeedCount_DesertTrees++ - 1]  = "PeachSeedItem" TAB   10;
