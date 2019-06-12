@@ -1,8 +1,8 @@
 //Watermelon//
 
-$Farming::Crops::PlantData_["Watermelon", "heatWaveTimeModifier"]			= "2";
+$Farming::Crops::PlantData_["Watermelon", "heatWaveTimeModifier"]			= "0.5";
 $Farming::Crops::PlantData_["Watermelon", "heatWaveWaterModifier"]			= "1";
-$Farming::Crops::PlantData_["Watermelon", "rainTimeModifier"]				= "0.25";
+$Farming::Crops::PlantData_["Watermelon", "rainTimeModifier"]				= "4";
 $Farming::Crops::PlantData_["Watermelon", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Watermelon", "plantSpace"]					= "3";
 $Farming::Crops::PlantData_["Watermelon", "experienceRequired"]			= "100";
@@ -47,11 +47,11 @@ $Farming::Crops::PlantData_["Watermelon", 3, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::Crops::PlantData_["Watermelon", 4, "timePerTick"]				= "4000";
+$Farming::Crops::PlantData_["Watermelon", 4, "timePerTick"]				= "6000";
 $Farming::Crops::PlantData_["Watermelon", 4, "nextStage"]				= "brickWatermelon5CropData";
 $Farming::Crops::PlantData_["Watermelon", 4, "dryStage"]				= "brickWatermelon3CropData";
-$Farming::Crops::PlantData_["Watermelon", 4, "waterPerTick"]			= "35";
-$Farming::Crops::PlantData_["Watermelon", 4, "numGrowTicks"]			= "40";
+$Farming::Crops::PlantData_["Watermelon", 4, "waterPerTick"]			= "30";
+$Farming::Crops::PlantData_["Watermelon", 4, "numGrowTicks"]			= "60";
 $Farming::Crops::PlantData_["Watermelon", 4, "numDryTicks"]				= "10";
 
 //
@@ -70,4 +70,4 @@ $Farming::Crops::PlantData_["Watermelon", 5, "harvestTool"]				= "Clipper";
 $Farming::Crops::PlantData_["Watermelon", 5, "areaHarvestTool"]			= "";
 $Farming::Crops::PlantData_["Watermelon", 5, "toolBuff"]				= "1 1";
 $Farming::Crops::PlantData_["Watermelon", 5, "changeOnHarvest"]			= "brickWatermelon3CropData";
-$Farming::Crops::PlantData_["Watermelon", 5, "maxHarvestTimes"]			= "9 24";
+$Farming::Crops::PlantData_["Watermelon", 5, "maxHarvestTimes"]			= "10 24";

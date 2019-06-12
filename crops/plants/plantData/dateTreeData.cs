@@ -1,12 +1,12 @@
 //Date Tree//
 
-$Farming::Crops::PlantData_["Date", "heatWaveTimeModifier"]				= "2";
-$Farming::Crops::PlantData_["Date", "heatWaveWaterModifier"]			= "3";
-$Farming::Crops::PlantData_["Date", "rainTimeModifier"]					= "1";
+$Farming::Crops::PlantData_["Date", "heatWaveTimeModifier"]				= "0.5";
+$Farming::Crops::PlantData_["Date", "heatWaveWaterModifier"]			= "1";
+$Farming::Crops::PlantData_["Date", "rainTimeModifier"]					= "2";
 $Farming::Crops::PlantData_["Date", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Date", "plantSpace"]					= "7"; //8 due to 2x2 trees
 $Farming::Crops::PlantData_["Date", "experienceRequired"]			= "500";
-$Farming::Crops::PlantData_["Date", "experienceCost"]				= "700";
+$Farming::Crops::PlantData_["Date", "experienceCost"]				= "800";
 $Farming::Crops::PlantData_["Date", "harvestExperience"]			= "2";
 $Farming::Crops::PlantData_["Date", "plantingExperience"]			= "0";
 $Farming::Crops::PlantData_["Date", "loopStages"]					= "7 8 9 10";

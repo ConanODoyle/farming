@@ -41,12 +41,12 @@ $Produce::BuyCost_["Cabbage"] = 4.00;
 $Produce::BuyCost_["Onion"] = 1.20;
 $Produce::BuyCost_["Blueberry"] = 1.90;
 $Produce::BuyCost_["Turnip"] = 8.00;
-$Produce::BuyCost_["Apple"] = 8.80;
+$Produce::BuyCost_["Apple"] = 5.00;
 $Produce::BuyCost_["Mango"] = 12.00;
 
 $Produce::BuyCost_["Chili"] = 2.50;
 $Produce::BuyCost_["Cactus"] = 2.50;
-$Produce::BuyCost_["Watermelon"] = 6.00;
+$Produce::BuyCost_["Watermelon"] = 8.00;
 $Produce::BuyCost_["Date"] = 18.00;
 $Produce::BuyCost_["Peach"] = 12.40;
 
@@ -63,13 +63,14 @@ $Produce::BuyCost_["AppleSeed"] = 600.00;
 $Produce::BuyCost_["MangoSeed"] = 800.00;
 
 $Produce::BuyCost_["ChiliSeed"] = 4.00;
-$Produce::BuyCost_["CactusSeed"] = 45.00;
-$Produce::BuyCost_["WatermelonSeed"] = 60.00;
+$Produce::BuyCost_["CactusSeed"] = 35.00;
+$Produce::BuyCost_["WatermelonSeed"] = 45.00;
 $Produce::BuyCost_["DateSeed"] = 700.00;
-$Produce::BuyCost_["PeachSeed"] = 800.00;
+$Produce::BuyCost_["PeachSeed"] = 900.00;
 
 $Produce::BuyCost_["DaisySeed"] = 1.00;
 $Produce::BuyCost_["LilySeed"] = 1.00;
+$Produce::BuyCost_["RoseSeed"] = 1.00;
 
 //Extra stackable items
 

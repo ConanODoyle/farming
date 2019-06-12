@@ -6,7 +6,7 @@ $Farming::Crops::PlantData_["Apple", "rainTimeModifier"]				= "1";
 $Farming::Crops::PlantData_["Apple", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Apple", "plantSpace"]					= "7"; //8 due to 2x2 trees
 $Farming::Crops::PlantData_["Apple", "experienceRequired"]			= "500";
-$Farming::Crops::PlantData_["Apple", "experienceCost"]				= "800";
+$Farming::Crops::PlantData_["Apple", "experienceCost"]				= "700";
 $Farming::Crops::PlantData_["Apple", "harvestExperience"]			= "2";
 $Farming::Crops::PlantData_["Apple", "plantingExperience"]			= "0";
 $Farming::Crops::PlantData_["Apple", "loopStages"]					= "7 10 11 12";
@@ -83,7 +83,7 @@ $Farming::Crops::PlantData_["Apple", 7, "numDryTicks"]				= "-1";
 
 // Unpruned
 
-$Farming::Crops::PlantData_["Apple", 10, "timePerTick"]				= "30000";
+$Farming::Crops::PlantData_["Apple", 10, "timePerTick"]				= "18000";
 $Farming::Crops::PlantData_["Apple", 10, "nextStage"]				= "brickAppleTree11CropData";
 $Farming::Crops::PlantData_["Apple", 10, "dryStage"]				= "";
 $Farming::Crops::PlantData_["Apple", 10, "waterPerTick"]			= "30";
@@ -110,7 +110,7 @@ $Farming::Crops::PlantData_["Apple", 12, "waterPerTick"]			= "10";
 $Farming::Crops::PlantData_["Apple", 12, "numGrowTicks"]			= "15";
 $Farming::Crops::PlantData_["Apple", 12, "numDryTicks"]				= "-1";
 
-$Farming::Crops::PlantData_["Apple", 12, "yield"]					= "6 10";
+$Farming::Crops::PlantData_["Apple", 12, "yield"]					= "8 14";
 $Farming::Crops::PlantData_["Apple", 12, "item"]					= "AppleItem";
 $Farming::Crops::PlantData_["Apple", 12, "dieOnHarvest"]			= "0";
 $Farming::Crops::PlantData_["Apple", 12, "harvestTool"]				= "Clipper";
@@ -119,7 +119,7 @@ $Farming::Crops::PlantData_["Apple", 12, "changeOnHarvest"]			= "brickAppleTree7
 
 // Pruned
 
-$Farming::Crops::PlantData_["Apple", 20, "timePerTick"]				= "30000";
+$Farming::Crops::PlantData_["Apple", 20, "timePerTick"]				= "18000";
 $Farming::Crops::PlantData_["Apple", 20, "nextStage"]				= "brickAppleTree21CropData";
 $Farming::Crops::PlantData_["Apple", 20, "dryStage"]				= "";
 $Farming::Crops::PlantData_["Apple", 20, "waterPerTick"]			= "30";
@@ -144,7 +144,7 @@ $Farming::Crops::PlantData_["Apple", 22, "waterPerTick"]			= "10";
 $Farming::Crops::PlantData_["Apple", 22, "numGrowTicks"]			= "15";
 $Farming::Crops::PlantData_["Apple", 22, "numDryTicks"]				= "-1";
 
-$Farming::Crops::PlantData_["Apple", 22, "yield"]					= "10 12";
+$Farming::Crops::PlantData_["Apple", 22, "yield"]					= "10 18";
 $Farming::Crops::PlantData_["Apple", 22, "item"]					= "AppleItem";
 $Farming::Crops::PlantData_["Apple", 22, "dieOnHarvest"]			= "0";
 $Farming::Crops::PlantData_["Apple", 22, "harvestTool"]				= "Clipper";

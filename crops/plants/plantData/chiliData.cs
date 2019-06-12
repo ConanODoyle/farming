@@ -1,8 +1,8 @@
 //Chili//
 
-$Farming::Crops::PlantData_["Chili", "heatWaveTimeModifier"]			= "2";
+$Farming::Crops::PlantData_["Chili", "heatWaveTimeModifier"]			= "0.5";
 $Farming::Crops::PlantData_["Chili", "heatWaveWaterModifier"]			= "1";
-$Farming::Crops::PlantData_["Chili", "rainTimeModifier"]				= "0.25";
+$Farming::Crops::PlantData_["Chili", "rainTimeModifier"]				= "4";
 $Farming::Crops::PlantData_["Chili", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Chili", "plantSpace"]					= "2";
 $Farming::Crops::PlantData_["Chili", "experienceRequired"]			= "50";

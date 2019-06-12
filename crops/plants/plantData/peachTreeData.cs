@@ -1,7 +1,7 @@
 //Peach Tree//
 
-$Farming::Crops::PlantData_["Peach", "heatWaveTimeModifier"]			= "2";
-$Farming::Crops::PlantData_["Peach", "heatWaveWaterModifier"]			= "3";
+$Farming::Crops::PlantData_["Peach", "heatWaveTimeModifier"]			= "0.5";
+$Farming::Crops::PlantData_["Peach", "heatWaveWaterModifier"]			= "2";
 $Farming::Crops::PlantData_["Peach", "rainTimeModifier"]				= "1";
 $Farming::Crops::PlantData_["Peach", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Peach", "plantSpace"]					= "7"; //16 due to 2x2 trees
