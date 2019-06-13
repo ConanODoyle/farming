@@ -18,7 +18,7 @@ function pickRandomEvent(%obj, %rand)
 			break;
 
 		case "sSeedS":
-			%seed = getRandomSeedType("Basic");
+			%seed = getRandomSeedType("Special");
 			%seedSelling = 1;
 			break;
 
