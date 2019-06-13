@@ -8,6 +8,7 @@ exec("./botDeals/server.cs");
 exec("./processors/server.cs");
 exec("./playerShops/server.cs");
 exec("./experienceContent/server.cs");
+exec("./weedKiller/server.cs");
 
 exec("./chatFilter.cs");
 exec("./chestScore.cs");

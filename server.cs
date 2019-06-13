@@ -33,6 +33,7 @@ exec("./util/shortcuts.cs");
 exec("./util/stackTypeCheck.cs");
 exec("./util/strLastPos.cs");
 exec("./util/stuck.cs");
+exec("./util/timeConv.cs");
 exec("./util/world.cs");
 
 echo("");
