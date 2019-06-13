@@ -103,10 +103,10 @@ $Stackable_WeedKiller_StackedItemTotal = 3;
 
 datablock ItemData(WeedKiller0Item : HammerItem)
 {
-	shapeFile = "./resources/fertilizerBag0.dts";
+	shapeFile = "./resources/WeedKillerItem.dts";
 	uiName = "Weed Killer Bottle";
 	image = "WeedKiller0Image";
-	colorShiftColor = "0.5 0.3 0 1";
+	colorShiftColor = "1 1 1 1";
 	doColorShift = true;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/Fertilizer_Bag";
@@ -117,7 +117,7 @@ datablock ItemData(WeedKiller0Item : HammerItem)
 
 datablock ShapeBaseImageData(WeedKiller0Image)
 {
-	shapeFile = "./resources/REPLACEME.dts";
+	shapeFile = "./resources/WeedKillerImage.dts";
 	emap = true;
 
 	doColorShift = true;
@@ -166,7 +166,7 @@ datablock ShapeBaseImageData(WeedKiller0Image)
 
 datablock ItemData(WeedKiller1Item : WeedKiller0Item)
 {
-	shapeFile = "./resources/REPLACEME.dts";
+	shapeFile = "./resources/WeedKillerItem.dts";
 	image = "WeedKiller1Image";
 	uiName = "Half Weed Killer Bottle";
 
@@ -175,13 +175,13 @@ datablock ItemData(WeedKiller1Item : WeedKiller0Item)
 
 datablock ShapeBaseImageData(WeedKiller1Image : WeedKiller0Image)
 {
-	shapeFile = "./resources/REPLACEME.dts";
+	shapeFile = "./resources/WeedKillerImage.dts";
 	item = "WeedKiller1Item";
 };
 
 datablock ItemData(WeedKiller2Item : WeedKiller0Item)
 {
-	shapeFile = "./resources/REPLACEME.dts";
+	shapeFile = "./resources/WeedKillerItem.dts";
 	image = "WeedKiller2Image";
 	uiName = "Full Weed Killer Bottle";
 
@@ -190,7 +190,7 @@ datablock ItemData(WeedKiller2Item : WeedKiller0Item)
 
 datablock ShapeBaseImageData(WeedKiller2Image : WeedKiller0Image)
 {
-	shapeFile = "./resources/fertilizerBag2.dts";
+	shapeFile = "./resources/WeedKillerImage.dts";
 	item = "WeedKiller2Item";
 };
 
