@@ -49,7 +49,7 @@ function killWeeds(%img, %obj, %slot)
 
 		%ticksAdded = mFloor(%img.weedRepelBaseDuration * mPow(weedRepelDiminishFactor, %brick.weedImmunityTicks/%img.weedRepelBaseDuration));
 		%brick.weedImmunityTicks += %ticksAdded;
-		%obj.client.centerprint("<color:ffffff>You added <color:ffff00> " @ convTime(%ticksAdded * $WeedTickLength) @ " <color:ffffff>of weed killer!");
+		%obj.client.centerprint("\c6You added \c2" @ convTime(%ticksAdded * $WeedTickLength) @ "\c6 of weed killer!", 1);
 	}
 
 	// de-weeded, update the item
@@ -89,7 +89,7 @@ function killWeeds(%img, %obj, %slot)
 
 	if (isObject(%cl))
 	{
-		%cl.centerprint("<color:ffff00>-Weed Killer Bottle " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<color:ffff00>-Weed Killer " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
 	}
 }
 
@@ -104,7 +104,7 @@ $Stackable_WeedKiller_StackedItemTotal = 3;
 datablock ItemData(WeedKiller0Item : HammerItem)
 {
 	shapeFile = "./resources/WeedKillerItem.dts";
-	uiName = "Weed Killer Bottle";
+	uiName = "Weed Killer";
 	image = "WeedKiller0Image";
 	colorShiftColor = "1 1 1 1";
 	doColorShift = true;
@@ -132,7 +132,6 @@ datablock ShapeBaseImageData(WeedKiller0Image)
 	toolTip = "Kill weeds, prevent them for a set time";
 
 	weedRepelBaseDuration = 9091; // ticks - 10 minutes @ 66ms/tick
-	weedRepelMaxDuration = 159091; // ticks
 	weedRepelDiminishFactor = 0.5; // amount to diminish returns by per base duration
 	// so for example: we have 9091 ticks left of repellent on our dirt
 	// we use the weedkiller
@@ -168,7 +167,7 @@ datablock ItemData(WeedKiller1Item : WeedKiller0Item)
 {
 	shapeFile = "./resources/WeedKillerItem.dts";
 	image = "WeedKiller1Image";
-	uiName = "Half Weed Killer Bottle";
+	uiName = "Half Weed Killer";
 
 	iconName = "Add-ons/Server_Farming/crops/icons/Fertilizer_Bag_Half";
 };
@@ -183,7 +182,7 @@ datablock ItemData(WeedKiller2Item : WeedKiller0Item)
 {
 	shapeFile = "./resources/WeedKillerItem.dts";
 	image = "WeedKiller2Image";
-	uiName = "Full Weed Killer Bottle";
+	uiName = "Full Weed Killer";
 
 	iconName = "Add-ons/Server_Farming/crops/icons/Fertilizer_Bag_Full";
 };
@@ -236,6 +235,6 @@ function fertilizerLoop(%image, %obj)
 
 	if (isObject(%cl))
 	{
-		%cl.centerprint("<color:ffff00>-Weed Killer Bottle " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<color:ffff00>-Weed Killer " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
 	}
 }
