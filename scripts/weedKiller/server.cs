@@ -22,23 +22,26 @@ function killWeeds(%img, %obj, %slot)
 
 	if (%brick.getDatablock().isDirt)
 	{
-		%numGrown = 0;
-		%numCrops = 0;
-		for (%i = 0; %i < %brick.getNumUpBricks(); %i++)
+		%numWeeds = 0;
+		%upBrickCount = %brick.getNumUpBricks();
+		for (%i = 0; %i < %upBrickCount; %i++)
 		{
-			%crop = %brick.getUpBrick(%i);
-
-			if (!%crop.getDatablock().isWeed)
+			%checkBrick = %brick.getUpBrick(%i);
+			if (%checkBrick.getDatablock().isWeed)
 			{
-				continue;
+				%weed[%numWeeds] = %checkBrick;
+				%numWeeds++;
 			}
+		}
 
-			%hitloc = %crop.getPosition();
+		for (%i = 0; %i < %numWeeds; %i++)
+		{
+			%hitloc = %weed[%i].getPosition();
 			%p = new Projectile() { dataBlock = PushBroomProjectile; initialPosition = %hitloc; }; // replace this with a nicer emitter
 			%p.setScale("0.5 0.5 0.5");
 			%p.explode();
 
-			%crop.delete();
+			%weed[%i].delete();
 		}
 	}
 
@@ -86,11 +89,6 @@ function killWeeds(%img, %obj, %slot)
 	%type = %item.stackType;
 	%cl = %obj.client;
 	%count = %obj.toolStackCount[%obj.currTool];
-
-	if (isObject(%cl))
-	{
-		%cl.centerprint("<color:ffff00>-Weed Killer " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
-	}
 }
 
 ////////
@@ -131,7 +129,7 @@ datablock ShapeBaseImageData(WeedKiller0Image)
 
 	toolTip = "Kill weeds, prevent them for a set time";
 
-	weedRepelBaseDuration = 9091; // ticks - 10 minutes @ 66ms/tick
+	weedRepelBaseDuration = 120; // ticks - 10 minutes @ 66ms/tick
 	weedRepelDiminishFactor = 0.5; // amount to diminish returns by per base duration
 	// so for example: we have 9091 ticks left of repellent on our dirt
 	// we use the weedkiller
@@ -226,7 +224,7 @@ function WeedKiller2Image::onLoop(%this, %obj, %slot)
 	weedKillerLoop(%this, %obj);
 }
 
-function fertilizerLoop(%image, %obj)
+function weedKillerLoop(%image, %obj)
 {
 	%item = %image.item;
 	%type = %item.stackType;
