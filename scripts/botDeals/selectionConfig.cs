@@ -12,6 +12,7 @@ $ItemList_All_[$ItemCount_All++ - 1]  = "SickleItem" TAB      35;
 $ItemList_All_[$ItemCount_All++ - 1]  = "PlanterItem" TAB     25;
 $ItemList_All_[$ItemCount_All++ - 1]  = "PlanterV2Item" TAB   15;
 $ItemList_All_[$ItemCount_All++ - 1]  = "ReclaimerItem" TAB   20;
+$ItemList_All_[$ItemCount_All++ - 1]  = "WeedKiller0Item" TAB   20;
 $ItemList_All_[$ItemCount_All++ - 1]  = "FlowerPotItem" TAB   20;
 $ItemList_All_[$ItemCount_All++ - 1]  = "CompostBinItem" TAB   20;
 $ItemList_All_[$ItemCount_All++ - 1]  = "WateringCatItem" TAB   5;
@@ -25,6 +26,7 @@ $ItemList_Tools_[$ItemCount_Tools++ - 1]  = "SickleItem" TAB      35;
 $ItemList_Tools_[$ItemCount_Tools++ - 1]  = "PlanterItem" TAB     25;
 $ItemList_Tools_[$ItemCount_Tools++ - 1]  = "PlanterV2Item" TAB   15;
 $ItemList_Tools_[$ItemCount_Tools++ - 1]  = "ReclaimerItem" TAB   20;
+$ItemList_Tools_[$ItemCount_Tools++ - 1]  = "WeedKiller0Item" TAB   20;
 
 
 $ItemCount_Water = 0;

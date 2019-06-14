@@ -341,7 +341,7 @@ function serverCmdBuyLot(%cl)
 	{
 		if (!%hit.getDatablock().isSingle)
 		{
-			%cost = %cost SPC ", 100 EXP";
+			%cost = %cost @ ", 100 EXP";
 		}
 		messageClient(%cl, '', "You cannot afford this lot! (Cost: $" @ %cost @ ")");
 

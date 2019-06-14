@@ -14,7 +14,7 @@ function Player::sacrificeKill(%pl, %modifier, %max, %announcement)
 			}
 			else if (%pl.tool[%i].cost > 0)
 			{
-				%totalCost += %pl.tool[%i].cost / 3 * 2;
+				%totalCost += %pl.tool[%i].cost / 2;
 				%pl.tool[%i] = "";
 			}
 		}
@@ -25,7 +25,7 @@ function Player::sacrificeKill(%pl, %modifier, %max, %announcement)
 			messageAll('', %prefix @ " \c3" @ %cl.name @ "\c6 has sacrificed themself for \c3" @ %exp @ " \c6experience...");
 		else
 			if (strLen(%announcement = trim(%announcement)) > 0)
-				messageAll('', %prefix @ "\c3" @ %cl.name @ "\c6" @ %announcement);
+				messageAll('', %prefix @ "\c3" @ %cl.name @ "\c6 " @ %announcement);
 			else
 				messageAll('', %prefix @ " \c3" @ %cl.name @ "\c6 has sacrificed themself to the volcano god...");
 	}

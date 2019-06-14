@@ -94,9 +94,9 @@ function killWeeds(%img, %obj, %slot)
 ////////
 //Item//
 ////////
-$Stackable_WeedKiller_StackedItem0 = "WeedKiller0Item 40";
-$Stackable_WeedKiller_StackedItem1 = "WeedKiller1Item 80";
-$Stackable_WeedKiller_StackedItem2 = "WeedKiller2Item 120"; // TODO: change these numbers as appropriate
+$Stackable_WeedKiller_StackedItem0 = "WeedKiller0Item 10";
+$Stackable_WeedKiller_StackedItem1 = "WeedKiller1Item 20";
+$Stackable_WeedKiller_StackedItem2 = "WeedKiller2Item 30";
 $Stackable_WeedKiller_StackedItemTotal = 3;
 
 datablock ItemData(WeedKiller0Item : HammerItem)
