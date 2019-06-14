@@ -75,6 +75,7 @@ $Produce::BuyCost_["RoseSeed"] = 1.00;
 //Extra stackable items
 
 $Produce::BuyCost_["Fertilizer"] = 1.60;
+$Produce::BuyCost_["WeedKiller"] = 5.00;
 
 
 // Storage
