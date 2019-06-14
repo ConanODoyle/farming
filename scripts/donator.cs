@@ -20,6 +20,7 @@ $isDonator_["20061"] 	= 1 TAB "Cavik";
 $isDonator_["378"] 		= 1 TAB "Sylvanor";
 $isDonator_["49865"] 	= 1 TAB "Jasa";
 $isDonator_["14516"] 	= 1 TAB "ExecPaper";
+$isDonator_["36965"] 	= 1 TAB "Element";
 $isDonator_["12027"] 	= 1 TAB "Sentry";
 $isDonator_["23751"] 	= 1 TAB "Shy_Guy";
 $isDonator_["3306"] 	= 1 TAB "Mr.LoL";
@@ -78,7 +79,7 @@ function applyDonatorSettings(%cl)
 	%cl.canWearHats = 1;
 	%cl.canRefreshDeal = 1;
 
-	if (%cl.name !$= "The Titanium" || %cl.name $= "Conan")
+	if (%cl.name !$= "The Titanium" && %cl.name !$= "Conan")
 	{
 		%cl.isDonator = 1;
 		%cl.nameColor = "0.95 0.85 0";
