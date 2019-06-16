@@ -48,8 +48,7 @@ function compostTick(%index)
 		return;
 	}
 
-	%max = 16;
-	for (%i = 0; %i < %max; %i++)
+	for (%i = 0; %i < %count; %i++)
 	{
 		if (%index + %i >= %count)
 		{
