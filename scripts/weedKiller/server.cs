@@ -51,6 +51,7 @@ function killWeeds(%img, %obj, %slot)
 		%brick.fertilizerWeedModifier = 0;
 
 		%ticksAdded = mFloor(%img.weedRepelBaseDuration * mPow(weedRepelDiminishFactor, %brick.weedImmunityTicks/%img.weedRepelBaseDuration));
+		%ticksAdded = getMin(%ticksAdded, %img.weedRepelBaseDuration * 1.75 - %brick.weedImmunityTicks);
 		%brick.weedImmunityTicks += %ticksAdded;
 		%obj.client.centerprint("\c6You added \c2" @ convTime(%ticksAdded * $WeedTickLength) @ "\c6 of weed killer!", 1);
 	}
@@ -130,7 +131,7 @@ datablock ShapeBaseImageData(WeedKiller0Image)
 
 	toolTip = "Kill weeds, prevent them for a set time";
 
-	weedRepelBaseDuration = 120; // ticks - 10 minutes @ 66ms/tick
+	weedRepelBaseDuration = 720; // ticks - 10 minutes @ 66ms/tick
 	weedRepelDiminishFactor = 0.5; // amount to diminish returns by per base duration
 	// so for example: we have 9091 ticks left of repellent on our dirt
 	// we use the weedkiller

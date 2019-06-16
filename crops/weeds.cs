@@ -20,7 +20,7 @@ function weedTick(%index)
 			break;
 		}
 		%brick = RainFillSimSet.getObject(%index - %i);
-		
+
 
 		if (%brick.getDatablock().isDirt && %brick.getGroup().bl_id != 888888 && %brick.nextWeedCheck < $Sim::Time)
 		{
@@ -47,6 +47,15 @@ function generateWeed(%brick)
 
 	%rand = getRandom();
 	%chance = $WeedBaseChance + ($WeedFertModifier * %brick.fertilizerWeedModifier);
+
+	if ($rainTicksLeft > 0)
+	{
+	    %chance *= $WeedWeatherFactor;
+	}
+	else if ($heatWaveTicksLeft > 0)
+	{
+	    %chance /= $WeedWeatherFactor;
+	}
 
 	if (%rand > %chance)
 	{

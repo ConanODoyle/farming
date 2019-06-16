@@ -12,6 +12,7 @@ $WeedBaseChance = 0.003;
 $WeedFertModifier = 0.00005;
 $WeedTickLength = 5;
 $WeedSearchRadius = 1;
+$WeedWeatherFactor = 2;
 
 // Dirt colors
 $DirtWaterColor0 = 54;
