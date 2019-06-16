@@ -338,6 +338,11 @@ function waterCanFire(%this, %obj, %slot)
 	%obj.lastWater = $Sim::Time;
 }
 
+function serverCmdTopCombo(%cl)
+{
+	%cl.chatmessage("\c6<bitmap:base/client/ui/ci/star> The longest watering combo is \c3" @ $maxWaterCombo @ "\c6!");
+}
+
 package ClickToSeeWater
 {
 	function Player::activateStuff(%obj)
