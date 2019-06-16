@@ -50,7 +50,7 @@ function killWeeds(%img, %obj, %slot)
 	{
 		%brick.fertilizerWeedModifier = 0;
 
-		%ticksAdded = mFloor(%img.weedRepelBaseDuration * mPow(weedRepelDiminishFactor, %brick.weedImmunityTicks/%img.weedRepelBaseDuration));
+		%ticksAdded = mFloor(%img.weedRepelBaseDuration * mPow(%img.weedRepelDiminishFactor, %brick.weedImmunityTicks/%img.weedRepelBaseDuration));
 		%ticksAdded = getMin(%ticksAdded, %img.weedRepelBaseDuration * 1.75 - %brick.weedImmunityTicks);
 		%brick.weedImmunityTicks += %ticksAdded;
 		%obj.client.centerprint("\c6You added \c2" @ convTime(%ticksAdded * $WeedTickLength) @ "\c6 of weed killer!", 1);
