@@ -53,7 +53,8 @@ function killWeeds(%img, %obj, %slot)
 		%ticksAdded = mFloor(%img.weedRepelBaseDuration * mPow(%img.weedRepelDiminishFactor, %brick.weedImmunityTicks/%img.weedRepelBaseDuration));
 		%ticksAdded = getMin(%ticksAdded, %img.weedRepelBaseDuration * 1.75 - %brick.weedImmunityTicks);
 		%brick.weedImmunityTicks += %ticksAdded;
-		%obj.client.centerprint("\c6You added \c2" @ convTime(%ticksAdded * $WeedTickLength) @ "\c6 of weed killer!", 1);
+		%obj.client.centerprint("\c6You added \c2" @ convTime(%ticksAdded * $WeedTickLength) @ "\c6 of weed killer\nfor a total of \c3" @ convTime(%brick.weedImmunityTicks * 5) @ "\c6!", 1);
+		%obj.client.schedule(50, centerprint, "\c6You added \c2" @ convTime(%ticksAdded * $WeedTickLength) @ "\c6 of weed killer\nfor a total of \c3" @ convTime(%brick.weedImmunityTicks * 5) @ "\c6!", 1);
 	}
 
 	// de-weeded, update the item
