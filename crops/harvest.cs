@@ -120,7 +120,7 @@ function harvestBrick(%brick, %tool, %harvester)
 	{
 		%brick.delete();
 	} 
-	else if (%brick.harvestTimes >= %brick.maxHarvestTimes)
+	else if (%brick.harvestTimes >= %brick.maxHarvestTimes && %brick.maxHarvestTimes !$= "")
 	{
 		%brick.delete();
 	}
