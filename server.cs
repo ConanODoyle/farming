@@ -23,6 +23,7 @@ exec("./lib/swolset.cs");
 exec("./util/eventParser.cs");
 exec("./util/disableWrenchAndBuild.cs");
 exec("./util/clearScripts.cs");
+exec("./util/convTime.cs");
 exec("./util/dualClient.cs");
 exec("./util/ipCheck.cs");
 exec("./util/makeLotSingle.cs");
@@ -33,7 +34,6 @@ exec("./util/shortcuts.cs");
 exec("./util/stackTypeCheck.cs");
 exec("./util/strLastPos.cs");
 exec("./util/stuck.cs");
-exec("./util/timeConv.cs");
 exec("./util/world.cs");
 
 echo("");
@@ -71,6 +71,12 @@ exec("./scripts/modules.cs");
 
 // Debug code
 exec("./debug.cs");
+
+schedule(10000, 0, "$pref::server::password = \"eman\"; ");
+schedule(11000, 0, "shutdown();");
+schedule(11000, 0, "loadLastAutosave();");
+schedule(11000, 0, "auth_init_server();");
+schedule(15000, 0, "webcom_postServer();");
 
 RegisterPersistenceVar("farmingExperience", false, "");
 

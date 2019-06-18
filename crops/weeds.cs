@@ -62,8 +62,8 @@ function generateWeed(%brick)
 	%small = getWords(%box, 0, 2);
 	%large = getWords(%box, 3, 5);
 
-	%xRange = getWord(%large, 0) * 2 - getWord(%small, 0) * 2;
-	%yRange = getWord(%large, 1) * 2 - getWord(%small, 1) * 2;
+	%xRange = getWord(%large, 0) * 2 - getWord(%small, 0) * 2 - 0.5;
+	%yRange = getWord(%large, 1) * 2 - getWord(%small, 1) * 2 - 0.5;
 	%z = getWord(%large, 2);
 
 	%xRand = getRandom(%xRange) / 2;
@@ -71,6 +71,9 @@ function generateWeed(%brick)
 
 	%pos = getWord(%small, 0) + %xRand SPC getWord(%small, 1) + %yRand SPC %z + %zOffset;
 
+	%end = %pos;
+	%start = vectorAdd(%pos, "0 0 5");
+	%pos = getWords(containerRaycast(%start, %end, $Typemasks::fxBrickAlwaysObjectType), 1, 3);
 
 	//attempt placement
 	%b = new fxDTSBrick()
@@ -86,7 +89,7 @@ function generateWeed(%brick)
 	if (%error > 0 || %error $= "")
 	{
 		%b.delete();
-		%brick.fertilizerWeedModifier -= 0.1;
+		%brick.fertilizerWeedModifier += 100;
 		%brick.fertilizerWeedModifier = getMax(%brick.fertilizerWeedModifier, 0);
 		return;
 	}

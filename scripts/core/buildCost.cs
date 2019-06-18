@@ -92,7 +92,7 @@ function messageDeductedMoney(%cl)
 
 function sellObject(%b)
 {
-	if (%b.sold)
+	if (%b.sold || !isEventPending($masterGrowSchedule))
 	{
 		return;
 	}

@@ -30,6 +30,7 @@ $isDonator_["3898"] 	= 1 TAB "The Titanium (Donator but only wants join/reroll p
 $isDonator_["33688"] 	= 1 TAB "Redconer";
 $isDonator_["5518"] 	= 1 TAB "L";
 $isDonator_["27312"] 	= 1 TAB "FlavouredGames";
+$isDonator_["26135"]	= 1 TAB "dahscout";
 
 $isBetaTester_["30881"] 	= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"] 	= 1 TAB "Queuenard";

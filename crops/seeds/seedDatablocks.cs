@@ -33,7 +33,8 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 {
 	%cropType = %image.cropType;
 	%expRequirement = $Farming::Crops::PlantData_[%cropType, "experienceRequired"];
-	if (%obj.client.farmingExperience < %expRequirement)
+	%expCost = $Farming::Crops::PlantData_[%cropType, "experienceCost"];
+	if (%obj.client.farmingExperience < %expCost)
 	{
 		%obj.client.centerprint("You don't have enough experience to plant this crop!", 3);
 		return 0;
@@ -204,7 +205,6 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 	%error = %b.plant();
 	if (%error > 0 || %error $= "")
 	{
-		talk(%error);
 		%b.delete();
 
 		%b = new fxDTSBrick()

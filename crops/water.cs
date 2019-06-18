@@ -261,103 +261,109 @@ datablock AudioProfile(waterCanLotsSound : exitWaterSound)
 
 function waterCanFire(%this, %obj, %slot)
 {
-	%obj.playThread(0, plant);
+    %obj.playThread(0, plant);
 
-	%start = %obj.getEyeTransform();
-	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), getMax(4, %this.waterRange)));
-	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
+    %start = %obj.getEyeTransform();
+    %end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), getMax(4, %this.waterRange)));
+    %ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
 
-	if (isObject(%hit = getWord(%ray, 0)))
-	{
-		%db = %hit.getDatablock();
+    if (isObject(%hit = getWord(%ray, 0)))
+    {
+        %db = %hit.getDatablock();
 
-		if (%db.isPlant)
-		{
-			%start = %hit.getPosition();
-			%end = vectorAdd(%start, "0 0 -10");
-			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType, %hit), 0);
-			%db = %hit.getDatablock();
-		}
+        if (%db.isPlant)
+        {
+            %start = %hit.getPosition();
+            %end = vectorAdd(%start, "0 0 -10");
+            %hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType, %hit), 0);
+            %db = %hit.getDatablock();
+        }
 
-		if (%db.isDirt || %db.isWaterTank)
-		{
-			if (%db.isWaterTank)
-			{
-				if (%this.tankRatio > 0)
-				{
-					%amt = mFloor(%db.maxWater * %this.tankRatio);
-				}
+        if (%db.isDirt || %db.isWaterTank)
+        {
+            if (%db.isWaterTank)
+            {
+                if (%this.tankRatio > 0)
+                {
+                    %amt = mFloor(%db.maxWater * %this.tankRatio);
+                }
 
-				if (%amt < %this.waterAmount * getMax(%this.tankBonus, 1))
-				{
-					%amt = %this.waterAmount * getMax(%this.tankBonus, 1);
-				}
-			}
-			else
-			{
-				%amt = %this.waterAmount;
-			}
+                if (%amt < %this.waterAmount * getMax(%this.tankBonus, 1))
+                {
+                    %amt = %this.waterAmount * getMax(%this.tankBonus, 1);
+                }
+            }
+            else
+            {
+                %amt = %this.waterAmount;
+            }
 
-			if (%amt < 40)
-			{
-				serverPlay3D(waterCanSound, %obj.getMuzzlePoint(%slot));
-			}
-			else
-			{
-				serverPlay3D(waterCanLotsSound, %obj.getMuzzlePoint(%slot));
-			}
+            if (%amt < 40)
+            {
+                serverPlay3D(waterCanSound, %obj.getMuzzlePoint(%slot));
+            }
+            else
+            {
+                serverPlay3D(waterCanLotsSound, %obj.getMuzzlePoint(%slot));
+            }
 
-			%pre = %hit.waterLevel;
-			%hit.setWaterLevel(%hit.waterLevel + %amt);
-			%post = %hit.waterLevel;
-			%dispensed = %post - %pre;
-			%waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
-			%obj.client.centerprint("<color:ffffff>Watering... (+" @ %dispensed @ "/" @ %amt @ ") <br>" @ %waterLevel @ " ", 1);
-			%obj.client.schedule(50, centerprint, "<color:cccccc>Watering... (+" @ %dispensed @ "/" @ %amt @ ") <br>" @ %waterLevel @ " ", 1);
-		}
-	}
+            %pre = %hit.waterLevel;
+            %hit.setWaterLevel(%hit.waterLevel + %amt);
+            %post = %hit.waterLevel;
+            %dispensed = %post - %pre;
+            %waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
+            if (%obj.waterCount >= 100)
+            {
+                %waterLevel = %waterLevel @ " <just:right>\c2Combo: " @ %obj.waterCount;
+            }
+            %obj.client.centerprint("<color:ffffff>Watering... (+" @ %dispensed @ "/" @ %amt @ ") <br>" @ %waterLevel @ " ", 1);
+            %obj.client.schedule(50, centerprint, "<color:cccccc>Watering... (+" @ %dispensed @ "/" @ %amt @ ") <br>" @ %waterLevel @ " ", 1);
+        }
+    }
 
-	if ($Sim::Time - %obj.lastWater < 1)
-	{
-		%obj.waterCount++;
-	}
-	else
-	{
-		%obj.waterCount = 0;
-	}
+    if ($Sim::Time - %obj.lastWater < 1)
+    {
+        %obj.waterCount++;
+    }
+    else
+    {
+        if (%obj.waterCount > $maxWaterCombo)
+        {
+            announce("<bitmap:base/client/ui/ci/star>\c3" @ %obj.client.name @ "\c6 set a new watering combo count of \c3" @ %obj.waterCount @ "\c6!");
+            $maxWaterCombo = %obj.waterCount;
+        }
+        %obj.waterCount = 0;
+    }
 
-	if (%obj.waterCount > 150)
-	{
-		serverCmdUnuseTool(%obj.client);
-		messageClient(%obj.client, '', "You got tired of watering!");
-		%obj.setTransform(getWords(%obj.getTransform(), 0, 5) SPC getWord(%obj.getTransform, 6) + $pi);
-		%obj.waterCount = 0;
-		%obj.lastWater = 0;
-	}
-
-	%obj.lastWater = $Sim::Time;
+    %obj.lastWater = $Sim::Time;
 }
 
 package ClickToSeeWater
 {
-	function Player::activateStuff(%obj)
-	{
-		if (isObject(%cl = %obj.client))
-		{
-			%start = %obj.getEyeTransform();
-			%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
-			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
-			if (isObject(%hit) && ((%db = %hit.getDatablock()).isDirt || %db.isWaterTank))
-			{
-			// 	%waterLevel = mCeil(%hit.waterLevel / %hit.getDatablock().maxWater * 100) @ "%";
-				%waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
-				%cl.centerprint("<color:ffffff>Water Level: " @ %waterLevel @ " ", 1);
-				%cl.schedule(50, centerprint, "<color:cccccc>Water Level: " @ %waterLevel @ " ", 1);
-			}
-		}
+    function Player::activateStuff(%obj)
+    {
+        if (isObject(%cl = %obj.client))
+        {
+            %start = %obj.getEyeTransform();
+            %end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
+            %hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
+            if (isObject(%hit) && ((%db = %hit.getDatablock()).isDirt || %db.isWaterTank))
+            {
+            //  %waterLevel = mCeil(%hit.waterLevel / %hit.getDatablock().maxWater * 100) @ "%";
+                %waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
+                %weedKillerTime = getTimeString(%hit.weedImmunityTicks * $WeedTickLength);
+                if (%weedKillerTime > 0)
+                {
+                    %weedKillerStr = "<br><color:ffffff>Weedkill time: " @ %weedKillerTime;
+                    %weedKillerEndStr = "<br><color:cccccc>Weedkill time: " @ %weedKillerTime;
+                }
+                %cl.centerprint("<color:ffffff>Water Level: " @ %waterLevel @ " " @ %weedKillerStr, 1);
+                %cl.schedule(50, centerprint, "<color:cccccc>Water Level: " @ %waterLevel @ " " @ %weedKillerEndStr, 1);
+            }
+        }
 
-		return parent::activateStuff(%obj);
-	}
+        return parent::activateStuff(%obj);
+    }
 };
 activatePackage(ClickToSeeWater);
 
