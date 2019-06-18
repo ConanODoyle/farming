@@ -4,92 +4,95 @@
 
 function killWeeds(%img, %obj, %slot)
 {
-    %obj.playThread(0, plant);
+	%obj.playThread(0, plant);
 
-    %start = %obj.getEyePoint();
-    %end = vectorAdd(vectorScale(%obj.getEyeVector(), 4), %start);
-    %ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
-    %brick = getWord(%ray, 0);
+	%start = %obj.getEyePoint();
+	%end = vectorAdd(vectorScale(%obj.getEyeVector(), 4), %start);
+	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
+	%brick = getWord(%ray, 0);
 
-    if (%brick.getDatablock().isPlant)
-    {
-        %brick = %brick.getDownBrick(0);
-    }
+	if (%brick.getDatablock().isPlant)
+	{
+		%brick = %brick.getDownBrick(0);
+	}
 
-    if (!isObject(%brick) || !%brick.getDatablock().isDirt)
-    {
-        return;
-    }
+	if (!isObject(%brick) || !%brick.getDatablock().isDirt)
+	{
+		return;
+	}
 
-    if (%brick.getDatablock().isDirt)
-    {
-        %numWeeds = 0;
-        %upBrickCount = %brick.getNumUpBricks();
-        for (%i = 0; %i < %upBrickCount; %i++)
-        {
-            %checkBrick = %brick.getUpBrick(%i);
-            if (%checkBrick.getDatablock().isWeed)
-            {
-                %weed[%numWeeds] = %checkBrick;
-                %numWeeds++;
-            }
-        }
+	if (%brick.getDatablock().isDirt)
+	{
+		%numWeeds = 0;
+		%upBrickCount = %brick.getNumUpBricks();
+		for (%i = 0; %i < %upBrickCount; %i++)
+		{
+			%checkBrick = %brick.getUpBrick(%i);
+			if (%checkBrick.getDatablock().isWeed)
+			{
+				%weed[%numWeeds] = %checkBrick;
+				%numWeeds++;
+			}
+		}
 
-        for (%i = 0; %i < %numWeeds; %i++)
-        {
-            %hitloc = %weed[%i].getPosition();
-            %p = new Projectile() { dataBlock = PushBroomProjectile; initialPosition = %hitloc; }; // replace this with a nicer emitter
-            %p.setScale("0.5 0.5 0.5");
-            %p.explode();
+		for (%i = 0; %i < %numWeeds; %i++)
+		{
+			%hitloc = %weed[%i].getPosition();
+			%p = new Projectile() { dataBlock = PushBroomProjectile; initialPosition = %hitloc; }; // replace this with a nicer emitter
+			%p.setScale("0.5 0.5 0.5");
+			%p.explode();
 
-            %weed[%i].delete();
-        }
-    }
+			%weed[%i].delete();
+		}
+	}
 
-    // set weed chance on the dirt to 0
-    if (%brick.getDatablock().isDirt)
-    {
-        %brick.fertilizerWeedModifier = 0;
+	// set weed chance on the dirt to 0
+	if (%brick.getDatablock().isDirt)
+	{
+		%brick.fertilizerWeedModifier = 0;
 
-        %ticksAdded = mFloor(%img.weedRepelBaseDuration * mPow(weedRepelDiminishFactor, %brick.weedImmunityTicks/%img.weedRepelBaseDuration));
-        %brick.weedImmunityTicks += %ticksAdded;
-        messageClient(%obj.client, '', "\c6You added \c2" @ getTimeString(%ticksAdded * $WeedTickLength) @ "\c6 of weed killer!", 1);
-    }
+		%ticksAdded = mFloor(%img.weedRepelBaseDuration * mPow(%img.weedRepelDiminishFactor, %brick.weedImmunityTicks/%img.weedRepelBaseDuration));
+		%ticksAdded = getMin(%ticksAdded, %img.weedRepelBaseDuration * 1.75 - %brick.weedImmunityTicks);
+		%brick.weedImmunityTicks += %ticksAdded;
+		%obj.client.centerprint("\c6You added \c2" @ convTime(%ticksAdded * $WeedTickLength) @ "\c6 of weed killer\nfor a total of \c3" @ convTime(%brick.weedImmunityTicks * 5) @ "\c6!", 1);
+		%obj.client.schedule(50, centerprint, "\c6You added \c2" @ convTime(%ticksAdded * $WeedTickLength) @ "\c6 of weed killer\nfor a total of \c3" @ convTime(%brick.weedImmunityTicks * 5) @ "\c6!", 1);
+	}
 
-    // de-weeded, update the item
+	// de-weeded, update the item
 
-    %count = %obj.toolStackCount[%obj.currTool]--;
-    %slot = %obj.currTool; // why do we do this? %slot doesn't get changed, does it?
-    %type = %obj.tool[%slot].stackType; //earlier it was set to the croptype of the brick
-    if (%count <= 0) //no more seeds left, clear the item slot
-    {
-        messageClient(%obj.client, 'MsgItemPickup', '', %slot, 0);
-        %obj.tool[%slot] = "";
-        %obj.unmountImage(%imageSlot);
-        return %b;
-    }
+	%count = %obj.toolStackCount[%obj.currTool]--;
+	%slot = %obj.currTool; // why do we do this? %slot doesn't get changed, does it?
+	%type = %obj.tool[%slot].stackType; //earlier it was set to the croptype of the brick
+	if (%count <= 0) //no more seeds left, clear the item slot
+	{
+		messageClient(%obj.client, 'MsgItemPickup', '', %slot, 0);
+		%obj.tool[%slot] = "";
+		%obj.unmountImage(%imageSlot);
+		return %b;
+	}
 
-    //some seeds are left, update item if needed
-    for (%i = 0; %i < $Stackable_[%type, "stackedItemTotal"]; %i++)
-    {
-        %currPair = $Stackable_[%type, "stackedItem" @ %i];
-        // talk(%currPair);
-        if (%count <= getWord(%currPair, 1))
-        {
-            %bestItem = getWord(%currPair, 0);
-            break;
-        }
-    }
+	//some seeds are left, update item if needed
+	for (%i = 0; %i < $Stackable_[%type, "stackedItemTotal"]; %i++)
+	{
+		%currPair = $Stackable_[%type, "stackedItem" @ %i];
+		// talk(%currPair);
+		if (%count <= getWord(%currPair, 1))
+		{
+			%bestItem = getWord(%currPair, 0);
+			break;
+		}
+	}
 
-    messageClient(%obj.client, 'MsgItemPickup', '', %slot, %bestItem.getID());
-    %obj.tool[%slot] = %bestItem.getID();
-    %obj.mountImage(%imageSlot, %bestItem.image);
+	messageClient(%obj.client, 'MsgItemPickup', '', %slot, %bestItem.getID());
+	%obj.tool[%slot] = %bestItem.getID();
+	%obj.mountImage(%imageSlot, %bestItem.image);
 
 
-    %item = %img.item;
-    %type = %item.stackType;
-    %cl = %obj.client;
-    %count = %obj.toolStackCount[%obj.currTool];
+	%item = %img.item;
+	%type = %item.stackType;
+	%cl = %obj.client;
+	%count = %obj.toolStackCount[%obj.currTool];
+>>>>>>> 239860366b0cb6403da7533975195b405c2f85be
 }
 
 ////////
@@ -131,7 +134,7 @@ datablock ShapeBaseImageData(WeedKiller0Image)
 
 	toolTip = "Kill weeds, prevent them for a set time";
 
-	weedRepelBaseDuration = 120; // ticks - 10 minutes @ 66ms/tick
+	weedRepelBaseDuration = 720; // ticks - 10 minutes @ 66ms/tick
 	weedRepelDiminishFactor = 0.5; // amount to diminish returns by per base duration
 	// so for example: we have 9091 ticks left of repellent on our dirt
 	// we use the weedkiller

@@ -12,6 +12,7 @@ $WeedBaseChance = 0.003;
 $WeedFertModifier = 0.00005;
 $WeedTickLength = 5;
 $WeedSearchRadius = 1;
+$WeedWeatherFactor = 10;
 
 // Dirt colors
 $DirtWaterColor0 = 54;
@@ -118,6 +119,8 @@ $StorageMax_LilySeed = 48;
 
 $StorageMax_Fertilizer = 240;
 $StorageMax_SuperFertilizer = 60;
+
+$StorageMax_WeedKiller = 120;
 
 //Fertilizer production
 $FertCount_Potato = "12 16";
