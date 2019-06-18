@@ -207,13 +207,13 @@ function fxDTSBrick::updateShopMenus(%this, %str1, %str2, %str3, %str4)
 	}
 
 	%brickName = getSubStr(%this.getName(), 1, 64);
-	%money = getSubStr(%brickName, 0, strPos(%brickName, "_"));
+	%money = getSubStr(%brickName, 0, strPos(%brickName, "_")) / 10;
 	%lastTakenBy = trim(getSubStr(%brickName, strPos(%brickName, "_") + 1, 30));
 	if (%lastTakenBy $= "")
 	{
 		%lastTakenBy = "None";
 	}
-	%this.shopStorageMenu.menuOption[4] = "$" @ %money @ " - " @ %lastTakenBy;
+	%this.shopStorageMenu.menuOption[4] = "$" @ mFloatLength(%money, 2) @ " - " @ %lastTakenBy;
 
 	%this.updateShopDisplay();
 }
@@ -344,7 +344,7 @@ function removeMoney(%cl, %menu, %option)
 	%lastTakenBy = %cl.getPlayerName();
 	
 	%pre = %cl.score;
-	%cl.setScore(%cl.score + %money);
+	%cl.setScore(%cl.score + %money / 10);
 	%post = %cl.score;
 	%diff = %post - %pre;
 
@@ -379,7 +379,7 @@ function fxDTSBrick::storeMoney(%brick, %amount)
 		%lastTakenBy = "_None";
 	}
 	
-	%money = %money + %amount;
+	%money = %money + (%amount * 10);
 	%brick.settingName = 1;
 	// talk("M: " @ %money @ " name: " @ %cl.getPlayerName());
 	%brick.setNTObjectName(%money @ %lastTakenBy);
