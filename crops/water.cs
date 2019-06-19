@@ -327,11 +327,11 @@ function waterCanFire(%this, %obj, %slot)
     }
     else
     {
-        if (%obj.waterCount > $maxWaterCombo)
+        if (%obj.waterCount > $Pref::Server::maxWaterCombo)
         {
             announce("<bitmap:base/client/ui/ci/star>\c3" @ %obj.client.name @ "\c6 set a new watering combo count of \c3" @ %obj.waterCount @ "\c6!");
-            $maxWaterCombo = %obj.waterCount;
-        }
+            $Pref::Server::maxWaterCombo = %obj.waterCount SPC "(" @ %obj.client.name @ ")";
+        } 
         %obj.waterCount = 0;
     }
 
@@ -340,7 +340,7 @@ function waterCanFire(%this, %obj, %slot)
 
 function serverCmdTopCombo(%cl)
 {
-	%cl.chatmessage("\c6<bitmap:base/client/ui/ci/star> The longest watering combo is \c3" @ $maxWaterCombo @ "\c6!");
+	%cl.chatmessage("\c6<bitmap:base/client/ui/ci/star> The longest watering combo is \c3" @ $Pref::Server::maxWaterCombo @ "\c6!");
 }
 
 package ClickToSeeWater
