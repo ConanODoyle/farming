@@ -80,15 +80,14 @@ function generateWeed(%brick)
 
 	%pos = getWord(%small, 0) + %xRand SPC getWord(%small, 1) + %yRand SPC %z + %zOffset;
 
-	%end = %pos;
-	%start = vectorAdd(%pos, "0 0 5");
-	%pos = getWords(containerRaycast(%start, %end, $Typemasks::fxBrickAlwaysObjectType), 1, 3);
+	// %end = %pos;
+	// %start = vectorAdd(%pos, "0 0 5");
+	// %pos = getWords(containerRaycast(%start, %end, $Typemasks::fxBrickAlwaysObjectType), 1, 3);
 
 	//attempt placement
 	%b = new fxDTSBrick()
 	{
 		seedPlant = 1;
-		colorID = %brickDB.defaultColor + 0;
 		position = %pos;
 		isPlanted = 1;
 		dataBlock = brickWeed0CropData;
@@ -98,8 +97,8 @@ function generateWeed(%brick)
 	if (%error > 0 || %error $= "")
 	{
 		%b.delete();
-		%brick.fertilizerWeedModifier += 100;
-		%brick.fertilizerWeedModifier = getMax(%brick.fertilizerWeedModifier, 0);
+		%brick.fertilizerWeedModifier -= 1;
+		%brick.fertilizerWeedModifier = (%brick.fertilizerWeedModifier < 0 ? 0 : %brick.fertilizerWeedModifier);
 		return;
 	}
 
@@ -108,7 +107,7 @@ function generateWeed(%brick)
 	%b.setColliding(0);
 
 	%brick.fertilizerWeedModifier -= 10;
-	%brick.fertilizerWeedModifier = getMax(%brick.fertilizerWeedModifier, 0);
+	%brick.fertilizerWeedModifier = (%brick.fertilizerWeedModifier < 0 ? 0 : %brick.fertilizerWeedModifier);
 
 	%brick.getGroup().add(%b);
 
@@ -185,7 +184,7 @@ function getWeedTimeModifier(%plant)
 	}
 	// if (!%plant.getDatablock().isWeed)
 		// talk("Final: " @ %final);
-	%plant.weedList = trim(%final);
+	%plant.weedList = getSubStr(%final, 1, strLen(%final));
 
 	return %multiplier;
 }

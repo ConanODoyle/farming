@@ -124,7 +124,7 @@ function doGrowCalculations(%brick, %db)
 	if (%db.isWeed && %brick.nextWeedVictimSearch < $Sim::Time)
 	{
 		weedVictimSearch(%brick);
-		%brick.nextWeedVictimSearch = $Sim::Time + $WeedTickLength;
+		%brick.nextWeedVictimSearch = $Sim::Time + $WeedTickLength * 2;
 	}
 	else
 	{
@@ -235,11 +235,18 @@ function doGrowCalculations(%brick, %db)
 			if (%maxDryTicks > 0) //maximum dry ticks set, crop has death penalty for being dry
 			{
 				%brick.dryTicks++;
-				if (%brick.dryTicks >= %maxDryTicks && isObject(%dryGrow)) //its dead, jimbo
+				if (%brick.dryTicks >= %maxDryTicks) //its dead, jimbo
 				{
-					// talk("Death due to dryness	");
-					%brick.setDatablock(%dryGrow);
-					// RemovePlantSimSet.add(%brick);
+					if (isObject(%dryGrow))
+					{
+						// talk("Death due to dryness	");
+						%brick.setDatablock(%dryGrow);
+						// RemovePlantSimSet.add(%brick);
+					}
+					else
+					{
+						%brick.delete();
+					}
 				}
 			}
 			else //do nothing, crop has no death penalty for being dry, just doesn't grow
