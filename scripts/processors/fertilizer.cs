@@ -44,31 +44,31 @@ function compostTick(%index)
 	%count = CompostBinSimSet.getCount();
 	if (%count <= 0)
 	{
-		$masterCompostTickSchedule = schedule(100, 0, compostTick, 0);
+		$masterCompostTickSchedule = schedule(100, 0, compostTick, %index);
 		return;
 	}
 
 	for (%i = 0; %i < %count; %i++)
 	{
-		if (%index + %i >= %count)
+		if (%index >= %count)
 		{
 			break;
 		}
-		%brick = CompostBinSimSet.getObject(%i + %index);
+		%brick = CompostBinSimSet.getObject(%index);
 
 		if (%brick.nextCompostTime < $Sim::Time)
 		{
 			createFertilizer(%brick);
 		}
+		%index++;
 	}
-
 
 	if (%index >= %count)
 	{
 		%index = 0;
 	}
 
-	$masterCompostTickSchedule = schedule(100, 0, compostTick, 0);
+	$masterCompostTickSchedule = schedule(100, 0, compostTick, %index);
 }
 
 function fertilizeCrop(%img, %obj, %slot)
