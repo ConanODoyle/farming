@@ -80,7 +80,7 @@ function fertilizeCrop(%img, %obj, %slot)
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
 	%brick = getWord(%ray, 0);
 
-	if (%brick.getDatablock().isPlant && !%brick.getDatablock().isTree)
+	if (isObject(%brick) && %brick.getDatablock().isPlant && !%brick.getDatablock().isTree)
 	{
 		%brick = %brick.getDownBrick(0);
 	}
