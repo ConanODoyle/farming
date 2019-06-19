@@ -785,6 +785,10 @@ function clearLotRecursive(%lotBrick, %client)
 		
 		if (isContainedInBounds(%next.getPosition() TAB %next.getPosition(), %lotBounds))
 		{
+			if (%next.getDatablock().cost > 0)
+			{
+				sellObject(%next);
+			}
 			%next.delete();
 		}
 	}
