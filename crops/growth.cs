@@ -167,6 +167,12 @@ function doGrowCalculations(%brick, %db)
 		%greenhouseFound = 1;
 		%brick.greenhouseBonus = 1;
 		%tickTime = mFloor(%tickTime / 2);
+
+		if (%db.isWeed) //kill weeds in greenhouse
+		{
+			%brick.delete();
+			return;
+		}
 	}
 	else if (!isObject(%hit) || !%hit.getDatablock().isGreenhouse)
 	{
