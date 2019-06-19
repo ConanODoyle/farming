@@ -346,7 +346,7 @@ function removeMoney(%cl, %menu, %option)
 	%pre = %cl.score;
 	%cl.setScore(%cl.score + %money / 10);
 	%post = %cl.score;
-	%diff = %post - %pre;
+	%diff = (%post - %pre) * 10;
 
 	if (%diff <= 0)
 	{
@@ -358,7 +358,7 @@ function removeMoney(%cl, %menu, %option)
 	// talk("M: " @ %money @ " name: " @ %cl.getPlayerName());
 	%brick.setNTObjectName(%money SPC %cl.getPlayerName());
 
-	messageClient(%cl, '', "\c6You removed \c2$" @ %diff @ "\c6 from the cash register!");
+	messageClient(%cl, '', "\c6You removed \c2$" @ mFloatLength(%diff / 10, 2) @ "\c6 from the cash register!");
 
 	%brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
 }
