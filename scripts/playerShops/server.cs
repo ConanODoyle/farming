@@ -356,7 +356,7 @@ function removeMoney(%cl, %menu, %option)
 	%money = %money - %diff;
 	%brick.settingName = 1;
 	// talk("M: " @ %money @ " name: " @ %cl.getPlayerName());
-	%brick.setNTObjectName(%money SPC %cl.getPlayerName());
+	%brick.setNTObjectName(mFloatLength(%money, 0) SPC %cl.getPlayerName());
 
 	messageClient(%cl, '', "\c6You removed \c2$" @ mFloatLength(%diff / 10, 2) @ "\c6 from the cash register!");
 
