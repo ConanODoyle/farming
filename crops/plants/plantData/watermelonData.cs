@@ -68,6 +68,6 @@ $Farming::Crops::PlantData_["Watermelon", 5, "item"]					= "WatermelonItem";
 $Farming::Crops::PlantData_["Watermelon", 5, "dieOnHarvest"]			= "0";
 $Farming::Crops::PlantData_["Watermelon", 5, "harvestTool"]				= "Clipper";
 $Farming::Crops::PlantData_["Watermelon", 5, "areaHarvestTool"]			= "";
-$Farming::Crops::PlantData_["Watermelon", 5, "toolBuff"]				= "1 1";
+$Farming::Crops::PlantData_["Watermelon", 5, "toolBuff"]				= "0 1";
 $Farming::Crops::PlantData_["Watermelon", 5, "changeOnHarvest"]			= "brickWatermelon3CropData";
 $Farming::Crops::PlantData_["Watermelon", 5, "maxHarvestTimes"]			= "10 24";

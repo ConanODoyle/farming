@@ -24,7 +24,7 @@ function harvestBrick(%brick, %tool, %harvester)
 		{
 			//its a prune, so we dont gotta do anything else except change db
 			%brick.setDatablock(%pruneDB);
-			%harvester.client.centerPrint("<color:ffff00>Tree pruned!", 1);
+			%harvester.client.centerPrint("<color:ffff00>Plant pruned!", 1);
 			return;
 		}
 	}
