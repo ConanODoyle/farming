@@ -28,7 +28,7 @@ package Server_FarmingDropInventoryOnDeath
 		return Parent::onAdd(%this, %obj);
 	}
 };
-activatePackage(Server_FarmingDropInventoryOnDeath);
+schedule(10000, 0, activatePackage, Server_FarmingDropInventoryOnDeath);
 
 function setSkipDropValues()
 {
