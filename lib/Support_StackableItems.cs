@@ -356,6 +356,11 @@ function checkGroupStackable(%item, %times)
         return;
     }
 
+    if (%item.count <= 0)
+    {
+    	%item.count = 1;
+    }
+
     initContainerRadiusSearch(%pos, %radius, $TypeMasks::ItemObjectType);
     while (isObject(%next = containerSearchNext()))
     {
@@ -366,6 +371,11 @@ function checkGroupStackable(%item, %times)
         
         if (!%next.static && %next.getDatablock().stackType $= %stackType)
         {
+        	if (%next.count <= 0)
+        	{
+        		%next.count = 1;
+        	}
+
             %item.count += %next.count;
             %next.delete();
         }
