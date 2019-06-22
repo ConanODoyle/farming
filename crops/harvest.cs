@@ -22,9 +22,6 @@ function harvestBrick(%brick, %tool, %harvester)
 			dataBlock = "FarmingHarvestBelowGroundPlantProjectile";
 			initialVelocity = "0 0 1";
 			initialPosition = %brick.position;
-			sourceClient = %harvester.client;
-			sourceObject = %harvester;
-			client = %harvester.client;
 		};
 		
 		if (isObject(%p))
@@ -44,9 +41,6 @@ function harvestBrick(%brick, %tool, %harvester)
 			// brick height in TU must be divided by half to get the center point, so
 			// height / 5 / 2 == height / 10
 			initialPosition = VectorAdd(%brick.position, "0 0" SPC %brick.getDataBlock().brickSizeZ / 10);
-			sourceClient = %harvester.client;
-			sourceObject = %harvester;
-			client = %harvester.client;
 		};
 		
 		if (isObject(%p))
