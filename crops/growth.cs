@@ -280,6 +280,27 @@ function doGrowCalculations(%brick, %db)
 				//update with correct growTime
 				%tickTime = $Farming::Crops::PlantData_[%wetGrow.cropType, %wetGrow.stage, "timePerTick"];
 				%brick.nextGrow = $Sim::Time + %tickTime / 1000;
+				
+				if (!%db.isWeed)
+				{
+					// Growth particles
+					%p = new Projectile()
+					{
+						dataBlock = "FarmingPlantGrowthProjectile";
+						initialVelocity = "0 0 1";
+
+						// brick height is in plates, so brick height divided by 5 is brick height in TU
+						// brick height in TU must be divided by half to get the center point, so
+						// height / 5 / 2 == height / 10
+						initialPosition = VectorAdd(%brick.position, "0 0" SPC %brick.getDataBlock().brickSizeZ / 10);
+					};
+
+					if (isObject(%p))
+					{
+						MissionCleanup.add(%p);
+						%p.explode();
+					}
+				}
 			}
 
 			//extra tick if next grow is still before the last growtime; recursive
