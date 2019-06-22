@@ -286,11 +286,7 @@ function doGrowCalculations(%brick, %db)
 				{
 					dataBlock = "FarmingPlantGrowthProjectile";
 					initialVelocity = "0 0 1";
-
-					// brick height is in plates, so brick height divided by 5 is brick height in TU
-					// brick height in TU must be divided by half to get the center point, so
-					// height / 5 / 2 == height / 10
-					initialPosition = VectorAdd(%brick.position, "0 0" SPC %brick.getDataBlock().brickSizeZ / 10);
+					initialPosition = %brick.position;
 				};
 
 				if (isObject(%p))
