@@ -50,6 +50,10 @@ exec("./crops/exec.cs");
 exec("./vehicles/cart.cs");
 exec("./audio/audio.cs");
 
+// Particles
+exec("./growParticles.cs");
+exec("./harvestParticles.cs");
+
 
 echo("");
 echo("");
