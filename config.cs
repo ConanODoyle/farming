@@ -116,6 +116,7 @@ $StorageMax_PeachSeed = 4;
 
 $StorageMax_DaisySeed = 48;
 $StorageMax_LilySeed = 48;
+$StorageMax_RoseSeed = 48;
 
 $StorageMax_Fertilizer = 240;
 $StorageMax_SuperFertilizer = 60;
