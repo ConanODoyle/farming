@@ -14,6 +14,41 @@ function harvestBrick(%brick, %tool, %harvester)
 	%changeOnHarvest = $Farming::Crops::PlantData_[%type, %stage, "changeOnHarvest"];
 	%dieOnHarvest = $Farming::Crops::PlantData_[%type, %stage, "dieOnHarvest"];
 	%harvestMaxRange = $Farming::Crops::PlantData_[%type, %stage, "maxHarvestTimes"];
+	
+	if (%toolType $= "Trowel")
+	{
+		%p = new Projectile()
+		{
+			dataBlock = "FarmingHarvestBelowGroundPlantProjectile";
+			initialVelocity = "0 0 1";
+			initialPosition = VectorSub(%brick.position, "0 0" SPC %brick.getDataBlock().brickSizeZ / 10);
+		};
+		
+		if (isObject(%p))
+		{
+			MissionCleanup.add(%p);
+			%p.explode();
+		}
+	}
+	else
+	{
+		%p = new Projectile()
+		{
+			dataBlock = "FarmingHarvestAboveGroundPlantProjectile";
+			initialVelocity = "0 0 1";
+			
+			// brick height is in plates, so brick height divided by 5 is brick height in TU
+			// brick height in TU must be divided by half to get the center point, so
+			// height / 5 / 2 == height / 10
+			initialPosition = %brick.position;
+		};
+		
+		if (isObject(%p))
+		{
+			MissionCleanup.add(%p);
+			%p.explode();
+		}
+	}
 
 	//check if we pruning
 	%pruneTool = $Farming::Crops::PlantData_[%type, %stage, "pruneTool"];

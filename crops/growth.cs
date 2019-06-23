@@ -280,6 +280,20 @@ function doGrowCalculations(%brick, %db)
 				//update with correct growTime
 				%tickTime = $Farming::Crops::PlantData_[%wetGrow.cropType, %wetGrow.stage, "timePerTick"];
 				%brick.nextGrow = $Sim::Time + %tickTime / 1000;
+				
+				// Growth particles
+				%p = new Projectile()
+				{
+					dataBlock = "FarmingPlantGrowthProjectile";
+					initialVelocity = "0 0 1";
+					initialPosition = %brick.position;
+				};
+
+				if (isObject(%p))
+				{
+					MissionCleanup.add(%p);
+					%p.explode();
+				}
 			}
 
 			//extra tick if next grow is still before the last growtime; recursive
