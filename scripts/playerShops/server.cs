@@ -70,7 +70,9 @@ package PlayerShops
 			%oldPrice[%i] = subStr(%oldParam[%i], %delimit + 1, strLen(%oldParam[%i]));
 		}
 		%ret = parent::attemptStorage(%brick, %cl, %slot, %multiplier);
-		if (!%ret) return 0;
+
+		if (!%ret || !%brick.isShopBrick) return %ret;
+
 		for (%i = 1; %i < 5; %i++)
 		{
 			if (%oldParam[%i] !$= %brick.eventOutputParameter[0, %i])
