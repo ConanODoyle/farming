@@ -63,11 +63,11 @@ $ProduceList_[$ProduceCount++ - 1]  = "Blueberry" TAB 8;//10;
 $ProduceList_[$ProduceCount++ - 1]  = "Turnip" TAB    8;//10;
 $ProduceList_[$ProduceCount++ - 1]  = "Apple" TAB   8;
 $ProduceList_[$ProduceCount++ - 1]  = "Mango" TAB   4;
-$ProduceList_[$ProduceCount++ - 1]  = "Chili" TAB   0;
-$ProduceList_[$ProduceCount++ - 1]  = "Cactus" TAB   0;
-$ProduceList_[$ProduceCount++ - 1]  = "Watermelon" TAB   0;
-$ProduceList_[$ProduceCount++ - 1]  = "Date" TAB   0;
-$ProduceList_[$ProduceCount++ - 1]  = "Peach" TAB   0;
+$ProduceList_[$ProduceCount++ - 1]  = "Chili" TAB   8;
+$ProduceList_[$ProduceCount++ - 1]  = "Cactus" TAB   8;
+$ProduceList_[$ProduceCount++ - 1]  = "Watermelon" TAB   4;
+$ProduceList_[$ProduceCount++ - 1]  = "Date" TAB   2;
+$ProduceList_[$ProduceCount++ - 1]  = "Peach" TAB   2;
 
 
 

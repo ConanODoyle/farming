@@ -5,78 +5,75 @@ function pickRandomEvent(%obj, %rand)
 		case "buyProduce": //Produce Buy Bonus
 			%crop = getRandomProduceType();
 			%price = mFloor($Produce::BuyCost_[%crop] * 1.5 * 10) / 10;
-			return "BUY 0" TAB %crop TAB %price TAB "I'm buying each " @ %crop @ " for 50% more!";
+
+			switch$ (%crop)
+			{
+				case "Cactus":		%cropName = "Cactus Fruits";
+				case "Tomato":		%cropName = %crop @ "es";
+				case "Potato":		%cropName = %crop @ "es";
+				case "Mango":		%cropName = %crop @ "es";
+				case "Peach":		%cropName = %crop @ "es";
+				case "Blueberry":	%cropName = "Blueberries";
+				case "Corn":		%cropName = %crop;
+				case "Watermelon":	%cropName = %crop;
+				case "Watermelon":	%cropName = %crop;
+				default:			%cropName = %crop @ "s";
+			}
+			return "BUY 0" TAB %crop TAB %price TAB "I'm buying " @ %cropName @ " for 50% more!";
 
 		case "sSeed": //Seed sell discount
 			%seed = getRandomSeedType("All");
 			%seedSelling = 1;
-			break;
 
 		case "sSeedB":
 			%seed = getRandomSeedType("Basic");
 			%seedSelling = 1;
-			break;
 
 		case "sSeedS":
 			%seed = getRandomSeedType("Special");
 			%seedSelling = 1;
-			break;
 
 		case "sSeedD":
 			%seed = getRandomSeedType("Desert");
 			%seedSelling = 1;
-			break;
 
 		case "sSeedT":
 			%seed = getRandomSeedType("Trees");
 			%seedSelling = 1;
-			break;
 
 		case "sSeedDT":
 			%seed = getRandomSeedType("DesertTrees");
 			%seedSelling = 1;
-			break;
 
 		case "sellItem": //Special item
 			%item = getRandomItem("All");
 			%toolSelling = 1;
-			break;
 
 		case "sellTools": //Special item
 			%item = getRandomItem("Tools");
 			%toolSelling = 1;
-			break;
 
 		case "sellWater": //Special item
 			%item = getRandomItem("Water");
 			%toolSelling = 1;
-			break;
 
 		case "sellFurniture": //Special item
 			%item = getRandomItem("Furniture");
 			%toolSelling = 1;
-			break;
 
 		case "sellInstrument": //Sell Instrument
 			%item = getRandomInstrument();
-			if (%item.uiName !$= "Keytar")
+			%price = %item.cost * (5 - getRandom(0, 2)) / 4;
+
+			switch$ (%item.uiName)
 			{
-				%price = 2000 * (5 - getRandom(0, 2)) / 4;
-			}
-			else
-			{
-				%price = 1000 * (5 - getRandom(0, 2)) / 4;
+				case "Drum Sticks": %itemName = %item.uiName;
+				case "Stand-Up Bass": %itemName = %item.uiName @ "es";
+				case "Electrk Bass": %itemName = %item.uiName @ "es";
+				default: %itemName = %item.uiName @ "s";
 			}
 
-			if (getSubStr(%item.uiName, strLen(%item.uiName) - 1, 1) $= "s")
-			{
-				%plural = "";
-			}
-			else
-			{
-				%plural = "s";
-			}
-			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %plural @ "!";
+			return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %itemName @ "!";
 
 		default: //nothing
 			return "";
@@ -84,6 +81,7 @@ function pickRandomEvent(%obj, %rand)
 
 	if (%seedSelling)
 	{
+
 		%fixedName = strReplace(getSubStr(%seed, 0, strLen(%seed) - 8), "_", " ") SPC "seeds";
 		if (%price < 100)
 		{
