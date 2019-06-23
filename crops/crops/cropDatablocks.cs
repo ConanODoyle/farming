@@ -15,6 +15,8 @@ exec("./watermelon.cs");
 exec("./peachTree.cs");
 exec("./dateTree.cs");
 
+exec("./weed.cs");
+
 function foodLoop(%image, %obj)
 {
 	%item = %image.item;
