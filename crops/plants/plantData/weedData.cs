@@ -18,13 +18,13 @@ $Farming::Crops::PlantData_["Weed", 0, "waterPerTick"]				= "5";
 $Farming::Crops::PlantData_["Weed", 0, "numGrowTicks"]				= "30";
 $Farming::Crops::PlantData_["Weed", 0, "numDryTicks"]				= "20";
 
-$Farming::Crops::PlantData_["Weed", 0, "yield"]						= "1 1";
+$Farming::Crops::PlantData_["Weed", 0, "yield"]						= "0 1";
 $Farming::Crops::PlantData_["Weed", 0, "item"]						= "WeedItem";
 $Farming::Crops::PlantData_["Weed", 0, "dieOnHarvest"]				= "0";
 $Farming::Crops::PlantData_["Weed", 0, "harvestTool"]				= "Clipper";
 $Farming::Crops::PlantData_["Weed", 0, "areaHarvestTool"]			= "Weed Cutter";
-$Farming::Crops::PlantData_["Weed", 0, "toolBuff"]					= "1 1";
-$Farming::Crops::PlantData_["Weed", 0, "dieOnHarvest"]				= "true";
+$Farming::Crops::PlantData_["Weed", 0, "toolBuff"]					= "1 0";
+$Farming::Crops::PlantData_["Weed", 0, "dieOnHarvest"]				= 1;
 
 //
 
@@ -37,10 +37,10 @@ $Farming::Crops::PlantData_["Weed", 1, "numDryTicks"]				= "20";
 
 $Farming::Crops::PlantData_["Weed", 1, "yield"]						= "1 1";
 $Farming::Crops::PlantData_["Weed", 1, "item"]						= "WeedItem";
-$Farming::Crops::PlantData_["Weed", 1, "dieOnHarvest"]				= "0";
+$Farming::Crops::PlantData_["Weed", 1, "dieOnHarvest"]				= 1;
 $Farming::Crops::PlantData_["Weed", 1, "harvestTool"]				= "Clipper";
 $Farming::Crops::PlantData_["Weed", 1, "areaHarvestTool"]			= "Weed Cutter";
-$Farming::Crops::PlantData_["Weed", 1, "toolBuff"]					= "1 1";
+$Farming::Crops::PlantData_["Weed", 1, "toolBuff"]					= "0 1";
 $Farming::Crops::PlantData_["Weed", 1, "changeOnHarvest"]			= "brickWeed0CropData";
 
 //
@@ -52,10 +52,10 @@ $Farming::Crops::PlantData_["Weed", 2, "waterPerTick"]				= "15";
 $Farming::Crops::PlantData_["Weed", 2, "numGrowTicks"]				= "100";
 $Farming::Crops::PlantData_["Weed", 2, "numDryTicks"]				= "20";
 
-$Farming::Crops::PlantData_["Weed", 2, "yield"]						= "1 1";
+$Farming::Crops::PlantData_["Weed", 2, "yield"]						= "1 2";
 $Farming::Crops::PlantData_["Weed", 2, "item"]						= "WeedItem";
-$Farming::Crops::PlantData_["Weed", 2, "dieOnHarvest"]				= "0";
+$Farming::Crops::PlantData_["Weed", 2, "dieOnHarvest"]				= 1;
 $Farming::Crops::PlantData_["Weed", 2, "harvestTool"]				= "Clipper";
 $Farming::Crops::PlantData_["Weed", 2, "areaHarvestTool"]			= "Weed Cutter";
-$Farming::Crops::PlantData_["Weed", 2, "toolBuff"]					= "1 1";
+$Farming::Crops::PlantData_["Weed", 2, "toolBuff"]					= "0 1";
 $Farming::Crops::PlantData_["Weed", 2, "changeOnHarvest"]			= "brickWeed1CropData";

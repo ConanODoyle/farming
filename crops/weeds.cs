@@ -215,25 +215,26 @@ function pickWeed(%brick, %pl)
 
 datablock ItemData(WeedWhackerItem : HammerItem)
 {
-	iconName = "./icons/WeedWhacker";
-	shapeFile = "./tools/WeedWhacker.dts";
+	iconName = "./icons/weed_whacker";
+	shapeFile = "./tools/weed_whacker.dts";
 	uiName = "Weed Cutter";
 
 	image = "WeedWhackerImage";
 	colorShiftColor = "0.4 0 0 1";
+	doColorShift = false;
 
 	cost = 1200;
 };
 
 datablock ShapeBaseImageData(WeedWhackerImage)
 {
-	shapeFile = "./tools/WeedWhacker.dts";
+	shapeFile = "./tools/weed_whacker.dts";
 
 	emap = true;
 	armReady = true;
 
 	item = WeedWhackerItem;
-	doColorShift = true;
+	doColorShift = fakse;
 	colorShiftColor = WeedWhackerItem.colorShiftColor;
 
 	areaHarvest = 2;
