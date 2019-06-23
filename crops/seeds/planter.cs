@@ -2,7 +2,7 @@ datablock ItemData(PlanterItem : HammerItem)
 {
 	shapeFile = "./planter.dts";
 	iconName = "";
-	uiName = "Planter";
+	uiName = "Seed Planter";
 
 	colorShiftColor = "0.4 0 0 1";
 	image = PlanterImage;
@@ -53,7 +53,7 @@ datablock ItemData(PlanterV2Item : HammerItem)
 {
 	shapeFile = "./planter.dts";
 	iconName = "";
-	uiName = "Planter V2";
+	uiName = "Seed Planter V2";
 
 	colorShiftColor = "0 0 0.4 1";
 	image = PlanterV2Image;

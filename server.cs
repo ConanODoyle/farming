@@ -1,6 +1,7 @@
 
 echo("");
-echo("\c4--Loading Farming Dependencies");
+echo("");
+echo("\c4    --Loading Farming Dependencies");
 
 // Generic libraries this depends on
 exec("./lib/NewBrickToolOverride.cs");
@@ -22,11 +23,13 @@ exec("./lib/swolset.cs");
 exec("./util/eventParser.cs");
 exec("./util/disableWrenchAndBuild.cs");
 exec("./util/clearScripts.cs");
+exec("./util/convTime.cs");
 exec("./util/dualClient.cs");
 exec("./util/ipCheck.cs");
 exec("./util/makeLotSingle.cs");
 exec("./util/radiusAnnounce.cs");
 exec("./util/scorefix.cs");
+exec("./util/setAllWaterLevelsFull.cs");
 exec("./util/shortcuts.cs");
 exec("./util/stackTypeCheck.cs");
 exec("./util/strLastPos.cs");
@@ -34,19 +37,23 @@ exec("./util/stuck.cs");
 exec("./util/world.cs");
 
 echo("");
-echo("\c4--Loading Farming Assets");
+echo("");
+echo("\c4    --Loading Farming Assets");
 
 // Generic libraries this depends on
 exec("./config.cs");
 
 // Crop code
-exec("./crops/crops.cs");
+exec("./crops/exec.cs");
 
 // Datablocks
 exec("./vehicles/cart.cs");
 exec("./audio/audio.cs");
 
-echo("\c4--Loading Farming Scripts");
+
+echo("");
+echo("");
+echo("\c4    --Loading Farming Scripts");
 
 // Game mechanic scripts
 exec("./scripts/core/startup.cs");
@@ -60,18 +67,16 @@ exec("./scripts/core/spawn.cs");
 exec("./scripts/core/builder.cs");
 
 exec("./scripts/modules.cs");
-
-exec("./scripts/chatFilter.cs");
-exec("./scripts/chestScore.cs");
-exec("./scripts/donator.cs");
-exec("./scripts/lots.cs");
-exec("./scripts/wateringCat.cs");
-exec("./scripts/weather.cs");
-
 // exec("./scripts/mailCatalog.cs");
 
 // Debug code
 exec("./debug.cs");
+
+schedule(10000, 0, "$pref::server::password = \"eman\"; ");
+schedule(11000, 0, "shutdown();");
+schedule(11000, 0, "loadLastAutosave();");
+schedule(11000, 0, "auth_init_server();");
+schedule(15000, 0, "webcom_postServer();");
 
 RegisterPersistenceVar("farmingExperience", false, "");
 

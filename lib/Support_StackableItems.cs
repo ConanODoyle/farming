@@ -207,9 +207,9 @@ function pickupStackableItem(%pl, %item, %slot, %amt)
 		{
 			%currPair = $Stackable_[%type, "stackedItem" @ %i];
 			// talk(%currPair);
+			%bestItem = getWord(%currPair, 0);
 			if (%item.count <= getWord(%currPair, 1))
 			{
-				%bestItem = getWord(%currPair, 0);
 				break;
 			}
 		}
@@ -224,7 +224,6 @@ function pickupStackableItem(%pl, %item, %slot, %amt)
 		}
 	}
 	//item still has count left, leave it in existence
-	%item.setCollisionTimeout(%pl);
 }
 
 //code copied from default serverCmdDropTool
@@ -286,6 +285,12 @@ package Support_StackableItems
 			%itemDB = %col.getDatablock();
 			if (%col.getClassName() $= "Item" && %itemDB.isStackable)
 			{
+                // if (%col.nextPickupAttempt > $Sim::Time)
+                // {
+                //     return;
+                // }
+                // %col.nextPickupAttempt = $Sim::Time + getRandom(1, 2);
+
 				%ret = stackedCanPickup(%obj, %col);
 
 				// talk(%ret);
@@ -326,5 +331,54 @@ package Support_StackableItems
 		}
 		return parent::serverCmdDropTool(%cl, %slot);
 	}
+
+	function ItemData::onAdd(%this, %obj)
+	{
+		schedule(1000, %obj, checkGroupStackable, %obj, 0);
+		return Parent::onAdd(%this, %obj);
+	}
 };
 activatePackage(Support_StackableItems);
+
+function checkGroupStackable(%item, %times)
+{
+    if (%times > 3)
+    {
+        return;
+    }
+
+    %pos = %item.getPosition();
+    %radius = 1;
+    %stackType = %item.getDatablock().stackType;
+    if (%stackType $= "")
+    {
+        return;
+    }
+
+    if (%item.count <= 0)
+    {
+    	%item.count = 1;
+    }
+
+    initContainerRadiusSearch(%pos, %radius, $TypeMasks::ItemObjectType);
+    while (isObject(%next = containerSearchNext()))
+    {
+        if (%next == %item)
+        {
+            continue;
+        }
+        
+        if (!%next.static && %next.getDatablock().stackType $= %stackType)
+        {
+        	if (%next.count <= 0)
+        	{
+        		%next.count = 1;
+        	}
+
+            %item.count += %next.count;
+            %next.delete();
+        }
+    }
+
+    schedule(1000, %item, checkGroupStackable, %item, %times++);
+}

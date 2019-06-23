@@ -52,9 +52,13 @@ function serverCmdGiveMoney(%cl, %amount, %t1, %t2, %t3, %t4)
 	%target.setScore(%target.score + %amt);
 	if (%cl.score >= 10000)
 	{
+        if (%cl.score - %amt - 50 <= 0) {
+            messageClient(%cl, '', "You don't have $" @ mFloatLength(%amt + 50, 2) @ "!");
+            return;
+        }
 		%cl.setScore(%cl.score - 50);
 	}
-	%cl.setScore(%cl.score - %amt);
+	%cl.setScore(mFloatLength(%cl.score - %amt, 2));
 	messageClient(%cl, 'MsgUploadEnd', "\c6You gave \c3" @ %target.name @ "\c2 $" @ %amt);
 	messageClient(%target, 'MsgUploadEnd', "\c3" @ %cl.name @ "\c6 gave you\c2 $" @ %amt);
 
@@ -72,7 +76,7 @@ package ScoreGrant
 };
 activatePackage(ScoreGrant);
 
-function bottomprintInfoLoop(%cl)
+function bottomprintInfo(%cl)
 {
 	cancel(%cl.bottomprintMoneySched);
 
@@ -195,8 +199,42 @@ function bottomprintInfoLoop(%cl)
 	%amount = "<just:right><color:ffff00>Money: $" @ mFloatLength(%cl.score, 2);
 
 	%cl.bottomprint(%pre @ %amount @ " ", 2, 0);
+}
 
-	%cl.bottomprintMoneySched = schedule(300, %cl, bottomprintInfoLoop, %cl);
+function bottomprintInfoLoop(%idx)
+{
+	cancel($masterBottomPrintInfoLoop);
+
+	if (!isObject(MissionCleanup))
+	{
+		return;
+	}
+
+	%idx += 0;
+	%count = ClientGroup.getCount();
+	if (%idx >= %count)
+	{
+		%idx = 0;
+	}
+
+	%total = 0;
+	for (%idx = %idx; %idx < %count; %idx++)
+	{
+		if (%total >= 16)
+		{
+			break;
+		}
+		%total++;
+
+		if (%idx >= %count)
+		{
+			break;
+		}
+
+		bottomprintInfo(ClientGroup.getObject(%idx));
+	}
+
+	$masterBottomPrintInfoLoop = schedule(200, 0, bottomprintInfoLoop, %idx);
 }
 
 function GameConnection::addExperience(%cl, %exp)

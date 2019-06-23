@@ -90,15 +90,13 @@ function growTick(%index)
 		%totalBricksProcessed++;
 	}
 
-	if (RemovePlantSimSet.getCount() > 0) //only remove after processing to prevent conflict with grow calc loop
+	//only remove after processing to prevent conflict with grow calc loop
+	for (%i = 0; %i < RemovePlantSimSet.getCount(); %i++)
 	{
-		for (%i = 0; %i < RemovePlantSimSet.getCount(); %i++)
-		{
-			%obj = RemovePlantSimSet.getObject(%i);
-			PlantSimSet.remove(%obj);
-		}
-		RemovePlantSimSet.clear();
+		%obj = RemovePlantSimSet.getObject(%i);
+		PlantSimSet.remove(%obj);
 	}
+	RemovePlantSimSet.clear();
 
 	if (PlantSimSet.getCount() <= 0)
 	{
@@ -122,6 +120,16 @@ function doGrowCalculations(%brick, %db)
 	%type = %db.cropType;
 	%growTicks = %brick.growTicks;
 	%tickTime = $Farming::Crops::PlantData_[%type, %stage, "timePerTick"];
+	//weeds slow plant growth
+	if (%db.isWeed && %brick.nextWeedVictimSearch < $Sim::Time)
+	{
+		weedVictimSearch(%brick);
+		%brick.nextWeedVictimSearch = $Sim::Time + $WeedTickLength;
+	}
+	else
+	{
+		%tickTime = %tickTime + %tickTime * getWeedTimeModifier(%brick);
+	}
 	
 	if (%tickTime <= 1) //check if its there is any grow time at all, remove from set if so
 	{
@@ -165,12 +173,13 @@ function doGrowCalculations(%brick, %db)
 		%brick.greenhouseBonus = 0;
 	}
 
-	if (isObject(%hit)) //has a brick above it/its greenhouse
+	if (isObject(%hit) && !%db.growsWithoutSunlight) //has a brick above it/its greenhouse
 	{
 		%brick.nextGrow = $Sim::Time + %tickTime / 1000;
 		return 0;
 	}
 
+	//grow calculations
 	%waterReq = $Farming::Crops::PlantData_[%type, %stage, "waterPerTick"];
 	%maxGrowTicks = $Farming::Crops::PlantData_[%type, %stage, "numGrowTicks"];
 	%maxDryTicks = $Farming::Crops::PlantData_[%type, %stage, "numDryTicks"];
@@ -230,7 +239,7 @@ function doGrowCalculations(%brick, %db)
 				{
 					// talk("Death due to dryness	");
 					%brick.setDatablock(%dryGrow);
-					RemovePlantSimSet.add(%brick);
+					// RemovePlantSimSet.add(%brick);
 				}
 			}
 			else //do nothing, crop has no death penalty for being dry, just doesn't grow
