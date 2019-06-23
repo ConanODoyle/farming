@@ -1,7 +1,6 @@
 ////////////
 //Function//
 ////////////
-
 function killWeeds(%img, %obj, %slot)
 {
 	%obj.playThread(0, plant);
@@ -51,11 +50,19 @@ function killWeeds(%img, %obj, %slot)
 	{
 		%brick.fertilizerWeedModifier = 0;
 
-		%ticksAdded = mFloor(%img.weedRepelBaseDuration * mPow(%img.weedRepelDiminishFactor, %brick.weedImmunityTicks/%img.weedRepelBaseDuration));
-		%ticksAdded = getMin(%ticksAdded, %img.weedRepelBaseDuration * 1.75 - %brick.weedImmunityTicks);
-		%brick.weedImmunityTicks += %ticksAdded;
-		%obj.client.centerprint("\c6You added \c2" @ convTime(%ticksAdded * $WeedTickLength) @ "\c6 of weed killer\nfor a total of \c3" @ convTime(%brick.weedImmunityTicks * 5) @ "\c6!", 1);
-		%obj.client.schedule(50, centerprint, "\c6You added \c2" @ convTime(%ticksAdded * $WeedTickLength) @ "\c6 of weed killer\nfor a total of \c3" @ convTime(%brick.weedImmunityTicks * 5) @ "\c6!", 1);
+		%timeLeft = getMax(%brick.weedImmunityExpires - $Sim::Time, 0);
+		%timeAdded = %img.weedRepelBaseDuration * mPow(%img.weedRepelDiminishFactor, %timeLeft/%img.weedRepelBaseDuration);
+        %timeAdded = getMin(%img.weedRepelBaseDuration * 1.75 - %timeLeft, %timeAdded);
+
+		%brick.weedImmunityExpires = $Sim::Time + %timeLeft + %timeAdded;
+		%obj.client.centerprint("\c6You added \c2" @ convTime(%timeAdded)
+								@ "\c6 of weed killer\n\c6for a total of \c3"
+								@ convTime(%brick.weedImmunityExpires - $Sim::Time)
+								@ "\c6!", 1);
+		%obj.client.schedule(150, centerprint, "\c6You added \c2" @ convTime(%timeAdded)
+							 @ "\c6 of weed killer\n\c6for a total of \c3"
+							 @ convTime(%brick.weedImmunityExpires - $Sim::Time)
+							 @ "\c6!", 2);
 	}
 
 	// de-weeded, update the item
@@ -71,7 +78,7 @@ function killWeeds(%img, %obj, %slot)
 		return %b;
 	}
 
-	//some seeds are left, update item if needed
+	//some uses are left, update item
 	for (%i = 0; %i < $Stackable_[%type, "stackedItemTotal"]; %i++)
 	{
 		%currPair = $Stackable_[%type, "stackedItem" @ %i];
@@ -133,13 +140,8 @@ datablock ShapeBaseImageData(WeedKiller0Image)
 
 	toolTip = "Kill weeds, prevent them for a set time";
 
-	weedRepelBaseDuration = 720; // ticks - 10 minutes @ 66ms/tick
+	weedRepelBaseDuration = 3600; // seconds
 	weedRepelDiminishFactor = 0.5; // amount to diminish returns by per base duration
-	// so for example: we have 9091 ticks left of repellent on our dirt
-	// we use the weedkiller
-	// diminishAmount = ticksRemaining/weedRepelBaseDuration = 9091/9091 = 1 base duration
-	// so we add weedRepelBaseDuration * mPow(weedRepelDiminishFactor, diminishAmount)
-	// to the weed repel ticks left on the dirt, which here is 0.5 * 9091 = 4546 (rounded)
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";

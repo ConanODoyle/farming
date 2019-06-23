@@ -32,8 +32,8 @@ package PlayerShops
 			//potential here for mobile shops!!!!!
 			// if (isObject(%this.vehicle) && %this.vehicle.getDatablock().isStorageCart)
 			// {
-			// 	%this.shopStorageMenu.menuName = "Storage Cart";
-			// 	cartStorageLoop(%cl, %this.vehicle);
+			//		%this.shopStorageMenu.menuName = "Storage Cart";
+			//		cartStorageLoop(%cl, %this.vehicle);
 			// }
 			// else
 			// {
@@ -58,14 +58,51 @@ package PlayerShops
 
 	function attemptStorage(%brick, %cl, %slot, %multiplier)
 	{
-		%ret = parent::attemptStorage(%brick, %cl, %slot, %multiplier);
-		
-		if (%ret && %brick.getDatablock().isShopBrick)
+		for (%i = 1; %i < 5; %i++)
 		{
-			%brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
-			%brick.updateShopDisplay();
+			%oldParam[%i] = %brick.eventOutputParameter[0, %i];
+			%delimit = strPos(%oldParam[%i], "'");
+			if (%delimit == -1)
+			{
+				%oldPrice[%i] = 0;
+				continue;
+			}
+			%oldPrice[%i] = subStr(%oldParam[%i], %delimit + 1, strLen(%oldParam[%i]));
 		}
-		return %ret;
+		%ret = parent::attemptStorage(%brick, %cl, %slot, %multiplier);
+
+		if (!%ret || !%brick.isShopBrick) return %ret;
+
+		for (%i = 1; %i < 5; %i++)
+		{
+			if (%oldParam[%i] !$= %brick.eventOutputParameter[0, %i])
+			{
+				%delimit = strPos(%brick.eventOutputParameter[0, %i], "\"");
+				%stackType = getSubStr(%brick.eventOutputParameter[0, %i], 0, %delimit);
+				if (%oldPrice < 0.1)
+				{
+					if (!isObject(%stackType)) //this is a stackable item
+					{
+						%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2);
+					}
+					else //this is a normal item
+					{
+						%price = mCeil(%stackType.cost * 1.2);
+						if (%price <= 10)
+						{
+							%price = 10;
+						}
+					}
+				}
+				else
+				{
+					%price = %oldPrice;
+				}
+				%brick.eventOutputParameter[0, %i] = %brick.eventOutputParameter[0, %i] @ "'" @ mFloatLength(%price, 2);
+			}
+		}
+		%brick.updateShopDisplay();
+		return 1;
 	}
 
 	function fxDTSBrick::onDeath(%this, %obj)
@@ -115,6 +152,54 @@ package PlayerShops
 		{
 			%menu.brick.updateShopDisplay();
 		}
+		
+		return %ret;
+	}
+
+	function serverCmdShiftBrick(%cl, %x, %y, %z)
+	{
+		if (%cl.isInCenterprintMenu && %cl.centerprintMenu.brick.getDatablock().isShopBrick && %cl.centerprintMenu == %cl.centerprintMenu.brick.shopStorageMenu && %z != 0) {
+			%delta = ((%z > 0) ? 1 : -1) * ((mAbs(%z) > 1) ? 1 : 0.1);
+			%eventParam = %cl.currOption + 1;
+			%brick = %cl.centerprintMenu.brick;
+
+			%delimit = strPos(%brick.eventOutputParameter[0, %eventParam], "'");
+			if (%delimit < 0)
+			{
+				%delimit1 = strPos(%brick.eventOutputParameter[0, %eventParam], "\"");
+				%stackType = getSubStr(%brick.eventOutputParameter[0, %eventParam], 0, %delimit1);
+				%brick.eventOutputParameter[0, %eventParam] = %brick.eventOutputParameter[0, %eventParam] @ "'" @ mFloatLength($Produce::BuyCost_[%stackType] + 1, 2);
+				%delimit = strPos(%brick.eventOutputParameter[0, %eventParam], "'");
+			}
+			%newStr = getSubStr(%brick.eventOutputParameter[0, %eventParam], 0, %delimit);
+			%price = getSubStr(%brick.eventOutputParameter[0, %eventParam], %delimit + 1,
+							strLen(%brick.eventOutputParameter[0, %eventParam]));
+			if (%price < 0.1) %price = 0.1;
+			%brick.eventOutputParameter[0, %eventParam] = trim(%newStr) @ "'" @ mFloatLength(%price + %delta, 2);
+			%brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
+		}
+		return Parent::serverCmdShiftBrick(%cl, %x, %y, %z);
+	}
+
+	function validateStorageContents(%str, %brick)
+	{
+		%ret = Parent::validateStorageContents(%str, %brick);
+		if (%brick.isShopBrick) return %ret;
+		%oldRet = %ret;
+		if (%ret $= "") return "";
+
+		if ((%delimit = strPos(%ret, "'")) != -1)
+		{
+			%price = getSubStr(%ret, %delimit + 1, strLen(%ret));
+			%ret = getSubStr(%ret, 0, %delimit); // price stuff
+		}
+		else if (%brick.isShopBrick)
+		{
+			%stackType = getField(%ret, 0);
+			%price = $Produce::BuyCost_[%stackType];
+		}
+
+		return %ret TAB %price;
 	}
 };
 activatePackage(PlayerShops);
@@ -180,20 +265,27 @@ function fxDTSBrick::updateShopMenus(%this, %str1, %str2, %str3, %str4)
 	{
 		%stackType = getField(%str[%i + 1], 0);
 		%count = getField(%str[%i + 1], 1);
+		%price = getField(%str[%i + 1], 2);
 		if (%stackType !$= "")
 		{
 			if (!isObject(%stackType)) //this is a stackable item
 			{
-				%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2);
+				if (%price < 0.1)
+				{
+					%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2);
+				}
 				%this.shopStorageMenu.menuOption[%i] = "$" @ %price @ ": " @ %stackType @ " - " @ %count;
 				%this.shopBuyerMenu.menuOption[%i] = "$" @ %price @ ": " @ %stackType @ " - " @ %count;
 			}
 			else //this is a normal item
 			{
-				%price = mCeil(%stackType.cost * 1.2);
-				if (%price <= 10)
+				if (%price < 0.1)
 				{
-					%price = 10;
+					%price = mCeil(%stackType.cost * 1.2);
+					if (%price <= 10)
+					{
+						%price = 10;
+					}
 				}
 				%this.shopStorageMenu.menuOption[%i] = "$" @ %price @ ": " @ strUpr(getSubStr(%stackType.uiName, 0, 1)) @ getSubStr(%stackType.uiName, 1, 100);
 				%this.shopBuyerMenu.menuOption[%i] = "$" @ %price @ ": " @ strUpr(getSubStr(%stackType.uiName, 0, 1)) @ getSubStr(%stackType.uiName, 1, 100);
@@ -201,13 +293,14 @@ function fxDTSBrick::updateShopMenus(%this, %str1, %str2, %str3, %str4)
 		}
 		else
 		{
-			%this.shopStorageMenu.menuOption[%i] = "Empty";	
-			%this.shopBuyerMenu.menuOption[%i] = "Empty";	
+			%this.shopStorageMenu.menuOption[%i] = "Empty";
+			%this.shopBuyerMenu.menuOption[%i] = "Empty";
 		}
 	}
 
 	%brickName = getSubStr(%this.getName(), 1, 64);
-	%money = getSubStr(%brickName, 0, strPos(%brickName, "_")) / 10;
+	if (%brickName !$= "")
+		%money = getSubStr(%brickName, 0, strPos(%brickName, "_")) / 10;
 	%lastTakenBy = trim(getSubStr(%brickName, strPos(%brickName, "_") + 1, 30));
 	if (%lastTakenBy $= "")
 	{
@@ -242,7 +335,7 @@ function fxDTSBrick::updateShopDisplay(%this)
 		switch(%this.angleID)
 		{
 			case 0: %currPos = %currPos;
-			case 1: %currPos = getWord(%currPos, 1) SPC  -1 * getWord(%currPos, 0) SPC getWord(%currPos, 2);
+			case 1: %currPos = getWord(%currPos, 1) SPC -1 * getWord(%currPos, 0) SPC getWord(%currPos, 2);
 			case 2: %currPos = -1 * getWord(%currPos, 0) SPC -1 * getWord(%currPos, 1) SPC getWord(%currPos, 2);
 			case 3: %currPos = -1 * getWord(%currPos, 1) SPC getWord(%currPos, 0) SPC getWord(%currPos, 2);
 		}
@@ -352,7 +445,7 @@ function removeMoney(%cl, %menu, %option)
 	{
 		messageClient(%cl, '', "\c6The cash register is empty!");
 	}
-	
+
 	%money = %money - %diff;
 	%brick.settingName = 1;
 	// talk("M: " @ %money @ " name: " @ %cl.getPlayerName());
@@ -421,34 +514,35 @@ function buyUnit(%cl, %menu, %option)
 	%storageData = validateStorageContents(%brick.eventOutputParameter[0, %storageSlot], %this);
 	%storageCount = getField(%storageData, 1);
 	%stackType = getField(%storageData, 0);
+	%price = getField(%storageData, 2);
 
 	%total = 1;
 	// if (%cl.lastPurchased[%stackType] + 0.3 > $Sim::Time)
 	// {
-	// 	if (%cl.purchaseCombo[%stackType] >= 5)
-	// 	{
-	// 		%total = 5;
-	// 	}
+	//		if (%cl.purchaseCombo[%stackType] >= 5)
+	//		{
+	//			%total = 5;
+	//		}
 	// }
 	// else
 	// {
-	// 	%cl.purchaseCombo[%stackType] = 0;
+	//		%cl.purchaseCombo[%stackType] = 0;
 	// }
 	// %cl.lastPurchased[%stackType] = $Sim::Time;
 	// %cl.purchaseCombo[%stackType]++;
 
-	if (!isObject(%stackType)) //this is a stackable item
-	{
-		%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2) * %total;
-	}
-	else //this is a normal item
-	{
-		%price = mCeil(%stackType.cost * 1.2);
-		if (%price <= 10)
-		{
-			%price = 10;
-		}
-	}
+	// if (!isObject(%stackType)) //this is a stackable item
+	// {
+	//		%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2) * %total;
+	// }
+	// else //this is a normal item
+	// {
+	//		%price = mCeil(%stackType.cost * 1.2);
+	//		if (%price <= 10)
+	//		{
+	//			%price = 10;
+	//		}
+	// }
 
 	if (%price > %cl.score)
 	{
@@ -478,7 +572,7 @@ function buyUnit(%cl, %menu, %option)
 		%left = %storageCount - %amt;
 		if (%left > 0)
 		{
-			%brick.eventOutputParameter[0, %storageSlot] = %stackType @ "\"" @ %left;
+			%brick.eventOutputParameter[0, %storageSlot] = %stackType @ "\"" @ %left @ "'" @ %price;
 		}
 		else
 		{
