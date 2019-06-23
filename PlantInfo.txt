@@ -1,4 +1,4 @@
-Generated 06/18/19 03:29:39
+Generated 06/12/19 09:16:07
 
 
 
@@ -201,7 +201,7 @@ Income/min: 3.305
 -Chili-
 $4.00 per seed
 $2.50 per produce
-0p + 9h - 10 EXP
+0p + 8h - 10 EXP
 Avg 3.5 per harvest (range: 2 5)
 Avg Profit Per Seed: 4.75
 

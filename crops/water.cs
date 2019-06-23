@@ -231,9 +231,9 @@ datablock ShapeBaseImageData(HoseV2Image : WateringCanImage)
 	colorShiftColor = HoseV2Item.colorShiftColor;
 	waterAmount = 50;
 	tankBonus = 4;
-	tankRatio = 0.005;
+	tankRatio = 0.0075;
 
-	toolTip = "Waters Dirt: +50 | Tanks: +0.5%";
+	toolTip = "Waters Dirt: +50 | Tanks: +0.75%";
 };
 
 function HoseV2Image::onFire(%this, %obj, %slot)
@@ -327,15 +327,20 @@ function waterCanFire(%this, %obj, %slot)
     }
     else
     {
-        if (%obj.waterCount > $maxWaterCombo)
+        if (%obj.waterCount > $Pref::Server::maxWaterCombo)
         {
             announce("<bitmap:base/client/ui/ci/star>\c3" @ %obj.client.name @ "\c6 set a new watering combo count of \c3" @ %obj.waterCount @ "\c6!");
-            $maxWaterCombo = %obj.waterCount;
+            $Pref::Server::maxWaterCombo = %obj.waterCount SPC "(" @ %obj.client.name @ ")";
         }
         %obj.waterCount = 0;
     }
 
     %obj.lastWater = $Sim::Time;
+}
+
+function serverCmdTopCombo(%cl)
+{
+	%cl.chatmessage("\c6<bitmap:base/client/ui/ci/star> The longest watering combo is \c3" @ $Pref::Server::maxWaterCombo @ "\c6!");
 }
 
 package ClickToSeeWater

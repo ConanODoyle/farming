@@ -16,7 +16,7 @@ exec("./lib/Support_PickupDuplicateItems.cs");
 exec("./lib/Support_MultipleSlots.cs");
 
 exec("./lib/Support_ShapeLines/server.cs");
-exec("./lib/Support_GasMod/server.cs");
+// exec("./lib/Support_GasMod/server.cs");
 exec("./lib/swolset.cs");
 
 // Scripts specific to this mod
@@ -49,6 +49,10 @@ exec("./crops/exec.cs");
 // Datablocks
 exec("./vehicles/cart.cs");
 exec("./audio/audio.cs");
+
+// Particles
+exec("./growParticles.cs");
+exec("./harvestParticles.cs");
 
 
 echo("");

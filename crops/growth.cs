@@ -124,7 +124,7 @@ function doGrowCalculations(%brick, %db)
 	if (%db.isWeed && %brick.nextWeedVictimSearch < $Sim::Time)
 	{
 		weedVictimSearch(%brick);
-		%brick.nextWeedVictimSearch = $Sim::Time + $WeedTickLength;
+		%brick.nextWeedVictimSearch = $Sim::Time + $WeedTickLength * 2;
 	}
 	else
 	{
@@ -167,6 +167,12 @@ function doGrowCalculations(%brick, %db)
 		%greenhouseFound = 1;
 		%brick.greenhouseBonus = 1;
 		%tickTime = mFloor(%tickTime / 2);
+
+		if (%db.isWeed) //kill weeds in greenhouse
+		{
+			%brick.delete();
+			return;
+		}
 	}
 	else if (!isObject(%hit) || !%hit.getDatablock().isGreenhouse)
 	{
@@ -235,11 +241,18 @@ function doGrowCalculations(%brick, %db)
 			if (%maxDryTicks > 0) //maximum dry ticks set, crop has death penalty for being dry
 			{
 				%brick.dryTicks++;
-				if (%brick.dryTicks >= %maxDryTicks && isObject(%dryGrow)) //its dead, jimbo
+				if (%brick.dryTicks >= %maxDryTicks) //its dead, jimbo
 				{
-					// talk("Death due to dryness	");
-					%brick.setDatablock(%dryGrow);
-					// RemovePlantSimSet.add(%brick);
+					if (isObject(%dryGrow))
+					{
+						// talk("Death due to dryness	");
+						%brick.setDatablock(%dryGrow);
+						// RemovePlantSimSet.add(%brick);
+					}
+					else
+					{
+						%brick.delete();
+					}
 				}
 			}
 			else //do nothing, crop has no death penalty for being dry, just doesn't grow
@@ -267,6 +280,20 @@ function doGrowCalculations(%brick, %db)
 				//update with correct growTime
 				%tickTime = $Farming::Crops::PlantData_[%wetGrow.cropType, %wetGrow.stage, "timePerTick"];
 				%brick.nextGrow = $Sim::Time + %tickTime / 1000;
+				
+				// Growth particles
+				%p = new Projectile()
+				{
+					dataBlock = "FarmingPlantGrowthProjectile";
+					initialVelocity = "0 0 1";
+					initialPosition = %brick.position;
+				};
+
+				if (isObject(%p))
+				{
+					MissionCleanup.add(%p);
+					%p.explode();
+				}
 			}
 
 			//extra tick if next grow is still before the last growtime; recursive

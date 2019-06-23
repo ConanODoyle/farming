@@ -39,7 +39,7 @@ package Processors
 				if (isFunction(%func))
 				{
 					call(%func, %hit, %obj);
-					if (!%hit.getDatablock().keepActivate)
+					if (isObject(%hit) && !%hit.getDatablock().keepActivate)
 					{
 						return;
 					}

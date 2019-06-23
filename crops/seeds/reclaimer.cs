@@ -79,7 +79,7 @@ function ReclaimerImage2::onFire(%this, %obj, %slot)
 		{
 			%itemDB = %type @ "SeedItem";
 
-			if (getRandom() < 0.02)
+			if (getRandom() < 0.2)
 			{
 				%amt = 2;
 				messageClient(%obj.client, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed two seeds!");

@@ -70,8 +70,8 @@ function generateWeed(%brick)
 	%small = getWords(%box, 0, 2);
 	%large = getWords(%box, 3, 5);
 
-	%xRange = getWord(%large, 0) * 2 - getWord(%small, 0) * 2;
-	%yRange = getWord(%large, 1) * 2 - getWord(%small, 1) * 2;
+	%xRange = getWord(%large, 0) * 2 - getWord(%small, 0) * 2 - 0.5;
+	%yRange = getWord(%large, 1) * 2 - getWord(%small, 1) * 2 - 0.5;
 	%z = getWord(%large, 2);
 
 	%xRand = getRandom(%xRange) / 2;
@@ -79,12 +79,14 @@ function generateWeed(%brick)
 
 	%pos = getWord(%small, 0) + %xRand SPC getWord(%small, 1) + %yRand SPC %z + %zOffset;
 
+	// %end = %pos;
+	// %start = vectorAdd(%pos, "0 0 5");
+	// %pos = getWords(containerRaycast(%start, %end, $Typemasks::fxBrickAlwaysObjectType), 1, 3);
 
 	//attempt placement
 	%b = new fxDTSBrick()
 	{
 		seedPlant = 1;
-		colorID = %brickDB.defaultColor + 0;
 		position = %pos;
 		isPlanted = 1;
 		dataBlock = brickWeed0CropData;
@@ -94,8 +96,8 @@ function generateWeed(%brick)
 	if (%error > 0 || %error $= "")
 	{
 		%b.delete();
-		%brick.fertilizerWeedModifier -= 0.1;
-		%brick.fertilizerWeedModifier = getMax(%brick.fertilizerWeedModifier, 0);
+		%brick.fertilizerWeedModifier -= 1;
+		%brick.fertilizerWeedModifier = (%brick.fertilizerWeedModifier < 0 ? 0 : %brick.fertilizerWeedModifier);
 		return;
 	}
 
@@ -104,7 +106,7 @@ function generateWeed(%brick)
 	%b.setColliding(0);
 
 	%brick.fertilizerWeedModifier -= 10;
-	%brick.fertilizerWeedModifier = getMax(%brick.fertilizerWeedModifier, 0);
+	%brick.fertilizerWeedModifier = (%brick.fertilizerWeedModifier < 0 ? 0 : %brick.fertilizerWeedModifier);
 
 	%brick.getGroup().add(%b);
 
@@ -181,7 +183,7 @@ function getWeedTimeModifier(%plant)
 	}
 	// if (!%plant.getDatablock().isWeed)
 		// talk("Final: " @ %final);
-	%plant.weedList = trim(%final);
+	%plant.weedList = getSubStr(%final, 1, strLen(%final));
 
 	return %multiplier;
 }
@@ -203,4 +205,62 @@ function pickWeed(%brick, %pl)
 		removeWeed(%next, %brick);
 	}
 	%brick.delete();
+}
+
+
+
+
+//whacker//
+
+datablock ItemData(WeedWhackerItem : HammerItem)
+{
+	iconName = "./icons/WeedWhacker";
+	shapeFile = "./tools/WeedWhacker.dts";
+	uiName = "Weed Cutter";
+
+	image = "WeedWhackerImage";
+	colorShiftColor = "0.4 0 0 1";
+
+	cost = 1200;
+};
+
+datablock ShapeBaseImageData(WeedWhackerImage)
+{
+	shapeFile = "./tools/WeedWhacker.dts";
+
+	emap = true;
+	armReady = true;
+
+	item = WeedWhackerItem;
+	doColorShift = true;
+	colorShiftColor = WeedWhackerItem.colorShiftColor;
+
+	areaHarvest = 2;
+	stateTimeoutValue[2] = 0.4;
+
+	toolTip = "Area remove and prevent weeds";
+
+	stateName[0] = "Activate";
+	stateTimeoutValue[0] = 0.1;
+	stateTransitionOnTimeout[0] = "Ready";
+
+	stateName[1] = "Ready";
+	stateTransitionOnTriggerDown[1] = "Fire";
+
+	stateName[2] = "Fire";
+	stateScript[2] = "onFire";
+	stateTransitionOnTriggerUp[2] = "Ready";
+	stateTimeoutValue[2] = 0.2;
+	stateTransitionOnTimeout[2] = "Repeat";
+	stateWaitForTimeout[2] = 1;
+
+	stateName[3] = "Repeat";
+	stateTimeoutValue[3] = 0.12;
+	stateTransitionOnTimeout[3] = "Fire";
+	stateTransitionOnTriggerUp[3] = "Ready";
+};
+
+function WeedWhackerImage::onFire(%this, %obj, %slot)
+{
+	toolHarvest(%this, %obj, %slot);
 }

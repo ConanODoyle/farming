@@ -52,13 +52,9 @@ function serverCmdGiveMoney(%cl, %amount, %t1, %t2, %t3, %t4)
 	%target.setScore(%target.score + %amt);
 	if (%cl.score >= 10000)
 	{
-        if (%cl.score - %amt - 50 <= 0) {
-            messageClient(%cl, '', "You don't have $" @ mFloatLength(%amt + 50, 2) @ "!");
-            return;
-        }
 		%cl.setScore(%cl.score - 50);
 	}
-	%cl.setScore(mFloatLength(%cl.score - %amt, 2));
+	%cl.setScore(%cl.score - %amt);
 	messageClient(%cl, 'MsgUploadEnd', "\c6You gave \c3" @ %target.name @ "\c2 $" @ %amt);
 	messageClient(%target, 'MsgUploadEnd', "\c3" @ %cl.name @ "\c6 gave you\c2 $" @ %amt);
 

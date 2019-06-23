@@ -14,6 +14,41 @@ function harvestBrick(%brick, %tool, %harvester)
 	%changeOnHarvest = $Farming::Crops::PlantData_[%type, %stage, "changeOnHarvest"];
 	%dieOnHarvest = $Farming::Crops::PlantData_[%type, %stage, "dieOnHarvest"];
 	%harvestMaxRange = $Farming::Crops::PlantData_[%type, %stage, "maxHarvestTimes"];
+	
+	if (%toolType $= "Trowel")
+	{
+		%p = new Projectile()
+		{
+			dataBlock = "FarmingHarvestBelowGroundPlantProjectile";
+			initialVelocity = "0 0 1";
+			initialPosition = VectorSub(%brick.position, "0 0" SPC %brick.getDataBlock().brickSizeZ / 10);
+		};
+		
+		if (isObject(%p))
+		{
+			MissionCleanup.add(%p);
+			%p.explode();
+		}
+	}
+	else
+	{
+		%p = new Projectile()
+		{
+			dataBlock = "FarmingHarvestAboveGroundPlantProjectile";
+			initialVelocity = "0 0 1";
+			
+			// brick height is in plates, so brick height divided by 5 is brick height in TU
+			// brick height in TU must be divided by half to get the center point, so
+			// height / 5 / 2 == height / 10
+			initialPosition = %brick.position;
+		};
+		
+		if (isObject(%p))
+		{
+			MissionCleanup.add(%p);
+			%p.explode();
+		}
+	}
 
 	//check if we pruning
 	%pruneTool = $Farming::Crops::PlantData_[%type, %stage, "pruneTool"];
@@ -24,7 +59,7 @@ function harvestBrick(%brick, %tool, %harvester)
 		{
 			//its a prune, so we dont gotta do anything else except change db
 			%brick.setDatablock(%pruneDB);
-			%harvester.client.centerPrint("<color:ffff00>Tree pruned!", 1);
+			%harvester.client.centerPrint("<color:ffff00>Plant pruned!", 1);
 			return;
 		}
 	}
@@ -39,7 +74,7 @@ function harvestBrick(%brick, %tool, %harvester)
 		%brick.maxHarvestTimes = getRandom(getWord(%harvestMaxRange, 0), getWord(%harvestMaxRange, 1));
 	}
 	%brick.harvestTimes++;
-
+	
 	if (getTrustLevel(%brick, %harvester) < 2)
 	{
 		if (getBrickgroupFromObject(%brick).bl_id != 888888)

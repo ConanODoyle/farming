@@ -12,7 +12,7 @@ $WeedBaseChance = 0.003;
 $WeedFertModifier = 0.00005;
 $WeedTickLength = 5;
 $WeedSearchRadius = 1;
-$WeedWeatherFactor = 2;
+$WeedWeatherFactor = 10;
 
 // Dirt colors
 $DirtWaterColor0 = 54;
@@ -125,7 +125,7 @@ $StorageMax_WeedKiller = 120;
 //Fertilizer production
 $FertCount_Potato = "12 16";
 $FertCount_Carrot = "16 22";
-$FertCount_Tomato = "8 12";
+$FertCount_Tomato = "18 24";
 
 $FertCount_Default = "10 16";
 $FertTickAmt = 1;

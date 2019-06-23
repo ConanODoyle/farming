@@ -224,6 +224,7 @@ function pickupStackableItem(%pl, %item, %slot, %amt)
 		}
 	}
 	//item still has count left, leave it in existence
+	%item.setCollisionTimeout(%pl);
 }
 
 //code copied from default serverCmdDropTool

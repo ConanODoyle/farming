@@ -22,9 +22,9 @@ datablock ShapeBaseImageData(PlanterImage)
 
 	armReady = true;
 
-	tooltip = "Plants up to 4 seeds in a row";
+	tooltip = "Plants up to 6 seeds in a row";
 
-	min = 4;
+	min = 6;
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";
@@ -73,9 +73,9 @@ datablock ShapeBaseImageData(PlanterV2Image)
 
 	armReady = true;
 
-	tooltip = "Plants up to 24 seeds in a row";
+	tooltip = "Plants up to 18 seeds in a row";
 
-	min = 24;
+	min = 18;
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";
