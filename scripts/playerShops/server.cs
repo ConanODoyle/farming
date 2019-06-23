@@ -152,6 +152,8 @@ package PlayerShops
 		{
 			%menu.brick.updateShopDisplay();
 		}
+		
+		return %ret;
 	}
 
 	function serverCmdShiftBrick(%cl, %x, %y, %z)
@@ -182,6 +184,7 @@ package PlayerShops
 	function validateStorageContents(%str, %brick)
 	{
 		%ret = Parent::validateStorageContents(%str, %brick);
+		if (%brick.isShopBrick) return %ret;
 		%oldRet = %ret;
 		if (%ret $= "") return "";
 
@@ -332,7 +335,7 @@ function fxDTSBrick::updateShopDisplay(%this)
 		switch(%this.angleID)
 		{
 			case 0: %currPos = %currPos;
-			case 1: %currPos = getWord(%currPos, 1) SPC	 -1 * getWord(%currPos, 0) SPC getWord(%currPos, 2);
+			case 1: %currPos = getWord(%currPos, 1) SPC -1 * getWord(%currPos, 0) SPC getWord(%currPos, 2);
 			case 2: %currPos = -1 * getWord(%currPos, 0) SPC -1 * getWord(%currPos, 1) SPC getWord(%currPos, 2);
 			case 3: %currPos = -1 * getWord(%currPos, 1) SPC getWord(%currPos, 0) SPC getWord(%currPos, 2);
 		}
