@@ -1,5 +1,6 @@
-$Stackable_Weed_StackedItem0 = "WeedBasket0Item 2";
-$Stackable_Weed_StackedItemTotal = 1;
+$Stackable_Weed_StackedItem0 = "Weed0Item 2";
+$Stackable_Weed_StackedItem1 = "Weed1Item 4";
+$Stackable_Weed_StackedItemTotal = 2;
 
 datablock ItemData(WeedItem : HammerItem)
 {
@@ -12,28 +13,42 @@ datablock ItemData(WeedItem : HammerItem)
 	stackType = "Weed";
 };
 
-datablock ItemData(WeedBasket0Item : HammerItem)
+datablock ItemData(Weed0Item : HammerItem)
 {
 	shapeFile = "./Weed0.dts";
-	uiName = "Weed Basket";
-	image = "WeedBasket0Image";
+	uiName = "Weed ";
+	image = "Weed0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Weed";
+	// iconName = "Add-ons/Server_Farming/crops/icons/Weed_";
 
 	isStackable = 1;
 	stackType = "Weed";
 };
 
-datablock ShapeBaseImageData(WeedBasket0Image)
+datablock ItemData(Weed1Item : HammerItem)
 {
-	shapeFile = "./WeedBasket0.dts";
+	shapeFile = "./Weed1.dts";
+
+	uiName = "Full Weed ";
+	image = "Weed1Image";
+	doColorShift = false;
+
+	// iconName = "Add-ons/Server_Farming/crops/icons/Weed_Star";
+
+	isStackable = 1;
+	stackType = "Weed";
+};
+
+datablock ShapeBaseImageData(Weed0Image)
+{
+	shapeFile = "./Weed0.dts";
 	emap = true;
 
 	doColorShift = false;
 	colorShiftColor = "1 1 1 1";
 
-	item = WeedBasket0Item;
+	item = Weed0Item;
 	
 	armReady = 1;
 
@@ -62,21 +77,49 @@ datablock ShapeBaseImageData(WeedBasket0Image)
 	stateWaitForTimeout[3] = true;
 };
 
-function WeedBasket0Image::onFire(%this, %obj, %slot)
+datablock ShapeBaseImageData(Weed1Image : Weed0Image) 
+{
+	shapeFile = "./Weed1.dts";
+
+	item = Weed1Item;
+};
+
+function Weed0Image::onFire(%this, %obj, %slot)
 {
 
 }
 
-function WeedBasket0Image::onMount(%this, %obj, %slot)
+function Weed1Image::onFire(%this, %obj, %slot)
+{
+
+}
+
+function Weed0Image::onMount(%this, %obj, %slot)
 {
 	%obj.playThread(1, "armReadyRight");
 }
 
-function WeedBasket0Image::onUnmount(%this, %obj, %slot)
+function Weed1Image::onMount(%this, %obj, %slot)
+{
+	%obj.playThread(1, "armReadyRight");
+}
+
+function Weed0Image::onUnmount(%this, %obj, %slot)
 {
 
 }
-function WeedBasket0Image::onLoop(%this, %obj, %slot)
+
+function Weed1Image::onUnmount(%this, %obj, %slot)
+{
+
+}
+
+function Weed0Image::onLoop(%this, %obj, %slot)
+{
+	foodLoop(%this, %obj);
+}
+
+function Weed1Image::onLoop(%this, %obj, %slot)
 {
 	foodLoop(%this, %obj);
 }

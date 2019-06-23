@@ -97,6 +97,8 @@ $StorageMax_Watermelon = 1 * 4;
 $StorageMax_Date = 9 * 4;
 $StorageMax_Peach = 16 * 3;
 
+$StorageMax_Weed = 4 * 30;
+
 $StorageMax_TomatoSeed = 24;
 $StorageMax_PotatoSeed = 48;
 $StorageMax_CarrotSeed = 24;
@@ -129,3 +131,21 @@ $FertCount_Tomato = "18 24";
 
 $FertCount_Default = "10 16";
 $FertTickAmt = 1;
+
+//List of produce
+$ProduceCheck_["Potato"] 		= 1;
+$ProduceCheck_["Carrot"] 		= 1;
+$ProduceCheck_["Tomato"] 		= 1;
+$ProduceCheck_["Corn"] 			= 1;
+$ProduceCheck_["Cabbage"] 		= 1;
+$ProduceCheck_["Onion"] 		= 1;
+$ProduceCheck_["Blueberry"] 	= 1;
+$ProduceCheck_["Turnip"] 		= 1;
+$ProduceCheck_["Apple"] 		= 1;
+$ProduceCheck_["Mango"] 		= 1;
+$ProduceCheck_["Chili"] 		= 1;
+$ProduceCheck_["Cactus"] 		= 1;
+$ProduceCheck_["Watermelon"]	= 1;
+$ProduceCheck_["Date"] 			= 1;
+$ProduceCheck_["Peach"] 		= 1;
+$ProduceCheck_["Weed"] 			= 1;

@@ -28,6 +28,27 @@ package CompostBinRetrieveOnly
 		}
 		return parent::attemptStorage(%brick, %cl, %slot, %multiplier);
 	}
+
+	function fxDTSBrick::displayStorageContents(%this, %str1, %str2, %str3, %str4, %cl)
+	{
+		if (%this.getDatablock().isCompostBin)
+		{
+			if (getTrustLevel(%cl, %this) < 2)
+			{
+				return;
+			}
+
+			%this.updateCompostBinMenu(%str1, %str2, %str3, %str4);
+
+			%cl.startCenterprintMenu(%this.centerprintMenu);
+
+			storageLoop(%cl, %this);
+		}
+		else
+		{
+			return parent::displayStorageContents(%this, %str1, %str2, %str3, %str4, %cl);
+		}
+	}
 };
 activatePackage(CompostBinRetrieveOnly);
 
@@ -330,7 +351,7 @@ function createFertilizer(%brick)
 	}
 	%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
 
-	%brick.updateCenterprintMenu(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
+	%brick.updateCompostBinMenu(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
 }
 
 function processIntoFertilizer(%brick, %cl, %slot)
@@ -374,6 +395,7 @@ function processIntoFertilizer(%brick, %cl, %slot)
 		%count = getSubStr(%brick.getName(), 1, 100);
 		%brick.setName("_" @ (%count + %rand));
 		%cl.centerprint("<color:ffffff>You started making <color:ffff00>" @ %rand @ "<color:ffffff> fertilizer out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
+		%cl.schedule(100, centerprint, "<color:cccccc>You started making <color:ffff00>" @ %rand @ "<color:cccccc> fertilizer out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
 		return;
 	}
 }
@@ -688,4 +710,64 @@ function fertilizerLoop(%image, %obj)
 	{
 		%cl.centerprint("<color:ffff00>-Fertilizer Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
 	}
+}
+
+
+
+//Fertilizer storage ui adjustment
+function fxDTSBrick::updateCompostBinMenu(%this, %str1, %str2, %str3, %str4)
+{
+	for (%i = 1; %i < 5; %i++)
+	{
+		%str[%i] = validateStorageContents(%str[%i], %this);
+	}
+
+	if (!isObject(%this.centerprintMenu))
+	{
+		%this.centerprintMenu = new ScriptObject(StorageCenterprintMenus)
+		{
+			isCenterprintMenu = 1;
+			menuName = %this.getDatablock().uiName;
+
+			menuOption[0] = "Empty";
+			menuOption[1] = "Empty";
+			menuOption[2] = "Empty";
+			menuOption[3] = "Empty";
+			menuOption[4] = "Queued: 0";
+
+			menuFunction[0] = "removeStack";
+			menuFunction[1] = "removeStack";
+			menuFunction[2] = "removeStack";
+			menuFunction[3] = "removeStack";
+			menuFunction[4] = "";
+
+			menuOptionCount = 5;
+			brick = %this;
+		};
+		MissionCleanup.add(%this.centerprintMenu);
+
+		//%cl.currOption
+	}
+
+	for (%i = 0; %i < 4; %i++)
+	{
+		%stackType = getField(%str[%i + 1], 0);
+		%count = getField(%str[%i + 1], 1);
+		if (%stackType !$= "")
+		{
+			if (!isObject(%stackType))
+			{
+				%this.centerprintMenu.menuOption[%i] = %stackType @ " - " @ %count;
+			}
+			else
+			{
+				%this.centerprintMenu.menuOption[%i] = strUpr(getSubStr(%stackType.uiName, 0, 1)) @ getSubStr(%stackType.uiName, 1, 100);
+			}
+		}
+		else
+		{
+			%this.centerprintMenu.menuOption[%i] = "Empty";	
+		}
+	}
+	%this.centerprintMenu.menuOption[4] = "Queued: " @ (getSubStr(%this.getName(), 1, 30) + 0);
 }
