@@ -40,8 +40,7 @@ function weedTick(%index)
 function generateWeed(%brick)
 {
 	//check if we create a weed
-	if (%brick.weedImmunityTicks) {
-		%brick.weedImmunityTicks--;
+	if (%brick.weedImmunityExpires > $Sim::Time) {
 		return;
 	}
 
@@ -50,11 +49,11 @@ function generateWeed(%brick)
 
 	if ($rainTicksLeft > 0)
 	{
-	    %chance *= $WeedWeatherFactor;
+		%chance *= $WeedWeatherFactor;
 	}
 	else if ($heatWaveTicksLeft > 0)
 	{
-	    %chance /= $WeedWeatherFactor;
+		%chance /= $WeedWeatherFactor;
 	}
 
 	if (%rand > %chance)

@@ -53,7 +53,7 @@ function sprinklerTick(%index)
 			%brick.age = $Sim::Time;
 			// echo("Initialized " @ %brick @ " age");
 		}
-		if (%brick.age + 60 < $Sim::Time)
+		if (%brick.age + 60 < $Sim::Time && !$Server::AS["InUse"])
 		{
 			%name = %brick.getName();
 			%brick.setName("CopySprinkler");

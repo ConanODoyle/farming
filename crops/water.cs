@@ -331,7 +331,7 @@ function waterCanFire(%this, %obj, %slot)
         {
             announce("<bitmap:base/client/ui/ci/star>\c3" @ %obj.client.name @ "\c6 set a new watering combo count of \c3" @ %obj.waterCount @ "\c6!");
             $Pref::Server::maxWaterCombo = %obj.waterCount SPC "(" @ %obj.client.name @ ")";
-        } 
+        }
         %obj.waterCount = 0;
     }
 
@@ -356,11 +356,11 @@ package ClickToSeeWater
             {
             //  %waterLevel = mCeil(%hit.waterLevel / %hit.getDatablock().maxWater * 100) @ "%";
                 %waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
-                %weedKillerTime = getTimeString(%hit.weedImmunityTicks * $WeedTickLength);
+                %weedKillerTime = %hit.weedImmunityExpires - $Sim::Time;
                 if (%weedKillerTime > 0)
                 {
-                    %weedKillerStr = "<br><color:ffffff>Weedkill time: " @ %weedKillerTime;
-                    %weedKillerEndStr = "<br><color:cccccc>Weedkill time: " @ %weedKillerTime;
+                    %weedKillerStr = "<br><color:ffffff>Weedkill time: " @ convTime(%weedKillerTime);
+                    %weedKillerEndStr = "<br><color:cccccc>Weedkill time: " @ convTime(%weedKillerTime);
                 }
                 %cl.centerprint("<color:ffffff>Water Level: " @ %waterLevel @ " " @ %weedKillerStr, 1);
                 %cl.schedule(50, centerprint, "<color:cccccc>Water Level: " @ %waterLevel @ " " @ %weedKillerEndStr, 1);
