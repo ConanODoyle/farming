@@ -92,7 +92,6 @@ function killWeeds(%img, %obj, %slot)
 	%type = %item.stackType;
 	%cl = %obj.client;
 	%count = %obj.toolStackCount[%obj.currTool];
->>>>>>> 239860366b0cb6403da7533975195b405c2f85be
 }
 
 ////////
