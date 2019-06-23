@@ -29,7 +29,7 @@ package BuildCost
 		%db = %obj.getDatablock();
 		if (%obj.isPlanted && %db.cost > 0 && !isEventPending(%obj.buySchedule) && !%obj.skipSell)
 		{
-			sellObject(%obj);
+			// sellObject(%obj);
 		}
 
 		return parent::onRemove(%obj);
@@ -92,7 +92,7 @@ function messageDeductedMoney(%cl)
 
 function sellObject(%b)
 {
-	if (%b.sold)
+	if (%b.sold || !isEventPending($masterGrowSchedule))
 	{
 		return;
 	}

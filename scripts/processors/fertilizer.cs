@@ -48,14 +48,13 @@ function compostTick(%index)
 		return;
 	}
 
-	%max = 16;
-	for (%i = 0; %i < %max; %i++)
+	for (%i = 0; %i < %count; %i++)
 	{
 		if (%index + %i >= %count)
 		{
 			break;
 		}
-		%brick = CompostBinSimSet.getObject(%i + index);
+		%brick = CompostBinSimSet.getObject(%i + %index);
 
 		if (%brick.nextCompostTime < $Sim::Time)
 		{
@@ -132,7 +131,7 @@ function fertilizeCrop(%img, %obj, %slot)
 
 			if (!isObject(%crop.emitter))
 			{
-				if (getRandom() < 0.005)
+				if (getRandom() < %img.shinyChance)
 				{
 					%rand = getRandom();
 					if (%rand < 0.025)
@@ -164,7 +163,7 @@ function fertilizeCrop(%img, %obj, %slot)
 		}
 		if (%numGrown == %numCrops)
 		{
-			%obj.client.centerprint("All of these plants are already fully grown!");
+			%obj.client.centerprint("All of the small plants are already fully grown!");
 			return;
 		}
 	}
@@ -196,7 +195,7 @@ function fertilizeCrop(%img, %obj, %slot)
 
 		if (!isObject(%crop.emitter))
 		{
-			if (getRandom() < 0.015)
+			if (getRandom() < %img.shinyChance * 3)
 			{
 				%rand = getRandom();
 				if (%rand < 0.05)
@@ -226,7 +225,21 @@ function fertilizeCrop(%img, %obj, %slot)
 			}
 		}
 	}
-	//plant successful, update item
+
+	//increase weed chance on the dirt
+	if (%brick.getDatablock().isDirt)
+	{
+		%brick.fertilizerWeedModifier += 1;
+	}
+	else
+	{
+		for (%i = 0; %i < %brick.getNumDownBricks(); %i++)
+		{
+			%brick.getDownBrick(%i).fertilizerWeedModifier += 1;
+		}
+	}
+
+	//fertilization successful, update item
 
 	%count = %obj.toolStackCount[%obj.currTool]--;
 	%slot = %obj.currTool;
@@ -267,24 +280,26 @@ function fertilizeCrop(%img, %obj, %slot)
 	}
 }
 
-function createFertilizer(%brick, %client, %count)
+function createFertilizer(%brick)
 {
 	%name = %brick.getName();
 	%count = getSubStr(%name, 1, strLen(%name));
 
 	if (%brick.nextCompostTime $= "")
 	{
-		%brick.nextCompostTime = $Sim::Time + $FertTickTime;
+		%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
 		return;
 	}
 
+	%maxCount = %brick.getDatablock().tickAmt;
 	if (%count > 0)
 	{
-		%amt = getMin($FertTickAmt, %count);
+		%amt = getMin(%maxCount, %count);
 		%origAmt = %amt;
 	}
 	else
 	{
+		%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime / 10;
 		return;
 	}
 
@@ -313,7 +328,9 @@ function createFertilizer(%brick, %client, %count)
 		%count = %count - %amtAdded;
 		%brick.setName("_" @ %count);
 	}
-	%brick.nextCompostTime = $Sim::Time + $FertTickTime;
+	%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
+
+	%brick.updateCenterprintMenu(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
 }
 
 function processIntoFertilizer(%brick, %cl, %slot)
@@ -363,7 +380,11 @@ function processIntoFertilizer(%brick, %cl, %slot)
 
 function compostBinInfo(%brick, %pl)
 {
-	%pl.client.centerprint("<color:ffffff>Drop (Ctrl-W) a full basket of produce in here to make fertilizer! Amount varies with produce type.", 2);
+	if (%pl.client.lastMessagedCompostBinInfo + 5 < $Sim::Time)
+	{
+		messageClient(%pl.client, '', "\c3Drop (Ctrl-W) a full basket of produce in the bin to make fertilizer! Amount varies with produce type.", 2);
+		%pl.client.lastMessagedCompostBinInfo = $Sim::Time;
+	}
 }
 
 
@@ -388,6 +409,34 @@ datablock fxDTSBrickData(brickCompostBinData)
 	processorFunction = "processIntoFertilizer";
 	activateFunction = "compostBinInfo";
 	placerItem = "CompostBinItem";
+	keepActivate = 1;
+
+	tickTime = 10;
+	tickAmt = 1;
+};
+
+datablock fxDTSBrickData(brickLargeCompostBinData)
+{
+	// category = "Farming";
+	// subCategory = "Extra";
+	uiName = "Large Compost Bin";
+
+	brickFile = "./resources/largecompostBin.blb";
+
+	iconName = "Add-Ons/Server_Farming/crops/icons/large_compost_bin";
+
+	cost = 0;
+	isProcessor = 1;
+	isCompostBin = 1;
+	isStorageBrick = 1;
+	storageBonus = 3;
+	processorFunction = "processIntoFertilizer";
+	activateFunction = "compostBinInfo";
+	placerItem = "LargeCompostBinItem";
+	keepActivate = 1;
+
+	tickTime = 8;
+	tickAmt = 2;
 };
 
 
@@ -414,6 +463,7 @@ datablock ShapeBaseImageData(CompostBinBrickImage : BrickPlacerImage)
 	
 	offset = "-0.56 0 0";
 	eyeOffset = "0 0 0";
+	rotation = eulerToMatrix("0 0 90");
 
 	item = CompostBinItem;
 	
@@ -421,7 +471,7 @@ datablock ShapeBaseImageData(CompostBinBrickImage : BrickPlacerImage)
 	colorShiftColor = CompostBinItem.colorShiftColor;
 
 	toolTip = "Places a Compost Bin";
-	loopTip = "Lets you convert produce into fertilizer";
+	loopTip = "Converts produce into fertilizer";
 	placeBrick = "brickCompostBinData";
 };
 
@@ -441,6 +491,58 @@ function CompostBinBrickImage::onLoop(%this, %obj, %slot)
 }
 
 function CompostBinBrickImage::onFire(%this, %obj, %slot)
+{
+	brickPlacerItemFire(%this, %obj, %slot);
+}
+
+
+
+datablock ItemData(LargeCompostBinItem : brickPlacerItem)
+{
+	shapeFile = "./resources/toolbox.dts";
+	uiName = "Large Compost Bin";
+	image = "LargeCompostBinBrickImage";
+	colorShiftColor = "0.5 0 0 1";
+
+	iconName = "Add-ons/Server_Farming/crops/icons/large_compost_bin";
+	
+	cost = 1600;
+};
+
+datablock ShapeBaseImageData(LargeCompostBinBrickImage : BrickPlacerImage)
+{
+	shapeFile = "./resources/toolbox.dts";
+	
+	offset = "-0.56 0 0";
+	eyeOffset = "0 0 0";
+	rotation = eulerToMatrix("0 0 90");
+
+	item = LargeCompostBinItem;
+	
+	doColorshift = true;
+	colorShiftColor = LargeCompostBinItem.colorShiftColor;
+
+	toolTip = "Places a Large Compost Bin";
+	loopTip = "Converts produce into fertilizer";
+	placeBrick = "brickLargeCompostBinData";
+};
+
+function LargeCompostBinBrickImage::onMount(%this, %obj, %slot)
+{
+	brickPlacerItem_onMount(%this, %obj, %slot);
+}
+
+function LargeCompostBinBrickImage::onUnmount(%this, %obj, %slot)
+{
+	brickPlacerItem_onUnmount(%this, %obj, %slot);
+}
+
+function LargeCompostBinBrickImage::onLoop(%this, %obj, %slot)
+{
+	brickPlacerItemLoop(%this, %obj, %slot);
+}
+
+function LargeCompostBinBrickImage::onFire(%this, %obj, %slot)
 {
 	brickPlacerItemFire(%this, %obj, %slot);
 }
@@ -482,10 +584,11 @@ datablock ShapeBaseImageData(FertilizerBag0Image)
 
 	offset = "";
 
-	toolTip = "Make plants grow, chance for shiny";
+	toolTip = "Make plants grow faster, chance of shiny";
 
-	bonusGrowTicks = 2; //bonus grow tick per use (does not consume water)
-	bonusGrowTime = 5; //reduction in seconds to next grow tick
+	bonusGrowTicks = 0; //bonus grow tick per use (does not consume water)
+	bonusGrowTime = 10; //reduction in seconds to next grow tick
+	shinyChance = 0.004;
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";

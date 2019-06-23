@@ -71,7 +71,7 @@ package FarmingSpawn
 			%word = %amt > 0 ? "refunded" : "charged";
 			%color = %amt > 0 ? "\c2" : "\c0";
 
-			messageClient(%cl, '', "\c6You were " @ %word @ %color @ " $" @ %amt @ "\c6 for changes while you were offline.");
+			messageClient(%client, '', "\c6You were " @ %word @ %color @ " $" @ %amt @ "\c6 for build/vehicle changes while you were offline.");
 		}
 
 		return %ret;

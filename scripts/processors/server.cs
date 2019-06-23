@@ -2,7 +2,7 @@
 //Define core datablocks first
 datablock ItemData(BrickPlacerItem : HammerItem)
 {
-	shapeFile = "base/data/shapes/empty.dst";
+	shapeFile = "base/data/shapes/empty.dts";
 	uiName = "";
 	image = "BrickPlacerImage";
 	// colorShiftColor = "0.5 0.5 0.5 1";
@@ -60,11 +60,6 @@ datablock ShapeBaseImageData(BrickPlacerImage)
 	stateWaitForTimeout[3] = true;
 };
 
-
-exec("./fertilizer.cs");
-exec("./flowerpot.cs");
-exec("./planterBox.cs");
-
 function brickPlacerItem_onMount(%this, %obj, %slot)
 {
 	%obj.itemBrickSelection = %this.placeBrick.getID();
@@ -104,6 +99,7 @@ function brickPlacerItemFire(%this, %obj, %slot)
 		%obj.client.instantUseData = %this.placeBrick;
 
 		%p = new Projectile() {
+			colorID = %obj.client.currentColor;
 			dataBlock = %this.projectile;
 			initialPosition = vectorSub(getWords(%ray, 1, 3), %obj.getEyeVector());
 			initialVelocity = vectorScale(%obj.getEyeVector(), 100);
@@ -113,3 +109,8 @@ function brickPlacerItemFire(%this, %obj, %slot)
 		};
 	}
 }
+
+exec("./fertilizer.cs");
+exec("./superfertilizer.cs");
+exec("./flowerpot.cs");
+exec("./planterBox.cs");

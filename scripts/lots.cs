@@ -341,7 +341,7 @@ function serverCmdBuyLot(%cl)
 	{
 		if (!%hit.getDatablock().isSingle)
 		{
-			%cost = %cost SPC ", 100 EXP";
+			%cost = %cost @ ", 100 EXP";
 		}
 		messageClient(%cl, '', "You cannot afford this lot! (Cost: $" @ %cost @ ")");
 
@@ -438,7 +438,7 @@ function serverCmdSellLot(%cl, %force)
 	{
 		if (%force)
 		{
-			%forceText = "\c0force \c6";
+			%forceText = "\c0force \c5";
 		}
 		messageClient(%cl, '', "\c5Are you sure you want to " @ %forceText @ "sell this lot? Any bricks above it will be removed with 90% refund. Repeat /sellLot to confirm");
 		%cl.repeatSellLot = %hit;
@@ -785,6 +785,10 @@ function clearLotRecursive(%lotBrick, %client)
 		
 		if (isContainedInBounds(%next.getPosition() TAB %next.getPosition(), %lotBounds))
 		{
+			if (%next.getDatablock().cost > 0)
+			{
+				sellObject(%next);
+			}
 			%next.delete();
 		}
 	}

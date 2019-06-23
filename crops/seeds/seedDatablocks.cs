@@ -9,8 +9,15 @@ exec("./turnip.cs");
 exec("./appleTree.cs");
 exec("./mangoTree.cs");
 
+exec("./chili.cs");
+exec("./cactus.cs");
+exec("./watermelon.cs");
+exec("./dateTree.cs");
+exec("./peachTree.cs");
+
 exec("./daisy.cs");
 exec("./lily.cs");
+exec("./rose.cs");
 
 exec("./planter.cs");
 exec("./reclaimer.cs");
@@ -26,7 +33,8 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 {
 	%cropType = %image.cropType;
 	%expRequirement = $Farming::Crops::PlantData_[%cropType, "experienceRequired"];
-	if (%obj.client.farmingExperience < %expRequirement)
+	%expCost = $Farming::Crops::PlantData_[%cropType, "experienceCost"];
+	if (%obj.client.farmingExperience < %expCost)
 	{
 		%obj.client.centerprint("You don't have enough experience to plant this crop!", 3);
 		return 0;
@@ -51,7 +59,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 		%end = vectorAdd(%pos, "0 0 -0.1");
 	}
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
-
+	
 	if (!isObject(%hit = getWord(%ray, 0)) || vectorDist(getWords(%ray, 4, 6), "0 0 1") > 0.01)
 	{
 		return 0;
@@ -104,7 +112,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 	%hitDB = %hit.getDatablock();
 	if ((%hitDB.isPot || %hitDB.isPlanter) && %brickDB.isTree)
 	{
-		messageClient(%obj.client, '', "You can only plant trees on dirt!");
+		messageClient(%obj.client, '', "You can only plant large plants on dirt!");
 		return 0;
 	}
 
@@ -115,6 +123,11 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 		if (isObject(%greenhouseCheck) && %greenhouseCheck.getDatablock().isGreenhouse)
 		{
 			%inGreenhouse = 1;
+			if (%brickDB.isTree)
+			{
+				messageClient(%obj.client, '', "You cannot plant large plants in greenhouses!");
+				return 0;
+			}
 		}
 
 		//check around the brick for any other plants and make sure we dont violate their radius requirement
@@ -122,12 +135,12 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 		initContainerRadiusSearch(%pos, 10, $Typemasks::fxBrickObjectType);
 		while (isObject(%next = containerSearchNext()))
 		{
-			if (%next.getDatablock().isPlant)
+			if (%next.getDatablock().isPlant && !%next.getDatablock().isWeed)
 			{
 				%nextType = %next.getDatablock().cropType;
 				%rad = $Farming::Crops::PlantData_[%nextType, "plantSpace"] * 0.5 - 0.01 + 0.5;
 				%nextPos = %next.getPosition();
-				%nextDirt = getWord(containerRaycast(%nextPos, vectorAdd(%nextPos, "0 0 -50"), $TypeMasks::fxBrickObjectType, %next), 0);
+				%nextDirt = %next.getDownBrick(0);//getWord(containerRaycast(%nextPos, vectorAdd(%nextPos, "0 0 -50"), $TypeMasks::fxBrickObjectType, %next), 0);
 
 				if (%next.getDatablock().isTree != %brickDB.isTree)
 				{
@@ -209,7 +222,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 	}
 
 	%b.setTrusted(1);
-	if (!%isTree)
+	if (!%isTree || %brickDB.noCollision)
 	{
 		%b.setColliding(0);
 	}

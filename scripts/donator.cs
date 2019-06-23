@@ -14,11 +14,13 @@ $isVIP_["51914"] 	= 1 TAB "MARBLE MAN";
 $isVIP_["9373"] 	= 1 TAB "Smallguy";
 $isVIP_["33468"] 	= 1 TAB "Wolfly";
 
+$isDonator_["4928"] 	= 1 TAB "Conan";
 $isDonator_["53456"] 	= 1 TAB "celau";
 $isDonator_["20061"] 	= 1 TAB "Cavik";
 $isDonator_["378"] 		= 1 TAB "Sylvanor";
 $isDonator_["49865"] 	= 1 TAB "Jasa";
 $isDonator_["14516"] 	= 1 TAB "ExecPaper";
+$isDonator_["36965"] 	= 1 TAB "Element";
 $isDonator_["12027"] 	= 1 TAB "Sentry";
 $isDonator_["23751"] 	= 1 TAB "Shy_Guy";
 $isDonator_["3306"] 	= 1 TAB "Mr.LoL";
@@ -28,6 +30,7 @@ $isDonator_["3898"] 	= 1 TAB "The Titanium (Donator but only wants join/reroll p
 $isDonator_["33688"] 	= 1 TAB "Redconer";
 $isDonator_["5518"] 	= 1 TAB "L";
 $isDonator_["27312"] 	= 1 TAB "FlavouredGames";
+$isDonator_["26135"]	= 1 TAB "dahscout";
 
 $isBetaTester_["30881"] 	= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"] 	= 1 TAB "Queuenard";
@@ -77,7 +80,7 @@ function applyDonatorSettings(%cl)
 	%cl.canWearHats = 1;
 	%cl.canRefreshDeal = 1;
 
-	if (%cl.name !$= "The Titanium")
+	if (%cl.name !$= "The Titanium" && %cl.name !$= "Conan")
 	{
 		%cl.isDonator = 1;
 		%cl.nameColor = "0.95 0.85 0";
@@ -222,6 +225,7 @@ package Donators
 		{
 			// messageAll('', "\c7" @ %cl.clanprefix @ "<color:ffaa00>" @ %cl.name @ "\c7" @ %cl.clansuffix @ "\c6: " @ %cl.messagePrefix @ stripMLControlChars(%msg));
 			chatMessageAll(%cl, '\c7%1<color:ffaa00>%2\c7%3\c6: %4', %cl.clanPrefix, %cl.getPlayerName(), %cl.clanSuffix, getDonatorMessage(%msg));
+			echo(%cl.getPlayerName() @ ": " @ %msg);
 		}
 		else
 		{

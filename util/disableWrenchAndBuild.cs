@@ -99,7 +99,14 @@ package disableWrenchData
 		%db = %this.getDatablock();
 		if (%db.isStorageBrick || %db.isGreenhouse || %db.isWaterTank || %db.isDirt || %db.isTree)
 		{
-			%bool = 1;
+			if (%db.noCollision)
+			{
+				%bool = 0;
+			}
+			else
+			{
+				%bool = 1;
+			}
 		}
 		else if (%db.isPlant)
 		{

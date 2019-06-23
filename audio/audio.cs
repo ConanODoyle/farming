@@ -74,6 +74,58 @@ datablock AudioProfile(AmbientRiverSound)
 
 
 
+datablock AudioProfile(SensualMusicSound)
+{
+	filename = "./Music/a_sensual_encounter_with_bronson.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Music - Sensual";
+};
+
+datablock AudioProfile(OverworldMusicSound)
+{
+	filename = "./Music/overworld.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Music - Overworld";
+};
+
+datablock AudioProfile(PrettyZoneMusicSound)
+{
+	filename = "./Music/pretty_zone.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Music - Pretty Zone";
+};
+
+datablock AudioProfile(SecretMusicSound)
+{
+	filename = "./Music/secret.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Music - Secret";
+};
+
+datablock AudioProfile(Shop1MusicSound)
+{
+	filename = "./Music/shop_one.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Music - Shop 1";
+};
+
+datablock AudioProfile(ShoppingMusicSound)
+{
+	filename = "./Music/shopping.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Music - Shopping";
+};
+
+
+
+
+
 datablock AudioProfile(AmbientUndergroundSound)
 {
 	filename = "./Desert/desert_growling.ogg";

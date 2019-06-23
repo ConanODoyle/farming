@@ -13,6 +13,7 @@ function harvestBrick(%brick, %tool, %harvester)
 
 	%changeOnHarvest = $Farming::Crops::PlantData_[%type, %stage, "changeOnHarvest"];
 	%dieOnHarvest = $Farming::Crops::PlantData_[%type, %stage, "dieOnHarvest"];
+	%harvestMaxRange = $Farming::Crops::PlantData_[%type, %stage, "maxHarvestTimes"];
 
 	//check if we pruning
 	%pruneTool = $Farming::Crops::PlantData_[%type, %stage, "pruneTool"];
@@ -32,7 +33,13 @@ function harvestBrick(%brick, %tool, %harvester)
 	{
 		return 0;
 	}
-	
+
+	if (getWordCount(%harvestMaxRange) == 2 && %brick.maxHarvestTimes <= 0)
+	{
+		%brick.maxHarvestTimes = getRandom(getWord(%harvestMaxRange, 0), getWord(%harvestMaxRange, 1));
+	}
+	%brick.harvestTimes++;
+
 	if (getTrustLevel(%brick, %harvester) < 2)
 	{
 		if (getBrickgroupFromObject(%brick).bl_id != 888888)
@@ -110,6 +117,10 @@ function harvestBrick(%brick, %tool, %harvester)
 	}
 
 	if (%dieOnHarvest)
+	{
+		%brick.delete();
+	} 
+	else if (%brick.harvestTimes >= %brick.maxHarvestTimes && %brick.maxHarvestTimes !$= "")
 	{
 		%brick.delete();
 	}
@@ -224,7 +235,7 @@ datablock ItemData(ClipperItem : HammerItem)
 	image = "ClipperImage";
 	colorShiftColor = "0.4 0 0 1";
 
-	cost = 1500;
+	cost = 1600;
 };
 
 datablock ExplosionData(ClipperExplosion : swordExplosion) 
@@ -265,7 +276,7 @@ datablock ItemData(HoeItem : HammerItem)
 	image = "HoeImage";
 	colorShiftColor = "0.4 0 0 1";
 
-	cost = 1800;
+	cost = 1300;
 };
 
 datablock ShapeBaseImageData(HoeImage : TrowelImage)

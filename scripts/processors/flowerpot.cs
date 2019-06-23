@@ -44,6 +44,7 @@ datablock ShapeBaseImageData(FlowerpotBrickImage : BrickPlacerImage)
 	
 	offset = "-0.56 0 -0.25";
 	eyeOffset = "0 0 0";
+	rotation = eulerToMatrix("0 0 90");
 
 	item = FlowerpotItem;
 	
