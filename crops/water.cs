@@ -231,9 +231,9 @@ datablock ShapeBaseImageData(HoseV2Image : WateringCanImage)
 	colorShiftColor = HoseV2Item.colorShiftColor;
 	waterAmount = 50;
 	tankBonus = 4;
-	tankRatio = 0.005;
+	tankRatio = 0.0075;
 
-	toolTip = "Waters Dirt: +50 | Tanks: +0.5%";
+	toolTip = "Waters Dirt: +50 | Tanks: +0.75%";
 };
 
 function HoseV2Image::onFire(%this, %obj, %slot)
