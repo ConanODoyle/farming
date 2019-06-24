@@ -39,7 +39,8 @@ package Processors
 				if (isFunction(%func))
 				{
 					call(%func, %hit, %obj);
-					if (isObject(%hit) && !%hit.getDatablock().keepActivate)
+					if (isObject(%hit) && %hit.getType() & $Typemasks::fxBrickAlwaysObjectType 
+						&& !%hit.getDatablock().keepActivate)
 					{
 						return;
 					}

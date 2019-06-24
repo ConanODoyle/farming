@@ -67,7 +67,7 @@ package PlayerShops
 				%oldPrice[%i] = 0;
 				continue;
 			}
-			%oldPrice[%i] = subStr(%oldParam[%i], %delimit + 1, strLen(%oldParam[%i]));
+			%oldPrice[%i] = getSubStr(%oldParam[%i], %delimit + 1, strLen(%oldParam[%i]));
 		}
 		%ret = parent::attemptStorage(%brick, %cl, %slot, %multiplier);
 
