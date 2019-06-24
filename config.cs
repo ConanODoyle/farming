@@ -129,6 +129,7 @@ $StorageMax_WeedKiller = 120;
 $FertCount_Potato = "12 16";
 $FertCount_Carrot = "16 22";
 $FertCount_Tomato = "18 24";
+$FertCount_Weed = "4 8"
 
 $FertCount_Default = "10 16";
 $FertTickAmt = 1;
