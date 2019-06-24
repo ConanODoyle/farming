@@ -184,7 +184,14 @@ function harvestBrick(%brick, %tool, %harvester)
 		messageClient(%harvester.client, '', "The harvest yielded nothing...");
 	}
 
-	%expReward = $Farming::Crops::PlantData_[%type, "harvestExperience"];
+	if ($Farming::Crops::PlantData_[%type, %stage, "harvestExperience"] > 0)
+	{
+		%expReward = $Farming::Crops::PlantData_[%type, %stage, "harvestExperience"];
+	}
+	else
+	{
+		%expReward = $Farming::Crops::PlantData_[%type, "harvestExperience"];
+	}
 	%harvester.client.addExperience(%expReward);
 
 	return 1 SPC %pickedTotal;
