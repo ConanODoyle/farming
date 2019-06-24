@@ -1,5 +1,5 @@
 $Stackable_Weed_StackedItem0 = "Weed0Item 2";
-$Stackable_Weed_StackedItem1 = "Weed1Item 4";
+$Stackable_Weed_StackedItem1 = "Weed1Item 6";
 $Stackable_Weed_StackedItemTotal = 2;
 
 datablock ItemData(WeedItem : HammerItem)
