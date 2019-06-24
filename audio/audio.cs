@@ -165,7 +165,7 @@ datablock AudioProfile(SpicyItalianThrowSound)
 datablock AudioProfile(FarmingHarvestBelowGroundPlantSound) 
 {
 	filename = "./harvest_underground.wav";
-	description = AudioDefault3d;
+	description = AudioClose3d;
 	preload = true;
 	uiName = "";
 };
@@ -173,7 +173,7 @@ datablock AudioProfile(FarmingHarvestBelowGroundPlantSound)
 datablock AudioProfile(FarmingHarvestAboveGroundPlantSound) 
 {
 	filename = "./clippers.wav";
-	description = AudioDefault3d;
+	description = AudioClose3d;
 	preload = true;
 	uiName = "";
 };
