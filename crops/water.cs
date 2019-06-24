@@ -312,6 +312,7 @@ function waterCanFire(%this, %obj, %slot)
             %post = %hit.waterLevel;
             %dispensed = %post - %pre;
             %waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
+            %obj.waterCount++;
             if (%obj.waterCount >= 100)
             {
                 %waterLevel = %waterLevel @ " <just:right>\c2Combo: " @ %obj.waterCount;
@@ -321,12 +322,9 @@ function waterCanFire(%this, %obj, %slot)
         }
     }
 
-    if ($Sim::Time - %obj.lastWater < 1)
+    if ($Sim::Time - %obj.lastWater >= 1)
     {
-        %obj.waterCount++;
-    }
-    else
-    {
+    	%obj.waterCount--;
         if (%obj.waterCount > $Pref::Server::maxWaterCombo)
         {
             announce("<bitmap:base/client/ui/ci/star>\c3" @ %obj.client.name @ "\c6 set a new watering combo count of \c3" @ %obj.waterCount @ "\c6!");

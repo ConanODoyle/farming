@@ -39,8 +39,13 @@ function harvestBrick(%brick, %tool, %harvester)
 		%brick.maxHarvestTimes = getRandom(getWord(%harvestMaxRange, 0), getWord(%harvestMaxRange, 1));
 	}
 	%brick.harvestTimes++;
+
+	if (%db.isWeed)
+	{
+		%bypassTrustRequirement = 1;
+	}
 	
-	if (getTrustLevel(%brick, %harvester) < 2)
+	if (getTrustLevel(%brick, %harvester) < 2 && !%bypassTrustRequirement)
 	{
 		if (getBrickgroupFromObject(%brick).bl_id != 888888)
 		{
@@ -91,6 +96,10 @@ function harvestBrick(%brick, %tool, %harvester)
 
 	%pos = %brick.getPosition();
 	%bg = getBrickgroupFromObject(%brick);
+	if (%bypassTrustRequirement)
+	{
+		%bg = "";
+	}
 	for (%i = 0; %i < %pickedTotal; %i++)
 	{
 		%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
@@ -103,7 +112,7 @@ function harvestBrick(%brick, %tool, %harvester)
 		{
 			%itemDB = %itemDB.alt;
 		}
-		
+
 		%item = new Item(Crop)
 		{
 			dataBlock = %itemDB;
