@@ -1,9 +1,9 @@
 
 //Weed//
 
-$Farming::Crops::PlantData_["Weed", "heatWaveTimeModifier"]				= "1";
-$Farming::Crops::PlantData_["Weed", "heatWaveWaterModifier"]			= "1";
-$Farming::Crops::PlantData_["Weed", "rainTimeModifier"]					= "1";
+$Farming::Crops::PlantData_["Weed", "heatWaveTimeModifier"]				= "2";
+$Farming::Crops::PlantData_["Weed", "heatWaveWaterModifier"]			= "2";
+$Farming::Crops::PlantData_["Weed", "rainTimeModifier"]					= "0.5";
 $Farming::Crops::PlantData_["Weed", "rainWaterModifier"]				= "1";
 $Farming::Crops::PlantData_["Weed", "plantSpace"]					= "1";
 $Farming::Crops::PlantData_["Weed", "experienceRequired"]			= "0";
