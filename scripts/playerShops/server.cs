@@ -58,7 +58,7 @@ package PlayerShops
 
 	function attemptStorage(%brick, %cl, %slot, %multiplier)
 	{
-		if (!isObject(%brick) || !%brick.isShopBrick) return parent::attemptStorage(%brick, %cl, %slot, %multiplier);
+		if (!isObject(%brick) || !%brick.getDatablock().isShopBrick) return parent::attemptStorage(%brick, %cl, %slot, %multiplier);
 
 		for (%i = 1; %i < 5; %i++) // get all the old storage stuff
 		{
@@ -72,18 +72,17 @@ package PlayerShops
 
 		for (%i = 1; %i < 5; %i++) // check every part of storage
 		{
-			%newContents[%i] = validateStorageContents(%brick.eventOutputParameter[0, %i]);
+			%newContents[%i] = validateStorageContents(%brick.eventOutputParameter[0, %i], %brick);
 
-			if (%newContents[%i] $= "")
-			{
-				continue;
-			}
+			if (%newContents[%i] $= "") continue;
+
+			%newPrice[%i] = getField(%newContents[%i], 2);
 
 			if (%oldContents[%i] !$= %newContents[%i])
 			{
 				%stackType = getField(%newContents[%i], 0);
 				%qty = getField(%newContents[%i], 1);
-				%price = %oldPrice[%i]; // since we already performed validateStorageContents we can be sure it's a valid price
+				%price = (%oldPrice[%i] > 0.1) ? %oldPrice[%i] : %newPrice[%i];
 
 				%brick.eventOutputParameter[0, %i] = %stackType @ "\"" @ %qty @ "'" @ mFloatLength(%price, 2);
 			}
@@ -134,7 +133,7 @@ package PlayerShops
 
 	function removeStack(%cl, %menu, %option)
 	{
-		if (!isObject(%brick = %menu.brick) || !%brick.isShopBrick) return parent::removeStack(%cl, %menu, %option);
+		if (!isObject(%brick = %menu.brick) || !%brick.getDatablock().isShopBrick) return parent::removeStack(%cl, %menu, %option);
 
 		%slot = %option + 1;
 
@@ -201,8 +200,9 @@ package PlayerShops
 			%newStr = getSubStr(%brick.eventOutputParameter[0, %eventParam], 0, %delimit);
 			%price = getSubStr(%brick.eventOutputParameter[0, %eventParam], %delimit + 1,
 							strLen(%brick.eventOutputParameter[0, %eventParam]));
+			%price += %delta;
 			if (%price < 0.1) %price = 0.1;
-			%brick.eventOutputParameter[0, %eventParam] = trim(%newStr) @ "'" @ mFloatLength(%price + %delta, 2);
+			%brick.eventOutputParameter[0, %eventParam] = trim(%newStr) @ "'" @ mFloatLength(%price, 2);
 			%brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
 		}
 		return Parent::serverCmdShiftBrick(%cl, %x, %y, %z);
@@ -212,15 +212,19 @@ package PlayerShops
 	{
 		%ret = Parent::validateStorageContents(%str, %brick);
 
-		if (!%brick.isShopBrick || %ret $= "") return %ret;
+		if (!%brick.getDatablock().isShopBrick || %ret $= "") return %ret;
 
-		if ((%delimit = strPos(%ret, "'")) != -1)
+		%delimit = strPos(%ret, "'");
+
+		if (%delimit != -1)
 		{
 			%price = getSubStr(%ret, %delimit + 1, strLen(%ret));
 			%ret = getSubStr(%ret, 0, %delimit); // price stuff
 		}
-		else
+		if (%price < 0.1)
 		{
+			%stackType = getField(%ret, 0);
+
 			if (!isObject(%stackType)) // this is a stackable item
 			{
 				%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2); // so we set price accordingly
@@ -234,7 +238,6 @@ package PlayerShops
 				}
 			}
 		}
-
 		return %ret TAB %price;
 	}
 };
@@ -297,40 +300,28 @@ function fxDTSBrick::updateShopMenus(%this, %str1, %str2, %str3, %str4)
 		MissionCleanup.add(%this.shopBuyerMenu);
 	}
 
-	for (%i = 0; %i < 4; %i++)
+	for (%i = 1; %i < 5; %i++)
 	{
-		%stackType = getField(%str[%i + 1], 0);
-		%count = getField(%str[%i + 1], 1);
-		%price = getField(%str[%i + 1], 2);
+		%stackType = getField(%str[%i], 0);
+		%count = getField(%str[%i], 1);
+		%price = getField(%str[%i], 2);
 		if (%stackType !$= "")
 		{
 			if (!isObject(%stackType)) //this is a stackable item
 			{
-				if (%price < 0.1)
-				{
-					%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2);
-				}
-				%this.shopStorageMenu.menuOption[%i] = "$" @ %price @ ": " @ %stackType @ " - " @ %count;
-				%this.shopBuyerMenu.menuOption[%i] = "$" @ %price @ ": " @ %stackType @ " - " @ %count;
+				%this.shopStorageMenu.menuOption[%i - 1] = "$" @ %price @ ": " @ %stackType @ " - " @ %count;
+				%this.shopBuyerMenu.menuOption[%i - 1] = "$" @ %price @ ": " @ %stackType @ " - " @ %count;
 			}
 			else //this is a normal item
 			{
-				if (%price < 0.1)
-				{
-					%price = mCeil(%stackType.cost * 1.2);
-					if (%price <= 10)
-					{
-						%price = 10;
-					}
-				}
-				%this.shopStorageMenu.menuOption[%i] = "$" @ %price @ ": " @ strUpr(getSubStr(%stackType.uiName, 0, 1)) @ getSubStr(%stackType.uiName, 1, 100);
-				%this.shopBuyerMenu.menuOption[%i] = "$" @ %price @ ": " @ strUpr(getSubStr(%stackType.uiName, 0, 1)) @ getSubStr(%stackType.uiName, 1, 100);
+				%this.shopStorageMenu.menuOption[%i - 1] = "$" @ %price @ ": " @ strUpr(getSubStr(%stackType.uiName, 0, 1)) @ getSubStr(%stackType.uiName, 1, 100);
+				%this.shopBuyerMenu.menuOption[%i - 1] = "$" @ %price @ ": " @ strUpr(getSubStr(%stackType.uiName, 0, 1)) @ getSubStr(%stackType.uiName, 1, 100);
 			}
 		}
 		else
 		{
-			%this.shopStorageMenu.menuOption[%i] = "Empty";
-			%this.shopBuyerMenu.menuOption[%i] = "Empty";
+			%this.shopStorageMenu.menuOption[%i - 1] = "Empty";
+			%this.shopBuyerMenu.menuOption[%i - 1] = "Empty";
 		}
 	}
 
