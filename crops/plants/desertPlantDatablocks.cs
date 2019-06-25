@@ -157,7 +157,6 @@ datablock fxDTSBrickData(brickWatermelon0CropData)
 	cropType = "Watermelon";
 	stage = 0;
 	isPlant = 1;
-	isTree = 1;
 	noCollision = 1;
 };
 
@@ -169,7 +168,6 @@ datablock fxDTSBrickData(brickWatermelon1CropData)
 	cropType = "Watermelon";
 	stage = 1;
 	isPlant = 1;
-	isTree = 1;
 	noCollision = 1;
 };
 
@@ -181,7 +179,6 @@ datablock fxDTSBrickData(brickWatermelon2CropData)
 	cropType = "Watermelon";
 	stage = 2;
 	isPlant = 1;
-	isTree = 1;
 	noCollision = 1;
 };
 
@@ -193,7 +190,6 @@ datablock fxDTSBrickData(brickWatermelon3CropData)
 	cropType = "Watermelon";
 	stage = 3;
 	isPlant = 1;
-	isTree = 1;
 	noCollision = 1;
 };
 
@@ -205,7 +201,6 @@ datablock fxDTSBrickData(brickWatermelon4CropData)
 	cropType = "Watermelon";
 	stage = 4;
 	isPlant = 1;
-	isTree = 1;
 	noCollision = 1;
 };
 
@@ -217,7 +212,6 @@ datablock fxDTSBrickData(brickWatermelon5CropData)
 	cropType = "Watermelon";
 	stage = 5;
 	isPlant = 1;
-	isTree = 1;
 	noCollision = 1;
 };
 
