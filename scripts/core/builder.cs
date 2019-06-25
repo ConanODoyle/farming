@@ -18,6 +18,7 @@ function serverCmdBuilder(%cl, %target)
 	if (%cl.isSuperAdmin || $canBuilder_[%cl.bl_id])
 	{
 		%name = %cl.getPlayerName();
+		%targ = %cl;
 		if (strlen(%target) > 1 && isObject(%targ = findClientByName(%target)))
 		{
 			messageClient(%cl, '', "\c6You gave \c3" @ %targ.name @ "\c6 builder mode!");
@@ -35,6 +36,7 @@ function serverCmdUnbuilder(%cl, %target)
 	if (%cl.isSuperAdmin || %cl.bypassRestrictions || $canBuilder_[%cl.bl_id])
 	{
 		%name = %cl.getPlayerName();
+		%targ = %cl;
 		if (strlen(%target) > 1 && isObject(%targ = findClientByName(%target)) &&
 			(%cl.isSuperAdmin || $canBuilder_[%cl.bl_id]))
 		{
