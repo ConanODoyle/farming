@@ -140,16 +140,15 @@ package PlayerShops
 		%oldContents = validateStorageContents(%brick.eventOutputParameter[0, %slot], %brick);
 		%oldPrice = getField(%oldContents, 2);
 
-		%ret = parent::removeStack(%cl, %menu, %option);
-
-		if (!%ret) return %ret;
+        parent::removeStack(%cl, %menu, %option);
 
 		%newContents = validateStorageContents(%brick.eventOutputParameter[0, %slot], %brick);
 
 		if (%newContents $= "")
 		{
 			%brick.updateShopDisplay();
-			return %ret;
+            %brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
+			return;
 		}
 
 		%stackType = getField(%newContents, 0);
@@ -178,8 +177,7 @@ package PlayerShops
 		%brick.eventOutputParameter[0, %slot] = %stackType @ "\"" @ %qty @ "'" @ mFloatLength(%price, 2);
 
 		%brick.updateShopDisplay();
-
-		return %ret;
+        %brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
 	}
 
 	function serverCmdShiftBrick(%cl, %x, %y, %z)
