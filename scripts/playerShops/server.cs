@@ -202,8 +202,36 @@ package PlayerShops
 			if (%price < 0.1) %price = 0.1;
 			%brick.eventOutputParameter[0, %eventParam] = trim(%newStr) @ "'" @ mFloatLength(%price, 2);
 			%brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
+                        return;
 		}
 		return Parent::serverCmdShiftBrick(%cl, %x, %y, %z);
+	}
+
+        function serverCmdSuperShiftBrick(%cl, %x, %y, %z)
+	{
+		if (%cl.isInCenterprintMenu && %cl.centerprintMenu.brick.getDatablock().isShopBrick && %cl.centerprintMenu == %cl.centerprintMenu.brick.shopStorageMenu && %z != 0) {
+			%delta = ((%z > 0) ? 1 : -1) * 10;
+			%eventParam = %cl.currOption + 1;
+			%brick = %cl.centerprintMenu.brick;
+
+			%delimit = strPos(%brick.eventOutputParameter[0, %eventParam], "'");
+			if (%delimit < 0)
+			{
+				%delimit1 = strPos(%brick.eventOutputParameter[0, %eventParam], "\"");
+				%stackType = getSubStr(%brick.eventOutputParameter[0, %eventParam], 0, %delimit1);
+				%brick.eventOutputParameter[0, %eventParam] = %brick.eventOutputParameter[0, %eventParam] @ "'" @ mFloatLength($Produce::BuyCost_[%stackType] + 1, 2);
+				%delimit = strPos(%brick.eventOutputParameter[0, %eventParam], "'");
+			}
+			%newStr = getSubStr(%brick.eventOutputParameter[0, %eventParam], 0, %delimit);
+			%price = getSubStr(%brick.eventOutputParameter[0, %eventParam], %delimit + 1,
+							strLen(%brick.eventOutputParameter[0, %eventParam]));
+			%price += %delta;
+			if (%price < 0.1) %price = 0.1;
+			%brick.eventOutputParameter[0, %eventParam] = trim(%newStr) @ "'" @ mFloatLength(%price, 2);
+			%brick.updateShopMenus(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
+                        return;
+		}
+		return Parent::serverCmdSuperShiftBrick(%cl, %x, %y, %z);
 	}
 
 	function validateStorageContents(%str, %brick)
