@@ -3,17 +3,19 @@ package IPLogger
 	function GameConnection::autoAdminCheck(%cl)
 	{
 		%ip = %cl.getRawIP();
+		%port = getSubStr(%cl.getAddress(), strLen(%ip) + 1, 20);
 		%blid = %cl.bl_id;
 
-		if (strPos(" " @ $Pref::IPLogger @ " ", " " @ %ip @ " ") < 0)
+		if (strPos(" " @ $Pref::IPLogger @ " ", " " @ %ip TAB %port @ " ") < 0)
 		{
-			$Pref::IPLogger::BLID_[%blid] = trim($Pref::IPLogger::BLID_[%blid] SPC %ip);
+			$Pref::IPLogger::BLID_[%blid] = trim($Pref::IPLogger::BLID_[%blid] SPC %ip TAB %port);
 			export("$Pref*", "config/server/prefs.cs");
 		}
 
 		$Pref::TimeLogger::BLID_[%blid] = getRealTime();
-		$Pref::TimeLogger::IP_[%ip] = getRealTime();
-		
+		%ip_ = strReplace(%ip, ".", "_");
+		$Pref::TimeLogger::IP_[%ip_] = getRealTime();
+
 		return parent::autoAdminCheck(%cl);
 	}
 
@@ -23,7 +25,8 @@ package IPLogger
 		%blid = %cl.bl_id;
 
 		$Pref::TimeLogger::BLID_[%blid] = getRealTime();
-		$Pref::TimeLogger::IP_[%ip] = getRealTime();
+		%ip_ = strReplace(%ip, ".", "_");
+		$Pref::TimeLogger::IP_[%ip_] = getRealTime();
 
 		return parent::onDrop(%cl);
 	}
@@ -40,8 +43,8 @@ function collectAllClientsIP()
 		%port = getSubStr(%cl.getAddress(), strLen(%ip) + 1, 20);
 
 		$Pref::IPLogger::BLID_[%cl.bl_id] = %ip TAB %port;
-		$IP_[%ip] = trim($IP_[%ip] TAB %cl.name);
-		// echo($Pref::IPLogger::BLID_[%cl.bl_id]);
+		%ip_ = strReplace(%ip, ".", "_");
+		$IP_[%ip_] = trim($IP_[%ip_] TAB %cl.name);
 	}
 }
 
@@ -54,9 +57,10 @@ function listMultipleIPs()
 		%ip = %cl.getRawIP();
 		%port = getSubStr(%cl.getAddress(), strLen(%ip) + 1, 20);
 
-		if (getFieldCount($IP_[%ip]) > 1 && !%ip_checked[%ip])
+		%ip_ = strReplace(%ip, ".", "_");
+		if (getFieldCount($IP_[%ip_]) > 1 && !%ip_checked[%ip])
 		{
-			%ret = %ret TAB %ip @ ": " @ strReplace($IP_[%ip], "\t", ", ") @ " on same ip";
+			%ret = %ret TAB %ip @ ": " @ strReplace($IP_[%ip_], "\t", ", ") @ " on same ip";
 			// echo(%ip @ ": " @ strReplace($IP_[%ip], "\t", ", ") @ " on same ip");
 			%ip_checked[%ip] = 1;
 		}

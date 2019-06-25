@@ -58,51 +58,39 @@ package PlayerShops
 
 	function attemptStorage(%brick, %cl, %slot, %multiplier)
 	{
-		for (%i = 1; %i < 5; %i++)
+		if (!isObject(%brick) || !%brick.isShopBrick) return parent::attemptStorage(%brick, %cl, %slot, %multiplier);
+
+		for (%i = 1; %i < 5; %i++) // get all the old storage stuff
 		{
-			%oldParam[%i] = %brick.eventOutputParameter[0, %i];
-			%delimit = strPos(%oldParam[%i], "'");
-			if (%delimit == -1)
+			%oldContents[%i] = validateStorageContents(%brick.eventOutputParameter[0, %i], %brick);
+			%oldPrice[%i] = getField(%oldContents[%i], 2);
+		}
+
+		%ret = parent::attemptStorage(%brick, %cl, %slot, %multiplier); // get what attempting storage would give
+
+		if (!%ret) return %ret; // if storage fails we exit nicely
+
+		for (%i = 1; %i < 5; %i++) // check every part of storage
+		{
+			%newContents[%i] = validateStorageContents(%brick.eventOutputParameter[0, %i]);
+
+			if (%newContents[%i] $= "")
 			{
-				%oldPrice[%i] = 0;
 				continue;
 			}
-			%oldPrice[%i] = getSubStr(%oldParam[%i], %delimit + 1, strLen(%oldParam[%i]));
-		}
-		%ret = parent::attemptStorage(%brick, %cl, %slot, %multiplier);
 
-		if (!%ret || !%brick.isShopBrick) return %ret;
-
-		for (%i = 1; %i < 5; %i++)
-		{
-			if (%oldParam[%i] !$= %brick.eventOutputParameter[0, %i])
+			if (%oldContents[%i] !$= %newContents[%i])
 			{
-				%delimit = strPos(%brick.eventOutputParameter[0, %i], "\"");
-				%stackType = getSubStr(%brick.eventOutputParameter[0, %i], 0, %delimit);
-				if (%oldPrice < 0.1)
-				{
-					if (!isObject(%stackType)) //this is a stackable item
-					{
-						%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2);
-					}
-					else //this is a normal item
-					{
-						%price = mCeil(%stackType.cost * 1.2);
-						if (%price <= 10)
-						{
-							%price = 10;
-						}
-					}
-				}
-				else
-				{
-					%price = %oldPrice;
-				}
-				%brick.eventOutputParameter[0, %i] = %brick.eventOutputParameter[0, %i] @ "'" @ mFloatLength(%price, 2);
+				%stackType = getField(%newContents[%i], 0);
+				%qty = getField(%newContents[%i], 1);
+				%price = %oldPrice[%i]; // since we already performed validateStorageContents we can be sure it's a valid price
+
+				%brick.eventOutputParameter[0, %i] = %stackType @ "\"" @ %qty @ "'" @ mFloatLength(%price, 2);
 			}
 		}
 		%brick.updateShopDisplay();
-		return 1;
+
+		return %ret;
 	}
 
 	function fxDTSBrick::onDeath(%this, %obj)
@@ -146,13 +134,52 @@ package PlayerShops
 
 	function removeStack(%cl, %menu, %option)
 	{
+		if (!isObject(%brick = %menu.brick) || !%brick.isShopBrick) return parent::removeStack(%cl, %menu, %option);
+
+		%slot = %option + 1;
+
+		%oldContents = validateStorageContents(%brick.eventOutputParameter[0, %slot], %brick);
+		%oldPrice = getField(%oldContents, 2);
+
 		%ret = parent::removeStack(%cl, %menu, %option);
 
-		if (isObject(%menu.brick) && %menu.brick.getDatablock().isShopBrick)
+		if (!%ret) return %ret;
+
+		%newContents = validateStorageContents(%brick.eventOutputParameter[0, %slot], %brick);
+
+		if (%newContents $= "")
 		{
-			%menu.brick.updateShopDisplay();
+			%brick.updateShopDisplay();
+			return %ret;
 		}
-		
+
+		%stackType = getField(%newContents, 0);
+		%qty = getField(%newContents, 1);
+
+		if (%oldPrice < 0.1) // price isn't valid, fix it
+		{
+			if (!isObject(%stackType)) // this is a stackable item
+			{
+				%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2);
+			}
+			else // this is a normal item
+			{
+				%price = mCeil(%stackType.cost * 1.2);
+				if (%price <= 10)
+				{
+					%price = 10; // price was too low, 10 it is
+				}
+			}
+		}
+		else // price is fine, we can keep it
+		{
+			%price = %oldPrice;
+		}
+
+		%brick.eventOutputParameter[0, %slot] = %stackType @ "\"" @ %qty @ "'" @ mFloatLength(%price, 2);
+
+		%brick.updateShopDisplay();
+
 		return %ret;
 	}
 
@@ -184,19 +211,28 @@ package PlayerShops
 	function validateStorageContents(%str, %brick)
 	{
 		%ret = Parent::validateStorageContents(%str, %brick);
-		if (%brick.isShopBrick) return %ret;
-		%oldRet = %ret;
-		if (%ret $= "") return "";
+
+		if (!%brick.isShopBrick || %ret $= "") return %ret;
 
 		if ((%delimit = strPos(%ret, "'")) != -1)
 		{
 			%price = getSubStr(%ret, %delimit + 1, strLen(%ret));
 			%ret = getSubStr(%ret, 0, %delimit); // price stuff
 		}
-		else if (%brick.isShopBrick)
+		else
 		{
-			%stackType = getField(%ret, 0);
-			%price = $Produce::BuyCost_[%stackType];
+			if (!isObject(%stackType)) // this is a stackable item
+			{
+				%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2); // so we set price accordingly
+			}
+			else // this is a normal item
+			{
+				%price = mCeil(%stackType.cost * 1.2);
+				if (%price <= 10)
+				{
+					%price = 10; // price was too low, 10 it is
+				}
+			}
 		}
 
 		return %ret TAB %price;
