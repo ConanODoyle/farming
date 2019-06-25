@@ -397,23 +397,26 @@ function toolHarvest(%img, %obj, %slot)
 
 	if (isObject(%ray))
 	{
-		if (!isObject(%img.projectile))
+		if (!%hit.getDatablock().isPlant)
 		{
-			%db = swordProjectile;
-		}
-		else
-		{
-			%db = %img.projectile;
-		}
+			if (!isObject(%img.projectile))	
+			{
+				%db = swordProjectile;
+			}
+			else
+			{
+				%db = %img.projectile;
+			}
 
-		%p = new Projectile()
-		{
-			dataBlock = %db;
-			initialPosition = getWords(%ray, 1, 3);
-			initialVelocity = "0 0 0";
-		};
-		%p.setScale("0.5 0.5 0.5");
-		%p.explode();
+			%p = new Projectile()
+			{
+				dataBlock = %db;
+				initialPosition = getWords(%ray, 1, 3);
+				initialVelocity = "0 0 0";
+			};
+			%p.setScale("0.5 0.5 0.5");
+			%p.explode();
+		}
 	}
 
 	if (%img.areaHarvest > 0 && isObject(%ray))
