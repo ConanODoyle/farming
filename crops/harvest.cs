@@ -181,7 +181,8 @@ function harvestBrick(%brick, %tool, %harvester)
 
 	if (%pickedTotal <= 0)
 	{
-		messageClient(%harvester.client, '', "The harvest yielded nothing...");
+		%harvester.client.centerprint("<color:ff0000>The harvest yielded nothing...", 1);
+		%harvester.client.schedule(150, centerprint, "<color:cc0000>The harvest yielded nothing...", 1);
 	}
 
 	if ($Farming::Crops::PlantData_[%type, %stage, "harvestExperience"] > 0)
