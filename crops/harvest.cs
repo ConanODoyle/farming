@@ -395,7 +395,7 @@ function toolHarvest(%img, %obj, %slot)
 	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType | $Typemasks::PlayerObjectType, %obj);
 
-	if (isObject(%ray))
+	if (isObject(%hit = getWord(%ray, 0)))
 	{
 		if (!%hit.getDatablock().isPlant)
 		{
@@ -419,7 +419,7 @@ function toolHarvest(%img, %obj, %slot)
 		}
 	}
 
-	if (%img.areaHarvest > 0 && isObject(%ray))
+	if (%img.areaHarvest > 0 && isObject(%hit))
 	{
 		initContainerRadiusSearch(getWords(%ray, 1, 3), %img.areaHarvest, $Typemasks::fxBrickObjectType);
 		while (isObject(%next = containerSearchNext()))
@@ -432,7 +432,7 @@ function toolHarvest(%img, %obj, %slot)
 	}
 	else
 	{
-		if (isObject(%hit = getWord(%ray, 0)) && %hit.getDatablock().isPlant)
+		if (isObject(%hit) && %hit.getDatablock().isPlant)
 		{
 			%err = harvestBrick(%hit, %item, %obj);
 		}
