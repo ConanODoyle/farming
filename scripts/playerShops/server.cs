@@ -564,7 +564,7 @@ function buyUnit(%cl, %menu, %option)
 
 	//check if they can buy here
 	%storageSlot = %option + 1;
-	%storageData = validateStorageContents(%brick.eventOutputParameter[0, %storageSlot], %this);
+	%storageData = validateStorageContents(%brick.eventOutputParameter[0, %storageSlot], %brick);
 	%storageCount = getField(%storageData, 1);
 	%stackType = getField(%storageData, 0);
 	%price = getField(%storageData, 2);
