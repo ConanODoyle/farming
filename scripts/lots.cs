@@ -436,11 +436,6 @@ function serverCmdSellLot(%cl, %force)
 	}
 	else if (%cl.repeatSellLot != %hit)
 	{
-		if (%force)
-		{
-			%forceText = "\c0force \c5";
-		}
-
 		%count = getLotCount(%cl.brickGroup);
 		if (%count > 4)
 		{
@@ -462,10 +457,13 @@ function serverCmdSellLot(%cl, %force)
 			}
 		}
 
-		messageClient(%cl, '', "\c5Are you sure you want to " @ %forceText @ "sell this lot? Any bricks above it will be removed with 90% refund.");
-		messageClient(%cl, '', "\c5- Calculating sell price. Please wait...");
 		if (!%force)
-			schedule(1000, 0, tellSellPrice, %cl, (!%hit.getDatablock().isSingle) ? 100 : 0, 0);
+		{
+			messageClient(%cl, '', "\c5Are you sure you want to sell this lot? Any bricks above it will be removed with 90% refund.");
+			getSellPriceSingleWrapper(%hit, %cl, (%hit.getDatablock().isSingle ? 0 : 100));
+		}
+		else
+			messageClient(%cl, '', "\c5Are you sure you want to force sell this lot? Any bricks above it will be removed with 90% refund. Type /sellLot 1 to confirm.");
 		%cl.repeatSellLot = %hit;
 		cancel(%cl.clearRepeatSellLotSched);
 		%cl.clearRepeatSellLotSched = schedule(5000, %cl, eval, %cl @ ".repeatSellLot = 0;");
@@ -551,7 +549,7 @@ function serverCmdSellAllLots(%cl)
 		{
 			%cl.sellPrice += 1000; //multiple lots, must have been adjacent, first must have cost 1k
 			%sellExperience = 1;
-			%totalExpRefund = 100;	
+			%totalExpRefund = 100;
 		}
 		while (%countCopy > 1)
 		{
@@ -569,12 +567,10 @@ function serverCmdSellAllLots(%cl)
 		for (%i = 0; %i < getWordCount(%list); %i++)
 		{
 			%lot = getWord(%list, %i);
-			getLotRefundRecursive(%lot, %cl);
 		}
 
 		messageClient(%cl, '', "\c5Are you sure you want to sell ALL your lots? Any bricks above them will be removed with 90% refund.");
-		messageClient(%cl, '', "\c5- Calculating sell price. Please wait...");
-		schedule(1000, 0, tellSellPrice, %cl, %totalExpRefund, 1);
+		getSellPriceMultiWrapper(%cl, 0, %totalExpRefund);
 		%cl.repeatSellAllLots = 1;
 		cancel(%cl.clearRepeatSellAllLotsSched);
 		%cl.clearRepeatSellAllLotsSched = schedule(5000, %cl, eval, %cl @ ".repeatSellAllLots = 0;");
@@ -685,7 +681,7 @@ function fxDTSBrick::updateLotCount(%brick, %amt)
 
 function fixLotList(%bg)
 {
-	%orig = trim(strReplace(%bg.lotList, "  ", " "));
+	%orig = trim(strReplace(%bg.lotList, "	", " "));
 
 	for (%i = 0; %i < getWordCount(%orig); %i++)
 	{
@@ -852,22 +848,26 @@ function clearLotRecursive(%lotBrick, %client)
 	schedule(1, 0, clearLotRecursive, %lotBrick, %client);
 }
 
-function getLotRefundRecursive(%lotBrick, %client)
+function getSellPriceSingleWrapper(%lotBrick, %client, %exp)
 {
 	%top = vectorAdd(%lotBrick.getPosition(), "0 0 0.1");
 	%pos = vectorAdd(%top, "0 0 100");
 	%box = %lotBrick.getDatablock().brickSizeX * 0.5 - 0.05;
 	%box = %box SPC %box SPC 199.95;
 
-
-	%lotBounds = getBrickBounds(%lotBrick, 70);
-
 	initContainerBoxSearch(%pos, %box, $TypeMasks::fxBrickAlwaysObjectType);
+	getSellPriceSingleRecursive(%lotBrick, %client, %exp);
+}
+
+function getSellPriceSingleRecursive(%lotBrick, %cl, %exp)
+{
+	%lotBounds = getBrickBounds(%lotBrick, 70);
 	for (%i = 0; %i < 1024; %i++)
 	{
 		if (!isObject(%next = containerSearchNext()))
 		{
 			//we're done
+			messageClient(%cl, '', "\c5- You will receive \c2$" @ %cl.sellPrice @ (%exp > 0 ? ("\c5 and \c3" @ %exp @ " XP\c5") : "\c5") @ " for selling this lot. Repeat /sellLot to confirm.");
 			return;
 		}
 
@@ -876,11 +876,71 @@ function getLotRefundRecursive(%lotBrick, %client)
 		{
 			if (%next.getDatablock().cost > 0)
 			{
-				%client.sellPrice += %next.getDatablock().cost * 0.9;
+				%cl.sellPrice += %next.getDatablock().cost * 0.9;
 			}
 		}
 	}
-	schedule(1, 0, getLotRefundRecursive, %lotBrick, %client);
+	schedule(1, 0, getSellPriceSingleRecursive, %lotBrick, %cl, %exp);
+}
+
+function getSellPriceMultiWrapper(%cl, %num, %exp)
+{
+	if (%num > 200)
+	{
+		talk("Sentinel went off. Something's wrong.");
+		return;
+	}
+	%lotBrick = getWord(%cl.brickGroup.lotList, %num);
+	%top = vectorAdd(%lotBrick.getPosition(), "0 0 0.1");
+	%pos = vectorAdd(%top, "0 0 100");
+	%box = %lotBrick.getDatablock().brickSizeX * 0.5 - 0.05;
+	%box = %box SPC %box SPC 199.95;
+
+	initContainerBoxSearch(%pos, %box, $TypeMasks::fxBrickAlwaysObjectType);
+	getSellPriceMultiRecursive(%cl, %num, %exp);
+}
+
+function getSellPriceMultiRecursive(%cl, %num, %exp)
+{
+	if (%num > 200)
+	{
+		talk("Sentinel went off. Something's wrong.");
+		return;
+	}
+	if (%num == getLotCount(%cl.brickGroup) - 1)
+		%final = 1;
+
+	%lotBounds = getBrickBounds(getWord(%cl.brickGroup.lotList, %num), 70);
+	for (%i = 0; %i < 1024; %i++)
+	{
+		if (!isObject(%next = containerSearchNext()))
+		{
+			// we've run out of stuff on this lot!
+			if (%final)
+			{
+				// we've run out of lots to check!
+				messageClient(%cl, '', "\c5- You will receive \c2$" @ %cl.sellPrice @ (%exp > 0 ? ("\c5 and \c3" @ %exp @ " XP\c5 ") : "\c5") @ " for selling your lots. Repeat /sellAllLots to confirm.");
+				%cl.sellPrice = 0;
+				return;
+			}
+			else
+			{
+				// let's go back to the wrapper, still more to go
+				getSellPriceMultiWrapper(%cl, %num + 1, %exp);
+				return;
+			}
+		}
+
+		if (isContainedInBounds(%next.getPosition() TAB %next.getPosition(), %lotBounds))
+		{
+			if (%next.getDatablock().cost > 0)
+			{
+				%cl.sellPrice += %next.getDatablock().cost * 0.9;
+			}
+		}
+	}
+	// the for loop ended and we're not done yet, keep going in a moment
+	schedule(1, 0, getSellPriceMultiRecursive, %cl, %num, %exp);
 }
 
 function fixLotColor(%brick)
@@ -912,13 +972,4 @@ function fixLotColor(%brick)
 	}
 	%brick.setShapeFX(0);
 	%brick.setColorFX(0);
-}
-
-function tellSellPrice(%cl, %exp, %multi) {
-	if (%multi)
-		messageClient(%cl, '', "\c5- You will receive \c2$" @ %cl.sellPrice @ (%exp > 0 ? ("\c5 and \c3" @ %exp @ "\c5 experience") : "\c5") @ " for selling your lots. Repeat /sellAllLots to confirm.");
-	else
-		messageClient(%cl, '', "\c5- You will receive \c2$" @ %cl.sellPrice @ (%exp > 0 ? ("\c5 and \c3" @ %exp @ "\c5 experience") : "\c5") @ " for selling this lot. Repeat /sellLot to confirm.");
-	%cl.sellPrice = 0;
-	return;
 }
