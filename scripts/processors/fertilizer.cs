@@ -101,12 +101,12 @@ function fertilizeCrop(%img, %obj, %slot)
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
 	%brick = getWord(%ray, 0);
 
-	if (isObject(%brick) && %brick.getDatablock().isPlant && !%brick.getDatablock().isTree)
+	if (isObject(%brick) && %brick.getDatablock().isPlant && !%brick.getDatablock().isIndividuallyFertilized)
 	{
 		%brick = %brick.getDownBrick(0);
 	}
 
-	if (!isObject(%brick) || !(%brick.getDatablock().isTree || %brick.getDatablock().isDirt))
+	if (!isObject(%brick) || !(%brick.getDatablock().isIndividuallyFertilized || %brick.getDatablock().isDirt))
 	{
 		return;
 	}
@@ -119,7 +119,7 @@ function fertilizeCrop(%img, %obj, %slot)
 		{
 			%crop = %brick.getUpBrick(%i);
 
-			if (!%crop.getDatablock().isPlant || %crop.getDatablock().isTree)
+			if (!%crop.getDatablock().isPlant || %crop.getDatablock().isIndividuallyFertilized)
 			{
 				continue;
 			}

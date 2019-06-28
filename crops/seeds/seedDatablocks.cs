@@ -66,21 +66,22 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 	}
 	else if (!%hit.getDatablock().isDirt)
 	{
-		messageClient(%obj.client, '', "You can only plant on dirt!");
+		%obj.client.centerprint("You can only plant on dirt!", 1);
 		return 0;
 	}
 	else if (getTrustLevel(%hit, %obj) < 2)
 	{
-		messageClient(%obj.client, '', %hit.getGroup().name @ " does not trust you enough to do that.", 1);
+		%obj.client.centerprint(%hit.getGroup().name @ " does not trust you enough to do that.", 1);
 		return 0;
 	}
 
 	%hitLoc = getWords(%ray, 1, 3);
 	%brickDB = %image.cropBrick;
 	%zOffset = %brickDB.brickSizeZ * 0.1;
+	%isMedium = %brickDB.isMedium;
 	%isTree = %brickDB.isTree;
 
-	if (!%isTree || %brickDB.brickSizeX % 2 == 1)
+	if (%brickDB.brickSizeX % 2 == 1)
 	{
 		%base = roundToStudCenter(%hitLoc);
 	}
@@ -100,7 +101,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 
 			if (!isObject(%hit = getWord(%ray, 0)) || !%hit.getDatablock().isDirt)
 			{
-				messageClient(%obj.client, '', "You can only plant on dirt!");
+				%obj.client.centerprint("You can only plant on dirt!", 1);
 				return 0;
 			}
 		}
@@ -112,7 +113,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 	%hitDB = %hit.getDatablock();
 	if ((%hitDB.isPot || %hitDB.isPlanter) && %brickDB.isTree)
 	{
-		messageClient(%obj.client, '', "You can only plant large plants on dirt!");
+		%obj.client.centerprint("You can only plant large plants on dirt!", 1);
 		return 0;
 	}
 
@@ -125,7 +126,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 			%inGreenhouse = 1;
 			if (%brickDB.isTree)
 			{
-				messageClient(%obj.client, '', "You cannot plant large plants in greenhouses!");
+				%obj.client.centerprint("You cannot plant large plants in greenhouses!", 1);
 				return 0;
 			}
 		}
@@ -142,8 +143,8 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 				%nextPos = %next.getPosition();
 				%nextDirt = %next.getDownBrick(0);//getWord(containerRaycast(%nextPos, vectorAdd(%nextPos, "0 0 -50"), $TypeMasks::fxBrickObjectType, %next), 0);
 
-				if (%next.getDatablock().isTree != %brickDB.isTree)
-				{
+				if (%brickDB.plantingLayer != %next.getDatablock().plantingLayer)
+				{ // if they aren't both on the same layer, they don't interfere
 					continue;
 					// %rad = ($Farming::Crops::PlantData_[%nextType, "plantSpace"] - 3) * 0.5 - 0.01 + 0.5;
 				}
@@ -177,7 +178,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 				if ((%xDiff < %rad && %yDiff < %rad)
 					|| (%xDiff < %plantRad && %yDiff < %plantRad)) //too close to another plant in the area
 				{
-					messageClient(%obj.client, '', "Too close to a nearby " @ %nextType @ "!");
+					%obj.client.centerprint("Too close to a nearby " @ %nextType @ "!", 1);
 					%b = new fxDTSBrick()
 					{
 						seedPlant = 1;
@@ -283,7 +284,7 @@ function seedLoop(%image, %obj)
 	if (isObject(%cl))
 	{
 		%seedName = strReplace(getSubStr(%type, 0, strLen(%type) - 4), "_", " ");
-		%cl.centerprint("<color:ffff00>-Seeds " @ %obj.currTool @ "- <br>" @ %seedName @ "<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<just:right><color:ffff00>-Seeds " @ %obj.currTool @ "- <br>" @ %seedName @ "<color:ffffff>: " @ %count @ " ", 1);
 	}
 }
 
