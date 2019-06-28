@@ -444,26 +444,27 @@ function serverCmdSellLot(%cl, %force)
 		%count = getLotCount(%cl.brickGroup);
 		if (%count > 4)
 		{
-			%cost = mPow(2, getLotCount(%cl.brickGroup) - 2) * 3000;
+			%cl.sellPrice = mPow(2, getLotCount(%cl.brickGroup) - 2) * 3000;
 		}
 		else if (%count > 1)
 		{
-			%cost = mPow(2, getLotCount(%cl.brickGroup) - 1) * 1000;
+			%cl.sellPrice = mPow(2, getLotCount(%cl.brickGroup) - 1) * 1000;
 		}
 		else
 		{
 			if (getNumAdjacentLots(%hit) > 0)
 			{
-				%cost = 1000;
+				%cl.sellPrice = 1000;
 			}
 			else
 			{
-				%cost = 0;
+				%cl.sellPrice = 0;
 			}
 		}
 
 		messageClient(%cl, '', "\c5Are you sure you want to " @ %forceText @ "sell this lot? Any bricks above it will be removed with 90% refund.");
-		messageClient(%cl, '', "\c5- You will receive \c2$" @ %cost + getLotRefundRecursive(%hit, %client) @ ((!%hit.getDatablock().isSingle) ? ("\c5 and \c3100\c5 experience") : "\c5") @ " for selling it. Repeat /sellLot to confirm.");
+		if (!%force)
+			schedule(150, 0, tellSellPrice, %cl, (!%hit.getDatablock().isSingle) ? 100 : 0), 0;
 		%cl.repeatSellLot = %hit;
 		cancel(%cl.clearRepeatSellLotSched);
 		%cl.clearRepeatSellLotSched = schedule(5000, %cl, eval, %cl @ ".repeatSellLot = 0;");
@@ -543,19 +544,20 @@ function serverCmdSellAllLots(%cl)
 		fixLotList(%bg);
 		%list = %bg.lotList;
 
-		%totalRefund = 0;
+		%cl.sellPrice = 0;
 		%countCopy = %count;
 		if (%countCopy > 1 || getNumAdjacentLots(%list) > 0)
 		{
-			%totalRefund += 1000; //multiple lots, must have been adjacent, first must have cost 1k
+			%cl.sellPrice += 1000; //multiple lots, must have been adjacent, first must have cost 1k
 			%sellExperience = 1;
+			%totalExpRefund = 100;	
 		}
 		while (%countCopy > 1)
 		{
 			if (%countCopy > 4)
-				%totalRefund += mPow(2, %countCopy - 2) * 3000;
+				%cl.sellPrice += mPow(2, %countCopy - 2) * 3000;
 			else
-				%totalRefund += mPow(2, %countCopy - 1) * 1000;
+				%cl.sellPrice += mPow(2, %countCopy - 1) * 1000;
 
 			if (%sellExperience)
 				%totalExpRefund += 100;
@@ -566,11 +568,11 @@ function serverCmdSellAllLots(%cl)
 		for (%i = 0; %i < getWordCount(%list); %i++)
 		{
 			%lot = getWord(%list, %i);
-			%totalBrickRefund += getLotRefundRecursive(%lot, %cl);
+			getLotRefundRecursive(%lot, %cl);
 		}
 
 		messageClient(%cl, '', "\c5Are you sure you want to sell ALL your lots? Any bricks above them will be removed with 90% refund.");
-		messageClient(%cl, '', "\c5- You will receive \c2$" @ %totalRefund + %totalBrickRefund @ (%sellExperience ? ("\c5 and \c3" @ %totalExpRefund @ "\c5 experience") : "\c5") @ " for selling them. Repeat /sellAllLots to confirm.");
+		schedule(150, 0, tellSellPrice, %cl, %totalExpRefund, 1);
 		%cl.repeatSellAllLots = 1;
 		cancel(%cl.clearRepeatSellAllLotsSched);
 		%cl.clearRepeatSellAllLotsSched = schedule(5000, %cl, eval, %cl @ ".repeatSellAllLots = 0;");
@@ -864,9 +866,7 @@ function getLotRefundRecursive(%lotBrick, %client)
 		if (!isObject(%next = containerSearchNext()))
 		{
 			//we're done
-			%ret = %client.sellPrice;
-			%client.sellPrice = 0;
-			return %ret;
+			return;
 		}
 
 
@@ -910,4 +910,13 @@ function fixLotColor(%brick)
 	}
 	%brick.setShapeFX(0);
 	%brick.setColorFX(0);
+}
+
+function tellSellPrice(%cl, %exp, %multi) {
+	if (%multi)
+		messageClient(%cl, '', "\c5- You will receive \c2$" @ %cl.sellPrice @ (%exp > 0 ? ("\c5 and \c3" @ %exp @ "\c5 experience") : "\c5") @ " for selling them. Repeat /sellAllLots to confirm.");
+	else
+		messageClient(%cl, '', "\c5- You will receive \c2$" @ %cl.sellPrice @ (%exp > 0 ? ("\c5 and \c3" @ %exp @ "\c5 experience") : "\c5") @ " for selling it. Repeat /sellLot to confirm.");
+	%cl.sellPrice = 0;
+	return;
 }
