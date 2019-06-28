@@ -878,7 +878,7 @@ function getLotRefundRecursive(%lotBrick, %client)
 			}
 		}
 	}
-	schedule(1, 0, clearLotRecursive, %lotBrick, %client);
+	schedule(1, 0, getLotRefundRecursive, %lotBrick, %client);
 }
 
 function fixLotColor(%brick)
