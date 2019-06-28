@@ -681,7 +681,7 @@ function fxDTSBrick::updateLotCount(%brick, %amt)
 
 function fixLotList(%bg)
 {
-	%orig = trim(strReplace(%bg.lotList, "	", " "));
+	%orig = trim(strReplace(%bg.lotList, "  ", " "));
 
 	for (%i = 0; %i < getWordCount(%orig); %i++)
 	{
