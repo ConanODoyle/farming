@@ -181,14 +181,16 @@ function PlanterImage::onFire(%this, %obj, %slot)
 	%start = %obj.getEyePoint();
 	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
-	
-	
+
+
 	if (isObject(%ray))
 	{
 		%hitloc = getWords(%ray, 1, 3);
 		%plantCount = 0;
 		%plantMax = %this.min;
 		%originalCurrTool = %obj.currTool;
+		%greenhouseCheck = getWord(containerRaycast(%hitloc, vectorAdd(%hitloc, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType), 0);
+		%inGreenhouse = (isObject(%greenhouseCheck) && %greenhouseCheck.getDatablock().isGreenhouse);
 
 		// talk("planter found " @ %count);
 		for (%i = 0; %i < %count; %i++)
@@ -199,7 +201,7 @@ function PlanterImage::onFire(%this, %obj, %slot)
 			%currItem = getField(%seed[%i], 3);
 
 			%brickDB = %currItem.image.cropBrick;
-			%plantRadius = $Farming::Crops::PlantData_[%brickDB.cropType, "plantSpace"] * 0.5 + 0.5;
+			%plantRadius = $Farming::Crops::PlantData_[%brickDB.cropType, "plantSpace"] * 0.5 + 0.5 - (%inGreenhouse * 0.5);
 			%obj.currTool = %currSlot;
 
 			%plantingSpace = vectorScale(%plantingDir, %plantRadius);
@@ -213,6 +215,12 @@ function PlanterImage::onFire(%this, %obj, %slot)
 					if (%plantCount > 0)
 					{
 						%hitloc = vectorAdd(%hitloc, %plantingSpace);
+						%greenhouseCheck = getWord(containerRaycast(%hitloc, vectorAdd(%hitloc, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType), 0);
+						if (%inGreenhouse != (isObject(%greenhouseCheck) && %greenhouseCheck.getDatablock().isGreenhouse))
+						{
+							%obj.currTool = %originalCurrTool;
+							return;
+						}
 					}
 					%valid = plantCrop(%curritem.image, %obj, "", %hitloc);
 					if (!%valid) //could not plant, immediately exit
@@ -233,9 +241,9 @@ function PlanterImage::onFire(%this, %obj, %slot)
 			}
 		}
 		%obj.currTool = %originalCurrTool; //just in case
-		
+
 		// %brickDB = %item.image.cropBrick;
-		
+
 		// %min = %this.min;
 		// %currTool = %obj.currTool; //dangerous... but we will be careful to reset it back to its original value!
 		// %obj.currTool = %idx;
