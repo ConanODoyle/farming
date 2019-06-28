@@ -38,6 +38,8 @@ $isDonator_["37468"]	= 1 TAB "Razer";
 $isDonator_["8584"]		= 1 TAB "Pandan";
 $isDonator_["216258"]	= 1 TAB "butterninja";
 $isDonator_["3636"]		= 1;
+$isDonator_["187278"]	= 1 TAB "brib (borb in discord)";
+$isDonator_["28317"]	= 1 TAB "Kraiyick";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
@@ -65,6 +67,8 @@ $isBetaTester_["4342"]		= 1 TAB "NEkram";
 $isBetaTester_["9373"]		= 1 TAB "Smallguy";
 $isBetaTester_["4382"]		= 1 TAB "Skill4Life";
 $isBetaTester_["166680"]	= 1 TAB "Wetback/Nothing";
+
+
 
 function checkIfDonator(%bl_id)
 {
