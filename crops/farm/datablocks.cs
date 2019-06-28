@@ -210,7 +210,7 @@ datablock fxDTSBrickData(brickSiloData)
 	iconName = "Add-Ons/Server_Farming/crops/icons/silo_(6x_storage)";
 
 	isStorageBrick = 1;
-	storageBonus = 6;
+	storageBonus = 7;
 
 	cost = 800;
 };
