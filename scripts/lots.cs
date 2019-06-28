@@ -916,9 +916,9 @@ function fixLotColor(%brick)
 
 function tellSellPrice(%cl, %exp, %multi) {
 	if (%multi)
-		messageClient(%cl, '', "\c5- You will receive \c2$" @ %cl.sellPrice @ (%exp > 0 ? ("\c5 and \c3" @ %exp @ "\c5 experience") : "\c5") @ " for selling them. Repeat /sellAllLots to confirm.");
+		messageClient(%cl, '', "\c5- You will receive \c2$" @ %cl.sellPrice @ (%exp > 0 ? ("\c5 and \c3" @ %exp @ "\c5 experience") : "\c5") @ " for selling your lots. Repeat /sellAllLots to confirm.");
 	else
-		messageClient(%cl, '', "\c5- You will receive \c2$" @ %cl.sellPrice @ (%exp > 0 ? ("\c5 and \c3" @ %exp @ "\c5 experience") : "\c5") @ " for selling it. Repeat /sellLot to confirm.");
+		messageClient(%cl, '', "\c5- You will receive \c2$" @ %cl.sellPrice @ (%exp > 0 ? ("\c5 and \c3" @ %exp @ "\c5 experience") : "\c5") @ " for selling this lot. Repeat /sellLot to confirm.");
 	%cl.sellPrice = 0;
 	return;
 }
