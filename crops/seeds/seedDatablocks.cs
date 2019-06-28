@@ -59,7 +59,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 		%end = vectorAdd(%pos, "0 0 -0.1");
 	}
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
-	
+
 	if (!isObject(%hit = getWord(%ray, 0)) || vectorDist(getWords(%ray, 4, 6), "0 0 1") > 0.01)
 	{
 		return 0;
@@ -88,7 +88,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 	else
 	{
 		%base = roundToStudCenter(%hitLoc, 1);
-		
+
 		//second check for dirt under the center 2x2 of the plant
 		%xDiff = 0.25 SPC 0.25 SPC -0.25 SPC -0.25;
 		%yDiff = 0.25 SPC -0.25 SPC 0.25 SPC -0.25;
@@ -107,11 +107,11 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 		}
 	}
 	%pos = vectorAdd(%base, "0 0 " @ %zOffset);
-	
+
 
 	%plantRad = $Farming::Crops::PlantData_[%brickDB.cropType, "plantSpace"] * 0.5 - 0.01 + 0.5;
 	%hitDB = %hit.getDatablock();
-	if ((%hitDB.isPot || %hitDB.isPlanter) && %brickDB.isTree)
+	if ((%hitDB.isPot || %hitDB.isPlanter) && %brickDB.brickSizeX > 1)
 	{
 		%obj.client.centerprint("You can only plant large plants on dirt!", 1);
 		return 0;
@@ -126,7 +126,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 			%inGreenhouse = 1;
 			if (%brickDB.isTree)
 			{
-				%obj.client.centerprint("You cannot plant large plants in greenhouses!", 1);
+				%obj.client.centerprint("You cannot plant tall plants in greenhouses!", 1);
 				return 0;
 			}
 		}
@@ -217,7 +217,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 			rotation = getRandomBrickOrthoRot();
 		};
 		%b.schedule(1000, delete);
-		
+
 		// messageClient(%obj.client, '', "Cannot plant there!");
 		return 0;
 	}
@@ -301,10 +301,10 @@ function roundToStudCenter(%pos, %even)
 		%x += 0.25;
 		%y += 0.25;
 	}
-	
+
 	%x = mFloor(%x * 2 + 0.5) / 2;
 	%y = mFloor(%y * 2 + 0.5) / 2;
-	
+
 	if (!%even)
 	{
 		%x -= 0.25;
@@ -317,7 +317,7 @@ function roundToStudCenter(%pos, %even)
 	return %x SPC %y SPC %z;
 }
 
-function getRandomBrickOrthoRot() 
+function getRandomBrickOrthoRot()
 {
 	%rand = getRandom(0, 3);
 	switch (%rand)

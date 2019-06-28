@@ -297,7 +297,7 @@ function fertilizeCrop(%img, %obj, %slot)
 
 	if (isObject(%cl))
 	{
-		%cl.centerprint("<color:ffff00>-Fertilizer Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<just:right><color:ffff00>-Fertilizer Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
 	}
 }
 
