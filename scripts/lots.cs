@@ -464,7 +464,7 @@ function serverCmdSellLot(%cl, %force)
 
 		messageClient(%cl, '', "\c5Are you sure you want to " @ %forceText @ "sell this lot? Any bricks above it will be removed with 90% refund.");
 		if (!%force)
-			schedule(150, 0, tellSellPrice, %cl, (!%hit.getDatablock().isSingle) ? 100 : 0), 0;
+			schedule(150, 0, tellSellPrice, %cl, (!%hit.getDatablock().isSingle) ? 100 : 0), 0);
 		%cl.repeatSellLot = %hit;
 		cancel(%cl.clearRepeatSellLotSched);
 		%cl.clearRepeatSellLotSched = schedule(5000, %cl, eval, %cl @ ".repeatSellLot = 0;");
