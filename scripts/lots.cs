@@ -4,7 +4,7 @@ function GameConnection::getTempBrickBounds(%cl)
 	{
 		return "";
 	}
-	
+
 	%temp = %pl.tempBrick;
 	return getBrickBounds(%temp);
 }
@@ -12,7 +12,7 @@ function GameConnection::getTempBrickBounds(%cl)
 function getBrickBounds(%temp, %zExtra)
 {
 	%db = %temp.getDatablock();
-	
+
 	%pos = %temp.getPosition();
 	%rot = %temp.angleID;
 	%xMod = %db.brickSizeX * 0.25;
@@ -52,7 +52,7 @@ function isContainedInBounds(%box, %bounds)
 		%x = getWord(%pos, 0);
 		%y = getWord(%pos, 1);
 		%z = getWord(%pos, 2);
-		
+
 		if (%x < 0 || %x > %bx ||
 				%y < 0 || %y > %by ||
 				%z < 0 || %z > %bz)
@@ -94,7 +94,7 @@ function checkPlant2(%cl)
 		{
 			return 1;
 		}
-		
+
 		%start = getWords(%temp.getPosition(), 0, 1) SPC -1;
 		%end = %temp.getPosition();
 		%tempBounds = getBrickBounds(%temp);
@@ -254,7 +254,7 @@ package lotBuild
 		return parent::onAdd(%this);
 	}
 
-	function fxDTSBrick::onRemove(%this) 
+	function fxDTSBrick::onRemove(%this)
 	{
 		if (%this.isPlanted && %this.getDatablock().isLot)
 		{
@@ -299,7 +299,7 @@ function serverCmdBuyLot(%cl)
 	%start = %cl.player.getHackPosition();
 	%end = vectorAdd(%start, "0 0 -10");
 	%ray = containerRaycast(%start, %end, $TypeMasks::fxBrickObjectType);
-	%hit = getWord(%ray, 0);	
+	%hit = getWord(%ray, 0);
 
 	%count = getLotCount(%cl.brickGroup);
 	if (%count >= 4)
@@ -330,7 +330,7 @@ function serverCmdBuyLot(%cl)
 	else if (%hit.getGroup() == %cl.brickGroup)
 	{
 		messageClient(%cl, '', "You already own this lot!");
-		return;	
+		return;
 	}
 	else if (%hit.getGroup().getName() !$= "BrickGroup_888888")
 	{
@@ -355,7 +355,7 @@ function serverCmdBuyLot(%cl)
 	else if (getLotCount(%cl.brickGroup) <= 0 && %hit.getDatablock().brickSizeX != 32)
 	{
 		messageClient(%cl, '', "You can only purchase small lots for free!");
-		return;	
+		return;
 	}
 	else if (!isValidLotPurchase(%cl.brickGroup, %hit))
 	{
@@ -432,7 +432,7 @@ function serverCmdSellLot(%cl, %force)
 	else if (%hit.getGroup() != %cl.brickGroup && !%force)
 	{
 		messageClient(%cl, '', "You do not own this lot!");
-		return;	
+		return;
 	}
 	else if (%cl.repeatSellLot != %hit)
 	{
@@ -440,7 +440,30 @@ function serverCmdSellLot(%cl, %force)
 		{
 			%forceText = "\c0force \c5";
 		}
-		messageClient(%cl, '', "\c5Are you sure you want to " @ %forceText @ "sell this lot? Any bricks above it will be removed with 90% refund. Repeat /sellLot to confirm");
+
+		%count = getLotCount(%cl.brickGroup);
+		if (%count > 4)
+		{
+			%cost = mPow(2, getLotCount(%cl.brickGroup) - 2) * 3000;
+		}
+		else if (%count > 1)
+		{
+			%cost = mPow(2, getLotCount(%cl.brickGroup) - 1) * 1000;
+		}
+		else
+		{
+			if (getNumAdjacentLots(%hit) > 0)
+			{
+				%cost = 1000;
+			}
+			else
+			{
+				%cost = 0;
+			}
+		}
+
+		messageClient(%cl, '', "\c5Are you sure you want to " @ %forceText @ "sell this lot? Any bricks above it will be removed with 90% refund.");
+		messageClient(%cl, '', "\c5- You will receive \c2$" @ %cost + getLotRefundRecursive(%hit, %client) @ ((!%hit.getDatablock().isSingle) ? ("\c5 and \c3100\c5 experience") : "\c5") @ " for selling it. Repeat /sellLot to confirm.");
 		%cl.repeatSellLot = %hit;
 		cancel(%cl.clearRepeatSellLotSched);
 		%cl.clearRepeatSellLotSched = schedule(5000, %cl, eval, %cl @ ".repeatSellLot = 0;");
@@ -448,7 +471,7 @@ function serverCmdSellLot(%cl, %force)
 	}
 
 	cancel(%cl.clearRepeatSellLotSched);
-	
+
 	%count = getLotCount(%cl.brickGroup);
 	if (%count > 4)
 	{
@@ -517,7 +540,37 @@ function serverCmdSellAllLots(%cl)
 	}
 	else if (%cl.repeatSellAllLots != 1)
 	{
-		messageClient(%cl, '', "\c5Are you sure you want to sell ALL your lots? Any bricks above them will be removed with 90% refund. Repeat /sellAllLots to confirm");
+		fixLotList(%bg);
+		%list = %bg.lotList;
+
+		%totalRefund = 0;
+		%countCopy = %count;
+		if (%countCopy > 1 || getNumAdjacentLots(%list) > 0)
+		{
+			%totalRefund += 1000; //multiple lots, must have been adjacent, first must have cost 1k
+			%sellExperience = 1;
+		}
+		while (%countCopy > 1)
+		{
+			if (%countCopy > 4)
+				%totalRefund += mPow(2, %countCopy - 2) * 3000;
+			else
+				%totalRefund += mPow(2, %countCopy - 1) * 1000;
+
+			if (%sellExperience)
+				%totalExpRefund += 100;
+
+			%countCopy--;
+		}
+
+		for (%i = 0; %i < getWordCount(%list); %i++)
+		{
+			%lot = getWord(%list, %i);
+			%totalBrickRefund += getLotRefundRecursive(%lot, %cl);
+		}
+
+		messageClient(%cl, '', "\c5Are you sure you want to sell ALL your lots? Any bricks above them will be removed with 90% refund.");
+		messageClient(%cl, '', "\c5- You will receive \c2$" @ %totalRefund + %totalBrickRefund @ (%sellExperience ? ("\c5 and \c3" @ %totalExpRefund @ "\c5 experience") : "\c5") @ " for selling them. Repeat /sellAllLots to confirm.");
 		%cl.repeatSellAllLots = 1;
 		cancel(%cl.clearRepeatSellAllLotsSched);
 		%cl.clearRepeatSellAllLotsSched = schedule(5000, %cl, eval, %cl @ ".repeatSellAllLots = 0;");
@@ -525,10 +578,10 @@ function serverCmdSellAllLots(%cl)
 	}
 
 	cancel(%cl.clearRepeatSellAllLotsSched);
-	
+
 	fixLotList(%bg);
 	%list = %bg.lotList;
-	
+
 	%totalRefund = 0;
 	%countCopy = %count;
 	if (%countCopy > 1 || getNumAdjacentLots(%list) > 0)
@@ -566,7 +619,7 @@ function serverCmdSellAllLots(%cl)
 
 	%bg.lotCount = 0;
 	fixLotList(%bg);
-	
+
 	%plural = %count > 1 ? "s" : "";
 	if (%sellExperience)
 	{
@@ -603,7 +656,7 @@ function serverCmdForceSellAllLots(%cl, %bl_id)
 
 	%bg.lotCount = 0;
 	fixLotList(%bg);
-	
+
 	%plural = %count > 1 ? "s" : "";
 	messageClient(%cl, '', "\c5You cleared " @ %count @ " lots owned by " @ %bg.name @ "\c5!");
 }
@@ -629,7 +682,7 @@ function fxDTSBrick::updateLotCount(%brick, %amt)
 function fixLotList(%bg)
 {
 	%orig = trim(strReplace(%bg.lotList, "  ", " "));
-	
+
 	for (%i = 0; %i < getWordCount(%orig); %i++)
 	{
 		%id = getWord(%orig, %i);
@@ -782,7 +835,7 @@ function clearLotRecursive(%lotBrick, %client)
 			return;
 		}
 
-		
+
 		if (isContainedInBounds(%next.getPosition() TAB %next.getPosition(), %lotBounds))
 		{
 			if (%next.getDatablock().cost > 0)
@@ -790,6 +843,39 @@ function clearLotRecursive(%lotBrick, %client)
 				sellObject(%next);
 			}
 			%next.delete();
+		}
+	}
+	schedule(1, 0, clearLotRecursive, %lotBrick, %client);
+}
+
+function getLotRefundRecursive(%lotBrick, %client)
+{
+	%top = vectorAdd(%lotBrick.getPosition(), "0 0 0.1");
+	%pos = vectorAdd(%top, "0 0 100");
+	%box = %lotBrick.getDatablock().brickSizeX * 0.5 - 0.05;
+	%box = %box SPC %box SPC 199.95;
+
+
+	%lotBounds = getBrickBounds(%lotBrick, 70);
+
+	initContainerBoxSearch(%pos, %box, $TypeMasks::fxBrickAlwaysObjectType);
+	for (%i = 0; %i < 1024; %i++)
+	{
+		if (!isObject(%next = containerSearchNext()))
+		{
+			//we're done
+			%ret = %client.sellPrice;
+			%client.sellPrice = 0;
+			return %ret;
+		}
+
+
+		if (isContainedInBounds(%next.getPosition() TAB %next.getPosition(), %lotBounds))
+		{
+			if (%next.getDatablock().cost > 0)
+			{
+				%client.sellPrice += %next.getDatablock().cost * 0.9;
+			}
 		}
 	}
 	schedule(1, 0, clearLotRecursive, %lotBrick, %client);
