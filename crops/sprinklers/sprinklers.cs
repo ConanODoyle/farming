@@ -351,7 +351,7 @@ function getSprinklerCount(%brick)
 
 datablock ItemData(SprinklerLinkItem : HammerItem)
 {
-	iconName = "./icons/sprinklerHose";
+	iconName = "Add-Ons/Server_Farming/crops/icons/sprinklerHose";
 	shapeFile = "./sprinklerHoseItem.dts";
 	uiName = "Sprinkler Hose";
 	image = SprinklerLinkImage;

@@ -207,7 +207,7 @@ datablock fxDTSBrickData(brickSiloData)
 
 	brickFile = "./bricks/Silo.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/silo_(6x_storage)";
+	iconName = "Add-Ons/Server_Farming/crops/icons/silo";
 
 	isStorageBrick = 1;
 	storageBonus = 7;
