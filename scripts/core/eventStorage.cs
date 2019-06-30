@@ -28,11 +28,13 @@ function attemptStorage(%brick, %cl, %slot, %multiplier)
 	%itemDB = %pl.tool[%slot];
 	%itemCount = %pl.toolStackCount[%slot];
 	%stackType = %itemDB.stackType;
-	if (%multiplier < 1)
+
+	%storageMax = mCeil($StorageMax_[%stackType] * %multiplier);
+
+	if (%multiplier <= 0)
 	{
-		%multiplier = 1;
+		%storageMax = 1;
 	}
-	%storageMax = $StorageMax_[%stackType] * %multiplier;
 
 	if (!isObject(%itemDB))
 	{

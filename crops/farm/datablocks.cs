@@ -214,3 +214,19 @@ datablock fxDTSBrickData(brickSiloData)
 
 	cost = 800;
 };
+
+datablock fxDTSBrickData(brickLargeToolboxData)
+{
+	category = "Farming";
+	subCategory = "Storage";
+	uiName = "Toolbox";
+
+	brickFile = "./bricks/toolboxLargeFeatures.blb";
+
+	iconName = "Add-Ons/Server_Farming/crops/icons/toolbox";
+
+	isStorageBrick = 1;
+	storageBonus = 0;
+
+	cost = 150;
+};
