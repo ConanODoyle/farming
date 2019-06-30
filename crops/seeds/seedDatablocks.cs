@@ -111,7 +111,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 
 	%plantRad = $Farming::Crops::PlantData_[%brickDB.cropType, "plantSpace"] * 0.5 - 0.01 + 0.5;
 	%hitDB = %hit.getDatablock();
-	if ((%hitDB.isPot || %hitDB.isPlanter) && %brickDB.brickSizeX > 1)
+	if ((%hitDB.isPot || %hitDB.isPlanter) && (%brickDB.brickSizeX == 2 || %brickDB.brickSizeX > 3))
 	{
 		%obj.client.centerprint("You can only plant large plants on dirt!", 1);
 		return 0;
