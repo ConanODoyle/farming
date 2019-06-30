@@ -17,37 +17,28 @@ datablock fxDTSBrickData(brickPotato0CropData)
 	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickPotato1CropData)
+datablock fxDTSBrickData(brickPotato1CropData : brickPotato0CropData)
 {
 	uiName = "Potato1";
 
 	brickFile = "./bricks/potato1.blb";
-	cropType = "Potato";
 	stage = 1;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickPotato2CropData)
+datablock fxDTSBrickData(brickPotato2CropData : brickPotato0CropData)
 {
 	uiName = "Potato2";
 
 	brickFile = "./bricks/potato2.blb";
-	cropType = "Potato";
 	stage = 2;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickPotato3CropData)
+datablock fxDTSBrickData(brickPotato3CropData : brickPotato0CropData)
 {
 	uiName = "Potato3";
 
 	brickFile = "./bricks/potato3.blb";
-	cropType = "Potato";
 	stage = 3;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
 
@@ -63,37 +54,28 @@ datablock fxDTSBrickData(brickCarrot0CropData)
 	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickCarrot1CropData)
+datablock fxDTSBrickData(brickCarrot1CropData : brickCarrot0CropData)
 {
 	uiName = "Carrot1";
 
 	brickFile = "./bricks/carrot1.blb";
-	cropType = "Carrot";
 	stage = 1;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickCarrot2CropData)
+datablock fxDTSBrickData(brickCarrot2CropData : brickCarrot0CropData)
 {
 	uiName = "Carrot2";
 
 	brickFile = "./bricks/carrot2.blb";
-	cropType = "Carrot";
 	stage = 2;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickCarrot3CropData)
+datablock fxDTSBrickData(brickCarrot3CropData : brickCarrot0CropData)
 {
 	uiName = "Carrot3";
 
 	brickFile = "./bricks/carrot3.blb";
-	cropType = "Carrot";
 	stage = 3;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
 
@@ -110,52 +92,36 @@ datablock fxDTSBrickData(brickTomato0CropData)
 	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickTomato1CropData)
+datablock fxDTSBrickData(brickTomato1CropData : brickTomato0CropData)
 {
 	uiName = "Tomato1";
 
 	brickFile = "./bricks/tomato1.blb";
-	cropType = "Tomato";
 	stage = 1;
-	isPlant = 1;
-	plantingLayer = 1;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickTomato2CropData)
+datablock fxDTSBrickData(brickTomato2CropData : brickTomato0CropData)
 {
 	uiName = "Tomato2";
 
 	brickFile = "./bricks/tomato2.blb";
-	cropType = "Tomato";
 	stage = 2;
-	isPlant = 1;
-	plantingLayer = 1;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickTomato3CropData)
+datablock fxDTSBrickData(brickTomato3CropData : brickTomato0CropData)
 {
 	uiName = "Tomato3";
 
 	brickFile = "./bricks/tomato3.blb";
-	cropType = "Tomato";
 	stage = 3;
-	isPlant = 1;
-	plantingLayer = 1;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickTomato4CropData)
+datablock fxDTSBrickData(brickTomato4CropData : brickTomato0CropData)
 {
 	uiName = "Tomato4";
 
 	brickFile = "./bricks/tomato4.blb";
-	cropType = "Tomato";
 	stage = 4;
-	isPlant = 1;
-	plantingLayer = 1;
-	isIndividuallyFertilized = 1;
 };
 
 
@@ -171,48 +137,36 @@ datablock fxDTSBrickData(brickCorn0CropData)
 	plantingLayer = 1;
 };
 
-datablock fxDTSBrickData(brickCorn1CropData)
+datablock fxDTSBrickData(brickCorn1CropData : brickCorn0CropData)
 {
 	uiName = "Corn1";
 
 	brickFile = "./bricks/Corn1.blb";
-	cropType = "Corn";
 	stage = 1;
-	isPlant = 1;
-	plantingLayer = 1;
 };
 
-datablock fxDTSBrickData(brickCorn2CropData)
+datablock fxDTSBrickData(brickCorn2CropData : brickCorn0CropData)
 {
 	uiName = "Corn2";
 
 	brickFile = "./bricks/Corn2.blb";
-	cropType = "Corn";
 	stage = 2;
-	isPlant = 1;
-	plantingLayer = 1;
 };
 
-datablock fxDTSBrickData(brickCorn3CropData)
+datablock fxDTSBrickData(brickCorn3CropData : brickCorn0CropData)
 {
 	uiName = "Corn3";
 
 	brickFile = "./bricks/Corn3.blb";
-	cropType = "Corn";
 	stage = 3;
-	isPlant = 1;
-	plantingLayer = 1;
 };
 
-datablock fxDTSBrickData(brickCorn4CropData)
+datablock fxDTSBrickData(brickCorn4CropData : brickCorn0CropData)
 {
 	uiName = "Corn4";
 
 	brickFile = "./bricks/Corn4.blb";
-	cropType = "Corn";
 	stage = 4;
-	isPlant = 1;
-	plantingLayer = 1;
 };
 
 
@@ -228,48 +182,36 @@ datablock fxDTSBrickData(brickCabbage0CropData)
 	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickCabbage1CropData)
+datablock fxDTSBrickData(brickCabbage1CropData : brickCabbage0CropData)
 {
 	uiName = "Cabbage1";
 
 	brickFile = "./bricks/Cabbage1.blb";
-	cropType = "Cabbage";
 	stage = 1;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickCabbage2CropData)
+datablock fxDTSBrickData(brickCabbage2CropData : brickCabbage0CropData)
 {
 	uiName = "Cabbage2";
 
 	brickFile = "./bricks/Cabbage2.blb";
-	cropType = "Cabbage";
 	stage = 2;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickCabbage3CropData)
+datablock fxDTSBrickData(brickCabbage3CropData : brickCabbage0CropData)
 {
 	uiName = "Cabbage3";
 
 	brickFile = "./bricks/Cabbage3.blb";
-	cropType = "Cabbage";
 	stage = 3;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickCabbage4CropData)
+datablock fxDTSBrickData(brickCabbage4CropData : brickCabbage0CropData)
 {
 	uiName = "Cabbage4";
 
 	brickFile = "./bricks/Cabbage4.blb";
-	cropType = "Cabbage";
 	stage = 4;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
 
@@ -285,37 +227,28 @@ datablock fxDTSBrickData(brickOnion0CropData)
 	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickOnion1CropData)
+datablock fxDTSBrickData(brickOnion1CropData : brickOnion0CropData)
 {
 	uiName = "Onion1";
 
 	brickFile = "./bricks/Onion1.blb";
-	cropType = "Onion";
 	stage = 1;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickOnion2CropData)
+datablock fxDTSBrickData(brickOnion2CropData : brickOnion0CropData)
 {
 	uiName = "Onion2";
 
 	brickFile = "./bricks/Onion2.blb";
-	cropType = "Onion";
 	stage = 2;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickOnion3CropData)
+datablock fxDTSBrickData(brickOnion3CropData : brickOnion0CropData)
 {
 	uiName = "Onion3";
 
 	brickFile = "./bricks/Onion3.blb";
-	cropType = "Onion";
 	stage = 3;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
 
@@ -331,48 +264,36 @@ datablock fxDTSBrickData(brickBlueberry0CropData)
 	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickBlueberry1CropData)
+datablock fxDTSBrickData(brickBlueberry1CropData : brickBlueberry0CropData)
 {
 	uiName = "Blueberry1";
 
 	brickFile = "./bricks/Blueberry1.blb";
-	cropType = "Blueberry";
 	stage = 1;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickBlueberry2CropData)
+datablock fxDTSBrickData(brickBlueberry2CropData : brickBlueberry0CropData)
 {
 	uiName = "Blueberry2";
 
 	brickFile = "./bricks/Blueberry2.blb";
-	cropType = "Blueberry";
 	stage = 2;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickBlueberry3CropData)
+datablock fxDTSBrickData(brickBlueberry3CropData : brickBlueberry0CropData)
 {
 	uiName = "Blueberry3";
 
 	brickFile = "./bricks/Blueberry3.blb";
-	cropType = "Blueberry";
 	stage = 3;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickBlueberry4CropData)
+datablock fxDTSBrickData(brickBlueberry4CropData : brickBlueberry0CropData)
 {
 	uiName = "Blueberry4";
 
 	brickFile = "./bricks/Blueberry4.blb";
-	cropType = "Blueberry";
 	stage = 4;
-	isPlant = 1;
-	plantingLayer = 0;
 };
 
 
@@ -388,48 +309,36 @@ datablock fxDTSBrickData(brickTurnip0CropData)
 	plantingLayer = 1;
 };
 
-datablock fxDTSBrickData(brickTurnip1CropData)
+datablock fxDTSBrickData(brickTurnip1CropData : brickTurnip0CropData)
 {
 	uiName = "Turnip1";
 
 	brickFile = "./bricks/Turnip1.blb";
-	cropType = "Turnip";
 	stage = 1;
-	isPlant = 1;
-	plantingLayer = 1;
 };
 
-datablock fxDTSBrickData(brickTurnip2CropData)
+datablock fxDTSBrickData(brickTurnip2CropData : brickTurnip0CropData)
 {
 	uiName = "Turnip2";
 
 	brickFile = "./bricks/Turnip2.blb";
-	cropType = "Turnip";
 	stage = 2;
-	isPlant = 1;
-	plantingLayer = 1;
 };
 
-datablock fxDTSBrickData(brickTurnip3CropData)
+datablock fxDTSBrickData(brickTurnip3CropData : brickTurnip0CropData)
 {
 	uiName = "Turnip3";
 
 	brickFile = "./bricks/Turnip3.blb";
-	cropType = "Turnip";
 	stage = 3;
-	isPlant = 1;
-	plantingLayer = 1;
 };
 
-datablock fxDTSBrickData(brickTurnip4CropData)
+datablock fxDTSBrickData(brickTurnip4CropData : brickTurnip0CropData)
 {
 	uiName = "Turnip4";
 
 	brickFile = "./bricks/Turnip4.blb";
-	cropType = "Turnip";
 	stage = 4;
-	isPlant = 1;
-	plantingLayer = 1;
 };
 
 
@@ -458,28 +367,20 @@ datablock fxDTSBrickData(brickDaisy0CropData)
 	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickDaisy1CropData)
+datablock fxDTSBrickData(brickDaisy1CropData : brickDaisy0CropData)
 {
 	uiName = "Daisy1";
 
 	brickFile = "./bricks/Daisy1.blb";
-	cropType = "Daisy";
 	stage = 1;
-	isPlant = 1;
-	defaultColor = 45;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickDaisy2CropData)
+datablock fxDTSBrickData(brickDaisy2CropData : brickDaisy0CropData)
 {
 	uiName = "Daisy2";
 
 	brickFile = "./bricks/Daisy2.blb";
-	cropType = "Daisy";
 	stage = 2;
-	isPlant = 1;
-	defaultColor = 45;
-	plantingLayer = 0;
 };
 
 
@@ -496,28 +397,20 @@ datablock fxDTSBrickData(brickLily0CropData)
 	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickLily1CropData)
+datablock fxDTSBrickData(brickLily1CropData : brickLily0CropData)
 {
 	uiName = "Lily1";
 
 	brickFile = "./bricks/Lily1.blb";
-	cropType = "Lily";
 	stage = 1;
-	isPlant = 1;
-	defaultColor = 45;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickLily2CropData)
+datablock fxDTSBrickData(brickLily2CropData : brickLily0CropData)
 {
 	uiName = "Lily2";
 
 	brickFile = "./bricks/Lily2.blb";
-	cropType = "Lily";
 	stage = 2;
-	isPlant = 1;
-	defaultColor = 45;
-	plantingLayer = 0;
 };
 
 
@@ -534,28 +427,20 @@ datablock fxDTSBrickData(brickRose0CropData)
 	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickRose1CropData)
+datablock fxDTSBrickData(brickRose1CropData : brickRose0CropData)
 {
 	uiName = "Rose1";
 
 	brickFile = "./bricks/Rose1.blb";
-	cropType = "Rose";
 	stage = 1;
-	isPlant = 1;
-	defaultColor = 0;
-	plantingLayer = 0;
 };
 
-datablock fxDTSBrickData(brickRose2CropData)
+datablock fxDTSBrickData(brickRose2CropData : brickRose0CropData)
 {
 	uiName = "Rose2";
 
 	brickFile = "./bricks/Rose2.blb";
-	cropType = "Rose";
 	stage = 2;
-	isPlant = 1;
-	defaultColor = 0;
-	plantingLayer = 0;
 };
 
 
@@ -586,175 +471,110 @@ datablock fxDTSBrickData(brickAppleTree0CropData)
 	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickAppleTree1CropData)
+datablock fxDTSBrickData(brickAppleTree1CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree1";
 
 	brickFile = "./bricks/AppleTree1.blb";
-	cropType = "Apple";
 	stage = 1;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickAppleTree2CropData)
+datablock fxDTSBrickData(brickAppleTree2CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree2";
 
 	brickFile = "./bricks/AppleTree2.blb";
-	cropType = "Apple";
 	stage = 2;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickAppleTree3CropData)
+datablock fxDTSBrickData(brickAppleTree3CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree3";
 
 	brickFile = "./bricks/AppleTree3.blb";
-	cropType = "Apple";
 	stage = 3;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickAppleTree4CropData)
+datablock fxDTSBrickData(brickAppleTree4CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree4";
 
 	brickFile = "./bricks/AppleTree4.blb";
-	cropType = "Apple";
 	stage = 4;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickAppleTree5CropData)
+datablock fxDTSBrickData(brickAppleTree5CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree5";
 
 	brickFile = "./bricks/AppleTree5.blb";
-	cropType = "Apple";
 	stage = 5;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickAppleTree6CropData)
+datablock fxDTSBrickData(brickAppleTree6CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree6";
 
 	brickFile = "./bricks/AppleTree6.blb";
-	cropType = "Apple";
 	stage = 6;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickAppleTree7CropData)
+datablock fxDTSBrickData(brickAppleTree7CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree7";
 
 	brickFile = "./bricks/AppleTree7.blb";
-	cropType = "Apple";
 	stage = 7;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
 //pruned split
 
-datablock fxDTSBrickData(brickAppleTree10CropData)
+datablock fxDTSBrickData(brickAppleTree10CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree10";
 
 	brickFile = "./bricks/AppleTreeUnpruned0.blb";
-	cropType = "Apple";
 	stage = 10;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickAppleTree11CropData)
+datablock fxDTSBrickData(brickAppleTree11CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree11";
 
 	brickFile = "./bricks/AppleTreeUnpruned1.blb";
-	cropType = "Apple";
 	stage = 11;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickAppleTree12CropData)
+datablock fxDTSBrickData(brickAppleTree12CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree12";
 
 	brickFile = "./bricks/AppleTreeUnpruned2.blb";
-	cropType = "Apple";
 	stage = 12;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickAppleTree20CropData)
+datablock fxDTSBrickData(brickAppleTree20CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree20";
 
 	brickFile = "./bricks/AppleTreePruned0.blb";
-	cropType = "Apple";
 	stage = 20;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickAppleTree21CropData)
+datablock fxDTSBrickData(brickAppleTree21CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree21";
 
 	brickFile = "./bricks/AppleTreePruned1.blb";
-	cropType = "Apple";
 	stage = 21;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickAppleTree22CropData)
+datablock fxDTSBrickData(brickAppleTree22CropData : brickAppleTree0CropData)
 {
 	uiName = "AppleTree22";
 
 	brickFile = "./bricks/AppleTreePruned2.blb";
-	cropType = "Apple";
 	stage = 22;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
 
@@ -776,147 +596,92 @@ datablock fxDTSBrickData(brickMangoTree0CropData)
 	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickMangoTree1CropData)
+datablock fxDTSBrickData(brickMangoTree1CropData : brickMangoTree0CropData)
 {
 	uiName = "MangoTree1";
 
 	brickFile = "./bricks/Mango1.blb";
-	cropType = "Mango";
 	stage = 1;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickMangoTree2CropData)
+datablock fxDTSBrickData(brickMangoTree2CropData : brickMangoTree0CropData)
 {
 	uiName = "MangoTree2";
 
 	brickFile = "./bricks/Mango2.blb";
-	cropType = "Mango";
 	stage = 2;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickMangoTree3CropData)
+datablock fxDTSBrickData(brickMangoTree3CropData : brickMangoTree0CropData)
 {
 	uiName = "MangoTree3";
 
 	brickFile = "./bricks/Mango3.blb";
-	cropType = "Mango";
 	stage = 3;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickMangoTree4CropData)
+datablock fxDTSBrickData(brickMangoTree4CropData : brickMangoTree0CropData)
 {
 	uiName = "MangoTree4";
 
 	brickFile = "./bricks/Mango4.blb";
-	cropType = "Mango";
 	stage = 4;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickMangoTree5CropData)
+datablock fxDTSBrickData(brickMangoTree5CropData : brickMangoTree0CropData)
 {
 	uiName = "MangoTree5";
 
 	brickFile = "./bricks/Mango5.blb";
-	cropType = "Mango";
 	stage = 5;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickMangoTree6CropData)
+datablock fxDTSBrickData(brickMangoTree6CropData : brickMangoTree0CropData)
 {
 	uiName = "MangoTree6";
 
 	brickFile = "./bricks/Mango6.blb";
-	cropType = "Mango";
 	stage = 6;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickMangoTree7CropData)
+datablock fxDTSBrickData(brickMangoTree7CropData : brickMangoTree0CropData)
 {
 	uiName = "MangoTree7";
 
 	brickFile = "./bricks/Mango7.blb";
-	cropType = "Mango";
 	stage = 7;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickMangoTree8CropData)
+datablock fxDTSBrickData(brickMangoTree8CropData : brickMangoTree0CropData)
 {
 	uiName = "MangoTree8";
 
 	brickFile = "./bricks/Mango8.blb";
-	cropType = "Mango";
 	stage = 8;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickMangoTree9CropData)
+datablock fxDTSBrickData(brickMangoTree9CropData : brickMangoTree0CropData)
 {
 	uiName = "MangoTree9";
 
 	brickFile = "./bricks/Mango9.blb";
-	cropType = "Mango";
 	stage = 9;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickMangoTree10CropData)
+datablock fxDTSBrickData(brickMangoTree10CropData : brickMangoTree0CropData)
 {
 	uiName = "MangoTree10";
 
 	brickFile = "./bricks/Mango10.blb";
-	cropType = "Mango";
 	stage = 10;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
-datablock fxDTSBrickData(brickMangoTree11CropData)
+datablock fxDTSBrickData(brickMangoTree11CropData : brickMangoTree0CropData)
 {
 	uiName = "MangoTree11";
 
 	brickFile = "./bricks/Mango11.blb";
-	cropType = "Mango";
 	stage = 11;
-	isPlant = 1;
-	isTree = 1;
-	plantingLayer = 2;
-	isIndividuallyFertilized = 1;
 };
 
 
@@ -950,30 +715,22 @@ datablock fxDTSBrickData(brickWeed0CropData)
 	timeDelay = 2;
 };
 
-datablock fxDTSBrickData(brickWeed1CropData)
+datablock fxDTSBrickData(brickWeed1CropData : brickWeed0CropData)
 {
 	uiName = "Weed1";
 
 	brickFile = "./bricks/Weed1.blb";
-	cropType = "Weed";
 	stage = 1;
-	isPlant = 1;
-	growsWithoutSunlight = 1;
 
-	isWeed = 1;
 	timeDelay = 8;
 };
 
-datablock fxDTSBrickData(brickWeed2CropData)
+datablock fxDTSBrickData(brickWeed2CropData : brickWeed0CropData)
 {
 	uiName = "Weed2";
 
 	brickFile = "./bricks/Weed2.blb";
-	cropType = "Weed";
 	stage = 2;
-	isPlant = 1;
-	growsWithoutSunlight = 1;
 
-	isWeed = 1;
 	timeDelay = 16;
 };
