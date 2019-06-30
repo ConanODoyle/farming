@@ -57,7 +57,7 @@ $Farming::Crops::PlantData_["Chili", 4, "yield"]					= "2 5";
 $Farming::Crops::PlantData_["Chili", 4, "item"]						= "ChiliItem";
 $Farming::Crops::PlantData_["Chili", 4, "dieOnHarvest"]				= "1";
 $Farming::Crops::PlantData_["Chili", 4, "harvestTool"]				= "Clipper";
-$Farming::Crops::PlantData_["Chili", 4, "areaHarvestTool"]			= "Scythe";
+$Farming::Crops::PlantData_["Chili", 4, "areaHarvestTool"]			= "Sickle";
 $Farming::Crops::PlantData_["Chili", 4, "toolBuff"]					= "1 1";
 $Farming::Crops::PlantData_["Chili", 4, "changeOnHarvest"]			= "";
 
