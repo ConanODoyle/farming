@@ -219,7 +219,7 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 {
 	category = "Farming";
 	subCategory = "Storage";
-	uiName = "Toolbox";
+	uiName = "Toolbox ";
 
 	brickFile = "./bricks/toolboxLargeFeatures.blb";
 
