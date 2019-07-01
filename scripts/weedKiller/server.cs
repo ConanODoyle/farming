@@ -55,11 +55,11 @@ function killWeeds(%img, %obj, %slot)
         %timeAdded = getMin(%img.weedRepelBaseDuration * 1.75 - %timeLeft, %timeAdded);
 
 		%brick.weedImmunityExpires = $Sim::Time + %timeLeft + %timeAdded;
-		%obj.client.centerprint("\c6You added \c2" @ convTime(%timeAdded)
+		%obj.client.centerprint("<just:right>\c6You added \c2" @ convTime(%timeAdded)
 								@ "\c6 of weed killer\n\c6for a total of \c3"
 								@ convTime(%brick.weedImmunityExpires - $Sim::Time)
 								@ "\c6!", 1);
-		%obj.client.schedule(150, centerprint, "\c6You added \c2" @ convTime(%timeAdded)
+		%obj.client.schedule(150, centerprint, "<just:right>\c6You added \c2" @ convTime(%timeAdded)
 							 @ "\c6 of weed killer\n\c6for a total of \c3"
 							 @ convTime(%brick.weedImmunityExpires - $Sim::Time)
 							 @ "\c6!", 2);
@@ -239,6 +239,6 @@ function weedKillerLoop(%image, %obj)
 
 	if (isObject(%cl))
 	{
-		%cl.centerprint("<color:ffff00>-Weed Killer " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<just:right><color:ffff00>-Weed Killer " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
 	}
 }

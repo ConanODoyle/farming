@@ -132,11 +132,11 @@ function PlanterImage::onLoop(%this, %obj, %slot)
 
 	if (%idx !$= "")
 	{
-		%cl.centerprint("<color:ffff00>-Row " @ %this.item.uiname @"- <br><color:ffffff>" @ %append, 1);
+		%cl.centerprint("<just:right><color:ffff00>-Row " @ %this.item.uiname @"- <br><color:ffffff>" @ %append, 1);
 	}
 	else
 	{
-		%cl.centerprint("<color:ffff00>-Row " @ %this.item.uiname @"- <br><color:ff0000>No seeds in inventory! ", 1);
+		%cl.centerprint("<just:right><color:ffff00>-Row " @ %this.item.uiname @"- <br><color:ff0000>No seeds in inventory! ", 1);
 	}
 }
 

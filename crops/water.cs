@@ -317,8 +317,8 @@ function waterCanFire(%this, %obj, %slot)
             {
                 %waterLevel = %waterLevel @ " <just:right>\c2Combo: " @ %obj.waterCount;
             }
-            %obj.client.centerprint("<color:ffffff>Watering... (+" @ %dispensed @ "/" @ %amt @ ") <br>" @ %waterLevel @ " ", 1);
-            %obj.client.schedule(50, centerprint, "<color:cccccc>Watering... (+" @ %dispensed @ "/" @ %amt @ ") <br>" @ %waterLevel @ " ", 1);
+            %obj.client.centerprint("<just:right><color:ffffff>Watering... (+" @ %dispensed @ "/" @ %amt @ ") <br>" @ %waterLevel @ " ", 1);
+            %obj.client.schedule(50, centerprint, "<just:right><color:cccccc>Watering... (+" @ %dispensed @ "/" @ %amt @ ") <br>" @ %waterLevel @ " ", 1);
         }
     }
 
@@ -360,8 +360,8 @@ package ClickToSeeWater
                     %weedKillerStr = "<br><color:ffffff>Weedkill time: " @ convTime(%weedKillerTime);
                     %weedKillerEndStr = "<br><color:cccccc>Weedkill time: " @ convTime(%weedKillerTime);
                 }
-                %cl.centerprint("<color:ffffff>Water Level: " @ %waterLevel @ " " @ %weedKillerStr, 1);
-                %cl.schedule(50, centerprint, "<color:cccccc>Water Level: " @ %waterLevel @ " " @ %weedKillerEndStr, 1);
+                %cl.centerprint("<just:right><color:ffffff>Water Level: " @ %waterLevel @ " " @ %weedKillerStr, 1);
+                %cl.schedule(50, centerprint, "<just:right><color:cccccc>Water Level: " @ %waterLevel @ " " @ %weedKillerEndStr, 1);
             }
         }
 

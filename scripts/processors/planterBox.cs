@@ -52,7 +52,7 @@ datablock ShapeBaseImageData(PlanterBoxBrickImage : BrickPlacerImage)
 	colorShiftColor = PlanterBoxItem.colorShiftColor;
 
 	toolTip = "Places a Planter Box";
-	loopTip = "Allows a plant to ignore plants on dirt, min planting radius -1";
+	loopTip = "Allows a plant to ignore plants on dirt<br>Min planting radius -1";
 	placeBrick = "brickPlanterBoxData";
 };
 
