@@ -115,7 +115,11 @@ function fertilizeCrop(%img, %obj, %slot)
 	{
 		%numGrown = 0;
 		%numCrops = 0;
-		for (%i = 0; %i < %brick.getNumUpBricks(); %i++)
+
+		%upBricks = %brick.getNumUpBricks();
+		%mod = 1 + mFloor(%upBricks / 6); // Max of 6 explosions
+
+		for (%i = 0; %i < %upBricks; %i++)
 		{
 			%crop = %brick.getUpBrick(%i);
 
@@ -142,10 +146,13 @@ function fertilizeCrop(%img, %obj, %slot)
 			
 			%numCrops++;
 
-			%hitloc = %crop.getPosition();
-			%p = new Projectile() { dataBlock = PushBroomProjectile; initialPosition = %hitloc; };
-			%p.setScale("0.5 0.5 0.5");
-			%p.explode();
+			if(%i % %mod == 0)
+			{
+				%hitloc = %crop.getPosition();
+				%p = new Projectile() { dataBlock = PushBroomProjectile; initialPosition = %hitloc; };
+				%p.setScale("0.5 0.5 0.5");
+				%p.explode();
+			}
 
 			%crop.growTick += %img.bonusGrowTicks;
 			%crop.nextGrow -= %img.bonusGrowTime;
