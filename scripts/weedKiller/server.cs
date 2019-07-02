@@ -172,8 +172,6 @@ datablock ItemData(WeedKiller1Item : WeedKiller0Item)
 	shapeFile = "./resources/WeedKillerItem.dts";
 	image = "WeedKiller1Image";
 	uiName = "Half Weed Killer";
-
-	iconName = "Add-ons/Server_Farming/crops/icons/Fertilizer_Bag_Half";
 };
 
 datablock ShapeBaseImageData(WeedKiller1Image : WeedKiller0Image)
@@ -187,8 +185,6 @@ datablock ItemData(WeedKiller2Item : WeedKiller0Item)
 	shapeFile = "./resources/WeedKillerItem.dts";
 	image = "WeedKiller2Image";
 	uiName = "Full Weed Killer";
-
-	iconName = "Add-ons/Server_Farming/crops/icons/Fertilizer_Bag_Full";
 };
 
 datablock ShapeBaseImageData(WeedKiller2Image : WeedKiller0Image)
