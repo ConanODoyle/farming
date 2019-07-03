@@ -1,7 +1,7 @@
 datablock ItemData(ReclaimerItem : HammerItem)
 {
 	shapeFile = "./Reclaimer.dts";
-	iconName = "";
+	iconName = "Add-Ons/Server_Farming/crops/icons/Seed_Reclaimer";
 	uiName = "Seed Reclaimer";
 
 	colorShiftColor = "0.4 0 0 1";
