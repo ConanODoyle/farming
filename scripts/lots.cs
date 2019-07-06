@@ -950,7 +950,7 @@ function fixLotColor(%brick)
 
 	if (%xEven == %yEven)
 	{
-		if (%brick.getDatablock().isSingle || getNumAdjacentLots(%brick) == 0)
+		if (%brick.getDatablock().isSingle)
 		{
 			%brick.setColor(27); //single lots colored red
 		}
@@ -961,9 +961,9 @@ function fixLotColor(%brick)
 	}
 	else
 	{
-		if (%brick.getDatablock().isSingle || getNumAdjacentLots(%brick) == 0)
+		if (%brick.getDatablock().isSingle)
 		{
-			%brick.setColor(28); //singxle lots colored red
+			%brick.setColor(28); //single lots colored red
 		}
 		else
 		{
