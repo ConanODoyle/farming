@@ -120,3 +120,28 @@ function serverCmdLastPlayed(%cl, %blid)
 	messageClient(%cl, '', "\c6BLID \c3" @ %blid @ "\c6 was last on the server" @ %time @ " ago!");
 	return;
 }
+
+function serverCmdCleanIPLogs(%cl)
+{
+	if (!%cl.isSuperAdmin) return;
+	
+	if (!%cl.cleanIPsRepeat)
+	{
+		%cl.cleanIPsRepeat = 1;
+		messageClient(%cl, '', "Are you sure you want to clean up IP logger entries? This may cause serious server lag!");
+		messageClient(%cl, '', "Additionally, it will delete ALL IP logs! Repeat /cleanIPLogs to proceed.");
+		%cl.cleanIPsRepeatSched = schedule(5000, 0, unSetIPCleanRepeat, %cl);
+		return;
+	}
+	cancel(%cl.cleanIPsRepeatSched);
+	%cl.cleanIPsRepeat = 0;
+
+	deleteVariables("$Pref::IPLogger::BLID_*");
+	messageClient(%cl, 'MsgAdminForce', "IP logs cleaned up.");
+}
+
+function unSetIPCleanRepeat(%cl)
+{
+	%cl.cleanIPsRepeat = 0;
+	messageClient(%cl, '', "IP cleanup timed out - no IP logs cleared.");
+}
