@@ -11,7 +11,7 @@ package IPLogger
 		{
 			$Pref::IPLogger::BLID_[%blid] = trim($Pref::IPLogger::BLID_[%blid] SPC %ip TAB %port);
 			export("$Pref*", "config/server/prefs.cs");
-			echo("Wrote IP " @ %ip @ " to entry BL_ID " @ %blid @ " in the IP Logger variables.");
+			echo("Wrote IP " @ %ip TAB %port @ " to entry BL_ID " @ %blid @ " in the IP Logger variables.");
 		}
 		else
 		{
