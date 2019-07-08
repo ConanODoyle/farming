@@ -6,7 +6,7 @@ package IPLogger
 		%port = getSubStr(%cl.getAddress(), strLen(%ip) + 1, 20);
 		%blid = %cl.bl_id;
 
-		if (strPos(" " @ $Pref::IPLogger @ " ", " " @ %ip TAB %port @ " ") < 0)
+		if (strPos(" " @ $Pref::IPLogger @ "\t", " " @ %ip @ "\t") < 0)
 		{
 			$Pref::IPLogger::BLID_[%blid] = trim($Pref::IPLogger::BLID_[%blid] SPC %ip TAB %port);
 			export("$Pref*", "config/server/prefs.cs");
