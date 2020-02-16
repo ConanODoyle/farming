@@ -104,7 +104,7 @@ package Cart
 {
 	function Armor::onMount(%this, %obj, %mount, %slot)
 	{
-		if (getTrustLevel(%obj, %mount) < 2 && isObject(%obj.client))
+		if (getTrustLevel(%obj, %mount) < 2 && isObject(%obj.client) && isObject(%mount.spawnBrick))
 		{
 			%obj.schedule(10, dismount);
 			%obj.client.centerprint(getBrickgroupFromObject(%mount).name @ " does not trust you enough to do that!", 1);
