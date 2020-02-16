@@ -25,7 +25,9 @@ $DirtWaterColor6 = 60;
 $DirtWaterColorCount = 7;
 
 // Vehicle Costs
-JeepVehicle.maxWheelSpeed = 18;
+JeepVehicle.maxWheelSpeed = 20;
+JeepSpring.force = 2000;
+JeepSpring.damping = 5000;
 JeepVehicle.uiName = "Jeep - $1000";
 JeepVehicle.cost = 1000;
 HorseArmor.cost = 250;
