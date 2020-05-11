@@ -1,0 +1,58 @@
+1) change lots/player system to auto save and clear after being offline for an hour - solves both limited lots issue + brickcount issues
+1a) farming lot size will have a fixed max, so instead of "bigger farm" it'll be "choice of plants/farm design"
+2) lots cost a *lot* of money and income is generally largely reduced across the board. however, you can go into debt to purchase the next lot upgrade, but must pay off that debt before you can purchase any lot or home upgrade. debt increases by 1% simple interest per day/week/whatever something like that so it gives people pressure to work to pay off but not a huge amount of pressure either.
+2a) "home teledoor" so people can have a home without sacrificing lot space - ac sort of interior-only space they can choose to build
+2b) tools wear out, cost money
+3) fishing or mining for dead broke people who cant even afford seeds to grow stuff
+3a) fishing/exploration for special bricks for building
+
+
+- lots
+	- by-blid save/loading, using an edited copy of autosaver
+		- bricks placed on users lot or in users home will take ownership of that user (so saving is properly handled)
+		- disable /clearbricks, inform player of /hardreset
+	- keep queue of who was last online, pop queue and save + clear their bricks on dc
+	- ensure at least 2-5 lot spots are free at any one time - gives time for autosaver to save and load, player choice
+	- home teledoor
+		- enclosed, roofed space. allows floating bricks via invisible modter. does not allow duplicator.
+		- can build anything in here, including storage and crops. crops wont grow due to no sunlight.
+		- only one home teledoor at any one time in either lot or home build
+- tools rework
+	- tools are now stackable >> have durability
+		- disable or fully remove tools on 0 durability
+	- repair event that repairs currently equipped tool (bot shopkeeper)
+	- multiple models to represent durability level?
+- quests
+	- generate postings on posting board
+	- postings have event that pops up dialog box - ok = confirm quest
+		- quests thus have to be encoded in string format for autosaver to properly handle quest posting saving 
+	- quest acquirement mechanics
+		- option 1) keep basic quests, remove special quests (tool quests)
+		- option 2) keep all quests, auto cycle quests
+		- option 3) remove all quests, instantly generate new basic quests on a basic quest taken
+
+		- option a) generate new quests every [time interval], replacing all existing quests
+		- option b) generate new quests every [time interval], filling all available slots
+		- option c) generate a few new quests every [time interval], if slots available
+		- option d) generate a few new quests every [time interval], replacing those available
+	- maximum quests at one time - one? two? three?
+	- discarding quests - must be sufficiently tedious enough so that people don't forcibly cycle the board's quest contents
+		- only applicable if we remove quests
+		- walk to far away store that has a discard event? timeout on discarding a quest?
+	- completing quest
+		- option 1) "delivery chest" brick that on dropping resources in, go towards fulfilling quest requirements
+			- can still sell crops for $$ by going to supermarket/big buyer and selling produce to him, instead of going towards quest
+			- delivery chest exist solely at market, or are placable on property?
+		- option 2) standard selling of produce at market also goes towards fulfilling quest requirements
+
+		- option a) reward dropped off at player directly on quest complete
+		- option b) reward available for pickup at market (post office?)
+	- checking on quest progress
+		- to-do notebook item, free of charge at market - centerprints current quests + quest progress, cycling on click
+		- could have discard-quest commands associated with it
+- fishing
+	- on fishing rod use: throw unpickupable bobber item, which has density set so it floats on water
+	- on fish ready to catch, play bob animation on bobber - aka minecraft mechanics copy
+	- can display circle shadow on bobber based on catch type, so people can choose to wait for next bob to reel in
+		- higher tier rods show more information on what is hooked?
+	- fish sold at fish market, no other use for fish. also stackable.
