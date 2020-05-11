@@ -7,11 +7,15 @@
 //$Stackable_stackType_stackedItem2 = datablock SPC max;
 //etc...
 //$Stackable_stackType_stackedItemTotal = 3;
+function getMaxStack(%stackType)
+{
+	%idxMax = $Stackable_[%stackType, "stackedItemTotal"];
+	return getWord($Stackable_[%stackType, "stackedItem" @ %idxMax - 1], 1);
+}
 
 function getMaxPickup(%pl, %stackType)
 {
-	%idxMax = $Stackable_[%stackType, "stackedItemTotal"];
-	%absoluteMax = getWord($Stackable_[%stackType, "stackedItem" @ %idxMax - 1], 1);
+	%absoluteMax = getMaxStack(%stackType);
 
 	if (%absoluteMax $= "")
 	{
@@ -28,10 +32,10 @@ function getMaxPickup(%pl, %stackType)
 			{
 				%totalEmpty++;
 			}
-			
+
 			%total += %absoluteMax;
 		}
-		
+
 		if (isObject(%curr) && %curr.stackType $= %stackType && !%requireEmpty)
 		{
 			//stacked item detected, check if it can carry more items
@@ -60,7 +64,7 @@ function stackedCanPickup(%pl, %item)
 {
 	%plDB = %pl.getDatablock();
 	%itemDB = %item.getDatablock();
-	
+
 	if (!%itemDB.isStackable || !%item.canPickup)
 	{
 		return 0;
@@ -79,8 +83,7 @@ function stackedCanPickup(%pl, %item)
 		%count = 1;
 	}
 
-	%idx = $Stackable_[%itemDB.stackType, "stackedItemTotal"] - 1;
-	%absoluteMax = getWord($Stackable_[%itemDB.stackType, "stackedItem" @ %idx], 1);
+	%absoluteMax = getMaxStack(%itemDB.stackType);
 
 	for (%i = 0; %i < %plDB.maxTools; %i++)
 	{
@@ -90,7 +93,7 @@ function stackedCanPickup(%pl, %item)
 			%empty = %i;
 			%pl.toolStackCount[%i] = 0;
 		}
-		
+
 		if (isObject(%curr) && %curr.stackType $= %itemDB.stackType)
 		{
 			//stacked item detected, check if it can carry more items
@@ -133,6 +136,19 @@ function stackedCanPickup(%pl, %item)
 	}
 }
 
+function getItemFromStack(%stackType, %count) {
+	%itemCount = $Stackable_[%stackType, "stackedItemTotal"];
+	for (%i = 0; %i < %itemCount; %i++)
+	{
+		%currPair = $Stackable_[%stackType, "stackedItem" @ %i];
+		if (%count <= getWord(%currPair, 1))
+		{
+			return getWord(%currPair, 0);
+		}
+	}
+	return getWord($Stackable_[%stackType, "stackedItem" @ %itemCount - 1], 0);
+}
+
 function pickupStackableItem(%pl, %item, %slot, %amt)
 {
 	if ((%pl.tool[%slot].stackType !$= %item.getDatablock().stackType && isObject(%pl.tool[%slot])) || %item.getDatablock().stackType $= "")
@@ -145,21 +161,11 @@ function pickupStackableItem(%pl, %item, %slot, %amt)
 		%pl.toolStackCount[%slot] = 0;
 	}
 
-	%count = %amt;
 	%type = %item.getDatablock().stackType;
 
 	%pl.toolStackCount[%slot] += %amt;
 	//figure out which item to give to the player
-	for (%i = 0; %i < $Stackable_[%type, "stackedItemTotal"]; %i++)
-	{
-		%currPair = $Stackable_[%type, "stackedItem" @ %i];
-		// talk(%currPair);
-		if (%pl.toolStackCount[%slot] <= getWord(%currPair, 1))
-		{
-			%bestItem = getWord(%currPair, 0);
-			break;
-		}
-	}
+	%bestItem = getItemFromStack(%type, %amt);
 
 	// talk(%bestItem.getID() @ " vs " @ %pl.tool[%slot]);
 	if (!isObject(%bestItem))
@@ -203,16 +209,7 @@ function pickupStackableItem(%pl, %item, %slot, %amt)
 	else
 	{
 		//figure out which itemDB to set the dropped item to
-		for (%i = 0; %i < $Stackable_[%type, "stackedItemTotal"]; %i++)
-		{
-			%currPair = $Stackable_[%type, "stackedItem" @ %i];
-			// talk(%currPair);
-			%bestItem = getWord(%currPair, 0);
-			if (%item.count <= getWord(%currPair, 1))
-			{
-				break;
-			}
-		}
+		%bestItem = getItemFromStack(%type, %item.count);
 
 		if (isObject(%bestItem))
 		{
@@ -368,7 +365,7 @@ function checkGroupStackable(%item, %times)
         {
             continue;
         }
-        
+
         if (!%next.static && %next.getDatablock().stackType $= %stackType)
         {
         	if (%next.count <= 0)
