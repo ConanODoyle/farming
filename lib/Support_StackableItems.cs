@@ -8,9 +8,6 @@
 //etc...
 //$Stackable_stackType_stackedItemTotal = 3;
 
-//returns 0 for cannot pickup
-//returns 1 SPC %slot for can pickup completely
-//returns 2 SPC %slot SPC %amt for partial pickup (overflow)
 function getMaxPickup(%pl, %stackType)
 {
 	%idxMax = $Stackable_[%stackType, "stackedItemTotal"];
@@ -56,6 +53,9 @@ function getMaxPickup(%pl, %stackType)
 	}
 }
 
+//returns 0 for cannot pickup
+//returns 1 SPC %slot for can pickup completely
+//returns 2 SPC %slot SPC %amt for partial pickup (overflow)
 function stackedCanPickup(%pl, %item)
 {
 	%plDB = %pl.getDatablock();
