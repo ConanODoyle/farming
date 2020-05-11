@@ -7,6 +7,7 @@ echo("\c4    --Loading Farming Dependencies");
 exec("./lib/NewBrickToolOverride.cs");
 exec("./lib/disableMinigameCreation.cs");
 exec("./lib/Support_StackableItems.cs");
+exec("./lib/Support_GiveItems.cs");
 exec("./lib/Support_BrickProcessors.cs");
 exec("./lib/Script_Player_Persistence.cs");
 exec("./lib/Support_CenterprintMenuSystem.cs");
