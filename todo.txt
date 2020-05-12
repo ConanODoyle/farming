@@ -25,33 +25,36 @@
 - quests
 	- quest acquiring mechanics
 		- visit a quest-giver's location, grab a quest note from their quest pad
-			- if player already has active quest, send active quest back to their board
-				- offer choice of swapping with active quest?
-				- allow preference of default (swap or send to board)?
-			- quest pad has event so players can use the pad/notes in their own builds without breaking things
+			- dialog box shows quest, click ok to accept
+			- if player already holding quest note, dialog box asking if they want to replace their current quest with the new one
 		- can only pick up a quest every [interval] from a given quest-giver, per-player timeout
-			- unique timeout per quest-giver?
-			- every [interval], generate a new quest for each player
+			- unique timeout per quest-giver, configurable via event field
+			- generate a new quest on pickup, otherwise show same quest to everyone
+				- allows people to see available quest and ask if anyone else is interested in it
 		- postings have event that pops up dialog box - ok = confirm quest
 			- quests thus have to be encoded in string format for austosaver to properly handle quest posting saving
-			- line 1: required items, line 2: reward items - items are fields, each field is a word pair of item/stack type and quantity
-			- alternately, if lines end up not working out:
-				- field 1: required items, field 2: reward items - items and counts are word pairs, every even word is item, every odd word is count
+		- single line - items are fields, each field is a word pair of item/stack type and quantity
+			- everything before | is requirements, everything after | is reward
+			- ensure datablock names are used, not id's
+			- use player persistence, store quests in fixed slots (%cl.quest0, quest1, etc)
 	- maximum quests at one time - four
-		- posted on a player's quest board, can only hold three quests
-			- if player drops quest while board is full, board can hold 4
+		- not currently equipped quests are put on board, maximum 4 (allow people to not equip a quest at any time)
+		- player can only build one quest board (saved to brickgroup as a custom field)
 		- player can only hold one on their person, click on a quest from the board to change active quest
 			- if no active quest, quest is removed from the board
-			- active quest is persistent - if player dies or disconnects, active quest is kept
-		- total 4 quests - one on player, three on board
-		- player can drop quest note to remove active quest
+			- changing quests changes currently stored quest id on client (%cl.currentQuest = -1 or 0-3, player persistence to save it)
+		- player can drop quest note to remove active quest, automatically sends back to quest board
+			- dialog box to confirm drop/send back to board
 	- discarding quests
-		- throw quest note into garbage bin
+		- hammer hit quest note brick, opens dialog box to confirm discard
 	- completing quest
 		- deposit active quest's items at post office
-		- when all requested items are deposited then deposit quest note itself and get reward
+		- when all requested items are deposited, use quest note item for reward (avoid unnecessary extra packaging over drop code)
 	- checking on quest progress
 		- single quest note in inventory, displays info about current quest and completion when held
+		- quest note always shows remaining progress (aka %cl.quest0 information formatted nicely)
+			- avoid storing extra "initial quest state" to simplify code + reduce characters needed to display progress as centerprint
+			- worst case scenario - quest note on use sends a chat message to user
 - fishing
 	- on fishing rod use: throw unpickupable bobber item, which has density set so it floats on water
 	- on fish ready to catch, play bob animation on bobber - aka minecraft mechanics copy
