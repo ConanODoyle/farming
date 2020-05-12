@@ -32,9 +32,8 @@
 			- generate a new quest on pickup, otherwise show same quest to everyone
 				- allows people to see available quest and ask if anyone else is interested in it
 		- postings have event that pops up dialog box - ok = confirm quest
-			- quests thus have to be encoded in string format for austosaver to properly handle quest posting saving
-		- single line - items are fields, each field is a word pair of item/stack type and quantity
-			- everything before | is requirements, everything after | is reward
+		- quest format - two lines, items are fields, each field is a word pair of item/stack type and quantity
+			- line 0 is requested items, line 1 is rewards
 			- ensure datablock names are used, not id's
 			- use player persistence, store quests in fixed slots (%cl.quest0, quest1, etc)
 	- maximum quests at one time - four
@@ -49,12 +48,19 @@
 		- hammer hit quest note brick, opens dialog box to confirm discard
 	- completing quest
 		- deposit active quest's items at post office
-		- when all requested items are deposited, use quest note item for reward (avoid unnecessary extra packaging over drop code)
+		- when all requested items are deposited, drop quest note on crate like a shipping label and send it
+		- reward is sent to player's mailbox if possible, otherwise retrieved at post office bot
 	- checking on quest progress
 		- single quest note in inventory, displays info about current quest and completion when held
-		- quest note always shows remaining progress (aka %cl.quest0 information formatted nicely)
-			- avoid storing extra "initial quest state" to simplify code + reduce characters needed to display progress as centerprint
+		- quest note always shows remaining progress (aka %cl.questX information formatted nicely)
+			- if space permits, consider storing initial state (i.e. amount requested vs amount delivered), otherwise don't store state
 			- worst case scenario - quest note on use sends a chat message to user
+			- maybe use centerprint menu system? on select, swap between request/rewards
+- postage
+	- player mailbox - anyone can deposit, only the owner can withdraw
+		- players can receive packages at mailboxes, purchaseable
+		- quest rewards are sent there when possible
+		- packages can be sent between players
 - fishing
 	- on fishing rod use: throw unpickupable bobber item, which has density set so it floats on water
 	- on fish ready to catch, play bob animation on bobber - aka minecraft mechanics copy
