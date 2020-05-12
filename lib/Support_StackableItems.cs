@@ -252,8 +252,7 @@ function dropStackableItem(%client, %position)
 			MissionCleanup.add(%thrownItem);
 			%thrownItem.setTransform(%muzzlepoint @ " " @ %playerRot);
 			%thrownItem.setVelocity(VectorScale(%muzzlevector, 20.0 * %zScale));
-			// %thrownItem.schedulePop(); //commented out this line (dont want crops to despawn so quickly)
-			%thrownItem.schedule(60000, schedulePop); //added this to delay stacked item despawn
+			%thrownItem.schedulePop();
 			%thrownItem.miniGame = %client.miniGame;
 			%thrownItem.bl_id = %client.getBLID();
 			%thrownItem.setCollisionTimeout(%player);

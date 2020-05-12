@@ -37,6 +37,10 @@ function farmingItemOverflow(%player, %datablock) {
     %overflowItem.miniGame = %player.client.miniGame;
     %overflowItem.bl_id = %player.client.bl_id;
     %overflowItem.setCollisionTimeout(%player);
+    if (%dataBlock.doColorShift) {
+        %overflowItem.setNodeColor("ALL", %datablock.colorShiftColor);
+    }
+    return %overflowItem;
 }
 
 function Player::farmingAddItem(%player, %datablock, %ignoreOverflow) {
@@ -69,16 +73,9 @@ function Player::getFirstStackableSlot(%player, %stackType, %from) {
 
 function farmingStackableItemOverflow(%player, %stackType, %count) {
     %itemDatablock = getItemFromStack(%stackType, %count);
-    %overflowItem = new Item() {
-        dataBlock = %itemDatablock;
-        count = %count;
-    };
-    MissionCleanup.add(%overflowItem);
-    %overflowItem.setTransform(%player.getTransform());
-    %overflowItem.schedule(60000, schedulePop);
-    %overflowItem.miniGame = %player.client.miniGame;
-    %overflowItem.bl_id = %player.client.bl_id;
-    %overflowItem.setCollisionTimeout(%player);
+    %overflowItem = farmingItemOverflow(%player, %itemDatablock);
+    %overflowItem.count = %count;
+    return %overflowItem;
 }
 
 // return values:
@@ -130,5 +127,11 @@ function Player::farmingAddStackableItem(%player, %datablock, %count, %ignoreOve
 
     if (%count > 0 && !%ignoreOverflow) {
         farmingStackableItemOverflow(%player, %stackType, %count);
+    }
+
+    if (%count > 0) {
+        return 2;
+    } else {
+        return 1;
     }
 }
