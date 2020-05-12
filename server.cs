@@ -26,6 +26,7 @@ exec("./util/disableWrenchAndBuild.cs");
 exec("./util/clearScripts.cs");
 exec("./util/convTime.cs");
 exec("./util/dualClient.cs");
+exec("./util/fixSchedulePop.cs");
 exec("./util/ipCheck.cs");
 exec("./util/makeLotSingle.cs");
 exec("./util/radiusAnnounce.cs");

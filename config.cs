@@ -1,4 +1,5 @@
-$Game::Item::PopTime = 90000;
+$Game::Item::PopTime = 120000;
+$stackableItemExtraPopTime = 60000;
 
 $startingAmount = 200;
 $betaBonus = 100;
