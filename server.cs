@@ -86,26 +86,6 @@ schedule(15000, 0, "webcom_postServer();");
 
 RegisterPersistenceVar("farmingExperience", false, "");
 
-RegisterPersistenceVar("toolStackCount0", false, "");
-RegisterPersistenceVar("toolStackCount1", false, "");
-RegisterPersistenceVar("toolStackCount2", false, "");
-RegisterPersistenceVar("toolStackCount3", false, "");
-RegisterPersistenceVar("toolStackCount4", false, "");
-RegisterPersistenceVar("toolStackCount5", false, "");
-RegisterPersistenceVar("toolStackCount6", false, "");
-RegisterPersistenceVar("toolStackCount7", false, "");
-RegisterPersistenceVar("toolStackCount8", false, "");
-RegisterPersistenceVar("toolStackCount9", false, "");
-RegisterPersistenceVar("toolStackCount10", false, "");
-RegisterPersistenceVar("toolStackCount12", false, "");
-RegisterPersistenceVar("toolStackCount13", false, "");
-RegisterPersistenceVar("toolStackCount14", false, "");
-RegisterPersistenceVar("toolStackCount15", false, "");
-RegisterPersistenceVar("toolStackCount16", false, "");
-RegisterPersistenceVar("toolStackCount17", false, "");
-RegisterPersistenceVar("toolStackCount18", false, "");
-RegisterPersistenceVar("toolStackCount19", false, "");
-
 RegisterPersistenceVar("deliveryPackageInfo0", false, "");
 RegisterPersistenceVar("deliveryPackageInfo1", false, "");
 RegisterPersistenceVar("deliveryPackageInfo2", false, "");
