@@ -13,6 +13,21 @@ function getMaxStack(%stackType)
 	return getWord($Stackable_[%stackType, "stackedItem" @ %idxMax - 1], 1);
 }
 
+function getStacktypeDatablock(%stackType, %count)
+{
+	%last = "-1";
+	for (%i = 0; %i < $Stackable_[%stackType, "stackedItemTotal"]; %i++)
+	{
+		%last = getWord($Stackable_[%stackType, "stackedItem" @ %i], 0);
+		%bound = getWord($Stackable_[%stackType, "stackedItem" @ %i], 1);
+		if (%count < %bound)
+		{
+			break;
+		}
+	}
+	return %last;
+}
+
 function getMaxPickup(%pl, %stackType)
 {
 	%absoluteMax = getMaxStack(%stackType);
