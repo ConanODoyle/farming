@@ -15,6 +15,7 @@ function Player::farmingSetItem(%player, %datablock, %slot) {
             serverCmdUseTool(%client, %player.currTool);
         }
     }
+    return 1;
 }
 
 function Player::getFirstEmptySlot(%player) {
@@ -79,9 +80,9 @@ function farmingStackableItemOverflow(%player, %stackType, %count) {
 }
 
 // return values:
-// 0: can't pick any up, dropped all
+// 0: picked none up or errored
 // 1: picked all up
-// 2: picked some up, dropped the rest
+// 2: picked some up
 function Player::farmingAddStackableItem(%player, %datablock, %count, %ignoreOverflow) {
     if (!%datablock.isStackable) {
         error("ERROR: Attempted to treat unstackable item as stackable when adding to player!");
@@ -92,6 +93,7 @@ function Player::farmingAddStackableItem(%player, %datablock, %count, %ignoreOve
     %maxStackSize = getMaxStack(%stackType);
 
     for (%slot = %player.getFirstStackableSlot(%stackType); %count > 0 && %slot !$= ""; %slot = %player.getFirstStackableSlot(%stackType, %slot + 1)) {
+        %success = 1;
         %oldTool = %player.tool[%slot];
 
         if (!isObject(%oldTool)) {
@@ -129,9 +131,13 @@ function Player::farmingAddStackableItem(%player, %datablock, %count, %ignoreOve
         farmingStackableItemOverflow(%player, %stackType, %count);
     }
 
+    if (!%success) {
+        return 0;
+    }
+
     if (%count > 0) {
         return 2;
-    } else {
-        return 1;
     }
+
+    return 1;
 }
