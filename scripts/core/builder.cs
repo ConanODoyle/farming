@@ -81,6 +81,7 @@ package BuilderOrb
 		{
 			%cl.camera.mountImage("BuilderOrbCameraImage",0);
 			%cl.camera.setTransform(%cl.player.getEyePoint() SPC getWords(%cl.player.getTransform(),3,6));
+			%cl.camera.setMode("Observer");
 			%cl.setControlObject(%cl.camera);
 		} 
 		else
