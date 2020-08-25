@@ -28,6 +28,11 @@ function saveDataIDArray(%aid, %force)
 	export("$DataID_" @ %aid @ "*", "config/server/DataIDs/" @ %aid @ ".cs");
 }
 
+function deleteDataIDArray(%aid)
+{
+	deleteVariables("$DataID_" @ %aid @ "*");
+}
+
 function printDataIDArray(%aid, %skipLoad)
 {
 	if (!%skipLoad)

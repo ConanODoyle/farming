@@ -16,6 +16,7 @@ exec("./lib/Support_DropItemsOnDeath.cs");
 exec("./lib/Support_PickupDuplicateItems.cs");
 exec("./lib/Support_MultipleSlots.cs");
 
+exec("./lib/Support_DataID/server.cs");
 exec("./lib/Support_ShapeLines/server.cs");
 // exec("./lib/Support_GasMod/server.cs");
 exec("./lib/swolset.cs");
@@ -67,7 +68,8 @@ exec("./scripts/core/info.cs");
 exec("./scripts/core/buildCost.cs");
 exec("./scripts/core/wrenchCost.cs");
 exec("./scripts/core/botBuy.cs");
-exec("./scripts/core/eventStorage.cs");
+// exec("./scripts/core/eventStorage.cs");
+exec("./scripts/core/eventStorageV2.cs");
 exec("./scripts/core/tutorial.cs");
 exec("./scripts/core/spawn.cs");
 exec("./scripts/core/builder.cs");
