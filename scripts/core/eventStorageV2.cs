@@ -158,9 +158,9 @@ function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCou
 
 	%stackType = %storeItemDB.stackType;
 	%storageMax = %brick.getStorageMax(%storeItemDB);
-	if (%storageMax <= 0)
+	if (%storageMax <= 0) //cannot store any at all
 	{
-		return 0;
+		return 2;
 	}
 
 	for (%i = 0; %i < %count; %i++)
