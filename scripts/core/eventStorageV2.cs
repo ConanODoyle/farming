@@ -10,13 +10,18 @@ function validateStorageValue(%string)
 	%storageType = getField(%string, 0); //can be item DB, can be stackType string
 	%count = getField(%string, 1);
 
-	if (isObject(%storageType))
+	if (isObject(%storageType) && !%storageType.isStackable)
 	{
+		%db = %storageType;
+		%displayName = %storageType.uiName;
 		//is a normal item
-		return %storageType TAB %storageType.uiName TAB %count;
 	}
-	else if (isObject(%db = getStackTypeDatablock(%storageType, %count)))
+	else if (isObject(%db = getStackTypeDatablock(%storageType, %count)) || (isObject(%storageType) && %storageType.isStackable))
 	{
+		if (isObject(%storageType))
+		{
+			%db = %storageType;
+		}
 		//is a stackable item
 		if ($displayNameOverride_[%displayName] $= "")
 		{
@@ -26,14 +31,12 @@ function validateStorageValue(%string)
 		{
 			%displayName = $displayNameOverride_[%displayName];
 		}
-		return %db TAB %displayName TAB %count;
 	}
-
-	return "";
+	return %db TAB %displayName TAB %count;
 }
 
 //input: item db or stacktype string, count
-//output: proper storage string
+//output: proper storage string - (itemDB if not stackable/stackType if stackable, count)
 function getStorageValue(%storageType, %count)
 {
 	if (isObject(%storageType) && %storageType.isStackable)
@@ -41,7 +44,7 @@ function getStorageValue(%storageType, %count)
 		//is stackable item, use stackType string instead of datablock name
 		%storageType = %storageType.stackType;
 	}
-	else
+	else if (isObject(%storageType))
 	{
 		//is normal item, ensure datablock name is stored and not item id
 		%storageType = %storageType.getName();
@@ -75,7 +78,7 @@ function initializeStorage(%brick, %dataID)
 		{
 			error("Storage datablock mismatch! brick:[" @ %brick @ "] brickDB:[" 
 				@ %brick.getDatablock().getName() @ "] dataID:[" @ %dataID @ "]");
-			echo("ERROR: storage datablock mismatch! Please inform the host! brick:[" @ %brick @ "] brickDB:[" 
+			talk("ERROR: storage datablock mismatch! Please inform the host! brick:[" @ %brick @ "] brickDB:[" 
 				@ %brick.getDatablock().getName() @ "] dataID:[" @ %dataID @ "]");
 			return 1;
 		}
@@ -93,11 +96,11 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 	}
 
 	//get storage data
-	%max = %brick.getDatablock().storageCount + 1;
+	%max = getMax(%brick.getDatablock().storageCount, 1);
 	%start = 1; //slot 0 is information
 
 	%count = 0;
-	for (%i = %start; %i < %max; %i++)
+	for (%i = %start; %i < %max + 1; %i++)
 	{
 		%data[%count] = validateStorageValue(getDataIDArrayValue(%dataID, %i));
 		%count++;
@@ -133,6 +136,7 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 		%brick.centerprintMenu.menuDatablock[%i] = %db;
 		%brick.centerprintMenu.menuFunction[%i] = "removeStack";
 	}
+	%brick.centerprintMenu.storageDataID = %dataID;
 }
 
 //input: brick being stored on, dataID, item db (stackable or non stackable), count of objects inserted
@@ -142,11 +146,11 @@ function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCou
 	initializeStorage(%brick, %dataID);
 
 	//get storage data
-	%max = getMin(getDataIDArrayCount(%dataID), %brick.getDatablock().storageCount);
+	%max = getMax(%brick.getDatablock().storageCount, 1);
 	%start = 1; //slot 0 is information
 
 	%count = 0;
-	for (%i = %start; %i < %max; %i++)
+	for (%i = %start; %i < %max + 1; %i++)
 	{
 		%data[%count] = validateStorageValue(getDataIDArrayValue(%dataID, %i));
 		%count++;
@@ -154,24 +158,24 @@ function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCou
 
 	%stackType = %storeItemDB.stackType;
 	%storageMax = %brick.getStorageMax(%storeItemDB);
-	if (%storageMax <= 0 && %storageType.isStackable)
+	if (%storageMax <= 0)
 	{
 		return 0;
 	}
 
 	for (%i = 0; %i < %count; %i++)
 	{
-		%db = getField(%data[%i], 0);
+		%storageType = getField(%data[%i], 0);
 		%display = getField(%data[%i], 1);
 		%itemCount = getField(%data[%i], 2);
 
-		if (%db $= "" || !isObject(%db) || 
-			(%storeItemDB.isStackable && %db.stackType $= %stackType && %itemCount < %storageMax) ||
-			(%db.getID() == %storeItemDB.getID() && %itemCount < %storageMax))
+		if (%storageType $= "" || !isObject(%storageType) || 
+			(%storeItemDB.isStackable && %storageType.stackType $= %stackType && %itemCount < %storageMax) ||
+			(%storageType.getID() == %storeItemDB.getID() && %itemCount < %storageMax))
 		{
 			//is empty, or has space and matches stacktype and is stackable, or has space and matches db
 			%totalAvailableSpace += %storageMax - %itemCount;
-			%availableSpace[%spaces++ - 1] = %i SPC %storageMax - %itemCount TAB (%itemCount + 0);
+			%availableSpace[%spaces++ - 1] = %i + 1 SPC %storageMax - %itemCount SPC (%itemCount + 0);
 		}
 
 		if (%totalAvailableSpace >= %insertCount)
@@ -180,50 +184,122 @@ function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCou
 		}
 	}
 
-	if (%storeItemDB.isStackable)
+	if (%totalAvailableSpace >= %insertCount)
 	{
-		//inserting stackable items
-		if (%totalAvailableSpace >= %insertCount)
+		//enough space to insert everything
+		for (%i = 0; %i < %spaces; %i++)
 		{
-			//enough space to insert everything
-			for (%i = 0; %i < %spaces; %i++)
-			{
-				%slot = getWord(%availableSpace[%i], 0);
-				%maxAdd = getWord(%availableSpace[%i], 1);
-			}
-			return 0;
+			%slot = getWord(%availableSpace[%i], 0);
+			%spaceAvailable = getWord(%availableSpace[%i], 1);
+			%amountPresent = getWord(%availableSpace[%i], 2);
+
+			%value = getStorageValue(%storeItemDB, %insertCount);
+			%insertAmount = getMin(%insertCount, %spaceAvailable);
+			%insertCount -= %insertAmount;
+			%total = %amountPresent + %insertAmount;
+			%value = getField(%value, 0) TAB %total;
+			setDataIDArrayValue(%dataID, %slot, %value);
 		}
-		else if (%totalAvailableSpace > 0)
-		{
-			//only enough space for some insertion
-			return 1 SPC %insertCount - %totalAvailableSpace;
-		}
-		else
-		{
-			return 2;
-		}
+
+		%brick.updateStorageMenu(%dataID);
+		return 0;
+	}
+	else if (%totalAvailableSpace > 0)
+	{
+		//only enough space for some insertion
+
+
+		%brick.updateStorageMenu(%dataID);
+		return 1 SPC %insertCount - %totalAvailableSpace;
 	}
 	else
 	{
-		//inserting non-stackable items
-		if (%totalAvailableSpace >= %insertCount)
-		{
-			//enough space to insert everything
+		return 2;
+	}
+}
 
-			return 0;
-		}
-		else if (%totalAvailableSpace > 0)
-		{
-			//only enough space for some insertion
-			return 1 SPC %insertCount - %totalAvailableSpace;
-		}
-		else
-		{
-			return 2;
-		}
+function removeStack(%cl, %menu, %option)
+{
+	if (!isObject(%cl.player))
+	{
+		%cl.centerprint("You are dead!", 1);
+		return;
+	}
+	%brick = %menu.brick;
+
+	if (!isObject(%brick.vehicle) && vectorDist(%brick.getPosition(), %cl.player.getHackPosition()) > 7)
+	{
+		%cl.centerprint("You are too far away from the crate!", 1);
+		return;
+	}
+	else if (isObject(%brick.vehicle) && vectorDist(%brick.vehicle.getPosition(), %cl.player.getHackPosition()) > 7)
+	{
+		%cl.centerprint("You are too far away from the cart!", 1);
+		return;
+	}
+
+
+	if (%menu.menuOption[%option] $= "Empty")
+	{
+		if (%cl.nextMessageEmpty < $Sim::Time)
+			messageClient(%cl, '', "That slot is empty!", 1);
+
+		%cl.nextMessageEmpty = $Sim::Time + 2;
+
+		%cl.startCenterprintMenu(%menu);
+		%cl.displayCenterprintMenu(%option);
+		return;
+	}
+
+	%dataID = %menu.storageDataID;
+	%storageSlot = %option + 1;
+	%storageData = validateStorageValue(getDataIDArrayValue(%dataID, %storageSlot));
+	%datablock = getField(%storageData, 0);
+	%displayName = getField(%storageData, 1);
+	%storageCount = getField(%storageData, 2);
+	if (!isObject(%datablock))
+	{
+		talk("ERROR: removestack - storage data invalid! contents:[" @ strReplace(%storageData, "\t", "|") @ "]");
+		talk("Please notify an admin of this error!");
+		return;
+	}
+
+	if (%datablock.isStackable)
+	{
+		%stackType = %datablock.stackType;
+		%maxID = $Stackable_[%stackType, "stackedItemTotal"] - 1;
+		%max = getWord($Stackable_[%stackType, "stackedItem" @ %maxID], 1);
+
+		%amt = getMin(%max, %storageCount);
+	}
+	else
+	{
+		%amt = 1;
+	}
+	%left = %storageCount - %amt;
+
+	if (%left > 0)
+	{
+		setDataIDArrayValue(%dataID, %storageSlot, getStorageValue(%datablock, %left));
+	}
+	else
+	{
+		setDataIDArrayValue(%dataID, %storageSlot, "");
 	}
 
 	%brick.updateStorageMenu(%dataID);
+
+	%i = new Item()
+	{
+		dataBlock = %datablock;
+		count = %amt;
+		harvestedBG = getBrickgroupFromObject(%brick);
+	};
+	MissionCleanup.add(%i);
+	%i.setTransform(%cl.player.getTransform());
+
+	%cl.startCenterprintMenu(%menu);
+	%cl.displayCenterprintMenu(%option);
 }
 
 function fxDTSBrick::getStorageMax(%brick, %itemDB)
@@ -262,6 +338,15 @@ function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
 }
 registerOutputEvent("fxDTSBrick", "accessStorage", "string 200 250", 1);
 
+function AIPlayer::accessStorage(%bot, %dataID, %cl)
+{
+	%bot.spawnbrick.updateStorageMenu(%dataID);
+
+	%cl.startCenterprintMenu(%bot.spawnbrick.centerprintMenu);
+	storageLoop(%cl, %bot);
+}
+registerOutputEvent("AIPlayer", "accessStorage", "string 200 250", 1);
+
 function storageLoop(%cl, %brick)
 {
 	cancel(%cl.storageSchedule);
@@ -280,7 +365,7 @@ function storageLoop(%cl, %brick)
 
 	%start = %cl.player.getEyePoint();
 	%end = vectorAdd(vectorScale(%cl.player.getEyeVector(), 8), %start);
-	if (containerRaycast(%start, %end, $Typemasks::fxBrickObjectType) != %brick)
+	if (containerRaycast(%start, %end, %brick.getType()) != %brick)
 	{
 		%cl.exitCenterprintMenu();
 		return;
@@ -311,7 +396,10 @@ function addStorageEvent(%this, %botForm)
 	%delay = 0;
 	%target = "Self"; //Self
 	%outputEvent = "accessStorage";
-	%param1 = sha1(getRandom() @ getRandom() @ getRandom() @ getRandom());
+	if (%param1 $= "")
+	{
+		%param1 = sha1(getRandom() @ getRandom() @ getRandom() @ getRandom());
+	}
 
 	%this.storageAddEvent = 1;
 	if (!isObject(%this.getGroup().client))
@@ -397,8 +485,8 @@ package StorageBricks
 		{
 			if (!%this.droppedStoredItems)
 			{
-				%this.droppedStoredItems = 1;
-				dropStoredItems(%this);
+				%this.droppedStoredItems = 1; 
+				dropStoredItems(%this); //TODO: Implement
 			}
 		}
 
@@ -413,7 +501,7 @@ package StorageBricks
 			if (!%this.droppedStoredItems)
 			{
 				%this.droppedStoredItems = 1;
-				dropStoredItems(%this);
+				dropStoredItems(%this); //TODO: Implement
 			}
 		}
 		return parent::onDeath(%this);
@@ -429,9 +517,16 @@ package StorageBricks
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
 			if (isObject(%hit) && %hit.getDatablock().isStorageBrick)
 			{
-				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1], %item, %pl.toolStackCount[%slot]);
-				if (%success)
+				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1], %item, %pl.toolStackCount[%slot] == 0 ? 1 : %pl.toolStackCount[%slot]);
+				if (%success < 2)
 				{
+					%pl.toolStackCount[%slot] = 0;
+					%pl.tool[%slot] = 0;
+					messageClient(%cl, 'MsgItemPickup', "", %slot, 0);
+					if (%pl.currTool == %slot)
+					{
+						%pl.unmountImage(0);
+					}
 					return;
 				}
 			}
