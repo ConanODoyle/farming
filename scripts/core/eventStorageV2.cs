@@ -96,7 +96,7 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 	}
 
 	//get storage data
-	%max = getMax(%brick.getDatablock().storageCount, 1);
+	%max = getMax(%brick.getDatablock().storageSlotCount, 1);
 	%start = 1; //slot 0 is information
 
 	%count = 0;
@@ -146,7 +146,7 @@ function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCou
 	initializeStorage(%brick, %dataID);
 
 	//get storage data
-	%max = getMax(%brick.getDatablock().storageCount, 1);
+	%max = getMax(%brick.getDatablock().storageSlotCount, 1);
 	%start = 1; //slot 0 is information
 
 	%count = 0;

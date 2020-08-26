@@ -194,7 +194,8 @@ datablock fxDTSBrickData(brickStorageCrateData)
 	iconName = "Add-Ons/Server_Farming/crops/icons/storage_crate";
 
 	isStorageBrick = 1;
-	storageBonus = 1;
+	storageSlotCount = 4;
+	storageMultiplier = 1;
 
 	cost = 100;
 };
@@ -210,7 +211,8 @@ datablock fxDTSBrickData(brickSiloData)
 	iconName = "Add-Ons/Server_Farming/crops/icons/silo";
 
 	isStorageBrick = 1;
-	storageBonus = 7;
+	storageSlotCount = 1;
+	storageMultiplier = 50;
 
 	cost = 800;
 };
@@ -226,7 +228,8 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 	iconName = "Add-Ons/Server_Farming/crops/icons/toolbox";
 
 	isStorageBrick = 1;
-	storageBonus = 0;
+	storageSlotCount = 8;
+	storageMultiplier = 0;
 
 	cost = 150;
 };
