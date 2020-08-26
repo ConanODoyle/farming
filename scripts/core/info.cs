@@ -86,7 +86,7 @@ function bottomprintInfo(%cl)
 	if (isObject(%pl.tempbrick) && %pl.tempbrick.getDatablock().cost > 0)
 	{
 		%db = %pl.tempbrick.getDatablock();
-		%pre = "<color:ffff00>" @ %db.uiname @ " Cost: $" @ %db.cost;
+		%pre = "<color:ffff00>" @ %db.uiname SPC %db.description @ " Cost: $" @ %db.cost;
 	}
 	else if (%client.infoPrefix $= "")
 	{

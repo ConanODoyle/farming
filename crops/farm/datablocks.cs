@@ -176,6 +176,7 @@ datablock fxDTSBrickData(brickGoldIngotData)
 	isGreenhouse = 1;
 
 	cost = 5000;
+	customRefundCost = 5000;
 };
 
 
@@ -188,6 +189,7 @@ datablock fxDTSBrickData(brickStorageCrateData)
 	category = "Farming";
 	subCategory = "Storage";
 	uiName = "Storage Crate";
+	description = "(4 slots)";
 
 	brickFile = "./bricks/storageCrate.blb";
 
@@ -196,6 +198,7 @@ datablock fxDTSBrickData(brickStorageCrateData)
 	isStorageBrick = 1;
 	storageSlotCount = 4;
 	storageMultiplier = 1;
+	itemStackCount = 2;
 
 	cost = 100;
 };
@@ -204,7 +207,8 @@ datablock fxDTSBrickData(brickSiloData)
 {
 	category = "Farming";
 	subCategory = "Storage";
-	uiName = "Silo (7x Storage)";
+	uiName = "Silo";
+	description = "(1 slot, 50x storage)";
 
 	brickFile = "./bricks/Silo.blb";
 
@@ -213,6 +217,7 @@ datablock fxDTSBrickData(brickSiloData)
 	isStorageBrick = 1;
 	storageSlotCount = 1;
 	storageMultiplier = 50;
+	itemStackCount = 0;
 
 	cost = 800;
 };
@@ -221,7 +226,8 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 {
 	category = "Farming";
 	subCategory = "Storage";
-	uiName = "Toolbox ";
+	uiName = "Toolbox";
+	description = "(8 slots, non stackable items only)";
 
 	brickFile = "./bricks/toolboxLargeFeatures.blb";
 
@@ -230,6 +236,7 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 	isStorageBrick = 1;
 	storageSlotCount = 8;
 	storageMultiplier = 0;
+	itemStackCount = 1;
 
 	cost = 150;
 };

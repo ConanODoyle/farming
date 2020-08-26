@@ -108,7 +108,11 @@ function sellObject(%b)
 
 	if (%b.createdTimeout < $Sim::Time)
 	{
-		if (%cl.refundRatio <= 0.75)
+		if (%db.customRefundCost > 0)
+		{
+			%cost = %db.customRefundCost;
+		}
+		else if (%cl.refundRatio <= 0.75)
 		{
 			%cost = %db.cost * 3 / 4;
 		}
