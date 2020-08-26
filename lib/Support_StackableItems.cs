@@ -180,7 +180,7 @@ function pickupStackableItem(%pl, %item, %slot, %amt)
 
 	%pl.toolStackCount[%slot] += %amt;
 	//figure out which item to give to the player
-	%bestItem = getItemFromStack(%type, %amt);
+	%bestItem = getStacktypeDatablock(%type, %pl.toolStackCount[%slot]);
 
 	// talk(%bestItem.getID() @ " vs " @ %pl.tool[%slot]);
 	if (!isObject(%bestItem))
@@ -224,7 +224,7 @@ function pickupStackableItem(%pl, %item, %slot, %amt)
 	else
 	{
 		//figure out which itemDB to set the dropped item to
-		%bestItem = getItemFromStack(%type, %item.count);
+		%bestItem = getStacktypeDatablock(%type, %item.count);
 
 		if (isObject(%bestItem))
 		{
