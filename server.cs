@@ -15,6 +15,7 @@ exec("./lib/Support_CustomBrickRadius.cs");
 exec("./lib/Support_DropItemsOnDeath.cs");
 exec("./lib/Support_PickupDuplicateItems.cs");
 exec("./lib/Support_MultipleSlots.cs");
+exec("./lib/Support_FarmingAutosaver.cs");
 
 exec("./lib/Support_DataID/server.cs");
 exec("./lib/Support_ShapeLines/server.cs");
