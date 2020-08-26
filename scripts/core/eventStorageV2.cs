@@ -304,8 +304,17 @@ function removeStack(%cl, %menu, %option)
 
 function fxDTSBrick::getStorageMax(%brick, %itemDB)
 {
-	//TODO: complete implementation
-	return 100;
+	%brickDB = %brick.getDatablock();
+	if (%itemDB.isStackable)
+	{
+		%stackType = %itemDB.stackType;
+		%total = getMax(0, %brickDB.storageMultiplier * $StorageMax_[%stackType]);
+	}
+	else
+	{
+		%total = getMax(0, %brickDB.itemStackCount);
+	}
+	return %total;
 }
 
 
