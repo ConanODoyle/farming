@@ -244,10 +244,6 @@ function Autosave_GroupTick(%group, %count)
 		{
 			$LotCenterBrick = $LotCenterBrick $= "" ? %brick TAB %brick.getPosition() : " "; //space string in case multiple center bricks are found
 		}
-		if (%brick.getDatablock().isLot) //do not save lot bricks
-		{
-			%brick = "";
-		}
 		//END OF CHANGES
 		if(%brick.isPlanted)
 		{
