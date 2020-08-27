@@ -17,8 +17,7 @@ package NoPlantBuild
 		%db = %obj.getDatablock();
 		if (%db.isPlant && !%obj.seedPlant && isEventPending($masterGrowSchedule))
 		{
-			%obj.isPlanted = 0;
-			%obj.schedule(33, delete);
+			%obj.schedule(33, plantDeleteCheck);
 			return;
 		}
 
@@ -31,14 +30,22 @@ package NoPlantBuild
 
 		%db = %obj.getDatablock();
 		if (%db.isPlant && !%obj.seedPlant && isEventPending($masterGrowSchedule)) {
-			%obj.isPlanted = 0;
-			%obj.schedule(0, delete);
+			%obj.schedule(0, plantDeleteCheck);
 		}
 
 		return %ret;
 	}
 };
 schedule(1000, 0, activatePackage, NoPlantBuild);
+
+function fxDTSBrick::plantDeleteCheck(%obj)
+{
+	if (%obj.getGroup().isLoadingLot)
+	{
+		return;
+	}
+	%obj.delete();
+}
 
 function growTick(%index)
 {

@@ -16,6 +16,7 @@ function saveLotBLID(%bl_id)
 	%save_time = stripChars(getWord(%date, 1), ":");
 
 	%name = "Lot Autosave (" @ %bl_id @ ") - " @ %save_date @ " at " @ %save_time;
+	$Pref::Farming::LastLotAutosave[%bl_id] = %name;
 	Autosaver_Begin(%name, %bl_id);
 }
 
@@ -30,12 +31,65 @@ function loadLotAutosave(%name, %position)
 	%file.close();
 	%file.delete();
 	%offset = getField(%desc, 1);
+	talk("path: " @ %path);
+	talk("pos: " @ %offset);
+	talk("loadoffset: " @ vectorSub(%position, %offset));
 
 	$loadOffset = vectorSub(%position, %offset);
+	// return;
 	loadAutosave(%name);
 }
 
+function loadLastLotAutosave(%bl_id, %position)
+{
+	if ($Pref::Farming::LastLotAutosave[%bl_id] !$= "")
+	{
+		loadLotAutosave($Pref::Farming::LastLotAutosave[%bl_id], %position);
+		%brickGroup = "Brickgroup_" @ %bl_id;
+		if (isObject(%brickGroup))
+		{
+			$CurrentLotLoading = %brickgroup;
+			%brickgroup.isLoadingLot = 1;
+		}
+		talk("Loading lot " @ %bl_id @ " at " @ %position @ "...");
+		return;
+	}
+	echo("[" @ getDateTime() @ "] loadLastLotAutosave: No last lot found for BLID " @ %bl_id @ "!");
+}
 
+function resetLotLoading()
+{
+	$CurrentLotLoading.isLoadingLot = 0;
+	$LotLoadingFlag = 0;
+	$CurrentLotLoading = "";
+}
+
+package FarmingAutosaverLoader
+{
+	function serverDirectSaveFileLoad(%fileName, %colorMethod, %dirName, %ownership, %silent)
+	{
+		talk("direct save file load called");
+		if (isObject($CurrentLotLoading))
+		{	
+			$LotLoadingFlag = 1;
+			talk("Lot currently loading, please wait...");
+			return;
+		}
+
+		return parent::serverDirectSaveFileLoad(%fileName, %colorMethod, %dirName, %ownership, %silent);
+	}
+
+	function ServerLoadSaveFile_End()
+	{
+		parent::ServerLoadSaveFile_End();
+
+		talk("Loading complete");
+		$CurrentLotLoading.isLoadingLot = 0;
+		$LotLoadingFlag = 0;
+		$CurrentLotLoading = "";
+	}
+};
+activatePackage(FarmingAutosaverLoader);
 
 
 //Assumes Visolator's Support_Autosaver mod is in use
@@ -189,6 +243,10 @@ function Autosave_GroupTick(%group, %count)
 		if (%brick.getDatablock().isSingle) //this is a single lot, and it is the center of the lot complex
 		{
 			$LotCenterBrick = $LotCenterBrick $= "" ? %brick TAB %brick.getPosition() : " "; //space string in case multiple center bricks are found
+		}
+		if (%brick.getDatablock().isLot) //do not save lot bricks
+		{
+			%brick = "";
 		}
 		//END OF CHANGES
 		if(%brick.isPlanted)

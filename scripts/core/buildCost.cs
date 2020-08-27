@@ -40,7 +40,7 @@ activatePackage(BuildCost);
 function buyBrick(%b)
 {
 	%group = getBrickgroupFromObject(%b);
-	if (!isObject(%group.client) || %group.client.bypassRestrictions || %b.skipBuy)
+	if (!isObject(%group.client) || %group.client.bypassRestrictions || %group.isLoadingLot || %b.skipBuy)
 	{
 		return;
 	}
