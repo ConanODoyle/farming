@@ -20,7 +20,8 @@ exec("./lib/Support_FarmingAutosaver.cs");
 exec("./lib/Support_DataID/server.cs");
 exec("./lib/Support_ShapeLines/server.cs");
 // exec("./lib/Support_GasMod/server.cs");
-exec("./lib/swolset.cs");
+// exec("./lib/swolset.cs");
+exec("./lib/automodSettings.cs");
 
 // Scripts specific to this mod
 exec("./util/eventParser.cs");
