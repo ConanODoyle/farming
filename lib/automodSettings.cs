@@ -54,3 +54,92 @@ $autoModWarningMessage["Flirtation"] = "Excessively flirtatious messages can mak
 $autoModMiddlewareHostname = "pecon.us";
 $autoModMiddlewarePath = "/perspective/";
 $autoModMiddlewarePort = 80;
+
+
+
+//for reference
+package autoModeratorEnforcement
+{	
+	function serverCmdMessageSent(%client, %message)
+	{
+		if($autoModeratorMute[%client.BL_ID] > $sim::time)
+		{
+			%seconds = $autoModeratorMute[%client.BL_ID] - $sim::time;
+			%client.chatMessage("\c3You are muted. Your mute will expire in" SPC formatSeconds(%seconds) @ ".");
+			serverCmdStopTalking(%client);
+			return;
+		}
+
+		parent::serverCmdMessageSent(%client, %message);
+	}
+
+	function serverCmdTeamMessageSent(%client, %message)
+	{
+		if($autoModeratorMute[%client.BL_ID] > $sim::time)
+		{
+			%seconds = $autoModeratorMute[%client.BL_ID] - $sim::time;
+			%client.chatMessage("\c3You are muted. Your mute will expire in" SPC formatSeconds(%seconds) @ ".");
+			serverCmdStopTalking(%client);
+			return;
+		}
+
+		parent::serverCmdTeamMessageSent(%client, %message);
+	}
+
+	function serverCmdStartTalking(%client)
+	{
+		if($autoModeratorMute[%client.BL_ID] > $sim::time)
+		{
+			%client.isTalking = true;
+			%client.displayMuteCountdown();
+			return;
+		}
+
+		parent::serverCmdStartTalking(%client);
+	}
+};
+activatePackage(autoModeratorEnforcement);
+
+function unmute(%bl_id)
+{
+	deleteVariable("$autoModeratorMute" @ %bl_id);
+}
+
+function serverCmdUnmute(%cl, %a, %b, %c, %d)
+{
+	%name = trim(%a SPC %b SPC %c SPC %d);
+	if (!isObject(%target = findClientByName(%name)))
+	{
+		if (%name $= %name + 0)
+		{
+			%target = %name + 0;
+		}
+		else
+		{
+			messageClient(%cl, '', "Cannot find player with name " @ %name);
+			return;
+		}
+	}
+
+	if (%target == %cl.bl_id || %target == %cl)
+	{
+		messageClient(%cl, '', "You cannot unmute yourself!");
+	}
+
+	if (%name $= %name + 0)
+		unmute(%target);
+	else
+		unmute(%target.bl_id);
+
+	messageClient(%cl, '', "\c6Unmuted " @ %target);
+	if (isObject(%target))
+	{
+		messageClient(%target, '', "\c6" @ %cl.name @ " unmuted you.");
+	}
+	echo("[" @ getDateTime() @ "] " @ %cl.name @ " unmuted " @ %target @ " (" @ %target.name SPC %target.bl_id @ ")");
+}
+
+function resetPunishment(%bl_id)
+{
+	("playerDemerits_" @ %bl_id).delete();
+}
