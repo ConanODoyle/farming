@@ -4,6 +4,15 @@ function Player::farmingSetItem(%player, %datablock, %slot) {
         return 0;
     }
 
+    if (!isObject(%datablock)) {
+        error("ERROR: Datablock" SPC %datablock SPC "is invalid");
+        return 0;
+    }
+
+    if (%datablock + 0 == 0) {
+        %datablock = %datablock.getID();
+    }
+
     %player.tool[%slot] = %datablock;
 
     if (isObject(%client = %player.client)) {
@@ -45,6 +54,15 @@ function farmingItemOverflow(%player, %datablock) {
 }
 
 function Player::farmingAddItem(%player, %datablock, %ignoreOverflow) {
+    if (!isObject(%datablock)) {
+        error("ERROR: Datablock" SPC %datablock SPC "is invalid");
+        return 0;
+    }
+
+    if (%datablock + 0 == 0) {
+        %datablock = %datablock.getID();
+    }
+
     %emptySlot = %player.getFirstEmptySlot();
     if (%emptySlot $= "") {
         if (!%ignoreOverflow) {
