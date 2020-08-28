@@ -12,8 +12,8 @@ function getQuestItem(%table, %slots) {
 
 // slots: 1-5, types: field-separated list of metatables
 function generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes) {
-	%requests = generatePart(%difficulty, %requestSlots, %requestTypes);
-	%rewards = generatePart(%difficulty, %rewardSlots, %rewardTypes);
+	%requests = generatePart(%requestSlots, %requestTypes);
+	%rewards = generatePart(%rewardSlots, %rewardTypes);
 	return %requests @ "\n" @ %rewards;
 }
 
