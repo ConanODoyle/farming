@@ -3,11 +3,12 @@ function getSafeDataIDArrayName(%aid)
 {
 	if ($DataIDDebug) talk("getSafeDataIDArrayName");
 	%aid = strReplace(%aid, " ", "_");
-	return stripChars(%aid, "!@#$%^&*()-[]{},.<>;':\"");
+	return stripChars(%aid, "!@#$%^&*()-+[]{},.<>;':\"");
 }
 
 function loadDataIDArray(%aid, %force)
 {
+	%aid = getSafeDataIDArrayName(%aid);
 	if (!$executedDataID[%aid] || %force)
 	{
 		if ($DataIDDebug) talk("loadDataIDArray");
@@ -22,27 +23,32 @@ function loadDataIDArray(%aid, %force)
 		}
 	}
 	$executedDataID[%aid] = 1;
+	return %aid;
 }
 
 function saveDataIDArray(%aid, %force)
 {
 	if ($DataIDDebug) talk("saveDataIDArray");
-	getSafeDataIDArrayName(%aid);
+	%aid = getSafeDataIDArrayName(%aid);
 	export("$DataID_" @ %aid @ "*", "config/server/DataIDs/" @ %aid @ ".cs");
+	return %aid;
 }
 
 function deleteDataIDArray(%aid)
 {
 	if ($DataIDDebug) talk("deleteDataIDArray");
+	%aid = getSafeDataIDArrayName(%aid);
 	deleteVariables("$DataID_" @ %aid @ "*");
+	return %aid;
 }
 
 function printDataIDArray(%aid, %skipLoad)
 {
 	if ($DataIDDebug) talk("printDataIDArray");
+	%aid = getSafeDataIDArrayName(%aid);
 	if (!%skipLoad)
 	{
-		loadDataIDArray(%aid);
+		%aid = loadDataIDArray(%aid);
 		echo("Loaded [" @ %aid @ "] array");
 	}
 	echo("DataID Array [" @ %aid @ "]");
@@ -61,7 +67,7 @@ function printDataIDArray(%aid, %skipLoad)
 function getDataIDArrayValue(%aid, %slot)
 {
 	if ($DataIDDebug) talk("getDataIDArrayValue");
-	loadDataIDArray(%aid);
+	%aid = loadDataIDArray(%aid);
 
 	%count = getDataIDArrayCount(%aid);
 	if (%slot >= %count)
@@ -77,7 +83,7 @@ function getDataIDArrayValue(%aid, %slot)
 function getDataIDArrayCount(%aid)
 {
 	if ($DataIDDebug) talk("getDataIDArrayCount");
-	loadDataIDArray(%aid);
+	%aid = loadDataIDArray(%aid);
 
 	$DataID_[%aid, "count"] += 0; //ensure its an integer rather than empty string
 
@@ -87,7 +93,7 @@ function getDataIDArrayCount(%aid)
 function indexOfDataIDArray(%aid, %value, %startIndex)
 {
 	if ($DataIDDebug) talk("indexOfDataIDArray");
-	loadDataIDArray(%aid);
+	%aid = loadDataIDArray(%aid);
 
 	%count = getDataIDArrayCount(%aid);
 	%startIndex = %startIndex + 0;
@@ -109,7 +115,7 @@ function indexOfDataIDArray(%aid, %value, %startIndex)
 function setDataIDArrayCount(%aid, %count)
 {
 	if ($DataIDDebug) talk("setDataIDArrayCount");
-	loadDataIDArray(%aid);
+	%aid = loadDataIDArray(%aid);
 
 	if (%count == $DataID_[%aid, "count"])
 	{
@@ -142,7 +148,7 @@ function setDataIDArrayCount(%aid, %count)
 function setDataIDArrayValue(%aid, %slot, %value)
 {
 	if ($DataIDDebug) talk("setDataIDArrayValue");
-	loadDataIDArray(%aid);
+	%aid = loadDataIDArray(%aid);
 
 	%slot = getMax(%slot + 0, 0); //ensure it's not empty string
 	%count = getDataIDArrayCount(%aid);
@@ -161,7 +167,7 @@ function setDataIDArrayValue(%aid, %slot, %value)
 function addToDataIDArray(%aid, %value, %start)
 {
 	if ($DataIDDebug) talk("addToDataIDArray");
-	loadDataIDArray(%aid);
+	%aid = loadDataIDArray(%aid);
 
 	%start = getMax(%start + 0, 0);
 	%count = getDataIDArrayCount(%aid);
@@ -191,7 +197,7 @@ function addToDataIDArray(%aid, %value, %start)
 function removeDataIDArrayValue(%aid, %slot)
 {
 	if ($DataIDDebug) talk("removeDataIDArrayValue");
-	loadDataIDArray(%aid);
+	%aid = loadDataIDArray(%aid);
 
 	%count = getDataIDArrayCount(%aid);
 	$DataID_[%aid, %slot] = "";
