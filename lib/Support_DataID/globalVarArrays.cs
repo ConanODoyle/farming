@@ -5,7 +5,7 @@ function getSafeDataIDArrayName(%aid)
 	%aid = trim(%aid);
 	%aid = strReplace(%aid, " ", "_");
 	%aid = strReplace(%aid, "\t", "__");
-	return stripChars(%aid, "!@#$%^&*()-+[]{},.<>;':\"");
+	return stripChars(%aid, "!@#$%^&*()-+[]{},.<>;':\"\n");
 }
 
 function loadDataIDArray(%aid, %force)
@@ -59,7 +59,15 @@ function printDataIDArray(%aid, %skipLoad)
 	echo("Count: " @ %count);
 	for (%i = 0; %i < %count; %i++)
 	{
-		echo(%i @ ": " @$DataID_[%aid, %i]);
+		echo(%i @ ": " @ getDataIDArrayValue(%aid, %i));
+	}
+
+	%tags = getDataIDArrayTags(%aid);
+	echo("Tags: " @ %tags);
+	for (%i = 0; %i < getWordCount(%tags); %i++)
+	{
+		%tag = getWord(%tags, %i);
+		echo(%tag @ ": " @ getDataIDArrayTagValue(%aid, %tag));
 	}
 }
 
