@@ -208,6 +208,7 @@ function removeDataIDArrayValue(%aid, %slot)
 function clearDataIDArray(%aid)
 {
 	if ($DataIDDebug) talk("clearDataIDArray");
+	%aid = getSafeDataIDArrayName(%aid);
 	deleteVariables("$DataID_" @ %aid @ "*");
 
 	if (isFile("config/server/DataIDs/" @ %aid @ ".cs"))
