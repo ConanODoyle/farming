@@ -1,8 +1,7 @@
 // loot tables - rewards and requests
 
-function farmingTableClear(%tableName) {
-    $Farming::TableSize[%tableName] = 0;
-    $Farming::TableTotalWeight[%tableName] = 0;
+function farmingTableRemove(%tableName) {
+    deleteDataIDArray("QuestTable_" @ %tableName);
 }
 
 function farmingTableAdd(%tableName, %item, %weight) {
@@ -11,16 +10,19 @@ function farmingTableAdd(%tableName, %item, %weight) {
         return;
     }
 
-    $Farming::TableItem[%tableName, $Farming::TableSize[%tableName]] = %item;
-    $Farming::TableWeight[%tableName, $Farming::TableSize[%tableName]] = %weight;
+    %dataIDArrayName = "QuestTable_" @ %tableName;
 
-    $Farming::TableSize[%tableName]++;
-    $Farming::TableTotalWeight[%tableName] += %weight;
+    %tableSize = getDataIDArrayCount(%dataIDArrayName) + 1;
+    setDataIDArrayCount(%dataIDArrayName, %tableSize);
+    addToDataIDArray(%dataIDArrayName, %item SPC %weight);
+    setDataIDArrayTagValue(%dataIDArrayName, "weight", getDataIDArrayTagValue(%dataIDArrayName, "weight") + %weight);
 }
 
 function farmingTableGetIndex(%tableName, %item) {
-    for (%i = 0; %i < $Farming::TableSize[%tableName]; %i++) {
-        if ($Farming::TableItem[%tableName, %i] $= %item) {
+    %dataIDArrayName = "QuestTable_" @ %tableName;
+    %tableLength = getDataIDArrayCount(%dataIDArrayName);
+    for (%i = 0; %i < %tableLength; %i++) {
+        if (getWord(getDataIDArrayValue(%dataIDArrayName), 0) $= %item) {
             return %i;
         }
     }
@@ -28,7 +30,7 @@ function farmingTableGetIndex(%tableName, %item) {
     return -1;
 }
 
-function farmingTableRemove(%tableName, %item, %weight) {
+function farmingTableRemove(%tableName, %item) {
     %index = farmingTableGetIndex(%tableName, %item);
 
     if (%index == -1) {
@@ -36,13 +38,16 @@ function farmingTableRemove(%tableName, %item, %weight) {
         return 0;
     }
 
-    $Farming::TableSize[%tableName]--;
-    $Farming::TableTotalWeight[%tableName] -= $Farming::TableWeight[%tableName, %index];
+    %dataIDArrayName = "QuestTable_" @ %tableName;
+    %tableLength = getDataIDArrayCount(%dataIDArrayName);
 
-    for (%i = %index; %i < $Farming::TableSize[%tableName]; %i++) {
-        $Farming::TableItem[%tableName, %i] = $Farming::TableItem[%tableName, %i + 1];
-        $Farming::TableWeight[%tableName, %i] = $Farming::TableWeight[%tableName, %i + 1];
+    %weight = getWord(getDataIDArrayValue(%dataIDArrayName, %index), 1);
+
+    for (%i = %index; %i < %tableLength; %i++) {
+        setDataIDArrayValue(%dataIDArrayName, %i, getDataIDArrayValue(%dataIDArrayName, %i + 1));
     }
+
+    setDataIDArrayTagValue(%dataIDArrayName, "weight", getDataIDArrayTagValue(%dataIDArrayName, "weight") - %weight);
 
     return 1;
 }
@@ -50,7 +55,10 @@ function farmingTableRemove(%tableName, %item, %weight) {
 // give a value between 0 and 1 (0 inclusive, 1 exclusive) or the empty string
 // returns an item in the table based on the value or randomly
 function farmingTableGetItem(%tableName, %random) {
-    if ($Farming::TableSize[%tableName] == 0) {
+    %dataIDArrayName = "QuestTable_" @ %tableName;
+    %tableLength = getDataIDArrayCount(%dataIDArrayName);
+
+    if (%tableLength == 0) {
         warn("Warning: attempted to get from empty table" SPC %tableName);
         return "";
     }
@@ -65,12 +73,13 @@ function farmingTableGetItem(%tableName, %random) {
         %random = getRandom();
     }
 
-    %position = %random * $Farming::TableTotalWeight[%tableName];
+    %position = %random * getDataIDArrayTagValue(%dataIDArrayName, "weight");
     %currWeight = 0;
 
-    for (%i = 0; %i < $Farming::TableSize[%tableName]; %i++) {
-        %item = $Farming::TableItem[%tableName, %i];
-        %weight = $Farming::TableWeight[%tableName, %i];
+    for (%i = 0; %i < %tableLength; %i++) {
+        %entry = getDataIDArrayValue(%dataIDArrayName, %i);
+        %item = getWord(%entry, 0);
+        %weight = getWord(%entry, 1);
 
         %currWeight += %weight;
 
