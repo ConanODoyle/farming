@@ -28,7 +28,7 @@ function generatePart(%slots, %types) {
 	for (%i = 0; %i < %numItems; %i++) {
 		%tableIndex = getRandom(0, getFieldCount(%types) - 1);
 		%table = getField(%types, %tableIndex);
-		removeField(%types, %tableIndex); // try to ensure items are unique
+		%types = removeField(%types, %tableIndex); // try to ensure items are unique
 
 		%part = %part @ getQuestItem(%table, 1 + %extraSlots[%i]) @ "\t";
 	}
