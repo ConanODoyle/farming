@@ -2,7 +2,9 @@
 function getSafeDataIDArrayName(%aid)
 {
 	if ($DataIDDebug) talk("getSafeDataIDArrayName");
+	%aid = trim(%aid);
 	%aid = strReplace(%aid, " ", "_");
+	%aid = strReplace(%aid, "\t", "__");
 	return stripChars(%aid, "!@#$%^&*()-+[]{},.<>;':\"");
 }
 
@@ -80,6 +82,14 @@ function getDataIDArrayValue(%aid, %slot)
 	}
 }
 
+function getDataIDArrayTagValue(%aid, %tag)
+{
+	if ($DataIDDebug) talk("getDataIDArrayTagValue");
+	%aid = loadDataIDArray(%aid);
+
+	return $DataID_[%aid, %tag];
+}
+
 function getDataIDArrayCount(%aid)
 {
 	if ($DataIDDebug) talk("getDataIDArrayCount");
@@ -105,6 +115,14 @@ function indexOfDataIDArray(%aid, %value, %startIndex)
 		}
 	}
 	return -1;
+}
+
+function getDataIDArrayTags(%aid)
+{
+	if ($DataIDDebug) talk("getDataIDArrayTags");
+	%aid = loadDataIDArray(%aid);
+
+	return $DataID_[%aid, "tags"];
 }
 
 
@@ -160,7 +178,6 @@ function setDataIDArrayValue(%aid, %slot, %value)
 	$DataID_[%aid, %slot] = %value;
 
 	saveDataIDArray(%aid);
-	return 0;
 }
 
 //add %value to first available slot in %aid. %start optional
@@ -193,6 +210,29 @@ function addToDataIDArray(%aid, %value, %start)
 	return %returnIDX;
 }
 
+//sets %tag to %value, overriding any existing value
+function setDataIDArrayTagValue(%aid, %tag, %value)
+{
+	if ($DataIDDebug) talk("setDataIDArrayTagValue");
+	%aid = loadDataIDArray(%aid);
+
+	%tag = getSafeDataIDArrayName(%tag);
+	if (%tag $= %tag + 0 || %tag $= "tags" || %tag $= "count" || %tag $= "")
+	{
+		error("ERROR: setDataIDArrayTagValue - tag is invalid!");
+		return;
+	}
+
+	$DataID_[%aid, %tag] = %value;
+	%currTags = " " @ $DataID_[%aid, "tags"] @ " ";
+	if (strPos(%currTags, " " @ %tag @ " ") < 0)
+	{
+		$DataID_[%aid, "tags"] = trim($DataID_[%aid, "tags"] SPC %tag);
+	}
+
+	saveDataIDArray(%aid);
+}
+
 //removes value at %slot
 function removeDataIDArrayValue(%aid, %slot)
 {
@@ -201,6 +241,31 @@ function removeDataIDArrayValue(%aid, %slot)
 
 	%count = getDataIDArrayCount(%aid);
 	$DataID_[%aid, %slot] = "";
+
+	saveDataIDArray(%aid);
+}
+
+//removes value at %tag
+function removeDataIDArrayTag(%aid, %tag) { removeDataIDArrayTagValue(%aid, %tag); }
+function removeDataIDArrayTagValue(%aid, %tag)
+{
+	if ($DataIDDebug) talk("removeDataIDArrayTagValue");
+	%aid = loadDataIDArray(%aid);
+
+	%tag = getSafeDataIDArrayName(%tag);
+	if (%tag $= %tag + 0 || %tag $= "tags" || %tag $= "count" || %tag $= "")
+	{
+		error("ERROR: removeDataIDArrayTagValue - tag is invalid!");
+		return;
+	}
+
+	$DataID_[%aid, %tag] = "";
+	%currTags = " " @ $DataID_[%aid, "tags"] @ " ";
+	if ((%pos = strPos(%currTags, " " @ %tag @ " ")) >= 0)
+	{
+		%currTags = getSubStr(%currTags, 0, %pos) @ getSubStr(%currTags, strLen(%tag) + 1 + %pos, strLen(%currTags));
+		$DataID_[%aid, "tags"] = trim(%currTags);
+	}
 
 	saveDataIDArray(%aid);
 }
