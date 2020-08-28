@@ -72,7 +72,7 @@ function Player::farmingAddItem(%player, %datablock, %ignoreOverflow) {
         }
     }
 
-    return %player.farmingSetItem(%player, %datablock, %emptySlot);
+    return %player.farmingSetItem(%datablock, %emptySlot);
 }
 
 function Player::getFirstStackableSlot(%player, %stackType, %from) {
