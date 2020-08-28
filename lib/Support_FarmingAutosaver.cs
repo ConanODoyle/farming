@@ -84,9 +84,8 @@ package FarmingAutosaverLoader
 		parent::ServerLoadSaveFile_End();
 
 		talk("Loading complete");
-		$CurrentLotLoading.isLoadingLot = 0;
-		$LotLoadingFlag = 0;
-		$CurrentLotLoading = "";
+
+		schedule(100, 0, resetLotLoading);
 	}
 };
 activatePackage(FarmingAutosaverLoader);
