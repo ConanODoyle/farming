@@ -109,3 +109,5 @@ function GameConnection::displayQuest(%client, %questData) {
 		talk(%reward[%numRewards]);
 	}
 }
+
+// dummy text
