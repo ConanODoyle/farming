@@ -25,7 +25,7 @@ function serverCmdBuilder(%cl, %target)
 			%cl = %targ;
 		}
 		echo("[" @ getDateTime() @ "] " @ %name @ " gave " @ %targ.getPlayerName() @ " builder!");
-		%cl.bypassRestrictions = 1;
+		%cl.isBuilder = 1;
 		%cl.player.setDatablock(PlayerStandardArmor);
 		messageClient(%cl, '', "\c6You are now a builder!");
 	}
@@ -33,7 +33,7 @@ function serverCmdBuilder(%cl, %target)
 
 function serverCmdUnbuilder(%cl, %target)
 {
-	if (%cl.isSuperAdmin || %cl.bypassRestrictions || $canBuilder_[%cl.bl_id])
+	if (%cl.isSuperAdmin || %cl.isBuilder || $canBuilder_[%cl.bl_id])
 	{
 		%name = %cl.getPlayerName();
 		%targ = %cl;
@@ -44,7 +44,7 @@ function serverCmdUnbuilder(%cl, %target)
 			%cl = %targ;
 		}
 		echo("[" @ getDateTime() @ "] " @ %name @ " removed " @ %targ.getPlayerName() @ " builder!");
-		%cl.bypassRestrictions = 0;
+		%cl.isBuilder = 0;
 		%cl.player.setDatablock(isObject(%cl.playerDatablock) ? %cl.playerDatablock : PlayerNoJet);
 		messageClient(%cl, '', "\c6You are not a builder anymore!");
 	}
@@ -77,7 +77,7 @@ package BuilderOrb
 {
 	function serverCmdDropCameraAtPlayer(%cl)
 	{
-		if (!%cl.isAdmin && %cl.bypassRestrictions && isObject(%cl.player)) 
+		if (!%cl.isAdmin && %cl.isBuilder && isObject(%cl.player)) 
 		{
 			%cl.camera.mountImage("BuilderOrbCameraImage",0);
 			%cl.camera.setTransform(%cl.player.getEyePoint() SPC getWords(%cl.player.getTransform(),3,6));
@@ -92,7 +92,7 @@ package BuilderOrb
 	
 	function serverCmdDropPlayerAtCamera(%cl)
 	{
-		if (!%cl.isAdmin && %cl.bypassRestrictions && isObject(%cl.player)) 
+		if (!%cl.isAdmin && %cl.isBuilder && isObject(%cl.player)) 
 		{
 			%cl.camera.unMountImage(0);
 			%cl.setControlObject(%cl.player);
@@ -109,7 +109,7 @@ package BuilderOrb
 	{
 		%ret = parent::spawnPlayer(%cl);
 
-		if (%cl.bypassRestrictions)
+		if (%cl.isBuilder)
 		{
 			%cl.player.setDatablock(PlayerStandardArmor);
 			messageClient(%cl, '', "\c6Builder - Set datablock to standard player");

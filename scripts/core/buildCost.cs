@@ -40,7 +40,7 @@ activatePackage(BuildCost);
 function buyBrick(%b)
 {
 	%group = getBrickgroupFromObject(%b);
-	if (!isObject(%group.client) || %group.client.bypassRestrictions || %group.isLoadingLot || %b.skipBuy)
+	if (!isObject(%group.client) || %group.client.isBuilder || %group.isLoadingLot || %b.skipBuy)
 	{
 		return;
 	}
@@ -101,7 +101,7 @@ function sellObject(%b)
 	%db = %b.getDatablock();
 	%cl = %group.client;
 
-	if (%cl.bypassRestrictions || %cl.noRefund)
+	if (%cl.isBuilder || %cl.noRefund)
 	{
 		return;
 	}

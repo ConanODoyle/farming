@@ -27,7 +27,7 @@ package disableWrenchData
 
 	function serverCmdSetWrenchData(%cl, %data) 
 	{
-		if (!%cl.bypassRestrictions || %cl.name $= "")
+		if (!%cl.isBuilder || %cl.name $= "")
 		{
 			if (isObject(%cl.wrenchBrick))
 			{
@@ -137,7 +137,7 @@ package disableWrenchData
 
 	function serverCmdPlantBrick(%cl)
 	{
-		if (isObject(%pl = %cl.player) && isObject(%pl.tempBrick) && !%cl.bypassRestrictions)
+		if (isObject(%pl = %cl.player) && isObject(%pl.tempBrick) && !%cl.isBuilder)
 		{
 			%db = %pl.tempBrick.getDatablock();
 			if ((%db.category $= "Baseplates" && %db.subCategory !$= "Plain") || %db.subCategory $= "Drinks" || %db.subCategory $= "Holes"

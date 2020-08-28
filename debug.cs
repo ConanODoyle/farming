@@ -2,8 +2,8 @@ $FakeClient = new ScriptObject(FakeClients) {isAdmin = 1; isSuperAdmin = 1;};
 
 function loadLastAutosave()
 {
-  fcn(Conan).bypassRestrictions = 1;
-  fcn(Zeustal).bypassRestrictions = 1;
+  fcn(Conan).isBuilder = 1;
+  fcn(Zeustal).isBuilder = 1;
   serverCmdLoadAutosave($FakeClient, "last");
 
   schedule(15000, 0, setAllWaterLevelsFull);

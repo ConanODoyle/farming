@@ -37,7 +37,7 @@ function purchaseVehicle(%cl, %vehicle)
 
 function purchaseItem(%cl, %item)
 {
-	if (%cl.bypassRestrictions)
+	if (%cl.isBuilder)
 	{
 		return 1;
 	}

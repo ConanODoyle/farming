@@ -80,7 +80,7 @@ package Processors
 
 	function serverCmdPlantBrick(%cl)
 	{
-		if (isObject(%pl = %cl.player) && isObject(%pl.tempBrick)) //&& !%cl.bypassRestrictions)
+		if (isObject(%pl = %cl.player) && isObject(%pl.tempBrick)) //&& !%cl.isBuilder)
 		{
 			%db = %pl.tempBrick.getDatablock();
 			if (%db.isProcessor && isObject(%db.placerItem))

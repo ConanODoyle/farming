@@ -8,7 +8,7 @@ package NewBrickTool
 {
     function brickImage::onFire(%this, %obj, %slot, %repeat)
     {
-        if (!%obj.client.bypassRestrictions)
+        if (!%obj.client.isBuilder)
         {
             return parent::onFire(%this, %obj, %slot, %repeat);
         }
@@ -18,7 +18,7 @@ package NewBrickTool
     {
         Parent::onMount(%this, %obj, %slot);
 
-        if (!%obj.client.bypassRestrictions)
+        if (!%obj.client.isBuilder)
         {
             return;
         }
@@ -68,7 +68,7 @@ package NewBrickTool
         if ($Pref::Server::NewBrickTool::AdminOrb && isObject(%player) &&
             %player.getMountedImage(0) == nameToID("brickImage"))
         {
-            if (%object && %object.getClassName() $= "Camera" && %this.bypassRestrictions)
+            if (%object && %object.getClassName() $= "Camera" && %this.isBuilder)
             {
                 %text = "<font:palatino linotype:86>\n<lmargin:1><bitmap:base/client/ui/crossHair>";
                 commandToClient(%this, 'CenterPrint', %text, 0);
@@ -85,7 +85,7 @@ package NewBrickTool
 
         if ($Pref::Server::NewBrickTool::AdminOrb && isObject(%player) &&
             !%obj.isOrbitMode() && !%obj.getControlObject() && %slot == 0 &&
-            %player.getMountedImage(0) == nameToID("brickImage") && %client.bypassRestrictions)
+            %player.getMountedImage(0) == nameToID("brickImage") && %client.isBuilder)
         {
             %shape = %player.brickImageRepeatShape;
 
@@ -121,7 +121,7 @@ package NewBrickTool
 
     function Armor::onTrigger(%this, %obj, %slot, %state)
     {
-        if (%obj.getMountedImage(0) == nameToID("brickImage") && %slot == 0 && %obj.client.bypassRestrictions)
+        if (%obj.getMountedImage(0) == nameToID("brickImage") && %slot == 0 && %obj.client.isBuilder)
         {
             %shape = %obj.brickImageRepeatShape;
 

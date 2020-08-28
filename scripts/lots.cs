@@ -227,7 +227,7 @@ package lotBuild
 
 	function serverCmdPlantBrick(%cl)
 	{
-		if (!isObject(%cl.player) || (!isObject(%cl.player.tempBrick) && %cl.ndMode !$= "NDM_PlantCopy") || %cl.bypassRestrictions)
+		if (!isObject(%cl.player) || (!isObject(%cl.player.tempBrick) && %cl.ndMode !$= "NDM_PlantCopy") || %cl.isBuilder)
 		{
 			return parent::serverCmdPlantBrick(%cl);
 		}
