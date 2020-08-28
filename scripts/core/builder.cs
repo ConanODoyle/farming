@@ -104,5 +104,17 @@ package BuilderOrb
 			parent::serverCmdDropPlayerAtCamera(%cl);
 		}
 	}
+
+	function GameConnection::spawnPlayer(%cl)
+	{
+		%ret = parent::spawnPlayer(%cl);
+
+		if (%cl.bypassRestrictions)
+		{
+			%cl.player.setDatablock(PlayerStandardArmor);
+			messageClient(%cl, '', "\c6Builder - Set datablock to standard player");
+		}
+		return %ret;
+	}
 };
 activatePackage(BuilderOrb);
