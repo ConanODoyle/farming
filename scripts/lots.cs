@@ -161,8 +161,9 @@ function checkPlant2(%cl)
 		%totalArea += (%bLx - %bSx) * (%bLy - %bSy);
 	}
 
-	if (mAbs(%targetArea - %totalArea) < 0.05 && %z - %lowestZ < 10)
+	if (mAbs(%targetArea - %totalArea) < 0.05 && mAbs(%z - %lowestZ - 30) < 0.05)
 	{
+		talk(%z - %lowestZ);
 		return 1;
 	}
 	else
