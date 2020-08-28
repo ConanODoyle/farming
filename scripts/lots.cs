@@ -101,10 +101,7 @@ function checkPlant2(%cl)
 	}
 
 	%z = getWord(getField(%tempBounds, 1), 2);
-	if (%z > 70)
-	{
-		return 0;
-	}
+
 	%tempPos = vectorScale(vectorAdd(getField(%tempBounds, 0), getField(%tempBounds, 1)), 0.5);
 	%xP = getWord(%tempPos, 0);
 	%yP = getWord(%tempPos, 1);
@@ -143,6 +140,7 @@ function checkPlant2(%cl)
 	%tSx = getWord(%xySmall, 0);
 	%tSy = getWord(%xySmall, 1);
 	%targetArea = (%tLx - %tSx) * (%tLy - %tSy);
+	%lowestZ = 100000;
 	for (%i = 0; %i < %count; %i++)
 	{
 		%currBounds = %lots[%i];
@@ -153,6 +151,7 @@ function checkPlant2(%cl)
 		%bLy = getWord(%bLarge, 1);
 		%bSx = getWord(%bSmall, 0);
 		%bSy = getWord(%bSmall, 1);
+		%lowestZ = %lowestZ < getWord(%bSmall, 2) ? %lowestZ : getWord(%bSmall, 2);
 
 		if (%bLx > %tLx) %bLx = %tLx;
 		if (%bLy > %tLy) %bLy = %tLy;
@@ -162,7 +161,7 @@ function checkPlant2(%cl)
 		%totalArea += (%bLx - %bSx) * (%bLy - %bSy);
 	}
 
-	if (mAbs(%targetArea - %totalArea) < 0.05)
+	if (mAbs(%targetArea - %totalArea) < 0.05 && %z - %lowestZ < 10)
 	{
 		return 1;
 	}
