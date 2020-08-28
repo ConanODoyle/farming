@@ -13,6 +13,7 @@ $isVIP_["10661"]	= 1 TAB "Dart";
 $isVIP_["51914"]	= 1 TAB "MARBLE MAN";
 $isVIP_["9373"]		= 1 TAB "Smallguy";
 $isVIP_["33468"]	= 1 TAB "Wolfly";
+$isVIP_["12953"]	= 1 TAB "irrel";
 
 $isDonator_["4928"]		= 1 TAB "Conan";
 $isDonator_["53456"]	= 1 TAB "celau";
