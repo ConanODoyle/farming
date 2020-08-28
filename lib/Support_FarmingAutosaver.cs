@@ -31,9 +31,6 @@ function loadLotAutosave(%name, %position)
 	%file.close();
 	%file.delete();
 	%offset = getField(%desc, 1);
-	talk("path: " @ %path);
-	talk("pos: " @ %offset);
-	talk("loadoffset: " @ vectorSub(%position, %offset));
 
 	$loadOffset = vectorSub(%position, %offset);
 	// return;
@@ -62,6 +59,7 @@ function resetLotLoading()
 	$CurrentLotLoading.isLoadingLot = 0;
 	$LotLoadingFlag = 0;
 	$CurrentLotLoading = "";
+	$loadOffset = "0 0 0";
 }
 
 package FarmingAutosaverLoader
