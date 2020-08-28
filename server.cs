@@ -16,6 +16,7 @@ exec("./lib/Support_DropItemsOnDeath.cs");
 exec("./lib/Support_PickupDuplicateItems.cs");
 exec("./lib/Support_MultipleSlots.cs");
 exec("./lib/Support_FarmingAutosaver.cs");
+exec("./lib/Support_TCPClient.cs");
 
 exec("./lib/Support_DataID/server.cs");
 exec("./lib/Support_ShapeLines/server.cs");
@@ -30,6 +31,7 @@ exec("./util/clearScripts.cs");
 exec("./util/convTime.cs");
 exec("./util/dualClient.cs");
 exec("./util/fixSchedulePop.cs");
+exec("./util/gitpull.cs");
 exec("./util/ipCheck.cs");
 exec("./util/makeLotSingle.cs");
 exec("./util/radiusAnnounce.cs");
