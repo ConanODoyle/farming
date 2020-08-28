@@ -14,7 +14,7 @@ function getQuestItem(%table, %slots) {
 function generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes) {
 	%requests = generatePart(%requestSlots, %requestTypes);
 	%rewards = generatePart(%rewardSlots, %rewardTypes);
-	return %requests @ "\n" @ %rewards;
+	return %requests NL %rewards;
 }
 
 function generatePart(%slots, %types) {
