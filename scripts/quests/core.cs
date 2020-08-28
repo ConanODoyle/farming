@@ -7,7 +7,7 @@ function getQuestItem(%table, %slots) {
 		%count = %perSlotCount * (%slots - 1) + getRandom(mFloor(%perSlotCount / 2), %perSlotCount);
 	}
 
-	return %item SPC %count
+	return %item SPC %count;
 }
 
 // slots: 1-5, types: field-separated list of metatables
@@ -74,7 +74,7 @@ function GameConnection::completeQuest(%client, %index) {
 		if (%item.isStackable) {
 			%player.farmingAddStackableItem(%item, %count);
 		} else {
-			for (%i = 0; %i < %count, %i++) {
+			for (%i = 0; %i < %count; %i++) {
 				%player.farmingAddItem(%item);
 			}
 		}
