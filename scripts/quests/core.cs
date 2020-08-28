@@ -24,13 +24,16 @@ function generatePart(%slots, %types) {
 		%extraSlots[%i] += 1;
 	}
 
+	%part = "";
 	for (%i = 0; %i < %numItems; %i++) {
 		%tableIndex = getRandom(0, getFieldCount(%types) - 1);
 		%table = getField(%types, %tableIndex);
 		removeField(%types, %tableIndex); // try to ensure items are unique
 
-		%item[%i] = getQuestItem(%table, 1 + %extraSlots[%i]);
+		%part = %part @ getQuestItem(%table, 1 + %extraSlots[%i]) @ "\t";
 	}
+
+	return trim(%part);
 }
 
 function GameConnection::completeQuest(%client, %index) {
