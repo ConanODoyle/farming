@@ -92,25 +92,25 @@ schedule(15000, 0, "webcom_postServer();");
 
 RegisterPersistenceVar("farmingExperience", false, "");
 
-RegisterPersistenceVar("deliveryPackageInfo0", false, "");
-RegisterPersistenceVar("deliveryPackageInfo1", false, "");
-RegisterPersistenceVar("deliveryPackageInfo2", false, "");
-RegisterPersistenceVar("deliveryPackageInfo3", false, "");
-RegisterPersistenceVar("deliveryPackageInfo4", false, "");
-RegisterPersistenceVar("deliveryPackageInfo5", false, "");
-RegisterPersistenceVar("deliveryPackageInfo6", false, "");
-RegisterPersistenceVar("deliveryPackageInfo7", false, "");
-RegisterPersistenceVar("deliveryPackageInfo8", false, "");
-RegisterPersistenceVar("deliveryPackageInfo9", false, "");
-RegisterPersistenceVar("deliveryPackageInfo10", false, "");
-RegisterPersistenceVar("deliveryPackageInfo12", false, "");
-RegisterPersistenceVar("deliveryPackageInfo13", false, "");
-RegisterPersistenceVar("deliveryPackageInfo14", false, "");
-RegisterPersistenceVar("deliveryPackageInfo15", false, "");
-RegisterPersistenceVar("deliveryPackageInfo16", false, "");
-RegisterPersistenceVar("deliveryPackageInfo17", false, "");
-RegisterPersistenceVar("deliveryPackageInfo18", false, "");
-RegisterPersistenceVar("deliveryPackageInfo19", false, "");
+RegisterPersistenceVar("questItemInfo0", false, "");
+RegisterPersistenceVar("questItemInfo1", false, "");
+RegisterPersistenceVar("questItemInfo2", false, "");
+RegisterPersistenceVar("questItemInfo3", false, "");
+RegisterPersistenceVar("questItemInfo4", false, "");
+RegisterPersistenceVar("questItemInfo5", false, "");
+RegisterPersistenceVar("questItemInfo6", false, "");
+RegisterPersistenceVar("questItemInfo7", false, "");
+RegisterPersistenceVar("questItemInfo8", false, "");
+RegisterPersistenceVar("questItemInfo9", false, "");
+RegisterPersistenceVar("questItemInfo10", false, "");
+RegisterPersistenceVar("questItemInfo12", false, "");
+RegisterPersistenceVar("questItemInfo13", false, "");
+RegisterPersistenceVar("questItemInfo14", false, "");
+RegisterPersistenceVar("questItemInfo15", false, "");
+RegisterPersistenceVar("questItemInfo16", false, "");
+RegisterPersistenceVar("questItemInfo17", false, "");
+RegisterPersistenceVar("questItemInfo18", false, "");
+RegisterPersistenceVar("questItemInfo19", false, "");
 
 // Glass loading screen image
 registerloadingscreen("https://i.imgur.com/06fAw4h.png", "png", "", 1);
