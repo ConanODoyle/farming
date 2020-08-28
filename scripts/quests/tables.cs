@@ -7,7 +7,7 @@ function farmingTableClear(%tableName) {
 
 function farmingTableAdd(%tableName, %item, %weight) {
     if (%weight <= 0) {
-        error("ERROR: Can't add item with weight <= 0");
+        error("ERROR: Can't add item with weight <= 0 (attempted to use weight " @ %weight @ ")");
         return;
     }
 
@@ -32,7 +32,7 @@ function farmingTableRemove(%tableName, %item, %weight) {
     %index = farmingTableGetIndex(%tableName, %item);
 
     if (%index == -1) {
-        error("ERROR: Item not in table, can't remove");
+        error("ERROR: Item" SPC %item SPC "not in table" SPC %tableName @ ", can't remove");
         return 0;
     }
 
@@ -51,15 +51,15 @@ function farmingTableRemove(%tableName, %item, %weight) {
 // returns an item in the table based on the value or randomly
 function farmingTableGetItem(%tableName, %random) {
     if ($Farming::TableSize[%tableName] == 0) {
-        warn("Warning: attempted to get from empty table");
+        warn("Warning: attempted to get from empty table" SPC %tableName);
         return "";
     }
 
     while (%random $= "" || %random < 0 || %random >= 1) {
         if (%random < 0) {
-            warn("Warning: attempted to get from table with value < 0; using random value");
+            warn("Warning: attempted to get from table" SPC %tableName SPC "with value < 0; using random value");
         } else if (%random >= 1) {
-            warn("Warning: attempted to get from table with value >= 1; using random value");
+            warn("Warning: attempted to get from table" SPC %tableName SPC "with value >= 1; using random value");
         }
 
         %random = getRandom();
@@ -79,6 +79,6 @@ function farmingTableGetItem(%tableName, %random) {
         }
     }
 
-    error("ERROR: Malformed table - no item found, stored total weight may be larger than real total weight");
+    error("ERROR: Malformed table" SPC %tableName SPC "- no item found, stored total weight may be larger than real total weight");
     return "";
 }
