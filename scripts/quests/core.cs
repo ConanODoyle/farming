@@ -18,7 +18,7 @@ function generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes)
 }
 
 function generatePart(%slots, %types) {
-	%numItems = min(%slots, getRandom(1, 3));
+	%numItems = getMin(%slots, getRandom(1, 3));
 	for (%numSpareSlots = %slots - %numItems; %numSpareSlots > 0; %numSpareSlots--) {
 		%i = getRandom(0, %numItems - 1);
 		%extraSlots[%i] += 1;
