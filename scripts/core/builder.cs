@@ -13,9 +13,21 @@ $canBuilder_["378"] 	= 1 TAB "Sylvanor";
 $canBuilder_["30881"] 	= 1 TAB "Allun Pentax";
 
 
+function serverCmdToggleBuilderAdmin(%cl)
+{
+	if (!%cl.isSuperAdmin)
+	{
+		return;
+	}
+
+	$AdminAllowedBuilder = !$AdminAllowedBuilder;
+	%str = $AdminAllowedBuilder ? "\c2Admin only" : "\c4Super Admin only";
+	messageAll('', "\c6/builder has been made " @ %str);
+}
+
 function serverCmdBuilder(%cl, %target)
 {
-	if (%cl.isSuperAdmin || $canBuilder_[%cl.bl_id])
+	if (%cl.isSuperAdmin || $canBuilder_[%cl.bl_id] || (%cl.isAdmin && $AdminAllowedBuilder))
 	{
 		%name = %cl.getPlayerName();
 		%targ = %cl;
@@ -33,7 +45,7 @@ function serverCmdBuilder(%cl, %target)
 
 function serverCmdUnbuilder(%cl, %target)
 {
-	if (%cl.isSuperAdmin || %cl.isBuilder || $canBuilder_[%cl.bl_id])
+	if (%cl.isSuperAdmin || $canBuilder_[%cl.bl_id] || (%cl.isAdmin && $AdminAllowedBuilder))
 	{
 		%name = %cl.getPlayerName();
 		%targ = %cl;
