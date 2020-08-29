@@ -11,8 +11,8 @@ function farmingTableAdd(%tableName, %item, %weight) {
     }
 
     %dataIDArrayName = "QuestTable_" @ %tableName;
-
     %tableSize = getDataIDArrayCount(%dataIDArrayName) + 1;
+
     setDataIDArrayCount(%dataIDArrayName, %tableSize);
     addToDataIDArray(%dataIDArrayName, %item SPC %weight);
     setDataIDArrayTagValue(%dataIDArrayName, "weight", getDataIDArrayTagValue(%dataIDArrayName, "weight") + %weight);
@@ -32,7 +32,6 @@ function farmingTableGetIndex(%tableName, %item) {
 
 function farmingTableRemove(%tableName, %item) {
     %index = farmingTableGetIndex(%tableName, %item);
-
     if (%index == -1) {
         error("ERROR: Item" SPC %item SPC "not in table" SPC %tableName @ ", can't remove");
         return 0;
@@ -43,10 +42,11 @@ function farmingTableRemove(%tableName, %item) {
 
     %weight = getWord(getDataIDArrayValue(%dataIDArrayName, %index), 1);
 
-    for (%i = %index; %i < %tableLength; %i++) {
+    for (%i = %index; %i + 1 < %tableLength; %i++) {
         setDataIDArrayValue(%dataIDArrayName, %i, getDataIDArrayValue(%dataIDArrayName, %i + 1));
     }
 
+    setDataIDArrayCount(%dataIDArrayName, %tableLength - 1);
     setDataIDArrayTagValue(%dataIDArrayName, "weight", getDataIDArrayTagValue(%dataIDArrayName, "weight") - %weight);
 
     return 1;
