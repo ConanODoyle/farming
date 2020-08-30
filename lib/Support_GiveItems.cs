@@ -34,7 +34,7 @@ function Player::getFirstEmptySlot(%player) {
             return %i;
         }
     }
-    return "";
+    return -1;
 }
 
 function farmingItemOverflow(%player, %datablock) {
@@ -64,7 +64,7 @@ function Player::farmingAddItem(%player, %datablock, %ignoreOverflow) {
     }
 
     %emptySlot = %player.getFirstEmptySlot();
-    if (%emptySlot $= "") {
+    if (%emptySlot == -1) {
         if (!%ignoreOverflow) {
             farmingItemOverflow(%player, %datablock);
         } else {
