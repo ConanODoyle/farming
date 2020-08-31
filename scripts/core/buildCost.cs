@@ -92,7 +92,8 @@ function messageDeductedMoney(%cl)
 
 function sellObject(%b)
 {
-	if (%b.sold || !isEventPending($masterGrowSchedule))
+	%group = getBrickgroupFromObject(%b);
+	if (%b.sold || !isEventPending($masterGrowSchedule) || %group.isSaveClearingLot)
 	{
 		return;
 	}
