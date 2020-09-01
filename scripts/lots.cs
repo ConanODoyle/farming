@@ -1,5 +1,7 @@
 //building & brickgroup
 
+$maxLotBuildHeight = 30;
+
 datablock fxDTSBrickData(brick32x32LotData : brick32x32fData)
 {
 	category = "Baseplates";
@@ -156,8 +158,8 @@ function lotCheckPlant(%cl)
 	for (%i = 0; %i < %count; %i++)
 	{
 		%currBounds = %lots[%i];
-		%bLarge = getWords(getField(%currBounds, 0), 0, 1);
-		%bSmall = getWords(getField(%currBounds, 1), 0, 1);
+		%bLarge = getField(%currBounds, 0);
+		%bSmall = getField(%currBounds, 1);
 
 		%bLx = getWord(%bLarge, 0);
 		%bLy = getWord(%bLarge, 1);
@@ -173,9 +175,10 @@ function lotCheckPlant(%cl)
 		%totalArea += (%bLx - %bSx) * (%bLy - %bSy);
 	}
 
-	if (mAbs(%targetArea - %totalArea) < 0.05 && mAbs(%z - %lowestZ - 30) < 0.05)
+	%zDiff = %z - %lowestZ;
+
+	if (mAbs(%targetArea - %totalArea) < 0.05 && %zDiff < $maxLotBuildHeight && %zDiff > 0)
 	{
-		talk(%z - %lowestZ);
 		return 1;
 	}
 	else
@@ -222,7 +225,7 @@ function SimGroup::refreshLotList(%bg)
 	for (%i = 0; %i < %count; %i++)
 	{
 		%b = %bg.getObject(%i);
-		if (%b.isLot)
+		if (%b.getDatablock().isLot)
 		{
 			%str = %str SPC %b;
 		}
@@ -428,9 +431,9 @@ function serverCmdBuyLot(%cl)
 		}
 		return;
 	}
-	else if (getLotCount(%cl.brickGroup) <= 0)
+	else if (getLotCount(%cl.brickGroup) <= 0 && !%hit.getDatablock().isSingle)
 	{
-		messageClient(%cl, '', "You can only purchase red lots for free!");
+		messageClient(%cl, '', "You can only purchase unclaimed red lots for free!");
 		return;
 	}
 	else if (!isValidLotPurchase(%cl.brickGroup, %hit))
@@ -497,26 +500,11 @@ function serverCmdSellLot(%cl, %force)
 	}
 	else if (%cl.repeatSellLot != %hit)
 	{
-		%count = getLotCount(%cl.brickGroup);
-		if (%count > 4)
-		{
-			%cl.sellPrice = mPow(2, getLotCount(%cl.brickGroup) - 2) * 3000;
-		}
-		else if (%count > 1)
-		{
-			%cl.sellPrice = mPow(2, getLotCount(%cl.brickGroup) - 1) * 1000;
-		}
-		else
-		{
-			if (getNumAdjacentLots(%hit) > 0)
-			{
-				%cl.sellPrice = 1000;
-			}
-			else
-			{
-				%cl.sellPrice = 0;
-			}
-		}
+		%cost = getLotCost(getLotCount(%cl.brickGroup) - 1, %hit);
+		%costMoney = getWord(%cost, 0);
+		%costExp = getWord(%cost, 1);
+		%costString = "$" @ %costMoney @ (%costExp > 0 ? ", " @ %costExp @ " EXP" : "");
+		%cl.sellPrice = %costMoney;
 
 		if (!%force)
 		{
@@ -750,7 +738,7 @@ function clearLotRecursive(%lotBrick, %client)
 	%box = %box SPC %box SPC 199.95;
 
 
-	%lotBounds = getBrickBounds(%lotBrick, 70);
+	%lotBounds = getBrickBounds(%lotBrick, $maxLotBuildHeight);
 
 	initContainerBoxSearch(%pos, %box, $TypeMasks::fxBrickAlwaysObjectType);
 	for (%i = 0; %i < 1024; %i++)
@@ -799,7 +787,7 @@ function getSellPriceSingleWrapper(%lotBrick, %client, %exp)
 
 function getSellPriceSingleRecursive(%lotBrick, %cl, %exp)
 {
-	%lotBounds = getBrickBounds(%lotBrick, 70);
+	%lotBounds = getBrickBounds(%lotBrick, $maxLotBuildHeight);
 	for (%i = 0; %i < 1024; %i++)
 	{
 		if (!isObject(%next = containerSearchNext()))
@@ -848,7 +836,7 @@ function getSellPriceMultiRecursive(%cl, %num, %exp)
 	if (%num == getLotCount(%cl.brickGroup) - 1)
 		%final = 1;
 
-	%lotBounds = getBrickBounds(getWord(%cl.brickGroup.lotList, %num), 70);
+	%lotBounds = getBrickBounds(getWord(%cl.brickGroup.lotList, %num), $maxLotBuildHeight);
 	for (%i = 0; %i < 1024; %i++)
 	{
 		if (!isObject(%next = containerSearchNext()))
