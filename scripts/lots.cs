@@ -1,3 +1,26 @@
+//building & brickgroup
+
+datablock fxDTSBrickData(brick32x32LotData : brick32x32fData)
+{
+	category = "Baseplates";
+	subcategory = "Lots";
+	uiName = "32x32 Lot";
+
+	cost = -1;
+	isLot = 1;
+};
+
+datablock fxDTSBrickData(brick32x32SingleLotData : brick32x32fData)
+{
+	category = "Baseplates";
+	subcategory = "Lots";
+	uiName = "32x32 Single Lot";
+
+	cost = -1;
+	isLot = 1;
+	isSingle = 1;
+};
+
 function GameConnection::getTempBrickBounds(%cl)
 {
 	if (!isObject(%pl = %cl.player))
@@ -63,18 +86,7 @@ function isContainedInBounds(%box, %bounds)
 	return 1;
 }
 
-function lotBrickProcess(%brick)
-{
-	%group = %brick.getGroup();
-	if (!isObject(%group))
-	{
-		return;
-	}
-
-	%group.lotBrick[%group.lotCount++ - 1] = %brick;
-}
-
-function checkPlant2(%cl)
+function lotCheckPlant(%cl)
 {
 	%pl = %cl.player;
 	%temp = %pl.tempBrick;
@@ -172,46 +184,84 @@ function checkPlant2(%cl)
 	}
 }
 
-// datablock fxDTSBrickData(brick64x64LotData : brick64x64fData)
-// {
-// 	category = "Farming";
-// 	subcategory = "Lots";
-// 	uiName = "64x64 Lot";
-
-// 	cost = 500;
-// 	isLot = 1;
-// };
-
-datablock fxDTSBrickData(brick32x32LotData : brick32x32fData)
+function addLotToBrickgroup(%bg, %lot)
 {
-	category = "Baseplates";
-	subcategory = "Lots";
-	uiName = "32x32 Lot";
+	if (!isObject(%lot) || !isObject(%bg))
+	{
+		talk("ERROR: addLotToBrickgroup - parameters invalid! " @ %bg SPC %lot);
+		echo("ERROR: addLotToBrickgroup - parameters invalid! " @ %bg SPC %lot);
+		return;
+	}
+}
 
-	cost = -1;
-	isLot = 1;
-};
-
-datablock fxDTSBrickData(brick32x32SingleLotData : brick32x32fData)
+function fxDTSBrick::updateGroupLotCount(%brick, %amt)
 {
-	category = "Baseplates";
-	subcategory = "Lots";
-	uiName = "32x32 Single Lot";
+	%bg = getBrickgroupFromObject(%brick);
+	%bg.lotCount += %amt;
 
-	cost = -1;
-	isLot = 1;
-	isSingle = 1;
-};
+	if (%amt > 0)
+	{
+		%bg.lotList = trim(%bg.lotList SPC %brick);
+	}
 
-// function brick64x64LotData::onAdd(%brick)
-// {
-// 	schedule(10, %brick, lotBrickProcess, %brick);
-// }
+	%bg.schedule(100, refreshLotList);
 
-// function brick32x32LotData::onAdd(%brick)
-// {
-// 	schedule(10, %brick, lotBrickProcess, %brick);
-// }
+	if (%bg.getName() $= "BrickGroup_888888")
+	{
+		fixLotColor(%brick);
+	}
+}
+
+function SimGroup::refreshLotList(%bg)
+{
+	if (%bg.bl_id == 888888) //no need to manage lots in public brickgroup
+	{
+		return;
+	}
+	%count = %bg.getCount();
+	for (%i = 0; %i < %count; %i++)
+	{
+		%b = %bg.getObject(%i);
+		if (%b.isLot)
+		{
+			%str = %str SPC %b;
+		}
+	}
+
+	%bg.lotList = trim(%str);
+	%bg.lotCount = getWordCount(%bg.lotList);
+}
+
+function fixLotColor(%brick)
+{
+	%xEven = mAbs(mFloor(getWord(%brick.getPosition(), 0) / 16)) % 2;
+	%yEven = mAbs(mFloor(getWord(%brick.getPosition(), 1) / 16)) % 2;
+
+	if (%xEven == %yEven)
+	{
+		if (%brick.getDatablock().isSingle)
+		{
+			%brick.setColor(27); //single lots colored red
+		}
+		else
+		{
+			%brick.setColor(47);
+		}
+	}
+	else
+	{
+		if (%brick.getDatablock().isSingle)
+		{
+			%brick.setColor(28); //single lots colored red
+		}
+		else
+		{
+			%brick.setColor(48);
+		}
+	}
+	%brick.setShapeFX(0);
+	%brick.setColorFX(0);
+}
 
 package lotBuild
 {
@@ -232,7 +282,7 @@ package lotBuild
 			return parent::serverCmdPlantBrick(%cl);
 		}
 
-		%canPlant = checkPlant2(%cl);
+		%canPlant = lotCheckPlant(%cl);
 		if (%canPlant)
 		{
 			return parent::serverCmdPlantBrick(%cl);
@@ -248,7 +298,7 @@ package lotBuild
 	{
 		if (%this.isPlanted && %this.getDatablock().isLot)
 		{
-			%this.schedule(100, updateLotCount, 1);
+			%this.schedule(100, updateGroupLotCount, 1);
 		}
 
 		return parent::onAdd(%this);
@@ -258,7 +308,7 @@ package lotBuild
 	{
 		if (%this.isPlanted && %this.getDatablock().isLot)
 		{
-			%this.updateLotCount(-1);
+			%this.updateGroupLotCount(-1);
 		}
 		return parent::onRemove(%this);
 	}
@@ -288,6 +338,52 @@ package lotBuild
 };
 schedule(1000, 0, activatePackage, lotBuild);
 
+
+
+
+
+
+
+
+
+
+
+//purchasing
+
+//returns cost of purchasing %lot
+function getLotCost(%count, %lot)
+{
+	if (!isObject(%lot))
+	{
+		return "";
+	}
+	if (%count >= 4)
+	{
+		%cost = mPow(2, %count - 1) * 3000;
+	}
+	else if (%count > 0)
+	{
+		%cost = mPow(2, %count) * 1000;
+	}
+	else
+	{
+		if (%lot.getDatablock().isLot && !%lot.getDatablock().isSingle && getNumAdjacentLots(%lot) > 0)
+		{
+			%cost = 1000;
+		}
+		else
+		{
+			%cost = 0;
+		}
+	}
+
+	if (!%lot.getDatablock().isSingle)
+	{
+		%expCost = 100;
+	}
+	return %cost SPC %expCost;
+}
+
 function serverCmdBuyLot(%cl)
 {
 	if (!isObject(%pl = %cl.player))
@@ -301,26 +397,10 @@ function serverCmdBuyLot(%cl)
 	%ray = containerRaycast(%start, %end, $TypeMasks::fxBrickObjectType);
 	%hit = getWord(%ray, 0);
 
-	%count = getLotCount(%cl.brickGroup);
-	if (%count >= 4)
-	{
-		%cost = mPow(2, getLotCount(%cl.brickGroup) - 1) * 3000;
-	}
-	else if (%count > 0)
-	{
-		%cost = mPow(2, getLotCount(%cl.brickGroup)) * 1000;
-	}
-	else
-	{
-		if (%hit.getDatablock().isLot && !%hit.getDatablock().isSingle && getNumAdjacentLots(%hit) > 0)
-		{
-			%cost = 1000;
-		}
-		else
-		{
-			%cost = 0;
-		}
-	}
+	%cost = getLotCost(getLotCount(%cl.brickGroup), %hit);
+	%costMoney = getWord(%cost, 0);
+	%costExp = getWord(%cost, 1);
+	%costString = "$" @ %costMoney @ (%costExp > 0 ? ", " @ %costExp @ " EXP" : "");
 
 	if (!%hit.getDatablock().isLot)
 	{
@@ -337,13 +417,9 @@ function serverCmdBuyLot(%cl)
 		messageClient(%cl, '', "This lot is claimed by " @ %hit.getGroup().name @ "!");
 		return;
 	}
-	else if (%cl.score < %cost || (!%hit.getDatablock().isSingle && %cl.farmingExperience < 100))
+	else if (%cl.score < %costMoney || %cl.farmingExperience < %costExp)
 	{
-		if (!%hit.getDatablock().isSingle)
-		{
-			%cost = %cost @ ", 100 EXP";
-		}
-		messageClient(%cl, '', "You cannot afford this lot! (Cost: $" @ %cost @ ")");
+		messageClient(%cl, '', "You cannot afford this lot! (Cost: " @ %costString @ ")");
 
 		if (%cost == 1000 && %cl.timePlayed < 100 && !%cl.newbieMessageLot)
 		{
@@ -352,9 +428,9 @@ function serverCmdBuyLot(%cl)
 		}
 		return;
 	}
-	else if (getLotCount(%cl.brickGroup) <= 0 && %hit.getDatablock().brickSizeX != 32)
+	else if (getLotCount(%cl.brickGroup) <= 0)
 	{
-		messageClient(%cl, '', "You can only purchase small lots for free!");
+		messageClient(%cl, '', "You can only purchase red lots for free!");
 		return;
 	}
 	else if (!isValidLotPurchase(%cl.brickGroup, %hit))
@@ -375,19 +451,15 @@ function serverCmdBuyLot(%cl)
 		return;
 	}
 
-	%cl.setScore(%cl.score - %cost);
-	if (!%hit.getDatablock().isSingle)
-	{
-		%cl.addExperience(-100);
-		%cost = %cost SPC "and 100 EXP";
-	}
+	%cl.setScore(%cl.score - %costMoney);
+	%cl.addExperience(%costExp);
 	clearLotRecursive(%hit, %cl);
 	%cl.brickGroup.add(%hit);
-	%hit.updateLotCount(1);
+	%hit.updateGroupLotCount(1);
 	%hit.setTrusted(1);
 	%cl.repeatBuyLot = 0;
 
-	messageClient(%cl, '', "\c5You bought a lot for \c0$" @ %cost @ "\c5!");
+	messageClient(%cl, '', "\c5You bought a lot for \c0" @ %costString @ "\c5!");
 }
 
 function serverCmdSellLot(%cl, %force)
@@ -410,19 +482,8 @@ function serverCmdSellLot(%cl, %force)
 
 	%start = %pl.getHackPosition();
 	%end = getWords(%start, 0, 1) SPC 0;
-
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickAlwaysObjectType);
-
-	while (isObject(%hit = getWord(%ray, 0)) && %safety++ < 100)
-	{
-		if (%hit.getDatablock().isLot)
-		{
-			%owner = getBrickgroupFromObject(%hit).name;
-			%bl_id = getBrickgroupFromObject(%hit).bl_id;
-			break;
-		}
-		%ray = containerRaycast(vectorSub(getWords(%ray, 1, 3), "0 0 0.1"), %end, $Typemasks::fxBrickAlwaysObjectType, %hit);
-	}
+	%hit = getWord(%ray, 0);
 
 	if (!isObject(%hit) || !%hit.getDatablock().isLot)
 	{
@@ -459,11 +520,11 @@ function serverCmdSellLot(%cl, %force)
 
 		if (!%force)
 		{
-			messageClient(%cl, '', "\c5Are you sure you want to sell this lot? Any bricks above it will be removed with 90% refund.");
+			messageClient(%cl, '', "\c5Are you sure you want to sell this lot? Any bricks above it will be removed with 75% refund. Repeat this command to confirm.");
 			getSellPriceSingleWrapper(%hit, %cl, (%hit.getDatablock().isSingle ? 0 : 100));
 		}
 		else
-			messageClient(%cl, '', "\c5Are you sure you want to force sell this lot? Any bricks above it will be removed with 90% refund. Type /sellLot 1 to confirm.");
+			messageClient(%cl, '', "\c5Are you sure you want to force sell this lot? Any bricks above it will be removed. Type /sellLot 1 to confirm.");
 		%cl.repeatSellLot = %hit;
 		cancel(%cl.clearRepeatSellLotSched);
 		%cl.clearRepeatSellLotSched = schedule(5000, %cl, eval, %cl @ ".repeatSellLot = 0;");
@@ -472,57 +533,34 @@ function serverCmdSellLot(%cl, %force)
 
 	cancel(%cl.clearRepeatSellLotSched);
 
-	%count = getLotCount(%cl.brickGroup);
-	if (%count > 4)
-	{
-		%cost = mPow(2, getLotCount(%cl.brickGroup) - 2) * 3000;
-	}
-	else if (%count > 1)
-	{
-		%cost = mPow(2, getLotCount(%cl.brickGroup) - 1) * 1000;
-	}
-	else
-	{
-		if (getNumAdjacentLots(%hit) > 0)
-		{
-			%cost = 1000;
-		}
-		else
-		{
-			%cost = 0;
-		}
-	}
+	%cost = getLotCost(getLotCount(%cl.brickGroup) - 1, %hit);
+	%costMoney = getWord(%cost, 0);
+	%costExp = getWord(%cost, 1);
+	%costString = "$" @ %costMoney @ (%costExp > 0 ? ", " @ %costExp @ " EXP" : "");
 
 	if (!%force)
 	{
-		%cl.setScore(%cl.score + %cost);
+		%cl.setScore(%cl.score + %costMoney);
+		%cl.addExperience(%costExp);
 	}
 
-	//bonus refund
-	%cl.refundRatio = 0.9;
-	%hit.updateLotCount(-1);
+	%hit.updateGroupLotCount(-1);
 	BrickGroup_888888.add(%hit);
 	clearLotRecursive(%hit, %cl);
 	fixLotColor(%hit);
 	// %cl.refundRatio = 0;
 	%cl.repeatSellLot = 0;
 
-	if (!%hit.getDatablock().isSingle && !%force)
-	{
-		%cl.addExperience(100);
-		%cost = %cost SPC "and 100 EXP";
-	}
-
 	if (!%force)
 	{
-		messageClient(%cl, '', "\c5You sold a lot for \c2$" @ %cost @ "\c5!");
+		messageClient(%cl, '', "\c5You sold a lot for \c2" @ %costString @ "\c5!");
 	}
 	else
 	{
+		%owner = getBrickgroupFromObject(%hit).name;
 		messageClient(%cl, '', "\c5You \c0force\c5 sold \c3" @ %owner @ "\c5's lot!");
 	}
 }
-
 
 function serverCmdSellAllLots(%cl)
 {
@@ -540,7 +578,7 @@ function serverCmdSellAllLots(%cl)
 	}
 	else if (%cl.repeatSellAllLots != 1)
 	{
-		fixLotList(%bg);
+		%bg.refreshLotList();
 		%list = %bg.lotList;
 
 		%cl.sellPrice = 0;
@@ -569,7 +607,7 @@ function serverCmdSellAllLots(%cl)
 			%lot = getWord(%list, %i);
 		}
 
-		messageClient(%cl, '', "\c5Are you sure you want to sell ALL your lots? Any bricks above them will be removed with 90% refund.");
+		messageClient(%cl, '', "\c5Are you sure you want to sell ALL your lots? Any bricks above them will be removed with 75% refund.");
 		getSellPriceMultiWrapper(%cl, 0, %totalExpRefund);
 		%cl.repeatSellAllLots = 1;
 		cancel(%cl.clearRepeatSellAllLotsSched);
@@ -579,7 +617,7 @@ function serverCmdSellAllLots(%cl)
 
 	cancel(%cl.clearRepeatSellAllLotsSched);
 
-	fixLotList(%bg);
+	%bg.refreshLotList();
 	%list = %bg.lotList;
 
 	%totalRefund = 0;
@@ -600,8 +638,6 @@ function serverCmdSellAllLots(%cl)
 
 	%cl.setScore(%cl.score + %totalRefund);
 
-
-	%cl.refundRatio = 0.9;
 	for (%i = 0; %i < getWordCount(%list); %i++)
 	{
 		%lot = getWord(%list, %i);
@@ -615,10 +651,8 @@ function serverCmdSellAllLots(%cl)
 	}
 	%cl.repeatSellAllLots = 0;
 
-	//bonus refund
-
 	%bg.lotCount = 0;
-	fixLotList(%bg);
+	%bg.refreshLotList();
 
 	%plural = %count > 1 ? "s" : "";
 	if (%sellExperience)
@@ -628,81 +662,6 @@ function serverCmdSellAllLots(%cl)
 	messageClient(%cl, '', "\c5You sold " @ %count @ " lot" @ %plural @ " for \c2$" @ %totalRefund @ "\c5!");
 }
 
-function serverCmdForceSellAllLots(%cl, %bl_id)
-{
-	if (!isObject(%bg = "Brickgroup_" @ %bl_id) && !isObject(%bg = getBrickgroupFromObject(findClientByName(%bl_id))))
-	{
-		return;
-	}
-
-	%count = getLotCount(%bg);
-
-	if (%count <= 0)
-	{
-		messageClient(%cl, '', %bg.name @ " has no lots to sell!");
-		return;
-	}
-
-	fixLotList(%bg);
-	%list = %bg.lotList;
-
-	for (%i = 0; %i < getWordCount(%list); %i++)
-	{
-		%lot = getWord(%list, %i);
-		clearLotRecursive(%lot);
-		BrickGroup_888888.add(%lot);
-		fixLotColor(%lot);
-	}
-
-	%bg.lotCount = 0;
-	fixLotList(%bg);
-
-	%plural = %count > 1 ? "s" : "";
-	messageClient(%cl, '', "\c5You cleared " @ %count @ " lots owned by " @ %bg.name @ "\c5!");
-}
-
-function fxDTSBrick::updateLotCount(%brick, %amt)
-{
-	%bg = getBrickgroupFromObject(%brick);
-	%bg.lotCount += %amt;
-
-	if (%amt > 0)
-	{
-		%bg.lotList = trim(%bg.lotList SPC %brick);
-	}
-
-	schedule(100, %bg, fixLotList, %bg);
-
-	if (%bg.getName() $= "BrickGroup_888888")
-	{
-		fixLotColor(%brick);
-	}
-}
-
-function fixLotList(%bg)
-{
-	%orig = trim(strReplace(%bg.lotList, "  ", " "));
-
-	for (%i = 0; %i < getWordCount(%orig); %i++)
-	{
-		%id = getWord(%orig, %i);
-		if (isObject(%id) && !%isFound[%id] && %id.getDatablock().isLot && getBrickgroupFromObject(%id) == %bg)
-		{
-			%final = %final SPC %id;
-		}
-		%isFound[%id] = 1;
-	}
-
-	%bg.lotList = trim(%final);
-	%bg.lastLotList = %bg.lotList;
-	if (getWordCount(%bg.lotList) != %bg.lotCount)
-	{
-		talk(%bg.name @ "\c5 lot count inconsistency: Actual " @ getWordCount(%bg.lotList) @ " compared to " @ %bg.lotCount);
-		echo(%bg.name @ "\c5 lot count inconsistency: Actual " @ getWordCount(%bg.lotList) @ " compared to " @ %bg.lotCount);
-		%bg.lotCount = getWordCount(%bg.lotList);
-	}
-}
-
 function isValidLotPurchase(%bg, %brick)
 {
 	//if %brick adjacent to anything in lotList, its ok
@@ -710,7 +669,7 @@ function isValidLotPurchase(%bg, %brick)
 	//(Max two contiguous groups per user) (one if the early return is not commented out)
 
 	//force an update to lotlist
-	fixLotList(%bg);
+	%bg.refreshLotList();
 
 	if (%bg.lotCount == 0) //no other lots in this group, always allow
 	{
@@ -752,38 +711,6 @@ function isValidLotPurchase(%bg, %brick)
 
 	//only allowing one lot group - must sell current lot if they want to move to a new general spot!
 	return 0;
-
-	//two group code
-	//%brick isn't adjacent to any lotList brick, check to see if all the bricks in %lotList are contiguous
-	for (%i = 0; %i < getWordCount(%lotList); %i++)
-	{
-		%lotBrick = getWord(%lotList, %i);
-
-		%width = %lotBrick.getDatablock().brickSizeX * 0.5 + 0.1;
-		%box1 = %width SPC 0 SPC 0.1; //dont want to get corner-contiguous
-		%box2 = 0 SPC %width SPC 0.1;
-
-		for (%i = 1; %i <= 2; %i++)
-		{
-			%valid = 0;
-			initContainerBoxSearch(%lotBrick.getPosition(), %box[%i], $TypeMasks::fxBrickAlwaysObjectType);
-			while (isObject(%next = containerSearchNext()))
-			{
-				if (strPos(" " @ %next @ " ", " " @ %lotList @ " ") >= 0) //its adjacent to a lotlist brick
-				{
-					%valid = 1;
-					break;
-				}
-			}
-			if (%valid == 0) //lotbrick isnt adjacent to any other lotlist bricks!
-			{
-				return 0;
-			}
-		}
-	}
-
-	//all bricks in lotlist are adjacent to another lotlist brick
-	return 1;
 }
 
 function getNumAdjacentLots(%brick)
@@ -848,6 +775,17 @@ function clearLotRecursive(%lotBrick, %client)
 	schedule(1, 0, clearLotRecursive, %lotBrick, %client);
 }
 
+
+
+
+
+
+
+
+
+
+//sell price estimator
+
 function getSellPriceSingleWrapper(%lotBrick, %client, %exp)
 {
 	%top = vectorAdd(%lotBrick.getPosition(), "0 0 0.1");
@@ -876,7 +814,7 @@ function getSellPriceSingleRecursive(%lotBrick, %cl, %exp)
 		{
 			if (%next.getDatablock().cost > 0)
 			{
-				%cl.sellPrice += %next.getDatablock().cost * 0.9;
+				%cl.sellPrice += %next.getDatablock().cost * 0.75;
 			}
 		}
 	}
@@ -935,41 +873,10 @@ function getSellPriceMultiRecursive(%cl, %num, %exp)
 		{
 			if (%next.getDatablock().cost > 0)
 			{
-				%cl.sellPrice += %next.getDatablock().cost * 0.9;
+				%cl.sellPrice += %next.getDatablock().cost * 0.75;
 			}
 		}
 	}
 	// the for loop ended and we're not done yet, keep going in a moment
 	schedule(1, 0, getSellPriceMultiRecursive, %cl, %num, %exp);
-}
-
-function fixLotColor(%brick)
-{
-	%xEven = mAbs(mFloor(getWord(%brick.getPosition(), 0) / 16)) % 2;
-	%yEven = mAbs(mFloor(getWord(%brick.getPosition(), 1) / 16)) % 2;
-
-	if (%xEven == %yEven)
-	{
-		if (%brick.getDatablock().isSingle)
-		{
-			%brick.setColor(27); //single lots colored red
-		}
-		else
-		{
-			%brick.setColor(47);
-		}
-	}
-	else
-	{
-		if (%brick.getDatablock().isSingle)
-		{
-			%brick.setColor(28); //single lots colored red
-		}
-		else
-		{
-			%brick.setColor(48);
-		}
-	}
-	%brick.setShapeFX(0);
-	%brick.setColorFX(0);
 }
