@@ -23,17 +23,6 @@ package BuildCost
 
 		return parent::onDeath(%obj);
 	}
-
-	function fxDTSBrick::onRemove(%obj)
-	{
-		%db = %obj.getDatablock();
-		if (%obj.isPlanted && %db.cost > 0 && !isEventPending(%obj.buySchedule) && !%obj.skipSell)
-		{
-			// sellObject(%obj);
-		}
-
-		return parent::onRemove(%obj);
-	}
 };
 activatePackage(BuildCost);
 
@@ -47,6 +36,13 @@ function buyBrick(%b)
 
 	%cl = %group.client;
 	%db = %b.getDatablock();
+	if (%group.isSaveClearingLot)
+	{
+		%b.skipSell = 1;
+		%b.schedule(1, delete);
+		messageClient(%cl, '', "You cannot place bricks while your lot is being unloaded!");
+		return;
+	}
 	if (%cl.score >= %db.cost && %db.cost >= 0)
 	{
 		%cl.setScore(%cl.score - %db.cost);
@@ -55,7 +51,6 @@ function buyBrick(%b)
 		%cl.centerPrint("<color:ff0000>$" @ mFloatLength(%db.cost, 2) @ "<color:ffffff> - " @ %db.uiName, 1);
 		%cl.schedule(50, centerPrint, "<color:cc0000>$" @ mFloatLength(%db.cost, 2) @ "<color:cccccc> - " @ %db.uiName, 2);
 		%cl.costMessageSchedule = schedule(800, 0, messageDeductedMoney, %cl);
-		return;
 	}
 	else if (%db.cost > 0)
 	{
@@ -63,6 +58,7 @@ function buyBrick(%b)
 		%b.skipSell = 1;
 		%b.schedule(1, delete);
 		messageClient(%cl, '', "You cannot afford to place " @ %db.uiName @ "! (Cost: $" @ mFloatLength(%db.cost, 2) @ ")");
+		return;
 	}
 	else if (%db.cost < 0)
 	{
@@ -70,6 +66,7 @@ function buyBrick(%b)
 		%b.skipSell = 1;
 		%b.schedule(1, delete);
 		messageClient(%cl, '', "You cannot place this brick!");
+		return;
 	}
 	%b.createdTimeout = $Sim::Time + $createdTimeout;
 }
@@ -122,7 +119,7 @@ function sellObject(%b)
 			%cost = %db.cost * %cl.refundRatio;
 		}
 	}
-	else
+	else //full refund for bad placement (destroying within $createdTimeout seconds after purchase)
 	{
 		%cost = %db.cost;
 	}
