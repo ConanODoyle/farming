@@ -28,6 +28,27 @@ function getStacktypeDatablock(%stackType, %count)
 	return %last;
 }
 
+function updateStackableShapeName(%item)
+{
+	%stackType = %item.getDatablock().stackType;
+	if (%stackType $= "")
+	{
+		return;
+	}
+
+	if (%item.count > getMaxStack(%stackType))
+	{
+    	%item.setShapeName(%stacktype @ " - " @ %item.count);
+    	%item.setShapeNameDistance(10);
+    	%item.shapeNameSet = 1;
+    }
+    else
+    {
+    	%item.setShapeName("");
+    	%item.shapeNameSet = 0;
+    }
+}
+
 function getMaxPickup(%pl, %stackType)
 {
 	%absoluteMax = getMaxStack(%stackType);
@@ -237,6 +258,7 @@ function pickupStackableItem(%pl, %item, %slot, %amt)
 	}
 	//item still has count left, leave it in existence
 	%item.setCollisionTimeout(%pl);
+	updateStackableShapeName(%item);
 }
 
 //code copied from default serverCmdDropTool
@@ -388,8 +410,23 @@ function checkGroupStackable(%item, %times)
         	}
 
             %item.count += %next.count;
+            %countChanged = 1;
             %next.delete();
         }
+    }
+
+    if (%countChanged)
+    {
+    	%item.setDatablock(getStacktypeDatablock(%stackType, %item.count));
+    	%p = new Projectile() {
+    		dataBlock = deathProjectile;
+    		scale = "0.2 0.2 0.2";
+    		initialPosition = %item.getPosition();
+    		initialVelocity = "0 0 -10";
+    	};
+    	%p.explode();
+
+    	updateStackableShapeName(%item);
     }
 
     schedule(1000, %item, checkGroupStackable, %item, %times++);
