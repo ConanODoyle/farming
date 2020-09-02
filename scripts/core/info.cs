@@ -76,22 +76,22 @@ function bottomprintInfo(%cl)
 {
 	cancel(%cl.bottomprintMoneySched);
 
-	if (%cl.ndMode !$= "NDM_Disabled")
+	%pl = %cl.player;
+	if (%cl.ndMode !$= "NDM_Disabled" || %pl.tool[%pl.currTool].uiname $= "Toolgun")
 	{
 		%cl.bottomprintMoneySched = schedule(1000, %cl, bottomprintInfoLoop, %cl);
 		return;
 	}
 
-	%pl = %cl.player;
 	if (isObject(%pl.tempbrick) && %pl.tempbrick.getDatablock().cost > 0)
 	{
 		%db = %pl.tempbrick.getDatablock();
-		%pre = "<color:ffff00>" @ %db.uiname SPC %db.description @ " Cost: $" @ %db.cost;
+		%pre = "\c2" @ %db.uiname SPC %db.description @ " Cost: $" @ %db.cost;
 	}
 	else if (%client.infoPrefix $= "")
 	{
 		%experience = %cl.farmingExperience = mFloor(%cl.farmingExperience + 0);
-		%pre = "<color:ffff00>XP: " @ %experience SPC %cl.latestExp;
+		%pre = "\c2XP: " @ %experience SPC %cl.latestExp;
 		
 		if (isObject(%pl) && isObject(%image = %pl.getMountedImage(0)))
 		{
@@ -105,7 +105,7 @@ function bottomprintInfo(%cl)
 			{
 				if (%cl.farmingExperience < %expRequirement || %cl.farmingExperience < %expCost)
 				{
-					%color = "<color:ff0000>";
+					%color = "\c0";
 				}
 				else if (%expCost <= %cl.farmingExperience && %expCost > 0)
 				{
@@ -123,7 +123,7 @@ function bottomprintInfo(%cl)
 			}
 			else if (%image.toolTip !$= "")
 			{
-				%pre = %pre @ "<color:ffffff>     [" @ %image.toolTip @ "]";
+				%pre = %pre @ "\c6     [" @ %image.toolTip @ "]";
 			}
 			else
 			{
@@ -141,7 +141,7 @@ function bottomprintInfo(%cl)
 						if (%hit.getDatablock().isSingle)
 						{
 							%isSingle = 1;
-							%single = "Single ";
+							%single = "Center ";
 						}
 						break;
 					}
@@ -150,11 +150,11 @@ function bottomprintInfo(%cl)
 
 				if (%owner !$= "" && %bl_id != 888888 && %bl_id != 999999)
 				{
-					%pre = %pre @ "<color:ffffff>      [" @ %single @ "Lot Owner: <color:ffff00>" @ %owner @ "<color:ffffff>]";
+					%pre = %pre @ "\c6      [" @ %single @ "Lot Owner: \c2" @ %owner @ "\c6]";
 				}
 				else if (%owner !$= "")
 				{
-					%pre = %pre @ "<color:ffffff>      [" @ %single @ "Lot Owner: None]";
+					%pre = %pre @ "\c6      [" @ %single @ "Lot Owner: None]";
 				}
 			}
 		}
@@ -174,7 +174,7 @@ function bottomprintInfo(%cl)
 					if (%hit.getDatablock().isSingle)
 					{
 						%isSingle = 1;
-						%single = "Single ";
+						%single = "Center ";
 					}
 					break;
 				}
@@ -183,16 +183,23 @@ function bottomprintInfo(%cl)
 
 			if (%owner !$= "" && %bl_id != 888888 && %bl_id != 999999)
 			{
-				%pre = %pre @ "<color:ffffff>      [" @ %single @ "Lot Owner: <color:ffff00>" @ %owner @ "<color:ffffff>]";
+				%pre = %pre @ "\c6      [" @ %single @ "Lot Owner: \c2" @ %owner @ "\c6]";
 			}
 			else if (%owner !$= "")
 			{
-				%pre = %pre @ "<color:ffffff>      [" @ %single @ "Lot Owner: None]";
+				%pre = %pre @ "\c6      [" @ %single @ "Lot Owner: None]";
 			}
 		}
 	}
 
-	%amount = "<just:right><color:ffff00>Money: $" @ mFloatLength(%cl.score, 2);
+	if (%cl.isBuilder)
+	{
+		%amount = "<just:right>\c5Builder Mode \c4$" @ mFloatLength(%cl.score, 2);
+	}
+	else
+	{
+		%amount = "<just:right>\c3Money: $" @ mFloatLength(%cl.score, 2);
+	}
 
 	%cl.bottomprint(%pre @ %amount @ " ", 2, 0);
 }
@@ -244,7 +251,7 @@ function GameConnection::addExperience(%cl, %exp)
 		cancel(%cl.resetRecentExpSched);
 		%cl.recentEXP += %exp;
 		%cl.farmingExperience += %exp;
-		%cl.latestExp = (%cl.recentEXP < 0 ? "<color:ff0000>" @ %cl.recentEXP + 0 @ "<color:ffff00>" : "+" @ %cl.recentEXP + 0);
+		%cl.latestExp = (%cl.recentEXP < 0 ? "\c0" @ %cl.recentEXP + 0 @ "\c2" : "+" @ %cl.recentEXP + 0);
 		bottomprintInfoLoop(%cl); //force update bottomprint
 		%cl.resetRecentExpSched = schedule(4000, %cl, eval, %cl @ ".recentEXP = 0; " @ %cl @ ".latestExp = \"\";");
 	}

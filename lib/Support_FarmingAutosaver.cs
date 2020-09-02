@@ -15,9 +15,17 @@ function saveLotBLID(%bl_id)
 	%save_date = strReplace(getWord(%date, 0), "/", "-");
 	%save_time = stripChars(getWord(%date, 1), ":");
 
-	%name = "Lot Autosave (" @ %bl_id @ ") - " @ %save_date @ " at " @ %save_time;
+	%name = "Lots/" @ %bl_id @ "/Lot Autosave (" @ %bl_id @ ") - " @ %save_date @ " at " @ %save_time;
 	$Pref::Farming::LastLotAutosave[%bl_id] = %name;
-	Autosaver_Begin(%name, %bl_id);
+
+	//force autosave to happen even without changes
+	$Server::AS["BrickChanged"] = 1;
+	if (Autosaver_Begin(%name, %bl_id) == -100)
+	{
+		echo("ERROR: saveLotBLID - autosaver is running");
+		return -1;
+	}
+	return 0;
 }
 
 function loadLotAutosave(%name, %position)
@@ -32,7 +40,15 @@ function loadLotAutosave(%name, %position)
 	%file.delete();
 	%offset = getField(%desc, 1);
 
-	$loadOffset = vectorSub(%position, %offset);
+	if (%position !$= "")
+	{
+		$loadOffset = vectorSub(%position, %offset);
+	}
+	else
+	{
+		$loadOffset = "0 0 0";
+	}
+	talk("Set loadoffset to " @ $loadOffset @ " - description: " @ %desc);
 	// return;
 	loadAutosave(%name);
 }
@@ -85,6 +101,15 @@ package FarmingAutosaverLoader
 
 		schedule(100, 0, resetLotLoading);
 	}
+
+	function Autosaver_Begin(%name, %bl_id)
+	{
+		if ($Server::AS["InUse"])
+		{
+			return -100;
+		}
+		return parent::Autosaver_Begin(%name, %bl_id);
+	}
 };
 activatePackage(FarmingAutosaverLoader);
 
@@ -118,7 +143,10 @@ function Autosaver_InitGroups()
 		//START OF CHANGES
 		if ($LotCenterBrick $= " " || $Server::ASGroupCount > 1)
 		{
-			talk("Multiple lot center bricks found/global saving");
+			if ($Server::ASGroupCount > 1)
+				talk("Global saving");
+			else
+				talk("Multiple or no lot center bricks found!");
 			$LotCenterBrick = "";
 		}
 		else
@@ -280,7 +308,7 @@ function Autosave_GroupTick(%group, %count)
 }
 
 //FUNCTION SIGNATURE CHANGED
-function Autosaver_SaveInit(%desc)
+function Autosaver_SaveInit(%desc, %extraSet)
 {
 	//Autosaver_SetState("Save init");
 	%dir = $Pref::Server::AS_["Directory"];
@@ -308,4 +336,54 @@ function Autosaver_SaveInit(%desc)
 	$Server::AS["BricksSaved"] = 0;
 	$Server::AS["Eventcount"] = 0;
 	Autosaver_SaveTick($Server::AS["TempB"], 0);
+}
+
+//FUNCTION SIGNATURE CHANGED
+function Autosaver_SaveTick(%file, %count, %extraSet)
+{
+	if(!$Server::AS["InUse"])
+	{
+		if(isObject(%file))
+		{
+			%file.close();
+			%file.delete();
+		}
+
+		return 0;
+	}
+
+	%events = $Pref::Server::AS_["SaveEvents"];
+	%ownership = $Pref::Server::AS_["SaveOwnership"];
+	%rCount = $Server::AS["Brickcount"] + %extraSet.getCount();
+
+	if($Pref::Server::AS_["ShowProgress"])
+	{
+		if($Pref::Server::AS_["TimeElapsed"])
+		{
+			%time = mCeil((getRealTime() - $Server::AS["Init"]) / 1000);
+			%timeStr = "\n\c6Time elapsed: \c3" @ getTimeString(%time) @ " ";
+		}
+
+		%progress = mFloatLength((%count / %rCount) * 100, 1);
+		CenterPrintAll("<just:right>\c6Saving... \n<font:arial bold:20>\c3" @ %progress @ "\c6% " @ %timeStr, 1);
+	}
+
+	for(%i = %count; %i <= %count + $Pref::Server::AS_["ChunkCount"]; %i++)
+	{
+		if(%i >= %rCount)
+		{
+			//Autosaver_SetState("Saved bricks: " @ %i);
+			Autosaver_Save(%file);
+			return;
+		}
+
+		%brick = ($Server::TempAS["NeatSaving"] ? $Server::AS["List"].getRowID(%i) : $Server::ASBrickIdx[%i]);
+		if(isObject(%brick))
+		{
+			$Server::AS["EventCount"] += %brick.saveToFile(%events, %ownership, %file);
+			$Server::AS["BricksSaved"]++;
+		}
+	}
+
+	schedule($Pref::Server::AS_["Tick"], 0, "Autosaver_SaveTick", %file, %count + $Pref::Server::AS_["ChunkCount"] + 1);
 }

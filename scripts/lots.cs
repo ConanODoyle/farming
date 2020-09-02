@@ -217,7 +217,7 @@ function fxDTSBrick::updateGroupLotCount(%brick, %amt)
 
 function SimGroup::refreshLotList(%bg)
 {
-	if (%bg.bl_id == 888888) //no need to manage lots in public brickgroup
+	if (%bg.bl_id == 888888 || %bg.bl_id $= "") //no need to manage lots in public brickgroup
 	{
 		return;
 	}
@@ -382,7 +382,7 @@ function getLotCost(%count, %lot)
 
 	if (!%lot.getDatablock().isSingle)
 	{
-		%expCost = 100;
+		%expCost = 100 * mFloor(mPow(%count, 1.5));
 	}
 	return %cost SPC %expCost;
 }
@@ -438,16 +438,12 @@ function serverCmdBuyLot(%cl)
 	}
 	else if (!isValidLotPurchase(%cl.brickGroup, %hit))
 	{
-		messageClient(%cl, '', "You can only have one single lot, or one connected group of normal lots!");
+		messageClient(%cl, '', "You can only have one connected group of lots!");
 		return;
 	}
 	else if (%cl.repeatBuyLot != %hit)
 	{
-		if (!%hit.getDatablock().isSingle)
-		{
-			%cost = %cost SPC "and 100 EXP";
-		}
-		messageClient(%cl, '', "\c5This lot will cost you \c3$" @ %cost @ "\c5. Repeat /buylot to confirm.");
+		messageClient(%cl, '', "\c5This lot will cost you \c3" @ %costString @ "\c5. Repeat /buylot to confirm.");
 		%cl.repeatBuyLot = %hit;
 		cancel(%cl.clearRepeatBuyLotSched);
 		%cl.clearRepeatBuyLotSched = schedule(5000, %cl, eval, %cl @ ".repeatBuyLot = 0;");
@@ -455,7 +451,7 @@ function serverCmdBuyLot(%cl)
 	}
 
 	%cl.setScore(%cl.score - %costMoney);
-	%cl.addExperience(%costExp);
+	%cl.addExperience(-1 * %costExp);
 	clearLotRecursive(%hit, %cl);
 	%cl.brickGroup.add(%hit);
 	%hit.updateGroupLotCount(1);
@@ -478,14 +474,9 @@ function serverCmdSellLot(%cl, %force)
 		%force = 0;
 	}
 
-	// %start = %cl.player.getHackPosition();
-	// %end = vectorAdd(%start, "0 0 -10");
-	// %ray = containerRaycast(%start, %end, $TypeMasks::fxBrickObjectType);
-	// %hit = getWord(%ray, 0);
-
 	%start = %pl.getHackPosition();
-	%end = getWords(%start, 0, 1) SPC 0;
-	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickAlwaysObjectType);
+	%end = vectorAdd(%start, "0 0 -10");
+	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
 	%hit = getWord(%ray, 0);
 
 	if (!isObject(%hit) || !%hit.getDatablock().isLot)
@@ -509,7 +500,7 @@ function serverCmdSellLot(%cl, %force)
 		if (!%force)
 		{
 			messageClient(%cl, '', "\c5Are you sure you want to sell this lot? Any bricks above it will be removed with 75% refund. Repeat this command to confirm.");
-			getSellPriceSingleWrapper(%hit, %cl, (%hit.getDatablock().isSingle ? 0 : 100));
+			getSellPriceSingleWrapper(%hit, %cl, %costExp);
 		}
 		else
 			messageClient(%cl, '', "\c5Are you sure you want to force sell this lot? Any bricks above it will be removed. Type /sellLot 1 to confirm.");
@@ -571,21 +562,15 @@ function serverCmdSellAllLots(%cl)
 
 		%cl.sellPrice = 0;
 		%countCopy = %count;
-		if (%countCopy > 1 || getNumAdjacentLots(%list) > 0)
-		{
-			%cl.sellPrice += 1000; //multiple lots, must have been adjacent, first must have cost 1k
-			%sellExperience = 1;
-			%totalExpRefund = 100;
-		}
+		%totalCostRefund = 0;
+		%totalExpRefund = 0;
 		while (%countCopy > 1)
 		{
-			if (%countCopy > 4)
-				%cl.sellPrice += mPow(2, %countCopy - 2) * 3000;
-			else
-				%cl.sellPrice += mPow(2, %countCopy - 1) * 1000;
-
-			if (%sellExperience)
-				%totalExpRefund += 100;
+			%lot = getWord(%list, %countCopy - 1);
+			%cost = getLotCost(%countCopy - 1, %lot);
+			
+			%totalCostRefund += getWord(%cost, 0);
+			%totalExpRefund += getWord(%cost, 1);
 
 			%countCopy--;
 		}
@@ -673,10 +658,6 @@ function isValidLotPurchase(%bg, %brick)
 	for (%i = 0; %i < getWordCount(%lotList); %i++)
 	{
 		%curr = getWord(%lotList, %i);
-		if (%curr.getDatablock().isSingle)
-		{
-			return 0;
-		}
 		%inList_[getWord(%lotList, %i)] = 1;
 	}
 
@@ -701,28 +682,38 @@ function isValidLotPurchase(%bg, %brick)
 	return 0;
 }
 
-function getNumAdjacentLots(%brick)
+function getNumAdjacentLots(%brick, %mode)
 {
-	if (%brick.getDatablock().isSingle)
-	{
-		return 0;
-	}
-
 	%width = %brick.getDatablock().brickSizeX * 0.5 + 0.1;
-	%box1 = %width SPC 0 SPC 0.1; //dont want to get corner-contiguous
-	%box2 = 0 SPC %width SPC 0.1;
+
+	switch$ (%mode)
+	{
+		case "all":
+			%box1 = %width SPC %width SPC 0.1;
+		default:
+			%box1 = %width SPC 0 SPC 0.1; //dont want to get corner-contiguous
+			%box2 = 0 SPC %width SPC 0.1;
+	}
 
 	%count = 0;
 	for (%i = 1; %i <= 2; %i++)
 	{
+		if (%box[%i] $= "")
+		{
+			continue;
+		}
+
 		initContainerBoxSearch(%brick.getPosition(), %box[%i], $TypeMasks::fxBrickAlwaysObjectType);
 		while (isObject(%next = containerSearchNext()))
 		{
 			if (%next != %brick && %next.getDatablock().isLot && !%next.getDatablock().isSingle)
+			{
 				%count++;
+				%list = %list SPC %next;
+			}
 		}
 	}
-	return %count;
+	return %count TAB trim(%list);
 }
 
 function getLotCount(%bg)
