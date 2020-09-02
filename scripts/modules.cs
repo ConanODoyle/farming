@@ -15,6 +15,7 @@ exec("./chatFilter.cs");
 exec("./chestScore.cs");
 exec("./donator.cs");
 exec("./lots.cs");
+exec("./lotmoving.cs");
 exec("./weather.cs");
 exec("./wateringCat.cs");
 exec("./weedLmao.cs");
