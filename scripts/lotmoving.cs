@@ -197,7 +197,7 @@ function obtainAllOwnership(%lotBrick)
 		}
 
 
-		if (%next.getGroup() == %lotGroup
+		if (%next.getGroup() != %lotGroup
 			&& isContainedInBounds(%next.getPosition() TAB %next.getPosition(), %lotBounds))
 		{
 			%lotGroup.add(%next);
