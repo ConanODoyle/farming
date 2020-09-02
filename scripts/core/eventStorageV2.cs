@@ -207,10 +207,22 @@ function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCou
 	else if (%totalAvailableSpace > 0)
 	{
 		//only enough space for some insertion
+		for (%i = 0; %i < %spaces; %i++)
+		{
+			%slot = getWord(%availableSpace[%i], 0);
+			%spaceAvailable = getWord(%availableSpace[%i], 1);
+			%amountPresent = getWord(%availableSpace[%i], 2);
 
+			%value = getStorageValue(%storeItemDB, %insertCount);
+			%insertAmount = getMin(%insertCount, %spaceAvailable);
+			%insertCount -= %insertAmount;
+			%total = %amountPresent + %insertAmount;
+			%value = getField(%value, 0) TAB %total;
+			setDataIDArrayValue(%dataID, %slot, %value);
+		}
 
 		%brick.updateStorageMenu(%dataID);
-		return 1 SPC %insertCount - %totalAvailableSpace;
+		return 1 SPC %insertCount;
 	}
 	else
 	{
@@ -330,14 +342,6 @@ function fxDTSBrick::getStorageMax(%brick, %itemDB)
 
 
 
-
-
-
-
-
-
-
-
 function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
 {
 	%brick.updateStorageMenu(%dataID);
@@ -435,6 +439,58 @@ function addStorageEvent(%this, %botForm)
 	}
 }
 
+function dropStoredItems(%brick)
+{
+	%db = %brick.getDatablock();
+	%dataID = %brick.eventOutputParameter0_1;
+	for (%i = 0; %i < %db.storageSlotCount; %i++)
+	{
+		%storageSlot = %i + 1;
+		%storageData = validateStorageValue(getDataIDArrayValue(%dataID, %storageSlot));
+		%itemDB = getField(%storageData, 0);
+		%storageCount = getField(%storageData, 2);
+		%packageInfo = getField(%storageData, 3);
+
+		%stackType = %itemDB.stackType;
+
+		%max = $Stackable_[%stackType, "stackedItemTotal"] - 1;
+		%amt = %storageCount;
+		// talk("stackType: " @ %stackType @ " max: " @ %max @ " | " @ $Stackable_[%stackType, "stackedItem" @ %max]);
+
+		if (!isObject(%itemDB))
+		{
+			continue;
+		}
+
+		while (%amt > 0)
+		{
+			%item = new Item()
+			{
+				dataBlock = %itemDB;
+				count = %amt;
+				deliveryPackageInfo = %packageInfo;
+				sourceClient = getBrickgroupFromObject(%brick).client;
+				sourceBrickgroup = getBrickgroupFromObject(%brick).client;
+			};
+			MissionCleanup.add(%item);
+			%vel = (getRandom(6) - 3) / 2 SPC  (getRandom(6) - 3) / 2 SPC 6;
+			%item.setTransform(%brick.getPosition());
+			%item.setVelocity(%vel);
+			%item.schedule(60000, schedulePop);
+			if (%stackType $= "")
+			{
+				%amt--; //not normally stackable (tool)
+			}
+			else
+			{
+				%amt = 0; //included the full stack in the first drop
+			}
+		}
+		setDataIDArrayValue(%dataID, %storageSlot, "");
+	}
+}
+
+
 
 
 
@@ -482,35 +538,33 @@ package StorageBricks
 		}
 	}
 
-	function fxDTSBrick::onRemove(%this)
+	function fxDTSBrick::onDupCut(%this)
 	{
 		if (isObject(%this.centerprintMenu))
 		{
 			%this.centerprintMenu.delete();
 		}
 
-		%idx = %this.eventOutputIdx[0];
-		if (%this.getDatablock().isStorageBrick || (%idx !$= "" && $OutputEvent_Name["fxDTSBrick", %idx] $= "displayStorageContents"))
+		if (%this.getDatablock().isStorageBrick)
 		{
 			if (!%this.droppedStoredItems)
 			{
 				%this.droppedStoredItems = 1; 
-				dropStoredItems(%this); //TODO: Implement
+				dropStoredItems(%this);
 			}
 		}
 
-		return parent::onRemove(%this);
+		return parent::onDupCut(%this);
 	}
 
 	function fxDTSBrick::onDeath(%this) 
 	{
-		%idx = %this.eventOutputIdx[0];
-		if (%this.getDatablock().isStorageBrick || (%idx !$= "" && $OutputEvent_Name["fxDTSBrick", %idx] $= "displayStorageContents"))
+		if (%this.getDatablock().isStorageBrick)
 		{
 			if (!%this.droppedStoredItems)
 			{
 				%this.droppedStoredItems = 1;
-				dropStoredItems(%this); //TODO: Implement
+				dropStoredItems(%this);
 			}
 		}
 		return parent::onDeath(%this);
@@ -527,7 +581,7 @@ package StorageBricks
 			if (isObject(%hit) && %hit.getDatablock().isStorageBrick)
 			{
 				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1], %item, %pl.toolStackCount[%slot] == 0 ? 1 : %pl.toolStackCount[%slot]);
-				if (%success < 2)
+				if (%success < 1) //complete insertion
 				{
 					%pl.toolStackCount[%slot] = 0;
 					%pl.tool[%slot] = 0;
@@ -535,6 +589,18 @@ package StorageBricks
 					if (%pl.currTool == %slot)
 					{
 						%pl.unmountImage(0);
+					}
+					return;
+				}
+				else if (%success < 2) //partial insertion
+				{
+					%pl.toolStackCount[%slot] = getWord(%success, 1);
+					%db = getStackTypeDatablock(%pl.tool[%slot].stackType, getWord(%success, 1)).getID();
+					messageClient(%cl, 'MsgItemPickup', "", %slot, %db);
+					%pl.tool[%slot] = %db;
+					if (%pl.currTool == %slot)
+					{
+						%pl.mountImage(%db.image, 0);
 					}
 					return;
 				}

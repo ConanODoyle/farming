@@ -64,10 +64,7 @@ package BuildCost
 			}
 
 			//START OF CHANGES
-			if (%brick.dataBlock.cost > 0)
-			{
-				sellObject(%brick);
-			}
+			fxDTSBrick::onDupCut(%brick);
 			//END OF CHANGES
 			%brick.delete();
 			%cutSuccessCount++;
@@ -90,6 +87,15 @@ package BuildCost
 			%this.finishCutting();
 		else
 			%this.cutSchedule = %this.schedule(30, tickCutting);
+	}
+
+	function fxDTSBrick::onDupCut(%brick)
+	{	
+		if (%brick.dataBlock.cost > 0)
+		{
+			sellObject(%brick);
+		}
+		parent::onDupCut(%brick);
 	}
 };
 activatePackage(BuildCost);
