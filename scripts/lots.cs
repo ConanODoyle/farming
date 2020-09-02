@@ -724,9 +724,9 @@ function getLotCount(%bg)
 function clearLotRecursive(%lotBrick, %client)
 {
 	%top = vectorAdd(%lotBrick.getPosition(), "0 0 0.1");
-	%pos = vectorAdd(%top, "0 0 100");
+	%pos = vectorAdd(%top, "0 0 " @ $maxLotBuildHeight / 2);
 	%box = %lotBrick.getDatablock().brickSizeX * 0.5 - 0.05;
-	%box = %box SPC %box SPC 199.95;
+	%box = %box SPC %box SPC ($maxLotBuildHeight - 0.05);
 
 
 	%lotBounds = getBrickBounds(%lotBrick, $maxLotBuildHeight);
@@ -744,7 +744,7 @@ function clearLotRecursive(%lotBrick, %client)
 
 		if (isContainedInBounds(%next.getPosition() TAB %next.getPosition(), %lotBounds))
 		{
-			if (%next.getDatablock().cost > 0)
+			if (%next.getDatablock().cost > 0 && isObject(%client))
 			{
 				sellObject(%next);
 			}

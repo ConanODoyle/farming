@@ -326,7 +326,7 @@ function Autosaver_SaveInit(%desc, %extraSet)
 
 	$Server::AS["TempB"].writeLine("This is a Blockland save file.  You probably shouldn't modify it cause you'll mess it up.");
 	$Server::AS["TempB"].writeLine("1");
-	$Server::AS["TempB"].writeLine(%desc);
+	$Server::AS["TempB"].writeLine(%desc); //ADDED description export
 
 	for(%i = 0; %i < 64; %i++)
 		$Server::AS["TempB"].writeLine(getColorIDTable(%i));
@@ -336,54 +336,4 @@ function Autosaver_SaveInit(%desc, %extraSet)
 	$Server::AS["BricksSaved"] = 0;
 	$Server::AS["Eventcount"] = 0;
 	Autosaver_SaveTick($Server::AS["TempB"], 0);
-}
-
-//FUNCTION SIGNATURE CHANGED
-function Autosaver_SaveTick(%file, %count, %extraSet)
-{
-	if(!$Server::AS["InUse"])
-	{
-		if(isObject(%file))
-		{
-			%file.close();
-			%file.delete();
-		}
-
-		return 0;
-	}
-
-	%events = $Pref::Server::AS_["SaveEvents"];
-	%ownership = $Pref::Server::AS_["SaveOwnership"];
-	%rCount = $Server::AS["Brickcount"] + %extraSet.getCount();
-
-	if($Pref::Server::AS_["ShowProgress"])
-	{
-		if($Pref::Server::AS_["TimeElapsed"])
-		{
-			%time = mCeil((getRealTime() - $Server::AS["Init"]) / 1000);
-			%timeStr = "\n\c6Time elapsed: \c3" @ getTimeString(%time) @ " ";
-		}
-
-		%progress = mFloatLength((%count / %rCount) * 100, 1);
-		CenterPrintAll("<just:right>\c6Saving... \n<font:arial bold:20>\c3" @ %progress @ "\c6% " @ %timeStr, 1);
-	}
-
-	for(%i = %count; %i <= %count + $Pref::Server::AS_["ChunkCount"]; %i++)
-	{
-		if(%i >= %rCount)
-		{
-			//Autosaver_SetState("Saved bricks: " @ %i);
-			Autosaver_Save(%file);
-			return;
-		}
-
-		%brick = ($Server::TempAS["NeatSaving"] ? $Server::AS["List"].getRowID(%i) : $Server::ASBrickIdx[%i]);
-		if(isObject(%brick))
-		{
-			$Server::AS["EventCount"] += %brick.saveToFile(%events, %ownership, %file);
-			$Server::AS["BricksSaved"]++;
-		}
-	}
-
-	schedule($Pref::Server::AS_["Tick"], 0, "Autosaver_SaveTick", %file, %count + $Pref::Server::AS_["ChunkCount"] + 1);
 }

@@ -7,14 +7,23 @@ function unloadLot(%bl_id)
 		error("ERROR: unloadLot - no brickgroup with BLID " @ %bl_id @ " exists!");
 		return;
 	}
-	if ($Server::AS["InUse"])
+	if ($Server::AS["InUse"] || isObject($CurrentLotSaving))
 	{
 		return -1;
 	}
+
+	%set = new SimSet(NonOwnedBricks);
+	for (%i = 0; %i < %bg.lotCount; %i++)
+	{
+		%b = getWord(%bg.lotList, %i);
+		obtainAllOwnership(%b, %set);
+	}
 	%bg.isSaveClearingLot = 1;
 	$CurrentLotSaving = %bg;
+	$CurrentLotSavingExtraBricks = %set;
 	if (saveLotBLID(%bl_id) == -1)
 	{
+		%set.delete();
 		return -1;
 	}
 }
@@ -119,6 +128,8 @@ function clearLots(%bg)
 		{
 			Brickgroup_888888.add(%b);
 			fixLotColor(%b);
+
+			schedule(100, %b, clearLotRecursive, %b);
 		}
 		else
 		{
@@ -161,5 +172,35 @@ function restoreLotBricks(%dataObj)
 		%b.setTrusted(1);
 		Brickgroup_888888.add(%b);
 	}
-	talk("Restored bricks in " @ %dataObj);
+	%dataObj.delete();
+}
+
+function obtainAllOwnership(%lotBrick)
+{
+	%lotGroup = %lotBrick.getGroup();
+
+	%top = vectorAdd(%lotBrick.getPosition(), "0 0 0.1");
+	%pos = vectorAdd(%top, "0 0 " @ $maxLotBuildHeight / 2);
+	%box = %lotBrick.getDatablock().brickSizeX * 0.5 - 0.05;
+	%box = %box SPC %box SPC ($maxLotBuildHeight - 0.05);
+
+
+	%lotBounds = getBrickBounds(%lotBrick, $maxLotBuildHeight);
+
+	initContainerBoxSearch(%pos, %box, $TypeMasks::fxBrickAlwaysObjectType);
+	for (%i = 0; %i < 1024 * 20; %i++)
+	{
+		if (!isObject(%next = containerSearchNext()))
+		{
+			//we're done
+			break;
+		}
+
+
+		if (%next.getGroup() == %lotGroup
+			&& isContainedInBounds(%next.getPosition() TAB %next.getPosition(), %lotBounds))
+		{
+			%lotGroup.add(%next);
+		}
+	}
 }
