@@ -18,6 +18,8 @@ datablock ItemData(QuestItem)
 
     image = QuestImage;
     canDrop = true;
+
+    hasDataID = true;
 };
 
 datablock ShapeBaseImageData(QuestImage)
