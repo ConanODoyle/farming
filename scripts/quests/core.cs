@@ -69,7 +69,7 @@ function GameConnection::completeQuest(%client, %questID) {
 	%rewardStart = getDataIDArrayTagValue(%questID, "numRequests");
 	%numRewards = getDataIDArrayTagValue(%questID, "numRewards");
 	for (%i = 0; %i < %numRewards; %i++) {
-		%reward = getDataIDArrayValue(%questID, %rewardStart + %i)
+		%reward = getDataIDArrayValue(%questID, %rewardStart + %i);
 		%item = getWord(%reward, 0);
 		%count = getWord(%reward, 1);
 
