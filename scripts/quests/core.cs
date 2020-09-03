@@ -87,7 +87,7 @@ function GameConnection::completeQuest(%client, %questID) {
 function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 	%numRequests = getDataIDArrayTagValue(%questID, "numRequests"); // needed for offset
 	if (%displayRewards) {
-		%displayString = "\c3-Quest Rewards-\n\c3";
+		%displayString = "<just:right>\c3-Quest Rewards-\n\c3";
 		%numRewards = getDataIDArrayTagValue(%questID, "numRewards");
 		for (%i = 0; %i < %numRewards; %i++) {
 			%reward = getDataIDArrayValue(%questID, %numRequests + %i); // offset by number of requests into array
@@ -97,7 +97,7 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 			%displayString = %displayString @ %item @ "\c6:" SPC %count @ "\n\c3";
 		}
 	} else {
-		%displayString = "\c3-Quest Requests-\n\c3";
+		%displayString = "<just:right>\c3-Quest Requests-\n\c3";
 		for (%i = 0; %i < %numRequests; %i++) {
 			%request = getDataIDArrayValue(%questID, %i);
 			%item = getWord(%request, 0);
