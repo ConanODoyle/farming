@@ -1,5 +1,10 @@
 function purchaseVehicle(%cl, %vehicle)
 {
+	if (%cl.isBuilder)
+	{
+		return 1;
+	}
+	
 	if (!isObject(%vehicle))
 	{
 		if (isObject(%cl.wrenchBrick) && isObject(%cl.wrenchBrick.vehicle) && %cl.wrenchBrick.vehicle.getDatablock().cost > 0)
