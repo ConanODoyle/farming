@@ -88,7 +88,7 @@ function GameConnection::completeQuest(%client, %questID) {
 function GameConnection::displayQuest(%client, %questID) {
 	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
 	talk("Requests:");
-	for (%i = 0; %i < %numRewards; %i++) {
+	for (%i = 0; %i < %numRequests; %i++) {
 		%request = getDataIDArrayValue(%questID, %i);
 		%item = getWord(%request, 0);
 		%count = getWord(%request, 1);
