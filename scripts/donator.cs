@@ -122,13 +122,13 @@ function getDonatorMessage(%msg)
 		{
 			%url = stripChars(%word, "<>{}#|^");
 			%urlFormat = "<a:" @ %url @ ">";
-			%msg = setWord(%msg, %i, %urlFormat @ getSubStr(%word, 7, 1000));
+			%msg = setWord(%msg, %i, %urlFormat @ getSubStr(%word, 7, 1000) @ "</a>c6");
 		}
 		else if (getSubStr(%word, 0, 8) $= "https://")
 		{
 			%url = stripChars(%word, "<>{}#|^");
 			%urlFormat = "<a:" @ %url @ ">";
-			%msg = setWord(%msg, %i, %urlFormat @ getSubStr(%word, 8, 1000));
+			%msg = setWord(%msg, %i, %urlFormat @ getSubStr(%word, 8, 1000) @ "</a>\c6");
 		}
 	}
 	return %msg;
