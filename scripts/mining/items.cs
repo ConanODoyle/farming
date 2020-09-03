@@ -18,7 +18,7 @@ datablock ItemData(CoalBasket0Item : HammerItem)
 {
 	shapeFile = "./resources/CoalBasket0.dts";
 	uiName = "Coal Basket";
-	image = "CoalBasket0ImageTemp";
+	image = "CoalBasket0Image";
 	doColorShift = false;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/Coal_Basket";
@@ -32,7 +32,7 @@ datablock ItemData(CoalBasket1Item : HammerItem)
 	shapeFile = "./resources/CoalBasket1.dts";
 
 	uiName = "Half Coal Basket";
-	image = "CoalBasket1ImageTemp";
+	image = "CoalBasket1Image";
 	doColorShift = false;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/Coal_Basket_Half";
@@ -46,7 +46,7 @@ datablock ItemData(CoalBasket2Item : HammerItem)
 	shapeFile = "./resources/CoalBasket2.dts";
 
 	uiName = "Full Coal Basket";
-	image = "CoalBasket2ImageTemp";
+	image = "CoalBasket2Image";
 	doColorShift = false;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/Coal_Star";
@@ -55,7 +55,7 @@ datablock ItemData(CoalBasket2Item : HammerItem)
 	stackType = "Coal";
 };
 
-datablock ShapeBaseImageData(CoalBasket0ImageTemp)
+datablock ShapeBaseImageData(CoalBasket0Image)
 {
 	shapeFile = "./resources/CoalBasket0.dts";
 	emap = true;
@@ -92,76 +92,76 @@ datablock ShapeBaseImageData(CoalBasket0ImageTemp)
 	stateWaitForTimeout[3] = true;
 };
 
-datablock ShapeBaseImageData(CoalBasket1ImageTemp : CoalBasket0ImageTemp) 
+datablock ShapeBaseImageData(CoalBasket1Image : CoalBasket0Image) 
 {
 	shapeFile = "./resources/CoalBasket1.dts";
 
 	item = CoalBasket1Item;
 };
 
-datablock ShapeBaseImageData(CoalBasket2ImageTemp : CoalBasket0ImageTemp) 
+datablock ShapeBaseImageData(CoalBasket2Image : CoalBasket0Image) 
 {
 	shapeFile = "./resources/CoalBasket2.dts";
 
 	item = CoalBasket2Item;
 };
 
-function CoalBasket0ImageTemp::onFire(%this, %obj, %slot)
+function CoalBasket0Image::onFire(%this, %obj, %slot)
 {
 
 }
 
-function CoalBasket1ImageTemp::onFire(%this, %obj, %slot)
+function CoalBasket1Image::onFire(%this, %obj, %slot)
 {
 
 }
 
-function CoalBasket2ImageTemp::onFire(%this, %obj, %slot)
+function CoalBasket2Image::onFire(%this, %obj, %slot)
 {
 
 }
 
-function CoalBasket0ImageTemp::onMount(%this, %obj, %slot)
-{
-	%obj.playThread(1, "armReadyBoth");
-}
-
-function CoalBasket1ImageTemp::onMount(%this, %obj, %slot)
+function CoalBasket0Image::onMount(%this, %obj, %slot)
 {
 	%obj.playThread(1, "armReadyBoth");
 }
 
-function CoalBasket2ImageTemp::onMount(%this, %obj, %slot)
+function CoalBasket1Image::onMount(%this, %obj, %slot)
 {
 	%obj.playThread(1, "armReadyBoth");
 }
 
-function CoalBasket0ImageTemp::onUnmount(%this, %obj, %slot)
+function CoalBasket2Image::onMount(%this, %obj, %slot)
+{
+	%obj.playThread(1, "armReadyBoth");
+}
+
+function CoalBasket0Image::onUnmount(%this, %obj, %slot)
 {
 
 }
 
-function CoalBasket1ImageTemp::onUnmount(%this, %obj, %slot)
+function CoalBasket1Image::onUnmount(%this, %obj, %slot)
 {
 
 }
 
-function CoalBasket2ImageTemp::onUnmount(%this, %obj, %slot)
+function CoalBasket2Image::onUnmount(%this, %obj, %slot)
 {
 
 }
 
-function CoalBasket0ImageTemp::onLoop(%this, %obj, %slot)
+function CoalBasket0Image::onLoop(%this, %obj, %slot)
 {
 	foodLoop(%this, %obj);
 }
 
-function CoalBasket1ImageTemp::onLoop(%this, %obj, %slot)
+function CoalBasket1Image::onLoop(%this, %obj, %slot)
 {
 	foodLoop(%this, %obj);
 }
 
-function CoalBasket2ImageTemp::onLoop(%this, %obj, %slot)
+function CoalBasket2Image::onLoop(%this, %obj, %slot)
 {
 	foodLoop(%this, %obj);
 }
