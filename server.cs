@@ -29,6 +29,7 @@ exec("./util/eventParser.cs");
 exec("./util/disableWrenchAndBuild.cs");
 exec("./util/clearScripts.cs");
 exec("./util/convTime.cs");
+exec("./util/chanceSpawnItem.cs");
 exec("./util/dualClient.cs");
 exec("./util/fixSchedulePop.cs");
 exec("./util/getRandomHash.cs");
