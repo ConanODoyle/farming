@@ -1,6 +1,6 @@
 // item should have the ID of the desired item
 function Player::farmingSetItem(%player, %datablock, %slot) {
-    if (%player.getDatablock().maxTools <= %slot) {
+    if (%player.getDatablock().maxTools <= %slot || %slot == -1) {
         return 0;
     }
 
@@ -66,7 +66,7 @@ function Player::farmingAddItem(%player, %datablock, %ignoreOverflow) {
     %emptySlot = %player.getFirstEmptySlot();
     if (%emptySlot == -1) {
         if (!%ignoreOverflow) {
-            farmingItemOverflow(%player, %datablock);
+            return farmingItemOverflow(%player, %datablock);
         } else {
             return 0;
         }
