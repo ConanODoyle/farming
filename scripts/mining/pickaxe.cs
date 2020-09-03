@@ -64,7 +64,7 @@ function PickaxeImage::onFire(%this, %obj, %slot)
 
 function fxDTSBrick::onPickaxeHit(%this, %pl)
 {
-	%pl = %cl.player;
+	%cl = %pl.client;
 
 	$InputTarget_["Self"] = %this;
 	$InputTarget_["Player"] = %pl;
@@ -73,5 +73,4 @@ function fxDTSBrick::onPickaxeHit(%this, %pl)
 
 	%this.processInputEvent("onPickaxeHit", %client);
 }
-
 registerInputEvent("fxDTSBrick", "onPickaxeHit", "Self fxDTSBrick" TAB "Player Player" TAB "Client GameConnection" TAB "MiniGame MiniGame");
