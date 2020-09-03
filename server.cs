@@ -49,7 +49,10 @@ echo("");
 echo("\c4    --Loading Farming Assets");
 
 // Generic libraries this depends on
-exec("./config.cs");
+exec("./config/general.cs");
+exec("./config/crops.cs");
+exec("./config/prices.cs");
+exec("./config/storage.cs");
 
 // Crop code
 exec("./crops/exec.cs");
