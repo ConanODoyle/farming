@@ -23,6 +23,7 @@ exec("./lib/Support_ShapeLines/server.cs");
 // exec("./lib/Support_GasMod/server.cs");
 // exec("./lib/swolset.cs");
 exec("./lib/automodSettings.cs");
+exec("./lib/onDupCut.cs");
 
 // Scripts specific to this mod
 exec("./util/eventParser.cs");
