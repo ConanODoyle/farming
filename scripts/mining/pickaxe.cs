@@ -59,7 +59,9 @@ function PickaxeImage::onFire(%this, %obj, %slot)
 			initialPosition = getWords(%ray, 1, 3);
 		};
 		%p.explode();
+		serverPlay3D(hammerHitSound, getWords(%ray, 1, 3));
 	}
+	%obj.playThread(0, shiftDown);
 }
 
 function fxDTSBrick::onPickaxeHit(%this, %pl)
