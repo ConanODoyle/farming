@@ -12,7 +12,7 @@ exec("./weedKiller/server.cs");
 exec("./quests/server.cs");
 exec("./mining/server.cs");
 
-exec("./chatFilter.cs");
+// exec("./chatFilter.cs");
 exec("./chestScore.cs");
 exec("./donator.cs");
 exec("./lots.cs");
