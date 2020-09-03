@@ -1,3 +1,5 @@
+$Farming::QuestPrefix = "Quest_";
+
 function getQuestItem(%table, %slots) {
 	%item = farmingTableGetItem(%table);
 	%count = %slots;
@@ -10,33 +12,52 @@ function getQuestItem(%table, %slots) {
 	return %item SPC %count;
 }
 
-// slots: 1-5, types: field-separated list of metatables
 function generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes) {
-	%requests = generatePart(%requestSlots, %requestTypes);
-	%rewards = generatePart(%rewardSlots, %rewardTypes);
-	return %requests NL %rewards;
-}
+	%questID = $Farming::QuestPrefix @ getRandomHash("quest");
 
-function generatePart(%slots, %types) {
-	%numItems = getMin(%slots, getRandom(1, 3));
-	for (%numSpareSlots = %slots - %numItems; %numSpareSlots > 0; %numSpareSlots--) {
-		%i = getRandom(0, %numItems - 1);
-		%extraSlots[%i] += 1;
+	%numRequests = getMin(%requestSlots, getRandom(1, 3));
+	for (%numSpareRequestSlots = %requestSlots - %numRequests; %numSpareRequestSlots > 0; %numSpareRequestSlots--) {
+		%i = getRandom(0, %numRequests - 1);
+		%extraRequestSlots[%i] += 1;
 	}
 
-	%part = "";
-	for (%i = 0; %i < %numItems; %i++) {
-		%tableIndex = getRandom(0, getFieldCount(%types) - 1);
-		%table = getField(%types, %tableIndex);
-		%types = removeField(%types, %tableIndex); // try to ensure items are unique
-
-		%part = %part @ getQuestItem(%table, 1 + %extraSlots[%i]) @ "\t";
+	%numRewards = getMin(%rewardSlots, getRandom(1, 3));
+	for (%numSpareRewardSlots = %rewardSlots - %numRewards; %numSpareRewardSlots > 0; %numSpareRewardSlots--) {
+		%i = getRandom(0, %numRewards - 1);
+		%extraRewardSlots[%i] += 1;
 	}
 
-	return trim(%part);
+	setDataIDArrayCount(%questID, %numRequests + %numRewards);
+	setDataIDArrayTagValue(%questID, "numRequests", %numRequests);
+	setDataIDArrayTagValue(%questID, "numRewards", %numRewards);
+
+	for (%i = 0; %i < %numRequests; %i++) {
+		%tableIndex = getRandom(0, getFieldCount(%requestTypes) - 1);
+		%table = getField(%requestTypes, %tableIndex);
+		%requestTypes = removeField(%requestTypes, %tableIndex);
+
+		%request = getQuestItem(%table, 1 + %extraRequestSlots[%i]);
+
+		addToDataIDArray(%questID, %request);
+	}
+
+	for (%i = 0; %i < %numRewards; %i++) {
+		%tableIndex = getRandom(0, getFieldCount(%rewardTypes) - 1);
+		%table = getField(%rewardTypes, %tableIndex);
+		%rewardTypes = removeField(%rewardTypes, %tableIndex);
+
+		%reward = getQuestItem(%table, 1 + %extraRewardSlots[%i]);
+
+		addToDataIDArray(%questID, %reward);
+	}
+
+	// TODO: write cash reward system for quests
+	setDataIDArrayTagValue(%questID, "cashReward", 0);
+
+	return %questID;
 }
 
-function GameConnection::completeQuest(%client, %index) {
+function GameConnection::completeQuest(%client, %questID) {
 	// TODO: player variable and its check will be unnecessary once item packaging/storage is done
 	%player = %client.player;
 
@@ -45,32 +66,10 @@ function GameConnection::completeQuest(%client, %index) {
 		return 0;
 	}
 
-	if (%index $= "") {
-		if (%client.activeQuest $= "") {
-			error("ERROR: Client has no active quest and no quest index was provided");
-			return 0;
-		}
-		%index = %client.activeQuest;
-	}
-
-	%quest = %client.quest[%index];
-
-	if (%quest $= "") {
-		error("ERROR: Client has no quest of index " @ %index);
-		return 0;
-	}
-
-	%rewards = getLine(%quest, 1);
-
-	if (%rewards $= "") {
-		error("ERROR: Quest has no rewards");
-		return 0;
-	}
-
-	// TODO: once item packaging is done, generate a package id for the player to retrieve
-	// %client.pendingReward0...however many
-	// use an "array" to store them in case of multiple
-	for (%reward = getField(%rewards, %numRewards = 0); %reward !$= ""; %reward = getField(%rewards, %numRewards++)) {
+	%rewardStart = getDataIDArrayTagValue(%questID, "numRequests");
+	%numRewards = getDataIDArrayTagValue(%questID, "numRewards");
+	for (%i = 0; %i < %numRewards; %i++) {
+		%reward = getDataIDArrayValue(%questID, %rewardStart + %i)
 		%item = getWord(%reward, 0);
 		%count = getWord(%reward, 1);
 
@@ -86,28 +85,27 @@ function GameConnection::completeQuest(%client, %index) {
 }
 
 // TODO: make this nicer - centerprint? centerprint menu?
-function GameConnection::displayQuest(%client, %questData) {
-	%requests = getLine(%questData, 0);
-	%rewards = getLine(%questData, 1);
-
+function GameConnection::displayQuest(%client, %questID) {
+	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
 	talk("Requests:");
-	for (%field = getField(%requests, %numRequests = 0); %field !$= ""; %field = getField(%requests, %numRequests++)) {
-		%item = getWord(%field, 0);
-		%count = getWord(%field, 1);
-		%delivered = getWord(%field, 2) + 0;
+	for (%i = 0; %i < %numRewards; %i++) {
+		%request = getDataIDArrayValue(%questID, %i);
+		%item = getWord(%request, 0);
+		%count = getWord(%request, 1);
+		%delivered = getWord(%request, 2) + 0;
 
-		%deliverable[%numRequests] = %item @ ":" SPC %delivered @ "/" @ %count;
-		talk(%deliverable[%numRequests]);
+		%request[%i] = %item @ ":" SPC %delivered @ "/" @ %count;
+		talk(%request[%i]);
 	}
 
+	%numRewards = getDataIDArrayTagValue(%questID, "numRewards");
 	talk("Rewards:");
-	for (%field = getField(%rewards, %numRewards = 0); %field !$= ""; %field = getField(%rewards, %numRewards++)) {
-		%item = getWord(%field, 0);
-		%count = getWord(%field, 1);
+	for (%i = 0; %i < %numRewards; %i++) {
+		%reward = getDataIDArrayValue(%questID, %numRequests + %i); // offset by number of requests into array
+		%item = getWord(%reward, 0);
+		%count = getWord(%reward, 1);
 
-		%reward[%numRewards] = %item @ ":" SPC %count;
-		talk(%reward[%numRewards]);
+		%reward[%i] = %item @ ":" SPC %count;
+		talk(%reward[%i]);
 	}
 }
-
-// dummy text
