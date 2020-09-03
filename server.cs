@@ -78,7 +78,6 @@ exec("./scripts/core/info.cs");
 exec("./scripts/core/buildCost.cs");
 exec("./scripts/core/wrenchCost.cs");
 exec("./scripts/core/botBuy.cs");
-// exec("./scripts/core/eventStorage.cs");
 exec("./scripts/core/eventStorageV2.cs");
 exec("./scripts/core/tutorial.cs");
 exec("./scripts/core/spawn.cs");
@@ -121,6 +120,6 @@ RegisterPersistenceVar("questItemInfo19", false, "");
 // Glass loading screen image
 registerloadingscreen("https://i.imgur.com/06fAw4h.png", "png", "", 1);
 
-// schedule(1000, 0, sprinklerTick, 0);
-// schedule(1000, 0, rainCheckLoop);
-// schedule(1000, 0, generateInstrumentList);
+schedule(1000, 0, sprinklerTick, 0);
+schedule(1000, 0, rainCheckLoop);
+schedule(1000, 0, generateInstrumentList);
