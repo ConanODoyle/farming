@@ -2,7 +2,7 @@
 
 $Farming::QuestTablePrefix = "QuestTable_";
 
-function farmingTableRemove(%tableName) {
+function farmingTableDelete(%tableName) {
     deleteDataIDArray($Farming::QuestPrefix @ %tableName);
 }
 
@@ -32,7 +32,7 @@ function farmingTableGetIndex(%tableName, %item) {
     return -1;
 }
 
-function farmingTableRemove(%tableName, %item) {
+function farmingTableRemoveItem(%tableName, %item) {
     %index = farmingTableGetIndex(%tableName, %item);
     if (%index == -1) {
         error("ERROR: Item" SPC %item SPC "not in table" SPC %tableName @ ", can't remove");
