@@ -342,6 +342,43 @@ datablock fxDTSBrickData(brickTurnip4CropData : brickTurnip0CropData)
 };
 
 
+//moshrm
+datablock fxDTSBrickData(brickPortobello0CropData)
+{
+	uiName = "Portobello0";
+
+	brickFile = "./bricks/Portobello0.blb";
+	cropType = "Portobello";
+	stage = 0;
+	isPlant = 1;
+	plantingLayer = 1;
+};
+
+datablock fxDTSBrickData(brickPortobello1CropData : brickPortobello0CropData)
+{
+	uiName = "Portobello1";
+
+	brickFile = "./bricks/Portobello1.blb";
+	stage = 1;
+};
+
+datablock fxDTSBrickData(brickPortobello2CropData : brickPortobello0CropData)
+{
+	uiName = "Portobello2";
+
+	brickFile = "./bricks/Portobello2.blb";
+	stage = 2;
+};
+
+datablock fxDTSBrickData(brickPortobello3CropData : brickPortobello0CropData)
+{
+	uiName = "Portobello3";
+
+	brickFile = "./bricks/Portobello3.blb";
+	stage = 3;
+};
+
+
 
 
 

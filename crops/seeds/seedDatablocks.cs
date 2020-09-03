@@ -6,6 +6,7 @@ exec("./cabbage.cs");
 exec("./onion.cs");
 exec("./blueberry.cs");
 exec("./turnip.cs");
+exec("./portobello.cs");
 exec("./appleTree.cs");
 exec("./mangoTree.cs");
 

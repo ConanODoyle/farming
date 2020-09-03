@@ -52,6 +52,7 @@ exec("./plantData/onionData.cs");
 
 exec("./plantData/blueberryData.cs");
 exec("./plantData/turnipData.cs");
+exec("./plantData/portobelloData.cs");
 
 exec("./plantData/appleTreeData.cs");
 exec("./plantData/mangoTreeData.cs");
