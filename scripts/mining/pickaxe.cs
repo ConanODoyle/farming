@@ -56,7 +56,7 @@ function PickaxeImage::onFire(%this, %obj, %slot)
 		%hit.onPickaxeHit(%obj);
 		%p = new Projectile() {
 			dataBlock = hammerProjectile;
-			initialPosition(getWords(%ray, 1, 3));
+			initialPosition = getWords(%ray, 1, 3);
 		};
 		%p.explode();
 	}
