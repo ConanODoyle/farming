@@ -31,6 +31,7 @@ exec("./util/clearScripts.cs");
 exec("./util/convTime.cs");
 exec("./util/dualClient.cs");
 exec("./util/fixSchedulePop.cs");
+exec("./util/getRandomHash.cs");
 exec("./util/gitpull.cs");
 exec("./util/ipCheck.cs");
 exec("./util/makeLotSingle.cs");
