@@ -77,7 +77,7 @@ function bottomprintInfo(%cl)
 	cancel(%cl.bottomprintMoneySched);
 
 	%pl = %cl.player;
-	if (%cl.ndMode !$= "NDM_Disabled" || %pl.tool[%pl.currTool].uiname $= "Toolgun")
+	if (%cl.ndMode !$= "NDM_Disabled" || %pl.tool[%pl.currTool].uiname $= "Toolgun" || isEventPending(%cl.NPC_hudSch))
 	{
 		%cl.bottomprintMoneySched = schedule(1000, %cl, bottomprintInfoLoop, %cl);
 		return;
