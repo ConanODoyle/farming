@@ -18,7 +18,7 @@ function fxDTSBrick::spawnItemChance(%this, %chance, %vec, %db, %cl)
 	if (getRandom() < %chance)
 	{
 		%this.spawnItem(%vec, %db);
+		%this.onChanceSpawnItem(%cl);
 	}
-	%this.onChanceSpawnItem(%cl);
 }
 registerOutputEvent("fxDTSBrick", "spawnItemChance", "float 0 1 0.05 0.1" TAB "vector 200" TAB "dataBlock ItemData", 1);
