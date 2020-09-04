@@ -12,8 +12,13 @@ function getQuestItem(%table, %slots) {
 	return %item SPC %count;
 }
 
+function isQuest(%questID) {
+	return getDataIDArrayTagValue(%questID, "isQuest");
+}
+
 function generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes) {
 	%questID = $Farming::QuestPrefix @ getRandomHash("quest");
+	setDataIDArrayTagValue(%questID, "isQuest", true);
 
 	%numRequests = getMin(%requestSlots, getRandom(1, 3));
 	for (%numSpareRequestSlots = %requestSlots - %numRequests; %numSpareRequestSlots > 0; %numSpareRequestSlots--) {
@@ -58,6 +63,11 @@ function generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes)
 }
 
 function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %deliveredCount) {
+	if (!isQuest(%questID)) {
+		error("ERROR: Invalid questID!");
+		return;
+	}
+
 	%player = %client.player;
 	if (!isObject(%player)) {
 		error("ERROR: Player does not exist, can't deliver quest item!");
@@ -94,7 +104,6 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 			}
 
 			setDataIDArrayValue(%questID, %i, %item SPC %count SPC %delivered);
-			%client.checkQuestComplete(%questID);
 			return true;
 		}
 	}
@@ -103,6 +112,11 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 }
 
 function GameConnection::checkQuestComplete(%client, %questID) {
+	if (!isQuest(%questID)) {
+		error("ERROR: Invalid questID!");
+		return false;
+	}
+
 	%player = %client.player;
 	if (!isObject(%player)) {
 		error("ERROR: Can't check quest completion - no player to give rewards to if it's complete!");
@@ -120,17 +134,21 @@ function GameConnection::checkQuestComplete(%client, %questID) {
 			return;
 		}
 	}
-
-	%client.completeQuest(%questID);
+	return true;
 }
 
 function GameConnection::completeQuest(%client, %questID) {
+	if (!isQuest(%questID)) {
+		error("ERROR: Invalid questID!");
+		return false;
+	}
+
 	// TODO: player variable and its check will be unnecessary once item packaging/storage is done
 	%player = %client.player;
 
 	if (!isObject(%player)) {
 		error("ERROR: Client has no player to give rewards to");
-		return true;
+		return false;
 	}
 
 	%rewardStart = getDataIDArrayTagValue(%questID, "numRequests");
@@ -148,10 +166,18 @@ function GameConnection::completeQuest(%client, %questID) {
 			}
 		}
 	}
+
+	deleteDataIDArray(%questID);
+
 	return true;
 }
 
 function GameConnection::displayQuest(%client, %questID, %displayRewards) {
+	if (!getDataIDArrayValue(%questID, "isQuest")) {
+		%client.centerPrint("<just:right>\c6The note is blank... ");
+		return;
+	}
+
 	%numRequests = getDataIDArrayTagValue(%questID, "numRequests"); // needed for offset
 	if (%displayRewards) {
 		%displayString = "<just:right>\c3-Quest Rewards- \n\c3";
