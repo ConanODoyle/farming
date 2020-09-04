@@ -47,8 +47,8 @@ $Farming::Crops::PlantData_["Portobello", 3, "numDryTicks"]				= "-1";
 $Farming::Crops::PlantData_["Portobello", 3, "yield"]					= "1 1";
 $Farming::Crops::PlantData_["Portobello", 3, "item"]					= "PortobelloItem";
 $Farming::Crops::PlantData_["Portobello", 3, "dieOnHarvest"]			= "1";
-$Farming::Crops::PlantData_["Portobello", 3, "harvestTool"]				= "Clipper";
-$Farming::Crops::PlantData_["Portobello", 3, "areaHarvestTool"]			= "Sickle";
+$Farming::Crops::PlantData_["Portobello", 3, "harvestTool"]				= "Trowel";
+$Farming::Crops::PlantData_["Portobello", 3, "areaHarvestTool"]			= "Hoe";
 $Farming::Crops::PlantData_["Portobello", 3, "toolBuff"]				= "0 1";
 $Farming::Crops::PlantData_["Portobello", 3, "changeOnHarvest"]			= "";
 
