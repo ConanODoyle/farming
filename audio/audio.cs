@@ -1,4 +1,4 @@
-datablock AudioProfile(AmbientRainSound) 
+datablock AudioProfile(AmbientRainSound)
 {
 	filename = "./Rain/rain_low.ogg";
 	description = AudioMusicLooping3d;
@@ -6,7 +6,7 @@ datablock AudioProfile(AmbientRainSound)
 	uiName = "";
 };
 
-datablock AudioProfile(AmbientRainFadeInSound) 
+datablock AudioProfile(AmbientRainFadeInSound)
 {
 	filename = "./rain_low_fadein.wav";
 	description = AudioMusicLooping3d;
@@ -14,7 +14,7 @@ datablock AudioProfile(AmbientRainFadeInSound)
 	uiName = "";
 };
 
-datablock AudioProfile(AmbientRainFadeOutSound) 
+datablock AudioProfile(AmbientRainFadeOutSound)
 {
 	filename = "./rain_low_fadeout.wav";
 	description = AudioMusicLooping3d;
@@ -154,7 +154,7 @@ datablock AudioProfile(UFOHoverSound)
 	uiName = "UFO Hover";
 };
 
-datablock AudioProfile(SpicyItalianThrowSound) 
+datablock AudioProfile(SpicyItalianThrowSound)
 {
 	filename = "./spicyitalian_throw.wav";
 	description = AudioDefault3d;
@@ -162,7 +162,7 @@ datablock AudioProfile(SpicyItalianThrowSound)
 	uiName = "";
 };
 
-datablock AudioProfile(FarmingHarvestBelowGroundPlantSound) 
+datablock AudioProfile(FarmingHarvestBelowGroundPlantSound)
 {
 	filename = "./harvest_underground.wav";
 	description = AudioClose3d;
@@ -170,10 +170,18 @@ datablock AudioProfile(FarmingHarvestBelowGroundPlantSound)
 	uiName = "";
 };
 
-datablock AudioProfile(FarmingHarvestAboveGroundPlantSound) 
+datablock AudioProfile(FarmingHarvestAboveGroundPlantSound)
 {
 	filename = "./clippers.wav";
 	description = AudioClose3d;
+	preload = true;
+	uiName = "";
+};
+
+datablock AudioProfile(PageTurnSound)
+{
+	filename = "./pageTurn.wav";
+	description = AudioClose3D;
 	preload = true;
 	uiName = "";
 };

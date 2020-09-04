@@ -72,6 +72,7 @@ datablock ShapeBaseImageData(QuestImage)
     stateTransitionOnTimeout[4] = "displayQuest";
     stateTransitionOnTriggerDown[4] = "buffer";
     stateScript[4] = "toggleQuestDisplay";
+    stateSound[4] = PageTurnSound;
 };
 
 function QuestImage::displayQuest(%image, %player, %slot)
