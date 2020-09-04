@@ -14,7 +14,7 @@ datablock ItemData(QuestItem)
     uiName = "";
     iconName = "";
     doColorShift = false;
-    colorShiftColor = "1 1 1 1";
+    colorShiftColor = "0.7 0.7 0.7 1";
 
     image = QuestImage;
     canDrop = true;
