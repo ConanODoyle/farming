@@ -379,6 +379,59 @@ datablock fxDTSBrickData(brickPortobello3CropData : brickPortobello0CropData)
 };
 
 
+//weet
+datablock fxDTSBrickData(brickWheat0CropData)
+{
+	uiName = "Wheat0";
+
+	brickFile = "./bricks/Wheat0.blb";
+	cropType = "Wheat";
+	stage = 0;
+	isPlant = 1;
+	plantingLayer = 1;
+};
+
+datablock fxDTSBrickData(brickWheat1CropData : brickWheat0CropData)
+{
+	uiName = "Wheat1";
+
+	brickFile = "./bricks/Wheat1.blb";
+	stage = 1;
+};
+
+datablock fxDTSBrickData(brickWheat2CropData : brickWheat0CropData)
+{
+	uiName = "Wheat2";
+
+	brickFile = "./bricks/Wheat2.blb";
+	stage = 2;
+};
+
+datablock fxDTSBrickData(brickWheat3CropData : brickWheat0CropData)
+{
+	uiName = "Wheat3";
+
+	brickFile = "./bricks/Wheat3.blb";
+	stage = 3;
+};
+
+datablock fxDTSBrickData(brickWheat4CropData : brickWheat0CropData)
+{
+	uiName = "Wheat4";
+
+	brickFile = "./bricks/Wheat4.blb";
+	stage = 4;
+};
+
+datablock fxDTSBrickData(brickWheat5CropData : brickWheat0CropData)
+{
+	uiName = "Wheat5";
+
+	brickFile = "./bricks/Wheat5.blb";
+	stage = 5;
+};
+
+
 
 
 

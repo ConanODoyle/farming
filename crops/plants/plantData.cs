@@ -47,6 +47,7 @@ exec("./plantData/potatoData.cs");
 exec("./plantData/carrotData.cs");
 exec("./plantData/tomatoData.cs");
 exec("./plantData/cornData.cs");
+exec("./plantData/wheatData.cs");
 exec("./plantData/cabbageData.cs");
 exec("./plantData/onionData.cs");
 

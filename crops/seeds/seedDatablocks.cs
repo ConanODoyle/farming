@@ -2,6 +2,7 @@ exec("./potato.cs");
 exec("./carrot.cs");
 exec("./tomato.cs");
 exec("./corn.cs");
+exec("./wheat.cs");
 exec("./cabbage.cs");
 exec("./onion.cs");
 exec("./blueberry.cs");
