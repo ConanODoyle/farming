@@ -1,7 +1,7 @@
-$Stackable_DaisySeed_StackedItem0 = "DaisySeed0Item 6";
-$Stackable_DaisySeed_StackedItem1 = "DaisySeed1Item 12";
-$Stackable_DaisySeed_StackedItem2 = "DaisySeed2Item 18";
-$Stackable_DaisySeed_StackedItem3 = "DaisySeed3Item 24";
+$Stackable_DaisySeed_StackedItem0 = "DaisySeed0Item 2";
+$Stackable_DaisySeed_StackedItem1 = "DaisySeed1Item 4";
+$Stackable_DaisySeed_StackedItem2 = "DaisySeed2Item 6";
+$Stackable_DaisySeed_StackedItem3 = "DaisySeed3Item 8";
 $Stackable_DaisySeed_StackedItemTotal = 4;
 
 datablock ItemData(DaisySeedItem : HammerItem)

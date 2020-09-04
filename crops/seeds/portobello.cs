@@ -1,7 +1,7 @@
 $Stackable_PortobelloSeed_StackedItem0 = "PortobelloSeed0Item 4";
 $Stackable_PortobelloSeed_StackedItem1 = "PortobelloSeed1Item 8";
 $Stackable_PortobelloSeed_StackedItem2 = "PortobelloSeed2Item 12";
-$Stackable_PortobelloSeed_StackedItem3 = "PortobelloSeed3Item 26";
+$Stackable_PortobelloSeed_StackedItem3 = "PortobelloSeed3Item 16";
 $Stackable_PortobelloSeed_StackedItemTotal = 4;
 
 datablock ItemData(PortobelloSeedItem : HammerItem)

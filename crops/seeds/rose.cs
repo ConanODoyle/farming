@@ -1,7 +1,7 @@
-$Stackable_RoseSeed_StackedItem0 = "RoseSeed0Item 6";
-$Stackable_RoseSeed_StackedItem1 = "RoseSeed1Item 12";
-$Stackable_RoseSeed_StackedItem2 = "RoseSeed2Item 18";
-$Stackable_RoseSeed_StackedItem3 = "RoseSeed3Item 24";
+$Stackable_RoseSeed_StackedItem0 = "RoseSeed0Item 2";
+$Stackable_RoseSeed_StackedItem1 = "RoseSeed1Item 4";
+$Stackable_RoseSeed_StackedItem2 = "RoseSeed2Item 6";
+$Stackable_RoseSeed_StackedItem3 = "RoseSeed3Item 8";
 $Stackable_RoseSeed_StackedItemTotal = 4;
 
 datablock ItemData(RoseSeedItem : HammerItem)

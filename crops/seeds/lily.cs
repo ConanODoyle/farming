@@ -1,7 +1,7 @@
-$Stackable_LilySeed_StackedItem0 = "LilySeed0Item 6";
-$Stackable_LilySeed_StackedItem1 = "LilySeed1Item 12";
-$Stackable_LilySeed_StackedItem2 = "LilySeed2Item 18";
-$Stackable_LilySeed_StackedItem3 = "LilySeed3Item 24";
+$Stackable_LilySeed_StackedItem0 = "LilySeed0Item 2";
+$Stackable_LilySeed_StackedItem1 = "LilySeed1Item 4";
+$Stackable_LilySeed_StackedItem2 = "LilySeed2Item 6";
+$Stackable_LilySeed_StackedItem3 = "LilySeed3Item 8";
 $Stackable_LilySeed_StackedItemTotal = 4;
 
 datablock ItemData(LilySeedItem : HammerItem)
