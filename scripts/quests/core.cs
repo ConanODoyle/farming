@@ -16,6 +16,11 @@ function isQuest(%questID) {
 	return getDataIDArrayTagValue(%questID, "isQuest");
 }
 
+function deleteQuest(%questID) {
+	setDataIDArrayTagValue(%questID, "isQuest", false);
+	return deleteDataIDArray(%questID);
+}
+
 function generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes) {
 	%questID = $Farming::QuestPrefix @ getRandomHash("quest");
 	setDataIDArrayTagValue(%questID, "isQuest", true);
@@ -167,7 +172,7 @@ function GameConnection::completeQuest(%client, %questID) {
 		}
 	}
 
-	deleteDataIDArray(%questID);
+	deleteQuest(%questID);
 
 	return true;
 }
