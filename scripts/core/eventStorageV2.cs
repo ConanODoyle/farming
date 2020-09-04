@@ -9,6 +9,7 @@ function validateStorageValue(%string)
 
 	%storageType = getField(%string, 0); //can be item DB, can be stackType string
 	%count = getField(%string, 1);
+	%itemDataID = getField(%string, 2);
 
 	if (isObject(%storageType) && !%storageType.isStackable)
 	{
@@ -32,12 +33,12 @@ function validateStorageValue(%string)
 			%displayName = $displayNameOverride_[%displayName];
 		}
 	}
-	return %db TAB %displayName TAB %count;
+	return %db TAB %displayName TAB %count TAB %itemDataID;
 }
 
-//input: item db or stacktype string, count
+//input: item db or stacktype string, count, item dataID id
 //output: proper storage string - (itemDB if not stackable/stackType if stackable, count)
-function getStorageValue(%storageType, %count)
+function getStorageValue(%storageType, %count, %itemDataID)
 {
 	if (isObject(%storageType) && %storageType.isStackable)
 	{
@@ -49,7 +50,7 @@ function getStorageValue(%storageType, %count)
 		//is normal item, ensure datablock name is stored and not item id
 		%storageType = %storageType.getName();
 	}
-	return %storageType TAB %count;
+	return %storageType TAB %count TAB %itemDataID;
 }
 
 //input: storage brick datablock, dataID
@@ -124,13 +125,21 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 		%db = getField(%data[%i], 0);
 		%display = getField(%data[%i], 1);
 		%itemCount = getField(%data[%i], 2);
+		%itemDataID = getField(%data[%i], 3);
 		if (!isObject(%db))
 		{
 			%entry = "Empty";
 		}
 		else
 		{
-			%entry = %display @ " - " @ %itemCount;
+			if (%itemDataID !$= "")
+			{
+				%entry = %display @ " - " @ getSubStr(%itemDataID, 0, 3);
+			}
+			else
+			{
+				%entry = %display @ " - " @ %itemCount;
+			}
 		}
 		%brick.centerprintMenu.menuOption[%i] = %entry;
 		%brick.centerprintMenu.menuDatablock[%i] = %db;
@@ -141,7 +150,7 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 
 //input: brick being stored on, dataID, item db (stackable or non stackable), count of objects inserted
 //output: error code (0 if no error/complete store, 1 SPC %excess if partial store, 2 if no store)
-function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCount)
+function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
 {
 	initializeStorage(%brick, %dataID);
 
@@ -193,12 +202,17 @@ function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCou
 			%spaceAvailable = getWord(%availableSpace[%i], 1);
 			%amountPresent = getWord(%availableSpace[%i], 2);
 
-			%value = getStorageValue(%storeItemDB, %insertCount);
+			%value = getStorageValue(%storeItemDB, %insertCount, %itemDataID);
 			%insertAmount = getMin(%insertCount, %spaceAvailable);
 			%insertCount -= %insertAmount;
 			%total = %amountPresent + %insertAmount;
 			%value = getField(%value, 0) TAB %total;
 			setDataIDArrayValue(%dataID, %slot, %value);
+
+			if (%insertCount == 0)
+			{
+				break;
+			}
 		}
 
 		%brick.updateStorageMenu(%dataID);
@@ -213,7 +227,7 @@ function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCou
 			%spaceAvailable = getWord(%availableSpace[%i], 1);
 			%amountPresent = getWord(%availableSpace[%i], 2);
 
-			%value = getStorageValue(%storeItemDB, %insertCount);
+			%value = getStorageValue(%storeItemDB, %insertCount, %itemDataID);
 			%insertAmount = getMin(%insertCount, %spaceAvailable);
 			%insertCount -= %insertAmount;
 			%total = %amountPresent + %insertAmount;
@@ -269,6 +283,7 @@ function removeStack(%cl, %menu, %option)
 	%datablock = getField(%storageData, 0);
 	%displayName = getField(%storageData, 1);
 	%storageCount = getField(%storageData, 2);
+	%itemDataID = getField(%storageData, 3);
 	if (!isObject(%datablock))
 	{
 		talk("ERROR: removestack - storage data invalid! contents:[" @ strReplace(%storageData, "\t", "|") @ "]");
@@ -306,6 +321,7 @@ function removeStack(%cl, %menu, %option)
 		dataBlock = %datablock;
 		count = %amt;
 		harvestedBG = getBrickgroupFromObject(%brick);
+		dataID = %itemDataID;
 	};
 	MissionCleanup.add(%i);
 	%i.setTransform(%cl.player.getTransform());
@@ -321,6 +337,10 @@ function fxDTSBrick::getStorageMax(%brick, %itemDB)
 	{
 		%stackType = %itemDB.stackType;
 		%total = getMax(0, %brickDB.storageMultiplier * $StorageMax_[%stackType]);
+	}
+	else if (%itemDB.hasDataID)
+	{
+		%total = 1;
 	}
 	else
 	{
@@ -580,7 +600,7 @@ package StorageBricks
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
 			if (isObject(%hit) && %hit.getDatablock().isStorageBrick)
 			{
-				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1], %item, %pl.toolStackCount[%slot] == 0 ? 1 : %pl.toolStackCount[%slot]);
+				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1], %item, %pl.toolStackCount[%slot] == 0 ? 1 : %pl.toolStackCount[%slot], %pl.toolDataID[%slot]);
 				if (%success < 1) //complete insertion
 				{
 					%pl.toolStackCount[%slot] = 0;
