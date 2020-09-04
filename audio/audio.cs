@@ -181,7 +181,7 @@ datablock AudioProfile(FarmingHarvestAboveGroundPlantSound)
 datablock AudioProfile(PageTurnSound)
 {
 	filename = "./pageTurn.wav";
-	description = AudioClose3D;
+	description = AudioClosest3D;
 	preload = true;
 	uiName = "";
 };
