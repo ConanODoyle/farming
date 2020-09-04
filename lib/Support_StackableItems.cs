@@ -20,7 +20,7 @@ function getStacktypeDatablock(%stackType, %count)
 	{
 		%last = getWord($Stackable_[%stackType, "stackedItem" @ %i], 0);
 		%bound = getWord($Stackable_[%stackType, "stackedItem" @ %i], 1);
-		if (%count < %bound)
+		if (%count <= %bound)
 		{
 			break;
 		}
