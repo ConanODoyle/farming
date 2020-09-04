@@ -94,7 +94,7 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 			%item = getWord(%reward, 0);
 			%count = getWord(%reward, 1);
 
-			%displayString = %displayString @ %item @ "\c6:" SPC %count @ " \n\c3";
+			%displayString = %displayString @ %item.uiName @ "\c6:" SPC %count @ " \n\c3";
 		}
 	} else {
 		%displayString = "<just:right>\c3-Quest Requests- \n\c3";
@@ -104,7 +104,7 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 			%count = getWord(%request, 1);
 			%delivered = getWord(%request, 2) + 0;
 
-			%displayString = %displayString @ %item @ "\c6:" SPC %delivered @ "/" @ %count @ " \n\c3";
+			%displayString = %displayString @ %item.uiName @ "\c6:" SPC %delivered @ "/" @ %count @ " \n\c3";
 		}
 	}
 
