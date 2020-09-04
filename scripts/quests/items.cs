@@ -39,6 +39,8 @@ datablock ShapeBaseImageData(QuestImage)
     doColorShift = QuestItem.doColorShift;
     colorShiftColor = QuestItem.colorShiftColor;
 
+    toolTip = "Click to toggle requests/rewards";
+
     stateName[0] = "init";
     stateTimeoutValue[0] = 0.1;
     stateWaitForTimeout[0] = false;
