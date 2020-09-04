@@ -151,6 +151,11 @@ function clearLots(%bg)
 
 function restoreLotBricks(%dataObj)
 {
+	if (!isObject(%dataObj))
+	{
+		return;
+	}
+	
 	for (%i = 0; %i < %dataObj.count; %i++)
 	{
 		if (%i == 0) %db = "brick32x32SingleLotData";
