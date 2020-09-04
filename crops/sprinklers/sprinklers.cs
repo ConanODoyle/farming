@@ -106,12 +106,12 @@ function doSprinklerSearch(%sprinkler, %water)
 	switch (%sprinkler.angleID)
 	{
 		case 0: //do nothing
-		case 1: 
+		case 1:
 			%box = getWord(%box, 1) SPC getWord(%box, 0) SPC getWord(%box, 2);
 			%offset = getWord(%offset, 1) SPC -1 * getWord(%offset, 0) SPC getWord(%offset, 2);
-		case 2: 
+		case 2:
 			%offset = -1 * getWord(%offset, 0) SPC -1 * getWord(%offset, 1) SPC getWord(%offset, 2);
-		case 3: 
+		case 3:
 			%box = getWord(%box, 1) SPC getWord(%box, 0) SPC getWord(%box, 2);
 			%offset = -1 * getWord(%offset, 1) SPC getWord(%offset, 0) SPC getWord(%offset, 2);
 	}
@@ -210,7 +210,7 @@ package Sprinklers
 		{
 			schedule(33, %obj, doSprinklerSearch, %obj);
 		}
-		
+
 		if (%obj.getDatablock().isWaterTank && %obj.isPlanted)
 		{
 			schedule(100, %obj, setWaterTankName, %obj);
@@ -239,7 +239,7 @@ package Sprinklers
 		}
 		return parent::onTrigger(%this, %obj, %trig, %val);
 	}
-	
+
 	function fxDTSBrick::onDeath(%obj)
 	{
 		%ret = parent::onDeath(%obj);
@@ -304,10 +304,10 @@ function setWaterTankName(%obj)
 		return;
 	}
 
-	%rand = "_" @ getSubStr(sha1(getRandom()), 0, 20) @ "Tank";
+	%rand = "_" @ getSubStr(getRandomHash("sprinkler")), 0, 20) @ "Tank";
 	while (isObject(%rand))
 	{
-		%rand = "_" @ getSubStr(sha1(getRandom()), 0, 20) @ "Tank";
+		%rand = "_" @ getSubStr(getRandomHash("sprinkler")), 0, 20) @ "Tank";
 	}
 	%obj.settingName = 1;
 	%obj.setNTObjectName(%rand);
