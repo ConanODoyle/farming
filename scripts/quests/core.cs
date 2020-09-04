@@ -130,7 +130,7 @@ function GameConnection::completeQuest(%client, %questID) {
 
 	if (!isObject(%player)) {
 		error("ERROR: Client has no player to give rewards to");
-		return 0;
+		return true;
 	}
 
 	%rewardStart = getDataIDArrayTagValue(%questID, "numRequests");
@@ -148,7 +148,7 @@ function GameConnection::completeQuest(%client, %questID) {
 			}
 		}
 	}
-	return 1;
+	return true;
 }
 
 function GameConnection::displayQuest(%client, %questID, %displayRewards) {
