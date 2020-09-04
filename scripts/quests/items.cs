@@ -20,6 +20,7 @@ datablock ItemData(QuestItem)
     canDrop = true;
 
     hasDataID = true;
+    canPickupMultiple = true;
 };
 
 datablock ShapeBaseImageData(QuestImage)
