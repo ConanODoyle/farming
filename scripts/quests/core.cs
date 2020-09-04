@@ -70,7 +70,6 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 
 	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
 
-	%success = false;
 	for (%i = 0; %i < %numRequests; %i++) {
 		%request = getDataIDArrayValue(%questID, %i);
 		%item = getWord(%request, 0);
@@ -78,7 +77,7 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 		%delivered = getWord(%request, 2);
 		if (%count == %delivered) continue;
 
-		if (%deliveredItem.isStackable && %item.isStackable && %deliveredItem.stackType == %item.stackType || %deliveredItem.getID() == %item.getID()) {
+		if ((%deliveredItem.isStackable && %item.isStackable && %deliveredItem.stackType $= %item.stackType) || %deliveredItem.getID() == %item.getID()) {
 			%overflow = (%delivered + %deliveredCount) - %count;
 
 			if (%overflow > 0) {
@@ -95,10 +94,12 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 			}
 
 			setDataIDArrayValue(%questID, %i, %item SPC %count SPC %delivered);
+			%client.checkQuestComplete(%questID);
+			return true;
 		}
 	}
 
-	return %success;
+	return false;
 }
 
 function GameConnection::checkQuestComplete(%client, %questID) {
@@ -142,7 +143,7 @@ function GameConnection::completeQuest(%client, %questID) {
 		if (%item.isStackable) {
 			%player.farmingAddStackableItem(%item, %count);
 		} else {
-			for (%i = 0; %i < %count; %i++) {
+			for (%j = 0; %j < %count; %j++) {
 				%player.farmingAddItem(%item);
 			}
 		}

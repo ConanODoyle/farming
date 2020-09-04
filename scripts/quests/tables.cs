@@ -36,7 +36,7 @@ function farmingTableRemoveItem(%tableName, %item) {
     %index = farmingTableGetIndex(%tableName, %item);
     if (%index == -1) {
         error("ERROR: Item" SPC %item SPC "not in table" SPC %tableName @ ", can't remove");
-        return 0;
+        return false;
     }
 
     %dataIDArrayName = $Farming::QuestTablePrefix @ %tableName;
@@ -51,7 +51,7 @@ function farmingTableRemoveItem(%tableName, %item) {
     setDataIDArrayCount(%dataIDArrayName, %tableLength - 1);
     setDataIDArrayTagValue(%dataIDArrayName, "weight", getDataIDArrayTagValue(%dataIDArrayName, "weight") - %weight);
 
-    return 1;
+    return true;
 }
 
 // give a value between 0 and 1 (0 inclusive, 1 exclusive) or the empty string
