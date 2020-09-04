@@ -11,7 +11,7 @@ datablock ItemData(QuestItem)
     friction = 0.6;
     emap = true;
 
-    uiName = "";
+    uiName = "Quest Slip";
     iconName = "";
     doColorShift = false;
     colorShiftColor = "0.7 0.7 0.7 1";
