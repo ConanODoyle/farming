@@ -82,7 +82,7 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 			%overflow = (%delivered + %deliveredCount) - %count;
 
 			if (%overflow > 0) {
-				%delivered = %count
+				%delivered = %count;
 				if (%item.isStackable) {
 					%player.farmingAddStackableItem(%deliveredItem, %overflow);
 				} else {
@@ -98,7 +98,7 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 		}
 	}
 
-	return %success
+	return %success;
 }
 
 function GameConnection::checkQuestComplete(%client, %questID) {
