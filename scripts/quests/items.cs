@@ -98,6 +98,7 @@ function QuestImage::setQuestDisplayRequest(%image, %player, %slot)
 function QuestImage::toggleQuestDisplay(%image, %player, %slot)
 {
     %player.questDisplayMode = !%player.questDisplayMode;
+    %player.playThread(2, "rotcw");
 
     %image.displayQuest(%player, %slot);
 }
