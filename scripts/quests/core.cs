@@ -57,6 +57,72 @@ function generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes)
 	return %questID;
 }
 
+function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %deliveredCount) {
+	%player = %client.player;
+	if (!isObject(%player)) {
+		error("ERROR: Player does not exist, can't deliver quest item!");
+		return;
+	}
+
+	if (%deliveredCount $= "") {
+		%deliveredCount = 1;
+	}
+
+	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
+
+	%success = false;
+	for (%i = 0; %i < %numRequests; %i++) {
+		%request = getDataIDArrayValue(%questID, %i);
+		%item = getWord(%request, 0);
+		%count = getWord(%request, 1);
+		%delivered = getWord(%request, 2);
+		if (%count == %delivered) continue;
+
+		if (%deliveredItem.isStackable && %item.isStackable && %deliveredItem.stackType == %item.stackType || %deliveredItem.getID() == %item.getID()) {
+			%overflow = (%delivered + %deliveredCount) - %count;
+
+			if (%overflow > 0) {
+				%delivered = %count
+				if (%item.isStackable) {
+					%player.farmingAddStackableItem(%deliveredItem, %overflow);
+				} else {
+					for (%i = 0; %i < %overflow; %i++) {
+						%player.farmingAddItem(%deliveredItem);
+					}
+				}
+			} else {
+				%delivered += %deliveredCount;
+			}
+
+			setDataIDArrayValue(%questID, %i, %item SPC %count SPC %delivered);
+		}
+	}
+
+	return %success
+}
+
+function GameConnection::checkQuestComplete(%client, %questID) {
+	%player = %client.player;
+	if (!isObject(%player)) {
+		error("ERROR: Can't check quest completion - no player to give rewards to if it's complete!");
+		return;
+	}
+
+	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
+
+	for (%i = 0; %i < %numRequests; %i++) {
+		%request = getDataIDArrayValue(%questID, %i);
+		%count = getWord(%request, 1);
+		%delivered = getWord(%request, 2);
+
+		if (%count < %delivered) {
+			return;
+		}
+	}
+
+	%client.completeQuest(%questID);
+}
+
 function GameConnection::completeQuest(%client, %questID) {
 	// TODO: player variable and its check will be unnecessary once item packaging/storage is done
 	%player = %client.player;
