@@ -8,7 +8,7 @@ function dropDataIDItem(%client, %slot)
 	%item = %player.tool[%slot];
 	if (isObject(%item))
 	{
-		if (%item.canDrop == 1.0)
+		if (%item.canDrop)
 		{
 			%zScale = getWord(%player.getScale(), 2);
 			%muzzlepoint = VectorAdd(%player.getPosition(), "0 0" SPC 1.5 * %zScale);
@@ -52,7 +52,7 @@ package Support_DataIDItem
 		if (%obj.getState() !$= "Dead" && %obj.getDamagePercent() < 1.0 && isObject(%obj.client))
 		{
 			%itemDB = %col.getDatablock();
-			if (%col.getClassName() $= "Item" && %itemDB.isDataIDObject)
+			if (%col.getClassName() $= "Item" && %itemDB.hasDataID)
 			{
 				%slot = %obj.getFirstEmptySlot();
 				if (%slot != -1)
