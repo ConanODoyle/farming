@@ -179,7 +179,11 @@ function GameConnection::completeQuest(%client, %questID) {
 
 function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 	if (!getDataIDArrayValue(%questID, "isQuest")) {
-		%client.centerPrint("<just:right>\c6The note is blank... ", 1);
+		if (!displayRewards) {
+			%client.centerPrint("<just:right>\c6The note is blank... ", 1);
+		} else {
+			%client.centerPrint("<just:right>\c6...This side is blank too. ", 1);
+		}
 		return;
 	}
 
