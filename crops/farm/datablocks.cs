@@ -208,7 +208,7 @@ datablock fxDTSBrickData(brickSiloData)
 	category = "Farming";
 	subCategory = "Storage";
 	uiName = "Silo";
-	description = "(1 slot, 50x storage)";
+	description = "(1 slot, 30x storage)";
 
 	brickFile = "./bricks/Silo.blb";
 
@@ -216,10 +216,10 @@ datablock fxDTSBrickData(brickSiloData)
 
 	isStorageBrick = 1;
 	storageSlotCount = 1;
-	storageMultiplier = 50;
+	storageMultiplier = 30;
 	itemStackCount = 0;
 
-	cost = 800;
+	cost = 600;
 };
 
 datablock fxDTSBrickData(brickLargeToolboxData)
