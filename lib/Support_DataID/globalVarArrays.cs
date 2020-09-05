@@ -10,6 +10,11 @@ function getSafeDataIDArrayName(%aid)
 
 function loadDataIDArray(%aid, %force)
 {
+	if (%aid $= "")
+	{
+		return;
+	}
+
 	%aid = getSafeDataIDArrayName(%aid);
 	if (!$executedDataID[%aid] || %force)
 	{
@@ -18,12 +23,12 @@ function loadDataIDArray(%aid, %force)
 		if (isFile("config/server/DataIDs/" @ %aid @ ".cs"))
 		{
 			exec("config/server/DataIDs/" @ %aid @ ".cs");
-			$loadedDataIDs = trim($loadedDataIDs SPC %aid);
 		}
 		else if (%force)
 		{
 			echo("No dataID file found for " @ %aid @ "!");
 		}
+		$loadedDataIDs = trim($loadedDataIDs SPC %aid);
 	}
 	$executedDataID[%aid] = 1;
 
@@ -49,6 +54,7 @@ function unloadDataIDArray(%aid)
 	{
 		return;
 	}
+	saveDataIDArray(%aid);
 	deleteVariables("$DataID_" @ %aid @ "*");
 	$executedDataID[%aid] = 0;
 }
@@ -320,3 +326,37 @@ function clearDataIDArray(%aid)
 		fileDelete("config/server/DataIDs/" @ %aid @ ".cs");
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//aliases
+function loadIDA(%aid, %force) {return loadDataIDArray(%aid, %force);}
+function saveIDA(%aid, %force) {return saveDataIDArray(%aid, %force);}
+function unloadIDA(%aid) {return unloadDataIDArray(%aid);}
+function deleteIDA(%aid) {return deleteDataIDArray(%aid);}
+function pruneIDAs() {return pruneDataIDArrays();}
+function printIDA(%aid, %skipLoad) {return printDataIDArray(%aid, %skipLoad);}
+function getIDAValue(%aid, %slot) {return getDataIDArrayValue(%aid, %slot);}
+function getIDATagValue(%aid, %tag) {return getDataIDArrayTagValue(%aid, %tag);}
+function getIDACount(%aid) {return getDataIDArrayCount(%aid);}
+function indexOfIDA(%aid, %value, %startIndex) {return indexOfDataIDArray(%aid, %value, %startIndex);}
+function getIDATags(%aid) {return getDataIDArrayTags(%aid);}
+function setIDACount(%aid, %count) {return setDataIDArrayCount(%aid, %count);}
+function setIDAValue(%aid, %slot, %value) {return setDataIDArrayValue(%aid, %slot, %value);}
+function addToIDA(%aid, %value, %start) {return addToDataIDArray(%aid, %value, %start);}
+function setIDATagValue(%aid, %tag, %value) {return setDataIDArrayTagValue(%aid, %tag, %value);}
+function removeIDAValue(%aid, %slot) {return removeDataIDArrayValue(%aid, %slot);}
+function removeIDATag(%aid, %tag) {return removeDataIDArrayTagValue(%aid, %tag);}
+function removeIDATagValue(%aid, %tag) {return removeDataIDArrayTagValue(%aid, %tag);}
+function clearIDA(%aid) {return clearDataIDArray(%aid);}
