@@ -255,6 +255,7 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 			%total = %amountPresent + %insertAmount;
 			%value = getField(%value, 0) TAB %total TAB getField(%value, 2);
 			setDataIDArrayValue(%dataID, %slot, %value);
+		}
 		%brick.updateStorageMenu(%dataID);
 		return 1 SPC %insertCount;
 	}

@@ -304,10 +304,10 @@ function setWaterTankName(%obj)
 		return;
 	}
 
-	%rand = "_" @ getSubStr(getRandomHash("sprinkler")), 0, 20) @ "Tank";
+	%rand = "_" @ getSubStr(getRandomHash("sprinkler"), 0, 20) @ "Tank";
 	while (isObject(%rand))
 	{
-		%rand = "_" @ getSubStr(getRandomHash("sprinkler")), 0, 20) @ "Tank";
+		%rand = "_" @ getSubStr(getRandomHash("sprinkler"), 0, 20) @ "Tank";
 	}
 	%obj.settingName = 1;
 	%obj.setNTObjectName(%rand);
