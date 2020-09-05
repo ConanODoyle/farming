@@ -70,13 +70,13 @@ function generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes)
 function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %deliveredCount) {
 	if (!isQuest(%questID)) {
 		error("ERROR: Invalid questID!");
-		return;
+		return false;
 	}
 
 	%player = %client.player;
 	if (!isObject(%player)) {
 		error("ERROR: Player does not exist, can't deliver quest item!");
-		return;
+		return false;
 	}
 
 	if (%deliveredCount $= "") {
@@ -85,35 +85,34 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 
 	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
 
+	%alreadyDelivered = false;
 	for (%i = 0; %i < %numRequests; %i++) {
 		%request = getDataIDArrayValue(%questID, %i);
 		%item = getWord(%request, 0);
 		%count = getWord(%request, 1);
 		%delivered = getWord(%request, 2);
-		if (%count == %delivered) continue;
+		if (%count == %delivered) {
+			if (%item == %deliveredItem.getID()) {
+				%alreadyDelivered = true;
+			}
+			continue;
+		}
 
 		if ((%deliveredItem.isStackable && %item.isStackable && %deliveredItem.stackType $= %item.stackType) || %deliveredItem.getID() == %item.getID()) {
-			%overflow = (%delivered + %deliveredCount) - %count;
+			%overflow = getMax((%delivered + %deliveredCount) - %count, 0);
 
 			if (%overflow > 0) {
 				%delivered = %count;
-				if (%item.isStackable) {
-					%player.farmingAddStackableItem(%deliveredItem, %overflow);
-				} else {
-					for (%i = 0; %i < %overflow; %i++) {
-						%player.farmingAddItem(%deliveredItem);
-					}
-				}
 			} else {
 				%delivered += %deliveredCount;
 			}
 
 			setDataIDArrayValue(%questID, %i, %item SPC %count SPC %delivered);
-			return true;
+			return true SPC %overflow;
 		}
 	}
 
-	return false;
+	return false SPC %alreadyDelivered;
 }
 
 function GameConnection::checkQuestComplete(%client, %questID) {
@@ -212,3 +211,64 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 
 	%client.centerPrint(trim(%displayString), 1);
 }
+
+package FarmingQuests {
+	function serverCmdDropTool(%client, %slot) {
+		if (isObject(%player = %client.player)) {
+			%item = %player.tool[%slot];
+			%start = %player.getEyePoint();
+			%end = vectorAdd(vectorScale(%player.getEyeVector(), 6), %start);
+			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
+			if (isObject(%hit) && %hit.getDatablock().isQuestSubmissionPoint) {
+				if (%item == QuestItem.getID()) {
+					if (isQuest(%player.toolDataID[%slot])) {
+						%client.centerPrint("\c2Quest assigned!\n\c6Now you can deliver quest items here to complete the quest.", 3);
+						%hit.questID = %player.toolDataID[%slot];
+					} else {
+						%client.centerPrint("This slip doesn't have a valid quest on it!\nYou need a valid quest slip.", 3);
+					}
+					return;
+				}
+				if (!isQuest(%hit.questID)) {
+					 else {
+						%client.centerPrint("There's no quest assigned here!\nThrow a valid quest slip to assign one.", 3);
+					}
+					return;
+				}
+
+				%questID = %hit.questID;
+
+				%result = %client.questDeliverItem(%questID, %item, %pl.toolStackCount[%slot] == 0 ? 1 : %pl.toolStackCount[%slot]);
+				if (!%result) {
+					%alreadyDelivered = getWord(%result, 1);
+					if (%alreadyDelivered) {
+						%client.centerPrint("\c2You have already completed the \c3" @ %item.uiName @ "\c2 requirement for this quest!")
+					}
+					%client.centerPrint("\c3" @ %item.uiName @ "\c0 isn't required for this quest.");
+				} else {
+					%player.
+					%overflow = getWord(%result, 1);
+					if (%overflow > 0) {
+						%player.tool[%slot] = %item;
+						%player.toolStackCount[%slot] = %overflow;
+						messageClient(%cl, 'MsgItemPickup', "", %slot, %item);
+						if (%pl.currTool == %slot) {
+							%pl.unmountImage(0);
+						}
+					} else {
+						%newStackItem = getStackTypeDatablock(%pl.tool[%slot].stackType, getWord(%success, 1)).getID();
+						%player.tool[%slot] = %newStackItem;
+						%player.toolStackCount[%slot] = %overflow;
+						messageClient(%cl, 'MsgItemPickup', "", %slot, %newStackItem);
+						if (%pl.currTool == %slot) {
+							%pl.mountImage(%newStackItem.image, 0);
+						}
+					}
+				}
+				return;
+			}
+		}
+		return parent::serverCmdDropTool(%client, %slot);
+	}
+};
+schedule(1000, 0, activatePackage, FarmingQuests);
