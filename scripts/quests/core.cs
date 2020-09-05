@@ -234,7 +234,7 @@ package FarmingQuests {
 								if (%player.currTool == %slot) {
 									%player.unmountImage(0);
 								}
-								%client.chatMessage("\c2Quest complete!\n")
+								%client.chatMessage("\c2Quest complete!\n");
 								%client.chatMessage("\c3The rewards have been deposited in your inventory.");
 							} else {
 								%client.chatMessage("This quest isn't complete yet.");
