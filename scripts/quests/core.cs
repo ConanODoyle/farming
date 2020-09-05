@@ -234,21 +234,27 @@ package FarmingQuests {
 								if (%player.currTool == %slot) {
 									%player.unmountImage(0);
 								}
-								%client.chatMessage("\c2Quest complete!\n\c3The rewards have been deposited in your inventory.");
+								%client.chatMessage("\c2Quest complete!\n")
+								%client.chatMessage("\c3The rewards have been deposited in your inventory.");
 							} else {
-								%client.chatMessage("\c0This quest isn't complete yet.\n\c6Keep working on it and deposit the quest slip once it's done!");
+								%client.chatMessage("This quest isn't complete yet.");
+								%client.chatMessage("\c6Keep working on it and deposit the quest slip once it's done!");
 							}
 						} else {
-						%client.chatMessage("\c2Quest assigned!\n\c6Now you can deliver quest items here to complete the quest.\nOnce it's complete, deposit the slip to get your rewards!");
+							%client.chatMessage("\c2Quest assigned!");
+							%client.chatMessage("\c6Now you can deliver quest items here to complete the quest.");
+							%client.chatMessage("\c6Once it's complete, deposit the slip to get your rewards!");
 							%hit.questID = %player.toolDataID[%slot];
 						}
 					} else {
-						%client.chatMessage("This slip doesn't have a valid quest on it!\nYou need a valid quest slip.");
+						%client.chatMessage("This slip doesn't have a valid quest on it!");
+						%client.chatMessage("You need a valid quest slip.");
 					}
 					return;
 				}
 				if (!isQuest(%brickQuest)) {
-					%client.chatMessage("There's no quest assigned here!\nThrow a valid quest slip to assign one.");
+					%client.chatMessage("There's no quest assigned here!");
+					%client.chatMessage("Throw a valid quest slip to assign one.");
 					return;
 				}
 
