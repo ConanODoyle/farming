@@ -134,7 +134,7 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 		{
 			if (%itemDataID !$= "")
 			{
-				%entry = %display @ " - " @ getSubStr(%itemDataID, 0, 3);
+				%entry = %display @ " [" @ getSubStr(%itemDataID, strLen(%itemDataID) - 4, 3) @ "]";
 			}
 			else
 			{
@@ -206,7 +206,7 @@ function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCou
 			%insertAmount = getMin(%insertCount, %spaceAvailable);
 			%insertCount -= %insertAmount;
 			%total = %amountPresent + %insertAmount;
-			%value = getField(%value, 0) TAB %total;
+			%value = getField(%value, 0) TAB %total TAB getField(%value, 2);
 			setDataIDArrayValue(%dataID, %slot, %value);
 
 			if (%insertCount == 0)
@@ -231,7 +231,7 @@ function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCou
 			%insertAmount = getMin(%insertCount, %spaceAvailable);
 			%insertCount -= %insertAmount;
 			%total = %amountPresent + %insertAmount;
-			%value = getField(%value, 0) TAB %total;
+			%value = getField(%value, 0) TAB %total TAB getField(%value, 2);
 			setDataIDArrayValue(%dataID, %slot, %value);
 		}
 
@@ -469,7 +469,7 @@ function dropStoredItems(%brick)
 		%storageData = validateStorageValue(getDataIDArrayValue(%dataID, %storageSlot));
 		%itemDB = getField(%storageData, 0);
 		%storageCount = getField(%storageData, 2);
-		%packageInfo = getField(%storageData, 3);
+		%itemDataID = getField(%storageData, 3);
 
 		%stackType = %itemDB.stackType;
 
@@ -488,7 +488,7 @@ function dropStoredItems(%brick)
 			{
 				dataBlock = %itemDB;
 				count = %amt;
-				deliveryPackageInfo = %packageInfo;
+				dataID = %itemDataID;
 				sourceClient = getBrickgroupFromObject(%brick).client;
 				sourceBrickgroup = getBrickgroupFromObject(%brick).client;
 			};
@@ -556,6 +556,15 @@ package StorageBricks
 		{
 			return parent::serverCmdAddEvent(%client, %enabled, %inputEventIdx, %delay, %targetIdx, %NTNameIdx, %outputEventIdx, %par1, %par2, %par3, %par4);
 		}
+	}
+
+	function ndTrustCheckSelect(%obj, %group2, %bl_id, %admin)
+	{
+		if (%obj.getDatablock().isStorageBrick && !findClientByBL_ID(%bl_id).isBuilder)
+		{
+			return false;
+		}
+		return parent::ndTrustCheckSelect(%obj, %group2, %bl_id, %admin);
 	}
 
 	function fxDTSBrick::onDupCut(%this)
