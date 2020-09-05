@@ -24,13 +24,13 @@ function validateStorageValue(%string)
 			%db = %storageType;
 		}
 		//is a stackable item
-		if ($displayNameOverride_[%displayName] $= "")
+		if ($displayNameOverride_[%storageType] $= "")
 		{
 			%displayName = strUpr(getSubStr(%storageType, 0, 1)) @ getSubStr(%storageType, 1, 20);
 		}
 		else
 		{
-			%displayName = $displayNameOverride_[%displayName];
+			%displayName = $displayNameOverride_[%storageType];
 		}
 	}
 	return %db TAB %displayName TAB %count TAB %itemDataID;
