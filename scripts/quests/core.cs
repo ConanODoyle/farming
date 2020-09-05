@@ -234,21 +234,21 @@ package FarmingQuests {
 								if (%player.currTool == %slot) {
 									%player.unmountImage(0);
 								}
-								%client.centerPrint("\c2Quest complete!\n\c3The rewards have been deposited in your inventory.", 3);
+								%client.chatMessage("\c2Quest complete!\n\c3The rewards have been deposited in your inventory.");
 							} else {
-								%client.centerPrint("\c0This quest isn't complete yet.\n\c6Keep working on it and deposit the quest slip once it's done!", 3);
+								%client.chatMessage("\c0This quest isn't complete yet.\n\c6Keep working on it and deposit the quest slip once it's done!");
 							}
 						} else {
-						%client.centerPrint("\c2Quest assigned!\n\c6Now you can deliver quest items here to complete the quest.\nOnce it's complete, deposit the slip to get your rewards!", 3);
+						%client.chatMessage("\c2Quest assigned!\n\c6Now you can deliver quest items here to complete the quest.\nOnce it's complete, deposit the slip to get your rewards!");
 							%hit.questID = %player.toolDataID[%slot];
 						}
 					} else {
-						%client.centerPrint("This slip doesn't have a valid quest on it!\nYou need a valid quest slip.", 3);
+						%client.chatMessage("This slip doesn't have a valid quest on it!\nYou need a valid quest slip.");
 					}
 					return;
 				}
 				if (!isQuest(%brickQuest)) {
-					%client.centerPrint("There's no quest assigned here!\nThrow a valid quest slip to assign one.", 3);
+					%client.chatMessage("There's no quest assigned here!\nThrow a valid quest slip to assign one.");
 					return;
 				}
 
@@ -259,12 +259,12 @@ package FarmingQuests {
 				if (!%result) {
 					%alreadyDelivered = getWord(%result, 1);
 					if (%alreadyDelivered) {
-						%client.centerPrint("\c2You have already completed the \c3" @ trim(%itemName) @ "\c2 requirement for this quest!", 3);
+						%client.chatMessage("\c2You have already completed the \c3" @ trim(%itemName) @ "\c2 requirement for this quest!");
 					} else {
-						%client.centerPrint("\c3" @ trim(%itemName) @ "\c0 isn't required for this quest.", 3);
+						%client.chatMessage("\c3" @ trim(%itemName) @ "\c0 isn't required for this quest.");
 					}
 				} else {
-					%originalCount = %player.toolStackCount[%slot]
+					%originalCount = %player.toolStackCount[%slot];
 					%overflow = getWord(%result, 1);
 					if (%overflow > 0) {
 						%newStackItem = getStackTypeDatablock(%player.tool[%slot].stackType, getWord(%success, 1)).getID();
