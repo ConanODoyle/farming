@@ -427,7 +427,7 @@ datablock fxDTSBrickData(brickCompostBinData)
 	// subCategory = "Extra";
 	uiName = "Compost Bin";
 
-	brickFile = "./resources/compostBin.blb";
+	brickFile = "./resources/fertilizer/compostBin.blb";
 
 	iconName = "Add-Ons/Server_Farming/crops/icons/compost_bin";
 
@@ -450,7 +450,7 @@ datablock fxDTSBrickData(brickLargeCompostBinData)
 	// subCategory = "Extra";
 	uiName = "Large Compost Bin";
 
-	brickFile = "./resources/largecompostBin.blb";
+	brickFile = "./resources/fertilizer/largecompostBin.blb";
 
 	iconName = "Add-Ons/Server_Farming/crops/icons/large_compost_bin";
 
@@ -476,7 +476,7 @@ datablock fxDTSBrickData(brickLargeCompostBinData)
 
 datablock ItemData(CompostBinItem : brickPlacerItem)
 {
-	shapeFile = "./resources/toolbox.dts";
+	shapeFile = "./resources/fertilizer/toolbox.dts";
 	uiName = "Compost Bin";
 	image = "CompostBinBrickImage";
 	colorShiftColor = "0.9 0 0 1";
@@ -488,7 +488,7 @@ datablock ItemData(CompostBinItem : brickPlacerItem)
 
 datablock ShapeBaseImageData(CompostBinBrickImage : BrickPlacerImage)
 {
-	shapeFile = "./resources/toolbox.dts";
+	shapeFile = "./resources/fertilizer/toolbox.dts";
 	
 	offset = "-0.56 0 0";
 	eyeOffset = "0 0 0";
@@ -528,7 +528,7 @@ function CompostBinBrickImage::onFire(%this, %obj, %slot)
 
 datablock ItemData(LargeCompostBinItem : brickPlacerItem)
 {
-	shapeFile = "./resources/toolbox.dts";
+	shapeFile = "./resources/fertilizer/toolbox.dts";
 	uiName = "Large Compost Bin";
 	image = "LargeCompostBinBrickImage";
 	colorShiftColor = "0.5 0 0 1";
@@ -540,7 +540,7 @@ datablock ItemData(LargeCompostBinItem : brickPlacerItem)
 
 datablock ShapeBaseImageData(LargeCompostBinBrickImage : BrickPlacerImage)
 {
-	shapeFile = "./resources/toolbox.dts";
+	shapeFile = "./resources/fertilizer/toolbox.dts";
 	
 	offset = "-0.56 0 0";
 	eyeOffset = "0 0 0";
@@ -587,7 +587,7 @@ $Stackable_Fertilizer_StackedItemTotal = 3;
 
 datablock ItemData(FertilizerBag0Item : HammerItem)
 {
-	shapeFile = "./resources/fertilizerBag0.dts";
+	shapeFile = "./resources/fertilizer/fertilizerBag0.dts";
 	uiName = "Fertilizer Bag";
 	image = "FertilizerBag0Image";
 	colorShiftColor = "0.5 0.3 0 1";
@@ -601,7 +601,7 @@ datablock ItemData(FertilizerBag0Item : HammerItem)
 
 datablock ShapeBaseImageData(FertilizerBag0Image)
 {
-	shapeFile = "./resources/fertilizerBag0.dts";
+	shapeFile = "./resources/fertilizer/fertilizerBag0.dts";
 	emap = true;
 
 	doColorShift = true;
@@ -645,7 +645,7 @@ datablock ShapeBaseImageData(FertilizerBag0Image)
 
 datablock ItemData(FertilizerBag1Item : FertilizerBag0Item)
 {
-	shapeFile = "./resources/fertilizerBag1.dts";
+	shapeFile = "./resources/fertilizer/fertilizerBag1.dts";
 	image = "FertilizerBag1Image";
 	uiName = "Half Fertilizer Bag";
 
@@ -654,13 +654,13 @@ datablock ItemData(FertilizerBag1Item : FertilizerBag0Item)
 
 datablock ShapeBaseImageData(FertilizerBag1Image : FertilizerBag0Image)
 {
-	shapeFile = "./resources/fertilizerBag1.dts";
+	shapeFile = "./resources/fertilizer/fertilizerBag1.dts";
 	item = "FertilizerBag1Item";
 };
 
 datablock ItemData(FertilizerBag2Item : FertilizerBag0Item)
 {
-	shapeFile = "./resources/fertilizerBag2.dts";
+	shapeFile = "./resources/fertilizer/fertilizerBag2.dts";
 	image = "FertilizerBag2Image";
 	uiName = "Full Fertilizer Bag";
 
@@ -669,7 +669,7 @@ datablock ItemData(FertilizerBag2Item : FertilizerBag0Item)
 
 datablock ShapeBaseImageData(FertilizerBag2Image : FertilizerBag0Image)
 {
-	shapeFile = "./resources/fertilizerBag2.dts";
+	shapeFile = "./resources/fertilizer/fertilizerBag2.dts";
 	item = "FertilizerBag2Item";
 };
 
