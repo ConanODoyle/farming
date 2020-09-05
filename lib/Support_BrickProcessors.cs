@@ -104,10 +104,11 @@ package Processors
 
 					%pl.tool[%pl.currTool] = "";
 					messageClient(%cl, 'MsgItemPickup', '', %pl.currTool, 0);
+					$LastPlacedProcessorClient = %cl;
 					%ret = parent::serverCmdPlantBrick(%cl);
 					// talk("Placed: " @ $LastAddedBrick SPC " isObject: " @ isObject($LastAddedBrick) SPC "Removed: " @ ($LastAddedBrick).removed);
 					serverCmdUnuseTool(%cl);
-					if (!isObject($LastAddedBrick))
+					if (!isObject($LastAddedBrick) && !isObject(%cl.processorPlaced))
 					{
 						%pl.tool[%currTool] = %item;
 						serverCmdUseTool(%cl, %currTool);
@@ -120,6 +121,7 @@ package Processors
 						%brick.placer = %cl;
 						%brick.placerSlot = %currTool;
 					}
+					%cl.processorPlaced = "";
 					return %ret;
 				}
 			}
@@ -131,30 +133,25 @@ package Processors
 	function fxDTSBrickData::onAdd(%this, %obj)
 	{
 		$LastAddedBrick = %obj;
+		if (%this.isProcessor && %obj.isPlanted && $LastPlacedProcessorClient !$= "")
+		{
+			$LastPlacedProcessorClient.processorPlaced = %obj;
+			$LastPlacedProcessorClient = "";
+		}
 		return parent::onAdd(%this, %obj);
+	}
+
+	function ndTrustCheckSelect(%obj, %group2, %bl_id, %admin)
+	{
+		if (%obj.getDatablock().isProcessor && !findClientByBL_ID(%bl_id).isBuilder)
+		{
+			return false;
+		}
+		return parent::ndTrustCheckSelect(%obj, %group2, %bl_id, %admin);
 	}
 
 	function fxDTSBrickData::onRemove(%this, %obj)
 	{
-		// %obj.removed = 1;
-		// if (%obj.isPlanted)
-		// {
-		// 	talk("Removed: " @ %obj SPC "Removed: " @ %obj.removed);
-		// }
-		if (%obj.isPlanted && mAbs(%obj.processorPlaced - $Sim::Time) < 0.01)
-		{
-			// talk("Detected instant remove: " @ %	obj);
-			%cl = %obj.placer;
-			%pl = %cl.player;
-			%slot = %obj.placerSlot;
-			%item = %obj.getDatablock().placerItem.getID();
-			if (isObject(%pl))
-			{
-				%pl.tool[%slot] = %item;
-				serverCmdUseTool(%cl, %slot);
-				messageClient(%cl, 'MsgItemPickup', '', %slot, %item);
-			}
-		}
 		return parent::onRemove(%this, %obj);
 	}
 };
