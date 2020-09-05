@@ -92,7 +92,7 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 		%count = getWord(%request, 1);
 		%delivered = getWord(%request, 2);
 		if (%count == %delivered) {
-			if (%item == %deliveredItem.getID()) {
+			if ((%deliveredItem.isStackable && %item.isStackable && %deliveredItem.stackType $= %item.stackType) || %deliveredItem.getID() == %item.getID()) {
 				%alreadyDelivered = true;
 			}
 			continue;
@@ -134,8 +134,8 @@ function GameConnection::checkQuestComplete(%client, %questID) {
 		%count = getWord(%request, 1);
 		%delivered = getWord(%request, 2);
 
-		if (%count < %delivered) {
-			return;
+		if (%count > %delivered) {
+			return false;
 		}
 	}
 	return true;
@@ -214,51 +214,72 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 
 package FarmingQuests {
 	function serverCmdDropTool(%client, %slot) {
-		if (isObject(%player = %client.player)) {
+		if (isObject(%player = %client.player) && isObject(%player.tool[%slot])) {
 			%item = %player.tool[%slot];
 			%start = %player.getEyePoint();
 			%end = vectorAdd(vectorScale(%player.getEyeVector(), 6), %start);
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
 			if (isObject(%hit) && %hit.getDatablock().isQuestSubmissionPoint) {
+				%brickQuest = %hit.questID;
 				if (%item == QuestItem.getID()) {
 					if (isQuest(%player.toolDataID[%slot])) {
-						%client.centerPrint("\c2Quest assigned!\n\c6Now you can deliver quest items here to complete the quest.", 3);
-						%hit.questID = %player.toolDataID[%slot];
+						%playerQuest = %player.toolDataID[%slot];
+						if (isQuest(%brickQuest) && %player.toolDataID[%slot] $= %brickQuest) {
+							if (%client.checkQuestComplete(%playerQuest)) {
+								%client.completeQuest(%playerQuest);
+								%player.tool[%slot] = 0;
+								%player.toolDataID[%slot] = "";
+								%player.toolStackCount[%slot] = 0;
+								messageClient(%client, 'MsgItemPickup', "", %slot, 0);
+								if (%player.currTool == %slot) {
+									%player.unmountImage(0);
+								}
+								%client.centerPrint("\c2Quest complete!\n\c3The rewards have been deposited in your inventory.", 3);
+							} else {
+								%client.centerPrint("\c0This quest isn't complete yet.\n\c6Keep working on it and deposit the quest slip once it's done!", 3);
+							}
+						} else {
+						%client.centerPrint("\c2Quest assigned!\n\c6Now you can deliver quest items here to complete the quest.\nOnce it's complete, deposit the slip to get your rewards!", 3);
+							%hit.questID = %player.toolDataID[%slot];
+						}
 					} else {
 						%client.centerPrint("This slip doesn't have a valid quest on it!\nYou need a valid quest slip.", 3);
 					}
 					return;
 				}
-				if (!isQuest(%hit.questID)) {
+				if (!isQuest(%brickQuest)) {
 					%client.centerPrint("There's no quest assigned here!\nThrow a valid quest slip to assign one.", 3);
 					return;
 				}
 
 				%questID = %hit.questID;
 
-				%result = %client.questDeliverItem(%questID, %item, %pl.toolStackCount[%slot] == 0 ? 1 : %pl.toolStackCount[%slot]);
+				%result = %client.questDeliverItem(%questID, %item, %player.toolStackCount[%slot] == 0 ? 1 : %player.toolStackCount[%slot]);
+				%itemName = %item.isStackable ? ($displayNameOverride_[%item.stackType] !$= "" ? $displayNameOverride_[%item.stackType] : %item.stackType) : %item.uiName;
 				if (!%result) {
 					%alreadyDelivered = getWord(%result, 1);
 					if (%alreadyDelivered) {
-						%client.centerPrint("\c2You have already completed the \c3" @ trim(%item.uiName) @ "\c2 requirement for this quest!", 3);
+						%client.centerPrint("\c2You have already completed the \c3" @ trim(%itemName) @ "\c2 requirement for this quest!", 3);
+					} else {
+						%client.centerPrint("\c3" @ trim(%itemName) @ "\c0 isn't required for this quest.", 3);
 					}
-					%client.centerPrint("\c3" @ trim(%item.uiName) @ "\c0 isn't required for this quest.", 3);
 				} else {
+					%originalCount = %player.toolStackCount[%slot]
 					%overflow = getWord(%result, 1);
 					if (%overflow > 0) {
-						%newStackItem = getStackTypeDatablock(%pl.tool[%slot].stackType, getWord(%success, 1)).getID();
+						%newStackItem = getStackTypeDatablock(%player.tool[%slot].stackType, getWord(%success, 1)).getID();
 						%player.tool[%slot] = %newStackItem;
 						%player.toolStackCount[%slot] = %overflow;
-						messageClient(%cl, 'MsgItemPickup', "", %slot, %newStackItem);
-						if (%pl.currTool == %slot) {
-							%pl.mountImage(%newStackItem.image, 0);
+						messageClient(%client, 'MsgItemPickup', "", %slot, %newStackItem);
+						if (%player.currTool == %slot) {
+							%player.mountImage(%newStackItem.image, 0);
 						}
 					} else {
 						%player.tool[%slot] = 0;
 						%player.toolStackCount[%slot] = 0;
-						messageClient(%cl, 'MsgItemPickup', "", %slot, 0);
-						if (%pl.currTool == %slot) {
-							%pl.unmountImage(0);
+						messageClient(%client, 'MsgItemPickup', "", %slot, 0);
+						if (%player.currTool == %slot) {
+							%player.unmountImage(0);
 						}
 					}
 				}
