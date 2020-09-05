@@ -152,10 +152,20 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 //output: error code (0 if no error/complete store, 1 SPC %excess if partial store, 2 if no store)
 function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
 {
+	insertIntoStorage(%brick, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+}
+
+function AIPlayer::insertIntoStorage(%bot, %dataID, %storeItemDB, %insertCount, %itemDataID)
+{
+	insertIntoStorage(%bot, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+}
+
+function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
+{
 	initializeStorage(%brick, %dataID);
 
 	//get storage data
-	%max = getMax(%brick.getDatablock().storageSlotCount, 1);
+	%max = getMax(%storageObj.getDatablock().storageSlotCount, 1);
 	%start = 1; //slot 0 is information
 
 	%count = 0;
@@ -166,7 +176,7 @@ function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCou
 	}
 
 	%stackType = %storeItemDB.stackType;
-	%storageMax = %brick.getStorageMax(%storeItemDB);
+	%storageMax = %storageObj.getStorageMax(%storeItemDB);
 	if (%storageMax <= 0) //cannot store any at all
 	{
 		return 2;
@@ -349,6 +359,26 @@ function fxDTSBrick::getStorageMax(%brick, %itemDB)
 	return %total;
 }
 
+function AIPlayer::getStorageMax(%bot, %itemDB)
+{
+	%botDB = %bot.getDatablock();
+	if (%itemDB.isStackable)
+	{
+		%stackType = %itemDB.stackType;
+		%total = getMax(0, %botDB.storageMultiplier * $StorageMax_[%stackType]);
+	}
+	else if (%itemDB.hasDataID)
+	{
+		%total = 1;
+	}
+	else
+	{
+		%total = getMax(0, %bbotDB.itemStackCount);
+	}
+	return %total;
+}
+
+
 
 
 
@@ -367,30 +397,35 @@ function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
 	%brick.updateStorageMenu(%dataID);
 
 	%cl.startCenterprintMenu(%brick.centerprintMenu);
-	storageLoop(%cl, %brick);
+
+	if (isObject(%brick.vehicle.storageBot))
+	{
+		%storageObj = %brick.vehicle.storageBot;
+	}
+	else if (isObject(%brick.vehicle) && %brick.vehicle.getDatablock().isStorageVehicle)
+	{
+		%storageObj = %brick.vehicle;
+	}
+	else
+	{
+		%storageObj = %brick;
+	}
+
+	storageLoop(%cl, %storageObj);
 }
 registerOutputEvent("fxDTSBrick", "accessStorage", "string 200 250", 1);
 
-function AIPlayer::accessStorage(%bot, %dataID, %cl)
-{
-	%bot.spawnbrick.updateStorageMenu(%dataID);
-
-	%cl.startCenterprintMenu(%bot.spawnbrick.centerprintMenu);
-	storageLoop(%cl, %bot);
-}
-registerOutputEvent("AIPlayer", "accessStorage", "string 200 250", 1);
-
-function storageLoop(%cl, %brick)
+function storageLoop(%cl, %obj)
 {
 	cancel(%cl.storageSchedule);
 
-	if (!isObject(%brick) || !isObject(%cl.player) || !%cl.isInCenterprintMenu)
+	if (!isObject(%obj) || !isObject(%cl.player) || !%cl.isInCenterprintMenu)
 	{
 		%cl.exitCenterprintMenu();
 		return;
 	}
 
-	if (vectorDist(%brick.getPosition(), %cl.player.getPosition()) > 6)
+	if (vectorDist(%obj.getPosition(), %cl.player.getPosition()) > 6)
 	{
 		%cl.exitCenterprintMenu();
 		return;
@@ -398,7 +433,7 @@ function storageLoop(%cl, %brick)
 
 	%start = %cl.player.getEyePoint();
 	%end = vectorAdd(vectorScale(%cl.player.getEyeVector(), 8), %start);
-	if (containerRaycast(%start, %end, %brick.getType()) != %brick)
+	if (containerRaycast(%start, %end, %obj.getType()) != %obj)
 	{
 		%cl.exitCenterprintMenu();
 		return;
@@ -406,7 +441,7 @@ function storageLoop(%cl, %brick)
 
 	%cl.displayCenterprintMenu(0);
 
-	%cl.storageSchedule = schedule(200, %cl, storageLoop, %cl, %brick);
+	%cl.storageSchedule = schedule(200, %cl, storageLoop, %cl, %obj);
 }
 
 function addStorageEvent(%this, %botForm)
@@ -427,7 +462,7 @@ function addStorageEvent(%this, %botForm)
 		%inputEvent = "onActivate";	
 	}
 	%delay = 0;
-	%target = "Self"; //Self
+	%target = "Self";
 	%outputEvent = "accessStorage";
 	if (%param1 $= "")
 	{
@@ -609,8 +644,11 @@ package StorageBricks
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
 			if (isObject(%hit) && %hit.getDatablock().isStorageBrick)
 			{
-				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1], %item, %pl.toolStackCount[%slot] == 0 ? 1 : %pl.toolStackCount[%slot], %pl.toolDataID[%slot]);
-				if (%success < 1) //complete insertion
+				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1], 
+												%item, 
+												%pl.toolStackCount[%slot] == 0 ? 1 : %pl.toolStackCount[%slot], 
+												%pl.toolDataID[%slot]);
+				if (%success == 0) //complete insertion
 				{
 					%pl.toolStackCount[%slot] = 0;
 					%pl.tool[%slot] = 0;
@@ -621,7 +659,7 @@ package StorageBricks
 					}
 					return;
 				}
-				else if (%success < 2) //partial insertion
+				else if (%success == 1) //partial insertion
 				{
 					%pl.toolStackCount[%slot] = getWord(%success, 1);
 					%db = getStackTypeDatablock(%pl.tool[%slot].stackType, getWord(%success, 1)).getID();

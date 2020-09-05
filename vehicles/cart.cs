@@ -15,8 +15,11 @@ datablock PlayerData(StorageCartArmor : HorseArmor)
 	mountNode[0] = 0;
 	mountThread[0] = "armReadyBoth";
 
-	isStorageCart = 1;
-	storageBonus = 1;
+	isStorageVehicle = 1;
+	storageSlotCount = 4;
+	storageMultiplier = 1;
+	itemStackCount = 2;
+
 	cost = 250;
 };
 
@@ -36,8 +39,10 @@ datablock PlayerData(HorseStorageCartArmor : HorseArmor)
 	mountNode[0] = 0;
 	mountThread[0] = "root";
 
-	isStorageCart = 1;
-	storageBonus = 1;
+	isStorageVehicle = 1;
+	storageSlotCount = 4;
+	storageMultiplier = 1;
+	itemStackCount = 2;
 	cost = 2000;
 };
 
@@ -47,8 +52,10 @@ datablock PlayerData(LargeStorageCartArmor : StorageCartArmor)
 
 	uiName = "Large Storage Cart (2x) - $1200";
 
-	isStorageCart = 1;
-	storageBonus = 2;
+	isStorageVehicle = 1;
+	storageSlotCount = 4;
+	storageMultiplier = 2;
+	itemStackCount = 2;
 	cost = 1200;
 };
 
@@ -156,12 +163,34 @@ package Cart
 			%start = %pl.getEyePoint();
 			%end = vectorAdd(vectorScale(%pl.getEyeVector(), 6), %start);
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::PlayerObjectType, %cl.player), 0);
-			if (isObject(%hit) && %hit.getDatablock().isStorageCart && isObject(%brick = %hit.spawnBrick))
+			if (isObject(%hit) && %hit.getDatablock().isStorageVehicle && isObject(%brick = %hit.spawnBrick))
 			{
 				addStorageEvent(%brick, 1);
-				%success = attemptStorage(%brick, %cl, %slot, %hit.getDatablock().storageBonus);
-				if (%success)
+				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1], 
+												%item, 
+												%pl.toolStackCount[%slot] == 0 ? 1 : %pl.toolStackCount[%slot], 
+												%pl.toolDataID[%slot]);
+				if (%success == 0) //complete insertion
 				{
+					%pl.toolStackCount[%slot] = 0;
+					%pl.tool[%slot] = 0;
+					messageClient(%cl, 'MsgItemPickup', "", %slot, 0);
+					if (%pl.currTool == %slot)
+					{
+						%pl.unmountImage(0);
+					}
+					return;
+				}
+				else if (%success == 1) //partial insertion
+				{
+					%pl.toolStackCount[%slot] = getWord(%success, 1);
+					%db = getStackTypeDatablock(%pl.tool[%slot].stackType, getWord(%success, 1)).getID();
+					messageClient(%cl, 'MsgItemPickup', "", %slot, %db);
+					%pl.tool[%slot] = %db;
+					if (%pl.currTool == %slot)
+					{
+						%pl.mountImage(%db.image, 0);
+					}
 					return;
 				}
 			}
