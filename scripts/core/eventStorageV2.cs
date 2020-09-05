@@ -95,9 +95,13 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 		//skip updating if its been very recently updated? or some other thing
 		return;
 	}
+	else if (!isObject(%brick.storageObj))
+	{
+		return;
+	}
 
 	//get storage data
-	%max = getMax(%brick.getDatablock().storageSlotCount, 1);
+	%max = getMax(%brick.storageObj.getDatablock().storageSlotCount, 1);
 	%start = 1; //slot 0 is information
 
 	%count = 0;
@@ -109,10 +113,11 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 
 	if (!isObject(%brick.centerprintMenu))
 	{
+		%storeObjDB = %brick.storageObj.getDatablock();
 		%brick.centerprintMenu = new ScriptObject(StorageCenterprintMenus)
 		{
 			isCenterprintMenu = 1;
-			menuName = %brick.getDatablock().uiName;
+			menuName = %storeObjDB.menuName $= "" ? %storeObjDB.uiName : %storeObjDB.menuName;
 
 			menuOptionCount = %max;
 			brick = %brick;
@@ -134,11 +139,11 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 		{
 			if (%itemDataID !$= "")
 			{
-				%entry = %display @ " [" @ getSubStr(%itemDataID, strLen(%itemDataID) - 4, 3) @ "]";
+				%entry = trim(%display) @ " [" @ getSubStr(%itemDataID, strLen(%itemDataID) - 4, 3) @ "]";
 			}
 			else
 			{
-				%entry = %display @ " - " @ %itemCount;
+				%entry = trim(%display) @ " - " @ %itemCount;
 			}
 		}
 		%brick.centerprintMenu.menuOption[%i] = %entry;
@@ -152,12 +157,12 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 //output: error code (0 if no error/complete store, 1 SPC %excess if partial store, 2 if no store)
 function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
 {
-	insertIntoStorage(%brick, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+	return insertIntoStorage(%brick, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
 }
 
 function AIPlayer::insertIntoStorage(%bot, %dataID, %storeItemDB, %insertCount, %itemDataID)
 {
-	insertIntoStorage(%bot, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+	return insertIntoStorage(%bot, %bot.spawnBrick, %dataID, %storeItemDB, %insertCount, %itemDataID);
 }
 
 function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
@@ -373,7 +378,7 @@ function AIPlayer::getStorageMax(%bot, %itemDB)
 	}
 	else
 	{
-		%total = getMax(0, %bbotDB.itemStackCount);
+		%total = getMax(0, %botDB.itemStackCount);
 	}
 	return %total;
 }
@@ -394,10 +399,6 @@ function AIPlayer::getStorageMax(%bot, %itemDB)
 
 function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
 {
-	%brick.updateStorageMenu(%dataID);
-
-	%cl.startCenterprintMenu(%brick.centerprintMenu);
-
 	if (isObject(%brick.vehicle.storageBot))
 	{
 		%storageObj = %brick.vehicle.storageBot;
@@ -410,6 +411,10 @@ function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
 	{
 		%storageObj = %brick;
 	}
+	%brick.storageObj = %storageObj;
+
+	%brick.updateStorageMenu(%dataID);
+	%cl.startCenterprintMenu(%brick.centerprintMenu);
 
 	storageLoop(%cl, %storageObj);
 }
@@ -433,7 +438,7 @@ function storageLoop(%cl, %obj)
 
 	%start = %cl.player.getEyePoint();
 	%end = vectorAdd(vectorScale(%cl.player.getEyeVector(), 8), %start);
-	if (containerRaycast(%start, %end, %obj.getType()) != %obj)
+	if (containerRaycast(%start, %end, %obj.getType(), %cl.player) != %obj)
 	{
 		%cl.exitCenterprintMenu();
 		return;

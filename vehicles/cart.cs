@@ -19,6 +19,7 @@ datablock PlayerData(StorageCartArmor : HorseArmor)
 	storageSlotCount = 4;
 	storageMultiplier = 1;
 	itemStackCount = 2;
+	menuName = "Storage Cart";
 
 	cost = 250;
 };
@@ -43,6 +44,8 @@ datablock PlayerData(HorseStorageCartArmor : HorseArmor)
 	storageSlotCount = 4;
 	storageMultiplier = 1;
 	itemStackCount = 2;
+	menuName = "Horse Cart";
+
 	cost = 2000;
 };
 
@@ -56,6 +59,8 @@ datablock PlayerData(LargeStorageCartArmor : StorageCartArmor)
 	storageSlotCount = 4;
 	storageMultiplier = 2;
 	itemStackCount = 2;
+	menuName = "Large Storage Cart";
+
 	cost = 1200;
 };
 
@@ -165,8 +170,9 @@ package Cart
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::PlayerObjectType, %cl.player), 0);
 			if (isObject(%hit) && %hit.getDatablock().isStorageVehicle && isObject(%brick = %hit.spawnBrick))
 			{
+				talk("e");
 				addStorageEvent(%brick, 1);
-				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1], 
+				%success = %hit.insertIntoStorage(%hit.spawnBrick.eventOutputParameter[0, 1], 
 												%item, 
 												%pl.toolStackCount[%slot] == 0 ? 1 : %pl.toolStackCount[%slot], 
 												%pl.toolDataID[%slot]);
