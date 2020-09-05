@@ -17,3 +17,5 @@ function GameConnection::getNewQuest(%client, %requestSlots, %requestTypes, %rew
     %player.farmingAddItem(QuestItem);
     %player.toolDataID[%slot] = %quest;
 }
+
+registerOutputEvent("GameConnection", "getNewQuest", "int 1 20" TAB "string 200 50" TAB "int 1 20" TAB "string 200 50");
