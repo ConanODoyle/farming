@@ -230,9 +230,7 @@ package FarmingQuests {
 					return;
 				}
 				if (!isQuest(%hit.questID)) {
-					 else {
-						%client.centerPrint("There's no quest assigned here!\nThrow a valid quest slip to assign one.", 3);
-					}
+					%client.centerPrint("There's no quest assigned here!\nThrow a valid quest slip to assign one.", 3);
 					return;
 				}
 
@@ -242,7 +240,7 @@ package FarmingQuests {
 				if (!%result) {
 					%alreadyDelivered = getWord(%result, 1);
 					if (%alreadyDelivered) {
-						%client.centerPrint("\c2You have already completed the \c3" @ %item.uiName @ "\c2 requirement for this quest!")
+						%client.centerPrint("\c2You have already completed the \c3" @ %item.uiName @ "\c2 requirement for this quest!");
 					}
 					%client.centerPrint("\c3" @ %item.uiName @ "\c0 isn't required for this quest.");
 				} else {
