@@ -19,3 +19,5 @@
 // tables can be members of more than one metatable, but metatables' tables
 // should not have any common items, or else quests like "get 75 potatoes and
 // 32 potatoes" would happen because of the way quest generation works
+
+// $Farming::Metatable_["SampleTable"] = "FruitTable" TAB "VegetableTable" TAB "ToolTable" TAB "...";

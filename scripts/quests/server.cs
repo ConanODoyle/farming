@@ -3,3 +3,4 @@ exec("./tables.cs");
 exec("./core.cs");
 exec("./items.cs");
 exec("./events.cs");
+exec("./metatables.cs");
