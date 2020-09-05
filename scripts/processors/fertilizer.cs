@@ -476,7 +476,7 @@ datablock fxDTSBrickData(brickLargeCompostBinData)
 
 datablock ItemData(CompostBinItem : brickPlacerItem)
 {
-	shapeFile = "./resources/fertilizer/toolbox.dts";
+	shapeFile = "./resources/toolbox.dts";
 	uiName = "Compost Bin";
 	image = "CompostBinBrickImage";
 	colorShiftColor = "0.9 0 0 1";
@@ -488,7 +488,7 @@ datablock ItemData(CompostBinItem : brickPlacerItem)
 
 datablock ShapeBaseImageData(CompostBinBrickImage : BrickPlacerImage)
 {
-	shapeFile = "./resources/fertilizer/toolbox.dts";
+	shapeFile = "./resources/toolbox.dts";
 	
 	offset = "-0.56 0 0";
 	eyeOffset = "0 0 0";
@@ -528,7 +528,7 @@ function CompostBinBrickImage::onFire(%this, %obj, %slot)
 
 datablock ItemData(LargeCompostBinItem : brickPlacerItem)
 {
-	shapeFile = "./resources/fertilizer/toolbox.dts";
+	shapeFile = "./resources/toolbox.dts";
 	uiName = "Large Compost Bin";
 	image = "LargeCompostBinBrickImage";
 	colorShiftColor = "0.5 0 0 1";
@@ -540,7 +540,7 @@ datablock ItemData(LargeCompostBinItem : brickPlacerItem)
 
 datablock ShapeBaseImageData(LargeCompostBinBrickImage : BrickPlacerImage)
 {
-	shapeFile = "./resources/fertilizer/toolbox.dts";
+	shapeFile = "./resources/toolbox.dts";
 	
 	offset = "-0.56 0 0";
 	eyeOffset = "0 0 0";

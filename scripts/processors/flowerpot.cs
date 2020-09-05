@@ -8,7 +8,7 @@ datablock fxDTSBrickData(brickFlowerPotData : brick1x1Data)
 	subCategory = "";
 	uiName = "Flower Pot";
 
-	brickFile = "./resources/flowerPot.blb";
+	brickFile = "./resources/flowerpot/flowerPot.blb";
 
 	iconName = "Add-Ons/Server_Farming/crops/icons/flower_pot";
 
@@ -28,7 +28,7 @@ datablock fxDTSBrickData(brickFlowerPotData : brick1x1Data)
 
 datablock ItemData(FlowerPotItem : brickPlacerItem)
 {
-	shapeFile = "./resources/FlowerpotItem.dts";
+	shapeFile = "./resources/flowerpot/FlowerpotItem.dts";
 	uiName = "Flower Pot";
 	image = "FlowerpotBrickImage";
 	colorShiftColor = "0.90 0.48 0 1";
@@ -40,7 +40,7 @@ datablock ItemData(FlowerPotItem : brickPlacerItem)
 
 datablock ShapeBaseImageData(FlowerpotBrickImage : BrickPlacerImage)
 {
-	shapeFile = "./resources/FlowerpotItem.dts";
+	shapeFile = "./resources/flowerpot/FlowerpotItem.dts";
 	
 	offset = "-0.56 0 -0.25";
 	eyeOffset = "0 0 0";

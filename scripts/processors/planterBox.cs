@@ -8,7 +8,7 @@ datablock fxDTSBrickData(brickPlanterBoxData : brick1x1Data)
 	subCategory = "";
 	uiName = "Planter Box";
 
-	brickFile = "./resources/PlanterBox.blb";
+	brickFile = "./resources/planterbox/PlanterBox.blb";
 
 	iconName = "Add-Ons/Server_Farming/crops/icons/4x_planter";
 
