@@ -7,7 +7,7 @@ function GameConnection::getNewQuest(%client, %requestSlots, %requestTypes, %rew
 
     %slot = %player.getFirstEmptySlot();
     if (%slot == -1) {
-        messageClient(%client, 'MsgUploadEnd', "Your inventory is full. Please make some space before trying to get a quest.");
+        %client.centerPrint("Your inventory is full!\nMake some space for the quest slip before trying again.", 3);
         return;
     }
 
