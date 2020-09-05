@@ -244,22 +244,21 @@ package FarmingQuests {
 					}
 					%client.centerPrint("\c3" @ %item.uiName @ "\c0 isn't required for this quest.");
 				} else {
-					%player.
 					%overflow = getWord(%result, 1);
 					if (%overflow > 0) {
-						%player.tool[%slot] = %item;
-						%player.toolStackCount[%slot] = %overflow;
-						messageClient(%cl, 'MsgItemPickup', "", %slot, %item);
-						if (%pl.currTool == %slot) {
-							%pl.unmountImage(0);
-						}
-					} else {
 						%newStackItem = getStackTypeDatablock(%pl.tool[%slot].stackType, getWord(%success, 1)).getID();
 						%player.tool[%slot] = %newStackItem;
 						%player.toolStackCount[%slot] = %overflow;
 						messageClient(%cl, 'MsgItemPickup', "", %slot, %newStackItem);
 						if (%pl.currTool == %slot) {
 							%pl.mountImage(%newStackItem.image, 0);
+						}
+					} else {
+						%player.tool[%slot] = 0;
+						%player.toolStackCount[%slot] = 0;
+						messageClient(%cl, 'MsgItemPickup', "", %slot, 0);
+						if (%pl.currTool == %slot) {
+							%pl.unmountImage(0);
 						}
 					}
 				}
