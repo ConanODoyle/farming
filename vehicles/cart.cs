@@ -174,7 +174,7 @@ package Cart
 				addStorageEvent(%brick, 1);
 				%success = %hit.insertIntoStorage(%hit.spawnBrick.eventOutputParameter[0, 1], 
 												%item, 
-												%pl.toolStackCount[%slot] == 0 ? 1 : %pl.toolStackCount[%slot], 
+												!%pl.tool[%slot].isStackable ? 1 : %pl.toolStackCount[%slot], 
 												%pl.toolDataID[%slot]);
 				if (%success == 0) //complete insertion
 				{

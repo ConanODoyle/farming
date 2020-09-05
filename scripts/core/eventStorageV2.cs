@@ -137,7 +137,7 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 		}
 		else
 		{
-			if (%itemDataID !$= "")
+			if (%db.hasDataID !$= "")
 			{
 				%entry = trim(%display) @ " [" @ getSubStr(%itemDataID, strLen(%itemDataID) - 4, 3) @ "]";
 			}
@@ -167,6 +167,10 @@ function AIPlayer::insertIntoStorage(%bot, %dataID, %storeItemDB, %insertCount, 
 
 function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
 {
+	if (%insertCount <= 0 || !isObject(%storeItemDB))
+	{
+		return;
+	}
 	initializeStorage(%brick, %dataID);
 
 	//get storage data
@@ -182,6 +186,10 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 
 	%stackType = %storeItemDB.stackType;
 	%storageMax = %storageObj.getStorageMax(%storeItemDB);
+	if (!%storeItemDB.hasDataID)
+	{
+		%itemDataID = "";
+	}
 	if (%storageMax <= 0) //cannot store any at all
 	{
 		return 2;
@@ -217,11 +225,10 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 			%spaceAvailable = getWord(%availableSpace[%i], 1);
 			%amountPresent = getWord(%availableSpace[%i], 2);
 
-			%value = getStorageValue(%storeItemDB, %insertCount, %itemDataID);
 			%insertAmount = getMin(%insertCount, %spaceAvailable);
 			%insertCount -= %insertAmount;
 			%total = %amountPresent + %insertAmount;
-			%value = getField(%value, 0) TAB %total TAB getField(%value, 2);
+			%value = getStorageValue(%storeItemDB, %total, %itemDataID);
 			setDataIDArrayValue(%dataID, %slot, %value);
 
 			if (%insertCount == 0)
@@ -248,8 +255,6 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 			%total = %amountPresent + %insertAmount;
 			%value = getField(%value, 0) TAB %total TAB getField(%value, 2);
 			setDataIDArrayValue(%dataID, %slot, %value);
-		}
-
 		%brick.updateStorageMenu(%dataID);
 		return 1 SPC %insertCount;
 	}
@@ -471,7 +476,7 @@ function addStorageEvent(%this, %botForm)
 	%outputEvent = "accessStorage";
 	if (%param1 $= "")
 	{
-		%param1 = sha1(getRandom() @ getRandom() @ getRandom() @ getRandom());
+		%param1 = getRandomHash();
 	}
 
 	%this.storageAddEvent = 1;
@@ -600,7 +605,8 @@ package StorageBricks
 
 	function ndTrustCheckSelect(%obj, %group2, %bl_id, %admin)
 	{
-		if (%obj.getDatablock().isStorageBrick && !findClientByBL_ID(%bl_id).isBuilder)
+		%db = %obj.getDatablock();
+		if ((%db.isStorageBrick || %db.specialBrickType $= "VehicleSpawn") && !findClientByBL_ID(%bl_id).isBuilder)
 		{
 			return false;
 		}
@@ -651,7 +657,7 @@ package StorageBricks
 			{
 				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1], 
 												%item, 
-												%pl.toolStackCount[%slot] == 0 ? 1 : %pl.toolStackCount[%slot], 
+												!%pl.tool[%slot].isStackable ? 1 : %pl.toolStackCount[%slot], 
 												%pl.toolDataID[%slot]);
 				if (%success == 0) //complete insertion
 				{
