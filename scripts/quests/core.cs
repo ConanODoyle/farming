@@ -25,6 +25,9 @@ function generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes)
 	%questID = $Farming::QuestPrefix @ getRandomHash("quest");
 	setDataIDArrayTagValue(%questID, "isQuest", true);
 
+	%requestTypes = $Farming::Metatable_[%requestTypes];
+	%rewardTypes = $Farming::Metatable_[%rewardTypes];
+
 	%numRequests = getMin(%requestSlots, getRandom(1, 3));
 	for (%numSpareRequestSlots = %requestSlots - %numRequests; %numSpareRequestSlots > 0; %numSpareRequestSlots--) {
 		%i = getRandom(0, %numRequests - 1);
