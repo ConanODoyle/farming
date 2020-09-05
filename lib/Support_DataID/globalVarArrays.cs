@@ -18,6 +18,7 @@ function loadDataIDArray(%aid, %force)
 		if (isFile("config/server/DataIDs/" @ %aid @ ".cs"))
 		{
 			exec("config/server/DataIDs/" @ %aid @ ".cs");
+			$loadedDataIDs = trim($loadedDataIDs SPC %aid);
 		}
 		else if (%force)
 		{
@@ -25,6 +26,10 @@ function loadDataIDArray(%aid, %force)
 		}
 	}
 	$executedDataID[%aid] = 1;
+
+	cancel($dataIDPruneSchedule);
+	$dataIDPruneSchedule = schedule(1000, 0, pruneDataIDArrays);
+
 	return %aid;
 }
 
@@ -36,12 +41,38 @@ function saveDataIDArray(%aid, %force)
 	return %aid;
 }
 
+function unloadDataIDArray(%aid)
+{
+	if ($DataIDDebug) talk("unloadDataIDArray");
+	%aid = getSafeDataIDArrayName(%aid);
+	if (!$executedDataID[%aid])
+	{
+		return;
+	}
+	deleteVariables("$DataID_" @ %aid @ "*");
+	$executedDataID[%aid] = 0;
+}
+
 function deleteDataIDArray(%aid)
 {
 	if ($DataIDDebug) talk("deleteDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
 	deleteVariables("$DataID_" @ %aid @ "*");
+	deleteFile("config/server/DataIDs/" @ %aid @ ".cs");
 	return %aid;
+}
+
+function pruneDataIDArrays()
+{
+	if ($DataIDDebug) talk("pruneDataIDArrays");
+	while (getWordCount($loadedDataIDs) > 50)
+	{
+		%curr = getWord($loadedDataIDs, 0);
+		$loadedDataIDs = getWords($loadedDataIDs, 1, 100);
+		unloadDataIDArray(%curr);
+		%count++;
+	}
+	if ($DataIDDebug) talk("Pruned " @ %count + 0 @ " arrays");
 }
 
 function printDataIDArray(%aid, %skipLoad)
