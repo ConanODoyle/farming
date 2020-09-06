@@ -40,8 +40,8 @@ package CompostBinRetrieveOnly
 		if (%brick.getDatablock().isCompostBin)
 		{
 			%brick.centerprintMenu.menuOptionCount = 2;
-			%brick.menuOption[1] = "Queued: " @ getDataIDArrayTagValue(%dataID, "compostQueue");
-			%brick.menuFunction[1] = "";
+			%brick.centerprintMenu.menuOption[1] = "Queued: " @ getDataIDArrayTagValue(%dataID, "compostQueue");
+			%brick.centerprintMenu.menuFunction[1] = "";
 		}
 		return %ret;
 	}
@@ -306,47 +306,47 @@ function fertilizeCrop(%img, %obj, %slot)
 
 function createFertilizer(%brick)
 {
-	%name = %brick.getName();
-	%count = getSubStr(%name, 1, strLen(%name));
+    %dataID = %brick.eventOutputParameter0_1;
+    %count = getDataIDArrayTagValue(%dataID, "compostQueue");
 
-	if (%brick.nextCompostTime $= "")
-	{
-		%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
-		return;
-	}
+    if (%brick.nextCompostTime $= "")
+    {
+        %brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
+        return;
+    }
 
-	%maxCount = %brick.getDatablock().tickAmt;
-	if (%count > 0)
-	{
-		%amt = getMin(%maxCount, %count);
-		%origAmt = %amt;
-	}
-	else
-	{
-		%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime / 10;
-		return;
-	}
+    %maxCount = %brick.getDatablock().tickAmt;
+    if (%count > 0)
+    {
+        %amt = getMin(%maxCount, %count);
+        %origAmt = %amt;
+    }
+    else
+    {
+        %brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime / 10;
+        return;
+    }
 
-	//check if there's space for new fertilizer, if yes, add
-	%dataID = %brick.eventOutputParameter0_1;
-	%curr = validateStorageValue(getDataIDArrayValue(%dataID, 1));
-	%max = %brick.getStorageMax(getWord(%curr, 0));
-	if (getField(%curr, 1) < %storageMax)
-	{
-		%addAmt = getMin(%storageMax - getField(%curr, 1), %amt);
-		%amt -= %addAmt;
-		setDataIDArrayValue(%dataID, 1, getStorageValue(getWord(%curr, 0), getWord(%curr, 1) + %addAmt, ""));
-	}
+    //check if there's space for new fertilizer, if yes, add
+    %curr = validateStorageValue(getDataIDArrayValue(%dataID, 1));
+    %db = getStackTypeDatablock("Fertilizer", 1);
+    %max = %brick.getStorageMax(%db);
+    if (getWord(%curr, 1) < %max)
+    {
+        %addAmt = getMin(%max - getWord(%curr, 1), %amt);
+        %amt -= %addAmt;
+        setDataIDArrayValue(%dataID, 1, getStorageValue(%db, getWord(%curr, 2) + %addAmt, ""));
+    }
 
-	%amtAdded = %origAmt - %amt;
-	if (%amtAdded > 0)
-	{
-		%count = %count - %amtAdded;
-		%brick.setName("_" @ %count);
-	}
-	%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
+    %amtAdded = %origAmt - %amt;
+    if (%amtAdded > 0)
+    {
+        %count = %count - %amtAdded;
+        setDataIDArrayTagValue(%dataID, "compostQueue", %count);
+    }
+    %brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
 
-	%brick.updateCompostBinMenu(%brick.eventOutputParameter[0, 1], %brick.eventOutputParameter[0, 2], %brick.eventOutputParameter[0, 3], %brick.eventOutputParameter[0, 4]);
+    %brick.updateStorageMenu(%dataID);
 }
 
 function processIntoFertilizer(%brick, %cl, %slot)
@@ -394,6 +394,12 @@ function processIntoFertilizer(%brick, %cl, %slot)
 
 		%cl.centerprint("<color:ffffff>You started making <color:ffff00>" @ %rand @ "<color:ffffff> fertilizer out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
 		%cl.schedule(100, centerprint, "<color:cccccc>You started making <color:ffff00>" @ %rand @ "<color:cccccc> fertilizer out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
+		return;
+	}
+	else
+	{
+		serverCmdUnuseTool(%cl);
+		%cl.centerprint("You cannot process this into fertilizer!", 1);
 		return;
 	}
 }
