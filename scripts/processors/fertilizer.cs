@@ -611,7 +611,7 @@ datablock ShapeBaseImageData(FertilizerBag0Image)
 
 	armReady = 1;
 
-	offset = "";
+	offset = "-0.1 0.3 -0.1";
 
 	toolTip = "Make plants grow faster, chance of shiny";
 
@@ -656,6 +656,8 @@ datablock ShapeBaseImageData(FertilizerBag1Image : FertilizerBag0Image)
 {
 	shapeFile = "./resources/fertilizer/fertilizerBag1.dts";
 	item = "FertilizerBag1Item";
+
+	offset = "-0.05 0.3 -0.3";
 };
 
 datablock ItemData(FertilizerBag2Item : FertilizerBag0Item)
@@ -671,6 +673,8 @@ datablock ShapeBaseImageData(FertilizerBag2Image : FertilizerBag0Image)
 {
 	shapeFile = "./resources/fertilizer/fertilizerBag2.dts";
 	item = "FertilizerBag2Item";
+
+	offset = "-0.05 0.3 -0.3";
 };
 
 
