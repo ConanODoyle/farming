@@ -332,22 +332,19 @@ function createFertilizer(%brick)
 	}
 
 	//check if there's space for new fertilizer, if yes, add
-	%multiplier = %brick.getDatablock().storageBonus;
-	%storageMax = $StorageMax_["Fertilizer"] * (%multiplier < 1 ? 1 : %multiplier);
-	for (%i = 0; %i < 4; %i++) 
+	%dataID = %brick.eventOutputParameter0_1;
+	%curr = validateStorageValue(getDataIDArrayValue(%dataID, 1));
+	%max = %brick.getStorageMax(getWord(%curr, 0));
+	if (getField(%curr, 1) < %storageMax)
 	{
-		%curr = validateStorageContents(%brick.eventOutputParameter[0, %i + 1], %brick);
-		if (getField(%curr, 1) < %storageMax)
-		{
-			%addAmt = getMin(%storageMax - getField(%curr, 1), %amt);
-			%amt -= %addAmt;
-			%brick.eventOutputParameter[0, %i + 1] = "Fertilizer\" " @ getField(%curr, 1) + %addAmt;
-		}
+		%addAmt = getMin(%storageMax - getField(%curr, 1), %amt);
+		%amt -= %addAmt;
+		setDataIDArrayValue(%dataID, 1, getStorageValue(getWord(%curr, 0), getWord(%curr, 1) + %addAmt, ""));
+	}
 
-		if (%amt <= 0)
-		{
-			break;
-		}
+	if (%amt <= 0)
+	{
+		break;
 	}
 
 	%amtAdded = %origAmt - %amt;
@@ -435,6 +432,9 @@ datablock fxDTSBrickData(brickCompostBinData)
 	isProcessor = 1;
 	isCompostBin = 1;
 	isStorageBrick = 1;
+	storageSlotCount = 1;
+	itemStackCount = 0;
+	storageMultiplier = 4;
 	processorFunction = "processIntoFertilizer";
 	activateFunction = "compostBinInfo";
 	placerItem = "CompostBinItem";
@@ -458,7 +458,9 @@ datablock fxDTSBrickData(brickLargeCompostBinData)
 	isProcessor = 1;
 	isCompostBin = 1;
 	isStorageBrick = 1;
-	storageBonus = 3;
+	storageSlotCount = 1;
+	itemStackCount = 0;
+	storageMultiplier = 12;
 	processorFunction = "processIntoFertilizer";
 	activateFunction = "compostBinInfo";
 	placerItem = "LargeCompostBinItem";
