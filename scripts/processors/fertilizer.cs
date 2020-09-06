@@ -40,7 +40,7 @@ package CompostBinRetrieveOnly
 		if (%brick.getDatablock().isCompostBin)
 		{
 			%brick.centerprintMenu.menuOptionCount = 2;
-			%brick.centerprintMenu.menuOption[1] = "Queued: " @ getDataIDArrayTagValue(%dataID, "compostQueue");
+			%brick.centerprintMenu.menuOption[1] = "Queued: " @ getDataIDArrayTagValue(%dataID, "compostQueue") + 0;
 			%brick.centerprintMenu.menuFunction[1] = "";
 		}
 		return %ret;
@@ -398,7 +398,6 @@ function processIntoFertilizer(%brick, %cl, %slot)
 	}
 	else
 	{
-		serverCmdUnuseTool(%cl);
 		%cl.centerprint("You cannot process this into fertilizer!", 1);
 		return;
 	}
