@@ -42,3 +42,5 @@ $ProduceCheck_["Watermelon"]	= 1;
 $ProduceCheck_["Date"] 			= 1;
 $ProduceCheck_["Peach"] 		= 1;
 $ProduceCheck_["Weed"] 			= 1;
+$ProduceCheck_["Wheat"] 		= 1;
+$ProduceCheck_["Portobello"] 	= 1;

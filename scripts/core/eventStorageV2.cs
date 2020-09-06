@@ -153,8 +153,6 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 	%brick.centerprintMenu.storageDataID = %dataID;
 }
 
-//input: brick being stored on, dataID, item db (stackable or non stackable), count of objects inserted
-//output: error code (0 if no error/complete store, 1 SPC %excess if partial store, 2 if no store)
 function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
 {
 	return insertIntoStorage(%brick, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
@@ -165,6 +163,8 @@ function AIPlayer::insertIntoStorage(%bot, %dataID, %storeItemDB, %insertCount, 
 	return insertIntoStorage(%bot, %bot.spawnBrick, %dataID, %storeItemDB, %insertCount, %itemDataID);
 }
 
+//input: storage object, brick being stored on, dataID, item db, count of objects inserted, item data id
+//output: error code (0 if no error/complete store, 1 SPC %excess if partial store, 2 if no store)
 function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
 {
 	if (%insertCount <= 0 || !isObject(%storeItemDB))
@@ -405,6 +405,11 @@ function AIPlayer::getStorageMax(%bot, %itemDB)
 
 function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
 {
+	if (getTrustLevel(%brick, %cl) < 2)
+	{
+		return;
+	}
+
 	if (isObject(%brick.vehicle.storageBot))
 	{
 		%storageObj = %brick.vehicle.storageBot;
@@ -654,7 +659,7 @@ package StorageBricks
 			%start = %pl.getEyePoint();
 			%end = vectorAdd(vectorScale(%pl.getEyeVector(), 6), %start);
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
-			if (isObject(%hit) && %hit.getDatablock().isStorageBrick)
+			if (isObject(%hit) && %hit.getDatablock().isStorageBrick && getTrustLevel(%hit, %cl) >= 2)
 			{
 				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1], 
 												%item, 

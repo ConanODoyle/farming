@@ -20,34 +20,30 @@ activatePackage(CompostBinSimSetCollector);
 
 package CompostBinRetrieveOnly
 {
-	function attemptStorage(%brick, %cl, %slot, %multiplier)
+	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
 	{
-		if (%brick.getDatablock().isCompostBin)
+		if (%storageObj.getDatablock().isCompostBin)
 		{
-			return 0;
+			return 2;
 		}
-		return parent::attemptStorage(%brick, %cl, %slot, %multiplier);
+		return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
 	}
 
-	function fxDTSBrick::displayStorageContents(%this, %str1, %str2, %str3, %str4, %cl)
+	function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
 	{
-		if (%this.getDatablock().isCompostBin)
+		return parent::accessStorage(%brick, %dataID, %cl);
+	}
+
+	function fxDTSBrick::updateStorageMenu(%brick, %dataID)
+	{
+		%ret = parent::updateStorageMenu(%brick, %dataID);
+		if (%brick.getDatablock().isCompostBin)
 		{
-			if (getTrustLevel(%cl, %this) < 2)
-			{
-				return;
-			}
-
-			%this.updateCompostBinMenu(%str1, %str2, %str3, %str4);
-
-			%cl.startCenterprintMenu(%this.centerprintMenu);
-
-			storageLoop(%cl, %this);
+			%brick.centerprintMenu.menuOptionCount = 2;
+			%brick.menuOption[1] = "Queued: " @ getDataIDArrayTagValue(%dataID, "compostQueue");
+			%brick.menuFunction[1] = "";
 		}
-		else
-		{
-			return parent::displayStorageContents(%this, %str1, %str2, %str3, %str4, %cl);
-		}
+		return %ret;
 	}
 };
 activatePackage(CompostBinRetrieveOnly);
@@ -342,11 +338,6 @@ function createFertilizer(%brick)
 		setDataIDArrayValue(%dataID, 1, getStorageValue(getWord(%curr, 0), getWord(%curr, 1) + %addAmt, ""));
 	}
 
-	if (%amt <= 0)
-	{
-		break;
-	}
-
 	%amtAdded = %origAmt - %amt;
 	if (%amtAdded > 0)
 	{
@@ -396,8 +387,11 @@ function processIntoFertilizer(%brick, %cl, %slot)
 
 		%fertRange = ($FertCount_[%cropType] > 0 ? $FertCount_[%cropType] : $FertCount_Default);
 		%rand = getRandom(getWord(%fertRange, 0), getWord(%fertRange, 1));
-		%count = getSubStr(%brick.getName(), 1, 100);
-		%brick.setName("_" @ (%count + %rand));
+		
+		%dataID = %brick.eventOutputParameter0_1;
+		initializeStorage(%brick, %dataID);
+		setDataIDArrayTagValue(%dataID, "compostQueue", getDataIDArrayTagValue(%dataID, "compostQueue") + %rand);
+
 		%cl.centerprint("<color:ffffff>You started making <color:ffff00>" @ %rand @ "<color:ffffff> fertilizer out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
 		%cl.schedule(100, centerprint, "<color:cccccc>You started making <color:ffff00>" @ %rand @ "<color:cccccc> fertilizer out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
 		return;
@@ -412,6 +406,7 @@ function compostBinInfo(%brick, %pl)
 		%pl.client.lastMessagedCompostBinInfo = $Sim::Time;
 	}
 }
+
 
 
 ///////////////
@@ -723,64 +718,4 @@ function fertilizerLoop(%image, %obj)
 	{
 		%cl.centerprint("<just:right><color:ffff00>-Fertilizer Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
 	}
-}
-
-
-
-//Fertilizer storage ui adjustment
-function fxDTSBrick::updateCompostBinMenu(%this, %str1, %str2, %str3, %str4)
-{
-	for (%i = 1; %i < 5; %i++)
-	{
-		%str[%i] = validateStorageContents(%str[%i], %this);
-	}
-
-	if (!isObject(%this.centerprintMenu))
-	{
-		%this.centerprintMenu = new ScriptObject(StorageCenterprintMenus)
-		{
-			isCenterprintMenu = 1;
-			menuName = %this.getDatablock().uiName;
-
-			menuOption[0] = "Empty";
-			menuOption[1] = "Empty";
-			menuOption[2] = "Empty";
-			menuOption[3] = "Empty";
-			menuOption[4] = "Queued: 0";
-
-			menuFunction[0] = "removeStack";
-			menuFunction[1] = "removeStack";
-			menuFunction[2] = "removeStack";
-			menuFunction[3] = "removeStack";
-			menuFunction[4] = "";
-
-			menuOptionCount = 5;
-			brick = %this;
-		};
-		MissionCleanup.add(%this.centerprintMenu);
-
-		//%cl.currOption
-	}
-
-	for (%i = 0; %i < 4; %i++)
-	{
-		%stackType = getField(%str[%i + 1], 0);
-		%count = getField(%str[%i + 1], 1);
-		if (%stackType !$= "")
-		{
-			if (!isObject(%stackType))
-			{
-				%this.centerprintMenu.menuOption[%i] = %stackType @ " - " @ %count;
-			}
-			else
-			{
-				%this.centerprintMenu.menuOption[%i] = strUpr(getSubStr(%stackType.uiName, 0, 1)) @ getSubStr(%stackType.uiName, 1, 100);
-			}
-		}
-		else
-		{
-			%this.centerprintMenu.menuOption[%i] = "Empty";	
-		}
-	}
-	%this.centerprintMenu.menuOption[4] = "Queued: " @ (getSubStr(%this.getName(), 1, 30) + 0);
 }
