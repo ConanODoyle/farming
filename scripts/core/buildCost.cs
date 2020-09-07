@@ -115,7 +115,7 @@ function sellObject(%b)
 
 	if (%b.createdTimeout < $Sim::Time)
 	{
-		if (%db.customRefundCost > 0)
+		if (%db.customRefundCost > 0 || %cl.score < 100)
 		{
 			%cost = %db.customRefundCost;
 		}
