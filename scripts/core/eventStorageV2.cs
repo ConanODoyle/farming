@@ -538,7 +538,7 @@ function dropStoredItems(%brick)
 			%item = new Item()
 			{
 				dataBlock = %itemDB;
-				count = %amt;
+				count = mCeil(%amt);
 				dataID = %itemDataID;
 				sourceClient = getBrickgroupFromObject(%brick).client;
 				sourceBrickgroup = getBrickgroupFromObject(%brick).client;
