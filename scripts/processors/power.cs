@@ -1,22 +1,22 @@
-if (!isObject(GeneratorSimSet)) 
+if (!isObject(PowerControlSimSet)) 
 {
-	$GeneratorSimSet = new SimSet(GeneratorSimSet) {};
+	$PowerControlSimSet = new SimSet(PowerControlSimSet) {};
 }
 
-package GeneratorSimSetCollector
+package PowerControlSimSetCollector
 {
 	function fxDTSBrick::onAdd(%brick) 
 	{
 		%ret = parent::onAdd(%brick);
 
-		if (%brick.isPlanted && %brick.getDatablock().isGenerator)
+		if (%brick.isPlanted && %brick.getDatablock().isPowerControlBox)
 		{
-			GeneratorSimSet.add(%brick);
+			PowerControlSimSet.add(%brick);
 		}
 		return %ret;
 	}
 };
-activatePackage(GeneratorSimSetCollector);
+activatePackage(PowerControlSimSetCollector);
 
 package GeneratorPower
 {
@@ -40,7 +40,7 @@ package GeneratorPower
 		if (%brick.getDatablock().isGenerator)
 		{
 			%brick.centerprintMenu.menuOptionCount = 2;
-			%brick.centerprintMenu.menuOption[1] = "Power: " @ %brick.isPoweredOn ? "\c6On" : "\c0Off";
+			%brick.centerprintMenu.menuOption[1] = "Power: " @ %brick.isPoweredOn() ? "\c6On" : "\c0Off";
 			%brick.centerprintMenu.menuFunction[1] = "togglePower";
 		}
 		return %ret;
@@ -58,14 +58,79 @@ package GeneratorPower
 };
 activatePackage(GeneratorPower);
 
-function togglePower(%cl, %menu, %option)
+function powerTick(%index)
 {
-	%brick = %menu.brick;
-	if (!isObject(%brick) || !%brick.getDatablock().isGenerator)
+	cancel($masterPowerTickSchedule);
+	
+	if (!isObject(MissionCleanup)) 
 	{
 		return;
 	}
-	%brick.isPoweredOn = !%brick.isPoweredOn;
+
+	//if no Power bins just skip everything
+	%count = PowerControlSimSet.getCount();
+	if (%count <= 0)
+	{
+		$masterPowerTickSchedule = schedule(100, 0, PowerTick, %index);
+		return;
+	}
+
+	for (%i = 0; %i < %count; %i++)
+	{
+		if (%index >= %count)
+		{
+			break;
+		}
+		%brick = PowerControlSimSet.getObject(%index);
+
+		if (%brick.isPoweredOn() && %brick.nextPowerCheck < $Sim::Time)
+		{
+			powerCheck(%brick);
+		}
+		%index++;
+	}
+
+	if (%index >= %count)
+	{
+		%index = 0;
+	}
+
+	$masterPowerTickSchedule = schedule(100, 0, PowerTick, %index);
+}
+
+function powerCheck(%brick)
+{
+	%db = %brick;
+	%dataID = %brick.eventOutputParameter0_1;
+
+	for (%i = 0; %i < getDataIDArrayCount(%dataID))
+	{
+		%subDataID = getDataIDArrayValue(%dataID, %i);
+		%type = strLwr(getDataIDArrayTagValue(%subDataID, "powerType"));
+		switch$ (%type)
+		{
+			case "generator":
+				%gen[%genCount++ - 1] = %subDataID;
+			case "processor":
+				%pro[%proCount++ - 1] = %subDataID;
+			case "battery":
+				%bat[%batCount++ - 1] = %subDataID;
+		}
+	}
+
+	%genTotal = 0;
+	//TODO: Iterate over generators, processors, batteries to get diagnostic info to display
+}
+
+function togglePower(%cl, %menu, %option)
+{
+	%brick = %menu.brick;
+	if (!isObject(%brick))
+	{
+		return;
+	}
+	%dataID = %brick.eventOutputParameter0_1;
+	setDataIDArrayTagValue(%dataID, "isPoweredOn", !getDataIDArrayTagValue(%dataID, "isPoweredOn"));
 	%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
 }
 
@@ -82,7 +147,7 @@ function addFuel(%brick, %cl, %slot)
 	%item = %pl.tool[%slot];
 	if (%item.isStackable && %item.stackType !$= "")
 	{
-		if (strPos(strLwr(%brick.getDatablock().fuelType), strLwr(%item.stackType)) < 0)
+		if (%brick.canAcceptFuel(%item.stackType))
 		{
 			serverCmdUnuseTool(%cl);
 			%cl.centerprint("This generator only accepts " @ strReplace(%brick.getDatablock().fuelType, " ", ", ") @ "!", 1);
@@ -126,6 +191,17 @@ function addFuel(%brick, %cl, %slot)
 	}
 }
 
+function fxDTSBrick::isPoweredOn(%brick)
+{
+	%dataID = %brick.eventOutputParameter0_1;
+	return getDataIDArrayTagValue(%dataID, "isPoweredOn");
+}
+
+function fxDTSBrick::canAcceptFuel(%brick, %stackType)
+{
+	return strPos(strLwr(%brick.getDatablock().fuelType), strLwr(%item.stackType)) < 0;
+}
+
 
 
 //////////
@@ -146,7 +222,8 @@ datablock fxDTSBrickData(brickCoalGeneratorData)
 	// activateFunction = "CoalGeneratorInfo";
 	placerItem = "CoalGeneratorItem";
 	keepActivate = 1;
-	isCoalGenerator = 1;
+	isGenerator = 1;
+	fuelType = "Coal";
 
 	isStorageBrick = 1;
 	storageSlotCount = 1;

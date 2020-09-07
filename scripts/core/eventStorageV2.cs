@@ -557,8 +557,8 @@ function dropStoredItems(%brick)
 				%amt = 0; //included the full stack in the first drop
 			}
 		}
-		setDataIDArrayValue(%dataID, %storageSlot, "");
 	}
+	deleteDataIDArray(%dataID);
 }
 
 
