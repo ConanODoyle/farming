@@ -187,7 +187,20 @@ function powerCheck(%brick)
 				%totalGeneratedPower += %powerGen;
 				%count = %count - %burn < 0 ? 0 : mFloatLength(%count - %burn, 2);
 				setDataIDArrayValue(%gen[%i], 1, %fuelType TAB %count TAB getField(%fuelStorage, 2));
+
+				if (!isObject(%brickName.audioEmitter))
+				{
+					%brickName.setMusic("BatteryLoopSound");
+				}
 			}
+			else if (isObject(%brickName.audioEmitter))
+			{
+				%brickName.setMusic("None");
+			}
+		}
+		else if (isObject(%brickName.audioEmitter))
+		{
+			%brickName.setMusic("None");
 		}
 	}
 
@@ -268,8 +281,18 @@ function togglePower(%cl, %menu, %option)
 		return;
 	}
 	%dataID = %brick.eventOutputParameter0_1;
-	setDataIDArrayTagValue(%dataID, "isPoweredOn", !getDataIDArrayTagValue(%dataID, "isPoweredOn"));
+	%toggleOn = !getDataIDArrayTagValue(%dataID, "isPoweredOn");
+	setDataIDArrayTagValue(%dataID, "isPoweredOn", %toggleOn);
+	if (%toggleOn)
+	{
+		serverPlay3D(ToggleStartSound, %brick.getPosition());
+	}
+	else
+	{
+		serverPlay3D(ToggleStopSound, %brick.getPosition());
+	}
 	%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
+	return (%toggleOn);
 }
 
 function addFuel(%brick, %cl, %slot)

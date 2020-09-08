@@ -27,7 +27,7 @@ datablock AudioProfile(AmbientMeadowsSound)
 	filename = "./Ambient/meadows_day.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
-	uiName = "Meadow";
+	uiName = "Ambient - Meadow";
 };
 
 datablock AudioProfile(AmbientSeaSound)
@@ -35,7 +35,7 @@ datablock AudioProfile(AmbientSeaSound)
 	filename = "./Sea/sea_calm.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
-	uiName = "Sea";
+	uiName = "Ambient - Sea";
 };
 
 datablock AudioProfile(AmbientSeaWavesSound)
@@ -43,7 +43,7 @@ datablock AudioProfile(AmbientSeaWavesSound)
 	filename = "./Sea/sea_waves_crashing.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
-	uiName = "Sea Cliff";
+	uiName = "Ambient - Sea Cliff";
 };
 
 datablock AudioProfile(AmbientForestSound)
@@ -51,7 +51,7 @@ datablock AudioProfile(AmbientForestSound)
 	filename = "./amb_forest.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
-	uiName = "Forest";
+	uiName = "Ambient - Forest";
 };
 
 datablock AudioProfile(AmbientLakeSound)
@@ -59,7 +59,7 @@ datablock AudioProfile(AmbientLakeSound)
 	filename = "./amb_lake.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
-	uiName = "Lake";
+	uiName = "Ambient - Lake";
 };
 
 datablock AudioProfile(AmbientRiverSound)
@@ -67,7 +67,7 @@ datablock AudioProfile(AmbientRiverSound)
 	filename = "./amb_river.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
-	uiName = "Lake";
+	uiName = "Ambient - River";
 };
 
 
@@ -125,13 +125,18 @@ datablock AudioProfile(ShoppingMusicSound)
 
 
 
+datablock AudioDescription(AudioMusicLoopingClose3d : AudioMusicLooping3d)
+{
+	volume = 0.8;
+	maxDistance = 10;
+};
 
 datablock AudioProfile(AmbientUndergroundSound)
 {
 	filename = "./Desert/desert_growling.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
-	uiName = "Desert Underground";
+	uiName = "Ambient - Desert Underground";
 };
 
 datablock AudioProfile(AmbientRustlingSound)
@@ -139,7 +144,31 @@ datablock AudioProfile(AmbientRustlingSound)
 	filename = "./Desert/desert_rustling.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
-	uiName = "Desert Rustling";
+	uiName = "Ambient - Desert Rustling";
+};
+
+datablock AudioProfile(ToggleStartSound)
+{
+	filename = "./Power/toggle_start.wav";
+	description = AudioClosest3d;
+	preload = true;
+	uiName = "";
+};
+
+datablock AudioProfile(ToggleStopSound)
+{
+	filename = "./Power/toggle_stop.wav";
+	description = AudioClosest3d;
+	preload = true;
+	uiName = "";
+};
+
+datablock AudioProfile(BatteryLoopSound)
+{
+	filename = "./Power/battery_loop.ogg";
+	description = AudioMusicLoopingClose3d;
+	preload = true;
+	uiName = "Ambient - Battery";
 };
 
 
@@ -151,7 +180,7 @@ datablock AudioProfile(UFOHoverSound)
 	filename = "./Hover.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
-	uiName = "UFO Hover";
+	uiName = "Ambient - UFO Hover";
 };
 
 datablock AudioProfile(SpicyItalianThrowSound)
