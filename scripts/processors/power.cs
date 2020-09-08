@@ -1,3 +1,35 @@
+//dataID tags:
+//	powerType - determines if the brick is a generator, processor, or battery
+//	isPoweredOn - determines if the brick is running
+//	brickName - the name of the brick associated with this processor
+//
+//Generators check internal inventory for resources to burn when powering a system
+//generator fields:
+//	isGenerator - true
+//	burnRate - # of resources to burn per tick
+//	generation - # of watts created per tick
+//	fuelType - space-delimited stacktypes of the fuels it accepts
+//
+//Powered Processors draw power, and if supplied enough, run their internal tasks
+//processor fields:
+//	isPoweredProcessor - true
+//	energyUse - # of watts consumed per tick
+//	powerFunction - function to call with power ratio
+//
+//Batteries pick up excess power from the network, and discharge it when generation is not enough
+//battery fields:
+//	isBattery - true
+//	dischargeRate - maximum discharge/charge rate (watts per tick)
+//	capacity - maximum storable watts per tick
+//tags:
+//	charge - amount of watt-ticks stored
+//
+//Power Control Boxes display network power information and connect generators to powered processors
+//powercontrolbox fields:
+//	isPowerControlBox - true
+//	maximumGenerators - maximum number of attached generators
+//	maximumProcessors - maximum number of attached processors
+
 if (!isObject(PowerControlSimSet)) 
 {
 	$PowerControlSimSet = new SimSet(PowerControlSimSet) {};
@@ -43,6 +75,7 @@ package GeneratorPower
 			%brick.centerprintMenu.menuOption[1] = "Power: " @ %brick.isPoweredOn() ? "\c6On" : "\c0Off";
 			%brick.centerprintMenu.menuFunction[1] = "togglePower";
 		}
+		else if (%brick.)
 		return %ret;
 	}
 
@@ -102,6 +135,10 @@ function powerCheck(%brick)
 {
 	%db = %brick;
 	%dataID = %brick.eventOutputParameter0_1;
+	if (!%db.isPowerControlBox)
+	{
+		return;
+	}
 
 	for (%i = 0; %i < getDataIDArrayCount(%dataID))
 	{
@@ -118,8 +155,99 @@ function powerCheck(%brick)
 		}
 	}
 
-	%genTotal = 0;
-	//TODO: Iterate over generators, processors, batteries to get diagnostic info to display
+	//TODO: Iterate over processors, batteries to tick power and get diagnostic info to display
+	%totalGeneratedPower = 0;
+	for (%i = 0; %i < %genCount; %i++)
+	{
+		%on = getDataIDArrayTagValue(%gen[%i], "isPoweredOn");
+		%brickName = getDataIDArrayTagValue(%gen[%i], "brickName");
+
+		if (isObject(%brickName) && %brickName.getDatablock().isGenerator && %on)
+		{
+			%genDB = %brickName.getDatablock();
+			%powerGen = %genDB.generation;
+			%burn = %genDB.burnRate;
+
+			%fuelStorage = getDataIDArrayValue(%gen[%i], 1);
+			%fuelType = getField(%fuelStorage, 0);
+			%count = getField(%fuelStorage, 1);
+
+			if (%count > 0 && %fuelType !$= %genDB.fuelType) //has fuel, burn some and generate power
+			{
+				%totalGeneratedPower += %powerGen;
+				%count = %count - %burn < 0 ? 0 : mFloatLength(%count - %burn, 2);
+				setDataIDArrayValue(%gen[%i], 1, %fuelType TAB %count TAB getField(%fuelStorage, 2));
+			}
+		}
+	}
+
+	%totalPowerUsage = 0;
+	for (%i = 0; %i < %proCount; %i++)
+	{
+		%on = getDataIDArrayTagValue(%pro[%i], "isPoweredOn");
+		%brickName = getDataIDArrayTagValue(%pro[%i], "brickName");
+
+		if (isObject(%brickName) && %brickName.getDatablock().isPoweredProcessor && %on)
+		{
+			%pro_on[%pro_onCount++ - 1] = %brickName.getID();
+			%proDB = %brickName.getDatablock();
+			%powerDraw = %proDB.energyUse;
+
+			%totalPowerUsage += %powerDraw;
+		}
+	}
+
+	%powerDiff = %totalGeneratedPower - %totalPowerUsage;
+	%totalBatteryPower = 0;
+	for (%i = 0; %i < %batCount; %i++)
+	{
+		%on = getDataIDArrayTagValue(%bat[%i], "isPoweredOn");
+		%brickName = getDataIDArrayTagValue(%bat[%i], "brickName");
+
+		if (isObject(%brickName) && %brickName.getDatablock().isBattery && %on)
+		{
+			%bat_on[%bat_onCount++ - 1] = %brickName.getID();
+			%chargeAvailable = getDataIDArrayTagValue(%bat[%i], "charge");
+			%batDB = %brickName.getDatablock();
+			%discharge = getMin(%batDB.dischargeRate, %chargeAvailable[%bat_onCount - 1]);
+			%max = %batDB.capacity;
+
+			if (%powerDiff < 0 && %discharge > 0) //need extra power
+			{
+				%dischargeAmt = getMin(%discharge, mAbs(%powerDiff));
+				%powerDiff += %dischargeAmt;
+				setDataIDArrayTagValue(%bat[%i], "charge", %chargeAvailable - %dischargeAmt);
+				%totalBatteryPower += %chargeAvailable - %dischargeAmt;
+			}
+			else if (%powerDiff > 0 && %chargeAvailable < %max) //extra power available to charge battery with
+			{
+				%addAmt = getMin(%powerDiff, %max - %chargeAvailable);
+				%powerDiff -= %addAmt;
+				setDataIDArrayValue(%bat[%i], "charge", %chargeAvailable + %addAmt);
+				%totalBatteryPower += %chargeAvailable + %addAmt;
+			}
+			else
+			{
+				%totalBatteryPower += %chargeAvailable;
+			}
+		}
+	}
+
+	%powerRatio = (%totalGeneratedPower + %powerDiff) / %totalGeneratedPower;
+	for (%i = 0; %i < %pro_onCount; %i++)
+	{
+		%proDB = %pro_on[%i].getDatablock();
+		if (isFunction(%proDB.powerFunction))
+		{
+			call(%proDB.powerFunction, %pro_on[%i], %powerRatio);
+		}
+	}
+
+	%brick.totalBatteryPower = %totalBatteryPower;
+	%brick.totalPowerUsage = %totalPowerUsage;
+	%brick.totalGeneratedPower = %totalGeneratedPower;
+
+	%brick.updateStorageMenu();
 }
 
 function togglePower(%cl, %menu, %option)
