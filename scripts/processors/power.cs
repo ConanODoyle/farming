@@ -75,7 +75,17 @@ package GeneratorPower
 			%brick.centerprintMenu.menuOption[1] = "Power: " @ %brick.isPoweredOn() ? "\c6On" : "\c0Off";
 			%brick.centerprintMenu.menuFunction[1] = "togglePower";
 		}
-		else if (%brick.)
+		else if (%brick.getDatablock().isPowerControlBox)
+		{
+			%brick.centerprintMenu.menuOptionCount = 3;
+			%brick.centerprintMenu.menuOption[0] = "Generating: " @ %brick.totalGeneratedPower + 0;
+			%brick.centerprintMenu.menuOption[1] = "Using: " @ %brick.totalPowerUsage + 0;
+			%brick.centerprintMenu.menuOption[2] = "Total Battery: " @ %brick.totalBatteryPower + 0; 
+
+			%brick.centerprintMenu.menuFunction[0] = "";
+			%brick.centerprintMenu.menuFunction[1] = "";
+			%brick.centerprintMenu.menuFunction[2] = "";
+		}
 		return %ret;
 	}
 
@@ -116,7 +126,7 @@ function powerTick(%index)
 		}
 		%brick = PowerControlSimSet.getObject(%index);
 
-		if (%brick.isPoweredOn() && %brick.nextPowerCheck < $Sim::Time)
+		if (%brick.nextPowerCheck < $Sim::Time)
 		{
 			powerCheck(%brick);
 		}
