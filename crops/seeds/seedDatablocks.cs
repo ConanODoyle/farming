@@ -135,7 +135,8 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 
 		//check around the brick for any other plants and make sure we dont violate their radius requirement
 		//but exclude flowerpots since those root systems dont intersect with each other
-		initContainerRadiusSearch(%pos, 10, $Typemasks::fxBrickObjectType);
+		%box = "8 8 0.6";
+		initContainerBoxSearch(%pos, %box, $Typemasks::fxBrickObjectType);
 		while (isObject(%next = containerSearchNext()))
 		{
 			if (%next.getDatablock().isPlant && !%next.getDatablock().isWeed)
