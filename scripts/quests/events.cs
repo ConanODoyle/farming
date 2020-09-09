@@ -5,8 +5,8 @@ $Farming::QuestCompleteCooldown = 300;
 function fxDTSBrick::getNewQuest(%this, %requestSlots, %requestTypes, %rewardSlots, %rewardTypes, %client) {
     if (%this.nextQuestTime[%client.bl_id] > $Sim::Time) {
         if (%this.questRetrieved[%client.bl_id]) {
-            %timeToWait = $Sim::Time - %this.nextQuestTime[%client.bl_id];
-            commandToClient(%client, 'MessageBoxOK', "Cooldown", "You already retrieved a quest recently!\nTry again in " @ %timeToWait @ " seconds.");
+            %timeToWait = convTime(%this.nextQuestTime[%client.bl_id] - $Sim::Time);
+            commandToClient(%client, 'MessageBoxOK', "Cooldown", "You already retrieved a quest recently!\nTry again in " @ %timeToWait @ ".");
         } else if (isQuest(%this.quest[%client.bl_id])) {
             %client.promptGetQuest(%this, %this.quest[%client.bl_id]);
         } else {
