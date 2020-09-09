@@ -45,7 +45,7 @@ datablock ShapeBaseImageData(QuestImage)
     stateName[0] = "init";
     stateTimeoutValue[0] = 0.1;
     stateWaitForTimeout[0] = false;
-    stateTransitionOnTimeout[0] = "delay";
+    stateTransitionOnTimeout[0] = "displayQuest";
     stateTransitionOnTriggerDown[0] = "buffer";
     stateScript[0] = "setQuestDisplayRequest";
 
@@ -101,4 +101,14 @@ function QuestImage::toggleQuestDisplay(%image, %player, %slot)
     %player.playThread(2, "rotcw");
 
     %image.displayQuest(%player, %slot);
+}
+
+function QuestImage::onUnMount(%image, %player, %slot)
+{
+    %client = %player.client;
+    if (%client.getClassName() !$= "GameConnection")
+    {
+        return;
+    }
+    %client.centerPrint(" ");
 }
