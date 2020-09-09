@@ -34,8 +34,8 @@ function GameConnection::promptGetQuest(%client, %brick, %quest) {
 }
 
 function serverCmdAcceptQuest(%client) {
-    %slot = %player.getFirstEmptySlot();
     %player = %client.player;
+    %slot = %player.getFirstEmptySlot();
     if (%client.questToGet $= "") {
         commandToClient(%client, 'MessageBoxOK', "A Secret", "Aren't you clever?\nYou found the server command for accepting quests. Too bad it doesn't do anything without a quest to accept...");
     } else if ($Sim::Time > %client.questCooldownTime || !isQuest(%client.questToGet)) {
