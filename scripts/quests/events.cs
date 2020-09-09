@@ -43,18 +43,21 @@ function serverCmdAcceptQuest(%client) {
     }
     if ($Sim::Time > %client.questGetExpireTime) {
         commandToClient(%client, 'MessageBoxOK', "Timeout", "You took too long to accept this quest!\nYou need to accept quests within " @ convTime($Farming::QuestAcceptTime) @ " of opening the prompt.\nThe quest will still be there if you return within " @ convTime(%client.questCooldownTime - $Sim::Time) @ ".");
+        %client.questToGet = "";
         return;
     }
 
     %player = %client.player;
     if (!isObject(%player)) {
         commandToClient(%client, 'MessageBoxOK', "No Player", "You need to have spawned to accept quests!\nTry respawning or contact an admin if this message persists.");
+        %client.questToGet = "";
         return;
     }
 
     %slot = %player.getFirstEmptySlot();
     if (%slot == -1) {
         commandToClient(%client, 'MessageBoxOK', "Inventory Full", "Your inventory is full!\nClear some space for the quest slip before trying again.");
+        %client.questToGet = "";
         return;
     }
 
