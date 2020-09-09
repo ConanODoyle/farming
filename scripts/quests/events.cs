@@ -41,7 +41,7 @@ function serverCmdAcceptQuest(%client) {
         return;
     }
     if ($Sim::Time > %client.questGetExpireTime) {
-        commandToClient(%client, 'MessageBoxOK', "Timeout", "You took too long to accept this quest!\nYou need to accept quests within " @ convTime($Farming::QuestAcceptTime) @ " of opening the prompt.\nThe quest will still be there if you return within " @ convTime($Sim::Time - %client.questCooldownTime) @ ".");
+        commandToClient(%client, 'MessageBoxOK', "Timeout", "You took too long to accept this quest!\nYou need to accept quests within " @ convTime($Farming::QuestAcceptTime) @ " of opening the prompt.\nThe quest will still be there if you return within " @ convTime(%client.questCooldownTime - $Sim::Time) @ ".");
         return;
     }
 
