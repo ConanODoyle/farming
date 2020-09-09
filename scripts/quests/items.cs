@@ -57,7 +57,7 @@ datablock ShapeBaseImageData(QuestImage)
     stateScript[1] = "displayQuest";
 
     stateName[2] = "delay";
-    stateTimeoutValue[2] = 0.8;
+    stateTimeoutValue[2] = 0.1;
     stateWaitForTimeout[2] = false;
     stateTransitionOnTimeout[2] = "displayQuest";
     stateTransitionOnTriggerDown[2] = "buffer";
