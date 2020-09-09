@@ -35,7 +35,7 @@ datablock fxDTSBrickData(brickIndoorLightData)
 datablock ItemData(IndoorLightItem : brickPlacerItem)
 {
 	shapeFile = "./resources/toolbox.dts";
-	uiName = "Coal Generator";
+	uiName = "Indoor Light - 2x6";
 	image = "IndoorLightBrickImage";
 	colorShiftColor = "0.9 0 0 1";
 
