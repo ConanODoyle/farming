@@ -64,7 +64,7 @@ function deleteDataIDArray(%aid)
 	if ($DataIDDebug) talk("deleteDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
 	deleteVariables("$DataID_" @ %aid @ "*");
-	deleteFile("config/server/DataIDs/" @ %aid @ ".cs");
+	fileDelete("config/server/DataIDs/" @ %aid @ ".cs");
 	return %aid;
 }
 
