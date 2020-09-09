@@ -15,7 +15,7 @@ function fxDTSBrick::getNewQuest(%this, %requestSlots, %requestTypes, %rewardSlo
         }
     } else {
         %quest = generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes);
-        %this.quest[%client.bl_id] = %quest
+        %this.quest[%client.bl_id] = %quest;
         %this.nextQuestTime[%client.bl_id] = $Sim::Time + $Farming::QuestCooldown;
         %client.promptGetQuest(%this.quest[%client.bl_id]);
     }
