@@ -22,7 +22,7 @@ function fxDTSBrick::getNewQuest(%this, %requestSlots, %requestTypes, %rewardSlo
 }
 
 function GameConnection::promptGetQuest(%client, %brick, %quest) {
-    commandToClient(%client, 'MessageBoxYesNo', "Quest", "Do you want to take this quest?\nYou have " @ convTime($Farming::QuestAcceptTime) @ " to accept this quest.\n\n" @ getQuestString(%quest), "AcceptQuest");
+    commandToClient(%client, 'MessageBoxYesNo', "Quest", "Do you want to take this quest?\nYou have " @ convTime($Farming::QuestAcceptTime) @ " to accept this quest.\n\n" @ getQuestString(%quest), 'AcceptQuest');
     %client.questToGet = %quest;
     %client.questGetExpireTime = $Sim::Time + $Farming::QuestAcceptTime;
     %client.questCooldownTime = $Sim::Time + $Farming::QuestCooldown;
