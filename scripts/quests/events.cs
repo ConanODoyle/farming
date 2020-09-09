@@ -61,8 +61,8 @@ registerOutputEvent("fxDTSBrick", "getNewQuest", "int 1 20 3" TAB "string 200 50
 
 //////////////////////////////
 
-function fxDTSBrick::displayActiveQuest(%this, %client) {
-    if (%this.EventOutputParameter[0, 1] $= "") {
+function fxDTSBrick::displayActiveQuest(%this, %depositBoxArray, %client) {
+    if (%depositBoxArray $= "") {
         %this.EventOutputParameter[0, 1] = $Farming::QuestDepositPointPrefix @ getRandomHash("depositPoint");
     }
     %depositBoxArray = %this.EventOutputParameter[0, 1];
