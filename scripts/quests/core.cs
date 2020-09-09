@@ -198,7 +198,7 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 			%item = getWord(%reward, 0);
 			%count = getWord(%reward, 1);
 
-			%displayString = %displayString @ %item.uiName @ "\c6:" SPC %count @ " \n\c3";
+			%displayString = %displayString @ %item.uiName @ "\c6: " @ %count @ " \n\c3";
 		}
 	} else {
 		%displayString = "<just:right>\c3-Quest Requests- \n\c3";
@@ -208,14 +208,39 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 			%count = getWord(%request, 1);
 			%delivered = getWord(%request, 2) + 0;
 
-			%displayString = %displayString @ %item.uiName @ "\c6:" SPC %delivered @ "/" @ %count @ " \n\c3";
+			%displayString = %displayString @ %item.uiName @ "\c6: " @ %delivered @ "/" @ %count @ " \n\c3";
 		}
 	}
 
 	%client.centerPrint(trim(%displayString), 1);
 }
 
-package FarmingQuests {
+function getQuestString(%questID, %showDelivered) {
+	%string = "Requests:\n";
+	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
+	for (%i = 0; %i < %numRequests; %i++) {
+		%request = getDataIDArrayValue(%questID, %i);
+		%item = getWord(%request, 0);
+		%count = getWord(%request, 1);
+		%delivered = getWord(%request, 2) + 0;
+
+		%displayString = %displayString @ %item.uiName @ ": " @ (%showDelivered ? %delivered @ "/" : "") @ %count @ "\n";
+	}
+
+	%string = %string @ "\nRewards:\n";
+	%numRewards = getDataIDArrayTagValue(%questID, "numRewards");
+	for (%i = 0; %i < %numRewards; %i++) {
+		%reward = getDataIDArrayValue(%questID, %numRequests + %i); // offset by number of requests into array
+		%item = getWord(%reward, 0);
+		%count = getWord(%reward, 1);
+
+		%displayString = %displayString @ %item.uiName @ ": " @ %count @ "\n";
+	}
+
+	return trim(%displayString);
+}
+
+package FarmingQuests { // TODO: wow this is dense, let's break this up a little bit
 	function serverCmdDropTool(%client, %slot) {
 		if (isObject(%player = %client.player) && isObject(%player.tool[%slot])) {
 			%item = %player.tool[%slot];
@@ -237,21 +262,16 @@ package FarmingQuests {
 								if (%player.currTool == %slot) {
 									%player.unmountImage(0);
 								}
-								%client.chatMessage("\c2Quest complete!\n");
-								%client.chatMessage("\c3The rewards have been deposited in your inventory.");
+								commandToClient(%client, 'MessageBoxOK', "Quest Complete!", "Quest complete!\nThe rewards have been deposited in your inventory.");
 							} else {
-								%client.chatMessage("This quest isn't complete yet.");
-								%client.chatMessage("\c6Keep working on it and deposit the quest slip once it's done!");
+								commandToClient(%client, 'MessageBoxOK', "Quest Incomplete", "This quest isn't complete yet.\nKeep working on it and deposit the quest slip once it's done!");
 							}
 						} else {
-							%client.chatMessage("\c2Quest assigned!");
-							%client.chatMessage("\c6Now you can deliver quest items here to complete the quest.");
-							%client.chatMessage("\c6Once it's complete, deposit the slip to get your rewards!");
+							commandToClient(%client, 'MessageBoxOK', "Quest Assigned", "Quest assigned!\nNow you can deliver quest items here to complete the quest.\nOnce it's complete, deposit the slip to get your rewards!");
 							%hit.questID = %player.toolDataID[%slot];
 						}
 					} else {
-						%client.chatMessage("This slip doesn't have a valid quest on it!");
-						%client.chatMessage("You need a valid quest slip.");
+						commandToClient(%client, 'MessageBoxOK', "Invalid Quest", "This slip doesn't have a valid quest on it!\nYou need a valid quest slip. You can also safely discard the invalid quest slip.");
 					}
 					return;
 				}
