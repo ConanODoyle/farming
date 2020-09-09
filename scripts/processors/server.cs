@@ -114,3 +114,6 @@ exec("./fertilizer.cs");
 exec("./superfertilizer.cs");
 exec("./flowerpot.cs");
 exec("./planterBox.cs");
+
+exec("./power.cs");
+exec("./lights.cs");

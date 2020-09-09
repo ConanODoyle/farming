@@ -29,6 +29,7 @@
 //	isPowerControlBox - true
 //	maximumGenerators - maximum number of attached generators
 //	maximumProcessors - maximum number of attached processors
+//	tickTime - seconds between ticks
 
 if (!isObject(PowerControlSimSet)) 
 {
@@ -55,6 +56,10 @@ package GeneratorPower
 	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
 	{
 		if (%storageObj.getDatablock().isGenerator && !%storageObj.isAcceptingFuel)
+		{
+			return 2;
+		}
+		else if (%storageObj.getDatablock().isPowerControlBox)
 		{
 			return 2;
 		}
@@ -371,9 +376,9 @@ function fxDTSBrick::canAcceptFuel(%brick, %stackType)
 
 datablock fxDTSBrickData(brickCoalGeneratorData)
 {
-	uiName = "CoalGenerator";
+	uiName = "Coal Generator";
 
-	brickFile = "./resources/CoalGenerator/CoalGenerator.blb";
+	brickFile = "./resources/power/CoalGenerator.blb";
 
 	iconName = "";
 
@@ -384,15 +389,42 @@ datablock fxDTSBrickData(brickCoalGeneratorData)
 	placerItem = "CoalGeneratorItem";
 	keepActivate = 1;
 	isGenerator = 1;
+	burnRate = 0.01;
+	generation = 10;
 	fuelType = "Coal";
 
 	isStorageBrick = 1;
 	storageSlotCount = 1;
 	itemStackCount = 0;
 	storageMultiplier = 12;
+};
 
-	tickTime = 10;
-	tickAmt = 1;
+datablock fxDTSBrickData(brickPowerControlBoxData)
+{
+	uiName = "Power Control Box";
+
+	brickFile = "./resources/power/controlBoxClosed.blb";
+
+	iconName = "";
+
+	cost = 0;
+	isProcessor = 1;
+	// processorFunction = "grindProduce";
+	// activateFunction = "CoalGeneratorInfo";
+	placerItem = "PowerControlBoxItem";
+	keepActivate = 1;
+	isPowerControlBox = 1;
+	maximumGenerators = 1000;
+	maximumProcessors = 1000;
+	tickTime = 8;
+
+	isStorageBrick = 1; //purely for the gui, don't enable storage
+	storageSlotCount = 1;
+};
+
+datablock fxDTSBrickData(brickPowerControlBoxOpenData : brickPowerControlBoxData)
+{
+	brickFile = "./resources/power/controlBoxOpen.blb";
 };
 
 
@@ -447,6 +479,58 @@ function CoalGeneratorBrickImage::onLoop(%this, %obj, %slot)
 }
 
 function CoalGeneratorBrickImage::onFire(%this, %obj, %slot)
+{
+	brickPlacerItemFire(%this, %obj, %slot);
+}
+
+
+
+datablock ItemData(PowerControlBoxItem : brickPlacerItem)
+{
+	shapeFile = "./resources/toolbox.dts";
+	uiName = "Power Control Box";
+	image = "PowerControlBoxBrickImage";
+	colorShiftColor = "0.9 0 0 1";
+
+	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
+	
+	cost = 800;
+};
+
+datablock ShapeBaseImageData(PowerControlBoxBrickImage : BrickPlacerImage)
+{
+	shapeFile = "./resources/toolbox.dts";
+	
+	offset = "-0.56 0 0";
+	eyeOffset = "0 0 0";
+	rotation = eulerToMatrix("0 0 90");
+
+	item = PowerControlBoxItem;
+	
+	doColorshift = true;
+	colorShiftColor = PowerControlBoxItem.colorShiftColor;
+
+	toolTip = "Places a Power Control Box";
+	loopTip = "Connects electrical machines";
+	placeBrick = "brickPowerControlBoxData";
+};
+
+function PowerControlBoxBrickImage::onMount(%this, %obj, %slot)
+{
+	brickPlacerItem_onMount(%this, %obj, %slot);
+}
+
+function PowerControlBoxBrickImage::onUnmount(%this, %obj, %slot)
+{
+	brickPlacerItem_onUnmount(%this, %obj, %slot);
+}
+
+function PowerControlBoxBrickImage::onLoop(%this, %obj, %slot)
+{
+	brickPlacerItemLoop(%this, %obj, %slot);
+}
+
+function PowerControlBoxBrickImage::onFire(%this, %obj, %slot)
 {
 	brickPlacerItemFire(%this, %obj, %slot);
 }
