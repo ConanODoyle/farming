@@ -22,17 +22,22 @@ function fxDTSBrick::getNewQuest(%this, %requestSlots, %requestTypes, %rewardSlo
 }
 
 function GameConnection::promptGetQuest(%client, %quest) {
-    commandToClient(%client, 'MessageBoxYesNo', "Quest", "Do you want to take this quest?\nYou have " @ convTime($Farming::QuestAcceptTime) @ " to accept this quest.\n\n" @ getQuestString(%quest), "getQuest");
+    commandToClient(%client, 'MessageBoxYesNo', "Quest", "Do you want to take this quest?\nYou have " @ convTime($Farming::QuestAcceptTime) @ " to accept this quest.\n\n" @ getQuestString(%quest), 'getQuest');
     %client.questGetExpireTime = $Sim::Time + $Farming::QuestAcceptTime;
     %client.questToGet = %quest;
     %client.questCooldownTime = $Sim::Time + $Farming::QuestCooldown;
     %client.deleteQuestSchedule = schedule($Farming::QuestCooldown * 1000, 0, deleteQuest, %quest);
 }
 
-function getQuest(%client) {
+function serverCmdGetQuest(%client) {
+    if (%client.questToGet $= "") {
+        commandToClient(%client, 'MessageBoxOK', "Aren't you clever?\nYou found the server command for getting quests. Too bad it doesn't do anything without a quest to get...");
+        return;
+    }
     if ($Sim::Time > %client.questCooldownTime || !isQuest(%client.questToGet)) {
         commandToClient(%client, 'MessageBoxOK', "Quest Expired", "This quest has expired!\nYou must accept quests within " @ convTime($Farming::QuestCooldown) @ ".");
         deleteQuest(%client.questToGet);
+        %client.questToGet = "";
         return;
     }
     if ($Sim::Time > %client.questGetExpireTime) {
