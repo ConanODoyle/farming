@@ -427,6 +427,28 @@ datablock fxDTSBrickData(brickPowerControlBoxOpenData : brickPowerControlBoxData
 	brickFile = "./resources/power/controlBoxOpen.blb";
 };
 
+datablock fxDTSBrickData(brickBatteryData)
+{
+	uiName = "Battery";
+
+	brickFile = "./resources/power/battery.blb";
+
+	iconName = "";
+
+	cost = 0;
+	isProcessor = 1;
+	// processorFunction = "grindProduce";
+	// activateFunction = "CoalGeneratorInfo";
+	placerItem = "BatteryItem";
+	keepActivate = 1;
+	isBattery = 1;
+	dischargeRate = 40;
+	capacity = 10000;
+
+	isStorageBrick = 1; //purely for the gui, don't enable storage
+	storageSlotCount = 1;
+};
+
 
 
 ///////////////
@@ -497,6 +519,8 @@ datablock ItemData(PowerControlBoxItem : brickPlacerItem)
 	cost = 800;
 };
 
+
+
 datablock ShapeBaseImageData(PowerControlBoxBrickImage : BrickPlacerImage)
 {
 	shapeFile = "./resources/toolbox.dts";
@@ -531,6 +555,46 @@ function PowerControlBoxBrickImage::onLoop(%this, %obj, %slot)
 }
 
 function PowerControlBoxBrickImage::onFire(%this, %obj, %slot)
+{
+	brickPlacerItemFire(%this, %obj, %slot);
+}
+
+
+
+datablock ShapeBaseImageData(BatteryBrickImage : BrickPlacerImage)
+{
+	shapeFile = "./resources/toolbox.dts";
+	
+	offset = "-0.56 0 0";
+	eyeOffset = "0 0 0";
+	rotation = eulerToMatrix("0 0 90");
+
+	item = BatteryItem;
+	
+	doColorshift = true;
+	colorShiftColor = BatteryItem.colorShiftColor;
+
+	toolTip = "Places a Battery";
+	loopTip = "Stores excess electrical power";
+	placeBrick = "brickBatteryData";
+};
+
+function BatteryBrickImage::onMount(%this, %obj, %slot)
+{
+	brickPlacerItem_onMount(%this, %obj, %slot);
+}
+
+function BatteryBrickImage::onUnmount(%this, %obj, %slot)
+{
+	brickPlacerItem_onUnmount(%this, %obj, %slot);
+}
+
+function BatteryBrickImage::onLoop(%this, %obj, %slot)
+{
+	brickPlacerItemLoop(%this, %obj, %slot);
+}
+
+function BatteryBrickImage::onFire(%this, %obj, %slot)
 {
 	brickPlacerItemFire(%this, %obj, %slot);
 }
