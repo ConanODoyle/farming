@@ -17,26 +17,26 @@ function fxDTSBrick::getNewQuest(%this, %requestSlots, %requestTypes, %rewardSlo
         %quest = generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes);
         %this.quest[%client.bl_id] = %quest;
         %this.nextQuestTime[%client.bl_id] = $Sim::Time + $Farming::QuestCooldown;
-        %client.promptGetQuest(%this.quest[%client.bl_id]);
+        %client.promptGetQuest(%this, %this.quest[%client.bl_id]);
     }
 }
 
-function GameConnection::promptGetQuest(%client, %quest) {
-    commandToClient(%client, 'MessageBoxYesNo', "Quest", "Do you want to take this quest?\nYou have " @ convTime($Farming::QuestAcceptTime) @ " to accept this quest.\n\n" @ getQuestString(%quest), 'getQuest');
-    %client.questGetExpireTime = $Sim::Time + $Farming::QuestAcceptTime;
+function GameConnection::promptGetQuest(%client, %brick, %quest) {
+    commandToClient(%client, 'MessageBoxYesNo', "Quest", "Do you want to take this quest?\nYou have " @ convTime($Farming::QuestAcceptTime) @ " to accept this quest.\n\n" @ getQuestString(%quest), "AcceptQuest");
     %client.questToGet = %quest;
+    %client.questGetExpireTime = $Sim::Time + $Farming::QuestAcceptTime;
     %client.questCooldownTime = $Sim::Time + $Farming::QuestCooldown;
     %client.deleteQuestSchedule = schedule($Farming::QuestCooldown * 1000, 0, deleteQuest, %quest);
+    %client.questSourceBrick = %brick;
 }
 
-function serverCmdGetQuest(%client) {
+function serverCmdAcceptQuest(%client) {
     if (%client.questToGet $= "") {
-        commandToClient(%client, 'MessageBoxOK', "Aren't you clever?\nYou found the server command for getting quests. Too bad it doesn't do anything without a quest to get...");
+        commandToClient(%client, 'MessageBoxOK', "Aren't you clever?\nYou found the server command for accepting quests. Too bad it doesn't do anything without a quest to accept...");
         return;
     }
     if ($Sim::Time > %client.questCooldownTime || !isQuest(%client.questToGet)) {
         commandToClient(%client, 'MessageBoxOK', "Quest Expired", "This quest has expired!\nYou must accept quests within " @ convTime($Farming::QuestCooldown) @ ".");
-        deleteQuest(%client.questToGet);
         %client.questToGet = "";
         return;
     }
@@ -57,9 +57,12 @@ function serverCmdGetQuest(%client) {
         return;
     }
 
+    %quest = %client.questToGet;
+
     cancel(%client.deleteQuestSchedule);
     %player.farmingAddItem(QuestItem);
-    %player.toolDataID[%slot] = %client.questToGet;
+    %player.toolDataID[%slot] = %quest;
+    %client.questSourceBrick.questRetrieved[%client.bl_id] = true;
 }
 
 registerOutputEvent("fxDTSBrick", "getNewQuest", "int 1 20 3" TAB "string 200 50" TAB "int 1 20 3" TAB "string 200 50", true);
