@@ -53,6 +53,8 @@ function serverCmdAcceptQuest(%client) {
         %player.farmingAddItem(QuestItem);
         %player.toolDataID[%slot] = %quest;
         %client.questSourceBrick.questRetrieved[%client.bl_id] = true;
+
+        talk(%client.questToGet SPC %quest);
     }
     %client.questToGet = "";
 }
