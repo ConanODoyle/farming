@@ -98,4 +98,4 @@ function serverCmdGetQuestCopy(%client) {
     return;
 }
 
-registerOutputEvent("fxDTSBrick", "displayActiveQuest", "string 200 50", true);
+registerOutputEvent("fxDTSBrick", "displayActiveQuest", "string 200 500", true);
