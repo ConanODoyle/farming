@@ -519,8 +519,6 @@ datablock ItemData(PowerControlBoxItem : brickPlacerItem)
 	cost = 800;
 };
 
-
-
 datablock ShapeBaseImageData(PowerControlBoxBrickImage : BrickPlacerImage)
 {
 	shapeFile = "./resources/toolbox.dts";
@@ -560,6 +558,18 @@ function PowerControlBoxBrickImage::onFire(%this, %obj, %slot)
 }
 
 
+
+datablock ItemData(BatteryItem : brickPlacerItem)
+{
+	shapeFile = "./resources/toolbox.dts";
+	uiName = "Battery";
+	image = "BatteryBrickImage";
+	colorShiftColor = "0.9 0 0 1";
+
+	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
+	
+	cost = 800;
+};
 
 datablock ShapeBaseImageData(BatteryBrickImage : BrickPlacerImage)
 {
