@@ -2,6 +2,8 @@ $Farming::QuestCooldown = 600;
 $Farming::QuestAcceptTime = 15;
 $Farming::QuestCompleteCooldown = 300;
 
+//////////////////////////////
+
 function fxDTSBrick::getNewQuest(%this, %requestSlots, %requestTypes, %rewardSlots, %rewardTypes, %client) {
     if (%this.nextQuestTime[%client.bl_id] > $Sim::Time) {
         if (%this.questRetrieved[%client.bl_id]) {
@@ -70,3 +72,12 @@ function serverCmdAcceptQuest(%client) {
 }
 
 registerOutputEvent("fxDTSBrick", "getNewQuest", "int 1 20 3" TAB "string 200 50" TAB "int 1 20 3" TAB "string 200 50", true);
+
+//////////////////////////////
+
+function fxDTSBrick::displayActiveQuest(%this, %client) {
+    %quest = %this.storedQuest[%client.bl_id];
+    commandToClient(%client, 'MessageBoxOK', "Current Quest", "This is the quest you've assigned to this deposit box.\n\n" @ getQuestString(%quest, true));
+}
+
+registerOutputEvent("fxDTSBrick", "displayActiveQuest", "", true);

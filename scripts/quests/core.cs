@@ -248,7 +248,7 @@ package FarmingQuests { // TODO: wow this is dense, let's break this up a little
 			%end = vectorAdd(vectorScale(%player.getEyeVector(), 6), %start);
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
 			if (isObject(%hit) && %hit.getDatablock().isQuestSubmissionPoint) {
-				%brickQuest = %hit.questID;
+				%brickQuest = %hit.storedQuest[%client.bl_id];
 				if (%item == QuestItem.getID()) {
 					if (isQuest(%player.toolDataID[%slot])) {
 						%playerQuest = %player.toolDataID[%slot];
@@ -268,7 +268,7 @@ package FarmingQuests { // TODO: wow this is dense, let's break this up a little
 							}
 						} else {
 							commandToClient(%client, 'MessageBoxOK', "Quest Assigned", "Quest assigned!\nNow you can deliver quest items here to complete the quest.\nOnce it's complete, deposit the slip to get your rewards!");
-							%hit.questID = %player.toolDataID[%slot];
+							%hit.storedQuest[%client.bl_id] = %player.toolDataID[%slot];
 						}
 					} else {
 						commandToClient(%client, 'MessageBoxOK', "Invalid Quest", "This slip doesn't have a valid quest on it!\nYou need a valid quest slip. You can also safely discard the invalid quest slip.");
@@ -281,9 +281,7 @@ package FarmingQuests { // TODO: wow this is dense, let's break this up a little
 					return;
 				}
 
-				%questID = %hit.questID;
-
-				%result = %client.questDeliverItem(%questID, %item, %player.toolStackCount[%slot] == 0 ? 1 : %player.toolStackCount[%slot]);
+				%result = %client.questDeliverItem(%brickQuest, %item, %player.toolStackCount[%slot] == 0 ? 1 : %player.toolStackCount[%slot]);
 				%itemName = %item.isStackable ? ($displayNameOverride_[%item.stackType] !$= "" ? $displayNameOverride_[%item.stackType] : %item.stackType) : %item.uiName;
 				if (!%result) {
 					%alreadyDelivered = getWord(%result, 1);
