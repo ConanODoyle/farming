@@ -29,7 +29,7 @@ function GameConnection::promptGetQuest(%client, %quest) {
     %client.deleteQuestSchedule = schedule($Farming::QuestCooldown * 1000, 0, deleteQuest, %quest);
 }
 
-function GameConnection::getQuest(%client) {
+function getQuest(%client) {
     if ($Sim::Time > %client.questCooldownTime || !isQuest(%client.questToGet)) {
         commandToClient(%client, 'MessageBoxOK', "Quest Expired", "This quest has expired!\nYou must accept quests within " @ convTime($Farming::QuestCooldown) @ ".");
         deleteQuest(%client.questToGet);
