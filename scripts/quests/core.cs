@@ -212,7 +212,7 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 		}
 	}
 
-	%client.centerPrint(trim(%displayString), 1);
+	%client.centerPrint(trim(%displayString));
 }
 
 function getQuestString(%questID, %showDelivered) {
