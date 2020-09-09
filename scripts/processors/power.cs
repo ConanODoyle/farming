@@ -57,7 +57,7 @@ package GeneratorPower
 	{
 		if (%storageObj.getDatablock().isGenerator && !%storageObj.isAcceptingFuel)
 		{
-			return 2;
+			return 3;
 		}
 		else if (%storageObj.getDatablock().isPowerControlBox)
 		{
@@ -77,7 +77,7 @@ package GeneratorPower
 		if (%brick.getDatablock().isGenerator)
 		{
 			%brick.centerprintMenu.menuOptionCount = 2;
-			%brick.centerprintMenu.menuOption[1] = "Power: " @ %brick.isPoweredOn() ? "\c6On" : "\c0Off";
+			%brick.centerprintMenu.menuOption[1] = "Power: " @ (%brick.isPoweredOn() ? "\c2On" : "\c0Off");
 			%brick.centerprintMenu.menuFunction[1] = "togglePower";
 		}
 		else if (%brick.getDatablock().isPowerControlBox)
@@ -297,6 +297,9 @@ function togglePower(%cl, %menu, %option)
 		serverPlay3D(ToggleStopSound, %brick.getPosition());
 	}
 	%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
+
+	%cl.startCenterprintMenu(%menu);
+	%cl.displayCenterprintMenu(%option);
 	return (%toggleOn);
 }
 
@@ -313,7 +316,7 @@ function addFuel(%brick, %cl, %slot)
 	%item = %pl.tool[%slot];
 	if (%item.isStackable && %item.stackType !$= "")
 	{
-		if (%brick.canAcceptFuel(%item.stackType))
+		if (!%brick.canAcceptFuel(%item.stackType))
 		{
 			serverCmdUnuseTool(%cl);
 			%cl.centerprint("This generator only accepts " @ strReplace(%brick.getDatablock().fuelType, " ", ", ") @ "!", 1);
@@ -365,7 +368,7 @@ function fxDTSBrick::isPoweredOn(%brick)
 
 function fxDTSBrick::canAcceptFuel(%brick, %stackType)
 {
-	return strPos(strLwr(%brick.getDatablock().fuelType), strLwr(%item.stackType)) < 0;
+	return strPos(strLwr(%brick.getDatablock().fuelType), strLwr(%stackType)) >= 0;
 }
 
 

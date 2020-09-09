@@ -47,3 +47,5 @@ $StorageMax_Fertilizer = 120 * 2;
 $StorageMax_SuperFertilizer = 60;
 
 $StorageMax_WeedKiller = 120;
+
+$StorageMax_Coal = 12 * 2;
