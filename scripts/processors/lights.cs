@@ -8,7 +8,7 @@ datablock fxDTSBrickData(brickIndoorLightData)
 {
 	uiName = "Indoor Light 2x6";
 
-	brickFile = "./resources/power/controlBoxClosed.blb";
+	brickFile = "./resources/light/2x6light.blb";
 
 	iconName = "";
 
