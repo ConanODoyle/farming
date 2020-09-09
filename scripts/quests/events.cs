@@ -8,7 +8,7 @@ function fxDTSBrick::getNewQuest(%this, %requestSlots, %requestTypes, %rewardSlo
             %timeToWait = $Sim::Time - %this.nextQuestTime[%client.bl_id];
             commandToClient(%client, 'MessageBoxOK', "Cooldown", "You already retrieved a quest recently!\nTry again in " @ %timeToWait @ " seconds.");
         } else if (isQuest(%this.quest[%client.bl_id])) {
-            %client.promptGetQuest(%this.quest[%client.bl_id]);
+            %client.promptGetQuest(%this, %this.quest[%client.bl_id]);
         } else {
             commandToClient(%client, 'MessageBoxOK', "Error", "Something went wrong. Please try again.");
             %this.nextQuestTime[%client.bl_id] = 0;
@@ -32,7 +32,7 @@ function GameConnection::promptGetQuest(%client, %brick, %quest) {
 
 function serverCmdAcceptQuest(%client) {
     if (%client.questToGet $= "") {
-        commandToClient(%client, 'MessageBoxOK', "Aren't you clever?\nYou found the server command for accepting quests. Too bad it doesn't do anything without a quest to accept...");
+        commandToClient(%client, 'MessageBoxOK', "A Secret", "Aren't you clever?\nYou found the server command for accepting quests. Too bad it doesn't do anything without a quest to accept...");
         return;
     }
     if ($Sim::Time > %client.questCooldownTime || !isQuest(%client.questToGet)) {
