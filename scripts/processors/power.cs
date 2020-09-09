@@ -155,7 +155,7 @@ function powerCheck(%brick)
 		return;
 	}
 
-	for (%i = 0; %i < getDataIDArrayCount(%dataID))
+	for (%i = 0; %i < getDataIDArrayCount(%dataID); %i++)
 	{
 		%subDataID = getDataIDArrayValue(%dataID, %i);
 		%type = strLwr(getDataIDArrayTagValue(%subDataID, "powerType"));
