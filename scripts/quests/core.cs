@@ -224,7 +224,7 @@ function getQuestString(%questID, %showDelivered) {
 		%count = getWord(%request, 1);
 		%delivered = getWord(%request, 2) + 0;
 
-		%displayString = %displayString @ %item.uiName @ ": " @ (%showDelivered ? %delivered @ "/" : "") @ %count @ "\n";
+		%string = %string @ %item.uiName @ ": " @ (%showDelivered ? %delivered @ "/" : "") @ %count @ "\n";
 	}
 
 	%string = %string @ "\nRewards:\n";
@@ -234,10 +234,10 @@ function getQuestString(%questID, %showDelivered) {
 		%item = getWord(%reward, 0);
 		%count = getWord(%reward, 1);
 
-		%displayString = %displayString @ %item.uiName @ ": " @ %count @ "\n";
+		%string = %string @ %item.uiName @ ": " @ %count @ "\n";
 	}
 
-	return trim(%displayString);
+	return trim(%string);
 }
 
 package FarmingQuests { // TODO: wow this is dense, let's break this up a little bit
