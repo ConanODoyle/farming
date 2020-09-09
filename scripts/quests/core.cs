@@ -1,4 +1,5 @@
 $Farming::QuestPrefix = "Quest_";
+$Farming::QuestDepositPointPrefix = "DepositPoint_";
 
 function getQuestItem(%table, %slots) {
 	%item = farmingTableGetItem(%table);
@@ -248,7 +249,11 @@ package FarmingQuests { // TODO: wow this is dense, let's break this up a little
 			%end = vectorAdd(vectorScale(%player.getEyeVector(), 6), %start);
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
 			if (isObject(%hit) && %hit.getDatablock().isQuestSubmissionPoint) {
-				%brickQuest = %hit.storedQuest[%client.bl_id];
+				if (%hit.EventOutputParameter[0, 1] $= "") {
+					%hit.EventOutputParameter[0, 1] = $Farming::QuestDepositPointPrefix @ getRandomHash("depositPoint");
+				}
+				%depositBoxArray = %hit.EventOutputParameter[0, 1];
+				%brickQuest = getDataIDArrayTagValue(%depositBoxArray, "BL_ID" @ %client.bl_id @ "Quest");
 				if (%item == QuestItem.getID()) {
 					if (isQuest(%player.toolDataID[%slot])) {
 						%playerQuest = %player.toolDataID[%slot];
@@ -268,7 +273,7 @@ package FarmingQuests { // TODO: wow this is dense, let's break this up a little
 							}
 						} else {
 							commandToClient(%client, 'MessageBoxOK', "Quest Assigned", "Quest assigned!\nNow you can deliver quest items here to complete the quest.\nOnce it's complete, deposit the slip to get your rewards!");
-							%hit.storedQuest[%client.bl_id] = %player.toolDataID[%slot];
+							setDataIDArrayTagValue(%depositBoxArray, "BL_ID" @ %client.bl_id @ "Quest", %player.toolDataID[%slot]);
 						}
 					} else {
 						commandToClient(%client, 'MessageBoxOK', "Invalid Quest", "This slip doesn't have a valid quest on it!\nYou need a valid quest slip. You can also safely discard the invalid quest slip.");

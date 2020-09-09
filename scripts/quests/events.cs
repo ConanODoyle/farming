@@ -62,7 +62,11 @@ registerOutputEvent("fxDTSBrick", "getNewQuest", "int 1 20 3" TAB "string 200 50
 //////////////////////////////
 
 function fxDTSBrick::displayActiveQuest(%this, %client) {
-    %quest = %this.storedQuest[%client.bl_id];
+    if (%this.EventOutputParameter[0, 1] $= "") {
+        %this.EventOutputParameter[0, 1] = $Farming::QuestDepositPointPrefix @ getRandomHash("depositPoint");
+    }
+    %depositBoxArray = %this.EventOutputParameter[0, 1];
+    %quest = getDataIDArrayTagValue(%depositBoxArray, "BL_ID" @ %client.bl_id @ "Quest");
     if (!isQuest(%quest)) {
         commandToClient(%client, 'MessageBoxOK', "No Assigned Quest", "There's no quest assigned to this deposit box.\nDrop a quest here to assign it to the box!");
         return;
@@ -94,4 +98,4 @@ function serverCmdGetQuestCopy(%client) {
     return;
 }
 
-registerOutputEvent("fxDTSBrick", "displayActiveQuest", "", true);
+registerOutputEvent("fxDTSBrick", "displayActiveQuest", "string 200 50", true);
