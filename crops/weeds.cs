@@ -123,7 +123,7 @@ function weedVictimSearch(%brick)
 		{
 			continue;
 		}
-		if (!%next.getDatablock().isPlant || %next.getDatablock().isWeed)
+		if (!%next.getDatablock().isPlant || %next.getDatablock().isWeed || %next.greenhouseBonus)
 		{
 			continue;
 		}
