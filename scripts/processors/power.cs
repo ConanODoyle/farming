@@ -67,6 +67,10 @@ package PowerSystems
 			{
 				%dataID = %brick.eventOutputParameter0_1;
 				%brickName = "_" @ getSubStr(getRandomHash(), 0, 20) @ "Power";
+				while (isObject(%brickName))
+				{
+					%brickName = "_" @ getSubStr(getRandomHash(), 0, 20) @ "Power";
+				}
 				%brick.setName(%brickName);
 				setDataIDArrayTagValue(%dataID, "powerType", %type);
 				setDataIDArrayTagValue(%dataID, "brickName", %brickName);
@@ -122,6 +126,11 @@ package PowerSystems
 
 			%brick.centerprintMenu.menuFunction[0] = "";
 			%brick.centerprintMenu.menuFunction[1] = "togglePower";
+		}
+		else if (%db.isPoweredProcessor)
+		{
+			%brick.centerprintMenu.menuOption[0] = "Power: " @ (%brick.isPoweredOn() ? "\c2On" : "\c0Off");
+			%brick.centerprintMenu.menuFunction[0] = "togglePower";
 		}
 		return %ret;
 	}
@@ -249,6 +258,7 @@ function powerCheck(%brick)
 			{
 				%brickName.setMusic("None");
 			}
+			%genOnCount++;
 		}
 		else if (isObject(%brickName.audioEmitter))
 		{
@@ -273,6 +283,7 @@ function powerCheck(%brick)
 			%powerDraw = %proDB.energyUse;
 
 			%totalPowerUsage += %powerDraw;
+			%proOnCount++;
 		}
 	}
 
@@ -311,6 +322,7 @@ function powerCheck(%brick)
 			{
 				%totalBatteryPower += %chargeAvailable;
 			}
+			%batOnCount++;
 		}
 	}
 

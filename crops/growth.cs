@@ -47,6 +47,15 @@ function fxDTSBrick::plantDeleteCheck(%obj)
 	%obj.delete();
 }
 
+function fxDTSBrick::allowPlantGrowth(%brick, %cropType)
+{
+	if (%brick.getGroup().bl_id == 888888)
+	{
+		return true;
+	}
+	return false;
+}
+
 function growTick(%index)
 {
 	cancel($masterGrowSchedule);
@@ -186,7 +195,7 @@ function doGrowCalculations(%brick, %db)
 		%brick.greenhouseBonus = 0;
 	}
 
-	if (isObject(%hit) && !%db.growsWithoutSunlight) //has a brick above it/its greenhouse
+	if (isObject(%hit) && !%hit.allowPlantGrowth(%type)) //has a brick above it/its greenhouse
 	{
 		%brick.nextGrow = $Sim::Time + %tickTime / 1000;
 		return 0;
@@ -221,15 +230,25 @@ function doGrowCalculations(%brick, %db)
 		%tickTime = mCeil(%tickTime * $Farming::Crops::PlantData_[%type, "heatWaveTimeModifier"]);
 	}
 
-	if (%db.brickSizeX % 2 == 1)
+	// if (%db.brickSizeX % 2 == 1)
+	// {
+	// 	%dirt = getWord(containerRaycast(%pos, vectorSub(%pos, "0 0" SPC %db.brickSizeZ * 0.1 + 0.1), $TypeMasks::fxBrickObjectType, %brick), 0);
+	// }
+	// else
+	// {
+	// 	%offset = vectorSub(%pos, "0.25 0.25 0");
+	// 	%dirt = getWord(containerRaycast(%offset, vectorSub(%offset, "0 0" SPC %db.brickSizeZ * 0.1 + 0.1), $TypeMasks::fxBrickObjectType, %brick), 0);	
+	// }
+
+	for (%i = 0; %i < %brick.getNumDownBricks(); %i++)
 	{
-		%dirt = getWord(containerRaycast(%pos, vectorSub(%pos, "0 0" SPC %db.brickSizeZ * 0.1 + 0.1), $TypeMasks::fxBrickObjectType, %brick), 0);
+		%dirt = %brick.getDownBrick(%i);
+		if (%dirt.getDatablock().isDirt && %dirt.waterLevel >= %waterReq)
+		{
+			break;
+		}
 	}
-	else
-	{
-		%offset = vectorSub(%pos, "0.25 0.25 0");
-		%dirt = getWord(containerRaycast(%offset, vectorSub(%offset, "0 0" SPC %db.brickSizeZ * 0.1 + 0.1), $TypeMasks::fxBrickObjectType, %brick), 0);	
-	}
+
 	if (!isObject(%dirt) || !%dirt.getDatablock().isDirt)
 	{
 		// talk(%brick @ " plant brick has no dirt under it! Deleting...");

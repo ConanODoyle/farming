@@ -20,7 +20,7 @@ datablock fxDTSBrickData(brickIndoorLightData)
 	keepActivate = 1;
 	isPoweredProcessor = 1;
 	energyUse = 2;
-	powerFunction = "";
+	powerFunction = "powerLight";
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
 	storageSlotCount = 1;
@@ -80,4 +80,44 @@ function IndoorLightBrickImage::onLoop(%this, %obj, %slot)
 function IndoorLightBrickImage::onFire(%this, %obj, %slot)
 {
 	brickPlacerItemFire(%this, %obj, %slot);
+}
+
+
+
+//////////////
+//Light code//
+//////////////
+
+package PoweredLight
+{
+	function fxDTSBrick::allowPlantGrowth(%brick, %cropType)
+	{
+		if (%brick.lightPower > getRandom())
+		{
+			return true;
+		}
+		return parent::allowPlantGrowth(%brick, %cropType);
+	}
+
+	function fxDTSBrick::updateStorageMenu(%brick, %dataID)
+	{
+		%ret = parent::updateStorageMenu(%brick, %dataID);
+		%db = %brick.getDatablock();
+		if (%db.powerFunction $= "powerLight")
+		{
+			%power = mFloor(%powerRatio * 100);
+			if (%power < 50) %color = "\c0";
+			else if (%power < 100) %color = "\c3";
+			else %color = "\c2";
+			%brick.centerprintMenu.menuOption[1] = "Current Power: " @ %color @ mFloor(%powerRatio * 100) @ "%");
+			%brick.centerprintMenu.menuFunction[1] = "";
+		}
+		return %ret;
+	}
+};
+activatePackage(PoweredLight);
+
+function powerLight(%brick, %powerRatio)
+{
+	%brick.lightPower = %powerRatio;
 }
