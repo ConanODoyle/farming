@@ -47,17 +47,17 @@
 
 
 $CenterprintMenuSystemVersion += 0; //make sure its a valid number
-if ($CenterprintMenuSystemVersion < 2.0 && isFunction(GameConnection, startCenterprintMenu))
+if ($CenterprintMenuSystemVersion < 2.1 && isFunction(GameConnection, startCenterprintMenu))
 {
 	echo("Support_CenterprintMenuSystem: Older centerprint menu system detected: v" @ $CenterprintMenuSystemVersion);
-	echo("Support_CenterprintMenuSystem: Overwriting with version 2.0");
+	echo("Support_CenterprintMenuSystem: Overwriting with version 2.1");
 }
-else if ($CenterprintMenuSystemVersion >= 2.0)
+else if ($CenterprintMenuSystemVersion >= 2.1)
 {
 	echo("Support_CenterprintMenuSystem: Centerprint menu system detected: v" @ $CenterprintMenuSystemVersion);
-	echo("Support_CenterprintMenuSystem: Skipping... (v2.0)");
+	echo("Support_CenterprintMenuSystem: Skipping... (v2.1)");
 }
-$CenterprintMenuSystemVersion = 2.0;
+$CenterprintMenuSystemVersion = 2.1;
 
 if (!isObject(exampleCenterprintMenu))
 {
@@ -253,6 +253,12 @@ package Support_CenterprintMenuSystemPackage
 		{
 			messageClient(%cl, %sound);
 		}
+	}
+
+	function reopenCenterprintMenu(%cl, %menu, %option)
+	{
+		%cl.startCenterprintMenu(%menu);
+		%cl.displayCenterprintMenu(%option);
 	}
 };
 activatePackage(Support_CenterprintMenuSystemPackage);
