@@ -120,8 +120,8 @@ package PowerSystems
 					 @ "/" @ %db.capacity;
 			%brick.centerprintMenu.menuOption[1] = "Power: " @ (%brick.isPoweredOn() ? "\c2On" : "\c0Off");
 
-			%brick.menuFunction[0] = "";
-			%brick.menuFunction[1] = "togglePower";
+			%brick.centerprintMenu.menuFunction[0] = "";
+			%brick.centerprintMenu.menuFunction[1] = "togglePower";
 		}
 		return %ret;
 	}
@@ -183,7 +183,6 @@ function powerCheck(%brick)
 	%db = %brick.getDatablock();
 	%dataID = %brick.eventOutputParameter0_1;
 	%brick.nextPowerCheck = $Sim::Time + %db.tickTime;
-	// talk("Powercheck: " @ %brick);
 	if (!%db.isPowerControlBox)
 	{
 		return;
@@ -256,6 +255,10 @@ function powerCheck(%brick)
 			%brickName.setMusic("None");
 		}
 	}
+	if (%brick.debugPower)
+	{
+		talk("totalGeneratedPower " @ %totalGeneratedPower);
+	}
 
 	%totalPowerUsage = 0;
 	for (%i = 0; %i < %proCount; %i++)
@@ -294,13 +297,15 @@ function powerCheck(%brick)
 				%powerDiff += %dischargeAmt;
 				setDataIDArrayTagValue(%bat[%i], "charge", %chargeAvailable - %dischargeAmt);
 				%totalBatteryPower += %chargeAvailable - %dischargeAmt;
+				%brickName.updateStorageMenu(%bat[%i]);
 			}
 			else if (%powerDiff > 0 && %chargeAvailable < %max) //extra power available to charge battery with
 			{
 				%addAmt = getMin(%powerDiff, %max - %chargeAvailable);
 				%powerDiff -= %addAmt;
-				setDataIDArrayValue(%bat[%i], "charge", %chargeAvailable + %addAmt);
+				setDataIDArrayTagValue(%bat[%i], "charge", %chargeAvailable + %addAmt);
 				%totalBatteryPower += %chargeAvailable + %addAmt;
+				%brickName.updateStorageMenu(%bat[%i]);
 			}
 			else
 			{
@@ -452,13 +457,19 @@ function connectToControlBox(%brick, %controlBox)
 	}
 
 	//get currently linked stuff, and record which slot is empty
-	for (%i = 0; %i < getDataIDArrayCount(%dataID); %i++)
+	for (%i = 0; %i < getDataIDArrayCount(%controlDataID); %i++)
 	{
-		%subDataID = getDataIDArrayValue(%dataID, %i);
+		%subDataID = getDataIDArrayValue(%controlDataID, %i);
 		%type = strLwr(getDataIDArrayTagValue(%subDataID, "powerType"));
 		%brickName = getDataIDArrayTagValue(%subDataID, "brickName");
 		if (isObject(%brickName))
 		{
+			if (%brickName $= %brick.getName())
+			{
+				error("ERROR: connectToControlBox - " @ %brick @ " already in list!");
+				talk("ERROR: connectToControlBox - " @ %brick @ " already in list!");
+				return 1;
+			}
 			switch$ (%type)
 			{
 				case "generator":
@@ -477,7 +488,7 @@ function connectToControlBox(%brick, %controlBox)
 
 	if (%emptySlot $= "")
 	{
-		%emptySlot = getDataIDArrayCount(%dataID);
+		%emptySlot = getDataIDArrayCount(%controlDataID);
 	}
 
 	if (%brickDB.isGenerator && %genCount < %controlDB.maxGenerators) %type = "generator";
