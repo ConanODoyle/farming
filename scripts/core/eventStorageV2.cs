@@ -225,7 +225,7 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 			%spaceAvailable = getWord(%availableSpace[%i], 1);
 			%amountPresent = getWord(%availableSpace[%i], 2);
 
-			%insertAmount = getMin(%insertCount, %spaceAvailable);
+			%insertAmount = mFloor(getMin(%insertCount, %spaceAvailable));
 			%insertCount -= %insertAmount;
 			%total = %amountPresent + %insertAmount;
 			%value = getStorageValue(%storeItemDB, %total, %itemDataID);
@@ -250,7 +250,7 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 			%amountPresent = getWord(%availableSpace[%i], 2);
 
 			%value = getStorageValue(%storeItemDB, %insertCount, %itemDataID);
-			%insertAmount = getMin(%insertCount, %spaceAvailable);
+			%insertAmount = mFloor(getMin(%insertCount, %spaceAvailable));
 			%insertCount -= %insertAmount;
 			%total = %amountPresent + %insertAmount;
 			%value = getField(%value, 0) TAB %total TAB getField(%value, 2);

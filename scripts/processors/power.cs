@@ -180,8 +180,10 @@ function powerTick(%index)
 
 function powerCheck(%brick)
 {
-	%db = %brick;
+	%db = %brick.getDatablock();
 	%dataID = %brick.eventOutputParameter0_1;
+	%brick.nextPowerCheck = $Sim::Time + %db.tickTime;
+	// talk("Powercheck: " @ %brick);
 	if (!%db.isPowerControlBox)
 	{
 		return;
@@ -208,8 +210,11 @@ function powerCheck(%brick)
 			}
 		}
 	}
+	if (%brick.debugPower)
+	{
+		talk("gencount " @ %genCount @ " procount " @ %proCount @ " batcount " @ %batCount);
+	}
 
-	//TODO: Iterate over processors, batteries to tick power and get diagnostic info to display
 	%totalGeneratedPower = 0;
 	for (%i = 0; %i < %genCount; %i++)
 	{
@@ -226,16 +231,20 @@ function powerCheck(%brick)
 			%fuelType = getField(%fuelStorage, 0);
 			%count = getField(%fuelStorage, 1);
 
-			if (%count > 0 && %fuelType !$= %genDB.fuelType) //has fuel, burn some and generate power
+			if (%count > 0 && %brickname.canAcceptFuel(%fuelType)) //has fuel, burn some and generate power
 			{
 				%totalGeneratedPower += %powerGen;
-				%count = %count - %burn < 0 ? 0 : mFloatLength(%count - %burn, 2);
-				setDataIDArrayValue(%gen[%i], 1, %fuelType TAB %count TAB getField(%fuelStorage, 2));
+				if (%count - %burn > 0)
+					%newCount = mFloatLength(%count - %burn, 2);
+				else
+					%newCount = 0;
+				setDataIDArrayValue(%gen[%i], 1, %fuelType TAB %newCount TAB getField(%fuelStorage, 2));
 
 				if (!isObject(%brickName.audioEmitter))
 				{
-					%brickName.setMusic("BatteryLoopSound");
+					%brickName.setMusic("musicData_Bass_1");
 				}
+				%brickname.updateStorageMenu(%gen[%i]);
 			}
 			else if (isObject(%brickName.audioEmitter))
 			{
@@ -423,14 +432,14 @@ function connectToControlBox(%brick, %controlBox)
 	%controlDataID = %controlBox.eventOutputParameter0_1;
 	if (%brickDataID $= "" || %controlDataID $= "")
 	{
-		error("ERROR: connectToControlBox - data ID is empty!");
-		talk("ERROR: connectToControlBox - data ID is empty!");
+		error("ERROR: connectToControlBox - data ID is empty! (" @ %brickDataID @ ", " @ %controlDataID @ ")");
+		talk("ERROR: connectToControlBox - data ID is empty! (" @ %brickDataID @ ", " @ %controlDataID @ ")");
 		return 2;
 	}
-	else if (%brickDB.isPowerControlBox || !%controlBox.isPowerControlBox)
+	else if (%brickDB.isPowerControlBox || !%controlDB.isPowerControlBox)
 	{
-		error("ERROR: connectToControlBox - parameters incorrect! (" @ %brick SPC %controlBox @ ")")	;
-		talk("ERROR: connectToControlBox - data ID is empty!");
+		error("ERROR: connectToControlBox - parameters incorrect! (" @ %brick SPC %controlBox @ ")");
+		talk("ERROR: connectToControlBox - parameters incorrect! (" @ %brick SPC %controlBox @ ")");
 		return 2;	
 	}
 
@@ -534,8 +543,9 @@ datablock fxDTSBrickData(brickPowerControlBoxData)
 	placerItem = "PowerControlBoxItem";
 	keepActivate = 1;
 	isPowerControlBox = 1;
-	maximumGenerators = 1000;
-	maximumProcessors = 1000;
+	maxGenerators = 4;
+	maxProcessors = 16;
+	maxBatteries = 4;
 	tickTime = 8;
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
