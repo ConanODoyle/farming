@@ -104,18 +104,29 @@ package PowerSystems
 		{
 			%brick.centerprintMenu.menuOptionCount = 2;
 			%brick.centerprintMenu.menuOption[1] = "Power: " @ (%brick.isPoweredOn() ? "\c2On" : "\c0Off");
+			%brick.centerprintMenu.menuFunction[0] = "reopenCenterprintMenu";
 			%brick.centerprintMenu.menuFunction[1] = "togglePower";
 		}
 		else if (%db.isPowerControlBox)
 		{
-			%brick.centerprintMenu.menuOptionCount = 3;
-			%brick.centerprintMenu.menuOption[0] = "Generating: " @ %brick.totalGeneratedPower + 0;
-			%brick.centerprintMenu.menuOption[1] = "Using: " @ %brick.totalPowerUsage + 0;
-			%brick.centerprintMenu.menuOption[2] = "Total Battery: " @ %brick.totalBatteryPower + 0; 
+			%brick.centerprintMenu.menuOptionCount = 9;
+			%brick.centerprintMenu.menuOption[0] = "\c5v Diagnostics v";
+			%brick.centerprintMenu.menuOption[1] = "Producing " @ %brick.totalGeneratedPower + 0 @ " watts";
+			%brick.centerprintMenu.menuOption[2] = "Using " @ %brick.totalPowerUsage + 0 @ " watts";
+			%brick.centerprintMenu.menuOption[3] = "Battery: " @ %brick.totalBatteryPower + 0 @ " watt-ticks"; 
+			%brick.centerprintMenu.menuOption[4] = "\c5v Controls v";
+			%brick.centerprintMenu.menuOption[5] = "Input: on?";
+			%brick.centerprintMenu.menuOption[6] = "Output: on?";
+			%brick.centerprintMenu.menuOption[7] = "Battery Mode:";
 
-			%brick.centerprintMenu.menuFunction[0] = "";
-			%brick.centerprintMenu.menuFunction[1] = "";
-			%brick.centerprintMenu.menuFunction[2] = "";
+			%brick.centerprintMenu.menuFunction[0] = "reopenCenterprintMenu";
+			%brick.centerprintMenu.menuFunction[1] = "reopenCenterprintMenu";
+			%brick.centerprintMenu.menuFunction[2] = "reopenCenterprintMenu";
+			%brick.centerprintMenu.menuFunction[3] = "reopenCenterprintMenu";
+			%brick.centerprintMenu.menuFunction[4] = "reopenCenterprintMenu";
+			%brick.centerprintMenu.menuFunction[5] = "reopenCenterprintMenu";
+			%brick.centerprintMenu.menuFunction[6] = "reopenCenterprintMenu";
+			%brick.centerprintMenu.menuFunction[7] = "reopenCenterprintMenu";
 		}
 		else if (%db.isBattery)
 		{
@@ -124,7 +135,7 @@ package PowerSystems
 					 @ "/" @ %db.capacity;
 			%brick.centerprintMenu.menuOption[1] = "Power: " @ (%brick.isPoweredOn() ? "\c2On" : "\c0Off");
 
-			%brick.centerprintMenu.menuFunction[0] = "";
+			%brick.centerprintMenu.menuFunction[0] = "reopenCenterprintMenu";
 			%brick.centerprintMenu.menuFunction[1] = "togglePower";
 		}
 		else if (%db.isPoweredProcessor)
