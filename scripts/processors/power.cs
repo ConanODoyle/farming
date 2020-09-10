@@ -1,7 +1,8 @@
 //dataID tags:
-//	powerType - determines if the brick is a generator, processor, or battery
+//	powerType - determines if the brick is a generator, processor, powercontrolbox, or battery
 //	isPoweredOn - determines if the brick is running
 //	brickName - the name of the brick associated with this processor
+//	powerControlBox - the power control box dataID this processor is connected to
 //
 //Generators check internal inventory for resources to burn when powering a system
 //generator fields:
@@ -27,16 +28,18 @@
 //Power Control Boxes display network power information and connect generators to powered processors
 //powercontrolbox fields:
 //	isPowerControlBox - true
-//	maximumGenerators - maximum number of attached generators
-//	maximumProcessors - maximum number of attached processors
+//	maxGenerators - maximum number of attached generators
+//	maxProcessors - maximum number of attached processors
+//	maxBatteries - maximum number of attached batteries
 //	tickTime - seconds between ticks
+
 
 if (!isObject(PowerControlSimSet)) 
 {
 	$PowerControlSimSet = new SimSet(PowerControlSimSet) {};
 }
 
-package PowerControlSimSetCollector
+package PowerSystems
 {
 	function fxDTSBrick::onAdd(%brick) 
 	{
@@ -48,11 +51,29 @@ package PowerControlSimSetCollector
 		}
 		return %ret;
 	}
-};
-activatePackage(PowerControlSimSetCollector);
 
-package GeneratorPower
-{
+	function addStorageEvent(%brick)
+	{
+		parent::addStorageEvent(%brick);
+		%db = %brick.getDatablock();
+		if (%db.isGenerator || %db.isPoweredProcessor || %db.isPowerControlBox || %db.isBattery)
+		{
+			if (%db.isGenerator) %type = "generator";
+			else if (%db.isPoweredProcessor) %type = "processor";
+			else if (%db.isBattery) %type = "battery";
+			else if (%db.isPowerControlBox) %type = "powerControlBox";
+
+			if (%type !$= "")
+			{
+				%dataID = %brick.eventOutputParameter0_1;
+				%brickName = "_" @ getSubStr(getRandomHash(), 0, 20) @ "Power";
+				%brick.setName(%brickName);
+				setDataIDArrayTagValue(%dataID, "powerType", %type);
+				setDataIDArrayTagValue(%dataID, "brickName", %brickName);
+			}
+		}
+	}
+
 	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
 	{
 		if (%storageObj.getDatablock().isGenerator && !%storageObj.isAcceptingFuel)
@@ -74,13 +95,14 @@ package GeneratorPower
 	function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 	{
 		%ret = parent::updateStorageMenu(%brick, %dataID);
-		if (%brick.getDatablock().isGenerator)
+		%db = %brick.getDatablock();
+		if (%db.isGenerator)
 		{
 			%brick.centerprintMenu.menuOptionCount = 2;
 			%brick.centerprintMenu.menuOption[1] = "Power: " @ (%brick.isPoweredOn() ? "\c2On" : "\c0Off");
 			%brick.centerprintMenu.menuFunction[1] = "togglePower";
 		}
-		else if (%brick.getDatablock().isPowerControlBox)
+		else if (%db.isPowerControlBox)
 		{
 			%brick.centerprintMenu.menuOptionCount = 3;
 			%brick.centerprintMenu.menuOption[0] = "Generating: " @ %brick.totalGeneratedPower + 0;
@@ -90,6 +112,16 @@ package GeneratorPower
 			%brick.centerprintMenu.menuFunction[0] = "";
 			%brick.centerprintMenu.menuFunction[1] = "";
 			%brick.centerprintMenu.menuFunction[2] = "";
+		}
+		else if (%db.isBattery)
+		{
+			%brick.centerprintMenu.menuOptionCount = 2;
+			%brick.centerprintMenu.menuOption[0] = "Stored: " @ getDataIDArrayTagValue(%dataID, "charge") + 0
+					 @ "/" @ %db.capacity;
+			%brick.centerprintMenu.menuOption[1] = "Power: " @ (%brick.isPoweredOn() ? "\c2On" : "\c0Off");
+
+			%brick.menuFunction[0] = "";
+			%brick.menuFunction[1] = "togglePower";
 		}
 		return %ret;
 	}
@@ -104,7 +136,7 @@ package GeneratorPower
 		return parent::removeStack(%cl, %menu, %option);
 	}
 };
-activatePackage(GeneratorPower);
+activatePackage(PowerSystems);
 
 function powerTick(%index)
 {
@@ -159,14 +191,21 @@ function powerCheck(%brick)
 	{
 		%subDataID = getDataIDArrayValue(%dataID, %i);
 		%type = strLwr(getDataIDArrayTagValue(%subDataID, "powerType"));
-		switch$ (%type)
+		%brickName = getDataIDArrayTagValue(%subDataID, "brickName");
+		if (isObject(%brickName))
 		{
-			case "generator":
-				%gen[%genCount++ - 1] = %subDataID;
-			case "processor":
-				%pro[%proCount++ - 1] = %subDataID;
-			case "battery":
-				%bat[%batCount++ - 1] = %subDataID;
+			switch$ (%type)
+			{
+				case "generator":
+					%gen[%genCount++ - 1] = %subDataID;
+					%genName[%genCount - 1] = %brickName;
+				case "processor":
+					%pro[%proCount++ - 1] = %subDataID;
+					%proName[%proCount - 1] = %brickName;
+				case "battery":
+					%bat[%batCount++ - 1] = %subDataID;
+					%batName[%batCount - 1] = %brickName;
+			}
 		}
 	}
 
@@ -175,9 +214,9 @@ function powerCheck(%brick)
 	for (%i = 0; %i < %genCount; %i++)
 	{
 		%on = getDataIDArrayTagValue(%gen[%i], "isPoweredOn");
-		%brickName = getDataIDArrayTagValue(%gen[%i], "brickName");
+		%brickName = %genName[%i];
 
-		if (isObject(%brickName) && %brickName.getDatablock().isGenerator && %on)
+		if (%brickName.getDatablock().isGenerator && %on)
 		{
 			%genDB = %brickName.getDatablock();
 			%powerGen = %genDB.generation;
@@ -213,9 +252,9 @@ function powerCheck(%brick)
 	for (%i = 0; %i < %proCount; %i++)
 	{
 		%on = getDataIDArrayTagValue(%pro[%i], "isPoweredOn");
-		%brickName = getDataIDArrayTagValue(%pro[%i], "brickName");
+		%brickName = %proName[%i];
 
-		if (isObject(%brickName) && %brickName.getDatablock().isPoweredProcessor && %on)
+		if (%brickName.getDatablock().isPoweredProcessor && %on)
 		{
 			%pro_on[%pro_onCount++ - 1] = %brickName.getID();
 			%proDB = %brickName.getDatablock();
@@ -230,9 +269,9 @@ function powerCheck(%brick)
 	for (%i = 0; %i < %batCount; %i++)
 	{
 		%on = getDataIDArrayTagValue(%bat[%i], "isPoweredOn");
-		%brickName = getDataIDArrayTagValue(%bat[%i], "brickName");
+		%brickName = %batName[%i];
 
-		if (isObject(%brickName) && %brickName.getDatablock().isBattery && %on)
+		if (%brickName.getDatablock().isBattery && %on)
 		{
 			%bat_on[%bat_onCount++ - 1] = %brickName.getID();
 			%chargeAvailable = getDataIDArrayTagValue(%bat[%i], "charge");
@@ -370,6 +409,84 @@ function fxDTSBrick::canAcceptFuel(%brick, %stackType)
 {
 	return strPos(strLwr(%brick.getDatablock().fuelType), strLwr(%stackType)) >= 0;
 }
+
+function connectToControlBox(%brick, %controlBox)
+{
+	if (!isObject(%brick) || !isObject(%controlBox))
+	{
+		return;
+	}
+
+	%brickDB = %brick.getDatablock();
+	%controlDB = %controlBox.getDatablock();
+	%brickDataID = %brick.eventOutputParameter0_1;
+	%controlDataID = %controlBox.eventOutputParameter0_1;
+	if (%brickDataID $= "" || %controlDataID $= "")
+	{
+		error("ERROR: connectToControlBox - data ID is empty!");
+		talk("ERROR: connectToControlBox - data ID is empty!");
+		return 2;
+	}
+	else if (%brickDB.isPowerControlBox || !%controlBox.isPowerControlBox)
+	{
+		error("ERROR: connectToControlBox - parameters incorrect! (" @ %brick SPC %controlBox @ ")")	;
+		talk("ERROR: connectToControlBox - data ID is empty!");
+		return 2;	
+	}
+
+	%hookedUpTo = getDataIDArrayTagValue(%brickDataID, "powerControlBox");
+	if (isObject(getDataIDArrayTagValue(%hookedUpTo, "brickName")))
+	{
+		error("ERROR: connectToControlBox - " @ %brick @ " already is connected to a control box!");
+		talk("ERROR: connectToControlBox - " @ %brick @ " already is connected to a control box!");
+		return 1;
+	}
+
+	//get currently linked stuff, and record which slot is empty
+	for (%i = 0; %i < getDataIDArrayCount(%dataID); %i++)
+	{
+		%subDataID = getDataIDArrayValue(%dataID, %i);
+		%type = strLwr(getDataIDArrayTagValue(%subDataID, "powerType"));
+		%brickName = getDataIDArrayTagValue(%subDataID, "brickName");
+		if (isObject(%brickName))
+		{
+			switch$ (%type)
+			{
+				case "generator":
+					%gen[%genCount++ - 1] = %subDataID;
+				case "processor":
+					%pro[%proCount++ - 1] = %subDataID;
+				case "battery":
+					%bat[%batCount++ - 1] = %subDataID;
+			}
+		}
+		else if (%emptySlot $= "")
+		{
+			%emptySlot = %i;
+		}
+	}
+
+	if (%emptySlot $= "")
+	{
+		%emptySlot = getDataIDArrayCount(%dataID);
+	}
+
+	if (%brickDB.isGenerator && %genCount < %controlDB.maxGenerators) %type = "generator";
+	else if (%brickDB.isPoweredProcessor && %proCount < %controlDB.maxProcessors) %type = "processor";
+	else if (%brickDB.isBattery && %batCount < %controlDB.maxBatteries) %type = "battery";
+	else
+	{
+		error("ERROR: connectToControlBox - Cannot connect \"" @ %brick @ "\" to control box, maxed out connection type");
+		talk("ERROR: connectToControlBox - Cannot connect \"" @ %brick @ "\" to control box, maxed out connection type");
+		return 2;
+	}
+
+	//all checks passed, connect them
+	setDataIDArrayTagValue(%brickDataID, "powerControlBox", %controlBox.getName());
+	setDataIDArrayValue(%controlDataID, %emptySlot, %brickDataID);
+	return 0;
+}
+
 
 
 
