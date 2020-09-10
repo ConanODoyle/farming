@@ -109,7 +109,7 @@ package PoweredLight
 			if (%power < 50) %color = "\c0";
 			else if (%power < 100) %color = "\c3";
 			else %color = "\c2";
-			%brick.centerprintMenu.menuOption[1] = "Current Power: " @ %color @ mFloor(%powerRatio * 100) @ "%");
+			%brick.centerprintMenu.menuOption[1] = "Current Power: " @ %color @ mFloor(%powerRatio * 100) @ "%";
 			%brick.centerprintMenu.menuFunction[1] = "";
 		}
 		return %ret;
