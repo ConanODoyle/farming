@@ -170,7 +170,6 @@ package Cart
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::PlayerObjectType, %cl.player), 0);
 			if (isObject(%hit) && %hit.getDatablock().isStorageVehicle && isObject(%brick = %hit.spawnBrick))
 			{
-				talk("e");
 				addStorageEvent(%brick, 1);
 				%success = %hit.insertIntoStorage(%hit.spawnBrick.eventOutputParameter[0, 1], 
 												%item, 
