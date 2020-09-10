@@ -163,7 +163,7 @@ function powerTick(%index)
 		}
 		%brick = PowerControlSimSet.getObject(%index);
 
-		if (%brick.nextPowerCheck < $Sim::Time)
+		if (%brick.nextPowerCheck < getSimTime())
 		{
 			powerCheck(%brick);
 		}
@@ -182,7 +182,7 @@ function powerCheck(%brick)
 {
 	%db = %brick.getDatablock();
 	%dataID = %brick.eventOutputParameter0_1;
-	%brick.nextPowerCheck = $Sim::Time + %db.tickTime;
+	%brick.nextPowerCheck = getSimTime() | 0 + (%db.tickTime * 1000) | 0;
 	if (!%db.isPowerControlBox)
 	{
 		return;
