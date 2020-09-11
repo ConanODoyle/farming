@@ -109,24 +109,34 @@ package PowerSystems
 		}
 		else if (%db.isPowerControlBox)
 		{
-			%brick.centerprintMenu.menuOptionCount = 9;
+			%brick.centerprintMenu.menuOptionCount = 8;
 			%brick.centerprintMenu.menuOption[0] = "\c5v Diagnostics v";
-			%brick.centerprintMenu.menuOption[1] = "Producing " @ %brick.totalGeneratedPower + 0 @ " watts";
-			%brick.centerprintMenu.menuOption[2] = "Using " @ %brick.totalPowerUsage + 0 @ " watts";
-			%brick.centerprintMenu.menuOption[3] = "Battery: " @ %brick.totalBatteryPower + 0 @ " watt-ticks"; 
+			if (%brick.isInputOn())
+				%brick.centerprintMenu.menuOption[1] = "Producing " @ %brick.totalGeneratedPower + 0 @ " watts";
+			else
+				%brick.centerprintMenu.menuOption[1] = "[Production off]";
+
+			if (%brick.isOutputOn())
+				%brick.centerprintMenu.menuOption[2] = "Using " @ %brick.totalPowerUsage + 0 @ " watts";
+			else
+				%brick.centerprintMenu.menuOption[2] = "[Energy usage off]";
+
+			if (%brick.getBatteryMode() $= "Charging")
+				%color = "\c2";
+			%brick.centerprintMenu.menuOption[3] = %color @ "Battery: " @ %brick.totalBatteryPower + 0 @ " watt-ticks"; 
 			%brick.centerprintMenu.menuOption[4] = "\c5v Controls v";
-			%brick.centerprintMenu.menuOption[5] = "Input: on?";
-			%brick.centerprintMenu.menuOption[6] = "Output: on?";
-			%brick.centerprintMenu.menuOption[7] = "Battery Mode:";
+			%brick.centerprintMenu.menuOption[5] = "Input: " @ (%brick.isInputOn() ? "\c2On" : "\c0Off");
+			%brick.centerprintMenu.menuOption[6] = "Output: " @ (%brick.isOutputOn() ? "\c2On" : "\c0Off");
+			%brick.centerprintMenu.menuOption[7] = "Battery Mode: " @ (%brick.getBatteryMode());
 
 			%brick.centerprintMenu.menuFunction[0] = "reopenCenterprintMenu";
 			%brick.centerprintMenu.menuFunction[1] = "reopenCenterprintMenu";
 			%brick.centerprintMenu.menuFunction[2] = "reopenCenterprintMenu";
 			%brick.centerprintMenu.menuFunction[3] = "reopenCenterprintMenu";
 			%brick.centerprintMenu.menuFunction[4] = "reopenCenterprintMenu";
-			%brick.centerprintMenu.menuFunction[5] = "reopenCenterprintMenu";
-			%brick.centerprintMenu.menuFunction[6] = "reopenCenterprintMenu";
-			%brick.centerprintMenu.menuFunction[7] = "reopenCenterprintMenu";
+			%brick.centerprintMenu.menuFunction[5] = "toggleInputOn";
+			%brick.centerprintMenu.menuFunction[6] = "toggleOutputOn";
+			%brick.centerprintMenu.menuFunction[7] = "toggleBatteryMode";
 		}
 		else if (%db.isBattery)
 		{
@@ -233,6 +243,9 @@ function powerCheck(%brick)
 			}
 		}
 	}
+	%inputOn = !getDataIDArrayTagValue(%dataID, "isInputOff");
+	%outputOn = !getDataIDArrayTagValue(%dataID, "isOutputOff");
+	%batteryChargeOnly = getDataIDArrayTagValue(%dataID, "batteryMode");
 
 	%totalGeneratedPower = 0;
 	for (%i = 0; %i < %genCount; %i++)
@@ -240,7 +253,7 @@ function powerCheck(%brick)
 		%on = getDataIDArrayTagValue(%gen[%i], "isPoweredOn");
 		%brickName = %genName[%i];
 
-		if (%brickName.getDatablock().isGenerator && %on)
+		if (%brickName.getDatablock().isGenerator && %on && %inputOn)
 		{
 			%genDB = %brickName.getDatablock();
 			%powerGen = %genDB.generation;
@@ -283,7 +296,7 @@ function powerCheck(%brick)
 		%on = getDataIDArrayTagValue(%pro[%i], "isPoweredOn");
 		%brickName = %proName[%i];
 
-		if (%brickName.getDatablock().isPoweredProcessor && %on)
+		if (%brickName.getDatablock().isPoweredProcessor && %on && %outputOn)
 		{
 			%pro_on[%pro_onCount++ - 1] = %brickName.getID();
 			%proDB = %brickName.getDatablock();
@@ -314,7 +327,7 @@ function powerCheck(%brick)
 			%discharge = getMin(%batDB.dischargeRate, %chargeAvailable);
 			%max = %batDB.capacity;
 
-			if (%powerDiff < 0 && %discharge > 0) //need extra power
+			if (%powerDiff < 0 && %discharge > 0 && !%batteryChargeOnly) //need extra power
 			{
 				%dischargeAmt = getMin(%discharge, mAbs(%powerDiff));
 				%powerDiff += %dischargeAmt;
@@ -386,9 +399,80 @@ function togglePower(%cl, %menu, %option)
 	}
 	%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
 
-	%cl.startCenterprintMenu(%menu);
-	%cl.displayCenterprintMenu(%option);
-	return (%toggleOn);
+	reopenCenterprintMenu(%cl, %menu, %option);
+	return %toggleOn;
+}
+
+function toggleInputOn(%cl, %menu, %option)
+{
+	%brick = %menu.brick;
+	if (!isObject(%brick))
+	{
+		return;
+	}
+	%dataID = %brick.eventOutputParameter0_1;
+	%toggleOff = !getDataIDArrayTagValue(%dataID, "isInputOff"); //default is on
+	setDataIDArrayTagValue(%dataID, "isInputOff", %toggleOff);
+	if (%toggleOff)
+	{
+		serverPlay3D(ToggleStartSound, %brick.getPosition());
+	}
+	else
+	{
+		serverPlay3D(ToggleStopSound, %brick.getPosition());
+	}
+	%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
+
+	reopenCenterprintMenu(%cl, %menu, %option);
+	return !%toggleOff;
+}
+
+function toggleOutputOn(%cl, %menu, %option)
+{
+	%brick = %menu.brick;
+	if (!isObject(%brick))
+	{
+		return;
+	}
+	%dataID = %brick.eventOutputParameter0_1;
+	%toggleOff = !getDataIDArrayTagValue(%dataID, "isOutputOff"); //default is on
+	setDataIDArrayTagValue(%dataID, "isOutputOff", %toggleOff);
+	if (%toggleOff)
+	{
+		serverPlay3D(ToggleStartSound, %brick.getPosition());
+	}
+	else
+	{
+		serverPlay3D(ToggleStopSound, %brick.getPosition());
+	}
+	%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
+
+	reopenCenterprintMenu(%cl, %menu, %option);
+	return !%toggleOff;
+}
+
+function toggleBatteryMode(%cl, %menu, %option)
+{
+	%brick = %menu.brick;
+	if (!isObject(%brick))
+	{
+		return;
+	}
+	%dataID = %brick.eventOutputParameter0_1;
+	%batteryMode = !getDataIDArrayTagValue(%dataID, "batteryMode"); //default: full, alt: charge only
+	setDataIDArrayTagValue(%dataID, "batteryMode", %batteryMode);
+	if (%batteryMode)
+	{
+		serverPlay3D(ToggleStartSound, %brick.getPosition());
+	}
+	else
+	{
+		serverPlay3D(ToggleStopSound, %brick.getPosition());
+	}
+	%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
+
+	reopenCenterprintMenu(%cl, %menu, %option);
+	return %batteryMode;
 }
 
 function addFuel(%brick, %cl, %slot)
@@ -452,6 +536,31 @@ function fxDTSBrick::isPoweredOn(%brick)
 {
 	%dataID = %brick.eventOutputParameter0_1;
 	return getDataIDArrayTagValue(%dataID, "isPoweredOn");
+}
+
+function fxDTSBrick::isInputOn(%brick)
+{
+	%dataID = %brick.eventOutputParameter0_1;
+	return !getDataIDArrayTagValue(%dataID, "isInputOff");
+}
+
+function fxDTSBrick::isOutputOn(%brick)
+{
+	%dataID = %brick.eventOutputParameter0_1;
+	return !getDataIDArrayTagValue(%dataID, "isOutputOff");
+}
+
+function fxDTSBrick::getBatteryMode(%brick)
+{
+	%dataID = %brick.eventOutputParameter0_1;
+	if (getDataIDArrayTagValue(%dataID, "batteryMode"))
+	{
+		return "Charging only";
+	}
+	else
+	{
+		return "Charging/Release";
+	}
 }
 
 function fxDTSBrick::canAcceptFuel(%brick, %stackType)
