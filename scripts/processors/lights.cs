@@ -105,12 +105,14 @@ package PoweredLight
 		%db = %brick.getDatablock();
 		if (%db.powerFunction $= "powerLight")
 		{
-			%power = mFloor(%powerRatio * 100);
+			%power = mFloor(%brick.lightPower * 100);
 			if (%power < 50) %color = "\c0";
 			else if (%power < 100) %color = "\c3";
 			else %color = "\c2";
-			%brick.centerprintMenu.menuOption[1] = "Current Power: " @ %color @ mFloor(%powerRatio * 100) @ "%";
-			%brick.centerprintMenu.menuFunction[1] = "";
+			%brick.centerprintMenu.menuOptionCount = 2;
+			%brick.centerprintMenu.menuOption[1] = "Current Power: " @ %color @ mFloor(%brick.lightPower * 100) @ "%";
+			%brick.centerprintMenu.menuFunction[1] = "reopenCenterprintMenu";
+			%brick.centerprintMenu.menuOption[2] = "Uses " @ %db.energyUse @ " power per tick";
 		}
 		return %ret;
 	}
@@ -119,5 +121,20 @@ activatePackage(PoweredLight);
 
 function powerLight(%brick, %powerRatio)
 {
-	%brick.lightPower = %powerRatio;
+	%newLightPower = getMin(1, %powerRatio);
+	%oldLightPower = %brick.lightPower;
+	%brick.lightPower = %newLightPower;
+	if (%newlightPower != %oldLightPower)
+	{
+		%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
+	}
+
+	if (%newLightPower > 0 && !isObject(%brick.emitter))
+	{
+		%brick.setEmitter("silverEmitter");
+	}
+	else if (%newLightPower <= 0 && isObject(%brick.emitter))
+	{
+		%brick.setEmitter("None");
+	}
 }

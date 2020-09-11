@@ -207,6 +207,10 @@ function powerCheck(%brick)
 	{
 		return;
 	}
+	if (%brick.debugPower)
+	{
+		talk("Calling powercheck on " @ %brick);
+	}
 
 	for (%i = 0; %i < getDataIDArrayCount(%dataID); %i++)
 	{
@@ -228,10 +232,6 @@ function powerCheck(%brick)
 					%batName[%batCount - 1] = %brickName;
 			}
 		}
-	}
-	if (%brick.debugPower)
-	{
-		talk("gencount " @ %genCount @ " procount " @ %proCount @ " batcount " @ %batCount);
 	}
 
 	%totalGeneratedPower = 0;
@@ -276,10 +276,6 @@ function powerCheck(%brick)
 			%brickName.setMusic("None");
 		}
 	}
-	if (%brick.debugPower)
-	{
-		talk("totalGeneratedPower " @ %totalGeneratedPower);
-	}
 
 	%totalPowerUsage = 0;
 	for (%i = 0; %i < %proCount; %i++)
@@ -296,10 +292,15 @@ function powerCheck(%brick)
 			%totalPowerUsage += %powerDraw;
 			%proOnCount++;
 		}
+		else if (isFunction(%brickName.getDatablock().powerFunction)) //its off, so make sure it has 0 power
+		{
+			call(%brickName.getDatablock().powerFunction, %brickName.getID(), 0);
+		}
 	}
 
 	%powerDiff = %totalGeneratedPower - %totalPowerUsage;
 	%totalBatteryPower = 0;
+	%batteryDischarge = 0;
 	for (%i = 0; %i < %batCount; %i++)
 	{
 		%on = getDataIDArrayTagValue(%bat[%i], "isPoweredOn");
@@ -310,7 +311,7 @@ function powerCheck(%brick)
 			%bat_on[%bat_onCount++ - 1] = %brickName.getID();
 			%chargeAvailable = getDataIDArrayTagValue(%bat[%i], "charge");
 			%batDB = %brickName.getDatablock();
-			%discharge = getMin(%batDB.dischargeRate, %chargeAvailable[%bat_onCount - 1]);
+			%discharge = getMin(%batDB.dischargeRate, %chargeAvailable);
 			%max = %batDB.capacity;
 
 			if (%powerDiff < 0 && %discharge > 0) //need extra power
@@ -318,7 +319,10 @@ function powerCheck(%brick)
 				%dischargeAmt = getMin(%discharge, mAbs(%powerDiff));
 				%powerDiff += %dischargeAmt;
 				setDataIDArrayTagValue(%bat[%i], "charge", %chargeAvailable - %dischargeAmt);
+
 				%totalBatteryPower += %chargeAvailable - %dischargeAmt;
+				%batteryDischarge += %dischargeAmt;
+				
 				%brickName.updateStorageMenu(%bat[%i]);
 			}
 			else if (%powerDiff > 0 && %chargeAvailable < %max) //extra power available to charge battery with
@@ -326,7 +330,10 @@ function powerCheck(%brick)
 				%addAmt = getMin(%powerDiff, %max - %chargeAvailable);
 				%powerDiff -= %addAmt;
 				setDataIDArrayTagValue(%bat[%i], "charge", %chargeAvailable + %addAmt);
+				
 				%totalBatteryPower += %chargeAvailable + %addAmt;
+				%batteryDischarge -= %addAmt;
+				
 				%brickName.updateStorageMenu(%bat[%i]);
 			}
 			else
@@ -337,7 +344,12 @@ function powerCheck(%brick)
 		}
 	}
 
-	%powerRatio = (%totalGeneratedPower + %powerDiff) / %totalGeneratedPower;
+	%powerRatio = (%totalGeneratedPower + %batteryDischarge) / %totalPowerUsage;
+	if (%totalPowerUsage <= 0)
+	{
+		%powerRatio = 0;
+	}
+
 	for (%i = 0; %i < %pro_onCount; %i++)
 	{
 		%proDB = %pro_on[%i].getDatablock();
