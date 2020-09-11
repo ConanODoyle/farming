@@ -228,7 +228,7 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 		}
 		%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
 		if (%cashReward > 0) {
-			%displayString = %displayString @ "Money\c6: $" @ mFloatLength(%cashReward, 2));
+			%displayString = %displayString @ "Money\c6: $" @ mFloatLength(%cashReward, 2);
 		}
 	}
 
