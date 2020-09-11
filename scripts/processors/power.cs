@@ -735,6 +735,8 @@ datablock fxDTSBrickData(brickPowerControlBoxData)
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
 	storageSlotCount = 1;
+	storageOpenDatablock = "brickPowerControlBoxOpenData";
+	storageClosedDatablock = "brickPowerControlBoxData";
 };
 
 datablock fxDTSBrickData(brickPowerControlBoxOpenData : brickPowerControlBoxData)

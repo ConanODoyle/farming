@@ -427,6 +427,22 @@ function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
 	%brick.updateStorageMenu(%dataID);
 	%cl.startCenterprintMenu(%brick.centerprintMenu);
 
+	%openDatablock = %storageObj.getDatablock().storageOpenDatablock;
+	if (isObject(%openDatablock))
+	{
+		if (%brick.viewer[%cl.bl_id] != 1)
+		{
+			%brick.viewerCount++;
+			%brick.viewer[%cl.bl_id] = 1;
+		}
+
+		if (%storageObj.getDatablock().getID() != %openDatablock.getID())
+		{
+			%storageObj.setDatablock(%openDatablock);
+			%storageObj.playSound(brickChangeSound);
+		}
+	}
+
 	storageLoop(%cl, %storageObj);
 }
 registerOutputEvent("fxDTSBrick", "accessStorage", "string 200 250", 1);
@@ -434,24 +450,35 @@ registerOutputEvent("fxDTSBrick", "accessStorage", "string 200 250", 1);
 function storageLoop(%cl, %obj)
 {
 	cancel(%cl.storageSchedule);
+	%exitDatablock = %obj.getDatablock().storageClosedDatablock;
 
 	if (!isObject(%obj) || !isObject(%cl.player) || !%cl.isInCenterprintMenu)
 	{
-		%cl.exitCenterprintMenu();
-		return;
+		%exit = 1;
 	}
 
 	if (vectorDist(%obj.getPosition(), %cl.player.getPosition()) > 6)
 	{
-		%cl.exitCenterprintMenu();
-		return;
+		%exit = 1;
 	}
 
 	%start = %cl.player.getEyePoint();
 	%end = vectorAdd(vectorScale(%cl.player.getEyeVector(), 8), %start);
 	if (containerRaycast(%start, %end, %obj.getType(), %cl.player) != %obj)
 	{
+		%exit = 1;
+	}
+
+	if (%exit)
+	{
 		%cl.exitCenterprintMenu();
+		%obj.viewerCount--;
+		%obj.viewer[%cl.bl_id] = 0;
+		if (%obj.viewerCount == 0 && isObject(%exitDatablock) && %obj.getDatablock().getID() != %exitDatablock.getID())
+		{
+			%obj.setDatablock(%exitDatablock);
+			%obj.playSound(brickPlantSound);
+		}
 		return;
 	}
 
