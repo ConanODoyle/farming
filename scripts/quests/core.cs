@@ -226,6 +226,7 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 
 			%displayString = %displayString @ %item.uiName @ "\c6: " @ %delivered @ "/" @ %count @ " \n\c3";
 		}
+
 		%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
 		if (%cashReward > 0) {
 			%displayString = %displayString @ "Money\c6: $" @ mFloatLength(%cashReward, 2);
@@ -256,7 +257,11 @@ function getQuestString(%questID, %showDelivered) {
 
 		%string = %string @ %item.uiName @ ": " @ %count @ "\n";
 	}
-	%string = %string @ "Money: $" @ mFloatLength(getDataIDArrayTagValue(%questID, "cashReward"));
+
+	%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
+	if (%cashReward > 0) {
+		%displayString = %displayString @ "Money\c6: $" @ mFloatLength(%cashReward, 2);
+	}
 
 	return trim(%string);
 }
