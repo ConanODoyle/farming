@@ -260,7 +260,7 @@ function getQuestString(%questID, %showDelivered) {
 
 	%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
 	if (%cashReward > 0) {
-		%displayString = %displayString @ "Money\c6: $" @ mFloatLength(%cashReward, 2);
+		%string = %string @ "Money\c6: $" @ mFloatLength(%cashReward, 2);
 	}
 
 	return trim(%string);
@@ -284,11 +284,11 @@ package FarmingQuests { // TODO: wow this is dense, let's break this up a little
 						%playerQuest = %player.toolDataID[%slot];
 						if (isQuest(%brickQuest) && %player.toolDataID[%slot] $= %brickQuest) {
 							if (%client.checkQuestComplete(%playerQuest)) {
-								%client.completeQuest(%playerQuest);
 								%player.tool[%slot] = 0;
 								%player.toolDataID[%slot] = "";
 								%player.toolStackCount[%slot] = 0;
 								messageClient(%client, 'MsgItemPickup', "", %slot, 0);
+								%client.completeQuest(%playerQuest);
 								if (%player.currTool == %slot) {
 									%player.unmountImage(0);
 								}
