@@ -67,3 +67,33 @@ datablock fxDTSBrickData(brickPosting6Data)
 	uiName = "Posting6";
 	cost = -1;
 };
+
+datablock fxDTSBrickData(brickQuestPadHorizontal1x1Data)
+{
+	brickFile = "./resources/questPadHorizontal1x1.blb";
+
+	category = "Farming";
+	subCategory = "Bulletin Board Test";
+	uiName = "Horizontal 1x1f Quest Pad";
+	cost = -1;
+};
+
+datablock fxDTSBrickData(brickQuestPadHorizontal1x2Data)
+{
+	brickFile = "./resources/questPadHorizontal1x2.blb";
+
+	category = "Farming";
+	subCategory = "Bulletin Board Test";
+	uiName = "Horizontal 1x2f Quest Pad";
+	cost = -1;
+};
+
+datablock fxDTSBrickData(brickQuestPadVerticalData)
+{
+	brickFile = "./resources/questPadVertical.blb";
+
+	category = "Farming";
+	subCategory = "Bulletin Board Test";
+	uiName = "Vertical 1x1 Quest Pad";
+	cost = -1;
+};
