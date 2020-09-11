@@ -93,6 +93,21 @@ package PowerSystems
 
 	function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
 	{
+		if (%brick.getDatablock().isPowerControlBox)
+		{
+			if (%brick.viewer[%cl.bl_id] != 1)
+			{
+				%brick.viewerCount++;
+				%brick.viewer[%cl.bl_id] = 1;
+			}
+
+			if (%brick.getDatablock().getName() !$= "brickPowerControlBoxOpenData")
+			{
+				%brick.setDatablock("brickPowerControlBoxOpenData");
+				%brick.playSound(brickChangeSound);
+			}
+		}
+
 		return parent::accessStorage(%brick, %dataID, %cl);
 	}
 
@@ -164,6 +179,22 @@ package PowerSystems
 			return;
 		}
 		return parent::removeStack(%cl, %menu, %option);
+	}
+
+	function storageLoop(%cl, %obj)
+	{
+		parent::storageLoop(%cl, %obj);
+		if (%obj.getDatablock().isPowerControlBox && %obj.viewer[%cl.bl_id] && !isEventPending(%cl.storageSchedule))
+		{
+			talk(%cl.name @ " stopped looking");
+			%obj.viewerCount--;
+			%obj.viewer[%cl.bl_id] = 0;
+			if (%obj.viewerCount == 0)
+			{
+				%obj.setDatablock("brickPowerControlBoxData");
+				%obj.playSound(brickPlantSound);
+			}
+		}
 	}
 };
 activatePackage(PowerSystems);
