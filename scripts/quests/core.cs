@@ -1,5 +1,7 @@
 $Farming::QuestPrefix = "Quest_";
 $Farming::QuestDepositPointPrefix = "DepositPoint_";
+$Farming::QuestRewardBonus = 1.0;
+$Farming::QuestRequestValueBonus = 1.15;
 
 function getQuestItem(%table, %slots) {
 	%item = farmingTableGetItem(%table);
@@ -45,28 +47,39 @@ function generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes)
 	setDataIDArrayTagValue(%questID, "numRequests", %numRequests);
 	setDataIDArrayTagValue(%questID, "numRewards", %numRewards);
 
+	%totalRequestValue = 0;
 	for (%i = 0; %i < %numRequests; %i++) {
 		%tableIndex = getRandom(0, getFieldCount(%requestTypes) - 1);
 		%table = getField(%requestTypes, %tableIndex);
 		%requestTypes = removeField(%requestTypes, %tableIndex);
 
 		%request = getQuestItem(%table, 1 + %extraRequestSlots[%i]);
+		%item = getWord(%request, 0);
+		%amount = getWord(%request, 1);
+
+		%totalRequestValue += getSellPrice(%item);
 
 		addToDataIDArray(%questID, %request);
 	}
 
+	%totalRewardValue = 0;
 	for (%i = 0; %i < %numRewards; %i++) {
 		%tableIndex = getRandom(0, getFieldCount(%rewardTypes) - 1);
 		%table = getField(%rewardTypes, %tableIndex);
 		%rewardTypes = removeField(%rewardTypes, %tableIndex);
 
 		%reward = getQuestItem(%table, 1 + %extraRewardSlots[%i]);
+		%item = getWord(%request, 0);
+		%amount = getWord(%request, 1);
+
+		%totalRewardValue += getBuyPrice(%item);
 
 		addToDataIDArray(%questID, %reward);
 	}
 
-	// TODO: write cash reward system for quests
-	setDataIDArrayTagValue(%questID, "cashReward", 0);
+	%cashReward = getMax(0, (%totalRequestValue * ($Farming::QuestRequestValueBonus - %totalRewardValue)) * $Farming::QuestRewardBonus);
+
+	setDataIDArrayTagValue(%questID, "cashReward", %cashReward);
 
 	return %questID;
 }
@@ -175,6 +188,8 @@ function GameConnection::completeQuest(%client, %questID) {
 		}
 	}
 
+	%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
+	%client.incScore(%cashReward);
 	deleteQuest(%questID);
 
 	return true;
@@ -211,6 +226,10 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 
 			%displayString = %displayString @ %item.uiName @ "\c6: " @ %delivered @ "/" @ %count @ " \n\c3";
 		}
+		%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
+		if (%cashReward > 0) {
+			%displayString = %displayString @ "Money\c6: $" @ mFloatLength(, 2));
+		}
 	}
 
 	%client.centerPrint(trim(%displayString));
@@ -237,6 +256,7 @@ function getQuestString(%questID, %showDelivered) {
 
 		%string = %string @ %item.uiName @ ": " @ %count @ "\n";
 	}
+	%string = %string @ "Money: $" @ mFloatLength(getDataIDArrayTagValue(%questID, "cashReward"));
 
 	return trim(%string);
 }
