@@ -186,7 +186,6 @@ package PowerSystems
 		parent::storageLoop(%cl, %obj);
 		if (%obj.getDatablock().isPowerControlBox && %obj.viewer[%cl.bl_id] && !isEventPending(%cl.storageSchedule))
 		{
-			talk(%cl.name @ " stopped looking");
 			%obj.viewerCount--;
 			%obj.viewer[%cl.bl_id] = 0;
 			if (%obj.viewerCount == 0)
@@ -590,7 +589,7 @@ function fxDTSBrick::getBatteryMode(%brick)
 	}
 	else
 	{
-		return "Charging/Release";
+		return "Discharging on";
 	}
 }
 
