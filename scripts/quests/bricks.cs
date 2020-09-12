@@ -97,3 +97,23 @@ datablock fxDTSBrickData(brickQuestPadVerticalData)
 	uiName = "Vertical 1x1 Quest Pad";
 	cost = -1;
 };
+
+datablock fxDTSBrickData(brickDepositBoxOpenData)
+{
+	brickFile = "./resources/depositBoxOpen.blb";
+
+	category = "Farming";
+	subCategory = "Quests";
+	uiName = "Deposit Box";
+	cost = -1;
+};
+
+datablock fxDTSBrickData(brickDepositBoxClosedData)
+{
+	brickFile = "./resources/depositBoxClosed.blb";
+
+	category = "";
+	subCategory = "";
+	uiName = "Closed Deposit Box";
+	cost = -1;
+};
