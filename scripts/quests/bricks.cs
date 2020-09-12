@@ -106,6 +106,8 @@ datablock fxDTSBrickData(brickDepositBoxClosedData)
 	subCategory = "Quests";
 	uiName = "Deposit Box";
 	cost = -1;
+	isQuestSubmissionPoint = true;
+	openDatablock = brickDepositBoxOpenData;
 };
 
 datablock fxDTSBrickData(brickDepositBoxOpenData)
@@ -116,4 +118,6 @@ datablock fxDTSBrickData(brickDepositBoxOpenData)
 	subCategory = "";
 	uiName = "Open Deposit Box";
 	cost = -1;
+	isQuestSubmissionPoint = true;
+	closedDatablock = brickDepositBoxClosedData;
 };

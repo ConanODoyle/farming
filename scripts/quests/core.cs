@@ -339,6 +339,15 @@ package FarmingQuests { // TODO: wow this is dense, let's break this up a little
 							%player.unmountImage(0);
 						}
 					}
+
+					if (isObject(%hit.getDatablock().openDatablock)) {
+						cancel(%hit.closeSchedule);
+						%hit.setDatablock(%hit.getDatablock().openDatablock);
+						%hit.closeSchedule = %hit.schedule(1000, "setDatablock", %hit.getDatablock());
+					} else if (isObject(%hit.getDatablock().closedDatablock)) {
+						cancel(%hit.closeSchedule);
+						%hit.closeSchedule = %hit.schedule(1000, "setDatablock", %hit.getDatablock().closedDatablock);
+					}
 				}
 				return;
 			}
