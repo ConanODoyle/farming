@@ -98,9 +98,9 @@ datablock fxDTSBrickData(brickQuestPadVerticalData)
 	cost = -1;
 };
 
-datablock fxDTSBrickData(brickDepositBoxOpenData)
+datablock fxDTSBrickData(brickDepositBoxClosedData)
 {
-	brickFile = "./resources/depositBoxOpen.blb";
+	brickFile = "./resources/depositBoxClosed.blb";
 
 	category = "Farming";
 	subCategory = "Quests";
@@ -108,12 +108,12 @@ datablock fxDTSBrickData(brickDepositBoxOpenData)
 	cost = -1;
 };
 
-datablock fxDTSBrickData(brickDepositBoxClosedData)
+datablock fxDTSBrickData(brickDepositBoxOpenData)
 {
-	brickFile = "./resources/depositBoxClosed.blb";
+	brickFile = "./resources/depositBoxOpen.blb";
 
 	category = "";
 	subCategory = "";
-	uiName = "Closed Deposit Box";
+	uiName = "Open Deposit Box";
 	cost = -1;
 };
