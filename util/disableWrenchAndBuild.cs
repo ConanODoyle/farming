@@ -33,7 +33,7 @@ package disableWrenchData
 			{
 				%db = %cl.wrenchBrick.getDatablock();
 				if (%db.isPlant || %db.isStorageBrick || %db.isSprinkler || %db.isWaterTank || %db.isDirt || %db.isGreenhouse || %db.isLot
-					|| %db.isShopBrick || %db.isCompostBin)
+					|| %db.isShopBrick || %db.isCompostBin || %db.isProcessor)
 				{
 					messageClient(%cl, '', "You cannot edit wrench data on special bricks!");
 					return;
