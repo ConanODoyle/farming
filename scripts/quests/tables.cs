@@ -12,6 +12,11 @@ function farmingTableAdd(%tableName, %item, %weight) {
         return;
     }
 
+    if (farmingTableGetIndex(%tableName, %item) != -1) {
+        error("ERROR: Can't add multiple of the same item!");
+        return;
+    }
+
     %dataIDArrayName = $Farming::QuestTablePrefix @ %tableName;
     %tableSize = getDataIDArrayCount(%dataIDArrayName) + 1;
 
