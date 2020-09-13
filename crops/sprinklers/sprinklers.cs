@@ -457,7 +457,7 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 			}
 
 			%suffix = %suffix @ %db.uiName;
-			%postSuffix = %postSuffix @ "<color:cccccc> (" @ %hit.waterLevel + 0 @ "/" @ %db.maxWater @ ") <color:ffff00>" @ %count @ "/" @ %db.maxSprinklers @ " Sprinklers Connected";
+			%postSuffix = %postSuffix @ "<color:cccccc> (" @ %hit.waterLevel + 0 @ "/" @ %db.maxWater @ ") \c2" @ %count @ "/" @ %db.maxSprinklers @ " Sprinklers Connected";
 		}
 	}
 
@@ -470,7 +470,7 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 	}
 	if (isObject(%cl = %obj.client))
 	{
-		%cl.centerprint("<color:ffff00>Link Mode: <br><color:ffffff>" @ %sprinklerLinkMode @ %suffix @ %postSuffix @ %obj.postPostSuffix @ " ", 1);
+		%cl.centerprint("\c2Link Mode: <br><color:ffffff>" @ %sprinklerLinkMode @ %suffix @ %postSuffix @ %obj.postPostSuffix @ " ", 1);
 	}
 	return %hit;
 }
@@ -531,11 +531,11 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 					%maxDist = %tank.getDatablock().maxDistance <= 0 ? $SprinklerMaxDistance : %tank.getDatablock().maxDistance;
 					if (%dist > %maxDist)
 					{
-						%postPostSuffix = %postPostSuffix @ "<color:ff0000>Can't link - objects too far apart! Max: " @ %maxDist;
+						%postPostSuffix = %postPostSuffix @ "\c0Can't link - objects too far apart! Max: " @ %maxDist;
 					}
 					else if (getSprinklerCount(%tank) >= %tank.getDatablock().maxSprinklers)
 					{
-						%postPostSuffix = %postPostSuffix @ "<color:ff0000>Can't link - tank has too many sprinklers! Max: " @ %tank.getDatablock().maxSprinklers;
+						%postPostSuffix = %postPostSuffix @ "\c0Can't link - tank has too many sprinklers! Max: " @ %tank.getDatablock().maxSprinklers;
 					}
 					else
 					{
@@ -551,7 +551,7 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 							%obj.sprinklerLinkObj.setNTObjectName(strReplace(%hit.getName(), "Tank", ""));
 							%obj.sprinklerLinkObj.settingName = -1;
 						}
-						%postPostSuffix = %postPostSuffix @ "<color:ffff00>Linked " @ %obj.sprinklerLinkObj.getDatablock().uiName @ " and " @ %db.uiName;
+						%postPostSuffix = %postPostSuffix @ "\c2Linked " @ %obj.sprinklerLinkObj.getDatablock().uiName @ " and " @ %db.uiName;
 					}
 				}
 				else if (%obj.sprinklerLinkObj == %hit && %db.isSprinkler)
@@ -560,13 +560,13 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 					%hit.setNTObjectName("");
 					%hit.settingName = -1;
 
-					%postPostSuffix = %postPostSuffix @ "<color:ffff00>Cleared " @ %db.uiName @ " water tank link";
+					%postPostSuffix = %postPostSuffix @ "\c2Cleared " @ %db.uiName @ " water tank link";
 				}
 				else if (%db.isSprinkler && %obj.sprinklerLinkObj.getDatablock().isSprinkler)
 				{
 					%obj.sprinklerLinkObj = %hit;
 					%obj.sprinklerLinkMode = "Connecting " @ %db.uiName @ " - right click to cancel";
-					%postPostSuffix = %postPostSuffix @ "<color:ffff00>Updated currently selected sprinkler!";
+					%postPostSuffix = %postPostSuffix @ "\c2Updated currently selected sprinkler!";
 				}
 			default:
 				%obj.sprinklerLinkMode = "Open - click to link";
@@ -575,7 +575,7 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 	}
 	else if (isObject(%hit) && !(%db.isWaterTank || %db.isSprinkler))
 	{
-		%postPostSuffix = %postPostSuffix @ "<color:ff0000>Invalid object! Use on sprinklers or water tanks.";
+		%postPostSuffix = %postPostSuffix @ "\c0Invalid object! Use on sprinklers or water tanks.";
 		if (%obj.sprinklerLinkObj == %hit)
 		{
 			%obj.sprinklerLinkObj = "";
@@ -583,7 +583,7 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 	}
 	else if (isObject(%hit) && getTrustLevel(%hit, %obj) <= 0)
 	{
-		%postPostSuffix = %postPostSuffix @ "<color:ff0000>You need build trust for that!";
+		%postPostSuffix = %postPostSuffix @ "\c0You need build trust for that!";
 	}
 
 	%sprinklerLinkMode = %obj.sprinklerLinkMode;
@@ -598,6 +598,6 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 	}
 	if (isObject(%cl = %obj.client))
 	{
-		%cl.centerprint("<color:ffff00>Link Mode: <br><color:ffffff>" @ %sprinklerLinkMode @ %suffix @ %postSuffix @ %obj.postPostSuffix @ " ", 1);
+		%cl.centerprint("\c2Link Mode: <br><color:ffffff>" @ %sprinklerLinkMode @ %suffix @ %postSuffix @ %obj.postPostSuffix @ " ", 1);
 	}
 }
