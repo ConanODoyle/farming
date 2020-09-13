@@ -578,20 +578,19 @@ function connectToControlBox(%brick, %controlBox)
 	{
 		error("ERROR: connectToControlBox - data ID is empty! (" @ %brickDataID @ ", " @ %controlDataID @ ")");
 		talk("ERROR: connectToControlBox - data ID is empty! (" @ %brickDataID @ ", " @ %controlDataID @ ")");
-		return 2;
+		return -1;
 	}
 	else if (%brickDB.isPowerControlBox || !%controlDB.isPowerControlBox)
 	{
 		error("ERROR: connectToControlBox - parameters incorrect! (" @ %brick SPC %controlBox @ ")");
 		talk("ERROR: connectToControlBox - parameters incorrect! (" @ %brick SPC %controlBox @ ")");
-		return 2;	
+		return -1;	
 	}
 
 	%hookedUpTo = getDataIDArrayTagValue(%brickDataID, "powerControlBox");
 	if (isObject(getDataIDArrayTagValue(%hookedUpTo, "brickName")))
 	{
 		error("ERROR: connectToControlBox - " @ %brick @ " already is connected to a control box!");
-		talk("ERROR: connectToControlBox - " @ %brick @ " already is connected to a control box!");
 		return 1;
 	}
 
@@ -606,8 +605,7 @@ function connectToControlBox(%brick, %controlBox)
 			if (%brickName $= %brick.getName())
 			{
 				error("ERROR: connectToControlBox - " @ %brick @ " already in list!");
-				talk("ERROR: connectToControlBox - " @ %brick @ " already in list!");
-				return 1;
+				return 2;
 			}
 			switch$ (%type)
 			{
@@ -636,14 +634,247 @@ function connectToControlBox(%brick, %controlBox)
 	else
 	{
 		error("ERROR: connectToControlBox - Cannot connect \"" @ %brick @ "\" to control box, maxed out connection type");
-		talk("ERROR: connectToControlBox - Cannot connect \"" @ %brick @ "\" to control box, maxed out connection type");
-		return 2;
+		return 3;
 	}
 
+	if (vectorDist(%brick.getPosition(), %controlBox.getPosition()) > 32)
+	{
+		error("ERROR: connectToControlBox - Cannot connect \"" @ %brick @ "\" to control box, too far");
+		return 4;
+	}
 	//all checks passed, connect them
 	setDataIDArrayTagValue(%brickDataID, "powerControlBox", %controlBox.getName());
 	setDataIDArrayValue(%controlDataID, %emptySlot, %brickDataID);
 	return 0;
+}
+
+
+
+
+///////////////
+//Linker Item//
+///////////////
+
+datablock ItemData(ElectricalCableItem : HammerItem)
+{
+	shapeFile = "./resources/power/electricalcable.dts";
+	uiName = "Electrical Cable";
+
+	image = "ElectricalCableImage";
+
+	doColorshift = false;
+	colorShiftColor = "1 1 1 1";
+};
+
+datablock ShapeBaseImageData(ElectricalCableImage)
+{
+	shapeFile = "base/data/shapes/printGun.dts";
+	emap = true;
+
+	// offset = "-0.56 0 -0.25";
+	// eyeOffset = "0 0 0";
+
+	item = "BrickPlacerItem";
+	armReady = 1;
+
+	doColorshift = true;
+	colorShiftColor = "1 1 1 1";
+
+	toolTip = "Brick-Placement Item";
+	mountPoint = 0;
+
+	stateName[0] = "Activate";
+	stateTimeoutValue[0] = 0.1;
+	stateTransitionOnTimeout[0] = "Ready";
+
+	stateName[1] = "Ready";
+	stateTransitionOnTimeout[1] = "ReadyLoop";
+	stateTimeoutValue[1] = 0.15;
+	stateScript[1] = "onReady";
+	stateTransitionOnTriggerDown[1] = "Fire";
+
+	stateName[2] = "Fire";
+	stateScript[2] = "onFire";
+	stateTimeoutValue[2] = 0.1;
+	stateTransitionOnTimeout[2] = "PostFire";
+
+	stateName[3] = "PostFire";
+	stateTransitionOnTriggerUp[3] = "Ready";
+
+	stateName[4] = "ReadyLoop";
+	stateTransitionOnTimeout[4] = "Ready";
+	stateTimeoutValue[4] = 0.15;
+	stateScript[4] = "onReady";
+	stateTransitionOnTriggerDown[4] = "Fire";
+};
+
+function ElectricalCableImage::onMount(%this, %obj, %slot)
+{
+	%obj.powerControlBrick = "";
+	%obj.poweredBrick = "";
+}
+
+function ElectricalCableImage::onUnmount(%this, %obj, %slot)
+{
+	%obj.powerControlBrick = "";
+	%obj.poweredBrick = "";
+}
+
+function ElectricalCableImage::onReady(%this, %obj, %slot)
+{
+	//detect looked-at brick and show connection information
+	%start = %obj.getEyeTransform();
+	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
+	%masks = $Typemasks::fxBrickObjectType;
+	%ray = containerRaycast(%start, %end, %masks);
+	if (isObject(%hit = getWord(%ray, 0)))
+	{
+		%db = %hit.getDatablock();
+		if (%db.isGenerator || %db.isPoweredProcessor || %db.isBattery || %db.isPowerControlBox)
+		{
+			if (%db.isGenerator) %type = "Generator";
+			else if (%db.isPoweredProcessor) %type = "Device";
+			else if (%db.isBattery) %type = "Battery";
+			else %type = "Power Control Box";
+
+			%obj.brickInfo = %type TAB %db.electricalInfoString;
+			%dataID = %hit.eventOutputParameter0_1;
+
+			if (%type $= "Power Control Box")
+			{
+				for (%i = 0; %i < getDataIDArrayCount(%dataID); %i++)
+				{
+					%subDataID = getDataIDArrayValue(%dataID, %i);
+					%target = getDataIDArrayTagValue(%subDataID, "brickName");
+					if (isObject(%target))
+					{
+						if (!isObject(%target.line))
+						{
+							%target.line = drawLine(%hit.getPosition(), %target.getPosition(), "1 0 1 1", 0.05);
+						}
+						else
+						{
+							%target.line.drawLine(%hit.getPosition(), %target.getPosition(), "1 0 1 1", 0.05);
+						}
+						cancel(%target.line.deleteSched);
+						%target.line.deleteSched = %target.line.schedule(200, 0, delete);
+					}
+				}
+			}
+			else
+			{
+				%boxDataID = getDataIDArrayTagValue(%dataID, "powerControlBox");
+				%target = getDataIDArrayTagValue(%boxDataID, "brickName");
+				if (isObject(%target))
+				{
+					if (!isObject(%target.line))
+					{
+						%target.line = drawLine(%hit.getPosition(), %target.getPosition(), "1 0 1 1", 0.05);
+					}
+					else
+					{
+						%target.line.drawLine(%hit.getPosition(), %target.getPosition(), "1 0 1 1", 0.05);	
+					}
+					cancel(%target.line.deleteSched);
+					%target.line.deleteSched = %target.line.schedule(200, 0, delete);
+				}
+			}
+		}	
+	}
+	else //no brick being looked at
+	{
+		%obj.brickInfo = "";
+	}
+
+	//display centerprint
+	if (isObject(%cl = %obj.client))
+	{
+		if (%obj.errorTime < $Sim::Time)
+		{
+			%obj.errorString = "";
+		}
+		if (%obj.responseTime < $Sim::Time)
+		{
+			%obj.responseString = "";
+		}
+
+		%cpstr = "<just:center>\c3-Electrical Cable- <br>";
+		%currDevice = (isObject(%obj.poweredBrick) ? %obj.poweredBrick.getDatablock().uiName : "\c0None");
+		%currPowerBrick = (isObject(%obj.powerControlBrick) ? %obj.powerControlBrick.getPosition() : "\c0None");
+		%cpstr = %cpstr @ "\c6Current Device: \c3" @ %currDevice @ " <br>";
+		%cpstr = %cpstr @ "\c6Current Box: \c3" @ %currPowerBrick @ " <br>";
+		%cpstr = %cpstr @ %obj.responseString @ " <br>";
+		%cpstr = %cpstr @ %obj.errorString;
+	}
+}
+
+function ElectricalCableImage::onFire(%this, %obj, %slot)
+{
+	%start = %obj.getEyeTransform();
+	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
+	%masks = $Typemasks::fxBrickObjectType;
+	%ray = containerRaycast(%start, %end, %masks);
+	if (isObject(%hit = getWord(%ray, 0)))
+	{
+		%db = %hit.getDatablock();
+		if (!%db.isGenerator && !%db.isPoweredProcessor && !%db.isBattery && !%db.isPowerControlBox)
+		{
+			%obj.errorString = "\c0Invalid object!";
+			%obj.errorTime = $Sim::Time + 3;
+
+			ElectricalCableImage::onReady(%this, %obj, %slot);
+			return;
+		}
+		else if (getTrustLevel(%hit, %obj) < 2)
+		{
+			%obj.errorString = "\c0You need full trust to select this brick!";
+			%obj.errorTime = $Sim::Time + 3;
+
+			ElectricalCableImage::onReady(%this, %obj, %slot);
+			return;
+		}
+
+		if (%db.isGenerator || %db.isPoweredProcessor || %db.isBattery)
+		{
+			%obj.poweredBrick = %hit;
+			%lastAdded = "poweredBrick";
+		}
+		else
+		{
+			%obj.powerControlBrick = %hit;
+			%lastAdded = "powerControlBrick";
+		}
+
+
+		if (%obj.poweredBrick.getDatablock().isGenerator) %type = "generator";
+		else if (%obj.poweredBrick.getDatablock().isPoweredProcessor) %type = "device";
+		else if (%obj.poweredBrick.getDatablock().isBattery) %type = "battery";
+
+		if (isObject(%obj.powerControlBrick) && isObject(%obj.poweredBrick))
+		{
+			%error = connectToControlBox(%obj.poweredBrick, %obj.powerControlBrick);
+
+			if (%error != 0)
+			{
+				switch (%error)
+				{
+					case 1: %errorString = "\c0Object is connected to a different control brick!";
+					case 2: %errorString = "\c0Object is already connected to this control brick!";
+					case 3: %errorString = "\c0Power control box has no more free " @ %type @ " connections!";
+					default: %errorString = "\c0Critical error! Please report to an admin!";
+				}
+				%obj.errorString = %errorString;
+				%obj.errorTime = $Sim::Time + 3;
+			}
+			else
+			{
+				%obj.responseString = "\c2Linked " @ %obj.poweredBrick.getDatablock().uiName @ " to Power Control Box!";
+				%obj.responseTime = $Sim::Time + 5;
+				%obj.poweredBrick = "";
+			}
+			ElectricalCableImage::onReady(%this, %obj, %slot);
+		}
+	}
 }
 
 
@@ -663,7 +894,7 @@ datablock fxDTSBrickData(brickCoalGeneratorData)
 
 	cost = 0;
 	isProcessor = 1;
-	// processorFunction = "grindProduce";
+	processorFunction = "addFuel";
 	// activateFunction = "CoalGeneratorInfo";
 	placerItem = "CoalGeneratorItem";
 	keepActivate = 1;
