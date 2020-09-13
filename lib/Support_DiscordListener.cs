@@ -29,8 +29,11 @@ function DiscordMessageListenerClass::onConnectRequest(%this, %ip, %id)
 function discordListenClient::onLine(%this, %line)
 {
 	if ($debugDiscordListener)
+	{
 		talk("[" @ %line @ "]");
-	else
+	}
+	else if (getFieldCount(%line) > 2)
+	{
 		%key = getField(%line, 0);
 		if (strPos(%key, $Pref::Server::server2blkey) != 0)
 		{
@@ -38,6 +41,23 @@ function discordListenClient::onLine(%this, %line)
 			return;
 		}
 		messageAll('', "\c5@" @ getField(%line, 1) @ "\c6: " @ getFields(%line, 2, 200));
+	}
+	else
+	{
+		%key = getField(%line, 0);
+		if (strPos(%key, $Pref::Server::server2blkey) != 0)
+		{
+			error("ERROR: discordListenClient::onLine - key mismatch!");
+			return;
+		}
+
+		%word = getField(%line, 1);
+		switch$ (%word)
+		{
+			case "playerlist": sendPlayerList();
+		}
+		return;
+	}
 }
 
 function discordListenClient::onConnected(%this)
@@ -69,6 +89,22 @@ package DiscordListener
 			sendMessage(%cl, %msg);
 		}
 	}
+
+	function GameConnection::AutoAdminCheck(%cl)
+	{
+		sendMessage(%cl, "joined the server", "connection");
+		%cl.hasCheckedAdmin = 1;
+		return parent::AutoAdminCheck(%cl);
+	}
+
+	function GameConnection::onDrop(%cl)
+	{
+		if (%cl.hasCheckedAdmin)
+		{
+			sendMessage(%cl, "left the server", "connection");
+		}
+		return parent::onDrop(%cl);	
+	}
 };
 activatePackage(DiscordListener);
 
@@ -78,15 +114,15 @@ if (isPackage(ChatEval))
 	activatePackage(ChatEval);
 }
 
-
-function sendMessage(%cl, %msg)
+function sendMessage(%cl, %msg, %type)
 {
 	%msg = urlEnc(%msg);
 	%author = urlEnc(%cl.name);
 	%bl_id = urlEnc(%cl.bl_id);
 	%key = urlEnc($Pref::Server::bl2serverkey);
+	%type = urlEnc(%type);
 
-	%query = "author=" @ %author @ "&message=" @ %msg @ "&bl_id=" @ %bl_id @ "&verifykey=" @ %key;
+	%query = "author=" @ %author @ "&message=" @ %msg @ "&bl_id=" @ %bl_id @ "&verifykey=" @ %key @ "&type=" @ %type;
 	%tcp = TCPClient("POST", "155.138.204.83", "28010", "/rcvmsg", %query);
 }
 
@@ -100,4 +136,24 @@ function purgeDiscordMessages(%cl)
 
 	%query = "verifykey=" @ %key;
 	%tcp = TCPClient("POST", "155.138.204.83", "28010", "/purge", %query);
+}
+
+function sendPlayerList()
+{
+	if ($nextPlayerList > $Sim::Time)
+	{
+		return;
+	}
+
+	%query = "verifykey=" @ urlEnc($Pref::Server::bl2serverkey);
+
+	for (%i = 0; %i < ClientGroup.getCount(); %i++)
+	{
+		%cl = ClientGroup.getObject(%i);
+		%adminStr = %cl.isSuperAdmin ? "SA" : (%cl.isAdmin ? "A" : "-");
+		%query = %query @ "&" @ urlEnc(%cl.bl_id) @ "=" @ urlEnc(%adminStr TAB %cl.name TAB mFloor(%cl.score));
+	}
+
+	%tcp = TCPClient("POST", "155.138.204.83", "28010", "/sendplayerlist", %query);
+	$nextPlayerList = $Sim::Time + 2;
 }
