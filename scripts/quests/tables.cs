@@ -32,7 +32,7 @@ function farmingTableGetIndex(%tableName, %item) {
     return -1;
 }
 
-function farmingTableRemoveItem(%tableName, %item) {
+function farmingTableRemove(%tableName, %item) {
     %index = farmingTableGetIndex(%tableName, %item);
     if (%index == -1) {
         error("ERROR: Item" SPC %item SPC "not in table" SPC %tableName @ ", can't remove");
