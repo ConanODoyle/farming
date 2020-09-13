@@ -40,7 +40,7 @@ function discordListenClient::onLine(%this, %line)
 			error("ERROR: discordListenClient::onLine - key mismatch!");
 			return;
 		}
-		messageAll('', "\c1@" @ getField(%line, 1) @ "\c6: " @ getFields(%line, 2, 200));
+		messageAll('', "<color:7289DA>@" @ getField(%line, 1) @ "\c6: " @ getFields(%line, 2, 200));
 	}
 	else
 	{
