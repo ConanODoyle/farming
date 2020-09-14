@@ -643,7 +643,7 @@ function connectToControlBox(%brick, %controlBox)
 		return 4;
 	}
 	//all checks passed, connect them
-	setDataIDArrayTagValue(%brickDataID, "powerControlBox", %controlBox.getName());
+	setDataIDArrayTagValue(%brickDataID, "powerControlBox", %controlBox.eventOutputParameter0_1);
 	setDataIDArrayValue(%controlDataID, %emptySlot, %brickDataID);
 	return 0;
 }
@@ -757,7 +757,7 @@ function ElectricalCableImage::onReady(%this, %obj, %slot)
 							%target.line.drawLine(%hit.getPosition(), %target.getPosition(), "1 0 1 1", 0.05);
 						}
 						cancel(%target.line.deleteSched);
-						%target.line.deleteSched = %target.line.schedule(200, 0, delete);
+						%target.line.deleteSched = %target.line.schedule(200, delete);
 					}
 				}
 			}
@@ -776,7 +776,7 @@ function ElectricalCableImage::onReady(%this, %obj, %slot)
 						%target.line.drawLine(%hit.getPosition(), %target.getPosition(), "1 0 1 1", 0.05);	
 					}
 					cancel(%target.line.deleteSched);
-					%target.line.deleteSched = %target.line.schedule(200, 0, delete);
+					%target.line.deleteSched = %target.line.schedule(200, delete);
 				}
 			}
 		}	
