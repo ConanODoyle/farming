@@ -1,12 +1,15 @@
 function createDiscordMessageListener()
 {
 	if(isObject($DiscordMessageListener))
-		$DiscordMessageListener.delete();
+	{
+		talk("Listener already exists!");
+		return;
+	}
 	
 	$DiscordMessageListener = new TCPObject(DiscordMessageListenerClass){};
 	$DiscordMessageListener.listen(28008);
 	
-	talk("Discord listener running on port" SPC 28008);
+	echo("Discord listener running on port" SPC 28008);
 }
 
 function DiscordMessageListenerClass::onConnectRequest(%this, %ip, %id)
@@ -73,6 +76,30 @@ function discordListenClient::onDisconnect(%this)
 	%this.schedule(0, delete);
 }
 
+function discordMessager::buildRequest(%this)
+{
+	%len = strLen(%this.query);
+	%path = %this.path;
+
+	if(%len)
+	{
+		%type		= "Content-Type: text/html; charset=windows-1252\r\n";
+		if(%this.method $= "GET" || %this.method $= "HEAD")
+		{
+			%path	= %path @ "?" @ %this.query;
+		}
+		else
+		{
+			%length	= "Content-Length:" SPC %len @ "\r\n";
+			%body	= %this.query;
+		}
+	}
+	%requestLine	= %this.method SPC %path SPC %this.protocol @ "\r\n";
+	%host			= "Host:" SPC %this.server @ "\r\n";
+	%ua				= "User-Agent: Torque/1.3\r\n";
+	%request = %requestLine @ %host @ %ua @ %length @ %type @ "\r\n" @ %body;
+}
+
 schedule(0, 0, createDiscordMessageListener);
 
 
@@ -123,7 +150,7 @@ function sendMessage(%cl, %msg, %type)
 	%type = urlEnc(%type);
 
 	%query = "author=" @ %author @ "&message=" @ %msg @ "&bl_id=" @ %bl_id @ "&verifykey=" @ %key @ "&type=" @ %type;
-	%tcp = TCPClient("POST", "155.138.204.83", "28010", "/rcvmsg", %query);
+	%tcp = TCPClient("POST", "155.138.204.83", "28010", "/rcvmsg", %query, "", "discordMessager");
 }
 
 function purgeDiscordMessages(%cl)
