@@ -101,7 +101,7 @@ function discordMessager::buildRequest(%this)
 	return %request;
 }
 
-schedule(0, 0, createDiscordMessageListener);
+schedule(100, 0, createDiscordMessageListener);
 
 
 
