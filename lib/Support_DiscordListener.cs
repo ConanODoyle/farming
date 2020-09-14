@@ -98,6 +98,7 @@ function discordMessager::buildRequest(%this)
 	%host			= "Host:" SPC %this.server @ "\r\n";
 	%ua				= "User-Agent: Torque/1.3\r\n";
 	%request = %requestLine @ %host @ %ua @ %length @ %type @ "\r\n" @ %body;
+	return %request;
 }
 
 schedule(0, 0, createDiscordMessageListener);
