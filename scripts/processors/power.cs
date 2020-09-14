@@ -714,10 +714,11 @@ datablock ItemData(ElectricalCableItem : HammerItem)
 
 datablock ShapeBaseImageData(ElectricalCableImage)
 {
-	shapeFile = "base/data/shapes/printGun.dts";
+	shapeFile = "./resources/power/electricalcable.dts";
 	emap = true;
 
-	// offset = "-0.56 0 -0.25";
+	offset = "-0.05 0.3 -0.06";
+	rotation = eulerToMatrix("0 90 0");
 	// eyeOffset = "0 0 0";
 
 	item = "BrickPlacerItem";
