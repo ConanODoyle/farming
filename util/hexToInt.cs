@@ -1,0 +1,31 @@
+function hexToInt(%str)
+{
+	for (%i = 0; %i < strLen(%str); %i++)
+	{
+		%result = %result + _singleHexToInt(getSubStr(%str, %i, 1), %i);
+	}
+	return %result;
+}
+
+function _singleHexToInt(%c, %pv)
+{
+	%num = "0123456789abcdef";
+	%i = strPos(%num, %c);
+	return mPow(16, %pv) * %i;
+}
+
+function _singleIntToHex(%i)
+{
+	return getSubStr("0123456789abcdef", %i, 1);
+}
+
+function intToHex(%num)
+{
+	while (%num > 0)
+	{
+		%c = _singleIntToHex(%num % 16);
+		%ret = %c @ %ret;
+		%num = mFloor(%num / 16);
+	}
+	return %ret;
+}
