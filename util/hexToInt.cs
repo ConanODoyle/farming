@@ -1,8 +1,9 @@
 function hexToInt(%str)
 {
-	for (%i = 0; %i < strLen(%str); %i++)
+	%len = strLen(%str);
+	for (%i = 0; %i < %len; %i++)
 	{
-		%result = %result + _singleHexToInt(getSubStr(%str, %i, 1), %i);
+		%result = %result + _singleHexToInt(getSubStr(%str, %i, 1), %len - 1 - %i);
 	}
 	return %result;
 }
