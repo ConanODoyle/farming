@@ -221,7 +221,7 @@ function AIPlayer::startSell(%bot, %welcome, %cl)
 	%cost = %bot.produceCost;
 
 	%cropType = %itemDB.image.cropType;
-	%expRequirement = $Farming::Crops::PlantData_[%cropType, "experienceRequired"];
+	%expRequirement = $Farming::PlantData_[%cropType, "experienceRequired"];
 	if (%expRequirement !$= "" && %cl.farmingExperience < %expRequirement)
 	{
 		%message = "I'd sell you these " @ %itemDB.uiName @ "s, but you need " @ %expRequirement @ " experience to plant 'em! Sorry!";

@@ -73,7 +73,7 @@ function ReclaimerImage2::onFire(%this, %obj, %slot)
 		%stage = %db.stage;
 		%type = %db.cropType;
 		
-		%yield = $Farming::Crops::PlantData_[%type, %stage, "yield"];
+		%yield = $Farming::PlantData_[%type, %stage, "yield"];
 
 		if (%yield !$= "" || vectorLen(%yield) > 0.1)
 		{
@@ -104,9 +104,9 @@ function ReclaimerImage2::onFire(%this, %obj, %slot)
 			}
 			%hit.delete();
 
-			if ($Farming::Crops::PlantData_[%type, "experienceCost"] > 0)
+			if ($Farming::PlantData_[%type, "experienceCost"] > 0)
 			{
-				%experienceCost = mCeil($Farming::Crops::PlantData_[%type, "experienceCost"] / 2);
+				%experienceCost = mCeil($Farming::PlantData_[%type, "experienceCost"] / 2);
 				messageClient(%cl, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed the plant and received \c3" @ %experienceCost @ "\c6 experience back!");
 				%cl.addExperience(%experienceCost);
 			}

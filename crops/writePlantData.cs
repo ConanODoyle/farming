@@ -1,8 +1,8 @@
 function totalWater(%type, %startStage)
 {
-	%ticks = $Farming::Crops::plantData_[%type, %startStage, "numGrowTicks"];
-	%time = $Farming::Crops::plantData_[%type, %startStage, "timePerTick"];
-	%water = $Farming::Crops::plantData_[%type, %startStage, "waterPerTick"];
+	%ticks = $Farming::PlantData_[%type, %startStage, "numGrowTicks"];
+	%time = $Farming::PlantData_[%type, %startStage, "timePerTick"];
+	%water = $Farming::PlantData_[%type, %startStage, "waterPerTick"];
 	if (%time <= 0)
 	{
 		return 0;
@@ -15,8 +15,8 @@ function totalWater(%type, %startStage)
 
 function totalTime(%type, %startStage)
 {
-	%ticks = $Farming::Crops::plantData_[%type, %startStage, "numGrowTicks"];
-	%time = $Farming::Crops::plantData_[%type, %startStage, "timePerTick"];
+	%ticks = $Farming::PlantData_[%type, %startStage, "numGrowTicks"];
+	%time = $Farming::PlantData_[%type, %startStage, "timePerTick"];
 	if (%time <= 0)
 	{
 		return 0;
@@ -41,14 +41,14 @@ function writePlantData(%writeType)
 		%type = getField($ProduceList_[%i], 0);
 		%sellPrice = mFloatLength($Produce::BuyCost_[%type], 2);
 		%seedPrice = mFloatLength($Produce::BuyCost_[%type @ "Seed"], 2);
-		%pExp = $Farming::Crops::PlantData_[%type, "plantingExperience"] + 0;
-		%hExp = $Farming::Crops::PlantData_[%type, "harvestExperience"] + 0;
-		%expCost = $Farming::Crops::PlantData_[%type, "experienceCost"] + 0;
+		%pExp = $Farming::PlantData_[%type, "plantingExperience"] + 0;
+		%hExp = $Farming::PlantData_[%type, "harvestExperience"] + 0;
+		%expCost = $Farming::PlantData_[%type, "experienceCost"] + 0;
 
 		%bestYield = "";
 		for (%j = 0; %j < 30; %j++)
 		{
-			%yield = $Farming::Crops::PlantData_[%type, %j, "yield"];
+			%yield = $Farming::PlantData_[%type, %j, "yield"];
 			if (%yield !$= "" && getWord(%yield, 0) + getWord(%yield, 1) > getWord(%bestYield, 0) + getWord(%bestYield, 1))
 			{
 				%bestYield = %yield;
@@ -57,7 +57,7 @@ function writePlantData(%writeType)
 		}
 		%growTime = totalTime(%type, 0) / 1000;
 		%water = totalWater(%type, 0);
-		%density = $Farming::Crops::PlantData_[%type, "plantSpace"];
+		%density = $Farming::PlantData_[%type, "plantSpace"];
 		switch (%density)
 		{
 			case 0: %density = 8 * 8;
@@ -85,19 +85,19 @@ function writePlantData(%writeType)
 
 			%isRepeatHarvest = 0;
 			%loopTime = 0;
-			if (%seedPrice > 100 || $Farming::Crops::PlantData_[%type, "loopStages"] !$= "")
+			if (%seedPrice > 100 || $Farming::PlantData_[%type, "loopStages"] !$= "")
 			{
 				%seedPrice = 0;
 				%isRepeatHarvest = 1;
 				//calculate loop time
-				%loopStages = $Farming::Crops::PlantData_[%type, "loopStages"];
+				%loopStages = $Farming::PlantData_[%type, "loopStages"];
 				for (%j = 0; %j < getWordCount(%loopStages); %j++)
 				{
 					%stage = getWord(%loopStages, %j);
-					if ($Farming::Crops::PlantData_[%type, %stage, "timePerTick"] > 0)
-						%loopTime += $Farming::Crops::PlantData_[%type, %stage, "timePerTick"] / 1000 * $Farming::Crops::PlantData_[%type, %stage, "numGrowTicks"];
+					if ($Farming::PlantData_[%type, %stage, "timePerTick"] > 0)
+						%loopTime += $Farming::PlantData_[%type, %stage, "timePerTick"] / 1000 * $Farming::PlantData_[%type, %stage, "numGrowTicks"];
 				}
-				%maxHarvestRange = $Farming::Crops::PlantData_[%type, getWord(%loopStages, %j - 1), "maxHarvestTimes"];
+				%maxHarvestRange = $Farming::PlantData_[%type, getWord(%loopStages, %j - 1), "maxHarvestTimes"];
 				%avgHarvestTimes = (getWord(%maxHarvestRange, 0) + getWord(%maxHarvestRange, 1)) / 2;
 			}
 			if (!%isRepeatHarvest)

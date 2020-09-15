@@ -98,8 +98,8 @@ function bottomprintInfo(%cl)
 			//show information on the item being held
 			//if its a seed, show information on the seed type
 			%cropType = %image.cropType;
-			%expRequirement = $Farming::Crops::PlantData_[%cropType, "experienceRequired"];
-			%expCost = $Farming::Crops::PlantData_[%cropType, "experienceCost"];
+			%expRequirement = $Farming::PlantData_[%cropType, "experienceRequired"];
+			%expCost = $Farming::PlantData_[%cropType, "experienceCost"];
 
 			if (%expRequirement !$= "")
 			{

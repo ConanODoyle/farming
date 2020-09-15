@@ -2,34 +2,34 @@
 
 
 
-$Farming::Crops::PlantData_["Example", 0, "timePerTick"]			= "ms";
-$Farming::Crops::PlantData_["Example", 0, "nextStage"]				= "brickDB";
-$Farming::Crops::PlantData_["Example", 0, "dryStage"]				= "brickDB";
-$Farming::Crops::PlantData_["Example", 0, "waterPerTick"]			= "int";
-$Farming::Crops::PlantData_["Example", 0, "numGrowTicks"]			= "int";
-$Farming::Crops::PlantData_["Example", 0, "numDryTicks"]			= "int";
+$Farming::PlantData_["Example", 0, "timePerTick"]			= "ms";
+$Farming::PlantData_["Example", 0, "nextStage"]				= "brickDB";
+$Farming::PlantData_["Example", 0, "dryStage"]				= "brickDB";
+$Farming::PlantData_["Example", 0, "waterPerTick"]			= "int";
+$Farming::PlantData_["Example", 0, "numGrowTicks"]			= "int";
+$Farming::PlantData_["Example", 0, "numDryTicks"]			= "int";
 
-$Farming::Crops::PlantData_["Example", 0, "yield"]					= "intmin intmax";
-$Farming::Crops::PlantData_["Example", 0, "item"]					= "itemDB";
-$Farming::Crops::PlantData_["Example", 0, "dieOnHarvest"]			= "bool";
-$Farming::Crops::PlantData_["Example", 0, "harvestTool"]			= "item uiname";
-$Farming::Crops::PlantData_["Example", 0, "areaharvestTool"]		= "item uiname";
-$Farming::Crops::PlantData_["Example", 0, "pruneTool"]				= "item uiname";
-$Farming::Crops::PlantData_["Example", 0, "changeOnPrune"]			= "brickDB";
-$Farming::Crops::PlantData_["Example", 0, "toolBuff"]				= "intminChange intmaxChange";
-$Farming::Crops::PlantData_["Example", 0, "changeOnHarvest"]		= "brickDB";
-$Farming::Crops::PlantData_["Example", 0, "maxHarvestTimes"]		= "intmin intmax";
+$Farming::PlantData_["Example", 0, "yield"]					= "intmin intmax";
+$Farming::PlantData_["Example", 0, "item"]					= "itemDB";
+$Farming::PlantData_["Example", 0, "dieOnHarvest"]			= "bool";
+$Farming::PlantData_["Example", 0, "harvestTool"]			= "item uiname";
+$Farming::PlantData_["Example", 0, "areaharvestTool"]		= "item uiname";
+$Farming::PlantData_["Example", 0, "pruneTool"]				= "item uiname";
+$Farming::PlantData_["Example", 0, "changeOnPrune"]			= "brickDB";
+$Farming::PlantData_["Example", 0, "toolBuff"]				= "intminChange intmaxChange";
+$Farming::PlantData_["Example", 0, "changeOnHarvest"]		= "brickDB";
+$Farming::PlantData_["Example", 0, "maxHarvestTimes"]		= "intmin intmax";
 
-$Farming::Crops::PlantData_["Example", "plantSpace"]				= "int";
-$Farming::Crops::PlantData_["Example", "experienceRequired"]		= "int";
-$Farming::Crops::PlantData_["Example", "experienceCost"]			= "int";
-$Farming::Crops::PlantData_["Example", "harvestExperience"]			= "int";
-$Farming::Crops::PlantData_["Example", "plantingExperience"]		= "int";
+$Farming::PlantData_["Example", "plantSpace"]				= "int";
+$Farming::PlantData_["Example", "experienceRequired"]		= "int";
+$Farming::PlantData_["Example", "experienceCost"]			= "int";
+$Farming::PlantData_["Example", "harvestExperience"]			= "int";
+$Farming::PlantData_["Example", "plantingExperience"]		= "int";
 
-$Farming::Crops::PlantData_["Example", "heatWaveTimeModifier"]		= "float";
-$Farming::Crops::PlantData_["Example", "heatWaveWaterModifier"]		= "float";
-$Farming::Crops::PlantData_["Example", "rainTimeModifier"]			= "float";
-$Farming::Crops::PlantData_["Example", "rainWaterModifier"]			= "float";
+$Farming::PlantData_["Example", "heatWaveTimeModifier"]		= "float";
+$Farming::PlantData_["Example", "heatWaveWaterModifier"]		= "float";
+$Farming::PlantData_["Example", "rainTimeModifier"]			= "float";
+$Farming::PlantData_["Example", "rainWaterModifier"]			= "float";
 
 //flowers
 
