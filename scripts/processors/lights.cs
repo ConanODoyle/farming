@@ -22,6 +22,9 @@ datablock fxDTSBrickData(brickIndoorLightData)
 	energyUse = 2;
 	powerFunction = "powerLight";
 
+	isIndoorLight = 1;
+	baseLightLevel = 0.5;
+
 	isStorageBrick = 1; //purely for the gui, don't enable storage
 	storageSlotCount = 1;
 };
@@ -90,26 +93,27 @@ function IndoorLightBrickImage::onFire(%this, %obj, %slot)
 
 package PoweredLight
 {
-	function fxDTSBrick::allowPlantGrowth(%brick, %cropType)
+	function fxDTSBrick::getLightLevel(%brick, %lightLevel)
 	{
-		if (%brick.lightPower > getRandom())
+		%db = %brick.getDatablock();
+		if (%db.isIndoorLight)
 		{
-			return true;
+			return %lightLevel * %brick.lightPower * %db.baseLightLevel;
 		}
-		return parent::allowPlantGrowth(%brick, %cropType);
+		return parent::getLightLevel(%brick, %lightLevel);
 	}
 
 	function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 	{
-		%ret = parent::updateStorageMenu(%brick, %dataID);
+		%ret = parent::updateStorageMenu(%brick, %dataID); //call parent since poweredProcessor has its own package
 		%db = %brick.getDatablock();
-		if (%db.powerFunction $= "powerLight")
+		if (%db.isIndoorLight)
 		{
 			%power = mFloor(%brick.lightPower * 100);
 			if (%power < 50) %color = "\c0";
 			else if (%power < 100) %color = "\c3";
 			else %color = "\c2";
-			%brick.centerprintMenu.menuOptionCount = 2;
+			%brick.centerprintMenu.menuOptionCount = 1; //only keep the first power toggle option accessible
 			%brick.centerprintMenu.menuOption[1] = "Current Power: " @ %color @ mFloor(%brick.lightPower * 100) @ "%";
 			%brick.centerprintMenu.menuFunction[1] = "reopenCenterprintMenu";
 			%brick.centerprintMenu.menuOption[2] = "Uses " @ %db.energyUse @ " power per tick";

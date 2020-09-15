@@ -38,6 +38,21 @@ package NoPlantBuild
 };
 schedule(1000, 0, activatePackage, NoPlantBuild);
 
+package PlantSimSetCollector
+{
+	function fxDTSBrick::onAdd(%brick)
+	{
+		%ret = parent::onAdd(%brick);
+
+		if (%brick.isPlanted && %brick.getDatablock().isPlant)
+		{
+			PlantSimSet.add(%brick);
+		}
+		return %ret;
+	}
+};
+activatePackage(PlantSimSetCollector);
+
 function fxDTSBrick::plantDeleteCheck(%obj)
 {
 	if (%obj.getGroup().isLoadingLot)
@@ -81,7 +96,6 @@ function growTick(%index)
 	{
 		%index = PlantSimSet.getCount() - 1;
 	}
-	// echo("CurrIndex: " @ %index);
 
 	%max = 16;
 	for (%i = 0; %i < %max; %i++)
@@ -91,18 +105,10 @@ function growTick(%index)
 			break;
 		}
 		%brick = PlantSimSet.getObject(%index - %i);
-		// echo("Calculating growth for " @ %brick);
 		if (!%brick.isDead)
 		{
 			%ticks = doGrowCalculations(%brick, %brick.getDatablock());
 		}
-		// if (%ticks > 0)
-		// {
-		// 	echo("Growing " @ %brick @ "...");
-		// 	echo("    " @ %ticks @ " used");
-		// }
-		// talk("   Ticks used: " @ %ticks);
-		// %max -= %ticks - 1; //reduce number of bricks to be processed if plant ran more than one tick
 		%totalBricksProcessed++;
 	}
 
@@ -116,11 +122,20 @@ function growTick(%index)
 
 	if (PlantSimSet.getCount() <= 0)
 	{
-		echo("PlantSimSet empty...");
+		echo("PlantSimSet emptied out...");
 	}
 
 	$masterGrowSchedule = schedule(33, 0, growTick, %index - %totalBricksProcessed);
 }
+
+//Growth
+//0) Get brick state (current resources, available dirt to draw water from)
+//1) Get light level and presence of greenhouse
+//2) Get weather state
+//3) Extract resources from soil if space available (minerals, compost, fertilizer)
+//4) Attempt growth - subtract resources and level up as necessary
+//		Growth can fail if conditions not met
+//5) Get tick time, given level, light, weather, greenhouse and resources
 
 function doGrowCalculations(%brick, %db)
 {
@@ -135,7 +150,7 @@ function doGrowCalculations(%brick, %db)
 	%stage = %db.stage;
 	%type = %db.cropType;
 	%growTicks = %brick.growTicks;
-	%tickTime = $Farming::Crops::PlantData_[%type, %stage, "timePerTick"];
+	%tickTime = $Farming::PlantData_[%type, %stage, "timePerTick"];
 	//weeds slow plant growth
 	if (%db.isWeed && %brick.nextWeedVictimSearch < $Sim::Time)
 	{
@@ -202,11 +217,11 @@ function doGrowCalculations(%brick, %db)
 	}
 
 	//grow calculations
-	%waterReq = $Farming::Crops::PlantData_[%type, %stage, "waterPerTick"];
-	%maxGrowTicks = $Farming::Crops::PlantData_[%type, %stage, "numGrowTicks"];
-	%maxDryTicks = $Farming::Crops::PlantData_[%type, %stage, "numDryTicks"];
-	%dryGrow = $Farming::Crops::PlantData_[%type, %stage, "dryStage"];
-	%wetGrow = $Farming::Crops::PlantData_[%type, %stage, "nextStage"];
+	%waterReq = $Farming::PlantData_[%type, %stage, "waterPerTick"];
+	%maxGrowTicks = $Farming::PlantData_[%type, %stage, "numGrowTicks"];
+	%maxDryTicks = $Farming::PlantData_[%type, %stage, "numDryTicks"];
+	%dryGrow = $Farming::PlantData_[%type, %stage, "dryStage"];
+	%wetGrow = $Farming::PlantData_[%type, %stage, "nextStage"];
 
 	if (%greenhouseFound) //halve the water usage due to double growth time
 	{
@@ -217,17 +232,17 @@ function doGrowCalculations(%brick, %db)
 	{
 		if (!%greenhouseFound)
 		{
-			%waterReq = mCeil(%waterReq * $Farming::Crops::PlantData_[%type, "rainWaterModifier"]);
+			%waterReq = mCeil(%waterReq * $Farming::PlantData_[%type, "rainWaterModifier"]);
 		}
-		%tickTime = mCeil(%tickTime * $Farming::Crops::PlantData_[%type, "rainTimeModifier"]);
+		%tickTime = mCeil(%tickTime * $Farming::PlantData_[%type, "rainTimeModifier"]);
 	}
 	else if ($isHeatWave)
 	{
 		if (!%greenhouseFound)
 		{
-			%waterReq = mCeil(%waterReq * $Farming::Crops::PlantData_[%type, "heatWaveWaterModifier"]);
+			%waterReq = mCeil(%waterReq * $Farming::PlantData_[%type, "heatWaveWaterModifier"]);
 		}
-		%tickTime = mCeil(%tickTime * $Farming::Crops::PlantData_[%type, "heatWaveTimeModifier"]);
+		%tickTime = mCeil(%tickTime * $Farming::PlantData_[%type, "heatWaveTimeModifier"]);
 	}
 
 	// if (%db.brickSizeX % 2 == 1)
@@ -304,7 +319,7 @@ function doGrowCalculations(%brick, %db)
 				%brick.setDatablock(%wetGrow);
 
 				//update with correct growTime
-				%tickTime = $Farming::Crops::PlantData_[%wetGrow.cropType, %wetGrow.stage, "timePerTick"];
+				%tickTime = $Farming::PlantData_[%wetGrow.cropType, %wetGrow.stage, "timePerTick"];
 				%brick.nextGrow = $Sim::Time + %tickTime / 1000;
 				
 				// Growth particles
@@ -332,17 +347,155 @@ function doGrowCalculations(%brick, %db)
 	return 1 + %extra;
 }
 
-package PlantSimSetCollector
-{
-	function fxDTSBrick::onAdd(%brick)
-	{
-		%ret = parent::onAdd(%brick);
 
-		if (%brick.isPlanted && %brick.getDatablock().isPlant)
+
+///////////
+//Utility//
+///////////
+
+
+// Resource functions
+//returns dirt bricks under plant, in order of highest water
+function getDirtWater(%brick)
+{
+	for (%i = 0; %i < %brick.getNumDownBricks(); %i++)
+	{
+		%dirt = %brick.getDownBrick(%i);
+		if (%dirt.getDatablock().isDirt)
 		{
-			PlantSimSet.add(%brick);
+			%dirtCount++;
+			%water = %dirt.waterLevel;
+			//insert to list
+			for (%j = 0; %j < %dirtCount; %j++)
+			{
+				if (%water > %dirt_[%j, "water"] || %dirt_[%j, "water"] $= "")
+				{
+					%tempDirt = %dirt_[%j];
+					%tempWater = %dirt_[%j, "water"];
+
+					%dirt_[%j] = %dirt;
+					%dirt_[%j, "water"] = %water;
+
+					%dirt = %tempDirt;
+					%water = %tempWater;
+				}
+			}
 		}
-		return %ret;
 	}
-};
-activatePackage(PlantSimSetCollector);
+
+	for (%i = 0; %i < %dirtCount; %i++)
+	{
+		%ret = %ret SPC %dirt_[%i];
+	}
+	return trim(%ret);
+}
+
+//returns dirt bricks under plant, in order of highest water
+function getDirtWater(%brick)
+{
+	for (%i = 0; %i < %brick.getNumDownBricks(); %i++)
+	{
+		%dirt = %brick.getDownBrick(%i);
+		if (%dirt.getDatablock().isDirt)
+		{
+			%dirtCount++;
+			%water = %dirt.waterLevel;
+			//insert to list
+			for (%j = 0; %j < %dirtCount; %j++)
+			{
+				if (%water > %dirt_[%j, "water"] || %dirt_[%j, "water"] $= "")
+				{
+					%tempDirt = %dirt_[%j];
+					%tempWater = %dirt_[%j, "water"];
+
+					%dirt_[%j] = %dirt;
+					%dirt_[%j, "water"] = %water;
+
+					%dirt = %tempDirt;
+					%water = %tempWater;
+				}
+			}
+		}
+	}
+
+	for (%i = 0; %i < %dirtCount; %i++)
+	{
+		%ret = %ret SPC %dirt_[%i];
+	}
+	return trim(%ret);
+}
+
+
+// Light functions
+//returns lightlevel SPC greenhouseFound
+//lightlevel should be a float between 0 and 1
+function getPlantLightLevel(%brick)
+{
+	//start is at half a plate above the bottom of the brick
+	%start = vectorAdd(%brick.getPosition(), "0 0 -" @ ((%brick.getDatablock().brickSizeZ * 0.1) - 0.1));
+	%end = vectorAdd(%start, "0 0 100");
+	%masks = $Typemasks::fxBrickAlwaysObjectType;
+
+	%ray = containerRaycast(%start, %end, %masks, %brick);
+	%light = 1;
+	while (%safety++ < 20)
+	{
+		%hit = getWord(%ray, 0);
+		%hitDB = %hit.getDatablock();
+		if (%hitDB.isGreenhouse) //ignore greenhouses
+		{
+			%greenhouseFound = 1;
+			%start = getWords(%ray, 1, 3);
+			%ray = containerRaycast(%start, %end, %masks, %hit);
+			continue;
+		}
+		else if (%hit.getGroup().bl_id == 888888 || !isObject(%hit)) //has LOS to sky, exit
+		{
+			break;
+		}
+		else //hit a player brick
+		{
+			%light = %hit.getLightLevel(%light);
+			if (%light == 0)
+			{
+				break;
+			}
+			else if (%hit.canLightPassThrough())
+			{
+				%start = getWords(%ray, 1, 3);
+				%ray = containerRaycast(%start, %end, %masks, %hit);
+				continue;
+			}
+		}
+	}
+
+	if (%safety >= 20)
+	{
+		talk("Light level safety hit!");
+	}
+
+	return %light SPC (%greenhouseFound + 0);
+}
+
+function fxDTSBrick::getLightLevel(%brick, %lightLevel)
+{
+	if (%brick.getDatablock().isTree)
+	{
+		return %lightLevel * $Farming::PlantData_[%brick.getDatablock().cropType, "lightLevelFactor"];
+	}
+	return 0; //normal bricks block all light
+}
+
+function fxDTSBrick::canLightPassThrough(%brick)
+{
+	if (%brick.getDatablock().isTree)
+	{
+		return 1;
+	}
+	return 0; //normal bricks don't let light through
+}
+
+
+// Growth functions
+//attempts growth given resources and light
+//returns 0 for growth success, 1 for failure
