@@ -136,6 +136,36 @@ function growTick(%index)
 //4) Attempt growth - subtract resources and level up as necessary
 //		Growth can fail if conditions not met
 //5) Get tick time, given level, light, weather, greenhouse and resources
+function fxDTSBrick::runGrowthTick(%brick)
+{
+	%db = %brick.getDatablock();
+
+	if (%db.cropType $= "" || !isObject(%brick) || %brick.getGroup().bl_id == 888888)
+	{
+		RemovePlantSimSet.add(%brick);
+		return 0;
+	}
+
+	%dirt = %brick.getDirtWater();
+	if (!isObject(%dirt))
+	{
+		talk("Plant has no dirt under it!");
+	}
+	%nutrients = %dirt.getWord(0).getDirtNutrients();
+	%lightInfo = getPlantLightLevel(%brick);
+	%light = getWord(%lightInfo, 0);
+	%greenhouse = getWord(%lightInfo, 1);
+	%heatwave = $isHeatWave;
+	%raining = $isRaining;
+
+	%leftover = %brick.extractNutrients(%nutrients);
+
+	if (!%brick.canGrow())
+	{
+		RemovePlantSimSet.add(%brick);
+	}
+}
+
 
 function doGrowCalculations(%brick, %db)
 {
@@ -245,16 +275,6 @@ function doGrowCalculations(%brick, %db)
 		%tickTime = mCeil(%tickTime * $Farming::PlantData_[%type, "heatWaveTimeModifier"]);
 	}
 
-	// if (%db.brickSizeX % 2 == 1)
-	// {
-	// 	%dirt = getWord(containerRaycast(%pos, vectorSub(%pos, "0 0" SPC %db.brickSizeZ * 0.1 + 0.1), $TypeMasks::fxBrickObjectType, %brick), 0);
-	// }
-	// else
-	// {
-	// 	%offset = vectorSub(%pos, "0.25 0.25 0");
-	// 	%dirt = getWord(containerRaycast(%offset, vectorSub(%offset, "0 0" SPC %db.brickSizeZ * 0.1 + 0.1), $TypeMasks::fxBrickObjectType, %brick), 0);	
-	// }
-
 	for (%i = 0; %i < %brick.getNumDownBricks(); %i++)
 	{
 		%dirt = %brick.getDownBrick(%i);
@@ -348,154 +368,3 @@ function doGrowCalculations(%brick, %db)
 }
 
 
-
-///////////
-//Utility//
-///////////
-
-
-// Resource functions
-//returns dirt bricks under plant, in order of highest water
-function getDirtWater(%brick)
-{
-	for (%i = 0; %i < %brick.getNumDownBricks(); %i++)
-	{
-		%dirt = %brick.getDownBrick(%i);
-		if (%dirt.getDatablock().isDirt)
-		{
-			%dirtCount++;
-			%water = %dirt.waterLevel;
-			//insert to list
-			for (%j = 0; %j < %dirtCount; %j++)
-			{
-				if (%water > %dirt_[%j, "water"] || %dirt_[%j, "water"] $= "")
-				{
-					%tempDirt = %dirt_[%j];
-					%tempWater = %dirt_[%j, "water"];
-
-					%dirt_[%j] = %dirt;
-					%dirt_[%j, "water"] = %water;
-
-					%dirt = %tempDirt;
-					%water = %tempWater;
-				}
-			}
-		}
-	}
-
-	for (%i = 0; %i < %dirtCount; %i++)
-	{
-		%ret = %ret SPC %dirt_[%i];
-	}
-	return trim(%ret);
-}
-
-//returns dirt bricks under plant, in order of highest water
-function getDirtWater(%brick)
-{
-	for (%i = 0; %i < %brick.getNumDownBricks(); %i++)
-	{
-		%dirt = %brick.getDownBrick(%i);
-		if (%dirt.getDatablock().isDirt)
-		{
-			%dirtCount++;
-			%water = %dirt.waterLevel;
-			//insert to list
-			for (%j = 0; %j < %dirtCount; %j++)
-			{
-				if (%water > %dirt_[%j, "water"] || %dirt_[%j, "water"] $= "")
-				{
-					%tempDirt = %dirt_[%j];
-					%tempWater = %dirt_[%j, "water"];
-
-					%dirt_[%j] = %dirt;
-					%dirt_[%j, "water"] = %water;
-
-					%dirt = %tempDirt;
-					%water = %tempWater;
-				}
-			}
-		}
-	}
-
-	for (%i = 0; %i < %dirtCount; %i++)
-	{
-		%ret = %ret SPC %dirt_[%i];
-	}
-	return trim(%ret);
-}
-
-
-// Light functions
-//returns lightlevel SPC greenhouseFound
-//lightlevel should be a float between 0 and 1
-function getPlantLightLevel(%brick)
-{
-	//start is at half a plate above the bottom of the brick
-	%start = vectorAdd(%brick.getPosition(), "0 0 -" @ ((%brick.getDatablock().brickSizeZ * 0.1) - 0.1));
-	%end = vectorAdd(%start, "0 0 100");
-	%masks = $Typemasks::fxBrickAlwaysObjectType;
-
-	%ray = containerRaycast(%start, %end, %masks, %brick);
-	%light = 1;
-	while (%safety++ < 20)
-	{
-		%hit = getWord(%ray, 0);
-		%hitDB = %hit.getDatablock();
-		if (%hitDB.isGreenhouse) //ignore greenhouses
-		{
-			%greenhouseFound = 1;
-			%start = getWords(%ray, 1, 3);
-			%ray = containerRaycast(%start, %end, %masks, %hit);
-			continue;
-		}
-		else if (%hit.getGroup().bl_id == 888888 || !isObject(%hit)) //has LOS to sky, exit
-		{
-			break;
-		}
-		else //hit a player brick
-		{
-			%light = %hit.getLightLevel(%light);
-			if (%light == 0)
-			{
-				break;
-			}
-			else if (%hit.canLightPassThrough())
-			{
-				%start = getWords(%ray, 1, 3);
-				%ray = containerRaycast(%start, %end, %masks, %hit);
-				continue;
-			}
-		}
-	}
-
-	if (%safety >= 20)
-	{
-		talk("Light level safety hit!");
-	}
-
-	return %light SPC (%greenhouseFound + 0);
-}
-
-function fxDTSBrick::getLightLevel(%brick, %lightLevel)
-{
-	if (%brick.getDatablock().isTree)
-	{
-		return %lightLevel * $Farming::PlantData_[%brick.getDatablock().cropType, "lightLevelFactor"];
-	}
-	return 0; //normal bricks block all light
-}
-
-function fxDTSBrick::canLightPassThrough(%brick)
-{
-	if (%brick.getDatablock().isTree)
-	{
-		return 1;
-	}
-	return 0; //normal bricks don't let light through
-}
-
-
-// Growth functions
-//attempts growth given resources and light
-//returns 0 for growth success, 1 for failure

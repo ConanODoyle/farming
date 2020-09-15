@@ -16,6 +16,7 @@ exec("./sprinklers/sprinklers.cs");
 exec("./farm/datablocks.cs");
 
 //Exec scripts
+exec("./plantUtils.cs");
 exec("./growth.cs");
 exec("./water.cs");
 exec("./harvest.cs");
