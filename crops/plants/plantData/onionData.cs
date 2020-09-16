@@ -11,8 +11,8 @@ $Farming::PlantData_["Onion", "harvestExperience"]			= "8";
 $Farming::PlantData_["Onion", "plantingExperience"]			= "0";
 
 $Farming::PlantData_["Onion", 0, "tickTime"]				= "10000";
-$Farming::PlantData_["Onion", 0, "nextStage"]				= "brickOnion1CropData";
-$Farming::PlantData_["Onion", 0, "dryStage"]					= "";
+$Farming::PlantData_["Onion", 0, "wetNextStage"]				= "brickOnion1CropData";
+$Farming::PlantData_["Onion", 0, "dryNextStage"]					= "";
 $Farming::PlantData_["Onion", 0, "waterPerTick"]				= "4";
 $Farming::PlantData_["Onion", 0, "numWetTicks"]				= "15";
 $Farming::PlantData_["Onion", 0, "numDryTicks"]				= "-1";
@@ -20,8 +20,8 @@ $Farming::PlantData_["Onion", 0, "numDryTicks"]				= "-1";
 //
 
 $Farming::PlantData_["Onion", 1, "tickTime"]				= "13000";
-$Farming::PlantData_["Onion", 1, "nextStage"]				= "brickOnion2CropData";
-$Farming::PlantData_["Onion", 1, "dryStage"]					= "";
+$Farming::PlantData_["Onion", 1, "wetNextStage"]				= "brickOnion2CropData";
+$Farming::PlantData_["Onion", 1, "dryNextStage"]					= "";
 $Farming::PlantData_["Onion", 1, "waterPerTick"]				= "6";
 $Farming::PlantData_["Onion", 1, "numWetTicks"]				= "25";
 $Farming::PlantData_["Onion", 1, "numDryTicks"]				= "-1";
@@ -29,8 +29,8 @@ $Farming::PlantData_["Onion", 1, "numDryTicks"]				= "-1";
 //
 
 $Farming::PlantData_["Onion", 2, "tickTime"]				= "13000";
-$Farming::PlantData_["Onion", 2, "nextStage"]				= "brickOnion3CropData";
-$Farming::PlantData_["Onion", 2, "dryStage"]					= "";
+$Farming::PlantData_["Onion", 2, "wetNextStage"]				= "brickOnion3CropData";
+$Farming::PlantData_["Onion", 2, "dryNextStage"]					= "";
 $Farming::PlantData_["Onion", 2, "waterPerTick"]				= "6";
 $Farming::PlantData_["Onion", 2, "numWetTicks"]				= "25";
 $Farming::PlantData_["Onion", 2, "numDryTicks"]				= "-1";
@@ -46,8 +46,8 @@ $Farming::PlantData_["Onion", 2, "changeOnHarvest"]			= "";
 //
 
 $Farming::PlantData_["Onion", 3, "tickTime"]				= "0";
-$Farming::PlantData_["Onion", 3, "nextStage"]				= "";
-$Farming::PlantData_["Onion", 3, "dryStage"]					= "";
+$Farming::PlantData_["Onion", 3, "wetNextStage"]				= "";
+$Farming::PlantData_["Onion", 3, "dryNextStage"]					= "";
 $Farming::PlantData_["Onion", 3, "waterPerTick"]				= "1";
 $Farming::PlantData_["Onion", 3, "numWetTicks"]				= "3";
 $Farming::PlantData_["Onion", 3, "numDryTicks"]				= "-1";

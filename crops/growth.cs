@@ -280,8 +280,8 @@ function doGrowCalculations(%brick, %db)
 	%waterReq = $Farming::PlantData_[%type, %stage, "waterPerTick"];
 	%maxGrowTicks = $Farming::PlantData_[%type, %stage, "numWetTicks"];
 	%maxDryTicks = $Farming::PlantData_[%type, %stage, "numDryTicks"];
-	%dryGrow = $Farming::PlantData_[%type, %stage, "dryStage"];
-	%wetGrow = $Farming::PlantData_[%type, %stage, "nextStage"];
+	%dryGrow = $Farming::PlantData_[%type, %stage, "dryNextStage"];
+	%wetGrow = $Farming::PlantData_[%type, %stage, "wetNextStage"];
 
 	if (%greenhouseFound) //halve the water usage due to double growth time
 	{

@@ -12,8 +12,8 @@ $Farming::PlantData_["Rose", "harvestExperience"]			= "0";
 $Farming::PlantData_["Rose", "plantingExperience"]			= "0";
 
 $Farming::PlantData_["Rose", 0, "tickTime"]				= "8000";
-$Farming::PlantData_["Rose", 0, "nextStage"]					= "brickRose1CropData";
-$Farming::PlantData_["Rose", 0, "dryStage"]					= "";
+$Farming::PlantData_["Rose", 0, "wetNextStage"]					= "brickRose1CropData";
+$Farming::PlantData_["Rose", 0, "dryNextStage"]					= "";
 $Farming::PlantData_["Rose", 0, "waterPerTick"]				= "2";
 $Farming::PlantData_["Rose", 0, "numWetTicks"]				= "10";
 $Farming::PlantData_["Rose", 0, "numDryTicks"]				= "-1";
@@ -21,8 +21,8 @@ $Farming::PlantData_["Rose", 0, "numDryTicks"]				= "-1";
 //
 
 $Farming::PlantData_["Rose", 1, "tickTime"]				= "9000";
-$Farming::PlantData_["Rose", 1, "nextStage"]					= "brickRose2CropData";
-$Farming::PlantData_["Rose", 1, "dryStage"]					= "";
+$Farming::PlantData_["Rose", 1, "wetNextStage"]					= "brickRose2CropData";
+$Farming::PlantData_["Rose", 1, "dryNextStage"]					= "";
 $Farming::PlantData_["Rose", 1, "waterPerTick"]				= "2";
 $Farming::PlantData_["Rose", 1, "numWetTicks"]				= "10";
 $Farming::PlantData_["Rose", 1, "numDryTicks"]				= "-1";
@@ -30,8 +30,8 @@ $Farming::PlantData_["Rose", 1, "numDryTicks"]				= "-1";
 //
 
 $Farming::PlantData_["Rose", 2, "tickTime"]				= "0";
-$Farming::PlantData_["Rose", 2, "nextStage"]					= "";
-$Farming::PlantData_["Rose", 2, "dryStage"]					= "";
+$Farming::PlantData_["Rose", 2, "wetNextStage"]					= "";
+$Farming::PlantData_["Rose", 2, "dryNextStage"]					= "";
 $Farming::PlantData_["Rose", 2, "waterPerTick"]				= "1";
 $Farming::PlantData_["Rose", 2, "numWetTicks"]				= "10";
 $Farming::PlantData_["Rose", 2, "numDryTicks"]				= "-1";

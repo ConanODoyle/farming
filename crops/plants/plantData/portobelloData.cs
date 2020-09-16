@@ -11,8 +11,8 @@ $Farming::PlantData_["Portobello", "harvestExperience"]			= "4";
 $Farming::PlantData_["Portobello", "plantingExperience"]			= "0";
 
 $Farming::PlantData_["Portobello", 0, "tickTime"]				= "8000";
-$Farming::PlantData_["Portobello", 0, "nextStage"]				= "brickPortobello1CropData";
-$Farming::PlantData_["Portobello", 0, "dryStage"]				= "";
+$Farming::PlantData_["Portobello", 0, "wetNextStage"]				= "brickPortobello1CropData";
+$Farming::PlantData_["Portobello", 0, "dryNextStage"]				= "";
 $Farming::PlantData_["Portobello", 0, "waterPerTick"]			= "10";
 $Farming::PlantData_["Portobello", 0, "numWetTicks"]			= "15";
 $Farming::PlantData_["Portobello", 0, "numDryTicks"]				= "-1";
@@ -20,8 +20,8 @@ $Farming::PlantData_["Portobello", 0, "numDryTicks"]				= "-1";
 //
 
 $Farming::PlantData_["Portobello", 1, "tickTime"]				= "9000";
-$Farming::PlantData_["Portobello", 1, "nextStage"]				= "brickPortobello2CropData";
-$Farming::PlantData_["Portobello", 1, "dryStage"]				= "";
+$Farming::PlantData_["Portobello", 1, "wetNextStage"]				= "brickPortobello2CropData";
+$Farming::PlantData_["Portobello", 1, "dryNextStage"]				= "";
 $Farming::PlantData_["Portobello", 1, "waterPerTick"]			= "8";
 $Farming::PlantData_["Portobello", 1, "numWetTicks"]			= "10";
 $Farming::PlantData_["Portobello", 1, "numDryTicks"]				= "-1";
@@ -29,8 +29,8 @@ $Farming::PlantData_["Portobello", 1, "numDryTicks"]				= "-1";
 //
 
 $Farming::PlantData_["Portobello", 2, "tickTime"]				= "10000";
-$Farming::PlantData_["Portobello", 2, "nextStage"]				= "brickPortobello3CropData";
-$Farming::PlantData_["Portobello", 2, "dryStage"]				= "";
+$Farming::PlantData_["Portobello", 2, "wetNextStage"]				= "brickPortobello3CropData";
+$Farming::PlantData_["Portobello", 2, "dryNextStage"]				= "";
 $Farming::PlantData_["Portobello", 2, "waterPerTick"]			= "6";
 $Farming::PlantData_["Portobello", 2, "numWetTicks"]			= "10";
 $Farming::PlantData_["Portobello", 2, "numDryTicks"]				= "-1";
@@ -38,8 +38,8 @@ $Farming::PlantData_["Portobello", 2, "numDryTicks"]				= "-1";
 //
 
 $Farming::PlantData_["Portobello", 3, "tickTime"]				= "10000";
-$Farming::PlantData_["Portobello", 3, "nextStage"]				= "";
-$Farming::PlantData_["Portobello", 3, "dryStage"]				= "";
+$Farming::PlantData_["Portobello", 3, "wetNextStage"]				= "";
+$Farming::PlantData_["Portobello", 3, "dryNextStage"]				= "";
 $Farming::PlantData_["Portobello", 3, "waterPerTick"]			= "1";
 $Farming::PlantData_["Portobello", 3, "numWetTicks"]			= "3";
 $Farming::PlantData_["Portobello", 3, "numDryTicks"]				= "-1";

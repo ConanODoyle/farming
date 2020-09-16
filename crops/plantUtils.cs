@@ -195,8 +195,8 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 	%waterReq = $Farming::PlantData_[%type, %stage, "waterPerTick"];
 	%maxWetTicks = $Farming::PlantData_[%type, %stage, "numWetTicks"];
 	%maxDryTicks = $Farming::PlantData_[%type, %stage, "numDryTicks"];
-	%dryGrow = $Farming::PlantData_[%type, %stage, "dryStage"];
-	%wetGrow = $Farming::PlantData_[%type, %stage, "nextStage"];
+	%dryGrow = $Farming::PlantData_[%type, %stage, "dryNextStage"];
+	%wetGrow = $Farming::PlantData_[%type, %stage, "wetNextStage"];
 	%requiredLight = $Farming::PlantData_[%type, "requiredLightLevel"] $= "" ? 1 : $Farming::PlantData_[%type, "requiredLightLevel"];
 
 	%isRaining = getWord(%weather, 0);
@@ -254,7 +254,10 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 		%nutrients = vectorSub(%nutrients, %nutrientUse);
 		if (%brick.wetTicks > %maxWetTicks)
 		{
-
+			if (isObject(%wetGrow))
+			{
+				
+			}
 		}
 	}
 }

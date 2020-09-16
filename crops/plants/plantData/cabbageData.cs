@@ -11,8 +11,8 @@ $Farming::PlantData_["Cabbage", "harvestExperience"]			= "6";
 $Farming::PlantData_["Cabbage", "plantingExperience"]		= "0";
 
 $Farming::PlantData_["Cabbage", 0, "tickTime"]			= "6000";
-$Farming::PlantData_["Cabbage", 0, "nextStage"]				= "brickCabbage1CropData";
-$Farming::PlantData_["Cabbage", 0, "dryStage"]				= "";
+$Farming::PlantData_["Cabbage", 0, "wetNextStage"]				= "brickCabbage1CropData";
+$Farming::PlantData_["Cabbage", 0, "dryNextStage"]				= "";
 $Farming::PlantData_["Cabbage", 0, "waterPerTick"]			= "6";
 $Farming::PlantData_["Cabbage", 0, "numWetTicks"]			= "12";
 $Farming::PlantData_["Cabbage", 0, "numDryTicks"]			= "-1";
@@ -20,8 +20,8 @@ $Farming::PlantData_["Cabbage", 0, "numDryTicks"]			= "-1";
 //
 
 $Farming::PlantData_["Cabbage", 1, "tickTime"]			= "7000";
-$Farming::PlantData_["Cabbage", 1, "nextStage"]				= "brickCabbage2CropData";
-$Farming::PlantData_["Cabbage", 1, "dryStage"]				= "";
+$Farming::PlantData_["Cabbage", 1, "wetNextStage"]				= "brickCabbage2CropData";
+$Farming::PlantData_["Cabbage", 1, "dryNextStage"]				= "";
 $Farming::PlantData_["Cabbage", 1, "waterPerTick"]			= "8";
 $Farming::PlantData_["Cabbage", 1, "numWetTicks"]			= "20";
 $Farming::PlantData_["Cabbage", 1, "numDryTicks"]			= "-1";
@@ -29,8 +29,8 @@ $Farming::PlantData_["Cabbage", 1, "numDryTicks"]			= "-1";
 //
 
 $Farming::PlantData_["Cabbage", 2, "tickTime"]			= "7000";
-$Farming::PlantData_["Cabbage", 2, "nextStage"]				= "brickCabbage3CropData";
-$Farming::PlantData_["Cabbage", 2, "dryStage"]				= "";
+$Farming::PlantData_["Cabbage", 2, "wetNextStage"]				= "brickCabbage3CropData";
+$Farming::PlantData_["Cabbage", 2, "dryNextStage"]				= "";
 $Farming::PlantData_["Cabbage", 2, "waterPerTick"]			= "10";
 $Farming::PlantData_["Cabbage", 2, "numWetTicks"]			= "20";
 $Farming::PlantData_["Cabbage", 2, "numDryTicks"]			= "-1";
@@ -38,8 +38,8 @@ $Farming::PlantData_["Cabbage", 2, "numDryTicks"]			= "-1";
 //
 
 $Farming::PlantData_["Cabbage", 3, "tickTime"]			= "7000";
-$Farming::PlantData_["Cabbage", 3, "nextStage"]				= "brickCabbage4CropData";
-$Farming::PlantData_["Cabbage", 3, "dryStage"]				= "";
+$Farming::PlantData_["Cabbage", 3, "wetNextStage"]				= "brickCabbage4CropData";
+$Farming::PlantData_["Cabbage", 3, "dryNextStage"]				= "";
 $Farming::PlantData_["Cabbage", 3, "waterPerTick"]			= "12";
 $Farming::PlantData_["Cabbage", 3, "numWetTicks"]			= "25";
 $Farming::PlantData_["Cabbage", 3, "numDryTicks"]			= "-1";
@@ -55,8 +55,8 @@ $Farming::PlantData_["Cabbage", 3, "changeOnHarvest"]		= "";
 //
 
 $Farming::PlantData_["Cabbage", 4, "tickTime"]			= "0";
-$Farming::PlantData_["Cabbage", 4, "nextStage"]				= "";
-$Farming::PlantData_["Cabbage", 4, "dryStage"]				= "";
+$Farming::PlantData_["Cabbage", 4, "wetNextStage"]				= "";
+$Farming::PlantData_["Cabbage", 4, "dryNextStage"]				= "";
 $Farming::PlantData_["Cabbage", 4, "waterPerTick"]			= "1";
 $Farming::PlantData_["Cabbage", 4, "numWetTicks"]			= "10";
 $Farming::PlantData_["Cabbage", 4, "numDryTicks"]			= "-1";
