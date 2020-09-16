@@ -181,7 +181,7 @@ function fxDTSBrick::canLightPassThrough(%brick)
 
 // Growth functions
 //attempts growth given resources and light
-//returns 0 for growth success, 1 for failure
+//returns 0 for growth success, nonzero for failure
 function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 {
 	%db = %brick.getDatablock();
@@ -189,7 +189,7 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 	%stage = %db.stage;
 	if (!%db.isPlant)
 	{
-		return;
+		return -1;
 	}
 
 	%waterReq = $Farming::PlantData_[%type, %stage, "waterPerTick"];
@@ -197,6 +197,8 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 	%maxDryTicks = $Farming::PlantData_[%type, %stage, "numDryTicks"];
 	%dryGrow = $Farming::PlantData_[%type, %stage, "dryNextStage"];
 	%wetGrow = $Farming::PlantData_[%type, %stage, "wetNextStage"];
+	%killOnDryGrow = $Farming::PlantData_[%type, %stage, "killOnDryGrow"];
+	%killOnWetGrow = $Farming::PlantData_[%type, %stage, "killOnWetGrow"];
 	%requiredLight = $Farming::PlantData_[%type, "requiredLightLevel"] $= "" ? 1 : $Farming::PlantData_[%type, "requiredLightLevel"];
 
 	%isRaining = getWord(%weather, 0);
@@ -205,11 +207,13 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 	%heatWaterMod = $Farming::PlantData_[%type, "heatWaveWaterModifier"];
 
 	%nutrientUse = $Farming::PlantData_[%type, %stage, "nutrientUsePerTick"];
+	%wetNutriUse = $Farming::PlantData_[%type, %stage, "nutrientUseIfWet"];
+	%dryNutriUse = $Farming::PlantData_[%type, %stage, "nutrientUseIfDry"];
 	%levelUpRequirement = $Farming::PlantData_[%type, %stage, "nutrientStageRequirement"];
 
 	if (%requiredLight == 1 && %light == 0) //plant requires full light to grow, no light available
 	{
-		return;
+		return 1;
 	}
 
 	//adjust water level based on weather and greenhouse presence
@@ -229,21 +233,29 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 		}
 	}
 
-	//attempt growth
+	//attempt growth based on water and nutrient level
 	if (%dirt.waterLevel < %waterReq)
 	{
 		%brick.dryTicks++;
+		if (%dryNutriUse)
+		{
+			%nutrients = vectorSub(%nutrients, %nutrientUse);
+			%brick.setNutrients(getWord(%nutrients, 0), getWord(%nutrients, 1), getWord(%nutrients, 2));
+		}
+
+		%nutrientDiff = vectorSub(%nutrients, %levelUpRequirement);
 		if (%brick.dryTicks > %maxDryTicks)
 		{
-			if (isObject(%dryGrow))
+			if (isObject(%dryGrow) && strPos(%nutrientDiff, "-") < 0) //nutrients available >= %nutrientUse
 			{
 				%brick.setDatablock(%dryGrow);
 				%brick.dryTicks = 0;
 				%brick.wetTicks = 0;
+				%growth = 1;
 			}
-			else
+			else if (%killOnDryGrow)
 			{
-				%brick.delete();
+				%death = 1;
 			}
 		}
 	}
@@ -251,25 +263,120 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 	{
 		%brick.wetTicks++;
 		%dirt.setWaterLevel(%dirt.waterLevel - %waterReq);
-		%nutrients = vectorSub(%nutrients, %nutrientUse);
+		if (%wetNutriUse)
+		{
+			%nutrients = vectorSub(%nutrients, %nutrientUse);
+			%brick.setNutrients(getWord(%nutrients, 0), getWord(%nutrients, 1), getWord(%nutrients, 2));
+		}
+		
+		%nutrientDiff = vectorSub(%nutrients, %levelUpRequirement);
 		if (%brick.wetTicks > %maxWetTicks)
 		{
-			if (isObject(%wetGrow))
+			if (isObject(%wetGrow) && strPos(%nutrientDiff, "-") < 0)
 			{
-				
+				%brick.setDatablock(%wetGrow);
+				%brick.wetTicks = 0;
+				%brick.wetTicks = 0;
+				%growth = 1;
+			}
+			else if (%killOnWetGrow)
+			{
+				%death = 1;
 			}
 		}
 	}
+
+	//effects
+	if (%growth)
+	{
+		// Growth particles
+		%p = new Projectile()
+		{
+			dataBlock = "FarmingPlantGrowthProjectile";
+			initialVelocity = "0 0 1";
+			initialPosition = %brick.position;
+		};
+
+		if (isObject(%p))
+		{
+			%p.explode();
+		}
+	}
+
+	if (%death)
+	{
+		// Growth particles
+		%p = new Projectile()
+		{
+			dataBlock = "deathProjectile";
+    		scale = "0.2 0.2 0.2";
+			initialVelocity = "0 0 -10";
+			initialPosition = %brick.position;
+		};
+
+		if (isObject(%p))
+		{
+			%p.explode();
+		}
+
+		%brick.delete();
+	}
+	return 0;
 }
 
-//if true, brick will be removed from the plant growth simset
+//indicates if this brick can potentially grow. if false, brick will be removed from the plant growth simset
 function fxDTSBrick::canGrow(%brick)
 {
+	%db = %brick.getDatablock();
+	%type = %db.cropType;
+	%stage = %db.stage;
+	if (!%db.isPlant)
+	{
+		return 0;
+	}
 
+	%dryGrow = $Farming::PlantData_[%type, %stage, "dryNextStage"];
+	%wetGrow = $Farming::PlantData_[%type, %stage, "wetNextStage"];
+	%killOnDryGrow = $Farming::PlantData_[%type, %stage, "killOnDryGrow"];
+	%killOnWetGrow = $Farming::PlantData_[%type, %stage, "killOnWetGrow"];
+	if (isObject(%dryGrow) || isObject(%wetGrow) || %killOnDryGrow || %killOnWetGrow)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+function fxDTSBrick::extractNutrients(%brick, %nutrients)
+{
+	%db = %brick.getDatablock();
+	%type = %db.cropType;
+	%stage = %db.stage;
+	if (!%db.isPlant)
+	{
+		return %nutrients;
+	}
+
+	%maxNutrients = $Farming::PlantData_[%type, %stage, "maxNutrients"] $= "" ?
+		$Farming::PlantData_[%type, "maxNutrients"] : $Farming::PlantData_[%type, %stage, "maxNutrients"];
+	%brickNutrients = %brick.getNutrients();
+	%space = vectorSub(%maxNutrients, %brickNutrients);
+	if (%space !$= "0 0 0" && strPos(%space, "-") < 0)
+	{
+		%nit = getMin(getWord(%nutrients, 0), getWord(%space, 0));
+		%pho = getMin(getWord(%nutrients, 1), getWord(%space, 1));
+		%weedKiller = getMin(getWord(%nutrients, 2), getWord(%space, 2));
+
+		%brick.setNutrients(%nit, %pho, %weedKiller);
+		%nutrients = vectorSub(%nutrients, %nit SPC %pho SPC %weedKiller);
+	}
+	return %nutrients;
 }
 
 //returns next tick time of the brick
-function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light)
+function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light, %weather)
 {
 	%db = %brick.getDatablock();
 	%type = %db.cropType;
@@ -279,13 +386,33 @@ function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light)
 	%nutrientTimeModifier = $Farming::PlantData_[%type, %stage, "nutrientTimeModifier"];
 	%rainTimeMod = $Farming::PlantData_[%type, "rainTimeModifier"];
 	%heatTimeMod = $Farming::PlantData_[%type, "heatWaveTimeModifier"];
+	
+	%isRaining = getWord(%weather, 0);
+	%isHeatWave = getWord(%weather, 1);
 
 	//bigger difference between provided light and required -> bigger time
 	//requiredLight = light level expected
 	//lightAdjustTime = base time value, multiplied against difference between light and required light
 	%requiredLight = $Farming::PlantData_[%type, "requiredLightLevel"] $= "" ? 1 : $Farming::PlantData_[%type, "requiredLightLevel"];
-	%lightAdjustTime = $Farming::PlantData_[%type, "lightModifierTime"] $= "" ? %tickTime : $Farming::PlantData_[%type, "lightModifierTime"];
-	%modifier = mAbs(%light - %requiredLight) * %lightAdjustTime;
+	%lightAdjustTime = $Farming::PlantData_[%type, "lightTimeModifier"] $= "" ? %tickTime : $Farming::PlantData_[%type, "lightTimeModifier"];
+	%lightModifier = mAbs(%light - %requiredLight) * %lightAdjustTime;
 
-	return getMax(1, %tickTime + %modifier); //lowest value is 1 second to prevent infinite recursion/fast plant checks
+	//nitrogen/phosphate growth time factor
+	%nit = getWord(%nutrients, 0);
+	%pho = getWord(%nutrients, 1);
+	%nutrientModifier = eval("%nit=" @ %nit @ ";%pho=" @ %pho @ ";return " @ %nutrientTimeModifier @ ";");
+
+	%multi = 1;
+	if (%isRaining) //raining
+	{
+		%multi = %multi * %rainTimeMod;
+	}
+	
+	if (%isHeatWave)
+	{
+		%multi = %multi * %heatTimeMod;
+	}
+
+	//lowest value is 1 second to prevent infinite recursion/fast plant checks
+	return getMax(1, (%tickTime + %lightModifier + %nutrientModifier) * %multi);
 }

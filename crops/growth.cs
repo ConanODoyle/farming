@@ -181,7 +181,7 @@ function fxDTSBrick::runGrowthTick(%brick)
 	%brick.attemptGrowth(%dirt, %brickNutrients, %light, %weather);
 
 	%brickNutrients = %brick.getNutrients();
-	%nextTickTime = %brick.getNextTickTime(%brickNutrients, %light);
+	%nextTickTime = %brick.getNextTickTime(%brickNutrients, %light, %weather);
 
 	%brick.nextGrowTime = $Sim::Time + %nextTickTime;
 

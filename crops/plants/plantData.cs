@@ -3,8 +3,8 @@
 
 
 $Farming::PlantData_["Example", 0, "tickTime"]			= "ms";
-$Farming::PlantData_["Example", 0, "nextStage"]				= "brickDB";
-$Farming::PlantData_["Example", 0, "dryStage"]				= "brickDB";
+$Farming::PlantData_["Example", 0, "wetNextStage"]				= "brickDB";
+$Farming::PlantData_["Example", 0, "dryNextStage"]				= "brickDB";
 $Farming::PlantData_["Example", 0, "waterPerTick"]			= "int";
 $Farming::PlantData_["Example", 0, "numWetTicks"]			= "int";
 $Farming::PlantData_["Example", 0, "numDryTicks"]			= "int";
