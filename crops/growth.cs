@@ -140,29 +140,59 @@ function fxDTSBrick::runGrowthTick(%brick)
 {
 	%db = %brick.getDatablock();
 
+	//check if a crop
 	if (%db.cropType $= "" || !isObject(%brick) || %brick.getGroup().bl_id == 888888)
 	{
 		RemovePlantSimSet.add(%brick);
 		return 0;
 	}
 
-	%dirt = %brick.getDirtWater();
+	//wait for timeout
+	if (%brick.nextGrowTime > $Sim::Time)
+	{
+		return 0;
+	}
+
+	%dirtList = %brick.getDirtWater();
+	%dirt = getWord(%dirtList, 0);
 	if (!isObject(%dirt))
 	{
 		talk("Plant has no dirt under it!");
 	}
-	%nutrients = %dirt.getWord(0).getDirtNutrients();
+	%dirtNutrients = %dirt.getNutrients();
 	%lightInfo = getPlantLightLevel(%brick);
 	%light = getWord(%lightInfo, 0);
 	%greenhouse = getWord(%lightInfo, 1);
-	%heatwave = $isHeatWave;
-	%raining = $isRaining;
+	%weather = ($isHeatWave + 0) SPC ($isRaining + 0);
 
-	%leftover = %brick.extractNutrients(%nutrients);
+	%leftover = %brick.extractNutrients(%dirtNutrients);
+	%dirt.setNutrients(getWord(%leftover, 0), getWord(%leftover, 1), getWord(%leftover, 2));
+	%brickNutrients = %brick.getNutrients();
 
+	%brick.greenhouseBonus = %greenhouse;
+	//check if can potentially grow at all
+	//placed here so that fully grown plant bricks on load will get their greenhouse bonus
 	if (!%brick.canGrow())
 	{
 		RemovePlantSimSet.add(%brick);
+		return 0;
+	}
+
+	%brick.attemptGrowth(%dirt, %brickNutrients, %light, %weather);
+
+	%brickNutrients = %brick.getNutrients();
+	%nextTickTime = %brick.getNextTickTime(%brickNutrients, %light);
+
+	%brick.nextGrowTime = $Sim::Time + %nextTickTime;
+
+	//if things have been significantly delayed, keep going till it is ready
+	if (%brick.nextGrowTime < $Sim::Time)
+	{
+		return 1 + %brick.runGrowthTick();
+	}
+	else
+	{
+		return 1;
 	}
 }
 
@@ -339,7 +369,7 @@ function doGrowCalculations(%brick, %db)
 				%brick.setDatablock(%wetGrow);
 
 				//update with correct growTime
-				%tickTime = $Farming::PlantData_[%wetGrow.cropType, %wetGrow.stage, "timePerTick"];
+				%tickTime = $Farming::PlantData_[%wetGrow.cropType, %wetGrow.stage, "tickTime"];
 				%brick.nextGrow = $Sim::Time + %tickTime / 1000;
 				
 				// Growth particles
