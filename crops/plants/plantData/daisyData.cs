@@ -10,7 +10,7 @@ $Farming::PlantData_["Daisy", "experienceCost"]				= "1";
 $Farming::PlantData_["Daisy", "harvestExperience"]			= "0";
 $Farming::PlantData_["Daisy", "plantingExperience"]			= "0";
 
-$Farming::PlantData_["Daisy", 0, "timePerTick"]				= "8000";
+$Farming::PlantData_["Daisy", 0, "tickTime"]				= "8000";
 $Farming::PlantData_["Daisy", 0, "nextStage"]				= "brickDaisy1CropData";
 $Farming::PlantData_["Daisy", 0, "dryStage"]					= "";
 $Farming::PlantData_["Daisy", 0, "waterPerTick"]				= "2";
@@ -19,7 +19,7 @@ $Farming::PlantData_["Daisy", 0, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Daisy", 1, "timePerTick"]				= "9000";
+$Farming::PlantData_["Daisy", 1, "tickTime"]				= "9000";
 $Farming::PlantData_["Daisy", 1, "nextStage"]				= "brickDaisy2CropData";
 $Farming::PlantData_["Daisy", 1, "dryStage"]					= "";
 $Farming::PlantData_["Daisy", 1, "waterPerTick"]				= "2";
@@ -28,7 +28,7 @@ $Farming::PlantData_["Daisy", 1, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Daisy", 2, "timePerTick"]				= "0";
+$Farming::PlantData_["Daisy", 2, "tickTime"]				= "0";
 $Farming::PlantData_["Daisy", 2, "nextStage"]				= "";
 $Farming::PlantData_["Daisy", 2, "dryStage"]					= "";
 $Farming::PlantData_["Daisy", 2, "waterPerTick"]				= "1";

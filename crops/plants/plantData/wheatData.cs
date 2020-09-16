@@ -10,7 +10,7 @@ $Farming::PlantData_["Wheat", "experienceCost"]				= "5";
 $Farming::PlantData_["Wheat", "harvestExperience"]			= "8";
 $Farming::PlantData_["Wheat", "plantingExperience"]			= "0";
 
-$Farming::PlantData_["Wheat", 0, "timePerTick"]				= "10000";
+$Farming::PlantData_["Wheat", 0, "tickTime"]				= "10000";
 $Farming::PlantData_["Wheat", 0, "nextStage"]				= "brickWheat1CropData";
 $Farming::PlantData_["Wheat", 0, "dryStage"]					= "";
 $Farming::PlantData_["Wheat", 0, "waterPerTick"]				= "12";
@@ -19,7 +19,7 @@ $Farming::PlantData_["Wheat", 0, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Wheat", 1, "timePerTick"]				= "10000";
+$Farming::PlantData_["Wheat", 1, "tickTime"]				= "10000";
 $Farming::PlantData_["Wheat", 1, "nextStage"]				= "brickWheat2CropData";
 $Farming::PlantData_["Wheat", 1, "dryStage"]					= "";
 $Farming::PlantData_["Wheat", 1, "waterPerTick"]				= "10";
@@ -28,7 +28,7 @@ $Farming::PlantData_["Wheat", 1, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Wheat", 2, "timePerTick"]				= "10000";
+$Farming::PlantData_["Wheat", 2, "tickTime"]				= "10000";
 $Farming::PlantData_["Wheat", 2, "nextStage"]				= "brickWheat3CropData";
 $Farming::PlantData_["Wheat", 2, "dryStage"]					= "";
 $Farming::PlantData_["Wheat", 2, "waterPerTick"]				= "8";
@@ -37,7 +37,7 @@ $Farming::PlantData_["Wheat", 2, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Wheat", 3, "timePerTick"]				= "10000";
+$Farming::PlantData_["Wheat", 3, "tickTime"]				= "10000";
 $Farming::PlantData_["Wheat", 3, "nextStage"]				= "brickWheat4CropData";
 $Farming::PlantData_["Wheat", 3, "dryStage"]					= "";
 $Farming::PlantData_["Wheat", 3, "waterPerTick"]				= "8";
@@ -46,7 +46,7 @@ $Farming::PlantData_["Wheat", 3, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Wheat", 4, "timePerTick"]				= "10000";
+$Farming::PlantData_["Wheat", 4, "tickTime"]				= "10000";
 $Farming::PlantData_["Wheat", 4, "nextStage"]				= "brickWheat5CropData";
 $Farming::PlantData_["Wheat", 4, "dryStage"]					= "";
 $Farming::PlantData_["Wheat", 4, "waterPerTick"]				= "8";
@@ -55,7 +55,7 @@ $Farming::PlantData_["Wheat", 4, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Wheat", 5, "timePerTick"]				= "0";
+$Farming::PlantData_["Wheat", 5, "tickTime"]				= "0";
 $Farming::PlantData_["Wheat", 5, "nextStage"]				= "";
 $Farming::PlantData_["Wheat", 5, "dryStage"]					= "";
 $Farming::PlantData_["Wheat", 5, "waterPerTick"]				= "1";

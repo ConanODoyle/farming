@@ -10,7 +10,7 @@ $Farming::PlantData_["Onion", "experienceCost"]				= "5";
 $Farming::PlantData_["Onion", "harvestExperience"]			= "8";
 $Farming::PlantData_["Onion", "plantingExperience"]			= "0";
 
-$Farming::PlantData_["Onion", 0, "timePerTick"]				= "10000";
+$Farming::PlantData_["Onion", 0, "tickTime"]				= "10000";
 $Farming::PlantData_["Onion", 0, "nextStage"]				= "brickOnion1CropData";
 $Farming::PlantData_["Onion", 0, "dryStage"]					= "";
 $Farming::PlantData_["Onion", 0, "waterPerTick"]				= "4";
@@ -19,7 +19,7 @@ $Farming::PlantData_["Onion", 0, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Onion", 1, "timePerTick"]				= "13000";
+$Farming::PlantData_["Onion", 1, "tickTime"]				= "13000";
 $Farming::PlantData_["Onion", 1, "nextStage"]				= "brickOnion2CropData";
 $Farming::PlantData_["Onion", 1, "dryStage"]					= "";
 $Farming::PlantData_["Onion", 1, "waterPerTick"]				= "6";
@@ -28,7 +28,7 @@ $Farming::PlantData_["Onion", 1, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Onion", 2, "timePerTick"]				= "13000";
+$Farming::PlantData_["Onion", 2, "tickTime"]				= "13000";
 $Farming::PlantData_["Onion", 2, "nextStage"]				= "brickOnion3CropData";
 $Farming::PlantData_["Onion", 2, "dryStage"]					= "";
 $Farming::PlantData_["Onion", 2, "waterPerTick"]				= "6";
@@ -45,7 +45,7 @@ $Farming::PlantData_["Onion", 2, "changeOnHarvest"]			= "";
 
 //
 
-$Farming::PlantData_["Onion", 3, "timePerTick"]				= "0";
+$Farming::PlantData_["Onion", 3, "tickTime"]				= "0";
 $Farming::PlantData_["Onion", 3, "nextStage"]				= "";
 $Farming::PlantData_["Onion", 3, "dryStage"]					= "";
 $Farming::PlantData_["Onion", 3, "waterPerTick"]				= "1";

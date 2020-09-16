@@ -10,7 +10,7 @@ $Farming::PlantData_["Cabbage", "experienceCost"]			= "5";
 $Farming::PlantData_["Cabbage", "harvestExperience"]			= "6";
 $Farming::PlantData_["Cabbage", "plantingExperience"]		= "0";
 
-$Farming::PlantData_["Cabbage", 0, "timePerTick"]			= "6000";
+$Farming::PlantData_["Cabbage", 0, "tickTime"]			= "6000";
 $Farming::PlantData_["Cabbage", 0, "nextStage"]				= "brickCabbage1CropData";
 $Farming::PlantData_["Cabbage", 0, "dryStage"]				= "";
 $Farming::PlantData_["Cabbage", 0, "waterPerTick"]			= "6";
@@ -19,7 +19,7 @@ $Farming::PlantData_["Cabbage", 0, "numDryTicks"]			= "-1";
 
 //
 
-$Farming::PlantData_["Cabbage", 1, "timePerTick"]			= "7000";
+$Farming::PlantData_["Cabbage", 1, "tickTime"]			= "7000";
 $Farming::PlantData_["Cabbage", 1, "nextStage"]				= "brickCabbage2CropData";
 $Farming::PlantData_["Cabbage", 1, "dryStage"]				= "";
 $Farming::PlantData_["Cabbage", 1, "waterPerTick"]			= "8";
@@ -28,7 +28,7 @@ $Farming::PlantData_["Cabbage", 1, "numDryTicks"]			= "-1";
 
 //
 
-$Farming::PlantData_["Cabbage", 2, "timePerTick"]			= "7000";
+$Farming::PlantData_["Cabbage", 2, "tickTime"]			= "7000";
 $Farming::PlantData_["Cabbage", 2, "nextStage"]				= "brickCabbage3CropData";
 $Farming::PlantData_["Cabbage", 2, "dryStage"]				= "";
 $Farming::PlantData_["Cabbage", 2, "waterPerTick"]			= "10";
@@ -37,7 +37,7 @@ $Farming::PlantData_["Cabbage", 2, "numDryTicks"]			= "-1";
 
 //
 
-$Farming::PlantData_["Cabbage", 3, "timePerTick"]			= "7000";
+$Farming::PlantData_["Cabbage", 3, "tickTime"]			= "7000";
 $Farming::PlantData_["Cabbage", 3, "nextStage"]				= "brickCabbage4CropData";
 $Farming::PlantData_["Cabbage", 3, "dryStage"]				= "";
 $Farming::PlantData_["Cabbage", 3, "waterPerTick"]			= "12";
@@ -54,7 +54,7 @@ $Farming::PlantData_["Cabbage", 3, "changeOnHarvest"]		= "";
 
 //
 
-$Farming::PlantData_["Cabbage", 4, "timePerTick"]			= "0";
+$Farming::PlantData_["Cabbage", 4, "tickTime"]			= "0";
 $Farming::PlantData_["Cabbage", 4, "nextStage"]				= "";
 $Farming::PlantData_["Cabbage", 4, "dryStage"]				= "";
 $Farming::PlantData_["Cabbage", 4, "waterPerTick"]			= "1";

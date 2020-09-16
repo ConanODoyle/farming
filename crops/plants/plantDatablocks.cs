@@ -799,7 +799,6 @@ datablock fxDTSBrickData(brickWeed0CropData)
 	cropType = "Weed";
 	stage = 0;
 	isPlant = 1;
-	growsWithoutSunlight = 1;
 
 	isWeed = 1;
 	timeDelay = 2;

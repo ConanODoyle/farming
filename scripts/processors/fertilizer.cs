@@ -132,7 +132,7 @@ function fertilizeCrop(%img, %obj, %slot)
 				%obj.client.centerprint(%crop.getGroup().name @ "<color:ff0000> does not trust you enough to do that!", 1);
 				continue;
 			}
-			else if ($Farming::PlantData_[%type, %stage, "timePerTick"] <= 1)
+			else if ($Farming::PlantData_[%type, %stage, "tickTime"] <= 1)
 			{
 				%obj.client.centerprint("This plant already is fully grown!");
 				%numGrown++;
@@ -203,7 +203,7 @@ function fertilizeCrop(%img, %obj, %slot)
 			%obj.client.centerprint(%crop.getGroup().name @ "<color:ff0000> does not trust you enough to do that!", 1);
 			return;
 		}
-		else if ($Farming::PlantData_[%type, %stage, "timePerTick"] <= 1)
+		else if ($Farming::PlantData_[%type, %stage, "tickTime"] <= 1)
 		{
 			%obj.client.centerprint("This plant already is fully grown!");
 			return;

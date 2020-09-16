@@ -1,7 +1,7 @@
 function totalWater(%type, %startStage)
 {
 	%ticks = $Farming::PlantData_[%type, %startStage, "numGrowTicks"];
-	%time = $Farming::PlantData_[%type, %startStage, "timePerTick"];
+	%time = $Farming::PlantData_[%type, %startStage, "tickTime"];
 	%water = $Farming::PlantData_[%type, %startStage, "waterPerTick"];
 	if (%time <= 0)
 	{
@@ -16,7 +16,7 @@ function totalWater(%type, %startStage)
 function totalTime(%type, %startStage)
 {
 	%ticks = $Farming::PlantData_[%type, %startStage, "numGrowTicks"];
-	%time = $Farming::PlantData_[%type, %startStage, "timePerTick"];
+	%time = $Farming::PlantData_[%type, %startStage, "tickTime"];
 	if (%time <= 0)
 	{
 		return 0;
@@ -94,8 +94,8 @@ function writePlantData(%writeType)
 				for (%j = 0; %j < getWordCount(%loopStages); %j++)
 				{
 					%stage = getWord(%loopStages, %j);
-					if ($Farming::PlantData_[%type, %stage, "timePerTick"] > 0)
-						%loopTime += $Farming::PlantData_[%type, %stage, "timePerTick"] / 1000 * $Farming::PlantData_[%type, %stage, "numGrowTicks"];
+					if ($Farming::PlantData_[%type, %stage, "tickTime"] > 0)
+						%loopTime += $Farming::PlantData_[%type, %stage, "tickTime"] / 1000 * $Farming::PlantData_[%type, %stage, "numGrowTicks"];
 				}
 				%maxHarvestRange = $Farming::PlantData_[%type, getWord(%loopStages, %j - 1), "maxHarvestTimes"];
 				%avgHarvestTimes = (getWord(%maxHarvestRange, 0) + getWord(%maxHarvestRange, 1)) / 2;

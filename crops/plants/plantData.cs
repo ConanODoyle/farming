@@ -2,7 +2,7 @@
 
 
 
-$Farming::PlantData_["Example", 0, "timePerTick"]			= "ms";
+$Farming::PlantData_["Example", 0, "tickTime"]			= "ms";
 $Farming::PlantData_["Example", 0, "nextStage"]				= "brickDB";
 $Farming::PlantData_["Example", 0, "dryStage"]				= "brickDB";
 $Farming::PlantData_["Example", 0, "waterPerTick"]			= "int";

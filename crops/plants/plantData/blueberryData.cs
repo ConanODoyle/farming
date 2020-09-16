@@ -10,7 +10,7 @@ $Farming::PlantData_["Blueberry", "experienceCost"]			= "5";
 $Farming::PlantData_["Blueberry", "harvestExperience"]		= "4";
 $Farming::PlantData_["Blueberry", "plantingExperience"]		= "0";
 
-$Farming::PlantData_["Blueberry", 0, "timePerTick"]			= "9000";
+$Farming::PlantData_["Blueberry", 0, "tickTime"]			= "9000";
 $Farming::PlantData_["Blueberry", 0, "nextStage"]			= "brickBlueberry1CropData";
 $Farming::PlantData_["Blueberry", 0, "dryStage"]				= "";
 $Farming::PlantData_["Blueberry", 0, "waterPerTick"]			= "5";
@@ -19,7 +19,7 @@ $Farming::PlantData_["Blueberry", 0, "numDryTicks"]			= "-1";
 
 //
 
-$Farming::PlantData_["Blueberry", 1, "timePerTick"]			= "9000";
+$Farming::PlantData_["Blueberry", 1, "tickTime"]			= "9000";
 $Farming::PlantData_["Blueberry", 1, "nextStage"]			= "brickBlueberry2CropData";
 $Farming::PlantData_["Blueberry", 1, "dryStage"]				= "";
 $Farming::PlantData_["Blueberry", 1, "waterPerTick"]			= "8";
@@ -28,7 +28,7 @@ $Farming::PlantData_["Blueberry", 1, "numDryTicks"]			= "-1";
 
 //
 
-$Farming::PlantData_["Blueberry", 2, "timePerTick"]			= "10000";
+$Farming::PlantData_["Blueberry", 2, "tickTime"]			= "10000";
 $Farming::PlantData_["Blueberry", 2, "nextStage"]			= "brickBlueberry3CropData";
 $Farming::PlantData_["Blueberry", 2, "dryStage"]				= "";
 $Farming::PlantData_["Blueberry", 2, "waterPerTick"]			= "10";
@@ -37,7 +37,7 @@ $Farming::PlantData_["Blueberry", 2, "numDryTicks"]			= "-1";
 
 //
 
-$Farming::PlantData_["Blueberry", 3, "timePerTick"]			= "10000";
+$Farming::PlantData_["Blueberry", 3, "tickTime"]			= "10000";
 $Farming::PlantData_["Blueberry", 3, "nextStage"]			= "brickBlueberry4CropData";
 $Farming::PlantData_["Blueberry", 3, "dryStage"]				= "";
 $Farming::PlantData_["Blueberry", 3, "waterPerTick"]			= "15";
@@ -46,7 +46,7 @@ $Farming::PlantData_["Blueberry", 3, "numDryTicks"]			= "-1";
 
 //
 
-$Farming::PlantData_["Blueberry", 4, "timePerTick"]			= "0";
+$Farming::PlantData_["Blueberry", 4, "tickTime"]			= "0";
 $Farming::PlantData_["Blueberry", 4, "nextStage"]			= "";
 $Farming::PlantData_["Blueberry", 4, "dryStage"]				= "";
 $Farming::PlantData_["Blueberry", 4, "waterPerTick"]			= "1";

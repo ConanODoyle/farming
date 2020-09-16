@@ -11,7 +11,7 @@ $Farming::PlantData_["Apple", "harvestExperience"]			= "2";
 $Farming::PlantData_["Apple", "plantingExperience"]			= "0";
 $Farming::PlantData_["Apple", "loopStages"]					= "7 10 11 12";
 
-$Farming::PlantData_["Apple", 0, "timePerTick"]				= "55000";
+$Farming::PlantData_["Apple", 0, "tickTime"]				= "55000";
 $Farming::PlantData_["Apple", 0, "nextStage"]				= "brickAppleTree1CropData";
 $Farming::PlantData_["Apple", 0, "dryStage"]					= "";
 $Farming::PlantData_["Apple", 0, "waterPerTick"]				= "120";
@@ -20,7 +20,7 @@ $Farming::PlantData_["Apple", 0, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Apple", 1, "timePerTick"]				= "55000";
+$Farming::PlantData_["Apple", 1, "tickTime"]				= "55000";
 $Farming::PlantData_["Apple", 1, "nextStage"]				= "brickAppleTree2CropData";
 $Farming::PlantData_["Apple", 1, "dryStage"]					= "";
 $Farming::PlantData_["Apple", 1, "waterPerTick"]				= "65";
@@ -29,7 +29,7 @@ $Farming::PlantData_["Apple", 1, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Apple", 2, "timePerTick"]				= "65000";
+$Farming::PlantData_["Apple", 2, "tickTime"]				= "65000";
 $Farming::PlantData_["Apple", 2, "nextStage"]				= "brickAppleTree3CropData";
 $Farming::PlantData_["Apple", 2, "dryStage"]					= "";
 $Farming::PlantData_["Apple", 2, "waterPerTick"]				= "20";
@@ -38,7 +38,7 @@ $Farming::PlantData_["Apple", 2, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Apple", 3, "timePerTick"]				= "65000";
+$Farming::PlantData_["Apple", 3, "tickTime"]				= "65000";
 $Farming::PlantData_["Apple", 3, "nextStage"]				= "brickAppleTree4CropData";
 $Farming::PlantData_["Apple", 3, "dryStage"]					= "";
 $Farming::PlantData_["Apple", 3, "waterPerTick"]				= "20";
@@ -47,7 +47,7 @@ $Farming::PlantData_["Apple", 3, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Apple", 4, "timePerTick"]				= "75000";
+$Farming::PlantData_["Apple", 4, "tickTime"]				= "75000";
 $Farming::PlantData_["Apple", 4, "nextStage"]				= "brickAppleTree5CropData";
 $Farming::PlantData_["Apple", 4, "dryStage"]					= "";
 $Farming::PlantData_["Apple", 4, "waterPerTick"]				= "25";
@@ -56,7 +56,7 @@ $Farming::PlantData_["Apple", 4, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Apple", 5, "timePerTick"]				= "75000";
+$Farming::PlantData_["Apple", 5, "tickTime"]				= "75000";
 $Farming::PlantData_["Apple", 5, "nextStage"]				= "brickAppleTree6CropData";
 $Farming::PlantData_["Apple", 5, "dryStage"]					= "";
 $Farming::PlantData_["Apple", 5, "waterPerTick"]				= "25";
@@ -65,7 +65,7 @@ $Farming::PlantData_["Apple", 5, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Apple", 6, "timePerTick"]				= "80000";
+$Farming::PlantData_["Apple", 6, "tickTime"]				= "80000";
 $Farming::PlantData_["Apple", 6, "nextStage"]				= "brickAppleTree7CropData";
 $Farming::PlantData_["Apple", 6, "dryStage"]					= "";
 $Farming::PlantData_["Apple", 6, "waterPerTick"]				= "25";
@@ -74,7 +74,7 @@ $Farming::PlantData_["Apple", 6, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Apple", 7, "timePerTick"]				= "20000";
+$Farming::PlantData_["Apple", 7, "tickTime"]				= "20000";
 $Farming::PlantData_["Apple", 7, "nextStage"]				= "brickAppleTree10CropData";
 $Farming::PlantData_["Apple", 7, "dryStage"]					= "";
 $Farming::PlantData_["Apple", 7, "waterPerTick"]				= "30";
@@ -83,7 +83,7 @@ $Farming::PlantData_["Apple", 7, "numDryTicks"]				= "-1";
 
 // Unpruned
 
-$Farming::PlantData_["Apple", 10, "timePerTick"]				= "18000";
+$Farming::PlantData_["Apple", 10, "tickTime"]				= "18000";
 $Farming::PlantData_["Apple", 10, "nextStage"]				= "brickAppleTree11CropData";
 $Farming::PlantData_["Apple", 10, "dryStage"]				= "";
 $Farming::PlantData_["Apple", 10, "waterPerTick"]			= "30";
@@ -94,7 +94,7 @@ $Farming::PlantData_["Apple", 10, "changeOnPrune"]			= "brickAppleTree20CropData
 
 //
 
-$Farming::PlantData_["Apple", 11, "timePerTick"]				= "20000";
+$Farming::PlantData_["Apple", 11, "tickTime"]				= "20000";
 $Farming::PlantData_["Apple", 11, "nextStage"]				= "brickAppleTree12CropData";
 $Farming::PlantData_["Apple", 11, "dryStage"]				= "";
 $Farming::PlantData_["Apple", 11, "waterPerTick"]			= "100";
@@ -103,7 +103,7 @@ $Farming::PlantData_["Apple", 11, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Apple", 12, "timePerTick"]				= "0";
+$Farming::PlantData_["Apple", 12, "tickTime"]				= "0";
 $Farming::PlantData_["Apple", 12, "nextStage"]				= "";
 $Farming::PlantData_["Apple", 12, "dryStage"]				= "";
 $Farming::PlantData_["Apple", 12, "waterPerTick"]			= "10";
@@ -119,7 +119,7 @@ $Farming::PlantData_["Apple", 12, "changeOnHarvest"]			= "brickAppleTree7CropDat
 
 // Pruned
 
-$Farming::PlantData_["Apple", 20, "timePerTick"]				= "18000";
+$Farming::PlantData_["Apple", 20, "tickTime"]				= "18000";
 $Farming::PlantData_["Apple", 20, "nextStage"]				= "brickAppleTree21CropData";
 $Farming::PlantData_["Apple", 20, "dryStage"]				= "";
 $Farming::PlantData_["Apple", 20, "waterPerTick"]			= "30";
@@ -128,7 +128,7 @@ $Farming::PlantData_["Apple", 20, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Apple", 21, "timePerTick"]				= "20000";
+$Farming::PlantData_["Apple", 21, "tickTime"]				= "20000";
 $Farming::PlantData_["Apple", 21, "nextStage"]				= "brickAppleTree22CropData";
 $Farming::PlantData_["Apple", 21, "dryStage"]				= "";
 $Farming::PlantData_["Apple", 21, "waterPerTick"]			= "100";
@@ -137,7 +137,7 @@ $Farming::PlantData_["Apple", 21, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Apple", 22, "timePerTick"]				= "0";
+$Farming::PlantData_["Apple", 22, "tickTime"]				= "0";
 $Farming::PlantData_["Apple", 22, "nextStage"]				= "";
 $Farming::PlantData_["Apple", 22, "dryStage"]				= "";
 $Farming::PlantData_["Apple", 22, "waterPerTick"]			= "10";

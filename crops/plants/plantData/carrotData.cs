@@ -9,7 +9,7 @@ $Farming::PlantData_["Carrot", "experienceRequired"]			= "0";
 $Farming::PlantData_["Carrot", "harvestExperience"]			= "0";
 $Farming::PlantData_["Carrot", "plantingExperience"]			= "1";
 
-$Farming::PlantData_["Carrot", 0, "timePerTick"]				= "7000";
+$Farming::PlantData_["Carrot", 0, "tickTime"]				= "7000";
 $Farming::PlantData_["Carrot", 0, "nextStage"]				= "brickCarrot1CropData";
 $Farming::PlantData_["Carrot", 0, "dryStage"]				= "";
 $Farming::PlantData_["Carrot", 0, "waterPerTick"]			= "3";
@@ -18,7 +18,7 @@ $Farming::PlantData_["Carrot", 0, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Carrot", 1, "timePerTick"]				= "8000";
+$Farming::PlantData_["Carrot", 1, "tickTime"]				= "8000";
 $Farming::PlantData_["Carrot", 1, "nextStage"]				= "brickCarrot2CropData";
 $Farming::PlantData_["Carrot", 1, "dryStage"]				= "";
 $Farming::PlantData_["Carrot", 1, "waterPerTick"]			= "3";
@@ -27,7 +27,7 @@ $Farming::PlantData_["Carrot", 1, "numDryTicks"]				= "-1";
 
 //
 
-$Farming::PlantData_["Carrot", 2, "timePerTick"]				= "8000";
+$Farming::PlantData_["Carrot", 2, "tickTime"]				= "8000";
 $Farming::PlantData_["Carrot", 2, "nextStage"]				= "brickCarrot3CropData";
 $Farming::PlantData_["Carrot", 2, "dryStage"]				= "";
 $Farming::PlantData_["Carrot", 2, "waterPerTick"]			= "3";
@@ -44,7 +44,7 @@ $Farming::PlantData_["Carrot", 2, "changeOnHarvest"]			= "";
 
 //
 
-$Farming::PlantData_["Carrot", 3, "timePerTick"]				= "0";
+$Farming::PlantData_["Carrot", 3, "tickTime"]				= "0";
 $Farming::PlantData_["Carrot", 3, "nextStage"]				= "";
 $Farming::PlantData_["Carrot", 3, "dryStage"]				= "";
 $Farming::PlantData_["Carrot", 3, "waterPerTick"]			= "1";
