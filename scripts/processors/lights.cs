@@ -23,7 +23,7 @@ datablock fxDTSBrickData(brickIndoorLightData)
 	powerFunction = "powerLight";
 
 	isIndoorLight = 1;
-	baseLightLevel = 0.5;
+	baseLightLevel = 0.75;
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
 	storageSlotCount = 1;
