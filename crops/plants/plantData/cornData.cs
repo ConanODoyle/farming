@@ -14,7 +14,7 @@ $Farming::PlantData_["Corn", 0, "tickTime"]				= "9000";
 $Farming::PlantData_["Corn", 0, "nextStage"]					= "brickCorn1CropData";
 $Farming::PlantData_["Corn", 0, "dryStage"]					= "";
 $Farming::PlantData_["Corn", 0, "waterPerTick"]				= "4";
-$Farming::PlantData_["Corn", 0, "numGrowTicks"]				= "7";
+$Farming::PlantData_["Corn", 0, "numWetTicks"]				= "7";
 $Farming::PlantData_["Corn", 0, "numDryTicks"]				= "-1";
 
 //
@@ -23,7 +23,7 @@ $Farming::PlantData_["Corn", 1, "tickTime"]				= "10000";
 $Farming::PlantData_["Corn", 1, "nextStage"]					= "brickCorn2CropData";
 $Farming::PlantData_["Corn", 1, "dryStage"]					= "";
 $Farming::PlantData_["Corn", 1, "waterPerTick"]				= "5";
-$Farming::PlantData_["Corn", 1, "numGrowTicks"]				= "12";
+$Farming::PlantData_["Corn", 1, "numWetTicks"]				= "12";
 $Farming::PlantData_["Corn", 1, "numDryTicks"]				= "-1";
 
 //
@@ -32,7 +32,7 @@ $Farming::PlantData_["Corn", 2, "tickTime"]				= "12000";
 $Farming::PlantData_["Corn", 2, "nextStage"]					= "brickCorn3CropData";
 $Farming::PlantData_["Corn", 2, "dryStage"]					= "";
 $Farming::PlantData_["Corn", 2, "waterPerTick"]				= "5";
-$Farming::PlantData_["Corn", 2, "numGrowTicks"]				= "14";
+$Farming::PlantData_["Corn", 2, "numWetTicks"]				= "14";
 $Farming::PlantData_["Corn", 2, "numDryTicks"]				= "-1";
 
 //
@@ -41,7 +41,7 @@ $Farming::PlantData_["Corn", 3, "tickTime"]				= "12000";
 $Farming::PlantData_["Corn", 3, "nextStage"]					= "brickCorn4CropData";
 $Farming::PlantData_["Corn", 3, "dryStage"]					= "";
 $Farming::PlantData_["Corn", 3, "waterPerTick"]				= "2";
-$Farming::PlantData_["Corn", 3, "numGrowTicks"]				= "16";
+$Farming::PlantData_["Corn", 3, "numWetTicks"]				= "16";
 $Farming::PlantData_["Corn", 3, "numDryTicks"]				= "-1";
 
 $Farming::PlantData_["Corn", 3, "yield"]						= "1 3";
@@ -58,7 +58,7 @@ $Farming::PlantData_["Corn", 4, "tickTime"]				= "0";
 $Farming::PlantData_["Corn", 4, "nextStage"]					= "";
 $Farming::PlantData_["Corn", 4, "dryStage"]					= "";
 $Farming::PlantData_["Corn", 4, "waterPerTick"]				= "1";
-$Farming::PlantData_["Corn", 4, "numGrowTicks"]				= "10";
+$Farming::PlantData_["Corn", 4, "numWetTicks"]				= "10";
 $Farming::PlantData_["Corn", 4, "numDryTicks"]				= "-1";
 
 $Farming::PlantData_["Corn", 4, "yield"]						= "3 4";

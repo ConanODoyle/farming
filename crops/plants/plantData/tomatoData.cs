@@ -15,7 +15,7 @@ $Farming::PlantData_["Tomato", 0, "tickTime"]				= "10000";
 $Farming::PlantData_["Tomato", 0, "nextStage"]				= "brickTomato1CropData";
 $Farming::PlantData_["Tomato", 0, "dryStage"]				= "";
 $Farming::PlantData_["Tomato", 0, "waterPerTick"]			= "2";
-$Farming::PlantData_["Tomato", 0, "numGrowTicks"]			= "16";
+$Farming::PlantData_["Tomato", 0, "numWetTicks"]			= "16";
 $Farming::PlantData_["Tomato", 0, "numDryTicks"]				= "-1";
 
 //
@@ -24,7 +24,7 @@ $Farming::PlantData_["Tomato", 1, "tickTime"]				= "10000";
 $Farming::PlantData_["Tomato", 1, "nextStage"]				= "brickTomato2CropData";
 $Farming::PlantData_["Tomato", 1, "dryStage"]				= "";
 $Farming::PlantData_["Tomato", 1, "waterPerTick"]			= "3";
-$Farming::PlantData_["Tomato", 1, "numGrowTicks"]			= "20";
+$Farming::PlantData_["Tomato", 1, "numWetTicks"]			= "20";
 $Farming::PlantData_["Tomato", 1, "numDryTicks"]				= "-1";
 
 //
@@ -33,7 +33,7 @@ $Farming::PlantData_["Tomato", 2, "tickTime"]				= "15000";
 $Farming::PlantData_["Tomato", 2, "nextStage"]				= "brickTomato3CropData";
 $Farming::PlantData_["Tomato", 2, "dryStage"]				= "";
 $Farming::PlantData_["Tomato", 2, "waterPerTick"]			= "2";
-$Farming::PlantData_["Tomato", 2, "numGrowTicks"]			= "12";
+$Farming::PlantData_["Tomato", 2, "numWetTicks"]			= "12";
 $Farming::PlantData_["Tomato", 2, "numDryTicks"]				= "-1";
 
 //
@@ -42,7 +42,7 @@ $Farming::PlantData_["Tomato", 3, "tickTime"]				= "12000";
 $Farming::PlantData_["Tomato", 3, "nextStage"]				= "brickTomato4CropData";
 $Farming::PlantData_["Tomato", 3, "dryStage"]				= "";
 $Farming::PlantData_["Tomato", 3, "waterPerTick"]			= "1";
-$Farming::PlantData_["Tomato", 3, "numGrowTicks"]			= "15";
+$Farming::PlantData_["Tomato", 3, "numWetTicks"]			= "15";
 $Farming::PlantData_["Tomato", 3, "numDryTicks"]				= "-1";
 
 //
@@ -51,7 +51,7 @@ $Farming::PlantData_["Tomato", 4, "tickTime"]				= "0";
 $Farming::PlantData_["Tomato", 4, "nextStage"]				= "";
 $Farming::PlantData_["Tomato", 4, "dryStage"]				= "";
 $Farming::PlantData_["Tomato", 4, "waterPerTick"]			= "1";
-$Farming::PlantData_["Tomato", 4, "numGrowTicks"]			= "10";
+$Farming::PlantData_["Tomato", 4, "numWetTicks"]			= "10";
 $Farming::PlantData_["Tomato", 4, "numDryTicks"]				= "-1";
 
 $Farming::PlantData_["Tomato", 4, "yield"]					= "2 5";

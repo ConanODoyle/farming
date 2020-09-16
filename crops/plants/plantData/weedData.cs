@@ -15,7 +15,7 @@ $Farming::PlantData_["Weed", 0, "tickTime"]				= "10000";
 $Farming::PlantData_["Weed", 0, "nextStage"]					= "brickWeed1CropData";
 $Farming::PlantData_["Weed", 0, "dryStage"]					= "";
 $Farming::PlantData_["Weed", 0, "waterPerTick"]				= "5";
-$Farming::PlantData_["Weed", 0, "numGrowTicks"]				= "30";
+$Farming::PlantData_["Weed", 0, "numWetTicks"]				= "30";
 $Farming::PlantData_["Weed", 0, "numDryTicks"]				= "20";
 
 $Farming::PlantData_["Weed", 0, "yield"]						= "0 0";
@@ -33,7 +33,7 @@ $Farming::PlantData_["Weed", 1, "tickTime"]				= "10000";
 $Farming::PlantData_["Weed", 1, "nextStage"]					= "brickWeed2CropData";
 $Farming::PlantData_["Weed", 1, "dryStage"]					= "";
 $Farming::PlantData_["Weed", 1, "waterPerTick"]				= "5";
-$Farming::PlantData_["Weed", 1, "numGrowTicks"]				= "60";
+$Farming::PlantData_["Weed", 1, "numWetTicks"]				= "60";
 $Farming::PlantData_["Weed", 1, "numDryTicks"]				= "20";
 
 $Farming::PlantData_["Weed", 1, "yield"]						= "0 1";
@@ -50,7 +50,7 @@ $Farming::PlantData_["Weed", 2, "tickTime"]				= "10000";
 $Farming::PlantData_["Weed", 2, "nextStage"]					= "brickWeed2CropData";
 $Farming::PlantData_["Weed", 2, "dryStage"]					= "";
 $Farming::PlantData_["Weed", 2, "waterPerTick"]				= "15";
-$Farming::PlantData_["Weed", 2, "numGrowTicks"]				= "100";
+$Farming::PlantData_["Weed", 2, "numWetTicks"]				= "100";
 $Farming::PlantData_["Weed", 2, "numDryTicks"]				= "20";
 
 $Farming::PlantData_["Weed", 2, "yield"]						= "1 1";

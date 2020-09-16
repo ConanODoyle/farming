@@ -193,17 +193,70 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 	}
 
 	%waterReq = $Farming::PlantData_[%type, %stage, "waterPerTick"];
-	%maxGrowTicks = $Farming::PlantData_[%type, %stage, "numGrowTicks"];
+	%maxWetTicks = $Farming::PlantData_[%type, %stage, "numWetTicks"];
 	%maxDryTicks = $Farming::PlantData_[%type, %stage, "numDryTicks"];
 	%dryGrow = $Farming::PlantData_[%type, %stage, "dryStage"];
 	%wetGrow = $Farming::PlantData_[%type, %stage, "nextStage"];
+	%requiredLight = $Farming::PlantData_[%type, "requiredLightLevel"] $= "" ? 1 : $Farming::PlantData_[%type, "requiredLightLevel"];
 
+	%isRaining = getWord(%weather, 0);
+	%isHeatWave = getWord(%weather, 1);
 	%rainWaterMod = $Farming::PlantData_[%type, "rainWaterModifier"];
-	%rainTimeMod = $Farming::PlantData_[%type, "rainTimeModifier"];
 	%heatWaterMod = $Farming::PlantData_[%type, "heatWaveWaterModifier"];
-	%heatTimeMod = $Farming::PlantData_[%type, "heatWaveTimeModifier"];
 
-	
+	%nutrientUse = $Farming::PlantData_[%type, %stage, "nutrientUsePerTick"];
+	%levelUpRequirement = $Farming::PlantData_[%type, %stage, "nutrientStageRequirement"];
+
+	if (%requiredLight == 1 && %light == 0) //plant requires full light to grow, no light available
+	{
+		return;
+	}
+
+	//adjust water level based on weather and greenhouse presence
+	if (%brick.greenhouseBonus)
+	{
+		%waterReq = mCeil(%waterReq / 2);
+	}
+	else
+	{
+		if (%isRaining) //raining
+		{
+			%waterReq = mCeil(%waterReq, %rainWaterMod);
+		}
+		else if (%isHeatWave)
+		{
+			%waterReq = mCeil(%waterReq, %heatWaterMod);
+		}
+	}
+
+	//attempt growth
+	if (%dirt.waterLevel < %waterReq)
+	{
+		%brick.dryTicks++;
+		if (%brick.dryTicks > %maxDryTicks)
+		{
+			if (isObject(%dryGrow))
+			{
+				%brick.setDatablock(%dryGrow);
+				%brick.dryTicks = 0;
+				%brick.wetTicks = 0;
+			}
+			else
+			{
+				%brick.delete();
+			}
+		}
+	}
+	else
+	{
+		%brick.wetTicks++;
+		%dirt.setWaterLevel(%dirt.waterLevel - %waterReq);
+		%nutrients = vectorSub(%nutrients, %nutrientUse);
+		if (%brick.wetTicks > %maxWetTicks)
+		{
+
+		}
+	}
 }
 
 //if true, brick will be removed from the plant growth simset
@@ -220,6 +273,9 @@ function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light)
 	%stage = %db.stage;
 
 	%tickTime = $Farming::PlantData_[%type, %stage, "tickTime"];
+	%nutrientTimeModifier = $Farming::PlantData_[%type, %stage, "nutrientTimeModifier"];
+	%rainTimeMod = $Farming::PlantData_[%type, "rainTimeModifier"];
+	%heatTimeMod = $Farming::PlantData_[%type, "heatWaveTimeModifier"];
 
 	//bigger difference between provided light and required -> bigger time
 	//requiredLight = light level expected

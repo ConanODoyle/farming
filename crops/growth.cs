@@ -278,7 +278,7 @@ function doGrowCalculations(%brick, %db)
 
 	//grow calculations
 	%waterReq = $Farming::PlantData_[%type, %stage, "waterPerTick"];
-	%maxGrowTicks = $Farming::PlantData_[%type, %stage, "numGrowTicks"];
+	%maxGrowTicks = $Farming::PlantData_[%type, %stage, "numWetTicks"];
 	%maxDryTicks = $Farming::PlantData_[%type, %stage, "numDryTicks"];
 	%dryGrow = $Farming::PlantData_[%type, %stage, "dryStage"];
 	%wetGrow = $Farming::PlantData_[%type, %stage, "nextStage"];
