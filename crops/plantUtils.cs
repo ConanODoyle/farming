@@ -4,6 +4,33 @@
 ///////////
 
 
+//Math utility functions
+//returns average gained seeds per seed given total harvestcount and drop probability
+function getAverageExtraSeedsPerSeed(%harvestCount, %dropProb)
+{
+	%noDropProb = 1 - %dropProb;
+	for (%i = 0; %i < %harvestCount; %i++)
+	{
+		%prob = 1;
+		for (%j = 0; %j < %harvestCount; %j++)
+		{
+			%curr = %j <= %i ? %dropProb : %noDropProb;
+			echo("   Curr: " @ %curr);
+			%prob *= %j <= %i ? %dropProb : %noDropProb;
+		}
+		echo("Adding " @ %prob * %harvestCount * (%i + 1));
+		%total += %prob * %harvestCount * (%i + 1);
+	}
+	return %total;
+}
+
+function getSeedsPerSeed(%harvestCount, %dropProb)
+{
+	%amt = getAverageExtraSeedsPerSeed(%harvestCount, %dropProb);
+	return (1 / %amt) / (1 / %amt - 1);
+}
+
+
 // Resource functions
 //returns dirt bricks under plant, in order of highest water
 //bricks with same water level are slightly randomized
@@ -244,7 +271,7 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 		}
 
 		%nutrientDiff = vectorSub(%nutrients, %levelUpRequirement);
-		if (%brick.dryTicks > %maxDryTicks)
+		if (%brick.dryTicks > %maxDryTicks && %maxDryTicks != -1)
 		{
 			if (isObject(%dryGrow) && strPos(%nutrientDiff, "-") < 0) //nutrients available >= %nutrientUse
 			{
@@ -270,7 +297,7 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 		}
 		
 		%nutrientDiff = vectorSub(%nutrients, %levelUpRequirement);
-		if (%brick.wetTicks > %maxWetTicks)
+		if (%brick.wetTicks > %maxWetTicks && %maxWetTicks != -1)
 		{
 			if (isObject(%wetGrow) && strPos(%nutrientDiff, "-") < 0)
 			{
@@ -354,7 +381,7 @@ function fxDTSBrick::extractNutrients(%brick, %nutrients)
 	%db = %brick.getDatablock();
 	%type = %db.cropType;
 	%stage = %db.stage;
-	if (!%db.isPlant)
+	if (!%db.isPlant || %nutrients $= "0 0 0")
 	{
 		return %nutrients;
 	}
