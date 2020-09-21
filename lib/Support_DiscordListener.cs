@@ -44,6 +44,7 @@ function discordListenClient::onLine(%this, %line)
 			return;
 		}
 		messageAll('', "<color:7289DA>@" @ getField(%line, 1) @ "\c6: " @ getFields(%line, 2, 200));
+		echo('', "[DISCORD] @" @ getField(%line, 1) @ "\c6: " @ getFields(%line, 2, 200));
 	}
 	else
 	{
