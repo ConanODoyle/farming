@@ -28,19 +28,21 @@ exec("./lib/automodSettings.cs");
 exec("./lib/onDupCut.cs");
 
 // Scripts specific to this mod
-exec("./util/eventParser.cs");
-exec("./util/disableWrenchAndBuild.cs");
 exec("./util/clearScripts.cs");
 exec("./util/convTime.cs");
 exec("./util/chanceSpawnItem.cs");
+exec("./util/eventParser.cs");
+exec("./util/disableWrenchAndBuild.cs");
 exec("./util/dualClient.cs");
 exec("./util/fixSchedulePop.cs");
 exec("./util/getRandomHash.cs");
+exec("./util/getRandomBrickOrthoRot.cs");
 exec("./util/gitpull.cs");
 exec("./util/hexToInt.cs");
 exec("./util/ipCheck.cs");
 exec("./util/makeLotSingle.cs");
 exec("./util/radiusAnnounce.cs");
+exec("./util/roundToStudCenter.cs");
 exec("./util/scorefix.cs");
 exec("./util/setAllWaterLevelsFull.cs");
 exec("./util/shortcuts.cs");
