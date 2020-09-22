@@ -49,11 +49,14 @@ function PickaxeImage::onFire(%this, %obj, %slot)
 	%start = %obj.getEyeTransform();
 	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
 
-	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
+	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType | $Typemasks::PlayerObjectType);
 	%hit = getWord(%ray, 0);
 	if (isObject(%hit))
 	{
-		%hit.onPickaxeHit(%obj);
+		if (%hit.getClassName() $= "fxDTSBrick")
+		{
+			%hit.onPickaxeHit(%obj);
+		}
 		%p = new Projectile() {
 			dataBlock = hammerProjectile;
 			initialPosition = getWords(%ray, 1, 3);
