@@ -69,10 +69,10 @@ function fxDTSBrick::getDirtWater(%brick)
 	return trim(%ret);
 }
 
-//returns dirt nutrients - nitrogen, phosphate,
-function fxDTSBrick::getNutrients(%dirt)
+//returns brick nutrients - nitrogen, phosphate, weedkiller/harvestCount
+function fxDTSBrick::getNutrients(%brick)
 {
-	return decodeNutrientName(%dirt.getName());
+	return decodeNutrientName(%brick.getName());
 }
 
 //parses a brick name for nutrients - returns nitrogen SPC phospahte SPC weedkilelr
@@ -209,7 +209,7 @@ function fxDTSBrick::canLightPassThrough(%brick)
 // Growth functions
 //attempts growth given resources and light
 //returns 0 for growth success, nonzero for failure
-function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
+function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weather)
 {
 	%db = %brick.getDatablock();
 	%type = %db.cropType;
@@ -266,11 +266,11 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 		%brick.dryTicks++;
 		if (%dryNutriUse)
 		{
-			%nutrients = vectorSub(%nutrients, %nutrientUse);
-			%brick.setNutrients(getWord(%nutrients, 0), getWord(%nutrients, 1), getWord(%nutrients, 2));
+			%plantNutrients = vectorSub(%plantNutrients, %nutrientUse);
+			%brick.setNutrients(getWord(%plantNutrients, 0), getWord(%plantNutrients, 1));
 		}
 
-		%nutrientDiff = vectorSub(%nutrients, %levelUpRequirement);
+		%nutrientDiff = vectorSub(%plantNutrients, %levelUpRequirement);
 		if (%brick.dryTicks > %maxDryTicks && %maxDryTicks != -1)
 		{
 			if (isObject(%dryGrow) && strPos(%nutrientDiff, "-") < 0) //nutrients available >= %nutrientUse
@@ -292,11 +292,11 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 		%dirt.setWaterLevel(%dirt.waterLevel - %waterReq);
 		if (%wetNutriUse)
 		{
-			%nutrients = vectorSub(%nutrients, %nutrientUse);
-			%brick.setNutrients(getWord(%nutrients, 0), getWord(%nutrients, 1), getWord(%nutrients, 2));
+			%plantNutrients = vectorSub(%plantNutrients, %nutrientUse);
+			%brick.setNutrients(getWord(%plantNutrients, 0), getWord(%plantNutrients, 1));
 		}
 		
-		%nutrientDiff = vectorSub(%nutrients, %levelUpRequirement);
+		%nutrientDiff = vectorSub(%plantNutrients, %levelUpRequirement);
 		if (%brick.wetTicks > %maxWetTicks && %maxWetTicks != -1)
 		{
 			if (isObject(%wetGrow) && strPos(%nutrientDiff, "-") < 0)
@@ -394,9 +394,9 @@ function fxDTSBrick::extractNutrients(%brick, %nutrients)
 	{
 		%nit = getMin(getWord(%nutrients, 0), getWord(%space, 0));
 		%pho = getMin(getWord(%nutrients, 1), getWord(%space, 1));
-		%weedKiller = getMin(getWord(%nutrients, 2), getWord(%space, 2));
+		%weedKiller = getWord(%nutrients, 2);
 
-		%brick.setNutrients(%nit, %pho, %weedKiller);
+		%brick.setNutrients(getWord(%brickNutrients, 0) + %nit, getWord(%brickNutrients, 1) + %pho);
 		%nutrients = vectorSub(%nutrients, %nit SPC %pho SPC %weedKiller);
 	}
 	return %nutrients;

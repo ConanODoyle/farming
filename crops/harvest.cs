@@ -19,6 +19,8 @@ function harvestBrick(%brick, %tool, %harvester)
 	%pruneTool = getPlantData(%type, %stage, "pruneTool");
 	%harvestExperience = getPlantData(%type, "harvestExperience");
 
+	%totalHarvestCount = getWord(%brick.getNutrients(), 2);
+
 
 	//check if the plant is being pruned
 	if (%pruneTool !$= "" && %pruneTool $= %tool.uiname)
@@ -179,7 +181,8 @@ function harvestBrick(%brick, %tool, %harvester)
 
 
 	//change on harvest
-	if (%dieOnHarvest || %harvestCount >= %harvestMax)
+	%totalHarvestCount++;
+	if (%dieOnHarvest || %totalHarvestCount >= %harvestMax)
 	{
 		%brick.delete();
 	}
@@ -190,6 +193,8 @@ function harvestBrick(%brick, %tool, %harvester)
 		%brick.dryTicks = 0;
 		%brick.nextGrow = "";
 		PlantSimSet.add(%brick);
+		//reset nutrients on harvest
+		%brick.setNutrients(0, 0, %totalHarvestCount);
 	}
 
 	if (%pickedTotal <= 0)
