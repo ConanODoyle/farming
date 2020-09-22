@@ -69,4 +69,4 @@ function parseCSV(%filePath)
 	%file.delete();
 }
 
-parseCSV("Add-ons/Server_Farming/crops/plants/plantData.csv");
+parseCSV("Add-ons/Server_Farming/config/plantData.csv");
