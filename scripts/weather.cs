@@ -346,7 +346,7 @@ function rainLoop(%index)
 	%max = 16;
 	for (%i = 0; %i < %max; %i++)
 	{
-		if (%i > %index) //we reached end of plant simset
+		if (%i > %index) //we reached end of rain simset
 		{
 			break;
 		}
@@ -358,18 +358,27 @@ function rainLoop(%index)
 		}
 
 		%db = %brick.getDatablock();
-		%ray = %brick.getPosition();
-		%ray = containerRaycast(%ray, vectorAdd(%ray, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
-		if (%brick.nextRain < $Sim::Time)
+		%pos = %brick.getPosition();
+		if (%brick.nextRain < $Sim::Time && !%brick.inGreenhouse && %brick.waterLevel < %db.maxWater)
 		{
 			%numTimes = mFloor(($Sim::Time - %brick.nextRain) / 2) + 1;
-			if (!%brick.inGreenhouse && %brick.waterLevel < %db.maxWater)
+
+			%ray = containerRaycast(%pos, vectorAdd(%pos, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
+			%hit = getWord(%ray, 0);
+			while (%hit.getDatablock().isPlant)
+			{
+				%pos = getWords(%ray, 1, 3);
+				%ray = containerRaycast(%pos, vectorAdd(%pos, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %hit);
+				%hit = getWord(%ray, 0);
+			}
+
+			if (!isObject(%hit) || %hit.getGroup().bl_id == 888888)
 			{
 				if (%db.isDirt)
 				{
 					%brick.setWaterLevel(%brick.waterLevel + 40 * %numTimes);
 				}
-				else if (%db.isWaterTank && !isObject(%ray))
+				else if (%db.isWaterTank)
 				{
 					%brick.setWaterLevel(%brick.waterLevel + 30 * %numTimes); //%db.maxWater * %numTimes / 500);
 				}
@@ -412,18 +421,27 @@ function heatLoop(%index)
 		}
 
 		%db = %brick.getDatablock();
-		%ray = %brick.getPosition();
-		%ray = containerRaycast(%ray, vectorAdd(%ray, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
-		if (%brick.nextHeat < $Sim::Time)
+		%pos = %brick.getPosition();
+		if (%brick.nextHeat < $Sim::Time && !%brick.inGreenhouse && %brick.waterLevel > 0)
 		{
-			%numTimes = mFloor(($Sim::Time - %brick.nextHeat) / 2) + 1;
-			if (!%brick.inGreenhouse && %brick.waterLevel > %db.maxWater)
+			%numTimes = mFloor(($Sim::Time - %brick.nextRain) / 2) + 1;
+
+			%ray = containerRaycast(%pos, vectorAdd(%pos, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
+			%hit = getWord(%ray, 0);
+			while (%hit.getDatablock().isPlant)
+			{
+				%pos = getWords(%ray, 1, 3);
+				%ray = containerRaycast(%pos, vectorAdd(%pos, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %hit);
+				%hit = getWord(%ray, 0);
+			}
+
+			if (!isObject(%hit) || %hit.getGroup().bl_id == 888888)
 			{
 				if (%db.isDirt)
 				{
 					%brick.setWaterLevel(%brick.waterLevel - 5 * %numTimes);
 				}
-				else if (%db.isWaterTank && !isObject(%ray))
+				else if (%db.isWaterTank)
 				{
 					%brick.setWaterLevel(%brick.waterLevel - 10 * %numTimes); //%db.maxWater * %numTimes / 500);
 				}
