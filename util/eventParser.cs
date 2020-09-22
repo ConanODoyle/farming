@@ -77,6 +77,7 @@ function readEventsFromFile(%name) {
 		%str = strlen(%str) > 0 ? %str NL %line : %line;
 	}
 	%f.close();
+	%f.delete();
 	return %str;
 }
 
