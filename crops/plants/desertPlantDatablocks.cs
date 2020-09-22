@@ -13,7 +13,6 @@ datablock fxDTSBrickData(brickChili0CropData)
 	cropType = "Chili";
 	stage = 0;
 	isPlant = 1;
-	plantingLayer = 0;
 };
 
 datablock fxDTSBrickData(brickChili1CropData : brickChili0CropData)
@@ -61,7 +60,6 @@ datablock fxDTSBrickData(brickCactus0CropData)
 	isPlant = 1;
 	isTree = 1;
 	isIndividuallyFertilized = 1;
-	plantingLayer = 1;
 };
 
 datablock fxDTSBrickData(brickCactus1CropData : brickCactus0CropData)
@@ -131,8 +129,8 @@ datablock fxDTSBrickData(brickWatermelon0CropData)
 	cropType = "Watermelon";
 	stage = 0;
 	isPlant = 1;
-	plantingLayer = 1;
 	isIndividuallyFertilized = 1;
+	isPlanterBoxDisallowed = 1;
 };
 
 datablock fxDTSBrickData(brickWatermelon1CropData : brickWatermelon0CropData)
@@ -187,7 +185,6 @@ datablock fxDTSBrickData(brickDateTree0CropData)
 	stage = 0;
 	isPlant = 1;
 	isTree = 1;
-	plantingLayer = 2;
 	isIndividuallyFertilized = 1;
 };
 
@@ -283,7 +280,6 @@ datablock fxDTSBrickData(brickPeachTree0CropData)
 	stage = 0;
 	isPlant = 1;
 	isTree = 1;
-	plantingLayer = 2;
 	isIndividuallyFertilized = 1;
 };
 

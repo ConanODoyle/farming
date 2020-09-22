@@ -14,7 +14,6 @@ datablock fxDTSBrickData(brickPotato0CropData)
 	cropType = "Potato";
 	stage = 0;
 	isPlant = 1;
-	plantingLayer = 0;
 };
 
 datablock fxDTSBrickData(brickPotato1CropData : brickPotato0CropData)
@@ -51,7 +50,6 @@ datablock fxDTSBrickData(brickCarrot0CropData)
 	cropType = "Carrot";
 	stage = 0;
 	isPlant = 1;
-	plantingLayer = 0;
 };
 
 datablock fxDTSBrickData(brickCarrot1CropData : brickCarrot0CropData)
@@ -88,7 +86,6 @@ datablock fxDTSBrickData(brickTomato0CropData)
 	cropType = "Tomato";
 	stage = 0;
 	isPlant = 1;
-	plantingLayer = 1;
 	isIndividuallyFertilized = 1;
 };
 
@@ -134,7 +131,6 @@ datablock fxDTSBrickData(brickCorn0CropData)
 	cropType = "Corn";
 	stage = 0;
 	isPlant = 1;
-	plantingLayer = 1;
 };
 
 datablock fxDTSBrickData(brickCorn1CropData : brickCorn0CropData)
@@ -179,7 +175,6 @@ datablock fxDTSBrickData(brickCabbage0CropData)
 	cropType = "Cabbage";
 	stage = 0;
 	isPlant = 1;
-	plantingLayer = 0;
 };
 
 datablock fxDTSBrickData(brickCabbage1CropData : brickCabbage0CropData)
@@ -224,7 +219,6 @@ datablock fxDTSBrickData(brickOnion0CropData)
 	cropType = "Onion";
 	stage = 0;
 	isPlant = 1;
-	plantingLayer = 0;
 };
 
 datablock fxDTSBrickData(brickOnion1CropData : brickOnion0CropData)
@@ -261,7 +255,6 @@ datablock fxDTSBrickData(brickBlueberry0CropData)
 	cropType = "Blueberry";
 	stage = 0;
 	isPlant = 1;
-	plantingLayer = 0;
 };
 
 datablock fxDTSBrickData(brickBlueberry1CropData : brickBlueberry0CropData)
@@ -306,7 +299,6 @@ datablock fxDTSBrickData(brickTurnip0CropData)
 	cropType = "Turnip";
 	stage = 0;
 	isPlant = 1;
-	plantingLayer = 1;
 };
 
 datablock fxDTSBrickData(brickTurnip1CropData : brickTurnip0CropData)
@@ -351,7 +343,6 @@ datablock fxDTSBrickData(brickPortobello0CropData)
 	cropType = "Portobello";
 	stage = 0;
 	isPlant = 1;
-	plantingLayer = 1;
 };
 
 datablock fxDTSBrickData(brickPortobello1CropData : brickPortobello0CropData)
@@ -388,7 +379,6 @@ datablock fxDTSBrickData(brickWheat0CropData)
 	cropType = "Wheat";
 	stage = 0;
 	isPlant = 1;
-	plantingLayer = 1;
 };
 
 datablock fxDTSBrickData(brickWheat1CropData : brickWheat0CropData)
@@ -454,7 +444,6 @@ datablock fxDTSBrickData(brickDaisy0CropData)
 	stage = 0;
 	isPlant = 1;
 	defaultColor = 45;
-	plantingLayer = 0;
 };
 
 datablock fxDTSBrickData(brickDaisy1CropData : brickDaisy0CropData)
@@ -484,7 +473,6 @@ datablock fxDTSBrickData(brickLily0CropData)
 	stage = 0;
 	isPlant = 1;
 	defaultColor = 45;
-	plantingLayer = 0;
 };
 
 datablock fxDTSBrickData(brickLily1CropData : brickLily0CropData)
@@ -514,7 +502,6 @@ datablock fxDTSBrickData(brickRose0CropData)
 	stage = 0;
 	isPlant = 1;
 	defaultColor = 0;
-	plantingLayer = 0;
 };
 
 datablock fxDTSBrickData(brickRose1CropData : brickRose0CropData)
@@ -557,7 +544,6 @@ datablock fxDTSBrickData(brickAppleTree0CropData)
 	stage = 0;
 	isPlant = 1;
 	isTree = 1;
-	plantingLayer = 2;
 	isIndividuallyFertilized = 1;
 };
 
@@ -682,7 +668,6 @@ datablock fxDTSBrickData(brickMangoTree0CropData)
 	stage = 0;
 	isPlant = 1;
 	isTree = 1;
-	plantingLayer = 2;
 	isIndividuallyFertilized = 1;
 };
 
