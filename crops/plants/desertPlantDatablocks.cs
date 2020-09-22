@@ -130,7 +130,6 @@ datablock fxDTSBrickData(brickWatermelon0CropData)
 	stage = 0;
 	isPlant = 1;
 	isIndividuallyFertilized = 1;
-	isPlanterBoxDisallowed = 1;
 };
 
 datablock fxDTSBrickData(brickWatermelon1CropData : brickWatermelon0CropData)
