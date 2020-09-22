@@ -21,13 +21,14 @@ function weedTick(%index)
 		}
 		%brick = RainFillSimSet.getObject(%index - %i);
 
-
-		if (%brick.getDatablock().isDirt && %brick.getGroup().bl_id != 888888 && %brick.nextWeedCheck < $Sim::Time)
+		%db = %brick.getDatablock();
+		if (%db.isDirt && !(%db.isPlanter || %db.isPot) && %brick.getGroup().bl_id != 888888 && %brick.nextWeedCheck < $Sim::Time)
 		{
 			%brick.nextWeedCheck = $Sim::Time + $WeedTickLength;
 			%hit = containerRaycast(%brick.getPosition(), vectorAdd(%pos, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
 			if (isObject(%hit) && %hit.getDatablock().isGreenhouse)
 			{
+				%brick.inGreenhouse = 1;
 				continue;
 			}
 			generateWeed(%brick);
