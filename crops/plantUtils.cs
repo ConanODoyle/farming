@@ -189,7 +189,7 @@ function fxDTSBrick::getLightLevel(%brick, %lightLevel)
 {
 	if (%brick.getDatablock().isTree)
 	{
-		return %lightLevel * $Farming::PlantData_[%brick.getDatablock().cropType, "lightLevelFactor"];
+		return %lightLevel * getPlantData(%brick.getDatablock().cropType, "lightLevelFactor");
 	}
 	return 0; //normal bricks block all light
 }
@@ -219,24 +219,24 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %nutrients, %light, %weather)
 		return -1;
 	}
 
-	%waterReq = $Farming::PlantData_[%type, %stage, "waterPerTick"];
-	%maxWetTicks = $Farming::PlantData_[%type, %stage, "numWetTicks"];
-	%maxDryTicks = $Farming::PlantData_[%type, %stage, "numDryTicks"];
-	%dryGrow = $Farming::PlantData_[%type, %stage, "dryNextStage"];
-	%wetGrow = $Farming::PlantData_[%type, %stage, "wetNextStage"];
-	%killOnDryGrow = $Farming::PlantData_[%type, %stage, "killOnDryGrow"];
-	%killOnWetGrow = $Farming::PlantData_[%type, %stage, "killOnWetGrow"];
-	%requiredLight = $Farming::PlantData_[%type, "requiredLightLevel"] $= "" ? 1 : $Farming::PlantData_[%type, "requiredLightLevel"];
+	%waterReq = getPlantData(%type, %stage, "waterPerTick");
+	%maxWetTicks = getPlantData(%type, %stage, "numWetTicks");
+	%maxDryTicks = getPlantData(%type, %stage, "numDryTicks");
+	%dryGrow = getPlantData(%type, %stage, "dryNextStage");
+	%wetGrow = getPlantData(%type, %stage, "wetNextStage");
+	%killOnDryGrow = getPlantData(%type, %stage, "killOnDryGrow");
+	%killOnWetGrow = getPlantData(%type, %stage, "killOnWetGrow");
+	%requiredLight = getPlantData(%type, "requiredLightLevel") $= "" ? 1 : getPlantData(%type, "requiredLightLevel");
 
 	%isRaining = getWord(%weather, 0);
 	%isHeatWave = getWord(%weather, 1);
-	%rainWaterMod = $Farming::PlantData_[%type, "rainWaterModifier"];
-	%heatWaterMod = $Farming::PlantData_[%type, "heatWaveWaterModifier"];
+	%rainWaterMod = getPlantData(%type, "rainWaterModifier");
+	%heatWaterMod = getPlantData(%type, "heatWaveWaterModifier");
 
-	%nutrientUse = $Farming::PlantData_[%type, %stage, "nutrientUsePerTick"];
-	%wetNutriUse = $Farming::PlantData_[%type, %stage, "nutrientUseIfWet"];
-	%dryNutriUse = $Farming::PlantData_[%type, %stage, "nutrientUseIfDry"];
-	%levelUpRequirement = $Farming::PlantData_[%type, %stage, "nutrientStageRequirement"];
+	%nutrientUse = getPlantData(%type, %stage, "nutrientUsePerTick");
+	%wetNutriUse = getPlantData(%type, %stage, "nutrientUseIfWet");
+	%dryNutriUse = getPlantData(%type, %stage, "nutrientUseIfDry");
+	%levelUpRequirement = getPlantData(%type, %stage, "nutrientStageRequirement");
 
 	if (%requiredLight == 1 && %light == 0) //plant requires full light to grow, no light available
 	{
@@ -362,10 +362,10 @@ function fxDTSBrick::canGrow(%brick)
 		return 0;
 	}
 
-	%dryGrow = $Farming::PlantData_[%type, %stage, "dryNextStage"];
-	%wetGrow = $Farming::PlantData_[%type, %stage, "wetNextStage"];
-	%killOnDryGrow = $Farming::PlantData_[%type, %stage, "killOnDryGrow"];
-	%killOnWetGrow = $Farming::PlantData_[%type, %stage, "killOnWetGrow"];
+	%dryGrow = getPlantData(%type, %stage, "dryNextStage");
+	%wetGrow = getPlantData(%type, %stage, "wetNextStage");
+	%killOnDryGrow = getPlantData(%type, %stage, "killOnDryGrow");
+	%killOnWetGrow = getPlantData(%type, %stage, "killOnWetGrow");
 	if (isObject(%dryGrow) || isObject(%wetGrow) || %killOnDryGrow || %killOnWetGrow)
 	{
 		return 1;
@@ -386,8 +386,8 @@ function fxDTSBrick::extractNutrients(%brick, %nutrients)
 		return %nutrients;
 	}
 
-	%maxNutrients = $Farming::PlantData_[%type, %stage, "maxNutrients"] $= "" ?
-		$Farming::PlantData_[%type, "maxNutrients"] : $Farming::PlantData_[%type, %stage, "maxNutrients"];
+	%maxNutrients = getPlantData(%type, %stage, "maxNutrients") $= "" ?
+		getPlantData(%type, "maxNutrients") : getPlantData(%type, %stage, "maxNutrients");
 	%brickNutrients = %brick.getNutrients();
 	%space = vectorSub(%maxNutrients, %brickNutrients);
 	if (%space !$= "0 0 0" && strPos(%space, "-") < 0)
@@ -409,10 +409,10 @@ function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light, %weather)
 	%type = %db.cropType;
 	%stage = %db.stage;
 
-	%tickTime = $Farming::PlantData_[%type, %stage, "tickTime"];
-	%nutrientTimeModifier = $Farming::PlantData_[%type, %stage, "nutrientTimeModifier"];
-	%rainTimeMod = $Farming::PlantData_[%type, "rainTimeModifier"];
-	%heatTimeMod = $Farming::PlantData_[%type, "heatWaveTimeModifier"];
+	%tickTime = getPlantData(%type, %stage, "tickTime");
+	%nutrientTimeModifier = getPlantData(%type, %stage, "nutrientTimeModifier");
+	%rainTimeMod = getPlantData(%type, "rainTimeModifier");
+	%heatTimeMod = getPlantData(%type, "heatWaveTimeModifier");
 	
 	%isRaining = getWord(%weather, 0);
 	%isHeatWave = getWord(%weather, 1);
@@ -420,8 +420,8 @@ function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light, %weather)
 	//bigger difference between provided light and required -> bigger time
 	//requiredLight = light level expected
 	//lightAdjustTime = base time value, multiplied against difference between light and required light
-	%requiredLight = $Farming::PlantData_[%type, "requiredLightLevel"] $= "" ? 1 : $Farming::PlantData_[%type, "requiredLightLevel"];
-	%lightAdjustTime = $Farming::PlantData_[%type, "lightTimeModifier"] $= "" ? %tickTime : $Farming::PlantData_[%type, "lightTimeModifier"];
+	%requiredLight = getPlantData(%type, "requiredLightLevel") $= "" ? 1 : getPlantData(%type, "requiredLightLevel");
+	%lightAdjustTime = getPlantData(%type, "lightTimeModifier") $= "" ? %tickTime : getPlantData(%type, "lightTimeModifier");
 	%lightModifier = mAbs(%light - %requiredLight) * %lightAdjustTime;
 
 	//nitrogen/phosphate growth time factor

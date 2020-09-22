@@ -6,7 +6,7 @@ exec("./plants/plantDatablocks.cs");
 exec("./seeds/seedDatablocks.cs");
 exec("./crops/cropDatablocks.cs");
 
-exec("./plants/plantData.cs");
+exec("./plants/plantDataFunctions.cs");
 
 //Exec tools
 

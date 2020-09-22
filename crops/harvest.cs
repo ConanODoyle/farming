@@ -5,21 +5,21 @@ function harvestBrick(%brick, %tool, %harvester)
 	%stage = %db.stage;
 	%type = %db.cropType;
 	
-	%buff = $Farming::PlantData_[%type, %stage, "toolBuff"];
-	%yield = $Farming::PlantData_[%type, %stage, "yield"];
-	%itemDB = $Farming::PlantData_[%type, %stage, "item"];
-	%toolType = $Farming::PlantData_[%type, %stage, "harvestTool"];
-	%areaToolType = $Farming::PlantData_[%type, %stage, "areaHarvestTool"];
+	%buff = getPlantData(%type, %stage, "toolBuff");
+	%yield = getPlantData(%type, %stage, "yield");
+	%itemDB = getPlantData(%type, %stage, "item");
+	%toolType = getPlantData(%type, %stage, "harvestTool");
+	%areaToolType = getPlantData(%type, %stage, "areaHarvestTool");
 
-	%changeOnHarvest = $Farming::PlantData_[%type, %stage, "changeOnHarvest"];
-	%dieOnHarvest = $Farming::PlantData_[%type, %stage, "dieOnHarvest"];
-	%harvestMaxRange = $Farming::PlantData_[%type, %stage, "maxHarvestTimes"];
+	%changeOnHarvest = getPlantData(%type, %stage, "changeOnHarvest");
+	%dieOnHarvest = getPlantData(%type, %stage, "dieOnHarvest");
+	%harvestMaxRange = getPlantData(%type, %stage, "maxHarvestTimes");
 
 	//check if we pruning
-	%pruneTool = $Farming::PlantData_[%type, %stage, "pruneTool"];
+	%pruneTool = getPlantData(%type, %stage, "pruneTool");
 	if (%pruneTool !$= "" && %pruneTool $= %tool.uiname)
 	{
-		%pruneDB = $Farming::PlantData_[%type, %stage, "changeOnPrune"];
+		%pruneDB = getPlantData(%type, %stage, "changeOnPrune");
 		if (isObject(%pruneDB))
 		{
 			//its a prune, so we dont gotta do anything else except change db
@@ -185,13 +185,13 @@ function harvestBrick(%brick, %tool, %harvester)
 		%harvester.client.schedule(150, centerprint, "<color:cc0000>The harvest yielded nothing...", 1);
 	}
 
-	if ($Farming::PlantData_[%type, %stage, "harvestExperience"] > 0)
+	if (getPlantData(%type, %stage, "harvestExperience") > 0)
 	{
-		%expReward = $Farming::PlantData_[%type, %stage, "harvestExperience"];
+		%expReward = getPlantData(%type, %stage, "harvestExperience");
 	}
 	else
 	{
-		%expReward = $Farming::PlantData_[%type, "harvestExperience"];
+		%expReward = getPlantData(%type, "harvestExperience");
 	}
 	%harvester.client.addExperience(%expReward);
 

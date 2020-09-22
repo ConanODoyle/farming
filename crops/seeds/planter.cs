@@ -201,7 +201,7 @@ function PlanterImage::onFire(%this, %obj, %slot)
 			%currItem = getField(%seed[%i], 3);
 
 			%brickDB = %currItem.image.cropBrick;
-			%plantRadius = $Farming::PlantData_[%brickDB.cropType, "plantSpace"] * 0.5 + 0.5 - (%inGreenhouse * 0.5);
+			%plantRadius = getPlantData(%brickDB.cropType, "plantSpace") * 0.5 + 0.5 - (%inGreenhouse * 0.5);
 			%obj.currTool = %currSlot;
 
 			%plantingSpace = vectorScale(%plantingDir, %plantRadius);

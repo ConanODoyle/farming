@@ -210,7 +210,7 @@ function doGrowCalculations(%brick, %db)
 	%stage = %db.stage;
 	%type = %db.cropType;
 	%growTicks = %brick.growTicks;
-	%tickTime = $Farming::PlantData_[%type, %stage, "timePerTick"];
+	%tickTime = getPlantData(%type, %stage, "timePerTick");
 	//weeds slow plant growth
 	if (%db.isWeed && %brick.nextWeedVictimSearch < $Sim::Time)
 	{
@@ -277,11 +277,11 @@ function doGrowCalculations(%brick, %db)
 	}
 
 	//grow calculations
-	%waterReq = $Farming::PlantData_[%type, %stage, "waterPerTick"];
-	%maxGrowTicks = $Farming::PlantData_[%type, %stage, "numWetTicks"];
-	%maxDryTicks = $Farming::PlantData_[%type, %stage, "numDryTicks"];
-	%dryGrow = $Farming::PlantData_[%type, %stage, "dryNextStage"];
-	%wetGrow = $Farming::PlantData_[%type, %stage, "wetNextStage"];
+	%waterReq = getPlantData(%type, %stage, "waterPerTick");
+	%maxGrowTicks = getPlantData(%type, %stage, "numWetTicks");
+	%maxDryTicks = getPlantData(%type, %stage, "numDryTicks");
+	%dryGrow = getPlantData(%type, %stage, "dryNextStage");
+	%wetGrow = getPlantData(%type, %stage, "wetNextStage");
 
 	if (%greenhouseFound) //halve the water usage due to double growth time
 	{
@@ -292,17 +292,17 @@ function doGrowCalculations(%brick, %db)
 	{
 		if (!%greenhouseFound)
 		{
-			%waterReq = mCeil(%waterReq * $Farming::PlantData_[%type, "rainWaterModifier"]);
+			%waterReq = mCeil(%waterReq * getPlantData(%type, "rainWaterModifier"));
 		}
-		%tickTime = mCeil(%tickTime * $Farming::PlantData_[%type, "rainTimeModifier"]);
+		%tickTime = mCeil(%tickTime * getPlantData(%type, "rainTimeModifier"));
 	}
 	else if ($isHeatWave)
 	{
 		if (!%greenhouseFound)
 		{
-			%waterReq = mCeil(%waterReq * $Farming::PlantData_[%type, "heatWaveWaterModifier"]);
+			%waterReq = mCeil(%waterReq * getPlantData(%type, "heatWaveWaterModifier"));
 		}
-		%tickTime = mCeil(%tickTime * $Farming::PlantData_[%type, "heatWaveTimeModifier"]);
+		%tickTime = mCeil(%tickTime * getPlantData(%type, "heatWaveTimeModifier"));
 	}
 
 	for (%i = 0; %i < %brick.getNumDownBricks(); %i++)
@@ -369,7 +369,7 @@ function doGrowCalculations(%brick, %db)
 				%brick.setDatablock(%wetGrow);
 
 				//update with correct growTime
-				%tickTime = $Farming::PlantData_[%wetGrow.cropType, %wetGrow.stage, "tickTime"];
+				%tickTime = getPlantData(%wetGrow.cropType, %wetGrow.stage, "tickTime");
 				%brick.nextGrow = $Sim::Time + %tickTime / 1000;
 				
 				// Growth particles

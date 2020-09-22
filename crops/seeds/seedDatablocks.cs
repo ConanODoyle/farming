@@ -34,8 +34,8 @@ exec("./reclaimer.cs");
 function plantCrop(%image, %obj, %imageSlot, %pos)
 {
 	%cropType = %image.cropType;
-	%expRequirement = $Farming::PlantData_[%cropType, "experienceRequired"];
-	%expCost = $Farming::PlantData_[%cropType, "experienceCost"];
+	%expRequirement = getPlantData(%cropType, "experienceRequired");
+	%expCost = getPlantData(%cropType, "experienceCost");
 	if (%obj.client.farmingExperience < %expCost)
 	{
 		%obj.client.centerprint("You don't have enough experience to plant this crop!", 3);
@@ -111,7 +111,7 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 	%pos = vectorAdd(%base, "0 0 " @ %zOffset);
 
 
-	%plantRad = $Farming::PlantData_[%brickDB.cropType, "plantSpace"] * 0.5 - 0.01 + 0.5;
+	%plantRad = getPlantData(%brickDB.cropType, "plantSpace") * 0.5 - 0.01 + 0.5;
 	%hitDB = %hit.getDatablock();
 	if ((%hitDB.isPot || %hitDB.isPlanter) && (%brickDB.brickSizeX == 2 || %brickDB.brickSizeX > 3))
 	{
@@ -142,14 +142,14 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 			if (%next.getDatablock().isPlant && !%next.getDatablock().isWeed)
 			{
 				%nextType = %next.getDatablock().cropType;
-				%rad = $Farming::PlantData_[%nextType, "plantSpace"] * 0.5 - 0.01 + 0.5;
+				%rad = getPlantData(%nextType, "plantSpace") * 0.5 - 0.01 + 0.5;
 				%nextPos = %next.getPosition();
 				%nextDirt = %next.getDownBrick(0);//getWord(containerRaycast(%nextPos, vectorAdd(%nextPos, "0 0 -50"), $TypeMasks::fxBrickObjectType, %next), 0);
 
 				if (%brickDB.plantingLayer != %next.getDatablock().plantingLayer)
 				{ // if they aren't both on the same layer, they don't interfere
 					continue;
-					// %rad = ($Farming::PlantData_[%nextType, "plantSpace"] - 3) * 0.5 - 0.01 + 0.5;
+					// %rad = (getPlantData(%nextType, "plantSpace") - 3) * 0.5 - 0.01 + 0.5;
 				}
 
 				%nextGreenhouseCheck = getWord(containerRaycast(%nextPos, vectorAdd(%nextPos, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType), 0);
@@ -240,10 +240,10 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 
 	//plant successful, update item
 
-	%expReward = $Farming::PlantData_[%cropType, "plantingExperience"];
+	%expReward = getPlantData(%cropType, "plantingExperience");
 	%obj.client.addExperience(%expReward);
 
-	%expCost = $Farming::PlantData_[%cropType, "experienceCost"];
+	%expCost = getPlantData(%cropType, "experienceCost");
 	%obj.client.addExperience(-1 * %expCost);
 
 	%count = %obj.toolStackCount[%obj.currTool]--;
