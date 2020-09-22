@@ -31,61 +31,84 @@ exec("./reclaimer.cs");
 	// case 5: return "buried";
 	// default: return "forbidden";x
 
-function plantCrop(%image, %obj, %imageSlot, %pos)
+function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 {
 	%cropType = %image.cropType;
+	%brickDB = %image.cropBrick;
+	%zOffset = %brickDB.brickSizeZ * 0.1;
+	%isTree = %brickDB.isTree;
+	%type = %image.item.stackType;
+	%slot = %obj.currTool;
+	%toolStackCount = %obj.toolStackCount[%obj.currTool];
+	
 	%expRequirement = getPlantData(%cropType, "experienceRequired");
 	%expCost = getPlantData(%cropType, "experienceCost");
+	%plantingLayer = getPlantData(%cropType, "plantingLayer");
+	%plantingBoxDisabled = getPlantData(%cropType, "plantingBoxDisabled");
+	%radius = getPlantData(%brickDB.cropType, "plantSpace");
+
 	if (%obj.client.farmingExperience < %expCost)
 	{
 		%obj.client.centerprint("You don't have enough experience to plant this crop!", 3);
 		return 0;
 	}
 
-	%type = %image.item.stackType;
-	%slot = %obj.currTool;
-	%count = %obj.toolStackCount[%obj.currTool];
-	if (%count <= 0) //no more seeds left
+	if (%toolStackCount <= 0)
 	{
 		return 0;
 	}
 
-	if (%pos $= "")
+	if (%remotePlacement $= "")
 	{
 		%start = %obj.getEyePoint();
 		%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
 	}
 	else
 	{
-		%start = vectorAdd(%pos, "0 0 0.1");
-		%end = vectorAdd(%pos, "0 0 -0.1");
+		%start = vectorAdd(%remotePlacement, "0 0 0.1");
+		%end = vectorAdd(%remotePlacement, "0 0 -0.1");
 	}
+
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
-
-	if (!isObject(%hit = getWord(%ray, 0)) || vectorDist(getWords(%ray, 4, 6), "0 0 1") > 0.01)
+	if (!isObject(getWord(%ray, 0)) || vectorDist(getWords(%ray, 4, 6), "0 0 1") > 0.01)
 	{
 		return 0;
 	}
-	else if (!%hit.getDatablock().isDirt)
-	{
-		%obj.client.centerprint("You can only plant on dirt!", 1);
-		return 0;
-	}
-	else if (getTrustLevel(%hit, %obj) < 2)
-	{
-		%obj.client.centerprint(%hit.getGroup().name @ " does not trust you enough to do that.", 1);
-		return 0;
-	}
-
 	%hitLoc = getWords(%ray, 1, 3);
-	%brickDB = %image.cropBrick;
-	%zOffset = %brickDB.brickSizeZ * 0.1;
-	%isMedium = %brickDB.isMedium;
-	%isTree = %brickDB.isTree;
 
+	//re-run raycast to check the actual planting location rather than just where the eye vector hit
+	%planterFound = 0;
+	%potFound = 0;
 	if (%brickDB.brickSizeX % 2 == 1)
 	{
 		%base = roundToStudCenter(%hitLoc);
+		%start = vectorAdd(%base, "0 0 0.1");
+		%end = vectorAdd(%start, "0 0 -0.2");
+		%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
+		if (!isObject(%hit = getWord(%ray, 0)))
+		{
+			%obj.client.centerprint("Invalid position!", 1);
+			%failure = 1;
+		}
+		else if (!%hit.getDatablock().isDirt)
+		{
+			%obj.client.centerprint("You can only plant on dirt!", 1);
+			%failure = 1;
+		}
+		else if (getTrustLevel(%hit, %obj) < 2)
+		{
+			%obj.client.centerprint(%hit.getGroup().name @ " does not trust you enough to do that.", 1);
+			%failure = 1;
+		}
+
+		if (%hit.getDatablock().isPlanter)
+		{
+			%planterFound = 1;
+		}
+		if (%hit.getDatablock().isPot)
+		{
+			%potFound = 1;
+		}
 	}
 	else
 	{
@@ -104,29 +127,68 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 			if (!isObject(%hit = getWord(%ray, 0)) || !%hit.getDatablock().isDirt)
 			{
 				%obj.client.centerprint("You can only plant on dirt!", 1);
-				return 0;
+				%failure = 1;
+				break;
+			}
+
+			if (%hit.getDatablock().isPot)
+			{
+				%potFound = 1;
+			}
+			else if (!%hit.getDatablock().isPot && %potFound)
+			{
+				%obj.client.centerprint("You cannot plant across a pot and a different brick!");
+				%failure = 1;
+				break;
+			}
+
+			if (%hit.getDatablock().isPlanter)
+			{
+				%planterFound = 1;
+			}
+			else if (!%hit.getDatablock().isPlanter && %planterFound)
+			{
+				%obj.client.centerprint("You cannot plant across a planter and a different brick!");
+				%failure = 1;
+				break;
 			}
 		}
 	}
 	%pos = vectorAdd(%base, "0 0 " @ %zOffset);
-
-
-	%plantRad = getPlantData(%brickDB.cropType, "plantSpace") * 0.5 - 0.01 + 0.5;
-	%hitDB = %hit.getDatablock();
-	if ((%hitDB.isPot || %hitDB.isPlanter) && (%brickDB.brickSizeX == 2 || %brickDB.brickSizeX > 3))
+	if (%failure)
 	{
-		%obj.client.centerprint("You can only plant large plants on dirt!", 1);
+		%b = new fxDTSBrick()
+		{
+			seedPlant = 1;
+			colorID = 0;
+			position = %pos;
+			dataBlock = %brickDB;
+			rotation = getRandomBrickOrthoRot();
+		};
+		%b.schedule(1000, delete);
+
 		return 0;
 	}
 
-	if (!%hitDB.isPot)
+
+	%hitDB = %hit.getDatablock();
+	if ((%potFound || %planterFound) && (%plantingBoxDisabled || %isTree))
+	{
+		%obj.client.centerprint("You can only plant small plants on pots/planters!", 1);
+		return 0;
+	}
+
+
+	//planting radius checks
+	%plantRad = (%radius - %planterFound) * 0.5 - 0.01 + 0.5;
+	if (!%potFound)
 	{
 		//check if this is in a greenhouse or not
 		%greenhouseCheck = getWord(containerRaycast(%hitloc, vectorAdd(%hitloc, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType), 0);
 		if (isObject(%greenhouseCheck) && %greenhouseCheck.getDatablock().isGreenhouse)
 		{
 			%inGreenhouse = 1;
-			if (%brickDB.isTree)
+			if (%isTree)
 			{
 				%obj.client.centerprint("You cannot plant tall plants in greenhouses!", 1);
 				return 0;
@@ -135,27 +197,42 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 
 		//check around the brick for any other plants and make sure we dont violate their radius requirement
 		//but exclude flowerpots since those root systems dont intersect with each other
-		%box = "8 8 0.6";
+		//fixed size to ensure we capture larger bricks that have longer-distance root systems compared to the current plant
+		%box = "8 8 1.2";
+		if ($debugPlanting)
+		{
+			createBoxAt(%pos, "1 0 0 0.1", %box);
+		}
 		initContainerBoxSearch(%pos, %box, $Typemasks::fxBrickObjectType);
 		while (isObject(%next = containerSearchNext()))
 		{
 			if (%next.getDatablock().isPlant && !%next.getDatablock().isWeed)
 			{
 				%nextType = %next.getDatablock().cropType;
-				%rad = getPlantData(%nextType, "plantSpace") * 0.5 - 0.01 + 0.5;
+				%nextRadius = getPlantData(%nextType, "plantSpace");
 				%nextPos = %next.getPosition();
-				%nextDirt = %next.getDownBrick(0);//getWord(containerRaycast(%nextPos, vectorAdd(%nextPos, "0 0 -50"), $TypeMasks::fxBrickObjectType, %next), 0);
+				%nextDirt = %next.getDownBrick(0);
 
-				if (%brickDB.plantingLayer != %next.getDatablock().plantingLayer)
-				{ // if they aren't both on the same layer, they don't interfere
+				if (%plantingLayer != getPlantData(%nextType, "plantingLayer")) //if they aren't both on the same layer, they don't interfere
+				{
 					continue;
-					// %rad = (getPlantData(%nextType, "plantSpace") - 3) * 0.5 - 0.01 + 0.5;
+				}
+				else if (%nextDirt.getDatablock().isPot) //ignore all pots
+				{
+					continue;
 				}
 
-				%nextGreenhouseCheck = getWord(containerRaycast(%nextPos, vectorAdd(%nextPos, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType), 0);
-				if (isObject(%nextGreenhouseCheck) && %nextGreenhouseCheck.getDatablock().isGreenhouse)
+				if (!%next.greenhouseBonus)
 				{
-					%next.greenhouseBonus = 1;
+					%nextGreenhouseCheck = getWord(containerRaycast(%nextPos, vectorAdd(%nextPos, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType), 0);
+					if (isObject(%nextGreenhouseCheck) && %nextGreenhouseCheck.getDatablock().isGreenhouse)
+					{
+						%next.greenhouseBonus = 1;
+						%nextInGreenhouse = 1;
+					}
+				}
+				else
+				{
 					%nextInGreenhouse = 1;
 				}
 
@@ -163,22 +240,17 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 				{
 					continue;
 				}
-				else if (%nextDirt.getDatablock().isPot) //ignore all pots (we wouldn't be here if we planted on a pot)
-				{
-					continue;
-				}
-				else if (%nextDirt.getDatablock().isPlanter == !%hitDB.isPlanter) //planters ignore non-planters and vice versa
+				else if (%nextDirt.getDatablock().isPlanter == !%planterFound) //planters ignore non-planters and vice versa
 				{
 					continue;
 				}
 
-				%xDiff = mAbs(getWord(%nextPos, 0) - getWord(%pos, 0)) + (%inGreenhouse | %hitDB.isPlanter) * 0.5;
-				%yDiff = mAbs(getWord(%nextPos, 1) - getWord(%pos, 1)) + (%inGreenhouse | %hitDB.isPlanter) * 0.5;
+				%xDiff = mAbs(getWord(%nextPos, 0) - getWord(%pos, 0));
+				%yDiff = mAbs(getWord(%nextPos, 1) - getWord(%pos, 1));
 
-				// talk(%xDiff SPC %yDiff);
-				// talk("rad: " @ %rad @ " pRad: " @ %plantRad);
-
-				if ((%xDiff < %rad && %yDiff < %rad)
+				//calculate next plant's radius
+				%nextPlantRad = (%nextRadius - (%nextInGreenhouse || %nextDirt.getDatablock().isPlanter) * 0.5 - 0.01 + 0.5;
+				if ((%xDiff < %nextRadius && %yDiff < %nextRadius)
 					|| (%xDiff < %plantRad && %yDiff < %plantRad)) //too close to another plant in the area
 				{
 					%obj.client.centerprint("Too close to a nearby " @ %nextType @ "!", 1);
@@ -191,6 +263,16 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 						rotation = getRandomBrickOrthoRot();
 					};
 					%b.schedule(1000, delete);
+
+					%b2 = new fxDTSBrick()
+					{
+						seedPlant = 1;
+						colorID = 0;
+						position = %next.getPosition();
+						dataBlock = %next.getDatablock();
+						rotation = %next.rotation;
+					};
+					%b2.schedule(1000, delete);
 					return 0;
 				}
 			}
@@ -238,17 +320,18 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 
 	%bg.add(%b);
 
-	//plant successful, update item
 
+	//plant successful, update item
 	%expReward = getPlantData(%cropType, "plantingExperience");
 	%obj.client.addExperience(%expReward);
 
 	%expCost = getPlantData(%cropType, "experienceCost");
 	%obj.client.addExperience(-1 * %expCost);
 
-	%count = %obj.toolStackCount[%obj.currTool]--;
+	%toolStackCount = %obj.toolStackCount[%obj.currTool]--;
 	%slot = %obj.currTool;
-	if (%count <= 0) //no more seeds left, clear the item slot
+	
+	if (%toolStackCount <= 0) //no more seeds left, clear the item slot
 	{
 		messageClient(%obj.client, 'MsgItemPickup', '', %slot, 0);
 		%obj.tool[%slot] = "";
@@ -256,24 +339,14 @@ function plantCrop(%image, %obj, %imageSlot, %pos)
 		{
 			%obj.unmountImage(%imageSlot);
 		}
-		return %b;
 	}
-
-	//some seeds are left, update item if needed
-	for (%i = 0; %i < $Stackable_[%type, "stackedItemTotal"]; %i++)
+	else //some seeds are left, update item if needed
 	{
-		%currPair = $Stackable_[%type, "stackedItem" @ %i];
-		// talk(%currPair);
-		if (%count <= getWord(%currPair, 1))
-		{
-			%bestItem = getWord(%currPair, 0);
-			break;
-		}
+		%bestItem = getStackTypeDatablock(%type, %toolStackCount);
+		messageClient(%obj.client, 'MsgItemPickup', '', %slot, %bestItem.getID());
+		%obj.tool[%slot] = %bestItem.getID();
+		%obj.mountImage(%imageSlot, %bestItem.image);
 	}
-
-	messageClient(%obj.client, 'MsgItemPickup', '', %slot, %bestItem.getID());
-	%obj.tool[%slot] = %bestItem.getID();
-	%obj.mountImage(%imageSlot, %bestItem.image);
 	return %b;
 }
 
@@ -288,46 +361,5 @@ function seedLoop(%image, %obj)
 	{
 		%seedName = strReplace(getSubStr(%type, 0, strLen(%type) - 4), "_", " ");
 		%cl.centerprint("<just:right><color:ffff00>-Seeds " @ %obj.currTool @ "- <br>" @ %seedName @ "<color:ffffff>: " @ %count @ " ", 1);
-	}
-}
-
-function roundToStudCenter(%pos, %even)
-{
-	%x = getWord(%pos, 0);
-	%y = getWord(%pos, 1);
-	%z = getWord(%pos, 2);
-
-	//%x, %y need to be in increments of 0.25 + 0.5n
-	//so add 0.25, round to closest 0.5, then subtract 0.25
-	if (!%even)
-	{
-		%x += 0.25;
-		%y += 0.25;
-	}
-
-	%x = mFloor(%x * 2 + 0.5) / 2;
-	%y = mFloor(%y * 2 + 0.5) / 2;
-
-	if (!%even)
-	{
-		%x -= 0.25;
-		%y -= 0.25;
-	}
-
-	//%z needs to be rounded to nearest 0.1
-	%z = mFloor(%z * 10 + 0.5) / 10;
-
-	return %x SPC %y SPC %z;
-}
-
-function getRandomBrickOrthoRot()
-{
-	%rand = getRandom(0, 3);
-	switch (%rand)
-	{
-		case 0: return "1 0 0 0";
-		case 1: return "0 0 1 " @ 90;
-		case 2: return "0 0 1 " @ 180;
-		case 3: return "0 0 -1 " @ 90;
 	}
 }
