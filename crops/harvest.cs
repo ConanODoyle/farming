@@ -9,42 +9,41 @@ function harvestBrick(%brick, %tool, %harvester)
 	%yield = getPlantData(%type, %stage, "yield");
 	%itemDB = getPlantData(%type, %stage, "item");
 	%toolType = getPlantData(%type, %stage, "harvestTool");
-	%areaToolType = getPlantData(%type, %stage, "areaHarvestTool");
+	%areaToolType = getField(%toolType, 1);
+	%toolType = getField(%toolType, 0);
 
 	%changeOnHarvest = getPlantData(%type, %stage, "changeOnHarvest");
-	%dieOnHarvest = getPlantData(%type, %stage, "dieOnHarvest");
-	%harvestMaxRange = getPlantData(%type, %stage, "maxHarvestTimes");
-
-	//check if we pruning
+	// %dieOnHarvest = getPlantData(%type, %stage, "dieOnHarvest");
+	%seedDropChance = getPlantData(%type, %stage, "dropSeed");
+	%harvestMax = getPlantData(%type, %stage, "harvestMax");
 	%pruneTool = getPlantData(%type, %stage, "pruneTool");
+	%harvestExperience = getPlantData(%type, "harvestExperience");
+
+
+	//check if the plant is being pruned
 	if (%pruneTool !$= "" && %pruneTool $= %tool.uiname)
 	{
 		%pruneDB = getPlantData(%type, %stage, "changeOnPrune");
 		if (isObject(%pruneDB))
 		{
-			//its a prune, so we dont gotta do anything else except change db
 			%brick.setDatablock(%pruneDB);
 			%harvester.client.centerPrint("<color:ffff00>Plant pruned!", 1);
-			return;
+			return 0;
 		}
 	}
 
+	//check if plant has anything to harvest
 	if (!isObject(%itemDB))
 	{
 		return 0;
 	}
 
-	if (getWordCount(%harvestMaxRange) == 2 && %brick.maxHarvestTimes <= 0)
-	{
-		%brick.maxHarvestTimes = getRandom(getWord(%harvestMaxRange, 0), getWord(%harvestMaxRange, 1));
-	}
-	%brick.harvestTimes++;
 
+	//trust checks
 	if (%db.isWeed)
 	{
 		%bypassTrustRequirement = 1;
 	}
-	
 	if (getTrustLevel(%brick, %harvester) < 2 && !%bypassTrustRequirement)
 	{
 		if (getBrickgroupFromObject(%brick).bl_id != 888888)
@@ -54,20 +53,20 @@ function harvestBrick(%brick, %tool, %harvester)
 		return 0;
 	}
 
+
+	//harvest tool checks
 	if (%tool.uiName $= %toolType)
 	{
-		%totalYield = getWord(%yield, 0) + getWord(%buff, 0) SPC getWord(%yield, 1) + getWord(%buff, 1);
+		%toolYield = getWord(%buff, getRandom(getWordCount(%buff) - 1));
 	}
 	else if (%tool.uiName !$= "" && %tool.uiName !$= %areaToolType)
 	{
 		%harvester.client.centerPrint("This is the wrong tool to use on this plant!", 1);
 		return 0;
 	}
-	else
-	{
-		%totalYield = %yield;
-	}
 
+
+	//shiny plant and general extra yield checks
 	if (%brick.bonusYield !$= "" || isObject(%brick.emitter))
 	{
 		if (isObject(%brick.emitter))
@@ -86,20 +85,21 @@ function harvestBrick(%brick, %tool, %harvester)
 			%extraYield = vectorAdd(%extraYield, 0 SPC vectorScale(getWord(%buff, 1), 2));
 		}
 
-		%extraYield = vectorAdd(%extraYield, %brick.bonusYield);
+		if (%brick.bonusYield !$= "")
+		{
+			%extraYield = vectorAdd(%extraYield, %brick.bonusYield);
+			%brick.bonusYield = "";
+		}
 
-		%totalYield = getWord(%yield, 0) + getWord(%extraYield, 0) SPC getWord(%yield, 1) + getWord(%extraYield, 1);
-		%brick.bonusYield = "";
+		%extraYield = getRandom(getWord(%extraYield, 0), getWord(%extraYield, 1));
 	}
 
-	%pickedTotal = getRandom(getWord(%totalYield, 0), getWord(%totalYield, 1));
+
+	//spawn harvest + seeds
+	%pickedTotal = getWord(%yield, getRandom(getWordCount(%yield) - 1)) + %toolYield + extraYield;
 
 	%pos = %brick.getPosition();
-	%bg = getBrickgroupFromObject(%brick);
-	if (%bypassTrustRequirement)
-	{
-		%bg = "";
-	}
+	%bg = !%bypassTrustRequirement ? getBrickgroupFromObject(%brick) : "";
 	for (%i = 0; %i < %pickedTotal; %i++)
 	{
 		%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
@@ -125,48 +125,61 @@ function harvestBrick(%brick, %tool, %harvester)
 		%item.setVelocity(%vel);
 	}
 
+	%seedDB = %type @ "SeedItem";
+	if (getRandom() < %seedDropChance)
+	{
+		%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
+		if (%brick.isColliding())
+		{
+			%vel = vectorAdd(%vel, vectorScale(vectorNormalize(getWords(%vel, 0, 1)), 3));
+		}
+
+		%item = new Item(SeedDrop)
+		{
+			dataBlock = %seedDB;
+			harvestedBG = %bg;
+			canVacuum = 1;
+		};
+		%p = new Projectile()
+		{
+			dataBlock = winStarProjectile;
+			initialPosition = %item.getPosition();
+			initialVelocity = "0 0 0";
+		};
+		%p.explode();
+		serverPlay3D(rewardSound, %item.getPosition());
+		MissionCleanup.add(%item);
+		%item.schedule(60 * 1000, schedulePop);
+		%item.setTransform(%pos SPC getRandomRotation());
+		%item.setVelocity(%vel);
+	}
+
+
 	//harvest fx
-	if (%toolType $= "Trowel")
+	if (%toolType $= "Trowel" || %toolType $= "Hoe")
 	{
 		%p = new Projectile()
 		{
 			dataBlock = "FarmingHarvestBelowGroundPlantProjectile";
 			initialVelocity = "0 0 1";
-			initialPosition = VectorSub(%brick.position, "0 0" SPC %brick.getDataBlock().brickSizeZ / 10);
+			initialPosition = VectorSub(%brick.getPosition(), "0 0" SPC %brick.getDataBlock().brickSizeZ * 0.1);
 		};
-		
-		if (isObject(%p))
-		{
-			MissionCleanup.add(%p);
-			%p.explode();
-		}
+		%p.explode();
 	}
-	else
+	else if (%toolType $= "Clipper" || %toolType $= "Sickle")
 	{
 		%p = new Projectile()
 		{
 			dataBlock = "FarmingHarvestAboveGroundPlantProjectile";
 			initialVelocity = "0 0 1";
-			
-			// brick height is in plates, so brick height divided by 5 is brick height in TU
-			// brick height in TU must be divided by half to get the center point, so
-			// height / 5 / 2 == height / 10
-			initialPosition = %brick.position;
+			initialPosition = %brick.getPosition();
 		};
-		
-		if (isObject(%p))
-		{
-			MissionCleanup.add(%p);
-			%p.explode();
-		}
+		%p.explode();
 	}
 
+
 	//change on harvest
-	if (%dieOnHarvest)
-	{
-		%brick.delete();
-	} 
-	else if (%brick.harvestTimes >= %brick.maxHarvestTimes && %brick.maxHarvestTimes !$= "")
+	if (%dieOnHarvest || %harvestCount >= %harvestMax)
 	{
 		%brick.delete();
 	}
@@ -185,14 +198,7 @@ function harvestBrick(%brick, %tool, %harvester)
 		%harvester.client.schedule(150, centerprint, "<color:cc0000>The harvest yielded nothing...", 1);
 	}
 
-	if (getPlantData(%type, %stage, "harvestExperience") > 0)
-	{
-		%expReward = getPlantData(%type, %stage, "harvestExperience");
-	}
-	else
-	{
-		%expReward = getPlantData(%type, "harvestExperience");
-	}
+	%expReward = getWord(%harvestExperience, getRandom(getWordCount(%harvestExperience) - 1));
 	%harvester.client.addExperience(%expReward);
 
 	return 1 SPC %pickedTotal;
