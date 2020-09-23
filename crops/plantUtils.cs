@@ -117,7 +117,7 @@ function fxDTSBrick::setNutrients(%brick, %nit, %pho, %weedKiller)
 
 	if (%nit $= "" || %pho $= "" || %weedKiller $= "")
 	{
-		%nutrients = decodeNutrientName(%brick);
+		%nutrients = decodeNutrientName(%brick.getName());
 		%currNit = getWord(%nutrients, 0);
 		%currPho = getWord(%nutrients, 1);
 		%currWeedKiller = getWord(%nutrients, 2);
