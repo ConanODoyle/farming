@@ -149,6 +149,11 @@ function getPlantLightLevel(%brick)
 	while (%safety++ < 20)
 	{
 		%hit = getWord(%ray, 0);
+		if (!isObject(%hit) || %hit.getGroup().bl_id == 888888)
+		{
+			break;
+		}
+
 		%hitDB = %hit.getDatablock();
 		if (%hitDB.isGreenhouse) //ignore greenhouses
 		{
@@ -156,10 +161,6 @@ function getPlantLightLevel(%brick)
 			%start = getWords(%ray, 1, 3);
 			%ray = containerRaycast(%start, %end, %masks, %hit);
 			continue;
-		}
-		else if (%hit.getGroup().bl_id == 888888 || !isObject(%hit)) //has LOS to sky, exit
-		{
-			break;
 		}
 		else //hit a player brick
 		{
