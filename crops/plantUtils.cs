@@ -174,6 +174,10 @@ function getPlantLightLevel(%brick)
 				%ray = containerRaycast(%start, %end, %masks, %hit);
 				continue;
 			}
+			else
+			{
+				break;
+			}
 		}
 	}
 
