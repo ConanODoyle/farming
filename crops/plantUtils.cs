@@ -389,15 +389,15 @@ function fxDTSBrick::extractNutrients(%brick, %nutrients)
 	%maxNutrients = getPlantData(%type, %stage, "maxNutrients") $= "" ?
 		getPlantData(%type, "maxNutrients") : getPlantData(%type, %stage, "maxNutrients");
 	%brickNutrients = %brick.getNutrients();
-	%space = vectorSub(%maxNutrients, %brickNutrients);
-	if (%space !$= "0 0 0" && strPos(%space, "-") < 0)
+	%space = getWords(vectorSub(%maxNutrients, %brickNutrients), 0, 1);
+	if (%space !$= "0 0" && strPos(%space, "-") < 0)
 	{
 		%nit = getMin(getWord(%nutrients, 0), getWord(%space, 0));
 		%pho = getMin(getWord(%nutrients, 1), getWord(%space, 1));
-		%weedKiller = getWord(%nutrients, 2);
+		%harvestCount = getWord(%brickNutrients, 2);
 
 		%brick.setNutrients(getWord(%brickNutrients, 0) + %nit, getWord(%brickNutrients, 1) + %pho);
-		%nutrients = vectorSub(%nutrients, %nit SPC %pho SPC %weedKiller);
+		%nutrients = vectorSub(%nutrients, %nit SPC %pho SPC %harvestCount);
 	}
 	return %nutrients;
 }
