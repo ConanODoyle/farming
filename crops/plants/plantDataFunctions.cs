@@ -4,7 +4,7 @@ function getPlantData(%type, %stage, %value)
 	{
 		%stage = 0;
 	}
-	else if (stripChars(%stage, "0123456789") $= "")
+	else if (stripChars(%stage, "0123456789") !$= "")
 	{
 		%value = %stage;
 		%stage = 0;
