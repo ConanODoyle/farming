@@ -107,6 +107,21 @@ schedule(100, 0, createDiscordMessageListener);
 
 
 
+function serverCmdToggleDiscordChat(%cl)
+{
+	if (!%cl.isAdmin)
+	{
+		return;
+	}
+
+	$DiscordChatDisabled = !$DiscordChatDisabled;
+	%str = $DiscordChatDisabled ? "\0OFF" : "\c2ON";
+	messageAll('', "\c5Discord chat has been turned " @ %str);
+}
+
+
+
+
 package DiscordListener
 {
 	function serverCmdMessageSent(%cl, %msg)
