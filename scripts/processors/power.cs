@@ -721,13 +721,13 @@ datablock ShapeBaseImageData(ElectricalCableImage)
 	rotation = eulerToMatrix("0 90 0");
 	// eyeOffset = "0 0 0";
 
-	item = "BrickPlacerItem";
+	item = "ElectricalCableItem";
 	armReady = 1;
 
 	doColorshift = true;
 	colorShiftColor = "1 1 1 1";
 
-	toolTip = "Brick-Placement Item";
+	toolTip = "Connects electrical devices";
 	mountPoint = 0;
 
 	stateName[0] = "Activate";
