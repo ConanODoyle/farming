@@ -115,8 +115,8 @@ function serverCmdToggleDiscordChat(%cl)
 	}
 
 	$DiscordChatDisabled = !$DiscordChatDisabled;
-	%str = $DiscordChatDisabled ? "\0OFF" : "\c2ON";
-	messageAll('', "\c5Discord chat has been turned " @ %str);
+	%str = $DiscordChatDisabled ? "\c0OFF" : "\c2ON";
+	messageAll('', "\c4Discord chat has been turned " @ %str);
 }
 
 
