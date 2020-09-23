@@ -5,6 +5,10 @@ function hexToInt(%str)
 	{
 		%result = %result + _singleHexToInt(getSubStr(%str, %i, 1), %len - 1 - %i);
 	}
+	if (%result $= "")
+	{
+		return 0;
+	}
 	return %result;
 }
 
@@ -27,6 +31,10 @@ function intToHex(%num)
 		%c = _singleIntToHex(%num % 16);
 		%ret = %c @ %ret;
 		%num = mFloor(%num / 16);
+	}
+	if (%ret $= "")
+	{
+		return 0;
 	}
 	return %ret;
 }
