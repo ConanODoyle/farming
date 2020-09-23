@@ -28,7 +28,7 @@ datablock fxDTSBrickData(brickPotato2CropData : brickPotato0CropData)
 {
 	uiName = "Potato2";
 
-	brickFile = "./bricks/potato2.blb";
+	brickFile = "./bricks/potato3.blb";
 	stage = 2;
 };
 
@@ -36,7 +36,7 @@ datablock fxDTSBrickData(brickPotato3CropData : brickPotato0CropData)
 {
 	uiName = "Potato3";
 
-	brickFile = "./bricks/potato3.blb";
+	brickFile = "./bricks/potato2.blb";
 	stage = 3;
 };
 
@@ -64,7 +64,7 @@ datablock fxDTSBrickData(brickCarrot2CropData : brickCarrot0CropData)
 {
 	uiName = "Carrot2";
 
-	brickFile = "./bricks/carrot2.blb";
+	brickFile = "./bricks/carrot3.blb";
 	stage = 2;
 };
 
@@ -72,7 +72,7 @@ datablock fxDTSBrickData(brickCarrot3CropData : brickCarrot0CropData)
 {
 	uiName = "Carrot3";
 
-	brickFile = "./bricks/carrot3.blb";
+	brickFile = "./bricks/carrot2.blb";
 	stage = 3;
 };
 
