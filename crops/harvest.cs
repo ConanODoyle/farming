@@ -4,6 +4,11 @@ function harvestBrick(%brick, %tool, %harvester)
 	%db = %brick.getDatablock();
 	%stage = %db.stage;
 	%type = %db.cropType;
+
+	if (!%db.isPlant)
+	{
+		return 0;
+	}
 	
 	%buff = getPlantData(%type, %stage, "toolBuff");
 	%yield = getPlantData(%type, %stage, "yield");
