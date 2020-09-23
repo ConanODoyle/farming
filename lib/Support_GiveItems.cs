@@ -1,5 +1,5 @@
 // item should have the ID of the desired item
-function Player::farmingSetItem(%player, %datablock, %slot) {
+function Player::farmingSetItem(%player, %datablock, %slot, %dataID) {
     if (%player.getDatablock().maxTools <= %slot || %slot == -1) {
         return 0;
     }
@@ -14,6 +14,10 @@ function Player::farmingSetItem(%player, %datablock, %slot) {
     }
 
     %player.tool[%slot] = %datablock;
+    if (%dataID !$= "")
+    {
+        %player.toolDataID[%slot] = %dataID;
+    }
 
     if (isObject(%client = %player.client)) {
         messageClient(%client, 'MsgItemPickup', "", %slot, %datablock);
@@ -37,7 +41,7 @@ function Player::getFirstEmptySlot(%player) {
     return -1;
 }
 
-function farmingItemOverflow(%player, %datablock) {
+function farmingItemOverflow(%player, %datablock, %dataID) {
     %overflowItem = new Item() {
         dataBlock = %datablock;
     };
@@ -46,6 +50,7 @@ function farmingItemOverflow(%player, %datablock) {
     %overflowItem.schedulePop();
     %overflowItem.miniGame = %player.client.miniGame;
     %overflowItem.bl_id = %player.client.bl_id;
+    %overflowItem.dataID = %dataID;
     %overflowItem.setCollisionTimeout(%player);
     if (%dataBlock.doColorShift) {
         %overflowItem.setNodeColor("ALL", %datablock.colorShiftColor);
@@ -53,7 +58,7 @@ function farmingItemOverflow(%player, %datablock) {
     return %overflowItem;
 }
 
-function Player::farmingAddItem(%player, %datablock, %ignoreOverflow) {
+function Player::farmingAddItem(%player, %datablock, %dataID, %ignoreOverflow) {
     if (!isObject(%datablock)) {
         error("ERROR: Datablock" SPC %datablock SPC "is invalid");
         return 0;
@@ -66,13 +71,13 @@ function Player::farmingAddItem(%player, %datablock, %ignoreOverflow) {
     %emptySlot = %player.getFirstEmptySlot();
     if (%emptySlot == -1) {
         if (!%ignoreOverflow) {
-            return farmingItemOverflow(%player, %datablock);
+            return farmingItemOverflow(%player, %datablock, %dataID);
         } else {
             return 0;
         }
     }
 
-    return %player.farmingSetItem(%datablock, %emptySlot);
+    return %player.farmingSetItem(%datablock, %emptySlot, %dataID);
 }
 
 function Player::getFirstStackableSlot(%player, %stackType, %from) {
@@ -91,7 +96,7 @@ function Player::getFirstStackableSlot(%player, %stackType, %from) {
 }
 
 function farmingStackableItemOverflow(%player, %stackType, %count) {
-    %itemDatablock = getItemFromStack(%stackType, %count);
+    %itemDatablock = getStackTypeDatablock(%stackType, %count);
     %overflowItem = farmingItemOverflow(%player, %itemDatablock);
     %overflowItem.count = %count;
     return %overflowItem;
@@ -129,7 +134,7 @@ function Player::farmingAddStackableItem(%player, %datablock, %count, %ignoreOve
             %count = %left;
         }
 
-        %tool = getItemFromStack(%stackType, %player.toolStackCount[%slot]).getID();
+        %tool = getStackTypeDatablock(%stackType, %player.toolStackCount[%slot]).getID();
 
         if (%oldTool != %tool) {
             %player.tool[%slot] = %tool;

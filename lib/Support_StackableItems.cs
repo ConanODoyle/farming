@@ -172,19 +172,6 @@ function stackedCanPickup(%pl, %item)
 	}
 }
 
-function getItemFromStack(%stackType, %count) {
-	%itemCount = $Stackable_[%stackType, "stackedItemTotal"];
-	for (%i = 0; %i < %itemCount; %i++)
-	{
-		%currPair = $Stackable_[%stackType, "stackedItem" @ %i];
-		if (%count <= getWord(%currPair, 1))
-		{
-			return getWord(%currPair, 0);
-		}
-	}
-	return getWord($Stackable_[%stackType, "stackedItem" @ %itemCount - 1], 0);
-}
-
 function pickupStackableItem(%pl, %item, %slot, %amt)
 {
 	if ((%pl.tool[%slot].stackType !$= %item.getDatablock().stackType && isObject(%pl.tool[%slot])) || %item.getDatablock().stackType $= "")
