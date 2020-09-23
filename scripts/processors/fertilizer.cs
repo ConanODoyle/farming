@@ -277,16 +277,7 @@ function fertilizeCrop(%img, %obj, %slot)
 	}
 
 	//some seeds are left, update item if needed
-	for (%i = 0; %i < $Stackable_[%type, "stackedItemTotal"]; %i++)
-	{
-		%currPair = $Stackable_[%type, "stackedItem" @ %i];
-		// talk(%currPair);
-		if (%count <= getWord(%currPair, 1))
-		{
-			%bestItem = getWord(%currPair, 0);
-			break;
-		}
-	}
+	%bestItem = getStackTypeDatablock(%type, %count);
 
 	messageClient(%obj.client, 'MsgItemPickup', '', %slot, %bestItem.getID());
 	%obj.tool[%slot] = %bestItem.getID();
@@ -297,6 +288,81 @@ function fertilizeCrop(%img, %obj, %slot)
 	%type = %item.stackType;
 	%cl = %obj.client;
 	%count = %obj.toolStackCount[%obj.currTool];
+
+	if (isObject(%cl))
+	{
+		%cl.centerprint("<just:right><color:ffff00>-Fertilizer Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+	}
+}
+
+function fertilizeDirt(%img, %obj, %slot)
+{
+	%obj.playThread(0, plant);
+	%cl = %obj.client;
+
+	%start = %obj.getEyePoint();
+	%end = vectorAdd(vectorScale(%obj.getEyeVector(), 4), %start);
+	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
+	%brick = getWord(%ray, 0);
+
+	if (isObject(%brick) && %brick.getDatablock().isPlant)
+	{
+		%brick = %brick.getDownBrick(0);
+	}
+
+	if (!isObject(%brick) || !%brick.getDatablock().isDirt)
+	{
+		return;
+	}
+
+	%brickDB = %brick.getDatablock();
+
+	if (%brickDB.isDirt)
+	{
+		%nutrients = %brick.getNutrients();
+		%nitAdd = %img.fertilizerNitrogen + 0;
+		%phoAdd = %img.fertilizerPhosphate + 0;
+		%weedAdd = %img.fertilizerWeedkiller + 0;
+
+		%finalNutrients = vectorAdd(%nutrients, %nitAdd SPC %phoAdd SPC %weedAdd);
+		%finalNit = getWord(%finalNutrients, 0);
+		%finalPho = getWord(%finalNutrients, 1);
+		if (%finalNit + %finalPho > %brickDB.maxNutrients)
+		{
+			%modFactor = %brickDB.maxNutrients / (%finalNit + %finalPho);
+			%finalNit = mFloor((%finalNit * %modFactor) + 0.5);
+			%finalPho = mFloor((%finalPho * %modFactor) + 0.5);
+		}
+		if (%finalNutrients $= %nutrients)
+		{
+			messageClient(%cl, '', "Nutrients are maxed out!");
+			return;
+		}
+		%brick.setNutrients(%finalNit, %finalPho, getWord(%finalNutrients, 2));
+
+		//increase weed chance on the dirt
+		%brick.fertilizerWeedModifier += 1;
+	}
+
+	//fertilization successful, update item
+
+	%count = %obj.toolStackCount[%obj.currTool]--;
+	%slot = %obj.currTool;
+	%type = %obj.tool[%slot].stackType; //earlier it was set to the croptype of the brick
+	if (%count <= 0) //no more seeds left, clear the item slot
+	{
+		messageClient(%cl, 'MsgItemPickup', '', %slot, 0);
+		%obj.tool[%slot] = "";
+		%obj.unmountImage(%imageSlot);
+		return %b;
+	}
+
+	//some seeds are left, update item if needed
+	%bestItem = getStackTypeDatablock(%type, %count);
+
+	messageClient(%cl, 'MsgItemPickup', '', %slot, %bestItem.getID());
+	%obj.tool[%slot] = %bestItem.getID();
+	%obj.mountImage(%imageSlot, %bestItem.image);
 
 	if (isObject(%cl))
 	{
