@@ -110,7 +110,7 @@ function encodeNutrientName(%nit, %pho, %weedKiller)
 //handles applying given values to the dirt brick provided
 function fxDTSBrick::setNutrients(%brick, %nit, %pho, %weedKiller)
 {
-	if (!%brick.getDatablock().isDirt)
+	if (!%brick.getDatablock().isDirt && !%brick.getDatablock().isPlant)
 	{
 		return;
 	}
