@@ -249,7 +249,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 				%yDiff = mAbs(getWord(%nextPos, 1) - getWord(%pos, 1));
 
 				//calculate next plant's radius
-				%nextPlantRad = (%nextRadius - (%nextInGreenhouse || %nextDirt.getDatablock().isPlanter) * 0.5 - 0.01 + 0.5;
+				%nextPlantRad = (%nextRadius - (%nextInGreenhouse || %nextDirt.getDatablock().isPlanter) * 0.5 - 0.01 + 0.5);
 				if ((%xDiff < %nextRadius && %yDiff < %nextRadius)
 					|| (%xDiff < %plantRad && %yDiff < %plantRad)) //too close to another plant in the area
 				{
