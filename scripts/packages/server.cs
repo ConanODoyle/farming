@@ -106,15 +106,15 @@ function ShippingPackageImage::openPackage(%image, %player, %slot)
     %player.unmountImage(%slot);
 }
 
-function GameConnection::displayPackage(%client, %packageID, %displayRewards) {
+function GameConnection::displayPackage(%client, %packageID) {
     if (!getDataIDArrayValue(%packageID, "isPackage")) {
         %client.centerPrint("<just:right>\c6The package is empty... ", 1);
         return;
     }
 
-    %count = getDataIDArrayCount(%packageID);
+    %arrayCount = getDataIDArrayCount(%packageID);
     %displayString = "<just:right>\c3-Package- \n\c3";
-    for (%i = 0; %i < %count; %i++) {
+    for (%i = 0; %i < %arrayCount; %i++) {
         %reward = getDataIDArrayValue(%packageID, %i);
         %item = getWord(%reward, 0);
         %count = getWord(%reward, 1);
