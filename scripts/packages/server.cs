@@ -237,5 +237,6 @@ function createPackage(%packageID, %player, %pos)
     %item.setCollisionTimeout(%player);
     %item.schedulePop();
     %item.setNodeColor("ALL", ShippingPackageItem.colorShiftColor);
+    %item.setTransform(%pos);
     return %item;
 }
