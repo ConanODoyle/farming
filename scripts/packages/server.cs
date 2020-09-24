@@ -1,4 +1,4 @@
-datablock ItemData(PackageItem)
+datablock ItemData(ShippingPackageItem)
 {
     category = "Item";
     className = "Item";
@@ -16,14 +16,14 @@ datablock ItemData(PackageItem)
     doColorShift = true;
     colorShiftColor = "0.71 0.56 0.38 1";
 
-    image = PackageImage;
+    image = ShippingPackageImage;
     canDrop = true;
 
     hasDataID = true;
     canPickupMultiple = true;
 };
 
-datablock ShapeBaseImageData(PackageImage)
+datablock ShapeBaseImageData(ShippingPackageImage)
 {
     shapeFile = "./resources/Package.dts";
     emap = true;
@@ -31,12 +31,12 @@ datablock ShapeBaseImageData(PackageImage)
     mountPoint = 0;
     offset = "-0.56 0.1 -0.155";
 
-    item = PackageItem;
+    item = ShippingPackageItem;
 
     armReady = true;
 
-    doColorShift = PackageItem.doColorShift;
-    colorShiftColor = PackageItem.colorShiftColor;
+    doColorShift = ShippingPackageItem.doColorShift;
+    colorShiftColor = ShippingPackageItem.colorShiftColor;
 
     toolTip = "Click to open package";
 
@@ -67,12 +67,12 @@ datablock ShapeBaseImageData(PackageImage)
     stateScript[4] = "openPackage";
 };
 
-function PackageImage::onMount(%image, %player, %slot)
+function ShippingPackageImage::onMount(%image, %player, %slot)
 {
     %player.playThread(1, armReadyBoth);   
 }
 
-function PackageImage::onUnMount(%image, %player, %slot)
+function ShippingPackageImage::onUnMount(%image, %player, %slot)
 {
     %client = %player.client;
     if (isObject(%client))
@@ -81,7 +81,7 @@ function PackageImage::onUnMount(%image, %player, %slot)
     }
 }
 
-function PackageImage::displayPackage(%image, %player, %slot)
+function ShippingPackageImage::displayPackage(%image, %player, %slot)
 {
     %client = %player.client;
     %itemSlot = %player.currTool;
@@ -94,7 +94,7 @@ function PackageImage::displayPackage(%image, %player, %slot)
     %client.displayPackage(%player.toolDataID[%itemSlot], %player.PackageDisplayMode);
 }
 
-function PackageImage::openPackage(%image, %player, %slot)
+function ShippingPackageImage::openPackage(%image, %player, %slot)
 {
     %player.playThread(0, "plant");
     serverPlay3D(brickChangeSound, %player.getHackPosition());
@@ -191,7 +191,7 @@ function createPackageArray(%packageID, %o0, %o1, %o2, %o3, %o4, %o5, %o6, %o7, 
         else
         {
             setDataIDArrayValue(%packageID, %count, %o[%i]);
-            count++;
+            %count++;
         }
     }
 
@@ -214,7 +214,7 @@ function addToPackageArray(%packageID, %o)
     else
     {
         setDataIDArrayValue(%packageID, %count, %o[%i]);
-        count++;
+        %count++;
     }
 
     return %packageID;
@@ -228,7 +228,7 @@ function createPackage(%packageID, %player, %pos)
     }
 
     %item = new Item() {
-        dataBlock = PackageItem;
+        dataBlock = ShippingPackageItem;
         bl_id = %player.client.bl_id;
         dataID = %packageID;
         miniGame = %player.client.minigame;
@@ -236,6 +236,6 @@ function createPackage(%packageID, %player, %pos)
     MissionCleanup.add(%item);
     %item.setCollisionTimeout(%player);
     %item.schedulePop();
-    %item.setNodeColor("ALL", PackageItem.colorShiftColor);
+    %item.setNodeColor("ALL", ShippingPackageItem.colorShiftColor);
     return %item;
 }
