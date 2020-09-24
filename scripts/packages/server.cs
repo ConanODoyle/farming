@@ -185,9 +185,9 @@ function createPackage(%packageID, %o0, %o1, %o2, %o3, %o4, %o5, %o6, %o7, %o8, 
         {
             continue;
         }
-        else if ((%str = getField(%o[%i], 0)) $= "cashReward" || %str $= "score")
+        else if ((%str = getWord(%o[%i], 0)) $= "cashReward" || %str $= "score")
         {
-            setDataIDArrayTagValue(%packageID, "cashReward", getField(%o[%i], 1));
+            setDataIDArrayTagValue(%packageID, "cashReward", getWord(%o[%i], 1));
         }
         setDataIDArrayValue(%packageID, %count, %o[%i]);
         count++;
