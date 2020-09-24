@@ -182,9 +182,16 @@ function GameConnection::completeQuest(%client, %questID) {
 		if (%item.isStackable) {
 			%player.farmingAddStackableItem(%item, %count);
 		} else {
-			for (%j = 0; %j < %count; %j++) {
-				%player.farmingAddItem(%item);
-			}
+            if (%item.hasDataID) //dataid item
+            {
+                %player.farmingAddItem(%item, %count); 
+            }
+            else //possibly multiple normal items
+            {
+                for (%j = 0; %j < %count; %j++) { 
+                    %player.farmingAddItem(%item);
+                }
+            }
 		}
 	}
 
