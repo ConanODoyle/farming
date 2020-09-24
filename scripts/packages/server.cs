@@ -13,7 +13,7 @@ datablock ItemData(PackageItem)
 
     uiName = "Package Slip";
     iconName = "";
-    doColorShift = false;
+    doColorShift = true;
     colorShiftColor = "0.71 0.56 0.38 1";
 
     image = PackageImage;
@@ -169,12 +169,11 @@ function openPackage(%packageID, %player)
     deleteDataIDArray(%packageID);
 }
 
-function createPackage(%packageID, %o0, %o1, %o2, %o3, %o4, %o5, %o6, %o7, %o8, %o9, %o10, %o11, %o12)
+function createPackageArray(%packageID, %o0, %o1, %o2, %o3, %o4, %o5, %o6, %o7, %o8, %o9, %o10, %o11, %o12)
 {
     if (%packageID $= "")
     {
-        talk("ERROR: createPackage - packageID is empty!");
-        return;
+        %packageID = "Package_" @ getRandomHash("package");
     }
     setDataIDArrayTagValue(%packageID, "isPackage", 1);
 
@@ -189,9 +188,54 @@ function createPackage(%packageID, %o0, %o1, %o2, %o3, %o4, %o5, %o6, %o7, %o8, 
         {
             setDataIDArrayTagValue(%packageID, "cashReward", getWord(%o[%i], 1));
         }
+        else
+        {
+            setDataIDArrayValue(%packageID, %count, %o[%i]);
+            count++;
+        }
+    }
+
+    return %packageID;
+}
+
+function addToPackageArray(%packageID, %o)
+{
+    if (%packageID $= "")
+    {
+        %packageID = "Package_" @ getRandomHash("package");
+    }
+    setDataIDArrayTagValue(%packageID, "isPackage", 1);
+
+    %count = getDataIDArrayCount(%packageID);
+    if ((%str = getWord(%o, 0)) $= "cashReward" || %str $= "score")
+    {
+        setDataIDArrayTagValue(%packageID, "cashReward", getWord(%o[%i], 1));
+    }
+    else
+    {
         setDataIDArrayValue(%packageID, %count, %o[%i]);
         count++;
     }
 
     return %packageID;
+}
+
+function createPackage(%packageID, %player, %pos)
+{
+    if (%pos $= "" && isObject(%player))
+    {
+        %pos = %player.getTransform();
+    }
+
+    %item = new Item() {
+        dataBlock = PackageItem;
+        bl_id = %player.client.bl_id;
+        dataID = %packageID;
+        miniGame = %player.client.minigame;
+    };
+    MissionCleanup.add(%item);
+    %item.setCollisionTimeout(%player);
+    %item.schedulePop();
+    %item.setNodeColor("ALL", PackageItem.colorShiftColor);
+    return %item;
 }
