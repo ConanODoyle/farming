@@ -11,7 +11,7 @@ datablock ItemData(ShippingPackageItem)
     friction = 0.6;
     emap = true;
 
-    uiName = "Package Slip";
+    uiName = "Package";
     iconName = "";
     doColorShift = true;
     colorShiftColor = "0.71 0.56 0.38 1";
@@ -29,7 +29,7 @@ datablock ShapeBaseImageData(ShippingPackageImage)
     emap = true;
 
     mountPoint = 0;
-    offset = "-0.56 0.1 -0.155";
+    offset = "-0.53 0.1 -0.155";
 
     item = ShippingPackageItem;
 
@@ -106,7 +106,7 @@ function ShippingPackageImage::openPackage(%image, %player, %slot)
     %player.unmountImage(%slot);
 }
 
-function GameConnection::displayQuest(%client, %packageID, %displayRewards) {
+function GameConnection::displayPackage(%client, %packageID, %displayRewards) {
     if (!getDataIDArrayValue(%packageID, "isPackage")) {
         %client.centerPrint("<just:right>\c6The package is empty... ", 1);
         return;
