@@ -402,7 +402,7 @@ function fxDTSBrick::extractNutrients(%brick, %nutrients)
 		%harvestCount = getWord(%brickNutrients, 2);
 
 		%brick.setNutrients(getWord(%brickNutrients, 0) + %nit, getWord(%brickNutrients, 1) + %pho);
-		%nutrients = vectorSub(%nutrients, %nit SPC %pho SPC %harvestCount);
+		%nutrients = vectorSub(%nutrients, %nit SPC %pho SPC 0);
 	}
 	return %nutrients;
 }
@@ -425,14 +425,24 @@ function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light, %weather)
 	//bigger difference between provided light and required -> bigger time
 	//requiredLight = light level expected
 	//lightAdjustTime = base time value, multiplied against difference between light and required light
-	%requiredLight = getPlantData(%type, "requiredLightLevel") $= "" ? 1 : getPlantData(%type, "requiredLightLevel");
+	if (getPlantData(%type, "requiredLightLevel") $= "")
+	{
+		%requiredLight = 1;
+	}
+	else
+	{
+		%requiredLight = getPlantData(%type, "requiredLightLevel");
+	}
 	%lightAdjustTime = getPlantData(%type, "lightTimeModifier") $= "" ? %tickTime : getPlantData(%type, "lightTimeModifier");
 	%lightModifier = mAbs(%light - %requiredLight) * %lightAdjustTime;
 
 	//nitrogen/phosphate growth time factor
-	%nit = getWord(%nutrients, 0);
-	%pho = getWord(%nutrients, 1);
-	%nutrientModifier = eval("%nit=" @ %nit @ ";%pho=" @ %pho @ ";return " @ %nutrientTimeModifier @ ";");
+	%nit = getWord(%nutrients, 0) + 0;
+	%pho = getWord(%nutrients, 1) + 0;
+	if (%nutrientTimeModifier !$= "")
+	{
+		%nutrientModifier = eval("%nit=" @ %nit @ ";%pho=" @ %pho @ ";return " @ %nutrientTimeModifier @ ";");
+	}
 
 	%multi = 1;
 	if (%isRaining) //raining

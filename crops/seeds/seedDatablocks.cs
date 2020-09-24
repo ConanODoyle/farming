@@ -250,7 +250,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 
 				//calculate next plant's radius
 				%nextPlantRad = (%nextRadius - (%nextInGreenhouse || %nextDirt.getDatablock().isPlanter) * 0.5 - 0.01 + 0.5);
-				if ((%xDiff < %nextRadius && %yDiff < %nextRadius)
+				if ((%xDiff < %nextPlantRad && %yDiff < %nextPlantRad)
 					|| (%xDiff < %plantRad && %yDiff < %plantRad)) //too close to another plant in the area
 				{
 					%obj.client.centerprint("Too close to a nearby " @ %nextType @ "!", 1);

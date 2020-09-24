@@ -186,6 +186,12 @@ function harvestBrick(%brick, %tool, %harvester)
 
 
 	//change on harvest
+	if (%harvestMax > 0 && !isObject(%changeOnHarvest))
+	{
+		%name = stripChars(%brick.getDatablock().getName(), "0123456789");
+		%name = getSubStr(%name, 0, strPos(strLwr(%name), "cropdata"));
+		%changeOnHarvest = %name @ "0CropData";
+	}
 	%totalHarvestCount++;
 	if (%dieOnHarvest || %totalHarvestCount >= %harvestMax)
 	{
