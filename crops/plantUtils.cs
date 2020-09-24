@@ -283,6 +283,7 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 				%brick.setDatablock(%dryGrow);
 				%brick.dryTicks = 0;
 				%brick.wetTicks = 0;
+				%brick.setNutrients(0, 0);
 				%growth = 1;
 			}
 			else if (%killOnDryGrow)
@@ -307,8 +308,9 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 			if (isObject(%wetGrow) && strPos(%nutrientDiff, "-") < 0)
 			{
 				%brick.setDatablock(%wetGrow);
+				%brick.dryTicks = 0;
 				%brick.wetTicks = 0;
-				%brick.wetTicks = 0;
+				%brick.setNutrients(0, 0);
 				%growth = 1;
 			}
 			else if (%killOnWetGrow)
