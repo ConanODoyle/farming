@@ -12,11 +12,11 @@ package fixSchedulePop
 		if (%obj.getDataBlock().doColorShift)
 		{
 			%color = getWords(%obj.getDataBlock().colorShiftColor, 0, 2);
-			%obj.schedule($Game::Item::PopTime - 1000.0, "schedulePopLoop", %color, 0.5);
+			%obj.schedule($Game::Item::PopTime - 1000.0, "schedulePopLoop", %color, 1);
 		}
 		else
 		{
-			%obj.schedule($Game::Item::PopTime - 1000.0, "schedulePopLoop", "1 1 1",  0.5);
+			%obj.schedule($Game::Item::PopTime - 1000.0, "schedulePopLoop", "1 1 1",  1);
 		}
 		if (isObject(%oldQuotaObject))
 		{
