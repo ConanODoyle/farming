@@ -4,52 +4,60 @@ package fixSchedulePop
 	function Item::schedulePop(%obj)
 	{
 		%oldQuotaObject = getCurrentQuotaObject();
-
 		if (isObject(%oldQuotaObject))
 		{
 			clearCurrentQuotaObject();
 		}
-
-		cancel(%obj.schedulePopSchedule);
-		if (%obj.getDataBlock().isStackable)
+		%obj.schedule($Game::Item::PopTime - 1000.0, "startFade", 1000, 0, 1);
+		if (%obj.getDataBlock().doColorShift)
 		{
-			%obj.schedulePopSchedule = %obj.schedule($Game::Item::PopTime - 1000 + $stackableItemExtraPopTime, schedulePopDelete);
+			%color = getWords(%obj.getDataBlock().colorShiftColor, 0, 2);
+			%obj.schedule($Game::Item::PopTime - 1000.0, "schedulePopLoop", %color, 0.5);
 		}
 		else
 		{
-			%obj.schedulePopSchedule = %obj.schedule($Game::Item::PopTime - 1000, schedulePopDelete);
+			%obj.schedule($Game::Item::PopTime - 1000.0, "schedulePopLoop", "1 1 1",  0.5);
 		}
-
 		if (isObject(%oldQuotaObject))
 		{
-			setCurrentQuotaObject (%oldQuotaObject);
+			setCurrentQuotaObject(%oldQuotaObject);
 		}
 	}
 };
 activatePackage(fixSchedulePop);
 
-function Item::schedulePopDelete(%obj)
+function Item::schedulePop(%obj)
 {
-	%obj.startFade(1000, 0, 1);
-
+	%oldQuotaObject = getCurrentQuotaObject();
+	if (isObject(%oldQuotaObject))
+	{
+		clearCurrentQuotaObject();
+	}
+	%obj.schedule($Game::Item::PopTime - 1000.0, "startFade", 1000, 0, 1);
 	if (%obj.getDataBlock().doColorShift)
 	{
-		%color = getWords (%obj.getDataBlock().colorShiftColor, 0, 2);
-
-		%obj.schedule(0, "setNodeColor", "ALL", %color  SPC 0.5);
-		%obj.schedule(200,  "setNodeColor", "ALL", %color  SPC 0.4);
-		%obj.schedule(400,  "setNodeColor", "ALL", %color  SPC 0.3);
-		%obj.schedule(600,  "setNodeColor", "ALL", %color  SPC 0.2);
-		%obj.schedule(800,  "setNodeColor", "ALL", %color  SPC 0.1);
+		%color = getWords(%obj.getDataBlock().colorShiftColor, 0, 2);
+		%obj.schedule($Game::Item::PopTime - 1000.0, "schedulePopLoop", %color, 0.5);
 	}
 	else
 	{
-		%obj.schedule(0, "setNodeColor", "ALL", "1 1 1 0.5");
-		%obj.schedule(200,  "setNodeColor", "ALL", "1 1 1 0.4");
-		%obj.schedule(400,  "setNodeColor", "ALL", "1 1 1 0.3");
-		%obj.schedule(600,  "setNodeColor", "ALL", "1 1 1 0.2");
-		%obj.schedule(800,  "setNodeColor", "ALL", "1 1 1 0.1");
+		%obj.schedule($Game::Item::PopTime - 1000.0, "schedulePopLoop", "1 1 1",  0.5);
+	}
+	if (isObject(%oldQuotaObject))
+	{
+		setCurrentQuotaObject(%oldQuotaObject);
+	}
+}
+
+function Item::schedulePopLoop(%obj, %color, %transparency)
+{
+	%obj.startFade(1000, 0, 1);
+	if (%transparency < 0.05)
+	{
+		%obj.delete();
+		return;
 	}
 
-	%obj.schedule(1000, "delete");
+	%obj.setNodeColor("ALL", %color SPC %transparency);
+	%obj.schedule(40, schedulePopLoop, %color, %transparency - 0.02);
 }
