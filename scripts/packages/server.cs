@@ -99,7 +99,7 @@ function ShippingPackageImage::openPackage(%image, %player, %slot)
     %player.playThread(0, "plant");
     serverPlay3D(brickChangeSound, %player.getHackPosition());
 
-    openPackage(%player.toolDataID[%player.currTool]);
+    openPackage(%player.toolDataID[%player.currTool], %player);
 
     %player.tool[%player.currTool] = 0;
     messageClient(%player.client, 'MsgItemPickup', "", %player.currTool, 0);
@@ -117,7 +117,7 @@ function GameConnection::displayPackage(%client, %packageID) {
     for (%i = 0; %i < %arrayCount; %i++) {
         %reward = getDataIDArrayValue(%packageID, %i);
         %item = getWord(%reward, 0);
-        %count = getWord(%reward, 1);
+        %count = getSubStr(getWord(%reward, 1), 0, 5);
 
         %displayString = %displayString @ %item.uiName @ "\c6: " @ %count @ " \n\c3";
     }
