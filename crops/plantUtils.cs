@@ -471,7 +471,7 @@ function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light, %weather)
 
 
 
-// Dirt status viewing
+// Dirt and plant status analyzing
 package DirtStatus
 {
 	function Player::activateStuff(%obj)
@@ -486,10 +486,14 @@ package DirtStatus
 				%waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
 				%string = "Water Level: " @ %waterLevel;
 				%nutrients = %hit.getNutrients();
-				%string = %string @ " \nNutrients: " @ getWord(%nutrients, 0) @ "n/" @ getWord(%nutrients, 1) @ "p";
-				%string = %string @ " \nMax Nutrients: " @ (%hit.getDatablock().maxNutrients + 0);
-				%string = %string @ " \nWeedkiller: " @ getWord(%nutrients, 2) @ "/"
-					@ %hit.getDatablock().maxWeedkiller @ " ";
+				if (getWord(%nutrients, 0) > 0 || getWord(%nutrients, 1) > 0)
+				{
+					%str = %str @ " \nHas nutrients";
+				}
+				if (getWord(%nutrients, 2) > 0)
+				{
+					%str = %str @ " \nHas weedkiller";
+				}
 
 				%cl.centerprint("<just:right><color:ffffff>" @ %string, 1);
 				%cl.schedule(50, centerprint, "<just:right><color:cccccc>" @ %string, 2);
@@ -500,3 +504,70 @@ package DirtStatus
 	}
 };
 activatePackage(DirtStatus);
+
+datablock ItemData(OrganicAnalyzerItem : HammerItem)
+{
+	shapeFile = "./tools/organicanalyzer.dts";
+	uiName = "Organic Analyzer";
+	image = "OrganicAnalyzerImage";
+	iconName = "Add-ons/Server_Farming/crops/icons/organic_analyzer";
+	doColorShift = false;
+};
+
+datablock ShapeBaseImageData(OrganicAnalyzerImage)
+{
+	shapeFile = "./tools/organicanalyzer.dts";
+	emap = true;
+
+	doColorShift = true;
+	colorShiftColor = CompostBag0Item.colorShiftColor;
+
+	item = "CompostBag0Item";
+
+	armReady = 1;
+
+	rotation = eulerToMatrix("0 0 90");
+
+	toolTip = "Displays dirt and crop information";
+
+	stateName[0] = "Activate";
+	stateTransitionOnTimeout[0] = "LoopA";
+	stateTimeoutValue[0] = 0.1;
+
+	stateName[1] = "LoopA";
+	stateScript[1] = "onLoop";
+	stateTransitionOnTriggerDown[1] = "Fire";
+	stateTimeoutValue[1] = 0.1;
+	stateTransitionOnTimeout[1] = "LoopB";
+
+	stateName[2] = "LoopB";
+	stateScript[2] = "onLoop";
+	stateTransitionOnTriggerDown[2] = "Fire";
+	stateTimeoutValue[2] = 0.1;
+	stateTransitionOnTimeout[2] = "LoopA";
+};
+
+function OrganicAnalyzerImage::onLoop(%this, %obj, %slot)
+{
+	%start = %obj.getEyeTransform();
+	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
+	%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
+
+	if (isObject(%hit))
+	{
+		%db = %hit.getDatablock();
+		if (%db.isDirt)
+		{
+			%waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
+			%string = "Water Level: " @ %waterLevel;
+			%nutrients = %hit.getNutrients();
+			%string = %string @ " \nNutrients: " @ getWord(%nutrients, 0) @ "n/" @ getWord(%nutrients, 1) @ "p";
+			%string = %string @ " \nMax Nutrients: " @ (%hit.getDatablock().maxNutrients + 0);
+			%string = %string @ " \nWeedkiller: " @ getWord(%nutrients, 2) @ "/"
+				@ %hit.getDatablock().maxWeedkiller @ " ";
+			
+			%cl.centerprint("<just:right><color:ffffff>" @ %string, 1);
+			%cl.schedule(50, centerprint, "<just:right><color:cccccc>" @ %string, 2);
+		}
+	}
+}
