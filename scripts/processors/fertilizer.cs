@@ -327,21 +327,27 @@ function fertilizeDirt(%img, %obj, %slot)
 		%finalNutrients = vectorAdd(%nutrients, %nitAdd SPC %phoAdd SPC %weedAdd);
 		%finalNit = getWord(%finalNutrients, 0);
 		%finalPho = getWord(%finalNutrients, 1);
+		%finalWeedkiller = getWord(%finalNutrients, 2);
 		if (%finalNit + %finalPho > %brickDB.maxNutrients)
 		{
 			%modFactor = %brickDB.maxNutrients / (%finalNit + %finalPho);
 			%finalNit = mFloor((%finalNit * %modFactor) + 0.5);
 			%finalPho = mFloor((%finalPho * %modFactor) + 0.5);
 		}
+		if (%finalWeedkiller > %brickDB.maxWeedkiller)
+		{
+			%finalWeedkiller = %brickDB.maxWeedkiller;
+		}
+		%finalNutrients = %finalNit SPC %finalPho SPC %finalWeedkiller;
 		if (%finalNutrients $= %nutrients)
 		{
 			messageClient(%cl, '', "Nutrients are maxed out!");
 			return;
 		}
-		%brick.setNutrients(%finalNit, %finalPho, getWord(%finalNutrients, 2));
+		%brick.setNutrients(%finalNit, %finalPho, %finalWeedkiller);
 
 		//increase weed chance on the dirt
-		%brick.fertilizerWeedModifier += 1;
+		// %brick.fertilizerWeedModifier += 1;
 	}
 
 	//fertilization successful, update item

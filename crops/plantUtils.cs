@@ -4,6 +4,8 @@
 ///////////
 
 
+
+
 //Math utility functions
 //returns average gained seeds per seed given total harvestcount and drop probability
 function getAverageExtraSeedsPerSeed(%harvestCount, %dropProb)
@@ -29,6 +31,8 @@ function getSeedsPerSeed(%harvestCount, %dropProb)
 	%amt = getAverageExtraSeedsPerSeed(%harvestCount, %dropProb);
 	return (1 / %amt) / (1 / %amt - 1);
 }
+
+
 
 
 // Resource functions
@@ -93,7 +97,7 @@ function decodeNutrientName(%string)
 		}
 	}
 
-	return %nit SPC %pho SPC %weedKiller;
+	return (%nit + 0) SPC (%pho + 0) SPC (%weedKiller + 0);
 }
 
 //encodes dirt nutrients into a brickname
@@ -343,7 +347,7 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 		%p = new Projectile()
 		{
 			dataBlock = "deathProjectile";
-    		scale = "0.2 0.2 0.2";
+			scale = "0.2 0.2 0.2";
 			initialVelocity = "0 0 -10";
 			initialPosition = %brick.position;
 		};
@@ -463,3 +467,36 @@ function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light, %weather)
 	//lowest value is 1 second to prevent infinite recursion/fast plant checks
 	return getMax(1, (%tickTime + %lightModifier + %nutrientModifier + %weedTimeModifier) * %multi);
 }
+
+
+
+
+// Dirt status viewing
+package DirtStatus
+{
+	function Player::activateStuff(%obj)
+	{
+		if (isObject(%cl = %obj.client))
+		{
+			%start = %obj.getEyeTransform();
+			%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
+			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
+			if (isObject(%hit) && ((%db = %hit.getDatablock()).isDirt || %db.isWaterTank))
+			{
+				%waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
+				%string = "Water Level: " @ %waterLevel;
+				%nutrients = %hit.getNutrients();
+				%string = %string @ " \nNutrients: " @ getWord(%nutrients, 0) @ "n/" @ getWord(%nutrients, 1) @ "p";
+				%string = %string @ " \nMax Nutrients: " @ (%hit.getDatablock().maxNutrients + 0);
+				%string = %string @ " \nWeedkiller: " @ getWord(%nutrients, 2) @ "/"
+					@ %hit.getDatablock().maxWeedkiller @ " ";
+
+				%cl.centerprint("<just:right><color:ffffff>" @ %string, 1);
+				%cl.schedule(50, centerprint, "<just:right><color:cccccc>" @ %string, 2);
+			}
+		}
+
+		return parent::activateStuff(%obj);
+	}
+};
+activatePackage(DirtStatus);

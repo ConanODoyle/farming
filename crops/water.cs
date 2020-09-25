@@ -341,36 +341,7 @@ function serverCmdTopCombo(%cl)
 	%cl.chatmessage("\c6<bitmap:base/client/ui/ci/star> The longest watering combo is \c3" @ $Pref::Server::maxWaterCombo @ "\c6!");
 }
 
-package ClickToSeeWater
-{
-    function Player::activateStuff(%obj)
-    {
-        if (isObject(%cl = %obj.client))
-        {
-            %start = %obj.getEyeTransform();
-            %end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
-            %hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
-            if (isObject(%hit) && ((%db = %hit.getDatablock()).isDirt || %db.isWaterTank))
-            {
-            //  %waterLevel = mCeil(%hit.waterLevel / %hit.getDatablock().maxWater * 100) @ "%";
-                %waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
-                %weedKillerTime = %hit.weedImmunityExpires - $Sim::Time;
-                if (%weedKillerTime > 0)
-                {
-                    %weedKillerStr = "<br><color:ffffff>Weedkill time: " @ convTime(%weedKillerTime);
-                    %weedKillerEndStr = "<br><color:cccccc>Weedkill time: " @ convTime(%weedKillerTime);
-                }
-                %cl.centerprint("<just:right><color:ffffff>Water Level: " @ %waterLevel @ " " @ %weedKillerStr, 1);
-                %cl.schedule(50, centerprint, "<just:right><color:cccccc>Water Level: " @ %waterLevel @ " " @ %weedKillerEndStr, 1);
-            }
-        }
-
-        return parent::activateStuff(%obj);
-    }
-};
-activatePackage(ClickToSeeWater);
-
-package dirtWaterLevel
+package DirtWaterColor
 {
 	function fxDTSBrick::onAdd(%obj)
 	{
@@ -391,4 +362,4 @@ package dirtWaterLevel
 		parent::setColor(%obj, %color);
 	}
 };
-activatePackage(dirtWaterLevel);
+activatePackage(DirtWaterColor);
