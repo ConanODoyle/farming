@@ -10,16 +10,8 @@ datablock ItemData(PortobelloItem : HammerItem)
 	image = "";
 	doColorShift = false;
 
-	alt = PortobelloFaceItem;
-
 	isStackable = 1;
 	stackType = "Portobello";
-};
-
-datablock ItemData(PortobelloFaceItem : PortobelloItem)
-{
-	shapeFile = "./PortobelloFace.dts";
-	uiName = "";
 };
 
 datablock ItemData(PortobelloBasket0Item : HammerItem)
