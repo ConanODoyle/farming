@@ -457,6 +457,9 @@ function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light, %weather)
 		%multi = %multi * %heatTimeMod;
 	}
 
+	//weed growth factor
+	%weedTimeModifier = getWeedTimeModifier(%brick);
+
 	//lowest value is 1 second to prevent infinite recursion/fast plant checks
-	return getMax(1, (%tickTime + %lightModifier + %nutrientModifier) * %multi);
+	return getMax(1, (%tickTime + %lightModifier + %nutrientModifier + %weedTimeModifier) * %multi);
 }

@@ -152,6 +152,11 @@ function fxDTSBrick::runGrowthTick(%brick)
 	{
 		return 0;
 	}
+	else if (%db.isWeed && %brick.nextWeedVictimSearch < $Sim::Time)
+	{
+		weedVictimSearch(%brick);
+		%brick.nextWeedVictimSearch = $Sim::Time + 10;
+	}
 
 	%dirtList = %brick.getDirtWater();
 	%dirt = getWord(%dirtList, 0);
