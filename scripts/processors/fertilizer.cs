@@ -841,10 +841,6 @@ datablock ShapeBaseImageData(CompostBag0Image)
 
 	fertilizerNitrogen = 2;
 
-	bonusGrowTicks = 0; //bonus grow tick per use (does not consume water)
-	bonusGrowTime = 10; //reduction in seconds to next grow tick
-	shinyChance = 0.004;
-
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";
 	stateTimeoutValue[0] = 0.1;
@@ -992,10 +988,6 @@ datablock ShapeBaseImageData(PhosphateBag0Image)
 	toolTip = "Add 5 phosphate to soil";
 
 	fertilizerPhosphate = 5;
-
-	bonusGrowTicks = 0; //bonus grow tick per use (does not consume water)
-	bonusGrowTime = 10; //reduction in seconds to next grow tick
-	shinyChance = 0.004;
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";
