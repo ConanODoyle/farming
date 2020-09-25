@@ -1,3 +1,24 @@
+//Phosphate bag information set in /scripts/processors/fertilizer.cs
+
+datablock ItemData(PhosphateItem : HammerItem)
+{
+	shapeFile = "./resources/rocks.dts";
+	uiName = "Phosphate";
+	image = "";
+	doColorShift = true;
+	colorShiftColor = "0.54 0.48 0.42 1";
+
+	isStackable = 1;
+	stackType = "Phosphate";
+};
+
+
+
+
+
+
+
+
 $Stackable_Coal_StackedItem0 = "CoalBasket0Item 4";
 $Stackable_Coal_StackedItem1 = "CoalBasket1Item 8";
 $Stackable_Coal_StackedItem2 = "CoalBasket2Item 12";

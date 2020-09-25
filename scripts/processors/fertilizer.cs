@@ -654,9 +654,9 @@ function LargeCompostBinBrickImage::onFire(%this, %obj, %slot)
 //Item//
 ////////
 
-$Stackable_Fertilizer_StackedItem0 = "FertilizerBag0Item 40";
-$Stackable_Fertilizer_StackedItem1 = "FertilizerBag1Item 80";
-$Stackable_Fertilizer_StackedItem2 = "FertilizerBag2Item 120";
+$Stackable_Fertilizer_StackedItem0 = "FertilizerBag0Item 20";
+$Stackable_Fertilizer_StackedItem1 = "FertilizerBag1Item 40";
+$Stackable_Fertilizer_StackedItem2 = "FertilizerBag2Item 80";
 $Stackable_Fertilizer_StackedItemTotal = 3;
 
 datablock ItemData(FertilizerBag0Item : HammerItem)
@@ -794,5 +794,309 @@ function fertilizerLoop(%image, %obj)
 	if (isObject(%cl))
 	{
 		%cl.centerprint("<just:right><color:ffff00>-Fertilizer Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+	}
+}
+
+
+
+
+
+
+
+
+$Stackable_Compost_StackedItem0 = "CompostBag0Item 20";
+$Stackable_Compost_StackedItem1 = "CompostBag1Item 40";
+$Stackable_Compost_StackedItem2 = "CompostBag2Item 80";
+$Stackable_Compost_StackedItemTotal = 3;
+
+datablock ItemData(CompostBag0Item : HammerItem)
+{
+	shapeFile = "./resources/Compost/CompostBag0.dts";
+	uiName = "Compost Bag";
+	image = "CompostBag0Image";
+	colorShiftColor = "0.73 0.53 0.25 1";
+	doColorShift = true;
+
+	iconName = "Add-ons/Server_Farming/crops/icons/Compost_Bag";
+
+	isStackable = 1;
+	stackType = "Compost";
+};
+
+datablock ShapeBaseImageData(CompostBag0Image)
+{
+	shapeFile = "./resources/Compost/CompostBag0.dts";
+	emap = true;
+
+	doColorShift = true;
+	colorShiftColor = CompostBag0Item.colorShiftColor;
+
+	item = "CompostBag0Item";
+
+	armReady = 1;
+
+	offset = "-0.1 0.3 -0.1";
+
+	toolTip = "Add 2 nitrogen to soil";
+
+	fertilizerNitrogen = 2;
+
+	bonusGrowTicks = 0; //bonus grow tick per use (does not consume water)
+	bonusGrowTime = 10; //reduction in seconds to next grow tick
+	shinyChance = 0.004;
+
+	stateName[0] = "Activate";
+	stateTransitionOnTimeout[0] = "LoopA";
+	stateTimeoutValue[0] = 0.1;
+
+	stateName[1] = "LoopA";
+	stateScript[1] = "onLoop";
+	stateTransitionOnTriggerDown[1] = "Fire";
+	stateTimeoutValue[1] = 0.1;
+	stateTransitionOnTimeout[1] = "LoopB";
+
+	stateName[2] = "LoopB";
+	stateScript[2] = "onLoop";
+	stateTransitionOnTriggerDown[2] = "Fire";
+	stateTimeoutValue[2] = 0.1;
+	stateTransitionOnTimeout[2] = "LoopA";
+
+	stateName[3] = "Fire";
+	stateScript[3] = "onFire";
+	stateTransitionOnTriggerUp[3] = "LoopA";
+	stateTransitionOnTimeout[3]	= "LoopA";
+	stateTimeoutValue[3] = 0.2;
+	stateWaitForTimeout[3] = true;
+};
+
+datablock ItemData(CompostBag1Item : CompostBag0Item)
+{
+	shapeFile = "./resources/Compost/CompostBag1.dts";
+	image = "CompostBag1Image";
+	uiName = "Half Compost Bag";
+
+	iconName = "Add-ons/Server_Farming/crops/icons/Compost_Bag_Half";
+};
+
+datablock ShapeBaseImageData(CompostBag1Image : CompostBag0Image)
+{
+	shapeFile = "./resources/Compost/CompostBag1.dts";
+	item = "CompostBag1Item";
+
+	offset = "-0.05 0.3 -0.3";
+};
+
+datablock ItemData(CompostBag2Item : CompostBag0Item)
+{
+	shapeFile = "./resources/Compost/CompostBag2.dts";
+	image = "CompostBag2Image";
+	uiName = "Full Compost Bag";
+
+	iconName = "Add-ons/Server_Farming/crops/icons/Compost_Bag_Full";
+};
+
+datablock ShapeBaseImageData(CompostBag2Image : CompostBag0Image)
+{
+	shapeFile = "./resources/Compost/CompostBag2.dts";
+	item = "CompostBag2Item";
+
+	offset = "-0.05 0.3 -0.3";
+};
+
+
+function CompostBag0Image::onFire(%this, %obj, %slot)
+{
+	fertilizeDirt(%this, %obj, %slot);
+}
+
+function CompostBag1Image::onFire(%this, %obj, %slot)
+{
+	fertilizeDirt(%this, %obj, %slot);
+}
+
+function CompostBag2Image::onFire(%this, %obj, %slot)
+{
+	fertilizeDirt(%this, %obj, %slot);
+}
+
+
+
+function CompostBag0Image::onLoop(%this, %obj, %slot)
+{
+	CompostLoop(%this, %obj);
+}
+
+function CompostBag1Image::onLoop(%this, %obj, %slot)
+{
+	CompostLoop(%this, %obj);
+}
+
+function CompostBag2Image::onLoop(%this, %obj, %slot)
+{
+	CompostLoop(%this, %obj);
+}
+
+function CompostLoop(%image, %obj)
+{
+	%item = %image.item;
+	%type = %item.stackType;
+	%cl = %obj.client;
+	%count = %obj.toolStackCount[%obj.currTool];
+
+	if (isObject(%cl))
+	{
+		%cl.centerprint("<just:right><color:ffff00>-Compost Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+	}
+}
+
+
+
+
+
+
+
+
+$Stackable_Phosphate_StackedItem0 = "PhosphateBag0Item 20";
+$Stackable_Phosphate_StackedItem1 = "PhosphateBag1Item 40";
+$Stackable_Phosphate_StackedItem2 = "PhosphateBag2Item 80";
+$Stackable_Phosphate_StackedItemTotal = 3;
+
+datablock ItemData(PhosphateBag0Item : HammerItem)
+{
+	shapeFile = "./resources/Phosphate/PhosphateBag0.dts";
+	uiName = "Phosphate Bag";
+	image = "PhosphateBag0Image";
+	colorShiftColor = "0.54 0.48 0.42 1";
+	doColorShift = true;
+
+	iconName = "Add-ons/Server_Farming/crops/icons/Phosphate_Bag";
+
+	isStackable = 1;
+	stackType = "Phosphate";
+};
+
+datablock ShapeBaseImageData(PhosphateBag0Image)
+{
+	shapeFile = "./resources/Phosphate/PhosphateBag0.dts";
+	emap = true;
+
+	doColorShift = true;
+	colorShiftColor = PhosphateBag0Item.colorShiftColor;
+
+	item = "PhosphateBag0Item";
+
+	armReady = 1;
+
+	offset = "-0.1 0.3 -0.1";
+
+	toolTip = "Add 5 phosphate to soil";
+
+	fertilizerPhosphate = 5;
+
+	bonusGrowTicks = 0; //bonus grow tick per use (does not consume water)
+	bonusGrowTime = 10; //reduction in seconds to next grow tick
+	shinyChance = 0.004;
+
+	stateName[0] = "Activate";
+	stateTransitionOnTimeout[0] = "LoopA";
+	stateTimeoutValue[0] = 0.1;
+
+	stateName[1] = "LoopA";
+	stateScript[1] = "onLoop";
+	stateTransitionOnTriggerDown[1] = "Fire";
+	stateTimeoutValue[1] = 0.1;
+	stateTransitionOnTimeout[1] = "LoopB";
+
+	stateName[2] = "LoopB";
+	stateScript[2] = "onLoop";
+	stateTransitionOnTriggerDown[2] = "Fire";
+	stateTimeoutValue[2] = 0.1;
+	stateTransitionOnTimeout[2] = "LoopA";
+
+	stateName[3] = "Fire";
+	stateScript[3] = "onFire";
+	stateTransitionOnTriggerUp[3] = "LoopA";
+	stateTransitionOnTimeout[3]	= "LoopA";
+	stateTimeoutValue[3] = 0.2;
+	stateWaitForTimeout[3] = true;
+};
+
+datablock ItemData(PhosphateBag1Item : PhosphateBag0Item)
+{
+	shapeFile = "./resources/Phosphate/PhosphateBag1.dts";
+	image = "PhosphateBag1Image";
+	uiName = "Half Phosphate Bag";
+
+	iconName = "Add-ons/Server_Farming/crops/icons/Phosphate_Bag_Half";
+};
+
+datablock ShapeBaseImageData(PhosphateBag1Image : PhosphateBag0Image)
+{
+	shapeFile = "./resources/Phosphate/PhosphateBag1.dts";
+	item = "PhosphateBag1Item";
+
+	offset = "-0.05 0.3 -0.3";
+};
+
+datablock ItemData(PhosphateBag2Item : PhosphateBag0Item)
+{
+	shapeFile = "./resources/Phosphate/PhosphateBag2.dts";
+	image = "PhosphateBag2Image";
+	uiName = "Full Phosphate Bag";
+
+	iconName = "Add-ons/Server_Farming/crops/icons/Phosphate_Bag_Full";
+};
+
+datablock ShapeBaseImageData(PhosphateBag2Image : PhosphateBag0Image)
+{
+	shapeFile = "./resources/Phosphate/PhosphateBag2.dts";
+	item = "PhosphateBag2Item";
+
+	offset = "-0.05 0.3 -0.3";
+};
+
+
+function PhosphateBag0Image::onFire(%this, %obj, %slot)
+{
+	fertilizeDirt(%this, %obj, %slot);
+}
+
+function PhosphateBag1Image::onFire(%this, %obj, %slot)
+{
+	fertilizeDirt(%this, %obj, %slot);
+}
+
+function PhosphateBag2Image::onFire(%this, %obj, %slot)
+{
+	fertilizeDirt(%this, %obj, %slot);
+}
+
+
+
+function PhosphateBag0Image::onLoop(%this, %obj, %slot)
+{
+	PhosphateLoop(%this, %obj);
+}
+
+function PhosphateBag1Image::onLoop(%this, %obj, %slot)
+{
+	PhosphateLoop(%this, %obj);
+}
+
+function PhosphateBag2Image::onLoop(%this, %obj, %slot)
+{
+	PhosphateLoop(%this, %obj);
+}
+
+function PhosphateLoop(%image, %obj)
+{
+	%item = %image.item;
+	%type = %item.stackType;
+	%cl = %obj.client;
+	%count = %obj.toolStackCount[%obj.currTool];
+
+	if (isObject(%cl))
+	{
+		%cl.centerprint("<just:right><color:ffff00>-Phosphate Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
 	}
 }
