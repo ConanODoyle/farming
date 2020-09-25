@@ -865,7 +865,7 @@ datablock ShapeBaseImageData(CompostBag0Image)
 	stateScript[3] = "onFire";
 	stateTransitionOnTriggerUp[3] = "LoopA";
 	stateTransitionOnTimeout[3]	= "LoopA";
-	stateTimeoutValue[3] = 0.2;
+	stateTimeoutValue[3] = 0.4;
 	stateWaitForTimeout[3] = true;
 };
 
@@ -1017,7 +1017,7 @@ datablock ShapeBaseImageData(PhosphateBag0Image)
 	stateScript[3] = "onFire";
 	stateTransitionOnTriggerUp[3] = "LoopA";
 	stateTransitionOnTimeout[3]	= "LoopA";
-	stateTimeoutValue[3] = 0.2;
+	stateTimeoutValue[3] = 0.4;
 	stateWaitForTimeout[3] = true;
 };
 
