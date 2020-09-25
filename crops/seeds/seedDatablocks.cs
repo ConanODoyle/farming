@@ -198,12 +198,16 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 		//check around the brick for any other plants and make sure we dont violate their radius requirement
 		//but exclude flowerpots since those root systems dont intersect with each other
 		//fixed size to ensure we capture larger bricks that have longer-distance root systems compared to the current plant
-		%box = "8 8 1.2";
+		%box = "16 16" SPC %zOffset;
+		%searchPos = vectorScale(vectorAdd(%pos, vectorSub(%pos, "0 0" SPC %zOffset)), 0.5);
+		%searchPos = vectorSub(%searchPos, "0 0" SPC 1.2);
 		if ($debugPlanting)
 		{
-			createBoxAt(%pos, "1 0 0 0.1", %box);
+			talk(%zOffset);
+			createBoxAt(%searchPos, "1 1 0 1", "0.2 0.2 0.2");
+			createBoxAt(%searchPos, "1 0 0 0.1", vectorScale(%box, 0.5));
 		}
-		initContainerBoxSearch(%pos, %box, $Typemasks::fxBrickObjectType);
+		initContainerBoxSearch(%searchPos, %box, $Typemasks::fxBrickObjectType);
 		while (isObject(%next = containerSearchNext()))
 		{
 			if (%next.getDatablock().isPlant && !%next.getDatablock().isWeed)
@@ -249,7 +253,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 				%yDiff = mAbs(getWord(%nextPos, 1) - getWord(%pos, 1));
 
 				//calculate next plant's radius
-				%nextPlantRad = (%nextRadius - (%nextInGreenhouse || %nextDirt.getDatablock().isPlanter) * 0.5 - 0.01 + 0.5);
+				%nextPlantRad = (%nextRadius - (%nextInGreenhouse || %nextDirt.getDatablock().isPlanter)) * 0.5 - 0.01 + 0.5;
 				if ((%xDiff < %nextPlantRad && %yDiff < %nextPlantRad)
 					|| (%xDiff < %plantRad && %yDiff < %plantRad)) //too close to another plant in the area
 				{
