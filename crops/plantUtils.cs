@@ -511,7 +511,8 @@ datablock ItemData(OrganicAnalyzerItem : HammerItem)
 	uiName = "Organic Analyzer";
 	image = "OrganicAnalyzerImage";
 	iconName = "Add-ons/Server_Farming/crops/icons/organic_analyzer";
-	doColorShift = false;
+	doColorShift = true;
+	colorShiftColor = "0.2 0.6 0.2 1";
 };
 
 datablock ShapeBaseImageData(OrganicAnalyzerImage)
@@ -520,13 +521,11 @@ datablock ShapeBaseImageData(OrganicAnalyzerImage)
 	emap = true;
 
 	doColorShift = true;
-	colorShiftColor = CompostBag0Item.colorShiftColor;
+	colorShiftColor = OrganicAnalyzerItem.colorShiftColor;
 
-	item = "CompostBag0Item";
+	item = "OrganicAnalyzerItem";
 
 	armReady = 1;
-
-	rotation = eulerToMatrix("0 0 90");
 
 	toolTip = "Displays dirt and crop information";
 
