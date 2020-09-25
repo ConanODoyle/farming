@@ -546,6 +546,11 @@ datablock ShapeBaseImageData(OrganicAnalyzerImage)
 
 function OrganicAnalyzerImage::onLoop(%this, %obj, %slot)
 {
+	if (!isObject(%cl = %obj.client))
+	{
+		return;
+	}
+	
 	%start = %obj.getEyeTransform();
 	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
 	%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
