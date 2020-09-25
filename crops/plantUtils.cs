@@ -484,15 +484,15 @@ package DirtStatus
 			if (isObject(%hit) && ((%db = %hit.getDatablock()).isDirt || %db.isWaterTank))
 			{
 				%waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
-				%string = "Water Level: " @ %waterLevel;
+				%string = "Water Level: " @ %waterLevel @ " ";
 				%nutrients = %hit.getNutrients();
 				if (getWord(%nutrients, 0) > 0 || getWord(%nutrients, 1) > 0)
 				{
-					%str = %str @ " \nHas nutrients";
+					%str = %str @ "\nHas nutrients ";
 				}
 				if (getWord(%nutrients, 2) > 0)
 				{
-					%str = %str @ " \nHas weedkiller";
+					%str = %str @ "\nHas weedkiller ";
 				}
 
 				%cl.centerprint("<just:right><color:ffffff>" @ %string, 1);
@@ -550,7 +550,7 @@ function OrganicAnalyzerImage::onLoop(%this, %obj, %slot)
 	{
 		return;
 	}
-	
+
 	%start = %obj.getEyeTransform();
 	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
 	%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
@@ -569,7 +569,6 @@ function OrganicAnalyzerImage::onLoop(%this, %obj, %slot)
 				@ %hit.getDatablock().maxWeedkiller @ " ";
 			
 			%cl.centerprint("<just:right><color:ffffff>" @ %string, 1);
-			%cl.schedule(50, centerprint, "<just:right><color:cccccc>" @ %string, 2);
 		}
 	}
 }
