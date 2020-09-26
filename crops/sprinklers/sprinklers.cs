@@ -1,7 +1,7 @@
 //todo: disable naming sprinkler and watertower bricks
 //brickDB.directionalOffset = Vector3F TU;
 //brickDB.boxSize = Point3f Size;
-//brickDB.maxDispense = int;
+//brickDB.waterPerSecond = int;
 
 exec("./bricks.cs");
 
@@ -53,41 +53,75 @@ function sprinklerTick(%index)
 			%brick.age = $Sim::Time;
 			// echo("Initialized " @ %brick @ " age");
 		}
-		if (%brick.age + 60 < $Sim::Time && !$Server::AS["InUse"])
+		// if (%brick.age + 60 < $Sim::Time && !$Server::AS["InUse"])
+		// {
+		// 	%name = %brick.getName();
+		// 	%brick.setName("CopySprinkler");
+		// 	%newbrick = new fxDTSBrick(replacement : CopySprinkler){}; //make a copy of the brick
+		// 	%newbrick.skipBuy = 1;
+		// 	getBrickgroupFromObject(%brick).add(%newbrick);
+		// 	%brick.sold = 1;
+		// 	%brick.delete();
+		// 	%newbrick.setName(%name);
+		// 	%newbrick.plant();
+		// 	%newbrick.setTrusted(1);
+		// 	SprinklerSimSet.add(%newbrick);
+		// 	doSprinklerSearch(%newbrick);
+		// 	%i += 2; //process fewer this tick
+		// 	if ($debugOn && %brick == $compare)
+		// 		echo("Replaced Sprinkler: " @ %brick @ " with " @ %newbrick);
+		// 	%newbrick.age = $Sim::Time;
+		// 	continue;
+		// }
+		else if (!%brick.isDead)
 		{
-			%name = %brick.getName();
-			%brick.setName("CopySprinkler");
-			%newbrick = new fxDTSBrick(replacement : CopySprinkler){}; //make a copy of the brick
-			%newbrick.skipBuy = 1;
-			getBrickgroupFromObject(%brick).add(%newbrick);
-			%brick.sold = 1;
-			%brick.delete();
-			%newbrick.setName(%name);
-			%newbrick.plant();
-			%newbrick.setTrusted(1);
-			SprinklerSimSet.add(%newbrick);
-			doSprinklerSearch(%newbrick, 1);
-			%i += 2; //process fewer this tick
-			if ($debugOn && %brick == $compare)
-				echo("Replaced Sprinkler: " @ %brick @ " with " @ %newbrick);
-			%newbrick.age = $Sim::Time;
-			continue;
+			doSprinklerSearch(%brick);
 		}
-		else if (!%brick.isDead && isObject(%brick))
-		{
-			if ($debugOn && %brick == $compare)
-				echo("    Not dead");
-			doSprinklerSearch(%brick, 1);
-		}
+
+		doSprinklerWater(%brick);
+
 		%totalBricksProcessed++;
 	}
 
 	$masterSprinklerSchedule = schedule(33, 0, sprinklerTick, %index - %totalBricksProcessed);
 }
 
-function doSprinklerSearch(%sprinkler, %water)
+function doSprinklerWater(%sprinkler)
 {
-	if (%sprinkler.lastSprinklerSearch + 2 > $Sim::Time)
+	if (%sprinkler.lastWater + 500 | 0 < getSimTime()) //every half second
+	{
+		return;
+	}
+
+	%list = %sprinkler.dirtList;
+	%count = getWordCount(%list);
+	for (%i = 0; %i < %count; %i++)
+	{
+		%dirt = getWord(%list, %i);
+		if (isObject(%dirt))
+		{
+			%diff = %dirt.getDatablock().maxWater - %dirt.waterLevel;
+			%amt = drawWater(%sprinkler, %diff);
+			%dirt.setWaterLevel(%dirt.waterLevel + %diff);
+			if (%amt > 0)
+			{
+				%dispensedCount++;
+			}
+		}
+	}
+
+	if (%dispensedCount > 0)
+	{
+		%sprinkler.setEmitter("ChromePaintDropletEmitter");
+		%sprinkler.schedule(1000, setEmitter, "");
+	}
+	%sprinkler.lastWater = getSimTime();
+	return %dispensedCount;
+}
+
+function doSprinklerSearch(%sprinkler)
+{
+	if (%sprinkler.lastSprinklerSearch + 3 > $Sim::Time)
 	{
 		return "time";
 	}
@@ -116,13 +150,6 @@ function doSprinklerSearch(%sprinkler, %water)
 			%offset = -1 * getWord(%offset, 1) SPC getWord(%offset, 0) SPC getWord(%offset, 2);
 	}
 
-	// if (%db.uiName $= "Straight Sprinkler" && !%sprinkler.hasTalked)
-	// {
-	// 	talk("offset: " @ vectorAdd(%offset, %sprinkler.getPosition()));
-	// 	talk("box: " @ %box);
-	// 	%sprinkler.hasTalked = 1;
-	// }
-
 	if ($debugOn && %sprinkler == $compare)
 	{
 		echo("    " @ %sprinkler @ " Box search");
@@ -130,21 +157,14 @@ function doSprinklerSearch(%sprinkler, %water)
 		echo("    Pos: " @ %sprinkler.getPosition());
 		echo("    db: " @ %db);
 	}
+	%sprinkler.dirtList = "";
 	initContainerBoxSearch(vectorAdd(%offset, %sprinkler.getPosition()), %box, $Typemasks::fxBrickObjectType);
 	while (isObject(%next = containerSearchNext()) && %safety++ < 1500)
 	{
 		if (%next.getDatablock().isDirt && getTrustLevel(%next, %sprinkler) > 0)
 		{
 			%next.sprinkler = %sprinkler;
-			if (%water && (%diff = %next.getDatablock().maxWater - %next.waterLevel) > 0)
-			{
-				%amt = drawWater(%sprinkler, %diff);
-				%next.setWaterLevel(%next.waterLevel + drawWater(%sprinkler, %diff));
-				if (%amt > 0)
-				{
-					%dispensedWater = 1;
-				}
-			}
+			%sprinkler.dirtList = %sprinkler.dirtList SPC %next;
 			%count++;
 		}
 	}
@@ -159,13 +179,7 @@ function doSprinklerSearch(%sprinkler, %water)
 
 	%sprinkler.lastSprinklerSearch = $Sim::Time;
 
-	if (%dispensedWater)
-	{
-		%sprinkler.setEmitter("ChromePaintDropletEmitter");
-		%sprinkler.schedule(1000, setEmitter, "");
-	}
-
-	SprinklerSimSet.add(%sprinkler);
+	// SprinklerSimSet.add(%sprinkler); FUCK YOU PAST CONAN FOR PUTTING THIS UNNECESSARY LINE IN
 	if (%db.noCollide)
 	{
 		%sprinkler.setColliding(0);
@@ -175,40 +189,11 @@ function doSprinklerSearch(%sprinkler, %water)
 
 package Sprinklers
 {
-	function doGrowCalculations(%brick, %db)
-	{
-		if (!isObject(%brick))
-		{
-			return parent::doGrowCalculations(%brick, %db);
-		}
-		%db = %brick.getDatablock();
-		%pos = %brick.getPosition();
-		%dirt = getWord(containerRaycast(%pos, vectorSub(%pos, "0 0" SPC %db.brickSizeZ), $TypeMasks::fxBrickObjectType, %brick), 0);
-		if (!isObject(%dirt))
-		{
-			if ($debugOn)
-				echo("no dirt");
-			return parent::doGrowCalculations(%brick, %db);
-		}
-		%dirtDB = %dirt.getDatablock();
-		if (%dirt.waterLevel < %dirtDB.maxWater && isObject(%dirt.sprinkler) && !%dirt.sprinkler.isDead)
-		{
-			%diff = %dirtDB.maxWater - %dirt.waterLevel;
-			%amt = drawWater(%dirt.sprinkler, %diff);
-			if (%amt > 0)
-			{
-				%dirt.setWaterLevel(%dirt.waterLevel + %amt);
-			}
-		}
-
-		return parent::doGrowCalculations(%brick, %db);
-	}
-
 	function fxDTSBrick::onAdd(%obj)
 	{
 		if (%obj.getDatablock().isSprinkler && %obj.isPlanted)
 		{
-			schedule(33, %obj, doSprinklerSearch, %obj);
+			SprinklerSimSet.add(%obj);
 		}
 
 		if (%obj.getDatablock().isWaterTank && %obj.isPlanted)
@@ -264,19 +249,26 @@ package Sprinklers
 };
 activatePackage(Sprinklers);
 
-function drawWater(%sprinkler, %targetAmt)
+function drawWater(%sprinkler, %targetAmt, %rateModifier)
 {
+	if (%rateModifier <= 0)
+	{
+		%rateModifier = 1;
+	}
+
 	%waterSource = %sprinkler.getName() @ "Tank";
 	if (!isObject(%waterSource))
 	{
 		return 0;
 	}
 
-	if (%waterSource.getDatablock().isInfiniteWaterSource)
+	%waterSourceDB = waterSource.getDatablock();
+	%sprinklerDB = %sprinkler.getDatablock();
+	if (%waterSourceDB.isInfiniteWaterSource) //infinite water sources force-fill dirt
 	{
-		if (%waterSource.getDatablock().maxDispense !$= "")
+		if (%waterSourceDB.waterPerSecond !$= "")
 		{
-			return getMin(%waterSource.getDatablock().maxDispense, %targetAmt);
+			return getMin(%waterSourceDB.waterPerSecond, %targetAmt);
 		}
 		else
 		{
@@ -284,7 +276,7 @@ function drawWater(%sprinkler, %targetAmt)
 		}
 	}
 
-	%max = getMin(%waterSource.waterLevel, %sprinkler.getDatablock().maxDispense);
+	%max = getMin(%waterSource.waterLevel, %sprinklerDB.waterPerSecond) * %rateModifier;
 	if (%max < %targetAmt)
 	{
 		%waterSource.setWaterLevel(%waterSource.waterLevel - %max);

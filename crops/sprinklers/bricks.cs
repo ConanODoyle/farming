@@ -16,7 +16,7 @@ datablock fxDTSBrickData(brickSmallSprinklerData)
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
 	boxSize = "4 4 2";
-	maxDispense = 20;
+	waterPerSecond = 20;
 };
 
 datablock fxDTSBrickData(brickSmallSprinklerDownData)
@@ -33,7 +33,7 @@ datablock fxDTSBrickData(brickSmallSprinklerDownData)
 	isSprinkler = 1;
 	directionalOffset = "0 0 -1.7";
 	boxSize = "4 4 3";
-	maxDispense = 20;
+	waterPerSecond = 20;
 	noCollide = 1;
 };
 
@@ -51,7 +51,7 @@ datablock fxDTSBrickData(brickMedSprinklerData)
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
 	boxSize = "8 8 2";
-	maxDispense = 50;
+	waterPerSecond = 50;
 };
 
 datablock fxDTSBrickData(brickLargeSprinklerData)
@@ -68,7 +68,7 @@ datablock fxDTSBrickData(brickLargeSprinklerData)
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.4";
 	boxSize = "12 12 2";
-	maxDispense = 50;
+	waterPerSecond = 50;
 };
 
 datablock fxDTSBrickData(brickDripLineData)
@@ -85,7 +85,7 @@ datablock fxDTSBrickData(brickDripLineData)
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.2";
 	boxSize = "0.5 4 0.2";
-	maxDispense = 15;
+	waterPerSecond = 15;
 };
 
 datablock fxDTSBrickData(brickStraightSprinklerData)
@@ -102,7 +102,7 @@ datablock fxDTSBrickData(brickStraightSprinklerData)
 	isSprinkler = 1;
 	directionalOffset = "4.5 0 -0.3";
 	boxSize = "8 1 2";
-	maxDispense = 30;
+	waterPerSecond = 30;
 };
 
 datablock fxDTSBrickData(brickSwaySprinklerData)
@@ -119,5 +119,5 @@ datablock fxDTSBrickData(brickSwaySprinklerData)
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
 	boxSize = "8 4 2";
-	maxDispense = 50;
+	waterPerSecond = 50;
 };

@@ -61,7 +61,7 @@ datablock fxDTSBrickData(brickSmallWaterInfiniteTankData)
 	cost = -1;
 	isInfiniteWaterSource = 1;
 	isWaterTank = 1;
-	maxDispense = 50;
+	waterPerSecond = 50;
 
 	maxSprinklers = 100;
 };
