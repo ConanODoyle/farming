@@ -486,13 +486,16 @@ package DirtStatus
 				%waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
 				%string = "Water Level: " @ %waterLevel @ " ";
 				%nutrients = %hit.getNutrients();
-				if (getWord(%nutrients, 0) > 0 || getWord(%nutrients, 1) > 0)
+				if (%db.isDirt)
 				{
-					%str = %str @ "\nHas nutrients ";
-				}
-				if (getWord(%nutrients, 2) > 0)
-				{
-					%str = %str @ "\nHas weedkiller ";
+					if (getWord(%nutrients, 0) > 0 || getWord(%nutrients, 1) > 0)
+					{
+						%string = %string @ "\nHas nutrients ";
+					}
+					if (getWord(%nutrients, 2) > 0)
+					{
+						%string = %string @ "\nHas weedkiller ";
+					}
 				}
 
 				%cl.centerprint("<just:right><color:ffffff>" @ %string, 1);
@@ -560,15 +563,69 @@ function OrganicAnalyzerImage::onLoop(%this, %obj, %slot)
 		%db = %hit.getDatablock();
 		if (%db.isDirt)
 		{
-			%waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
-			%string = "Water Level: " @ %waterLevel;
+			%waterLevel = %hit.waterLevel + 0 @ "/" @ %db.maxWater;
+			%string = "\c5" @ %db.uiName @ " \n";
+			%string = %string @ "Water Level: " @ %waterLevel;
 			%nutrients = %hit.getNutrients();
 			%string = %string @ " \nNutrients: " @ getWord(%nutrients, 0) @ "n/" @ getWord(%nutrients, 1) @ "p";
-			%string = %string @ " \nMax Nutrients: " @ (%hit.getDatablock().maxNutrients + 0);
+			%string = %string @ " \nMax Nutrients: " @ (%db.maxNutrients + 0);
 			%string = %string @ " \nWeedkiller: " @ getWord(%nutrients, 2) @ "/"
-				@ %hit.getDatablock().maxWeedkiller @ " ";
+				@ %db.maxWeedkiller @ " ";
 			
 			%cl.centerprint("<just:right><color:ffffff>" @ %string, 1);
 		}
+		else if (%db.isPlant)
+		{
+			if (%hit.lightLevel $= "" || %hit.nextUpdateInfo < $Sim::Time)
+			{
+				%weather = ($isHeatWave + 0) SPC ($isRaining + 0);
+				%hit.lightLevel = getWord(getPlantLightLevel(%hit), 0);
+				%hit.nextTickTime = %hit.getNextTickTime(%hit.getNutrients(), %hit.lightLevel, %weather);
+				
+				%cropType = %db.cropType;
+				%nutrients = %hit.getNutrients();
+				%requiredNutrients = getPlantData(%cropType, %db.stage, "nutrientStageRequirement");
+				if (%requiredNutrients > 0)
+				{
+					%hit.requiresNutrients = getWords(vectorSub(%requiredNutrients, %nutrients), 0, 1);
+				}
+				else
+				{
+					%hit.requiresNutrients = "";
+				}
+				%hit.nextUpdateInfo = $Sim::Time + 1;
+			}
+			%string = "\c2" @ %db.cropType @ " \n";
+			%string = %string @ "Light Level: " @ %hit.lightLevel * 100 @ "% \n";
+			if (isObject(getPlantData(%db.cropType, %db.stage, "wetNextStage")) 
+				|| isObject(getPlantData(%db.cropType, %db.stage, "dryNextStage")))
+			{
+				%string = %string @ "Time per growth tick: " @ %hit.nextTickTime @ "s \n";
+			}
+			else
+			{
+				%string = %string @ "Crop is fully grown! \n";
+			}
+
+			if (%hit.requiresNutrients !$= "")
+			{
+				%nitReq = getWord(%hit.requiresNutrients, 0);
+				%phoReq = getWord(%hit.requiresNutrients, 1);
+				if (%nitReq > 0)
+				{
+					%string = %string @ "Needs " @ %nitReq @  " nitrogen \n";
+				}
+				if (%phoReq > 0)
+				{
+					%string = %string @ "Needs " @ %phoReq @  " phosphate \n";
+				}
+			}
+			
+			%cl.centerprint("<just:right><color:ffffff>" @ %string, 1);
+		}
+	}
+	else
+	{
+		%cl.centerprint("", 1);
 	}
 }
