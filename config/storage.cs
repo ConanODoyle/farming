@@ -43,7 +43,9 @@ $StorageMax_DaisySeed = 8 * 2;
 $StorageMax_LilySeed = 8 * 2;
 $StorageMax_RoseSeed = 8 * 2;
 
-$StorageMax_Fertilizer = 120 * 2;
+$StorageMax_Fertilizer = 80 * 2;
+$StorageMax_Compost = 80 * 2;
+$StorageMax_Phosphate = 80 * 2;
 $StorageMax_SuperFertilizer = 60;
 
 $StorageMax_WeedKiller = 120;
