@@ -98,8 +98,6 @@ datablock ItemData(WateringCan2Item : WateringCanItem)
 	image = "WateringCan2Image";
 
 	iconName = "./icons/wateringCan2";
-
-	cost = 400;
 };
 
 datablock ShapeBaseImageData(WateringCan2Image : WateringCanImage)
@@ -128,8 +126,6 @@ datablock ItemData(WateringCan3Item : WateringCanItem)
 	image = "WateringCan3Image";
 
 	iconName = "./icons/wateringCan3";
-
-	cost = 1200;
 };
 
 datablock ShapeBaseImageData(WateringCan3Image : WateringCanImage)
@@ -159,8 +155,6 @@ datablock ItemData(WateringCatItem : WateringCanItem)
 	image = "WateringCatImage";
 
 	iconName = "./icons/wateringCat";
-
-	cost = 3200;
 };
 
 datablock ShapeBaseImageData(WateringCatImage : WateringCanImage)
@@ -190,8 +184,6 @@ datablock ItemData(HoseItem : WateringCanItem)
 	image = "HoseImage";
 
 	iconName = "./icons/hose";
-
-	cost = 2800;
 };
 
 datablock ShapeBaseImageData(HoseImage : WateringCanImage)
@@ -220,8 +212,6 @@ datablock ItemData(HoseV2Item : WateringCanItem)
 	image = "HoseV2Image";
 
 	iconName = "./icons/hose";
-
-	cost = 4000;
 };
 
 datablock ShapeBaseImageData(HoseV2Image : WateringCanImage)

@@ -7,8 +7,6 @@ datablock ItemData(PickaxeItem : HammerItem)
 
 	image = "PickaxeImage";
 	colorShiftColor = "0.4 0 0 1";
-
-	cost = 1000;
 };
 
 datablock ShapeBaseImageData(PickaxeImage)

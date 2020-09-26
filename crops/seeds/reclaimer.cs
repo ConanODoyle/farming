@@ -6,8 +6,6 @@ datablock ItemData(ReclaimerItem : HammerItem)
 
 	colorShiftColor = "0.4 0 0 1";
 	image = ReclaimerImage2;
-
-	cost = 500;
 };
 
 datablock ShapeBaseImageData(ReclaimerImage2)

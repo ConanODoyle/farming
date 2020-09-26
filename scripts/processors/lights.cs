@@ -43,8 +43,6 @@ datablock ItemData(IndoorLightItem : brickPlacerItem)
 	colorShiftColor = "0.9 0 0 1";
 
 	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
-	
-	cost = 800;
 };
 
 datablock ShapeBaseImageData(IndoorLightBrickImage : BrickPlacerImage)

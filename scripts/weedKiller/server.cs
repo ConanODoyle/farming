@@ -121,7 +121,6 @@ datablock ItemData(WeedKiller0Item : HammerItem)
 
 	isStackable = 1;
 	stackType = "WeedKiller";
-	cost = 5;
 };
 
 datablock ShapeBaseImageData(WeedKiller0Image)

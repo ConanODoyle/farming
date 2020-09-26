@@ -556,8 +556,6 @@ datablock ItemData(CompostBinItem : brickPlacerItem)
 	colorShiftColor = "0.9 0 0 1";
 
 	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
-	
-	cost = 800;
 };
 
 datablock ShapeBaseImageData(CompostBinBrickImage : BrickPlacerImage)
@@ -608,8 +606,6 @@ datablock ItemData(LargeCompostBinItem : brickPlacerItem)
 	colorShiftColor = "0.5 0 0 1";
 
 	iconName = "Add-ons/Server_Farming/crops/icons/large_compost_bin";
-	
-	cost = 1600;
 };
 
 datablock ShapeBaseImageData(LargeCompostBinBrickImage : BrickPlacerImage)

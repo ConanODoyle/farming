@@ -9,12 +9,12 @@ function Player::sacrificeKill(%pl, %modifier, %max, %announcement)
 			{
 				%itemDB = %pl.tool[%i];
 				%type = %pl.tool[%i].stackType;
-				%totalCost += $Produce::BuyCost_[%type] * %pl.toolStackCount[%i];
+				%totalCost += getSellPrice(%type, %pl.toolStackCount[%i]);
 				%pl.tool[%i] = "";
 			}
-			else if (%pl.tool[%i].cost > 0)
+			else if (getSellPrice(%pl.tool[%i]) > 0)
 			{
-				%totalCost += %pl.tool[%i].cost / 2;
+				%totalCost += getSellPrice(%pl.tool[%i]) / 2;
 				%pl.tool[%i] = "";
 			}
 		}

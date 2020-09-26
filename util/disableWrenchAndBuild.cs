@@ -174,7 +174,7 @@ schedule(1000, 0, activatePackage, disableWrenchData);
 
 function checkItemAllowed(%itemDB)
 {
-	if (%itemDB.isStackable || %itemDB.cost > 0 || %itemDB.cannotSpawn)
+	if (%itemDB.isStackable || getBuyPrice(%itemDB) > 0 || %itemDB.cannotSpawn)
 	{
 		messageClient(%cl, '', %itemDB.uiname @ " cannot be spawned on a brick!");
 		return 0;

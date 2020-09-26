@@ -7,7 +7,7 @@ function purchaseVehicle(%cl, %vehicle)
 	
 	if (!isObject(%vehicle))
 	{
-		if (isObject(%cl.wrenchBrick) && isObject(%cl.wrenchBrick.vehicle) && %cl.wrenchBrick.vehicle.getDatablock().cost > 0)
+		if (isObject(%cl.wrenchBrick) && isObject(%cl.wrenchBrick.vehicle) && getSellPrice(%cl.wrenchBrick.vehicle.getDatablock()) > 0)
 		{
 			sellObject(%cl.wrenchBrick.vehicle);
 		}
@@ -27,16 +27,16 @@ function purchaseVehicle(%cl, %vehicle)
 		}
 	}
 
-	%cost = %vehicle.cost;
+	%cost = getBuyPrice(%vehicle);
 	if (%cl.score >= %cost)
 	{
 		%cl.setScore(%cl.score - %cost);
-		%cl.centerPrint("<color:ff0000>$" @ %vehicle.cost @ "<color:ffffff> - " @ %vehicle.uiName, 1);
-		%cl.schedule(50, centerPrint, "<color:cc0000>$" @ %vehicle.cost @ "<color:cccccc> - " @ %vehicle.uiName, 2);
+		%cl.centerPrint("<color:ff0000>$" @ %cost @ "<color:ffffff> - " @ %vehicle.uiName, 1);
+		%cl.schedule(50, centerPrint, "<color:cc0000>$" @ %cost @ "<color:cccccc> - " @ %vehicle.uiName, 2);
 		messageClient(%cl, '', "\c6You purchased the \c3" @ %vehicle.uiName @ "\c6 for \c2$" @ %cost);
 		return 1;
 	}
-	messageClient(%cl, '', "You cannot afford the " @ %vehicle.uiname @ "! (Cost: $" @ %vehicle.cost @ ")");
+	messageClient(%cl, '', "You cannot afford the " @ %vehicle.uiname @ "! (Cost: $" @ %cost @ ")");
 	return 0;
 }
 
@@ -49,26 +49,6 @@ function purchaseItem(%cl, %item)
 	
 	if (isObject(%item))
 		messageClient(%cl, '', "You can't spawn items! Get tools from the market!");
-	return 0;
-	if (!isObject(%item))
-	{
-		if (isObject(%cl.wrenchBrick) && isObject(%cl.wrenchBrick.item) && %cl.wrenchBrick.item.getDatablock().cost > 0)
-		{
-			sellObject(%cl.wrenchBrick.item);
-		}
-		return 1;
-	}
-
-	%cost = %item.cost;
-	if (%cl.score >= %cost)
-	{
-		%cl.setScore(%cl.score - %cost);
-		%cl.centerPrint("<color:ff0000>$" @ %item.cost @ "<color:ffffff> - " @ %item.uiName, 1);
-		%cl.schedule(50, centerPrint, "<color:cc0000>$" @ %item.cost @ "<color:cccccc> - " @ %item.uiName, 2);
-		messageClient(%cl, '', "\c6You purchased the \c3" @ %item.uiName @ "\c6 for \c2$" @ %cost);
-		return 1;
-	}
-	messageClient(%cl, '', "You cannot afford the " @ %item.uiname @ "! (Cost: $" @ %item.cost @ ")");
 	return 0;
 }
 
@@ -104,7 +84,7 @@ package wrenchCostRefund
 
 	function fxDTSBrick::onDeath(%obj)
 	{
-		if (isObject(%obj.vehicle) && %obj.vehicle.getDatablock().cost > 0)
+		if (isObject(%obj.vehicle) && getSellPrice(%obj.vehicle.getDatablock()) > 0)
 		{
 			sellObject(%obj.vehicle);
 		}
@@ -114,7 +94,7 @@ package wrenchCostRefund
 
 	function fxDTSBrick::onRemove(%obj)
 	{
-		if (isObject(%obj.vehicle) && %obj.vehicle.getDatablock().cost > 0)
+		if (isObject(%obj.vehicle) && getSellPrice(%obj.vehicle.getDatablock()) > 0)
 		{
 			sellObject(%obj.vehicle);
 		}

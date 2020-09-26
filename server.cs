@@ -87,6 +87,7 @@ exec("./scripts/core/eventStorageV2.cs");
 exec("./scripts/core/tutorial.cs");
 exec("./scripts/core/spawn.cs");
 exec("./scripts/core/builder.cs");
+exec("./scripts/core/priceRetrieval.cs");
 
 exec("./scripts/modules.cs");
 // exec("./scripts/mailCatalog.cs");

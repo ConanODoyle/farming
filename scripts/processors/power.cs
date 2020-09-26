@@ -1104,8 +1104,6 @@ datablock ItemData(CoalGeneratorItem : brickPlacerItem)
 	colorShiftColor = "0.9 0 0 1";
 
 	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
-	
-	cost = 800;
 };
 
 datablock ShapeBaseImageData(CoalGeneratorBrickImage : BrickPlacerImage)
@@ -1156,8 +1154,6 @@ datablock ItemData(PowerControlBoxItem : brickPlacerItem)
 	colorShiftColor = "0.9 0 0 1";
 
 	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
-	
-	cost = 800;
 };
 
 datablock ShapeBaseImageData(PowerControlBoxBrickImage : BrickPlacerImage)
@@ -1208,8 +1204,6 @@ datablock ItemData(BatteryItem : brickPlacerItem)
 	colorShiftColor = "0.9 0 0 1";
 
 	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
-	
-	cost = 800;
 };
 
 datablock ShapeBaseImageData(BatteryBrickImage : BrickPlacerImage)

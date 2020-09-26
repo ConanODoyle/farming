@@ -158,7 +158,7 @@ package PlayerShops
 		{
 			if (!isObject(%stackType)) // this is a stackable item
 			{
-				%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2);
+				%price = mFloatLength(getBuyPrice(%stackType) + 1, 2);
 			}
 			else // this is a normal item
 			{
@@ -192,7 +192,7 @@ package PlayerShops
 			{
 				%delimit1 = strPos(%brick.eventOutputParameter[0, %eventParam], "\"");
 				%stackType = getSubStr(%brick.eventOutputParameter[0, %eventParam], 0, %delimit1);
-				%brick.eventOutputParameter[0, %eventParam] = %brick.eventOutputParameter[0, %eventParam] @ "'" @ mFloatLength($Produce::BuyCost_[%stackType] + 1, 2);
+				%brick.eventOutputParameter[0, %eventParam] = %brick.eventOutputParameter[0, %eventParam] @ "'" @ mFloatLength(getBuyPrice(%stackType) + 1, 2);
 				%delimit = strPos(%brick.eventOutputParameter[0, %eventParam], "'");
 			}
 			%newStr = getSubStr(%brick.eventOutputParameter[0, %eventParam], 0, %delimit);
@@ -219,7 +219,7 @@ package PlayerShops
 			{
 				%delimit1 = strPos(%brick.eventOutputParameter[0, %eventParam], "\"");
 				%stackType = getSubStr(%brick.eventOutputParameter[0, %eventParam], 0, %delimit1);
-				%brick.eventOutputParameter[0, %eventParam] = %brick.eventOutputParameter[0, %eventParam] @ "'" @ mFloatLength($Produce::BuyCost_[%stackType] + 1, 2);
+				%brick.eventOutputParameter[0, %eventParam] = %brick.eventOutputParameter[0, %eventParam] @ "'" @ mFloatLength(getBuyPrice(%stackType) + 1, 2);
 				%delimit = strPos(%brick.eventOutputParameter[0, %eventParam], "'");
 			}
 			%newStr = getSubStr(%brick.eventOutputParameter[0, %eventParam], 0, %delimit);
@@ -253,7 +253,7 @@ package PlayerShops
 
 			if (!isObject(%stackType)) // this is a stackable item
 			{
-				%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2); // so we set price accordingly
+				%price = mFloatLength(getBuyPrice(%stackType) + 1, 2); // so we set price accordingly
 			}
 			else // this is a normal item
 			{
@@ -586,7 +586,7 @@ function buyUnit(%cl, %menu, %option)
 
 	// if (!isObject(%stackType)) //this is a stackable item
 	// {
-	//		%price = mFloatLength($Produce::BuyCost_[%stackType] + 1, 2) * %total;
+	//		%price = mFloatLength(getBuyPrice(%stackType) + 1, 2) * %total;
 	// }
 	// else //this is a normal item
 	// {

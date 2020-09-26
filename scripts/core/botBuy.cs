@@ -12,7 +12,13 @@ function AIPlayer::setProduceData(%bot, %type, %data, %shapename, %dist)
 	%bot.produceCost = getWord(%data, 1);
 	if (%bot.produceCost $= "")
 	{
-		%bot.produceCost = %bot.produceType.cost;
+		switch$ (%bot.saleType)
+		{
+			case "Buy":
+				%bot.produceCost = getSellPrice(%bot.produceType);
+			case "Sell":
+				%bot.produceCost = getBuyPrice(%bot.produceType);
+		}
 	}
 
 	%bot.setShapeName(%shapename, 8564862);
@@ -78,13 +84,13 @@ function fxDTSBrick::listProducePrices(%brick, %cl)
 		%brick.centerprintMenu = new ScriptObject(ProduceMenus)
 		{
 			isCenterprintMenu = 1;
-			menuName = "Produce Prices";
+			menuName = "Sell Produce Prices";
 		};
 
 		for (%i = 0; %i < $ProduceCount; %i++)
 		{
 			%produce = getField($ProduceList_[%i], 0);
-			%cost = $Produce::BuyCost_[%produce];
+			%cost = getSellPrice(%produce);
 			%brick.centerprintMenu.menuOption[%i] = %produce @ " - $" @ mFloatLength(%cost, 2);
 		}
 		%brick.centerprintMenu.menuOptionCount = %i;
@@ -136,7 +142,7 @@ function AIPlayer::attemptBuy(%bot, %item)
 	%type = %item.getDatablock().stackType;
 	if (%bot.produceCost <= 0)
 	{
-		%money = %count * $Produce::BuyCost_[%type];
+		%money = getSellPrice(%type, %count);
 		if (strPos(strLwr(%type), "seed") >= 0) //halve seed prices //come up with a better way to store/change this info
 		{
 			%money = %money / 2;

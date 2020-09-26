@@ -6,8 +6,6 @@ datablock ItemData(PlanterItem : HammerItem)
 
 	colorShiftColor = "0.4 0 0 1";
 	image = PlanterImage;
-
-	cost = 1000;
 };
 
 datablock ShapeBaseImageData(PlanterImage)
@@ -57,8 +55,6 @@ datablock ItemData(PlanterV2Item : HammerItem)
 
 	colorShiftColor = "0 0 0.4 1";
 	image = PlanterV2Image;
-
-	cost = 2000;
 };
 
 datablock ShapeBaseImageData(PlanterV2Image)

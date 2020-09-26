@@ -4,7 +4,7 @@ function pickRandomEvent(%obj, %rand)
 	{
 		case "buyProduce": //Produce Buy Bonus
 			%crop = getRandomProduceType();
-			%price = mFloor($Produce::BuyCost_[%crop] * 1.5 * 10) / 10;
+			%price = mFloor(getSellPrice(%crop) * 1.5 * 10) / 10;
 
 			switch$ (%crop)
 			{
@@ -63,7 +63,7 @@ function pickRandomEvent(%obj, %rand)
 
 		case "sellInstrument": //Sell Instrument
 			%item = getRandomInstrument();
-			%price = %item.cost * (5 - getRandom(0, 2)) / 4;
+			%price = getBuyPrice(%item) * (5 - getRandom(0, 2)) / 4;
 
 			switch$ (%item.uiName)
 			{
@@ -85,19 +85,19 @@ function pickRandomEvent(%obj, %rand)
 		%fixedName = strReplace(getSubStr(%seed, 0, strLen(%seed) - 8), "_", " ") SPC "seeds";
 		if (%price < 100)
 		{
-			%price = $Produce::BuyCost_[%seed.stackType] / 2;
+			%price = getBuyPrice(%seed.stackType) / 2;
 			%msg = "I'm selling " @ %fixedName @ " for half the price!";
 		}
 		else
 		{
-			%price = $Produce::BuyCost_[%seed.stackType];
+			%price = getBuyPrice(%seed.stackType);
 			%msg = "I'm selling " @ %fixedName @ "!";	
 		}
 		return "SELL 1" TAB %seed TAB %price TAB %msg;
 	}
 	else if (%toolSelling)
 	{
-		%price = %item.cost * (10 - getRandom(0, 4)) / 8;
+		%price = getBuyPrice(%item) * (10 - getRandom(0, 4)) / 8;
 		%e = getSubStr(%item.uiName, strLen(%item.uiName) - 1, 1) $= "x" ? "e" : "";
 		return "SELL 1" TAB %item TAB %price TAB "I'm selling " @ %item.uiName @ %e @ "s!";	
 	}

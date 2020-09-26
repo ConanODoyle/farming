@@ -258,8 +258,6 @@ datablock ItemData(TrowelItem : HammerItem)
 
 	image = "TrowelImage";
 	colorShiftColor = "0.4 0 0 1";
-
-	cost = 1000;
 };
 
 datablock ShapeBaseImageData(TrowelImage)
@@ -310,8 +308,6 @@ datablock ItemData(ClipperItem : HammerItem)
 
 	image = "ClipperImage";
 	colorShiftColor = "0.4 0 0 1";
-
-	cost = 1600;
 };
 
 datablock ExplosionData(ClipperExplosion : swordExplosion) 
@@ -383,8 +379,6 @@ datablock ItemData(SickleItem : HammerItem)
 
 	image = "SickleImage";
 	colorShiftColor = "0.4 0 0 1";
-
-	cost = 1800;
 };
 
 datablock ShapeBaseImageData(SickleImage : TrowelImage)

@@ -560,8 +560,9 @@ function startOrderSeeds(%cl, %menu, %option)
 		return;
 	}
 
-	%cost = $Produce::BuyCost_[getSubStr(%seed.getName(), 0, strPos(%seed, "Item"))] / 2;
-	%max = 10 * $StorageMax_[getSubStr(%seed.getName(), 0, strPos(%seed, "Item"))];
+	%type = getSubStr(%seed.getName(), 0, strPos(%seed, "Item"));
+	%cost = getBuyPrice(%type) / 2;
+	%max = 10 * $StorageMax_[%type];
 	if (%max < 10)
 	{
 		%max = 10;

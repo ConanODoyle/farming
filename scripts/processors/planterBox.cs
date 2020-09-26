@@ -34,8 +34,6 @@ datablock ItemData(PlanterBoxItem : brickPlacerItem)
 	colorShiftColor = "0.90 0.48 0 1";
 
 	iconName = "Add-ons/Server_Farming/crops/icons/4x_planter";
-
-	cost = 150;
 };
 
 datablock ShapeBaseImageData(PlanterBoxBrickImage : BrickPlacerImage)
