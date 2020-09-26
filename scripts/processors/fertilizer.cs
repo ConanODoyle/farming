@@ -401,7 +401,7 @@ function createFertilizer(%brick)
 
     //check if there's space for new fertilizer, if yes, add
     %curr = validateStorageValue(getDataIDArrayValue(%dataID, 1));
-    %db = getStackTypeDatablock("Fertilizer", 1);
+    %db = getStackTypeDatablock("Compost", 1);
     %max = %brick.getStorageMax(%db);
     if (getWord(%curr, 1) < %max)
     {

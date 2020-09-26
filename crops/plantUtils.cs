@@ -556,7 +556,7 @@ function OrganicAnalyzerImage::onLoop(%this, %obj, %slot)
 
 	%start = %obj.getEyeTransform();
 	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
-	%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
+	%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType | $Typemasks::PlayerObjectType, %obj), 0);
 
 	if (isObject(%hit))
 	{
@@ -622,6 +622,16 @@ function OrganicAnalyzerImage::onLoop(%this, %obj, %slot)
 			}
 			
 			%cl.centerprint("<just:right><color:ffffff>" @ %string, 1);
+		}
+		else if (%hit.client.player == %hit)
+		{
+			%string = "\c3" @ %hit.client.getPlayerName() @ " \n";
+			if (isObject(%hit.getMountedImage(0)))
+			{
+				%string = %string @ %hit.getMountedImage(0).item.uiName;
+			}
+
+			%cl.centerprint("<just:right>" @ %string, 1);
 		}
 	}
 	else
