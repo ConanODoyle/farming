@@ -71,7 +71,7 @@ function deleteDataIDArray(%aid)
 function pruneDataIDArrays()
 {
 	if ($DataIDDebug) talk("pruneDataIDArrays");
-	while (getWordCount($loadedDataIDs) > 50)
+	while (getWordCount($loadedDataIDs) > 80)
 	{
 		%curr = getWord($loadedDataIDs, 0);
 		$loadedDataIDs = getWords($loadedDataIDs, 1, 100);
