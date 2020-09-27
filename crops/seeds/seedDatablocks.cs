@@ -198,13 +198,15 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 		//check around the brick for any other plants and make sure we dont violate their radius requirement
 		//but exclude flowerpots since those root systems dont intersect with each other
 		//fixed size to ensure we capture larger bricks that have longer-distance root systems compared to the current plant
-		%box = "16 16" SPC %zOffset;
-		%searchPos = vectorScale(vectorAdd(%pos, vectorSub(%pos, "0 0" SPC %zOffset)), 0.5);
-		%searchPos = vectorSub(%searchPos, "0 0" SPC 1.2);
+		%box = "16 16" SPC (%zOffset + 1.2);
+		%searchPos = vectorScale(vectorAdd(%pos, %base), 0.5);
 		if ($debugPlanting)
 		{
 			talk(%zOffset);
-			createBoxAt(%searchPos, "1 1 0 1", "0.2 0.2 0.2");
+			createBoxAt(%pos, "1 0 0 1", "0.1 0.1 0.1");
+			createBoxAt(%base, "1 0 0 1", "0.1 0.1 0.1");
+
+			createBoxAt(%searchPos, "1 1 0 1", "0.1 0.1 0.1");
 			createBoxAt(%searchPos, "1 0 0 0.1", vectorScale(%box, 0.5));
 		}
 		initContainerBoxSearch(%searchPos, %box, $Typemasks::fxBrickObjectType);
