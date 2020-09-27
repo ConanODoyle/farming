@@ -485,9 +485,9 @@ package DirtStatus
 			{
 				%waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
 				%string = "Water Level: " @ %waterLevel @ " ";
-				%nutrients = %hit.getNutrients();
 				if (%db.isDirt)
 				{
+					%nutrients = %hit.getNutrients();
 					if (getWord(%nutrients, 0) > 0 || getWord(%nutrients, 1) > 0)
 					{
 						%string = %string @ "\nHas nutrients ";
