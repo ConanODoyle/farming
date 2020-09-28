@@ -115,10 +115,17 @@ function sprinklerTick(%index)
 			continue;
 		}
 
-		if (getDataIDArrayTagValue(%waterDataID, "lastValidated") + 5 < $Sim::Time)
+		if ($restartCheck $= "")
+		{
+			$restartCheck = getSubStr(getRandomHash(), 0, 5);
+		}
+
+		if (getDataIDArrayTagValue(%waterDataID, "lastValidated") + 5 < $Sim::Time 
+			|| getDataIDArrayTagValue(%waterDataID, "restartCheck") != $restartCheck)
 		{
 			validateWaterSystem(%waterDataID);
 			setDataIDArrayTagValue(%waterDataID, "lastValidated", $Sim::Time);
+			setDataIDArrayTagValue(%waterDataID, "restartCheck", $restartCheck);
 		}
 
 		if (!%brick.isDead)
