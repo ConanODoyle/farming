@@ -6,12 +6,71 @@
 exec("./bricks.cs");
 
 $SprinklerMaxDistance = 20;
+$SprinklerWaterTime = 500;
 $DebugOn = 0;
 
 if (!isObject(SprinklerSimSet))
 {
 	$SprinklerSimSet = new SimSet(SprinklerSimSet) {};
 }
+
+
+package Sprinklers
+{
+	function fxDTSBrick::onAdd(%obj)
+	{
+		if (%obj.getDatablock().isSprinkler && %obj.isPlanted)
+		{
+			SprinklerSimSet.add(%obj);
+		}
+		
+		return parent::onAdd(%obj);
+	}
+
+	function fxDTSBrick::onRemove(%obj)
+	{
+		%db = %obj.getDatablock();
+		if (%db.isSprinkler || %db.isWaterTank)
+		{
+			%waterDataID = %db.isSprinkler ? getSprinklerDataID(%obj) : getWaterTankDataID(%obj);
+			if (%waterDataID !$= "")
+			{
+				if (%db.isSprinkler)
+				{
+					removeSprinkler(%waterDataID, %obj);
+				}
+				else
+				{
+					removeWaterTank(%waterDataID, %obj);
+				}
+			}
+		}
+
+		return parent::onRemove(%obj);
+	}
+
+	function fxDTSBrick::setNTObjectName(%obj, %name)
+	{
+		if ((%obj.getDatablock().isWaterTank || %obj.getDatablock().isSprinkler) && %obj.settingName == -1)
+		{
+			return 0;
+		}
+		%obj.settingName = -1;
+		return parent::setNTObjectName(%obj, %name);
+	}
+
+	function Armor::onTrigger(%this, %obj, %trig, %val)
+	{
+		if (isObject(%obj.getMountedImage(0)) && %obj.getMountedImage(0).getName() $= SprinklerLinkImage && %trig == 4 && %val == 1)
+		{
+			%obj.sprinklerLinkMode = "Open - click to link";
+			%obj.sprinklerLinkObj = "";
+			return;
+		}
+		return parent::onTrigger(%this, %obj, %trig, %val);
+	}
+};
+activatePackage(Sprinklers);
 
 function sprinklerTick(%index)
 {
@@ -48,32 +107,21 @@ function sprinklerTick(%index)
 		%brick = SprinklerSimSet.getObject(%index - %i);
 		if ($debugOn && %brick == $compare)
 			echo("Sprinkler: " @ %brick @ " " @ %brick.getDatablock().uiName);
-		if (%brick.age $= "")
+
+		%waterDataID = getSprinklerDataID(%brick);
+		
+		if (%waterDataID $= "") //no water system attached, no point running sprinkler functions
 		{
-			%brick.age = $Sim::Time;
-			// echo("Initialized " @ %brick @ " age");
+			continue;
 		}
-		// if (%brick.age + 60 < $Sim::Time && !$Server::AS["InUse"])
-		// {
-		// 	%name = %brick.getName();
-		// 	%brick.setName("CopySprinkler");
-		// 	%newbrick = new fxDTSBrick(replacement : CopySprinkler){}; //make a copy of the brick
-		// 	%newbrick.skipBuy = 1;
-		// 	getBrickgroupFromObject(%brick).add(%newbrick);
-		// 	%brick.sold = 1;
-		// 	%brick.delete();
-		// 	%newbrick.setName(%name);
-		// 	%newbrick.plant();
-		// 	%newbrick.setTrusted(1);
-		// 	SprinklerSimSet.add(%newbrick);
-		// 	doSprinklerSearch(%newbrick);
-		// 	%i += 2; //process fewer this tick
-		// 	if ($debugOn && %brick == $compare)
-		// 		echo("Replaced Sprinkler: " @ %brick @ " with " @ %newbrick);
-		// 	%newbrick.age = $Sim::Time;
-		// 	continue;
-		// }
-		else if (!%brick.isDead)
+
+		if (getDataIDArrayTagValue(%waterDataID, "lastValidated") + 5 < $Sim::Time)
+		{
+			validateWaterSystem(%waterDataID);
+			setDataIDArrayTagValue(%waterDataID, "lastValidated", $Sim::Time);
+		}
+
+		if (!%brick.isDead)
 		{
 			doSprinklerSearch(%brick);
 		}
@@ -88,32 +136,57 @@ function sprinklerTick(%index)
 
 function doSprinklerWater(%sprinkler)
 {
-	if (%sprinkler.lastWater + 500 | 0 < getSimTime()) //every half second
+	if ((%sprinkler.lastWater + $SprinklerWaterTime | 0) > getSimTime()) //add water every half second
 	{
 		return;
 	}
 
 	%list = %sprinkler.dirtList;
 	%count = getWordCount(%list);
+	%total = %sprinkler.getDatablock().waterPerSecond * ($SprinklerWaterTime / 1000);
+
+	%thirstyDirtCount = 0;
+	%totalThirst = 0;
 	for (%i = 0; %i < %count; %i++)
 	{
 		%dirt = getWord(%list, %i);
 		if (isObject(%dirt))
 		{
 			%diff = %dirt.getDatablock().maxWater - %dirt.waterLevel;
-			%amt = drawWater(%sprinkler, %diff);
-			%dirt.setWaterLevel(%dirt.waterLevel + %diff);
-			if (%amt > 0)
+			%totalThirst += %diff;
+			if (%diff > 0)
 			{
-				%dispensedCount++;
+				%dirt[%thirstyDirtCount] = %dirt;
+				%dirtThirst[%thirstyDirtCount] = %diff;
+				%thirstyDirtCount++;
 			}
+		}
+	}
+
+	for (%i = 0; %i < %thirstyDirtCount; %i++)
+	{
+		%dirt = %dirt[%i];
+		%thirst = %dirtThirst[%i];
+		%ratioWaterAmt = getMin(%thirst, mFloor(%thirst / %totalThirst * %total + 0.5));
+		%debugStr = %debugStr @ "\n" @ %ratioWaterAmt SPC %thirst SPC %totalThirst;
+
+		%amt = drawWater(%sprinkler, %ratioWaterAmt);
+		%dirt.setWaterLevel(%dirt.waterLevel + %amt);
+		if (%amt > 0)
+		{
+			%totalDispensed += %amt;
+			$totalWaterDispensed += %amt;
+			%dispensedCount++;
 		}
 	}
 
 	if (%dispensedCount > 0)
 	{
 		%sprinkler.setEmitter("ChromePaintDropletEmitter");
-		%sprinkler.schedule(1000, setEmitter, "");
+	}
+	else
+	{
+		%sprinkler.setEmitter("");
 	}
 	%sprinkler.lastWater = getSimTime();
 	return %dispensedCount;
@@ -168,6 +241,7 @@ function doSprinklerSearch(%sprinkler)
 			%count++;
 		}
 	}
+	%sprinkler.dirtList = trim(%sprinkler.dirtList);
 	if ($debugOn && %sprinkler == $compare)
 		echo("    " @ %sprinkler @ " Box search complete (Safety: " @ %safety @ ")");
 
@@ -187,159 +261,225 @@ function doSprinklerSearch(%sprinkler)
 	return "count: " @ %count;
 }
 
-package Sprinklers
+
+function getWaterSystemDataID()
 {
-	function fxDTSBrick::onAdd(%obj)
+	return getSubStr(getRandomHash(), 0, 10) @ "WaterSys";
+}
+
+function getWaterTankDataID(%tank)
+{
+	if (strLen(%tank.getName()) < 2)
 	{
-		if (%obj.getDatablock().isSprinkler && %obj.isPlanted)
-		{
-			SprinklerSimSet.add(%obj);
-		}
+		return 1;
+	}
+	return getSubStr(%tank.getName(), 1, 50);
+}
 
-		if (%obj.getDatablock().isWaterTank && %obj.isPlanted)
-		{
-			schedule(100, %obj, setWaterTankName, %obj);
-		}
+function getSprinklerDataID(%sprinkler)
+{
+	%n = %sprinkler.getName();
+	if (strLen(%n) < 2 || strPos(%n, "_", 1))
+	{
+		return 1;
+	}
+	return getSubStr(%n, 1, strPos(%n, "_", 1) - 1);
+}
 
-		return parent::onAdd(%obj);
+function getSprinklerTankHash(%sprinkler)
+{
+	%n = %sprinkler.getName();
+	if (strLen(%n) < 2 || strPos(%n, "_", 1))
+	{
+		return 1;
+	}
+	return getSubStr(%n, strPos(%n, "_", 1) + 1, 50);
+}
+
+function addWaterTank(%waterDataID, %tank)
+{
+	%oldDataID = getWaterTankDataID(%tank);
+	if (%oldDataID !$= "")
+	{
+		removeWaterTank(%oldDataID, %tank);
 	}
 
-	function fxDTSBrick::setNTObjectName(%obj, %name)
+	%tanks = getDataIDArrayTagValue(%waterDataID, "tanks");
+	%tanks = trim(%tanks SPC %tank.getID());
+
+	setDataIDArrayTagValue(%waterDataID, "tanks", %tanks);
+	%tank.setName("_" @ %waterDataID);
+	%tank.posHash = getSubStr(sha1(%tank.getPosition()), 0, 8);
+}
+
+function addSprinkler(%waterDataID, %tank, %sprinkler)
+{
+	if (vectorDist(%tank.getPosition(), %sprinkler.getPosition()) > $SprinklerMaxDistance)
 	{
-		if ((%obj.getDatablock().isWaterTank || %obj.getDatablock().isSprinkler) && %obj.settingName == -1)
-		{
-			return 0;
-		}
-		%obj.settingName = -1;
-		return parent::setNTObjectName(%obj, %name);
+		return 1;
 	}
 
-	function Armor::onTrigger(%this, %obj, %trig, %val)
+	%dataID = getWaterTankDataID(%tank);
+	if (%dataID !$= %waterDataID)
 	{
-		if (isObject(%obj.getMountedImage(0)) && %obj.getMountedImage(0).getName() $= SprinklerLinkImage && %trig == 4 && %val == 1)
-		{
-			%obj.sprinklerLinkMode = "Open - click to link";
-			%obj.sprinklerLinkObj = "";
-			return;
-		}
-		return parent::onTrigger(%this, %obj, %trig, %val);
+		return 1;
 	}
 
-	function fxDTSBrick::onDeath(%obj)
+	%posHash = getSubStr(sha1(%tank.getPosition()), 0, 8);
+	if (%tank.posHash !$= "" && %tank.posHash !$= %posHash)
 	{
-		%ret = parent::onDeath(%obj);
-		// %obj.isDead = 1;
-		if (%obj.getDatablock().isSprinkler && %obj.isPlanted)
-		{
-			SprinklerSimSet.remove(%obj);
-			%obj.removedFromSimset = 1;
-		}
-		return %ret;
+		talk("Tank position hash mismatch!");
+		return 1;
+	}
+	else
+	{
+		%tank.posHash = %posHash;
 	}
 
-	function fxDTSBrick::onRemove(%obj)
+	%oldDataID = getSprinklerDataID(%sprinkler);
+	if (%oldDataID !$= "")
 	{
-		%ret = parent::onRemove(%obj);
-		if (%obj.getDatablock().isSprinkler && !%obj.removedFromSimset && %obj.isPlanted)
-		{
-			SprinklerSimSet.remove(%obj);
-		}
-		return %ret;
+		removeSprinkler(%oldDataID, %sprinkler);
 	}
-};
-activatePackage(Sprinklers);
+	%sprinklers = getDataIDArrayTagValue(%waterDataID, "sprinklers");
+	%sprinklers = trim(%sprinklers SPC %sprinkler.getID());
+
+	setDataIDArrayTagValue(%waterDataID, "sprinklers", %sprinklers);
+	%sprinkler.setName("_" @ %waterDataID @ "_" @ %posHash);
+}
+
+function removeWaterTank(%waterDataID, %tank)
+{
+	%tanks = " " @ getDataIDArrayTagValue(%waterDataID, "tanks") @ " ";
+	%tanks = strReplace(%tanks, " " @ %tank.getID() @ " ", " ");
+	setDataIDArrayTagValue(%waterDataID, "tanks", trim(%tanks));
+	%tank.setName("");
+}
+
+function removeSprinkler(%waterDataID, %sprinkler)
+{
+	%sprinklers = " " @ getDataIDArrayTagValue(%waterDataID, "sprinklers") @ " ";
+	%sprinklers = strReplace(%sprinklers, " " @ %sprinkler.getID() @ " ", " ");
+	setDataIDArrayTagValue(%waterDataID, "sprinklers", trim(%sprinklers));
+	%sprinkler.setName("");
+}
+
+function validateWaterSystem(%waterDataID)
+{
+	%tanks = getDataIDArrayTagValue(%waterDataID, "tanks");
+	%sprinklers = getDataIDArrayTagValue(%waterDataID, "sprinklers");
+	%tankCount = getWordCount(%tanks);
+	%sprinklerCount = getWordCount(%sprinklers);
+
+	for (%i = 0; %i < %tankCount; %i++)
+	{
+		%tank = getWord(%tanks, %i);
+		if (!isObject(%tank))
+		{
+			continue;
+		}
+
+		%tankDB = %tank.getDatablock();
+		if (%tankDB.maxSprinklers > 0)
+		{
+			%posHash = getSubStr(sha1(%tank.getPosition()), 0, 8);
+			%tank.posHash = %posHash;
+			%sprinklerCount[%posHash] = %tankDB.maxSprinklers;
+		}
+		%finalTanks = %finalTanks SPC %tank;
+	}
+
+	for (%i = 0; %i < %sprinklerCount; %i++)
+	{
+		%sprinkler = getWord(%sprinklers, %i);
+		if (!isObject(%sprinkler))
+		{
+			continue;
+		}
+
+		%posHash = getSprinklerTankHash(%sprinkler);
+		if (%sprinklerCount[%posHash] <= 0)
+		{
+			%remove = %remove SPC %sprinkler;
+		}
+		else
+		{
+			%sprinklerCount[%posHash]--;
+			%finalSprinklers = %finalSprinklers SPC %sprinkler;
+		}
+	}
+	%remove = trim(%remove);
+
+	for (%i = 0; %i < getWordCount(%remove); %i++)
+	{
+		removeSprinkler(%waterDataID, getWord(%remove, %i));
+	}
+	setDataIDArrayTagValue(%waterDataID, "tanks", trim(%tanks));
+	setDataIDArrayTagValue(%waterDataID, "sprinklers", trim(%sprinklers));
+}
 
 function drawWater(%sprinkler, %targetAmt, %rateModifier)
 {
-	if (%rateModifier <= 0)
+	%waterDataID = getSprinklerDataID(%sprinkler);
+	%posHash = getSprinklerTankHash(%sprinkler);
+	%tanks = getDataIDArrayTagValue(%waterDataID, "tanks");
+	%tankCount = getWordCount(%tanks);
+
+	//transfer water to connecting tank
+	%maxExtra = 0;
+	%bestExtra = 0;
+	%connectingTank = 0;
+	for (%i = 0; %i < %tankCount; %i++)
 	{
-		%rateModifier = 1;
+		%tank = getWord(%tanks, %i);
+		if (!isObject(%tank))
+		{
+			continue;
+		}
+
+		if (%tank.posHash $= %posHash)
+		{
+			%connectingTank = %tank;
+		}
+		else if (%tank.getDatablock().isExtraTank && %tank.waterLevel > %maxExtra)
+		{
+			%maxExtra = %tank.waterLevel;
+			%bestExtra = %tank;
+		}
 	}
 
-	%waterSource = %sprinkler.getName() @ "Tank";
-	if (!isObject(%waterSource))
+	//no connecting tank, this isn't a valid part of the system anymore, break
+	if (!isObject(%connectingTank))
 	{
 		return 0;
 	}
 
-	%waterSourceDB = waterSource.getDatablock();
+	//draw water based on water rate
 	%sprinklerDB = %sprinkler.getDatablock();
-	if (%waterSourceDB.isInfiniteWaterSource) //infinite water sources force-fill dirt
-	{
-		if (%waterSourceDB.waterPerSecond !$= "")
-		{
-			return getMin(%waterSourceDB.waterPerSecond, %targetAmt);
-		}
-		else
-		{
-			return %targetAmt;
-		}
-	}
+	%maxGive = getMin(%connectingTank.waterLevel, %targetAmt);
 
-	%max = getMin(%waterSource.waterLevel, %sprinklerDB.waterPerSecond) * %rateModifier;
-	if (%max < %targetAmt)
+	%connectingTank.setWaterLevel(%connectingTank.waterLevel - %maxGive);
+
+
+	//refill connecting tank from extra tank
+	if (%connectingTank.getDatablock().isInfiniteWaterSource)
 	{
-		%waterSource.setWaterLevel(%waterSource.waterLevel - %max);
-		return %max;
+		%connectingTank.waterLevel = %connectingTank.getDatablock().maxWater;
 	}
-	else
+	if ((%diff = %connectingTank.getDatablock().maxWater - %connectingTank.waterLevel) > 0 && isObject(%bestExtra))
 	{
-		%waterSource.setWaterLevel(%waterSource.waterLevel - %targetAmt);
-		return %targetAmt;
+		%give = getMin(%diff, %maxExtra);
+		%connectingTank.setWaterLevel(%connectingTank.waterLevel + %give);
+		%bestExtra.setWaterLevel(%bestExtra.waterLevel - %give);
 	}
+	return %maxGive;
 }
 
-function setWaterTankName(%obj)
-{
-	if (%obj.getName() !$= "")
-	{
-		return;
-	}
 
-	%rand = "_" @ getSubStr(getRandomHash("sprinkler"), 0, 20) @ "Tank";
-	while (isObject(%rand))
-	{
-		%rand = "_" @ getSubStr(getRandomHash("sprinkler"), 0, 20) @ "Tank";
-	}
-	%obj.settingName = 1;
-	%obj.setNTObjectName(%rand);
-	%obj.settingName = -1;
-}
 
-function getSprinklerCount(%brick)
-{
-	%db = %brick.getDatablock();
-	if (!%db.isWaterTank)
-	{
-		return -1;
-	}
-	else if ($Sim::Time - %brick.lastCheckedSprinklerTime < 1)
-	{
-		return %brick.lastCheckedSprinklerCount TAB %brick.lastCheckedSprinklerList;
-	}
 
-	%name = %brick.getName();
-	%name = getSubStr(%name, 0, strLen(%name) - 4); //get rid of the "Tank"
 
-	%count = 0;
-	while (isObject(%name)) //sprinkler names are the tank name minus "Tank"
-	{
-		%sprinkler[%count] = %name.getID();
-		%name.setName("temp");
-		%count++;
-	}
 
-	for (%i = 0; %i < %count; %i++)
-	{
-		%sprinkler[%i].setName(%name);
-		%final = %final SPC %sprinkler[%i];
-	}
-
-	%brick.lastCheckedSprinklerCount = %count;
-	%brick.lastCheckedSprinklerList = trim(%final);
-	%brick.lastCheckedSprinklerTime = $Sim::Time;
-	return %count TAB trim(%final);
-}
 
 datablock ItemData(SprinklerLinkItem : HammerItem)
 {

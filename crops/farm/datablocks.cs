@@ -45,9 +45,9 @@ datablock fxDTSBrickData(brickSmallWaterTankData)
 
 	cost = 200;
 	isWaterTank = 1;
-	maxWater = 5000;
+	maxWater = 10000;
 
-	maxSprinklers = 10;
+	maxSprinklers = 4;
 };
 
 datablock fxDTSBrickData(brickSmallWaterInfiniteTankData)
@@ -61,6 +61,7 @@ datablock fxDTSBrickData(brickSmallWaterInfiniteTankData)
 	cost = -1;
 	isInfiniteWaterSource = 1;
 	isWaterTank = 1;
+	maxWater = 10000;
 	waterPerSecond = 50;
 
 	maxSprinklers = 100;
@@ -78,9 +79,9 @@ datablock fxDTSBrickData(brickMediumWaterTankData)
 
 	cost = 800;
 	isWaterTank = 1;
-	maxWater = 25000;
+	maxWater = 50000;
 
-	maxSprinklers = 10;
+	maxSprinklers = 4;
 };
 
 datablock fxDTSBrickData(brickLargeWaterTankData) 
@@ -95,27 +96,27 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 
 	cost = 2200;
 	isWaterTank = 1;
-	maxWater = 75000;
-	maxSprinklers = 4;
-	maxDistance = 36;
+	maxWater = 100000;
+	maxSprinklers = 0;
+	isExtraTank = 1;
 };
 
-datablock fxDTSBrickData(brickMassiveWaterTankData) 
-{
-	category = "Farming";
-	subCategory = "Water Tanks";
-	uiName = "Massive Water Tank";
+// datablock fxDTSBrickData(brickMassiveWaterTankData) 
+// {
+// 	category = "Farming";
+// 	subCategory = "Water Tanks";
+// 	uiName = "Massive Water Tank";
 
-	brickFile = "./bricks/massiveWaterTank.blb";
+// 	brickFile = "./bricks/massiveWaterTank.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/massive_water_tank";
+// 	iconName = "Add-Ons/Server_Farming/crops/icons/massive_water_tank";
 
-	cost = 4000;
-	isWaterTank = 1;
-	maxWater = 200000;
-	maxSprinklers = 4;
-	maxDistance = 68;
-};
+// 	cost = 4000;
+// 	isWaterTank = 1;
+// 	maxWater = 200000;
+// 	maxSprinklers = 0;
+// 	maxDistance = 68;
+// };
 
 
 //////////////
