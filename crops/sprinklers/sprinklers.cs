@@ -19,9 +19,11 @@ package Sprinklers
 {
 	function fxDTSBrick::onAdd(%obj)
 	{
-		if (%obj.getDatablock().isSprinkler && %obj.isPlanted)
+		%db = %obj.getDatablock();
+		if (%obj.isPlanted && (%db.isSprinkler || %db.isWaterTank))
 		{
 			SprinklerSimSet.add(%obj);
+			%obj.schedule(100, autoAddWaterSystem);
 		}
 		
 		return parent::onAdd(%obj);
@@ -76,6 +78,11 @@ function sprinklerTick(%index)
 {
 	cancel($masterSprinklerSchedule);
 
+	if ($restartCheck $= "")
+	{
+		$restartCheck = getSubStr(getRandomHash(), 0, 5);
+	}
+
 	if (!isObject(MissionCleanup))
 	{
 		return;
@@ -103,21 +110,14 @@ function sprinklerTick(%index)
 		{
 			break;
 		}
-
 		%brick = SprinklerSimSet.getObject(%index - %i);
-		if ($debugOn && %brick == $compare)
-			echo("Sprinkler: " @ %brick @ " " @ %brick.getDatablock().uiName);
 
+
+		//validation checks
 		%waterDataID = getSprinklerDataID(%brick);
-		
-		if (%waterDataID $= "") //no water system attached, no point running sprinkler functions
+		if (%waterDataID $= "") //no water system attached, no point running waterflow functions
 		{
 			continue;
-		}
-
-		if ($restartCheck $= "")
-		{
-			$restartCheck = getSubStr(getRandomHash(), 0, 5);
 		}
 
 		if (getDataIDArrayTagValue(%waterDataID, "lastValidated") + 5 < $Sim::Time 
@@ -128,13 +128,22 @@ function sprinklerTick(%index)
 			setDataIDArrayTagValue(%waterDataID, "restartCheck", $restartCheck);
 		}
 
-		if (!%brick.isDead)
+
+		//flow water to water tanks
+		if (%brick.getDatablock().isWaterTank && !%brick.getDatablock().isOutflowTank)
 		{
-			doSprinklerSearch(%brick);
+			flowWater(%brick);
 		}
+		else if (%brick.getDatablock().isSprinkler)
+		{
+			//run sprinklers
+			if (!%brick.isDead)
+			{
+				doSprinklerSearch(%brick);
+				doSprinklerWater(%brick);
+			}
 
-		doSprinklerWater(%brick);
-
+		}
 		%totalBricksProcessed++;
 	}
 
@@ -268,6 +277,23 @@ function doSprinklerSearch(%sprinkler)
 	return "count: " @ %count;
 }
 
+function fxDTSBrick::autoAddWaterSystem(%brick)
+{
+	if (%brick.getDatablock().isSprinkler && %brick.getName() !$= "")
+	{
+		%waterDataID = getSprinklerDataID(%brick);
+		%posHash = getSprinklerTankHash(%brick);
+		addSprinkler(%waterDataID, "", %sprinkler, %posHash);
+	}
+	else if (%brick.getDatablock().isWaterTank && %brick.getName() !$= "")
+	{
+		%waterDataID = getWaterTankDataID(%brick);
+		addWaterTank(%waterDataID, %brick);
+	}
+}
+
+
+
 
 function getWaterSystemDataID()
 {
@@ -319,7 +345,7 @@ function addWaterTank(%waterDataID, %tank)
 	%tank.posHash = getSubStr(sha1(%tank.getPosition()), 0, 8);
 }
 
-function addSprinkler(%waterDataID, %tank, %sprinkler)
+function addSprinkler(%waterDataID, %tank, %sprinkler, %posHash)
 {
 	if (vectorDist(%tank.getPosition(), %sprinkler.getPosition()) > $SprinklerMaxDistance)
 	{
@@ -332,15 +358,18 @@ function addSprinkler(%waterDataID, %tank, %sprinkler)
 		return 1;
 	}
 
-	%posHash = getSubStr(sha1(%tank.getPosition()), 0, 8);
-	if (%tank.posHash !$= "" && %tank.posHash !$= %posHash)
+	if (isObject(%tank))
 	{
-		talk("Tank position hash mismatch!");
-		return 1;
-	}
-	else
-	{
-		%tank.posHash = %posHash;
+		%posHash = getSubStr(sha1(%tank.getPosition()), 0, 8);
+		if (%tank.posHash !$= "" && %tank.posHash !$= %posHash)
+		{
+			talk("Tank position hash mismatch!");
+			return 1;
+		}
+		else
+		{
+			%tank.posHash = %posHash;
+		}
 	}
 
 	%oldDataID = getSprinklerDataID(%sprinkler);
@@ -433,8 +462,8 @@ function drawWater(%sprinkler, %targetAmt, %rateModifier)
 	%tankCount = getWordCount(%tanks);
 
 	//transfer water to connecting tank
-	%maxExtra = 0;
-	%bestExtra = 0;
+	%maxOutflow = 0;
+	%bestOutflow = 0;
 	%connectingTank = 0;
 	for (%i = 0; %i < %tankCount; %i++)
 	{
@@ -448,10 +477,10 @@ function drawWater(%sprinkler, %targetAmt, %rateModifier)
 		{
 			%connectingTank = %tank;
 		}
-		else if (%tank.getDatablock().isExtraTank && %tank.waterLevel > %maxExtra)
+		else if (%tank.getDatablock().isOutflowTank && %tank.waterLevel > %maxOutflow)
 		{
-			%maxExtra = %tank.waterLevel;
-			%bestExtra = %tank;
+			%maxOutflow = %tank.waterLevel;
+			%bestOutflow = %tank;
 		}
 	}
 
@@ -473,13 +502,52 @@ function drawWater(%sprinkler, %targetAmt, %rateModifier)
 	{
 		%connectingTank.waterLevel = %connectingTank.getDatablock().maxWater;
 	}
-	if ((%diff = %connectingTank.getDatablock().maxWater - %connectingTank.waterLevel) > 0 && isObject(%bestExtra))
+	if ((%diff = %connectingTank.getDatablock().maxWater - %connectingTank.waterLevel) > 0 && isObject(%bestOutflow))
 	{
-		%give = getMin(%diff, %maxExtra);
+		%give = getMin(%diff, %bestOutflow.waterLevel);
 		%connectingTank.setWaterLevel(%connectingTank.waterLevel + %give);
-		%bestExtra.setWaterLevel(%bestExtra.waterLevel - %give);
+		%bestOutflow.setWaterLevel(%bestOutflow.waterLevel - %give);
 	}
 	return %maxGive;
+}
+
+function flowWater(%tank)
+{
+	if (%tank.getDatablock().isOutflowTank)
+	{
+		return;
+	}
+
+	%waterDataID = getWaterTankDataID(%tank);
+	%tanks = getDataIDArrayTagValue(%waterDataID, "tanks");
+	%tankCount = getWordCount(%tanks);
+
+	%maxOutflow = 0;
+	%bestOutflow = 0;
+	for (%i = 0; %i < %tankCount; %i++)
+	{
+		%searchTank = getWord(%tanks, %i);
+		if (!isObject(%searchTank) || %tank == %searchTank)
+		{
+			continue;
+		}
+		else if (%searchTank.getDatablock().isOutflowTank && %searchTank.waterLevel > %maxOutflow)
+		{
+			%maxOutflow = %searchTank.waterLevel;
+			%bestOutflow = %searchTank;
+		}
+	}
+
+	if (%bestOutflow.getDatablock().isInfiniteWaterSource)
+	{
+		%bestOutflow.waterLevel = %bestOutflow.getDatablock().maxWater;
+	}
+	if ((%diff = %tank.getDatablock().maxWater - %tank.waterLevel) > 0 && isObject(%bestOutflow))
+	{
+		%give = getMin(%diff, %bestOutflow.waterLevel);
+		%tank.setWaterLevel(%tank.waterLevel + %give);
+		%bestOutflow.setWaterLevel(%bestOutflow.waterLevel - %give);
+	}
 }
 
 

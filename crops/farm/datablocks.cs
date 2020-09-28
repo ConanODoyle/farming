@@ -98,7 +98,7 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 	isWaterTank = 1;
 	maxWater = 100000;
 	maxSprinklers = 0;
-	isExtraTank = 1;
+	isOutflowTank = 1;
 };
 
 // datablock fxDTSBrickData(brickMassiveWaterTankData) 
