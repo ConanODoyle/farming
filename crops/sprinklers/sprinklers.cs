@@ -114,14 +114,22 @@ function sprinklerTick(%index)
 
 
 		//validation checks
-		%waterDataID = getSprinklerDataID(%brick);
+		if (%brick.getDatablock().isSprinkler)
+		{
+			%waterDataID = getSprinklerDataID(%brick);
+		}
+		else if (%brick.getDatablock().isWaterTank)
+		{
+			%waterDataID = getWaterTankDataID(%brick);
+		}
 		if (%waterDataID $= "") //no water system attached, no point running waterflow functions
 		{
+			talk("No water dataID " @ %brick);
 			continue;
 		}
-
+		
 		if (getDataIDArrayTagValue(%waterDataID, "lastValidated") + 5 < $Sim::Time 
-			|| getDataIDArrayTagValue(%waterDataID, "restartCheck") != $restartCheck)
+			|| getDataIDArrayTagValue(%waterDataID, "restartCheck") !$= $restartCheck)
 		{
 			validateWaterSystem(%waterDataID);
 			setDataIDArrayTagValue(%waterDataID, "lastValidated", $Sim::Time);
@@ -283,7 +291,7 @@ function fxDTSBrick::autoAddWaterSystem(%brick)
 	{
 		%waterDataID = getSprinklerDataID(%brick);
 		%posHash = getSprinklerTankHash(%brick);
-		addSprinkler(%waterDataID, "", %sprinkler, %posHash);
+		addSprinkler(%waterDataID, "", %brick, %posHash);
 	}
 	else if (%brick.getDatablock().isWaterTank && %brick.getName() !$= "")
 	{
@@ -312,7 +320,7 @@ function getWaterTankDataID(%tank)
 function getSprinklerDataID(%sprinkler)
 {
 	%n = %sprinkler.getName();
-	if (strLen(%n) < 2 || strPos(%n, "_", 1))
+	if (strLen(%n) < 2 || strPos(%n, "_", 1) < 0)
 	{
 		return 1;
 	}
@@ -322,7 +330,7 @@ function getSprinklerDataID(%sprinkler)
 function getSprinklerTankHash(%sprinkler)
 {
 	%n = %sprinkler.getName();
-	if (strLen(%n) < 2 || strPos(%n, "_", 1))
+	if (strLen(%n) < 2 || strPos(%n, "_", 1) < 0)
 	{
 		return 1;
 	}
@@ -347,19 +355,19 @@ function addWaterTank(%waterDataID, %tank)
 
 function addSprinkler(%waterDataID, %tank, %sprinkler, %posHash)
 {
-	if (vectorDist(%tank.getPosition(), %sprinkler.getPosition()) > $SprinklerMaxDistance)
-	{
-		return 1;
-	}
-
-	%dataID = getWaterTankDataID(%tank);
-	if (%dataID !$= %waterDataID)
-	{
-		return 1;
-	}
-
 	if (isObject(%tank))
 	{
+		if (vectorDist(%tank.getPosition(), %sprinkler.getPosition()) > $SprinklerMaxDistance)
+		{
+			return 1;
+		}
+
+		%dataID = getWaterTankDataID(%tank);
+		if (%dataID !$= %waterDataID)
+		{
+			return 1;
+		}
+
 		%posHash = getSubStr(sha1(%tank.getPosition()), 0, 8);
 		if (%tank.posHash !$= "" && %tank.posHash !$= %posHash)
 		{
@@ -369,6 +377,14 @@ function addSprinkler(%waterDataID, %tank, %sprinkler, %posHash)
 		else
 		{
 			%tank.posHash = %posHash;
+		}
+	}
+	else
+	{
+		%dataID = getSprinklerDataID(%sprinkler);
+		if (%dataID $= "")
+		{
+			return 1;
 		}
 	}
 
@@ -410,7 +426,7 @@ function validateWaterSystem(%waterDataID)
 	for (%i = 0; %i < %tankCount; %i++)
 	{
 		%tank = getWord(%tanks, %i);
-		if (!isObject(%tank))
+		if (!isObject(%tank) || !%tank.getDatablock().isWaterTank)
 		{
 			continue;
 		}
@@ -428,7 +444,7 @@ function validateWaterSystem(%waterDataID)
 	for (%i = 0; %i < %sprinklerCount; %i++)
 	{
 		%sprinkler = getWord(%sprinklers, %i);
-		if (!isObject(%sprinkler))
+		if (!isObject(%sprinkler) || !%sprinkler.getDatablock().isSprinkler)
 		{
 			continue;
 		}
@@ -450,8 +466,8 @@ function validateWaterSystem(%waterDataID)
 	{
 		removeSprinkler(%waterDataID, getWord(%remove, %i));
 	}
-	setDataIDArrayTagValue(%waterDataID, "tanks", trim(%tanks));
-	setDataIDArrayTagValue(%waterDataID, "sprinklers", trim(%sprinklers));
+	setDataIDArrayTagValue(%waterDataID, "tanks", trim(%finalTanks));
+	setDataIDArrayTagValue(%waterDataID, "sprinklers", trim(%finalSprinklers));
 }
 
 function drawWater(%sprinkler, %targetAmt, %rateModifier)
@@ -513,7 +529,7 @@ function drawWater(%sprinkler, %targetAmt, %rateModifier)
 
 function flowWater(%tank)
 {
-	if (%tank.getDatablock().isOutflowTank)
+	if (%tank.getDatablock().isOutflowTank || %tank.waterLevel == %tank.getDatablock().maxWater)
 	{
 		return;
 	}
@@ -536,6 +552,11 @@ function flowWater(%tank)
 			%maxOutflow = %searchTank.waterLevel;
 			%bestOutflow = %searchTank;
 		}
+	}
+
+	if (!isObject(%bestOutflow))
+	{
+		return;
 	}
 
 	if (%bestOutflow.getDatablock().isInfiniteWaterSource)
