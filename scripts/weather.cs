@@ -363,6 +363,9 @@ function rainLoop(%index)
 		{
 			%numTimes = mFloor(($Sim::Time - %brick.nextRain) / 2) + 1;
 
+			%x = (getRandom() - 0.5) * %db.brickSizeX;
+			%y = (getRandom() - 0.5) * %db.brickSizeX;
+			%pos = vectorAdd(%pos, %x SPC %y SPC 0);
 			%ray = containerRaycast(%pos, vectorAdd(%pos, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
 			%hit = getWord(%ray, 0);
 			while (%hit.getDatablock().isPlant)
@@ -426,6 +429,9 @@ function heatLoop(%index)
 		{
 			%numTimes = mFloor(($Sim::Time - %brick.nextRain) / 2) + 1;
 
+			%x = (getRandom() - 0.5) * %db.brickSizeX;
+			%y = (getRandom() - 0.5) * %db.brickSizeX;
+			%pos = vectorAdd(%pos, %x SPC %y SPC 0);
 			%ray = containerRaycast(%pos, vectorAdd(%pos, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
 			%hit = getWord(%ray, 0);
 			while (%hit.getDatablock().isPlant)
