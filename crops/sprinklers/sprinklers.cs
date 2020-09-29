@@ -39,11 +39,11 @@ package Sprinklers
 			{
 				if (%db.isSprinkler)
 				{
-					removeSprinkler(%waterDataID, %obj);
+					removeSprinkler(%waterDataID, %obj, 1);
 				}
 				else
 				{
-					removeWaterTank(%waterDataID, %obj);
+					removeWaterTank(%waterDataID, %obj, 1);
 				}
 			}
 		}
@@ -400,20 +400,26 @@ function addSprinkler(%waterDataID, %tank, %sprinkler, %posHash)
 	%sprinkler.setName("_" @ %waterDataID @ "_" @ %posHash);
 }
 
-function removeWaterTank(%waterDataID, %tank)
+function removeWaterTank(%waterDataID, %tank, %skipUnsetName)
 {
 	%tanks = " " @ getDataIDArrayTagValue(%waterDataID, "tanks") @ " ";
 	%tanks = strReplace(%tanks, " " @ %tank.getID() @ " ", " ");
 	setDataIDArrayTagValue(%waterDataID, "tanks", trim(%tanks));
-	%tank.setName("");
+	if (!%skipUnsetName) //fix for insta crash due to unsetting name during onRemove
+	{
+		%tank.setName("");
+	}
 }
 
-function removeSprinkler(%waterDataID, %sprinkler)
+function removeSprinkler(%waterDataID, %sprinkler, %skipUnsetName)
 {
 	%sprinklers = " " @ getDataIDArrayTagValue(%waterDataID, "sprinklers") @ " ";
 	%sprinklers = strReplace(%sprinklers, " " @ %sprinkler.getID() @ " ", " ");
 	setDataIDArrayTagValue(%waterDataID, "sprinklers", trim(%sprinklers));
-	%sprinkler.setName("");
+	if (!%skipUnsetName) //fix for insta crash due to unsetting name during onRemove
+	{
+		%sprinkler.setName("");
+	}
 }
 
 function validateWaterSystem(%waterDataID)
@@ -434,8 +440,15 @@ function validateWaterSystem(%waterDataID)
 		%tankDB = %tank.getDatablock();
 		if (%tankDB.maxSprinklers > 0)
 		{
-			%posHash = getSubStr(sha1(%tank.getPosition()), 0, 8);
-			%tank.posHash = %posHash;
+			if (%tank.posHash $= "")
+			{
+				%posHash = getSubStr(sha1(%tank.getPosition()), 0, 8);
+				%tank.posHash = %posHash;
+			}
+			else
+			{
+				%posHash = %tank.posHash;
+			}
 			%sprinklerCount[%posHash] = %tankDB.maxSprinklers;
 		}
 		%finalTanks = %finalTanks SPC %tank;
@@ -828,4 +841,119 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 	{
 		%cl.centerprint("\c2Link Mode: <br><color:ffffff>" @ %sprinklerLinkMode @ %suffix @ %postSuffix @ %obj.postPostSuffix @ " ", 1);
 	}
+}
+
+
+
+
+function drawWaterNetwork(%waterDataID, %simSet, %focusObj)
+{
+	if (!isObject(%simSet))
+	{
+		%simSet = new SimSet(WaterNetworkShapes);
+	}
+
+	for (%i = 0; %i < %simSet.getCount(); %i++)
+	{
+		%line[%i] = %simSet.getObject(0);
+	}
+	%totalLines = %simSet.getCount();
+	%currLine = 0;
+
+	//determine focus object
+	if (isObject(%focusObj))
+	{
+		%focusObjDB = %focusObj.getDatablock();
+		if (%focusObjDB.isSprinkler)
+		{
+			%focusSprinkler = %focusObj;
+		}
+		else if (%focusObjDB.isWaterTank && !%focusObjDB.isOutflowTank)
+		{
+			%focusTank = %focusObj;
+		}
+	}
+
+	%tanks = getDataIDArrayTagValue(%waterDataID, "tanks");
+	%sprinklers = getDataIDArrayTagValue(%waterDataID, "sprinklers");
+	%tankCount = getWordCount(%tanks);
+	%sprinklerCount = getWordCount(%sprinklers);
+
+	//collect tanks
+	for (%i = 0; %i < %tankCount; %i++)
+	{
+		%tank = getWord(%tanks, %i);
+		if (!isObject(%tank) || !%tank.getDatablock().isWaterTank
+			|| (isObject(%focusTank) && %focusTank != %tank && !%tank.getDatablock().isOutflowTank))
+		{
+			continue;
+		}
+
+		%tankDB = %tank.getDatablock();
+		if (%tank.posHash $= "")
+		{
+			%posHash = getSubStr(sha1(%tank.getPosition()), 0, 8);
+			%tank.posHash = %posHash;
+		}
+		else
+		{
+			%posHash = %tank.posHash;
+		}
+		%sprinklerCount[%posHash] = %tankDB.maxSprinklers;
+		%position[%posHash] = %tank.getPosition();
+		if (isObject(%focusTank))
+		{
+			%focusTankPos = %focusTank.getPosition();
+			if (!isObject(%line[%currLine]))
+			{
+				%line[%currLine] = drawLine(%focusTankPos, %position[%posHash], "1 1 0 1", 0.05);
+			}
+			else
+			{
+				%line[%currLine].drawLine(%focusTankPos, %position[%posHash], "1 1 0 1", 0.05);
+			}
+			%currLine++;
+		}
+		%finalTanks = %finalTanks SPC %tank;
+	}
+
+	//collect sprinklers
+	for (%i = 0; %i < %sprinklerCount; %i++)
+	{
+		%sprinkler = getWord(%sprinklers, %i);
+		if (!isObject(%sprinkler) || !%sprinkler.getDatablock().isSprinkler
+			|| (isObject(%focusSprinkler) && %focusSprinkler != %sprinkler))
+		{
+			continue;
+		}
+
+		%posHash = getSprinklerTankHash(%sprinkler);
+		%sprinklerPos = %sprinkler.getPosition();
+		if (%sprinklerCount[%posHash] > 0)
+		{
+			%sprinklerCount[%posHash]--;
+			if (!isObject(%line[%currLine]))
+			{
+				%line[%currLine] = drawLine(%sprinklerPos, %position[%posHash], "1 1 0 1", 0.05);
+			}
+			else
+			{
+				%line[%currLine].drawLine(%sprinklerPos, %position[%posHash], "1 1 0 1", 0.05);
+			}
+			%currLine++;
+		}
+	}
+
+	//add lines to simset
+	%simSet.clear();
+	for (%i = 0; %i < %currLine; %i++)
+	{
+		%simSet.add(%line[%i]);
+	}
+	for (%i = %currLine; %i < %totalLines; %i++)
+	{
+		%line[%i].delete();
+	}
+
+	return %simSet;
 }
