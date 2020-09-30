@@ -312,7 +312,7 @@ function getWaterTankDataID(%tank)
 {
 	if (strLen(%tank.getName()) < 2)
 	{
-		return 1;
+		return "";
 	}
 	return getSubStr(%tank.getName(), 1, 50);
 }
@@ -322,7 +322,7 @@ function getSprinklerDataID(%sprinkler)
 	%n = %sprinkler.getName();
 	if (strLen(%n) < 2 || strPos(%n, "_", 1) < 0)
 	{
-		return 1;
+		return "";
 	}
 	return getSubStr(%n, 1, strPos(%n, "_", 1) - 1);
 }
@@ -450,6 +450,8 @@ function validateWaterSystem(%waterDataID)
 				%posHash = %tank.posHash;
 			}
 			%sprinklerCount[%posHash] = %tankDB.maxSprinklers;
+			%tank[%posHash] = %tank;
+			%tank.sprinklerCount = 0;
 		}
 		%finalTanks = %finalTanks SPC %tank;
 	}
@@ -470,6 +472,7 @@ function validateWaterSystem(%waterDataID)
 		else
 		{
 			%sprinklerCount[%posHash]--;
+			%tank[%posHash].sprinklerCount++;
 			%finalSprinklers = %finalSprinklers SPC %sprinkler;
 		}
 	}
@@ -638,213 +641,196 @@ datablock ShapeBaseImageData(SprinklerLinkImage)
 	stateWaitForTimeout[3] = true;
 };
 
+function SprinklerLinkImage::onUnmount(%this, %obj, %slot)
+{
+	%obj.waterLinkObj = "";
+	if (isObject(%obj.displaySet))
+	{
+		%obj.displaySet.deleteAll();
+		%obj.displaySet.delete();
+	}
+}
+
 function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 {
+	%waterLinkObj = %obj.waterLinkObj;
+	%waterLinkObjDB = isObject(%waterLinkObj) ? %waterLinkObj.getDatablock() : "";
+
 	%start = %obj.getEyeTransform();
 	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 4));
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
+	%hit = getWord(%ray, 0);
 
-	%suffix = " <br>";
-	%postSuffix = " <br>";
-	if (isObject(%hit = getWord(%ray, 0)))
+	//determine what we're looking at
+	//display water network if we're looking at something that's already part of one
+	if (isObject(%hit))
 	{
-		%db = %hit.getDatablock();
+		%hitDB = %hit.getDatablock();
 
-		if (%db.isSprinkler)
+		if (%hitDB.isSprinkler)
 		{
-			%tank = %hit.getName() @ "Tank";
-			%suffix = %suffix @ %db.uiName;
-			if (isObject(%tank) && %tank.getDatablock().isWaterTank)
+			%sprinklerWaterID = getSprinklerDataID(%hit);
+			if (%sprinklerWaterID !$= "")
 			{
-				%tankDB = %tank.getDatablock();
-				if (!isObject(%hit.tempShapeLine))
-				{
-					%hit.tempShapeLine = drawLine(%hit.getPosition(), %tank.getPosition(), "1 1 0 1", 0.05);
-				}
-				else
-				{
-					%hit.tempShapeLine.drawLine(%hit.getPosition(), %tank.getPosition(), "1 1 0 1", 0.05);
-				}
-
-				cancel(%hit.tempShapeLine.deleteSched);
-				%hit.tempShapeLine.deleteSched = %hit.tempShapeLine.schedule(200, delete);
-
-				%postSuffix = %postSuffix @ "Linked to " @ %tankDB.uiName @ "<color:cccccc> (" @ %tank.waterLevel + 0 @ "/" @ %tankDB.maxWater @ ")";
+				%obj.displaySet = drawWaterNetwork(%sprinklerWaterID, %obj.displaySet, %hit);
+				%hitStatus = "\c2Connected";
+			}
+			else
+			{
+				%hitStatus = "Not connected";
 			}
 		}
-		else if (%db.isWaterTank)
+		else if (%hitDB.isWaterTank)
 		{
-			%sprinklers = getSprinklerCount(%hit);
-			%list = getField(%sprinklers, 1);
-			%count = getWord(%sprinklers, 0);
-			for (%i = 0; %i < getWordCount(%list); %i++)
+			%tankWaterID = getWaterTankDataID(%hit);
+			if (%tankWaterID !$= "")
 			{
-				%next = getWord(%list, %i);
-				if (!isObject(%next) || %next.isDead)
+				if (%hitDB.isOutflowTank) %obj.displaySet = drawWaterNetwork(%tankWaterID, %obj.displaySet);
+				else %obj.displaySet = drawWaterNetwork(%tankWaterID, %obj.displaySet, %hit);
+				%hitStatus = "\c2Connected";
+				if (%hitDB.maxSprinklers > 0)
 				{
-					continue;
+					%hitStatus = %hitStatus @ " - " @ %hit.sprinklerCount @ "/" @ %hitDB.maxSprinklers
+						@ " sprinkler" @ (%hitDB.maxSprinklers > 0 ? "s" : "");
 				}
-				if (!isObject(%next.tempShapeLine))
-				{
-					%next.tempShapeLine = drawLine(%next.getPosition(), %hit.getPosition(), "0 1 0 1", 0.05);
-				}
-				else
-				{
-					%next.tempShapeLine.drawLine(%next.getPosition(), %hit.getPosition(), "0 1 0 1", 0.05);
-				}
-
-				cancel(%next.tempShapeLine.deleteSched);
-				%next.tempShapeLine.deleteSched = %next.tempShapeLine.schedule(200, delete);
 			}
+			else
+			{
+				%hitStatus = "\c0Not connected";
+			}
+		}
+		else
+		{
+			%obj.displaySet.deleteAll();
+		}
+	}
+	else
+	{
+		%obj.displaySet.deleteAll();
+	}
 
-			%suffix = %suffix @ %db.uiName;
-			%postSuffix = %postSuffix @ "<color:cccccc> (" @ %hit.waterLevel + 0 @ "/" @ %db.maxWater @ ") \c2" @ %count @ "/" @ %db.maxSprinklers @ " Sprinklers Connected";
+	//build display mode string
+	if (%waterLinkObjDB $= "")
+	{
+		%mode = "Open - click to select";
+	}
+	else
+	{
+		%mode = "Selected " @ %waterLinkObjDB.uiName;
+		if (%waterLinkObjDB.isWaterTank)
+		{
+			if (%waterLinkObjDB.maxSprinklers > 0)
+			{
+				%mode = %mode @ " - " @ %hit.sprinklerCount @ "/" @ %waterLinkObjDB.maxSprinklers
+					@ " sprinkler" @ (%waterLinkObjDB.maxSprinklers > 0 ? "s" : "");
+			}
+			else if (%waterLinkObjDB.isOutflowTank)
+			{
+				%mode = %mode @ " - Outflow tank: connect to another tank";
+			}
+		}
+		else if (%waterLinkObjDB.isSprinkler)
+		{
+			%mode = %mode @ ": connect to a tank";
 		}
 	}
 
-	%sprinklerLinkMode = %obj.sprinklerLinkMode;
-	if (%sprinklerLinkMode $= "" || !isObject(%obj.sprinklerLinkObj))
+	if (isObject(%hit))
 	{
-		%sprinklerLinkMode = "Open - click to link";
-		%obj.sprinklerLinkObj = "";
-		%obj.sprinklerLinkMode = %sprinklerLinkMode;
+		%mode = %mode @ " \n\c6" @ %hitDB.uiName @ " \n" @ %hitStatus;
 	}
+
 	if (isObject(%cl = %obj.client))
 	{
-		%cl.centerprint("\c2Link Mode: <br><color:ffffff>" @ %sprinklerLinkMode @ %suffix @ %postSuffix @ %obj.postPostSuffix @ " ", 1);
+		%cl.centerprint("\c2Water Linker: <br>\c6" @ %mode @ " ", 1);
 	}
 	return %hit;
 }
 
 function SprinklerLinkImage::onFire(%this, %obj, %slot)
 {
-	%obj.playThread(0, plant);
+	%waterLinkObj = %obj.waterLinkObj;
+	%waterLinkObjDB = isObject(%waterLinkObj) ? %waterLinkObj.getDatablock() : "";
 
 	%start = %obj.getEyeTransform();
-	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 6));
+	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 4));
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
+	%hit = getWord(%ray, 0);
 
-	%suffix = " <br>";
-	%postSuffix = " <br>";
-	%postPostSuffix = " <br>";
-	if (isObject(%hit = getWord(%ray, 0)))
+	//determine what we're looking at
+	//display water network if we're looking at something that's already part of one
+	if (isObject(%hit))
 	{
-		%db = %hit.getDatablock();
+		%hitDB = %hit.getDatablock();
 
-		if (%db.isSprinkler)
+		if (%hitDB.isSprinkler || %hitDB.isWaterTank)
 		{
-			%tank = %hit.getName() @ "Tank";
-			%suffix = %suffix @ %db.uiName;
-			if (isObject(%tank) && %tank.getDatablock().isWaterTank)
+			if (!isObject(%obj.waterLinkObj))
 			{
-				%tankDB = %tank.getDatablock();
-				if (!isObject(%hit.tempShapeLine))
-				{
-					%hit.tempShapeLine = drawLine(%hit.getPosition(), %tank.getPosition(), "1 1 0 1", 0.05);
-				}
-
-				cancel(%hit.tempShapeLine.deleteSched);
-				%hit.tempShapeLine.deleteSched = %hit.tempShapeLine.schedule(200, delete);
-
-				%postSuffix = %postSuffix @ "Linked to " @ %tankDB.uiName @ "<color:cccccc> (" @ %tank.waterLevel + 0 @ "/" @ %tankDB.maxWater @ ")";
+				%obj.waterLinkObj = %hit;
+				SprinklerLinkImage::onLoop(%this, %obj, %slot);
+				return;
+			}
+			else if (%obj.waterLinkObj == %hit)
+			{
+				%obj.waterLinkObj = "";
+				SprinklerLinkImage::onLoop(%this, %obj, %slot);
+				return;
 			}
 		}
-		else if (%db.isWaterTank)
-		{
-			%suffix = %suffix @ %db.uiName;
-			%postSuffix = %postSuffix @ "<color:cccccc> (" @ %hit.waterLevel + 0 @ "/" @ %db.maxWater @ ")";
-		}
+	}
+	else
+	{
+		return;
 	}
 
-	if (isObject(%hit) && (%db.isWaterTank || %db.isSprinkler) && getTrustLevel(%hit, %obj) > 0)
+	//actual linking
+	if (%waterLinkObjDB.isWaterTank && %hitDB.isWaterTank)
 	{
-		%mode = getWord(%obj.sprinklerLinkMode, 0);
-		switch$ (%mode)
-		{
-			case "Open":
-				%obj.sprinklerLinkMode = "Connecting " @ %db.uiName @ " - right click to cancel";
-				%obj.sprinklerLinkObj = %hit;
-			case "Connecting":
-				if (%obj.sprinklerLinkObj.getDatablock().isSprinkler != %db.isSprinkler)
-				{
-					%tank = %db.isSprinkler ? %obj.sprinklerLinkObj : %hit;
-					%dist = vectorDist(getWords(%obj.sprinklerLinkObj.getPosition(), 0, 1), getWords(%hit.getPosition(), 0, 1));
-					%maxDist = %tank.getDatablock().maxDistance <= 0 ? $SprinklerMaxDistance : %tank.getDatablock().maxDistance;
-					if (%dist > %maxDist)
-					{
-						%postPostSuffix = %postPostSuffix @ "\c0Can't link - objects too far apart! Max: " @ %maxDist;
-					}
-					else if (getSprinklerCount(%tank) >= %tank.getDatablock().maxSprinklers)
-					{
-						%postPostSuffix = %postPostSuffix @ "\c0Can't link - tank has too many sprinklers! Max: " @ %tank.getDatablock().maxSprinklers;
-					}
-					else
-					{
-						if (%db.isSprinkler)
-						{
-							%hit.settingName = 1;
-							%hit.setNTObjectName(strReplace(%obj.sprinklerLinkObj.getName(), "Tank", ""));
-							%hit.settingName = -1;
-						}
-						else
-						{
-							%obj.sprinklerLinkObj.settingName = 1;
-							%obj.sprinklerLinkObj.setNTObjectName(strReplace(%hit.getName(), "Tank", ""));
-							%obj.sprinklerLinkObj.settingName = -1;
-						}
-						%postPostSuffix = %postPostSuffix @ "\c2Linked " @ %obj.sprinklerLinkObj.getDatablock().uiName @ " and " @ %db.uiName;
-					}
-				}
-				else if (%obj.sprinklerLinkObj == %hit && %db.isSprinkler)
-				{
-					%hit.settingName = 1;
-					%hit.setNTObjectName("");
-					%hit.settingName = -1;
+		if (%waterLinkObjDB.isOutflowTank) %outTank = %waterLinkObj;
+		else %drawObj = %waterLinkObj;
 
-					%postPostSuffix = %postPostSuffix @ "\c2Cleared " @ %db.uiName @ " water tank link";
-				}
-				else if (%db.isSprinkler && %obj.sprinklerLinkObj.getDatablock().isSprinkler)
-				{
-					%obj.sprinklerLinkObj = %hit;
-					%obj.sprinklerLinkMode = "Connecting " @ %db.uiName @ " - right click to cancel";
-					%postPostSuffix = %postPostSuffix @ "\c2Updated currently selected sprinkler!";
-				}
-			default:
-				%obj.sprinklerLinkMode = "Open - click to link";
-				%obj.sprinklerLinkObj = "";
-		}
+		if (%hitDB.isOutflowTank) %outTank = %hit;
+		else %drawObj = %hit;
 	}
-	else if (isObject(%hit) && !(%db.isWaterTank || %db.isSprinkler))
+	else if (%waterLinkObjDB.isSprinkler && %hitDB.isWaterTank)
 	{
-		%postPostSuffix = %postPostSuffix @ "\c0Invalid object! Use on sprinklers or water tanks.";
-		if (%obj.sprinklerLinkObj == %hit)
-		{
-			%obj.sprinklerLinkObj = "";
-		}
+		%outTank = %hit;
+		%drawObj = %waterLinkObj;
 	}
-	else if (isObject(%hit) && getTrustLevel(%hit, %obj) <= 0)
+	else if (%waterLinkObjDB.isWaterTank && %hitDB.isSprinkler)
 	{
-		%postPostSuffix = %postPostSuffix @ "\c0You need build trust for that!";
+		%outTank = %waterLinkObj;
+		%drawObj = %hit;
 	}
 
-	%sprinklerLinkMode = %obj.sprinklerLinkMode;
-	%obj.postPostSuffix = %postPostSuffix;
-	cancel(%obj.postPostSuffixSchedule);
-	%obj.postPostSuffixSchedule = schedule(1500, %obj, eval, %obj @ ".postPostSuffix = \"\";");
-	if (%sprinklerLinkMode $= "" || !isObject(%obj.sprinklerLinkObj))
+	if (!isObject(%outTank) || !isObject(%drawObj))
 	{
-		%sprinklerLinkMode = "Open - click to link";
-		%obj.sprinklerLinkObj = "";
-		%obj.sprinklerLinkMode = %sprinklerLinkMode;
+		return;
 	}
-	if (isObject(%cl = %obj.client))
+	else
 	{
-		%cl.centerprint("\c2Link Mode: <br><color:ffffff>" @ %sprinklerLinkMode @ %suffix @ %postSuffix @ %obj.postPostSuffix @ " ", 1);
+		%outTankDB = %outTank.getDatablock();
+		%drawObjDB = %drawObj.getDatablock();
+
+		%outDataID = getWaterTankDataID(%outTank);
+		if (%outDataID $= "")
+		{
+			%outDataID = getWaterSystemDataID()
+			addWaterTank(%outDataID, %outTank);
+		}
+
+		if (%drawObjDB.isSprinkler && %outTankDB.maxSprinklers > 0 
+			&& %outTank.sprinklerCount < %outTankDB.maxSprinklers)
+		{
+			addSprinkler(%outDataID, %outTank, %sprinkler);
+		}
+		else if (%drawObjDB.isWaterTank && %outTankDB.isOutflowTank)
+		{
+			addWaterTank(%outDataID, %drawObj);
+		}
 	}
 }
-
-
-
 
 function drawWaterNetwork(%waterDataID, %simSet, %focusObj)
 {
@@ -855,7 +841,7 @@ function drawWaterNetwork(%waterDataID, %simSet, %focusObj)
 
 	for (%i = 0; %i < %simSet.getCount(); %i++)
 	{
-		%line[%i] = %simSet.getObject(0);
+		%line[%i] = %simSet.getObject(%i);
 	}
 	%totalLines = %simSet.getCount();
 	%currLine = 0;
@@ -871,6 +857,7 @@ function drawWaterNetwork(%waterDataID, %simSet, %focusObj)
 		else if (%focusObjDB.isWaterTank && !%focusObjDB.isOutflowTank)
 		{
 			%focusTank = %focusObj;
+			%focusTankPos = %focusTank.getPosition();
 		}
 	}
 
@@ -899,23 +886,56 @@ function drawWaterNetwork(%waterDataID, %simSet, %focusObj)
 		{
 			%posHash = %tank.posHash;
 		}
+
+		if (%tankDB.maxSprinklers > 0)
+		{
+			%sprinklerTank[%sprinklerTankCount++ - 1] = %tank.getPosition();
+		}
+		else
+		{
+			%outflowTank[%outflowTankCount++ - 1] = %tank.getPosition();
+		}
+
 		%sprinklerCount[%posHash] = %tankDB.maxSprinklers;
 		%position[%posHash] = %tank.getPosition();
-		if (isObject(%focusTank))
+		if (isObject(%focusTank) && %tank != %focusTank)
 		{
-			%focusTankPos = %focusTank.getPosition();
 			if (!isObject(%line[%currLine]))
 			{
-				%line[%currLine] = drawLine(%focusTankPos, %position[%posHash], "1 1 0 1", 0.05);
+				%line[%currLine] = drawLine(%focusTankPos, %position[%posHash], "1 1 1 1", 0.05);
 			}
 			else
 			{
-				%line[%currLine].drawLine(%focusTankPos, %position[%posHash], "1 1 0 1", 0.05);
+				%line[%currLine].drawLine(%focusTankPos, %position[%posHash], "1 1 1 1", 0.05);
 			}
 			%currLine++;
 		}
 		%finalTanks = %finalTanks SPC %tank;
 	}
+
+
+	if (!isObject(%focusObj))
+	{
+		for (%i = 0; %i < %sprinklerTankCount; %i++)
+		{
+			%p1 = %sprinklerTank[%i];
+			for (%j = 0; %j < %outflowTankCount; %j++)
+			{
+				%p2 = %outflowTank[%j];
+
+				if (!isObject(%line[%currLine]))
+				{
+					%line[%currLine] = drawLine(%p1, %p2, "1 1 1 1", 0.05);
+				}
+				else
+				{
+					%line[%currLine].drawLine(%p1, %p2, "1 1 1 1", 0.05);
+				}
+				%currLine++;
+			}
+		}
+	}
+
 
 	//collect sprinklers
 	for (%i = 0; %i < %sprinklerCount; %i++)
@@ -945,13 +965,26 @@ function drawWaterNetwork(%waterDataID, %simSet, %focusObj)
 	}
 
 	//add lines to simset
+	if ($waterNetworkDebug)
+	{
+		talk("totalLines: " @ %totalLines);
+		talk("currLine: " @ %currLine);
+		%q = 0;
+		while (%line[%q] !$= "")
+		{
+			talk(%q @ ": " @ %line[%q]);
+			%q++;
+		}
+	}
 	%simSet.clear();
 	for (%i = 0; %i < %currLine; %i++)
 	{
+		if ($waterNetworkDebug) talk("Adding " @ %line[%i]);
 		%simSet.add(%line[%i]);
 	}
 	for (%i = %currLine; %i < %totalLines; %i++)
 	{
+		if ($waterNetworkDebug) talk("Deleting " @ %line[%i]);
 		%line[%i].delete();
 	}
 
