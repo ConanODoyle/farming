@@ -425,7 +425,7 @@ function fxDTSBrick::updateStorageDatablock(%brick, %fillLevel, %open)
 	if (%brick.getDatablock().baseDatablockName !$= "")
 	{
 		%datablockName = "brick" @ %brick.getDatablock().baseDatablockName;
-		if (%brick.isOpenable)
+		if (%brick.getDatablock().isOpenable)
 		{
 			if (%open)
 			{
@@ -439,7 +439,7 @@ function fxDTSBrick::updateStorageDatablock(%brick, %fillLevel, %open)
 			}
 		}
 
-		if (%brick.hasFillLevels)
+		if (%brick.getDatablock().hasFillLevels)
 		{
 			%datablockName = %datablockName @ (%fillLevel + 0);
 		}
