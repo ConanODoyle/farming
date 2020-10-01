@@ -712,7 +712,7 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 			%obj.displaySet.deleteAll();
 		}
 	}
-	else
+	else if (isObject(%obj.displaySet))
 	{
 		%obj.displaySet.deleteAll();
 	}
