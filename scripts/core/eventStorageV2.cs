@@ -345,6 +345,20 @@ function removeStack(%cl, %menu, %option)
 		setDataIDArrayValue(%dataID, %storageSlot, "");
 	}
 
+	if (%brick.isStorageBrick)
+	{
+		%storageObj = %brick;
+	}
+	else if (isObject(%brick.vehicle) && %brick.vehicle.getDatablock().isStorageBrick)
+	{
+		%storageObj = %brick.vehicle;
+	}
+
+	if (isObject(%storageObj))
+	{
+		%storageObj.updateStorageDatablock(%dataID, true);
+	}
+
 	%brick.updateStorageMenu(%dataID);
 
 	%i = new Item()
