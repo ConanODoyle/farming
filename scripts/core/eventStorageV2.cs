@@ -269,18 +269,7 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 
 	if (%result == 0 || %result == 1)
 	{
-		%count = 0;
-		%max = getMax(%storageObj.getDatablock().storageSlotCount, 1);
-		for (%i = 1; %i < %max + 1; %i++)
-		{
-			%storageType = getWord(validateStorageValue(getDataIDArrayValue(%dataID, %i)), 0);
-			if (isObject(%storageType))
-			{
-				%count++;
-			}
-		}
-
-		%storageObj.updateStorageDatablock(%count, true);
+		%storageObj.updateStorageDatablock(%dataID, true);
 	}
 
 	return %result;
@@ -420,8 +409,19 @@ function AIPlayer::getStorageType(%bot)
 	return %bot.getDatablock().storageType;
 }
 
-function fxDTSBrick::updateStorageDatablock(%brick, %fillLevel, %open)
+function fxDTSBrick::updateStorageDatablock(%brick, %dataID, %open)
 {
+	%count = 0;
+	%max = getMax(%brick.getDatablock().storageSlotCount, 1);
+	for (%i = 1; %i < %max + 1; %i++)
+	{
+		%storageType = getWord(validateStorageValue(getDataIDArrayValue(%dataID, %i)), 0);
+		if (isObject(%storageType))
+		{
+			%count++;
+		}
+	}
+
 	if (%brick.getDatablock().baseDatablockName !$= "")
 	{
 		%datablockName = "brick" @ %brick.getDatablock().baseDatablockName;
@@ -431,7 +431,7 @@ function fxDTSBrick::updateStorageDatablock(%brick, %fillLevel, %open)
 			{
 				cancel(%brick.closeSchedule);
 				%datablockName = %datablockName @ "Open";
-				%brick.closeSchedule = %brick.schedule(1000, updateStorageDatablock, %fillLevel, false);
+				%brick.closeSchedule = %brick.schedule(1000, updateStorageDatablock, %dataID, false);
 			}
 			else
 			{
