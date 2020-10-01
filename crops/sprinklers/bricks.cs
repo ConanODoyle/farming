@@ -47,11 +47,11 @@ datablock fxDTSBrickData(brickMedSprinklerData)
 
 	iconName = "Add-Ons/Server_Farming/crops/icons/medium_sprinkler";
 
-	cost = 800;
+	cost = 500;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
 	boxSize = "8 8 2";
-	waterPerSecond = 50;
+	waterPerSecond = 40;
 };
 
 datablock fxDTSBrickData(brickLargeSprinklerData)
@@ -64,11 +64,11 @@ datablock fxDTSBrickData(brickLargeSprinklerData)
 
 	iconName = "Add-Ons/Server_Farming/crops/icons/large_sprinkler";
 
-	cost = 1500;
+	cost = 800;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.4";
 	boxSize = "12 12 2";
-	waterPerSecond = 50;
+	waterPerSecond = 60;
 };
 
 datablock fxDTSBrickData(brickDripLineData)
@@ -81,11 +81,11 @@ datablock fxDTSBrickData(brickDripLineData)
 
 	iconName = "Add-Ons/Server_Farming/crops/icons/drip_line";
 
-	cost = 50;
+	cost = 100;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.2";
 	boxSize = "0.5 4 0.2";
-	waterPerSecond = 15;
+	waterPerSecond = 40;
 };
 
 datablock fxDTSBrickData(brickStraightSprinklerData)
@@ -98,7 +98,7 @@ datablock fxDTSBrickData(brickStraightSprinklerData)
 
 	iconName = "Add-Ons/Server_Farming/crops/icons/straight_sprinkler";
 
-	cost = 600;
+	cost = 500;
 	isSprinkler = 1;
 	directionalOffset = "4.5 0 -0.3";
 	boxSize = "8 1 2";
@@ -115,9 +115,9 @@ datablock fxDTSBrickData(brickSwaySprinklerData)
 
 	iconName = "Add-Ons/Server_Farming/crops/icons/sway_sprinkler";
 
-	cost = 700;
+	cost = 600;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
 	boxSize = "8 4 2";
-	waterPerSecond = 50;
+	waterPerSecond = 60;
 };
