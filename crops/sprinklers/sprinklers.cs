@@ -901,8 +901,9 @@ function drawWaterNetwork(%waterDataID, %simSet, %focusObj)
 		}
 		else if (%focusObjDB.isWaterTank && !%focusObjDB.isOutflowTank)
 		{
+			%offset = "0 0 " @ %focusObjDB.brickSizeZ * 0.1;
 			%focusTank = %focusObj;
-			%focusTankPos = %focusTank.getPosition();
+			%focusTankPos = vectorAdd(%focusObj.getPosition(), %offset);
 		}
 	}
 
@@ -932,17 +933,19 @@ function drawWaterNetwork(%waterDataID, %simSet, %focusObj)
 			%posHash = %tank.posHash;
 		}
 
+		%offset = "0 0 " @ %tankDB.brickSizeZ * 0.1;
+		%linePos = vectorAdd(%tank.getPosition(), %offset);
 		if (%tankDB.maxSprinklers > 0)
 		{
-			%sprinklerTank[%sprinklerTankCount++ - 1] = %tank.getPosition();
+			%sprinklerTank[%sprinklerTankCount++ - 1] = %linePos;
 		}
 		else
 		{
-			%outflowTank[%outflowTankCount++ - 1] = %tank.getPosition();
+			%outflowTank[%outflowTankCount++ - 1] = %linePos;
 		}
 
 		%sprinklerCount[%posHash] = %tankDB.maxSprinklers;
-		%position[%posHash] = %tank.getPosition();
+		%position[%posHash] = %linePos;
 		if (isObject(%focusTank) && %tank != %focusTank)
 		{
 			if (!isObject(%line[%currLine]))
