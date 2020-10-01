@@ -51,3 +51,16 @@ $StorageMax_SuperFertilizer = 60;
 $StorageMax_WeedKiller = 120;
 
 $StorageMax_Coal = 12 * 1;
+
+// Storage Types
+$StorageTypeCropsExists = true;
+$StorageTypeCropsList = "Potato\tCarrot\tTomato\tCorn\tWheat\tCabbage\tOnion\tBlueberry\tTurnip\tPortobello\tApple\tMango\tChili\tCactus\tWatermelon\tPeach\tDate";
+$StorageTypeCropsIsBlacklist = false;
+
+$StorageTypeToolsExists = true;
+$StorageTypeToolsList = "toolgunItem\tHammerItem\tWrenchItem\tPrintGun\tSprinklerLinkItem\tElectricalCableItem\tPickaxeItem\tWateringCanItem\tWateringCan2Item\tWateringCan3Item\tWateringCatItem\tHoseItem\tHoseV2Item\tWeedWhackerItem\tWeedKiller\tPlanterItem\tPlanterV2Item\tTrowelItem\tClipperItem\tHoeItem\tSickleItem\tOrganicAnalyzerItem";
+$StorageTypeToolsIsBlacklist = false;
+
+$StorageTypeQuestsExists = true;
+$StorageTypeQuestsList = "QuestItem";
+$StorageTypeQuestsIsBlacklist = false;
