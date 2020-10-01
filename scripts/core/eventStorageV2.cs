@@ -240,7 +240,7 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 		}
 
 		%brick.updateStorageMenu(%dataID);
-		return 0;
+		%result = 0;
 	}
 	else if (%totalAvailableSpace > 0)
 	{
@@ -259,12 +259,20 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 			setDataIDArrayValue(%dataID, %slot, %value);
 		}
 		%brick.updateStorageMenu(%dataID);
-		return 1 SPC %insertCount;
+		%result = 1 SPC %insertCount;
 	}
 	else
 	{
-		return 2;
+		%result = 2;
 	}
+
+
+	if (%result == 0 || %result == 1)
+	{
+		updateStorageDatablock(%hit, true);
+	}
+
+	return %result;
 }
 
 function removeStack(%cl, %menu, %option)
@@ -401,6 +409,61 @@ function AIPlayer::getStorageType(%bot)
 	return %bot.getDatablock().storageType;
 }
 
+function fxDTSBrick::updateStorageDatablock(%brick, %fillLevel, %open)
+{
+	if (%brick.getDatablock().baseDatablockName !$= "")
+	{
+		%datablockName = "brick" @ %brick.getDatablock().baseDatablockName;
+		if (%brick.isOpenable)
+		{
+			if (%open)
+			{
+				cancel(%brick.closeSchedule);
+				%datablockName = %datablockName @ "Open";
+				%brick.closeSchedule = %brick.schedule(1000, updateStorageDatablock, %fillLevel, false);
+			}
+			else
+			{
+				%datablockName = %datablockName @ "Closed";
+			}
+		}
+
+		if (%brick.hasFillLevels)
+		{
+			%datablockName = %datablockName @ %fillLevel;
+		}
+
+		%brick.setDatablock(%datablockName @ "Data");
+	}
+}
+
+function AIPlayer::updateStorageDatablock(%bot, %fillLevel, %open)
+{
+	if (%bot.getDatablock().baseDatablockName !$= "")
+	{
+		%datablockName = %bot.getDatablock().baseDatablockName;
+		if (%bot.isOpenable)
+		{
+			if (%open)
+			{
+				cancel(%bot.closeSchedule);
+				%datablockName = %datablockName @ "Open";
+				%bot.closeSchedule = %bot.schedule(1000, updateStorageDatablock, %fillLevel, false);
+			}
+			else
+			{
+				%datablockName = %datablockName @ "Closed";
+			}
+		}
+
+		if (%bot.hasFillLevels)
+		{
+			%datablockName = %datablockName @ %fillLevel;
+		}
+
+		%bot.setDatablock(%datablockName @ "Armor");
+	}
+}
 
 
 
