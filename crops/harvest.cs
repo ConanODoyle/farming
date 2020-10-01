@@ -13,7 +13,8 @@ function harvestBrick(%brick, %tool, %harvester)
 	%buff = getPlantData(%type, %stage, "toolBuff");
 	%yield = getPlantData(%type, %stage, "yield");
 	%itemDB = getPlantData(%type, %stage, "item");
-	%toolType = getPlantData(%type, %stage, "harvestTool");
+	%toolType = strReplace(getPlantData(%type, %stage, "harvestTool"), " ", "\t");
+	%toolType = strReplace(%toolType, "_", " ");
 	%areaToolType = getField(%toolType, 1);
 	%toolType = getField(%toolType, 0);
 
@@ -173,7 +174,7 @@ function harvestBrick(%brick, %tool, %harvester)
 		};
 		%p.explode();
 	}
-	else if (%toolType $= "Clipper" || %toolType $= "Sickle")
+	else if (%toolType $= "Clipper" || %toolType $= "Sickle" || %toolType $= "Weed Cutter")
 	{
 		%p = new Projectile()
 		{

@@ -1,7 +1,7 @@
 ////////////
 //Function//
 ////////////
-function killWeeds(%img, %obj, %slot)
+function addWeedKiller(%img, %obj, %slot)
 {
 	%obj.playThread(0, plant);
 
@@ -20,8 +20,26 @@ function killWeeds(%img, %obj, %slot)
 		return;
 	}
 
-	if (%brick.getDatablock().isDirt)
+	%brickDB = %brick.getDatablock();
+	if (%brickDB.isDirt)
 	{
+		//add weedkiller to dirt
+		%max = %brickDB.maxWeedkiller;
+		%nutrients = %brick.getNutrients();
+		%weedkiller = getWord(%nutrients, 2);
+
+		if (%weedKiller < %max)
+		{
+			%newAmount = getMin(%max, %weedKiller + %img.fertilizerWeedkiller);
+			%brick.setNutrients("", "", %newAmount);
+		}
+		else
+		{
+			messageClient(%cl, '', "Weedkiller is maxed out!");
+		}
+
+
+		//clear weeds
 		%numWeeds = 0;
 		%upBrickCount = %brick.getNumUpBricks();
 		for (%i = 0; %i < %upBrickCount; %i++)
@@ -37,7 +55,11 @@ function killWeeds(%img, %obj, %slot)
 		for (%i = 0; %i < %numWeeds; %i++)
 		{
 			%hitloc = %weed[%i].getPosition();
-			%p = new Projectile() { dataBlock = PushBroomProjectile; initialPosition = %hitloc; }; // replace this with a nicer emitter
+			%p = new Projectile() { 
+				dataBlock = PushBroomProjectile; 
+				initialPosition = %hitloc;
+				initialVelocity = "0 0 1"; 
+			}; // replace this with a nicer emitter
 			%p.setScale("0.5 0.5 0.5");
 			%p.explode();
 
@@ -45,28 +67,7 @@ function killWeeds(%img, %obj, %slot)
 		}
 	}
 
-	// set weed chance on the dirt to 0
-	if (%brick.getDatablock().isDirt)
-	{
-		%brick.fertilizerWeedModifier = 0;
-
-		%timeLeft = getMax(%brick.weedImmunityExpires - $Sim::Time, 0);
-		%timeAdded = %img.weedRepelBaseDuration * mPow(%img.weedRepelDiminishFactor, %timeLeft/%img.weedRepelBaseDuration);
-        %timeAdded = getMin(%img.weedRepelBaseDuration * 1.75 - %timeLeft, %timeAdded);
-
-		%brick.weedImmunityExpires = $Sim::Time + %timeLeft + %timeAdded;
-		%obj.client.centerprint("<just:right>\c6You added \c2" @ convTime(%timeAdded)
-								@ "\c6 of weed killer\n\c6for a total of \c3"
-								@ convTime(%brick.weedImmunityExpires - $Sim::Time)
-								@ "\c6!", 1);
-		%obj.client.schedule(150, centerprint, "<just:right>\c6You added \c2" @ convTime(%timeAdded)
-							 @ "\c6 of weed killer\n\c6for a total of \c3"
-							 @ convTime(%brick.weedImmunityExpires - $Sim::Time)
-							 @ "\c6!", 2);
-	}
-
-	// de-weeded, update the item
-
+	//update item
 	%count = %obj.toolStackCount[%obj.currTool]--;
 	%slot = %obj.currTool; // why do we do this? %slot doesn't get changed, does it?
 	%type = %obj.tool[%slot].stackType; //earlier it was set to the croptype of the brick
@@ -79,16 +80,7 @@ function killWeeds(%img, %obj, %slot)
 	}
 
 	//some uses are left, update item
-	for (%i = 0; %i < $Stackable_[%type, "stackedItemTotal"]; %i++)
-	{
-		%currPair = $Stackable_[%type, "stackedItem" @ %i];
-		// talk(%currPair);
-		if (%count <= getWord(%currPair, 1))
-		{
-			%bestItem = getWord(%currPair, 0);
-			break;
-		}
-	}
+	%bestItem = getStackTypeDatablock(%type, %count);
 
 	messageClient(%obj.client, 'MsgItemPickup', '', %slot, %bestItem.getID());
 	%obj.tool[%slot] = %bestItem.getID();
@@ -100,6 +92,44 @@ function killWeeds(%img, %obj, %slot)
 	%cl = %obj.client;
 	%count = %obj.toolStackCount[%obj.currTool];
 }
+
+
+package WeedkillerPackage
+{
+	function fxDTSBrick::extractNutrients(%brick, %dirtNutrients)
+	{
+		if (%brick.getDatablock().isWeed)
+		{
+			%weedKiller = getWord(%dirtNutrients, 2);
+			if (%weedKiller > 0)
+			{
+				%brick.delete();
+				return setWord(%dirtNutrients, 2, %weedKiller - 1);
+			}
+		}
+		return parent::extractNutrients(%brick, %dirtNutrients);
+	}
+
+	function generateWeed(%brick)
+	{
+		%ret = parent::generateWeed(%brick);
+
+		if (isObject(%ret))
+		{
+			%nutrients = %brick.getNutrients();
+			%weedKiller = getWord(%nutrients, 2);
+			if (%weedKiller > 0)
+			{
+				%ret.delete();
+				%brick.setNutrients("", "", %weedKiller - 1);
+			}
+		}
+		return %ret;
+	}
+};
+activatePackage(WeedkillerPackage);
+
+
 
 ////////
 //Item//
@@ -139,8 +169,7 @@ datablock ShapeBaseImageData(WeedKiller0Image)
 
 	toolTip = "Kill weeds, prevent them for a set time";
 
-	weedRepelBaseDuration = 3600; // seconds
-	weedRepelDiminishFactor = 0.5; // amount to diminish returns by per base duration
+	fertilizerWeedkiller = 5; // seconds
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";
@@ -195,17 +224,17 @@ datablock ShapeBaseImageData(WeedKiller2Image : WeedKiller0Image)
 
 function WeedKiller0Image::onFire(%this, %obj, %slot)
 {
-	killWeeds(%this, %obj, %slot);
+	addWeedKiller(%this, %obj, %slot);
 }
 
 function WeedKiller1Image::onFire(%this, %obj, %slot)
 {
-	killWeeds(%this, %obj, %slot);
+	addWeedKiller(%this, %obj, %slot);
 }
 
 function WeedKiller2Image::onFire(%this, %obj, %slot)
 {
-	killWeeds(%this, %obj, %slot);
+	addWeedKiller(%this, %obj, %slot);
 }
 
 

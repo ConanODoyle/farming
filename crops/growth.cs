@@ -172,6 +172,11 @@ function fxDTSBrick::runGrowthTick(%brick)
 
 	%leftover = %brick.extractNutrients(%dirtNutrients);
 	%dirt.setNutrients(getWord(%leftover, 0), getWord(%leftover, 1), getWord(%leftover, 2));
+	if (!isObject(%brick))
+	{
+		return;
+	}
+	
 	%brickNutrients = %brick.getNutrients();
 
 	%brick.greenhouseBonus = %greenhouse;

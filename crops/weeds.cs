@@ -42,7 +42,7 @@ function generateWeed(%brick)
 {
 	//check if we create a weed
 	if (%brick.weedImmunityExpires > $Sim::Time) {
-		return;
+		return "";
 	}
 
 	%rand = getRandom();
@@ -61,7 +61,7 @@ function generateWeed(%brick)
 	{
 		%brick.fertilizerWeedModifier -= 0.05;
 		%brick.fertilizerWeedModifier = getMax(%brick.fertilizerWeedModifier, 0);
-		return;
+		return "";
 	}
 
 	//create the weed
@@ -99,7 +99,7 @@ function generateWeed(%brick)
 		%b.delete();
 		%brick.fertilizerWeedModifier -= 1;
 		%brick.fertilizerWeedModifier = (%brick.fertilizerWeedModifier < 0 ? 0 : %brick.fertilizerWeedModifier);
-		return;
+		return "";
 	}
 
 	//weed planted, decrease modifier
@@ -113,6 +113,7 @@ function generateWeed(%brick)
 
 	//apply weed directly on plants
 	weedVictimSearch(%b);
+	return %b;
 }
 
 function weedVictimSearch(%brick)
@@ -265,4 +266,5 @@ datablock ShapeBaseImageData(WeedWhackerImage)
 function WeedWhackerImage::onFire(%this, %obj, %slot)
 {
 	toolHarvest(%this, %obj, %slot);
+	%obj.playThread(0, plant);
 }
