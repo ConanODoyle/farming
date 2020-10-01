@@ -191,7 +191,8 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 	{
 		%itemDataID = "";
 	}
-	if (%storageMax <= 0 || (isStorageType(%brickStorageType) && !storageTypeAccepts(%brickStorageType, %storeItemDB))) //cannot store any at all
+
+	if (%storageMax <= 0 || !storageTypeAccepts(%brickStorageType, %storeItemDB)) //cannot store any at all
 	{
 		return 2;
 	}
@@ -637,10 +638,9 @@ function storageTypeAccepts(%typeName, %storeable)
 		return false;
 	}
 
-
 	if (isStorageType(%typeName))
 	{
-		if (strPos("\t" @ %storeable @ "\t", "\t" @ $StorageType[%typeName @ "List"] @ "\t") != -1)
+		if (strPos("\t" @ $StorageType[%typeName @ "List"] @ "\t", "\t" @ %storeable @ "\t") != -1)
 		{
 			if (%requiredStorageType $= %typeName || !isStorageType(%requiredStorageType))
 			{
@@ -650,7 +650,7 @@ function storageTypeAccepts(%typeName, %storeable)
 	}
 	else if (!isStorageType(%requiredStorageType))
 	{
-		return true
+		return true;
 	}
 
 	return false;
