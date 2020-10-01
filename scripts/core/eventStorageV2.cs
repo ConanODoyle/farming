@@ -611,54 +611,10 @@ function dropStoredItems(%brick)
 
 
 
-function storageTypeAccepts(%typeName, %storeable)
+function isStorageType(%typeName)
 {
-	if (%storeable $= %storeable + 0)
-	{
-		%storeable = %storeable.getName();
-	}
-
-	if (isObject(%storeable) && %storeable.isStackable)
-	{
-		%storeable = %storeable.stackType;
-		%requiredStorageType = $Stackable_[%storeable, "requiredStorageType"];
-	}
-	else if (isObject(%storeable))
-	{
-		%requiredStorageType = %storeable.requiredStorageType;
-	}
-	else
-	{
-		return false;
-	}
-
-
-	if ($StorageType[%typeName @ "Exists"])
-	{
-		if (strPos("\t" @ %storeable @ "\t", "\t" @ $StorageType[%typeName @ "List"] @ "\t") != -1)
-		{
-			if (%requiredStorageType $= %typeName || !isStorageType(%requiredStorageType))
-			{
-				return true;
-			}
-		}
-	}
-
-	return false;
+	return $StorageType[%typeName @ "Exists"] || false;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function storageTypeAccepts(%typeName, %storeable)
 {
