@@ -648,6 +648,10 @@ function storageTypeAccepts(%typeName, %storeable)
 			}
 		}
 	}
+	else if (!isStorageType(%requiredStorageType))
+	{
+		return true
+	}
 
 	return false;
 }
