@@ -4,7 +4,7 @@ $Farming::QuestCompleteCooldown = 300;
 
 //////////////////////////////
 
-function fxDTSBrick::getNewQuest(%this, %requestSlots, %requestTypes, %rewardSlots, %rewardTypes, %client) {
+function fxDTSBrick::getNewQuest(%this, %requestData, %rewardData, %client) {
     if (%this.nextQuestTime[%client.bl_id] > $Sim::Time) {
         if (%this.questRetrieved[%client.bl_id]) {
             %timeToWait = convTime(%this.nextQuestTime[%client.bl_id] - $Sim::Time);
@@ -16,6 +16,12 @@ function fxDTSBrick::getNewQuest(%this, %requestSlots, %requestTypes, %rewardSlo
             %this.nextQuestTime[%client.bl_id] = 0;
         }
     } else {
+        %requestSlots = getRandom(getWord(%requestData, 0), getWord(%requestData, 1));
+        %requestTypes = getWord(%requestData, 2);
+
+        %rewardSlots = getRandom(getWord(%rewardData, 0), getWord(%rewardData, 1));
+        %rewardTypes = getWord(%rewardData, 2);
+
         %quest = generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes);
         %this.quest[%client.bl_id] = %quest;
         %this.nextQuestTime[%client.bl_id] = $Sim::Time + $Farming::QuestCooldown;
@@ -57,7 +63,7 @@ function serverCmdAcceptQuest(%client) {
     %client.questToGet = "";
 }
 
-registerOutputEvent("fxDTSBrick", "getNewQuest", "int 1 20 3" TAB "string 200 50" TAB "int 1 20 3" TAB "string 200 50", true);
+registerOutputEvent("fxDTSBrick", "getNewQuest", "string 200 150" TAB "string 200 150", true);
 
 //////////////////////////////
 
