@@ -441,7 +441,7 @@ function fxDTSBrick::updateStorageDatablock(%brick, %dataID, %open)
 
 		if (%brick.getDatablock().hasFillLevels)
 		{
-			%datablockName = %datablockName @ (%fillLevel + 0);
+			%datablockName = %datablockName @ (%count + 0);
 		}
 
 		%brick.setDatablock(%datablockName @ "Data");
