@@ -47,7 +47,7 @@ function PickaxeImage::onFire(%this, %obj, %slot)
 	%start = %obj.getEyeTransform();
 	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
 
-	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType | $Typemasks::PlayerObjectType);
+	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType | $Typemasks::PlayerObjectType, %obj);
 	%hit = getWord(%ray, 0);
 	if (isObject(%hit))
 	{
