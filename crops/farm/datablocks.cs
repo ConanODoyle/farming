@@ -351,7 +351,7 @@ datablock fxDTSBrickData(brickRightQuestCabinetClosed0Data)
 	uiName = "Quest Cabinet (Right)";
 	description = "(4 slots, quests only)";
 
-	brickFile = "./bricks/toolboxLargeFeatures.blb";
+	brickFile = "./bricks/rightQuestCabinetClosed0.blb";
 
 	iconName = "";
 
