@@ -247,3 +247,195 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 
 	cost = 150;
 };
+
+datablock fxDTSBrickData(brickLeftQuestCabinetClosed0Data)
+{
+	category = "Farming";
+	subCategory = "Storage";
+	uiName = "Quest Cabinet (Left)";
+	description = "(4 slots, quests only)";
+
+	brickFile = "./bricks/leftQuestCabinetClosed0.blb";
+
+	iconName = "";
+
+	isStorageBrick = 1;
+	storageSlotCount = 4;
+	storageMultiplier = 0;
+	storageType = "Quests";
+	itemStackCount = 1;
+
+	cost = 150;
+
+	baseDatablockName = "LeftQuestCabinet";
+	datablockIsOpenable = true;
+	datablockHasFillLevels = true;
+};
+
+datablock fxDTSBrickData(brickLeftQuestCabinetOpen0Data : brickLeftQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/leftQuestCabinetOpen0.blb";
+};
+
+datablock fxDTSBrickData(brickLeftQuestCabinetClosed1Data : brickLeftQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/leftQuestCabinetClosed1.blb";
+};
+
+datablock fxDTSBrickData(brickLeftQuestCabinetOpen1Data : brickLeftQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/leftQuestCabinetOpen1.blb";
+};
+
+datablock fxDTSBrickData(brickLeftQuestCabinetClosed2Data : brickLeftQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/leftQuestCabinetClosed2.blb";
+};
+
+datablock fxDTSBrickData(brickLeftQuestCabinetOpen2Data : brickLeftQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/leftQuestCabinetOpen2.blb";
+};
+
+datablock fxDTSBrickData(brickLeftQuestCabinetClosed3Data : brickLeftQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/leftQuestCabinetClosed3.blb";
+};
+
+datablock fxDTSBrickData(brickLeftQuestCabinetOpen3Data : brickLeftQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/leftQuestCabinetOpen3.blb";
+};
+
+datablock fxDTSBrickData(brickLeftQuestCabinetClosed4Data : brickLeftQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/leftQuestCabinetClosed4.blb";
+};
+
+datablock fxDTSBrickData(brickLeftQuestCabinetOpen4Data : brickLeftQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/leftQuestCabinetOpen4.blb";
+};
+
+datablock fxDTSBrickData(brickRightQuestCabinetClosed0Data)
+{
+	category = "Farming";
+	subCategory = "Storage";
+	uiName = "Quest Cabinet (Right)";
+	description = "(4 slots, quests only)";
+
+	brickFile = "./bricks/toolboxLargeFeatures.blb";
+
+	iconName = "";
+
+	isStorageBrick = 1;
+	storageSlotCount = 4;
+	storageMultiplier = 0;
+	storageType = "Quests";
+	itemStackCount = 1;
+
+	cost = 150;
+
+	baseDatablockName = "RightQuestCabinet";
+	datablockIsOpenable = true;
+	datablockHasFillLevels = true;
+};
+
+datablock fxDTSBrickData(brickRightQuestCabinetOpen0Data : brickRightQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/rightQuestCabinetOpen0.blb";
+};
+
+datablock fxDTSBrickData(brickRightQuestCabinetClosed1Data : brickRightQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/rightQuestCabinetClosed1.blb";
+};
+
+datablock fxDTSBrickData(brickRightQuestCabinetOpen1Data : brickRightQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/rightQuestCabinetOpen1.blb";
+};
+
+datablock fxDTSBrickData(brickRightQuestCabinetClosed2Data : brickRightQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/rightQuestCabinetClosed2.blb";
+};
+
+datablock fxDTSBrickData(brickRightQuestCabinetOpen2Data : brickRightQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/rightQuestCabinetOpen2.blb";
+};
+
+datablock fxDTSBrickData(brickRightQuestCabinetClosed3Data : brickRightQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/rightQuestCabinetClosed3.blb";
+};
+
+datablock fxDTSBrickData(brickRightQuestCabinetOpen3Data : brickRightQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/rightQuestCabinetOpen3.blb";
+};
+
+datablock fxDTSBrickData(brickRightQuestCabinetClosed4Data : brickRightQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/rightQuestCabinetClosed4.blb";
+};
+
+datablock fxDTSBrickData(brickRightQuestCabinetOpen4Data : brickRightQuestCabinetClosed0Data)
+{
+	category = "";
+	subCategory = "";
+
+	brickFile = "./bricks/rightQuestCabinetOpen4.blb";
+};
