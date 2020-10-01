@@ -269,7 +269,18 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 
 	if (%result == 0 || %result == 1)
 	{
-		updateStorageDatablock(%hit, true);
+		%count = 0;
+		%max = getMax(%storageObj.getDatablock().storageSlotCount, 1);
+		for (%i = 1; %i < %max + 1; %i++)
+		{
+			%storageType = getWord(validateStorageValue(getDataIDArrayValue(%dataID, %i)), 0);
+			if (isObject(%storageType))
+			{
+				%count++;
+			}
+		}
+
+		%storageObj.updateStorageDatablock(%count, true);
 	}
 
 	return %result;
@@ -430,7 +441,7 @@ function fxDTSBrick::updateStorageDatablock(%brick, %fillLevel, %open)
 
 		if (%brick.hasFillLevels)
 		{
-			%datablockName = %datablockName @ %fillLevel;
+			%datablockName = %datablockName @ (%fillLevel + 0);
 		}
 
 		%brick.setDatablock(%datablockName @ "Data");
@@ -458,7 +469,7 @@ function AIPlayer::updateStorageDatablock(%bot, %fillLevel, %open)
 
 		if (%bot.hasFillLevels)
 		{
-			%datablockName = %datablockName @ %fillLevel;
+			%datablockName = %datablockName @ (%fillLevel + 0);
 		}
 
 		%bot.setDatablock(%datablockName @ "Armor");
