@@ -268,8 +268,8 @@ datablock fxDTSBrickData(brickLeftQuestCabinetClosed0Data)
 	cost = 150;
 
 	baseDatablockName = "LeftQuestCabinet";
-	datablockIsOpenable = true;
-	datablockHasFillLevels = true;
+	IsOpenable = true;
+	HasFillLevels = true;
 };
 
 datablock fxDTSBrickData(brickLeftQuestCabinetOpen0Data : brickLeftQuestCabinetClosed0Data)
