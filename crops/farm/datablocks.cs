@@ -15,7 +15,7 @@ datablock fxDTSBrickData(brick4x4DirtData : brick4x4Data)
 	maxWeedkiller = 10;
 };
 
-datablock fxDTSBrickData(brick8x8DirtData : brick8x8Data) 
+datablock fxDTSBrickData(brick8x8DirtData : brick8x8Data)
 {
 	category = "Farming";
 	subCategory = "Dirt";
@@ -67,7 +67,7 @@ datablock fxDTSBrickData(brickSmallWaterInfiniteTankData)
 	maxSprinklers = 100;
 };
 
-datablock fxDTSBrickData(brickMediumWaterTankData) 
+datablock fxDTSBrickData(brickMediumWaterTankData)
 {
 	category = "Farming";
 	subCategory = "Water Tanks";
@@ -84,7 +84,7 @@ datablock fxDTSBrickData(brickMediumWaterTankData)
 	maxSprinklers = 4;
 };
 
-datablock fxDTSBrickData(brickLargeWaterTankData) 
+datablock fxDTSBrickData(brickLargeWaterTankData)
 {
 	category = "Farming";
 	subCategory = "Water Tanks";
@@ -101,7 +101,7 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 	isOutflowTank = 1;
 };
 
-// datablock fxDTSBrickData(brickMassiveWaterTankData) 
+// datablock fxDTSBrickData(brickMassiveWaterTankData)
 // {
 // 	category = "Farming";
 // 	subCategory = "Water Tanks";
@@ -213,7 +213,7 @@ datablock fxDTSBrickData(brickSiloData)
 	category = "Farming";
 	subCategory = "Storage";
 	uiName = "Silo";
-	description = "(1 slot, 30x storage)";
+	description = "(1 slot, 30x storage, crops only)";
 
 	brickFile = "./bricks/Silo.blb";
 
@@ -222,6 +222,7 @@ datablock fxDTSBrickData(brickSiloData)
 	isStorageBrick = 1;
 	storageSlotCount = 1;
 	storageMultiplier = 30;
+	storageType = "Crops";
 	itemStackCount = 0;
 
 	cost = 600;
@@ -232,7 +233,7 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 	category = "Farming";
 	subCategory = "Storage";
 	uiName = "Toolbox";
-	description = "(8 slots, non stackable items only)";
+	description = "(8 slots, tools only)";
 
 	brickFile = "./bricks/toolboxLargeFeatures.blb";
 
@@ -241,6 +242,7 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 	isStorageBrick = 1;
 	storageSlotCount = 8;
 	storageMultiplier = 0;
+	storageType = "Tools";
 	itemStackCount = 1;
 
 	cost = 150;
