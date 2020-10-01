@@ -65,8 +65,8 @@ function initializeStorage(%brick, %dataID)
 
 	if (getWord(%info = getDataIDArrayValue(%dataID, 0), 0) !$= "info")
 	{
-		%info = "info " 
-			TAB "blid " @ %brick.getGroup().bl_id 
+		%info = "info "
+			TAB "blid " @ %brick.getGroup().bl_id
 			TAB "datablock " @ %brick.getDatablock().getName()
 			TAB "tf " @ %brick.getTransform();
 		setDataIDArrayValue(%dataID, 0, %info);
@@ -77,9 +77,9 @@ function initializeStorage(%brick, %dataID)
 		%datablock = getWord(getField(%info, 2), 1);
 		if (%brick.getDatablock().getName() !$= %datablock)
 		{
-			error("Storage datablock mismatch! brick:[" @ %brick @ "] brickDB:[" 
+			error("Storage datablock mismatch! brick:[" @ %brick @ "] brickDB:["
 				@ %brick.getDatablock().getName() @ "] dataID:[" @ %dataID @ "]");
-			talk("ERROR: storage datablock mismatch! Please inform the host! brick:[" @ %brick @ "] brickDB:[" 
+			talk("ERROR: storage datablock mismatch! Please inform the host! brick:[" @ %brick @ "] brickDB:["
 				@ %brick.getDatablock().getName() @ "] dataID:[" @ %dataID @ "]");
 			return 1;
 		}
@@ -186,11 +186,12 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 
 	%stackType = %storeItemDB.stackType;
 	%storageMax = %storageObj.getStorageMax(%storeItemDB);
+	%brickStorageType = %storageObj.getStorageType();
 	if (!%storeItemDB.hasDataID)
 	{
 		%itemDataID = "";
 	}
-	if (%storageMax <= 0) //cannot store any at all
+	if (%storageMax <= 0 || (isStorageType(%brickStorageType) && !storageTypeAccepts(%brickStorageType, %storeItemDB))) //cannot store any at all
 	{
 		return 2;
 	}
@@ -201,7 +202,7 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 		%display = getField(%data[%i], 1);
 		%itemCount = getField(%data[%i], 2);
 
-		if (%storageType $= "" || !isObject(%storageType) || 
+		if (%storageType $= "" || !isObject(%storageType) ||
 			(%storeItemDB.isStackable && %storageType.stackType $= %stackType && %itemCount < %storageMax) ||
 			(%storageType.getID() == %storeItemDB.getID() && %itemCount < %storageMax))
 		{
@@ -389,6 +390,16 @@ function AIPlayer::getStorageMax(%bot, %itemDB)
 	return %total;
 }
 
+function fxDTSBrick::getStorageType(%brick)
+{
+	return %brick.getDatablock().storageType;
+}
+
+function AIPlayer::getStorageType(%bot)
+{
+	return %bot.getDatablock().storageType;
+}
+
 
 
 
@@ -502,7 +513,7 @@ function addStorageEvent(%this, %botForm)
 	}
 	else
 	{
-		%inputEvent = "onActivate";	
+		%inputEvent = "onActivate";
 	}
 	%delay = 0;
 	%target = "Self";
@@ -600,6 +611,104 @@ function dropStoredItems(%brick)
 
 
 
+function storageTypeAccepts(%typeName, %storeable)
+{
+	if (%storeable $= %storeable + 0)
+	{
+		%storeable = %storeable.getName();
+	}
+
+	if (isObject(%storeable) && %storeable.isStackable)
+	{
+		%storeable = %storeable.stackType;
+		%requiredStorageType = $Stackable_[%storeable, "requiredStorageType"];
+	}
+	else if (isObject(%storeable))
+	{
+		%requiredStorageType = %storeable.requiredStorageType;
+	}
+	else
+	{
+		return false;
+	}
+
+
+	if ($StorageType[%typeName @ "Exists"])
+	{
+		if (strPos("\t" @ %storeable @ "\t", "\t" @ $StorageType[%typeName @ "List"] @ "\t") != -1)
+		{
+			if (%requiredStorageType $= %typeName || !isStorageType(%requiredStorageType))
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function storageTypeAccepts(%typeName, %storeable)
+{
+	if (%storeable $= %storeable + 0)
+	{
+		%storeable = %storeable.getName();
+	}
+
+	if (isObject(%storeable) && %storeable.isStackable)
+	{
+		%storeable = %storeable.stackType;
+		%requiredStorageType = $Stackable_[%storeable, "requiredStorageType"];
+	}
+	else if (isObject(%storeable))
+	{
+		%requiredStorageType = %storeable.requiredStorageType;
+	}
+	else
+	{
+		return false;
+	}
+
+
+	if ($StorageType[%typeName @ "Exists"])
+	{
+		if (strPos("\t" @ %storeable @ "\t", "\t" @ $StorageType[%typeName @ "List"] @ "\t") != -1)
+		{
+			if (%requiredStorageType $= %typeName || !isStorageType(%requiredStorageType))
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 package StorageBricks
 {
 	function fxDTSBrick::onAdd(%this)
@@ -657,7 +766,7 @@ package StorageBricks
 		{
 			if (!%this.droppedStoredItems)
 			{
-				%this.droppedStoredItems = 1; 
+				%this.droppedStoredItems = 1;
 				dropStoredItems(%this);
 			}
 		}
@@ -665,7 +774,7 @@ package StorageBricks
 		return parent::onDupCut(%this);
 	}
 
-	function fxDTSBrick::onDeath(%this) 
+	function fxDTSBrick::onDeath(%this)
 	{
 		if (%this.getDatablock().isStorageBrick)
 		{
@@ -688,9 +797,9 @@ package StorageBricks
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
 			if (isObject(%hit) && %hit.getDatablock().isStorageBrick && getTrustLevel(%hit, %cl) >= 2)
 			{
-				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1], 
-												%item, 
-												!%pl.tool[%slot].isStackable ? 1 : %pl.toolStackCount[%slot], 
+				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1],
+												%item,
+												!%pl.tool[%slot].isStackable ? 1 : %pl.toolStackCount[%slot],
 												%pl.toolDataID[%slot]);
 				if (%success == 0) //complete insertion
 				{
