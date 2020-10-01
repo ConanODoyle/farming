@@ -22,7 +22,7 @@ datablock ItemData(QuestItem)
     hasDataID = true;
     canPickupMultiple = true;
 
-    requiredStorageType = "Quests"
+    requiredStorageType = "Quests";
 };
 
 datablock ShapeBaseImageData(QuestImage)
