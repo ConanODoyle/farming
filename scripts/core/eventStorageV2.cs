@@ -638,7 +638,7 @@ function storageTypeAccepts(%typeName, %storeable)
 	}
 
 
-	if ($StorageType[%typeName @ "Exists"])
+	if (isStorageType(%typeName))
 	{
 		if (strPos("\t" @ %storeable @ "\t", "\t" @ $StorageType[%typeName @ "List"] @ "\t") != -1)
 		{
