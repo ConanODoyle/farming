@@ -58,6 +58,7 @@ function PickaxeImage::onFire(%this, %obj, %slot)
 		%p = new Projectile() {
 			dataBlock = hammerProjectile;
 			initialPosition = getWords(%ray, 1, 3);
+			initialVelocity = vectorScale(getWords(%ray, 4, 6), -1);
 		};
 		%p.explode();
 		serverPlay3D(hammerHitSound, getWords(%ray, 1, 3));
