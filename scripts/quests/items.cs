@@ -21,6 +21,8 @@ datablock ItemData(QuestItem)
 
     hasDataID = true;
     canPickupMultiple = true;
+
+    requiredStorageType = "Quests"
 };
 
 datablock ShapeBaseImageData(QuestImage)
