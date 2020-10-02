@@ -1103,7 +1103,7 @@ datablock ItemData(ShovelItem : HammerItem)
 	shapeFile = "./resources/fertilizer/Shovel.dts";
 	uiName = "Shovel";
 	image = "ShovelImage";
-	colorShiftColor = "0.54 0.48 0.42 1";
+	colorShiftColor = "0.4 0 0 1";
 	doColorShift = true;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/Shovel";
