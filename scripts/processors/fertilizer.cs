@@ -1165,28 +1165,28 @@ function ShovelImage::onFire(%this, %obj, %slot)
 			%pho = getWord(%nutrients, 1);
 			if (%nit >= 5 || %pho >= 5)
 			{
-				if (%nit >= 5)
+				if (%nit >= CompostBag0Image.fertilizerNitrogen + 1)
 				{
 					%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
-					%nit -= 5;
+					%nit -= CompostBag0Image.fertilizerNitrogen + 1;
 					%item = new Item()
 					{
 						dataBlock = CompostBag0Item;
-						count = 3;
+						count = 1;
 						client = %obj.client;
 					};
 					%item.setTransform(getWords(%ray, 1, 3) SPC getRandomRotation());
 					%item.setVelocity(%vel);
 					%item.schedulePop();
 				}
-				if (%pho >= 5)
+				if (%pho >= PhosphateBag0Image.fertilizerPhosphate + 1)
 				{
 					%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
-					%pho -= 5;
+					%pho -= PhosphateBag0Image.fertilizerPhosphate + 1;
 					%item = new Item()
 					{
 						dataBlock = PhosphateBag0Item;
-						count = 3;
+						count = 1;
 						client = %obj.client;
 					};
 					%item.setTransform(getWords(%ray, 1, 3) SPC getRandomRotation());
