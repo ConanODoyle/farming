@@ -322,7 +322,7 @@ function fertilizeDirt(%img, %obj, %slot)
 		%nutrients = %brick.getNutrients();
 		if (getWord(%nutrients, 0) + getWord(%nutrients, 1) >= %brickDB.maxNutrients)
 		{
-			messageClient(%cl, '', "Nutrients are maxed out!");
+			messageClient(%cl, '', "Nutrients are maxed out! Use a shovel to remove and recover some nutrients.");
 			return;
 		}
 		%nitAdd = %img.fertilizerNitrogen + 0;
@@ -1088,3 +1088,127 @@ function PhosphateLoop(%image, %obj)
 		%cl.centerprint("<just:right><color:ffff00>-Phosphate Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+datablock ItemData(ShovelItem : HammerItem)
+{
+	shapeFile = "./resources/fertilizer/Shovel.dts";
+	uiName = "Shovel";
+	image = "ShovelImage";
+	colorShiftColor = "0.54 0.48 0.42 1";
+	doColorShift = true;
+
+	iconName = "Add-ons/Server_Farming/crops/icons/Shovel";
+
+	isStackable = 1;
+	stackType = "Phosphate";
+};
+
+datablock ShapeBaseImageData(ShovelImage)
+{
+	shapeFile = "./resources/fertilizer/Shovel.dts";
+	emap = true;
+
+	doColorShift = true;
+	colorShiftColor = ShovelItem.colorShiftColor;
+
+	item = "ShovelItem";
+
+	armReady = 1;
+
+	offset = "-0.1 0.3 -0.1";
+
+	toolTip = "Reclaims nutrients from soil";
+
+	fertilizerPhosphate = 5;
+
+	stateName[0] = "Activate";
+	stateTransitionOnTimeout[0] = "Ready";
+	stateTimeoutValue[0] = 0.1;
+
+	stateName[1] = "Ready";
+	stateTransitionOnTriggerDown[1] = "Fire";
+
+	stateName[2] = "Fire";
+	stateScript[2] = "onFire";
+	stateTransitionOnTriggerUp[2] = "Ready";
+};
+
+
+function ShovelImage::onFire(%this, %obj, %slot)
+{
+	%start = %obj.getEyeTransform();
+	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
+
+	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType | $Typemasks::PlayerObjectType, %obj);
+	%hit = getWord(%ray, 0);
+	if (isObject(%hit))
+	{
+		if (%hit.getClassName() $= "fxDTSBrick")
+		{
+			%hit.onShovelHit(%obj);
+		}
+		%p = new Projectile() {
+			dataBlock = swordProjectile;
+			initialPosition = getWords(%ray, 1, 3);
+			initialVelocity = vectorScale(getWords(%ray, 4, 6), -1);
+		};
+		%p.explode();
+
+		if (%hit.getDatablock().isDirt)
+		{
+			%nutrients = %hit.getNutrients();
+			%nit = getWord(%nutrients, 0);
+			%pho = getWord(%nutrients, 1);
+			if (%nit >= 5 || %pho >= 5)
+			{
+				if (%nit >= 5)
+				{
+					%nit -= 5;
+					%item = new Item()
+					{
+						dataBlock = CompostBag0Item;
+						count = 3;
+						client = %obj.client;
+					};
+					%item.schedulePop();
+				}
+				if (%pho >= 5)
+				{
+					%pho -= 5;
+					%item = new Item()
+					{
+						dataBlock = PhosphateBag0Item;
+						count = 3;
+						client = %obj.client;
+					};
+					%item.schedulePop();
+				}
+			}
+			%hit.setNutrients(%nit, %pho);
+		}
+	}
+	%obj.playThread(0, shiftDown);
+
+}
+
+function fxDTSBrick::onShovelHit(%this, %pl)
+{
+	%cl = %pl.client;
+
+	$InputTarget_["Self"] = %this;
+	$InputTarget_["Player"] = %pl;
+	$InputTarget_["Client"] = %cl;
+	$InputTarget_["MiniGame"] = getMiniGameFromObject(%this);
+
+	%this.processInputEvent("onShovelHit", %client);
+}
+registerInputEvent("fxDTSBrick", "onShovelHit", "Self fxDTSBrick" TAB "Player Player" TAB "Client GameConnection" TAB "MiniGame MiniGame");
