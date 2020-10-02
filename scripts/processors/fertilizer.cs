@@ -1167,6 +1167,7 @@ function ShovelImage::onFire(%this, %obj, %slot)
 			{
 				if (%nit >= 5)
 				{
+					%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
 					%nit -= 5;
 					%item = new Item()
 					{
@@ -1174,10 +1175,13 @@ function ShovelImage::onFire(%this, %obj, %slot)
 						count = 3;
 						client = %obj.client;
 					};
+					%item.setTransform(getWords(%ray, 1, 3) SPC getRandomRotation());
+					%item.setVelocity(%vel);
 					%item.schedulePop();
 				}
 				if (%pho >= 5)
 				{
+					%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
 					%pho -= 5;
 					%item = new Item()
 					{
@@ -1185,6 +1189,8 @@ function ShovelImage::onFire(%this, %obj, %slot)
 						count = 3;
 						client = %obj.client;
 					};
+					%item.setTransform(getWords(%ray, 1, 3) SPC getRandomRotation());
+					%item.setVelocity(%vel);
 					%item.schedulePop();
 				}
 			}
