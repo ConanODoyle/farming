@@ -203,6 +203,8 @@ function powerTick(%index)
 	$masterPowerTickSchedule = schedule(100, 0, PowerTick, %index);
 }
 
+schedule(1000, 0, powerTick, 0);
+
 function powerCheck(%brick)
 {
 	%db = %brick.getDatablock();
