@@ -1121,8 +1121,6 @@ datablock ShapeBaseImageData(ShovelImage)
 
 	armReady = 1;
 
-	offset = "-0.1 0.3 -0.1";
-
 	toolTip = "Reclaims nutrients from soil";
 
 	stateName[0] = "Activate";
