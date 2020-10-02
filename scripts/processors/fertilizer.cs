@@ -1107,9 +1107,6 @@ datablock ItemData(ShovelItem : HammerItem)
 	doColorShift = true;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/Shovel";
-
-	isStackable = 1;
-	stackType = "Phosphate";
 };
 
 datablock ShapeBaseImageData(ShovelImage)
@@ -1127,8 +1124,6 @@ datablock ShapeBaseImageData(ShovelImage)
 	offset = "-0.1 0.3 -0.1";
 
 	toolTip = "Reclaims nutrients from soil";
-
-	fertilizerPhosphate = 5;
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "Ready";
