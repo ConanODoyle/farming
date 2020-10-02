@@ -20,7 +20,7 @@ datablock ShapeBaseImageData(ReclaimerImage2)
 
 	armReady = true;
 
-	tooltip = "Reclaims seeds, rare chance for 2";
+	tooltip = "Reclaims seeds, rare chance for 2 if harvestable";
 
 	min = 4;
 
@@ -73,45 +73,38 @@ function ReclaimerImage2::onFire(%this, %obj, %slot)
 		
 		%yield = getPlantData(%type, %stage, "yield");
 
-		if (%yield !$= "" || vectorLen(%yield) > 0.1)
+		%itemDB = %type @ "SeedItem";
+
+		if ((%yield !$= "" || vectorLen(%yield) > 0.1) && getRandom() < 0.2)
 		{
-			%itemDB = %type @ "SeedItem";
-
-			if (getRandom() < 0.2)
-			{
-				%amt = 2;
-				messageClient(%obj.client, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed two seeds!");
-			}
-			else
-			{
-				%amt = 1;
-			}
-
-			for (%i = 0; %i < %amt; %i++)
-			{
-				%vel = (getRandom(6) - 3) / 2 SPC  (getRandom(6) - 3) / 2 SPC 6;
-				%item = new Item(Seeds)
-				{
-					dataBlock = %itemDB;
-					harvestedBG = %cl.brickgroup;
-				};
-				MissionCleanup.add(%item);
-				%item.schedule(60 * 1000, schedulePop);
-				%item.setTransform(%hit.getPosition() SPC getRandomRotation());
-				%item.setVelocity(%vel);
-			}
-			%hit.delete();
-
-			if (getPlantData(%type, "experienceCost") > 0)
-			{
-				%experienceCost = mCeil(getPlantData(%type, "experienceCost") / 2);
-				messageClient(%cl, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed the plant and received \c3" @ %experienceCost @ "\c6 experience back!");
-				%cl.addExperience(%experienceCost);
-			}
+			%amt = 2;
+			messageClient(%obj.client, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed two seeds!");
 		}
 		else
 		{
-			%obj.client.centerprint("The plant needs to be harvestable to be reclaimed!", 1);
+			%amt = 1;
 		}
+
+		for (%i = 0; %i < %amt; %i++)
+		{
+			%vel = (getRandom(6) - 3) / 2 SPC  (getRandom(6) - 3) / 2 SPC 6;
+			%item = new Item(Seeds)
+			{
+				dataBlock = %itemDB;
+				harvestedBG = %cl.brickgroup;
+			};
+			MissionCleanup.add(%item);
+			%item.schedule(60 * 1000, schedulePop);
+			%item.setTransform(%hit.getPosition() SPC getRandomRotation());
+			%item.setVelocity(%vel);
+		}
+		%hit.delete();
+
+		if (getPlantData(%type, "experienceCost") > 0)
+		{
+			%experienceCost = mCeil(getPlantData(%type, "experienceCost") / 2);
+			messageClient(%cl, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed the plant and received \c3" @ %experienceCost @ "\c6 experience back!");
+			%cl.addExperience(%experienceCost);
+		}\
 	}
 }
