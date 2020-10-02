@@ -200,7 +200,7 @@ function HoseV2Image::onFire(%this, %obj, %slot)
 datablock ItemData(HoseSnakeItem : WateringCanItem) 
 {
 	shapeFile = "./hoseSnakeItem.dts";
-	uiName = "Hose V2";
+	uiName = "Watering Snake";
 	colorShiftColor = "0 0.5 0 1";
 	image = "HoseSnakeImage";
 
@@ -212,10 +212,10 @@ datablock ShapeBaseImageData(HoseSnakeImage : WateringCanImage)
 	shapeFile = "./hoseSnake.dts";
 	item = HoseSnakeItem;
 	colorShiftColor = HoseSnakeItem.colorShiftColor;
-	waterAmount = 50;
-	tankAmount = 400;
+	waterAmount = 100;
+	tankAmount = 600;
 
-	toolTip = "Waters Dirt: +50 | Tanks: +400";
+	toolTip = "Waters Dirt: +100 | Tanks: +600";
 };
 
 function HoseSnakeImage::onFire(%this, %obj, %slot)
