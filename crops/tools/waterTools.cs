@@ -41,6 +41,7 @@ datablock ShapeBaseImageData(WateringCanImage)
 	stateTimeoutValue[1] = 0.2;
 	stateScript[1] = "onReady";
 	stateTransitionOnTriggerDown[1] = "Fire";
+	stateWaitForTimeout[1] = false;
 
 	stateName[2] = "Fire";
 	stateScript[2] = "onFire";
@@ -59,6 +60,7 @@ datablock ShapeBaseImageData(WateringCanImage)
 	stateTimeoutValue[4] = 0.2;
 	stateScript[4] = "onReady";
 	stateTransitionOnTriggerDown[4] = "Fire";
+	stateWaitForTimeout[4] = false;
 };
 
 function WateringCanImage::onFire(%this, %obj, %slot)
@@ -326,7 +328,7 @@ function wateringCanReady(%this, %obj, %slot)
 	if (isObject(%cl = %obj.client))
 	{
 		%durability = getDurability(%this, %obj, %slot);
-		%cl.centerprint("\n<just:right><color:cccccc>Durability: " @ %durability, 1);
+		%cl.centerprint("\n<just:right><color:cccccc>Durability: " @ %durability @ " ", 1);
 	}
 }
 
@@ -380,14 +382,15 @@ function waterCanFire(%this, %obj, %slot)
             %obj.waterCount++;
             if (%obj.waterCount >= 10)
             {
-                %waterLevel = %waterLevel @ " <just:right>\c2Combo: " @ %obj.waterCount @ " \n";
+                %waterLevel = %waterLevel @ " <just:right>\c2Combo: " @ %obj.waterCount;
             }
+            %waterLevel = %waterLevel @ " \n";
 
             %waterString = "Watering... (+" @ %dispensed @ "/" @ %amt @ ") \n";
             %durabilityString = "Durability: " @ %durability @ " \n";
 
-            %obj.client.centerprint("<just:right><color:ffffff>" @ %waterString @ %waterLevel @ %durabilityString, 1);
-            %obj.client.schedule(50, centerprint, "<just:right><color:cccccc>" @ %waterString @ %waterLevel @ %durabilityString, 1);
+            %obj.client.centerprint("<just:right><color:ffffff>" @ %waterString @ %durabilityString @ %waterLevel, 1);
+            %obj.client.schedule(50, centerprint, "<just:right><color:cccccc>" @ %waterString @ %durabilityString @ %waterLevel, 1);
 
             cancel(%obj.client.waterComboSchedule);
             %obj.client.waterComboSchedule = schedule(1000, 0, checkWaterCombo, %obj, %obj.client.bl_id, %obj.client.name, %obj.waterCount);

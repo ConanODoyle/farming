@@ -38,6 +38,7 @@ datablock ShapeBaseImageData(PlanterImage)
 	stateTransitionOnTriggerDown[1] = "Fire";
 	stateTimeoutValue[1] = 0.1;
 	stateTransitionOnTimeout[1] = "LoopB";
+	stateWaitForTimeout[1] = false;
 
 	stateName[2] = "LoopB";
 	stateScript[2] = "onLoop";
@@ -50,6 +51,7 @@ datablock ShapeBaseImageData(PlanterImage)
 	stateTransitionOnTriggerUp[3] = "LoopA";
 	stateTimeoutValue[3] = 0.1;
 	stateWaitForTimeout[3] = true;
+	stateWaitForTimeout[3] = false;
 };
 
 datablock ItemData(PlanterV2Item : HammerItem)
