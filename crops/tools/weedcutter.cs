@@ -1,26 +1,26 @@
-datablock ItemData(WeedWhackerItem : HammerItem)
+datablock ItemData(WeedCutterItem : HammerItem)
 {
 	iconName = "Add-Ons/Server_Farming/crops/icons/weed_whacker";
 	shapeFile = "./weed_whacker.dts";
 	uiName = "Weed Cutter";
 
-	image = "WeedWhackerImage";
+	image = "WeedCutterImage";
 	colorShiftColor = "0.4 0 0 1";
 	doColorShift = false;
 
 	cost = 1200;
 };
 
-datablock ShapeBaseImageData(WeedWhackerImage)
+datablock ShapeBaseImageData(WeedCutterImage)
 {
 	shapeFile = "./weed_whacker.dts";
 
 	emap = true;
 	armReady = true;
 
-	item = WeedWhackerItem;
+	item = WeedCutterItem;
 	doColorShift = fakse;
-	colorShiftColor = WeedWhackerItem.colorShiftColor;
+	colorShiftColor = WeedCutterItem.colorShiftColor;
 
 	areaHarvest = 2;
 	stateTimeoutValue[2] = 0.4;
@@ -47,7 +47,7 @@ datablock ShapeBaseImageData(WeedWhackerImage)
 	stateTransitionOnTriggerUp[3] = "Ready";
 };
 
-function WeedWhackerImage::onFire(%this, %obj, %slot)
+function WeedCutterImage::onFire(%this, %obj, %slot)
 {
 	toolHarvest(%this, %obj, %slot);
 	%obj.playThread(0, plant);

@@ -262,37 +262,37 @@ function HoseV2Image::onReady(%this, %obj, %slot)
 
 ////
 
-datablock ItemData(HoseSnakeItem : WateringCanItem) 
+datablock ItemData(WateringSnakeItem : WateringCanItem) 
 {
 	shapeFile = "./wateringSnakeItem.dts";
 	uiName = "Watering Snake";
 	colorShiftColor = "0 0.5 0 1";
-	image = "HoseSnakeImage";
+	image = "WateringSnakeImage";
 	durability = 1000000;
 
 	hasDataID = 1;
 	isDataIDTool = 1;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/hosesnake";
+	iconName = "Add-ons/Server_Farming/crops/icons/WateringSnake";
 };
 
-datablock ShapeBaseImageData(HoseSnakeImage : WateringCanImage)
+datablock ShapeBaseImageData(WateringSnakeImage : WateringCanImage)
 {
 	shapeFile = "./wateringSnake.dts";
-	item = HoseSnakeItem;
-	colorShiftColor = HoseSnakeItem.colorShiftColor;
+	item = WateringSnakeItem;
+	colorShiftColor = WateringSnakeItem.colorShiftColor;
 	waterAmount = 100;
 	tankAmount = 600;
 
 	toolTip = "Waters Dirt: +100 | Tanks: +600";
 };
 
-function HoseSnakeImage::onFire(%this, %obj, %slot)
+function WateringSnakeImage::onFire(%this, %obj, %slot)
 {
 	waterCanFire(%this, %obj, %slot);
 }
 
-function HoseSnakeImage::onReady(%this, %obj, %slot)
+function WateringSnakeImage::onReady(%this, %obj, %slot)
 {
 	wateringCanReady(%this, %obj, %slot);
 }
