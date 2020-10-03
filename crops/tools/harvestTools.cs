@@ -201,11 +201,11 @@ function SickleImage::onReady(%this, %obj, %slot)
 
 ////
 
-datablock ItemData(LongClipperItem : HammerItem)
+datablock ItemData(TreeClipperItem : HammerItem)
 {
-	iconName = "Add-ons/Server_Farming/crops/icons/LongClipper";
-	shapeFile = "./LongClipper.dts";
-	uiName = "LongClipper";
+	iconName = "Add-ons/Server_Farming/crops/icons/TreeClipper";
+	shapeFile = "./TreeClipper.dts";
+	uiName = "Tree Clipper";
 
 	hasDataID = 1;
 	isDataIDTool = 1;
@@ -215,15 +215,15 @@ datablock ItemData(LongClipperItem : HammerItem)
 	chanceDurability = 0.8;
 	bonusDurability = 20;
 
-	image = "LongClipperImage";
+	image = "TreeClipperImage";
 	colorShiftColor = "0.4 0 0 1";
 };
 
-datablock ShapeBaseImageData(LongClipperImage : TrowelImage)
+datablock ShapeBaseImageData(TreeClipperImage : TrowelImage)
 {
-	shapeFile = "./LongClipper.dts";
+	shapeFile = "./TreeClipper.dts";
 
-	item = LongClipperItem;
+	item = TreeClipperItem;
 	doColorShift = true;
 
 	areaHarvest = 2;
@@ -232,12 +232,12 @@ datablock ShapeBaseImageData(LongClipperImage : TrowelImage)
 	toolTip = "Area harvest above ground crops";
 };
 
-function LongClipperImage::onFire(%this, %obj, %slot)
+function TreeClipperImage::onFire(%this, %obj, %slot)
 {
 	toolHarvest(%this, %obj, %slot);
 }
 
-function LongClipperImage::onReady(%this, %obj, %slot)
+function TreeClipperImage::onReady(%this, %obj, %slot)
 {
 	harvestToolReady(%this, %obj, %slot);
 }
@@ -274,7 +274,7 @@ function toolHarvest(%img, %obj, %slot)
 	{
 		if (!%hit.getDatablock().isPlant)
 		{
-			if (!isObject(%img.projectile))	
+			if (!isObject(%img.projectile))
 			{
 				%db = swordProjectile;
 			}
@@ -369,7 +369,7 @@ function Player::getToolKillCount(%pl)
 			case (ClipperItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
 			case (SickleItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
 			case (HoeItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
-			case (LongClipperItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
+			case (TreeClipperItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
 			default: return "";
 		}
 		return getHighestToolKillCount(%dataID);
