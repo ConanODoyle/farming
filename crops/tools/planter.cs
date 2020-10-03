@@ -4,6 +4,8 @@ datablock ItemData(PlanterItem : HammerItem)
 	iconName = "Add-Ons/Server_Farming/crops/icons/Planter_Icon";
 	uiName = "Seed Planter";
 
+	durability = 1000;
+
 	colorShiftColor = "0.4 0 0 1";
 	image = PlanterImage;
 };
@@ -52,6 +54,8 @@ datablock ItemData(PlanterV2Item : HammerItem)
 	shapeFile = "./planter.dts";
 	iconName = "Add-Ons/Server_Farming/crops/icons/Planter_V2_Icon";
 	uiName = "Seed Planter V2";
+
+	durability = 1000;
 
 	colorShiftColor = "0 0 0.4 1";
 	image = PlanterV2Image;
@@ -117,7 +121,6 @@ function PlanterImage::onLoop(%this, %obj, %slot)
 			%seedName = strReplace(getSubStr(%stackType, 0, strLen(%stackType) - 4), "_", " ");
 			%idx = %i;
 			%line[%count++ - 1] = %seedName @ ": " @ %stackCount @ " <br>";
-
 		}
 	}
 
@@ -126,19 +129,33 @@ function PlanterImage::onLoop(%this, %obj, %slot)
 		%append = %append @ %line[%i];
 	}
 
+	%durability = getDurability(%this, %obj, %slot);
+	%durabilityString = "<color:cccccc>Durability: " @ %durability;
+
 	if (%idx !$= "")
 	{
-		%cl.centerprint("<just:right><color:ffff00>-Row " @ %this.item.uiname @"- <br><color:ffffff>" @ %append, 1);
+		%cl.centerprint("<just:right>\c3-Row " @ %this.item.uiname @"- \n" @ %durabilityString @ " \n\c6" @ %append, 1);
 	}
 	else
 	{
-		%cl.centerprint("<just:right><color:ffff00>-Row " @ %this.item.uiname @"- <br><color:ff0000>No seeds in inventory! ", 1);
+		%cl.centerprint("<just:right>\c3-Row " @ %this.item.uiname @"- \n" @ %durabilityString @ " \n\c0No seeds in inventory! ", 1);
 	}
 }
 
 function PlanterImage::onFire(%this, %obj, %slot)
 {
 	%obj.playThread(0, plant);
+
+	if (getDurability(%this, %obj, %slot) == 0)
+	{
+		if (isObject(%cl = %obj.client))
+		{
+			%durability = getDurability(%this, %obj, %slot);
+			%durabilityString = "<color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!";
+			%cl.centerprint("<just:right>\c3-Row " @ %this.item.uiname @"- \n" @ %durabilityString, 1);
+		}
+		return;
+	}
 
 	%cl = %obj.client;
 	%objDB = %obj.getDatablock();

@@ -9,6 +9,7 @@ datablock ItemData(WateringCanItem : HammerItem)
 	uiName = "Watering Can";
 
 	image = "WateringCanImage";
+	durability = 1000000;
 	colorShiftColor = "0.6 0.6 0.6 1";
 };
 
@@ -33,6 +34,9 @@ datablock ShapeBaseImageData(WateringCanImage)
 	stateTransitionOnTimeout[0] = "Ready";
 
 	stateName[1] = "Ready";
+	stateTransitionOnTimeout[1] = "Ready2";
+	stateTimeoutValue[1] = 0.2;
+	stateScript[1] = "onReady";
 	stateTransitionOnTriggerDown[1] = "Fire";
 
 	stateName[2] = "Fire";
@@ -46,11 +50,22 @@ datablock ShapeBaseImageData(WateringCanImage)
 	stateTimeoutValue[3] = 0.12;
 	stateTransitionOnTimeout[3] = "Fire";
 	stateTransitionOnTriggerUp[3] = "Ready";
+
+	stateName[4] = "Ready2";
+	stateTransitionOnTimeout[4] = "Ready";
+	stateTimeoutValue[4] = 0.2;
+	stateScript[4] = "onReady";
+	stateTransitionOnTriggerDown[4] = "Fire";
 };
 
 function WateringCanImage::onFire(%this, %obj, %slot)
 {
 	waterCanFire(%this, %obj, %slot);
+}
+
+function WateringCanImage::onReady(%this, %obj, %slot)
+{
+	wateringCanReady(%this, %obj, %slot);
 }
 
 ////
@@ -61,6 +76,7 @@ datablock ItemData(WateringCan2Item : WateringCanItem)
 	uiName = "Watering Can v2";
 	colorShiftColor = "0.75 0 0 1";
 	image = "WateringCan2Image";
+	durability = 1000000;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/wateringCan2";
 };
@@ -81,6 +97,11 @@ function WateringCan2Image::onFire(%this, %obj, %slot)
 	waterCanFire(%this, %obj, %slot);
 }
 
+function WateringCan2Image::onReady(%this, %obj, %slot)
+{
+	wateringCanReady(%this, %obj, %slot);
+}
+
 ////
 
 datablock ItemData(WateringCan3Item : WateringCanItem) 
@@ -89,6 +110,7 @@ datablock ItemData(WateringCan3Item : WateringCanItem)
 	uiName = "Watering Can v3";
 	colorShiftColor = "0 0.7 1 1";
 	image = "WateringCan3Image";
+	durability = 1000000;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/wateringCan3";
 };
@@ -110,6 +132,11 @@ function WateringCan3Image::onFire(%this, %obj, %slot)
 	waterCanFire(%this, %obj, %slot);
 }
 
+function WateringCan3Image::onReady(%this, %obj, %slot)
+{
+	wateringCanReady(%this, %obj, %slot);
+}
+
 ////
 
 datablock ItemData(WateringCatItem : WateringCanItem) 
@@ -118,6 +145,7 @@ datablock ItemData(WateringCatItem : WateringCanItem)
 	uiName = "Watering Cat";
 	colorShiftColor = "0.1 0.1 0.1 1";
 	image = "WateringCatImage";
+	durability = 1000000;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/wateringCat";
 };
@@ -139,6 +167,11 @@ function WateringCatImage::onFire(%this, %obj, %slot)
 	waterCanFire(%this, %obj, %slot);
 }
 
+function WateringCatImage::onReady(%this, %obj, %slot)
+{
+	wateringCanReady(%this, %obj, %slot);
+}
+
 ////
 
 datablock ItemData(HoseItem : WateringCanItem) 
@@ -147,6 +180,7 @@ datablock ItemData(HoseItem : WateringCanItem)
 	uiName = "Hose";
 	colorShiftColor = "0 0.5 0 1";
 	image = "HoseImage";
+	durability = 1000000;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/hose";
 };
@@ -167,6 +201,11 @@ function HoseImage::onFire(%this, %obj, %slot)
 	waterCanFire(%this, %obj, %slot);
 }
 
+function HoseImage::onReady(%this, %obj, %slot)
+{
+	wateringCanReady(%this, %obj, %slot);
+}
+
 ////
 
 datablock ItemData(HoseV2Item : WateringCanItem) 
@@ -175,6 +214,7 @@ datablock ItemData(HoseV2Item : WateringCanItem)
 	uiName = "Hose V2";
 	colorShiftColor = "0 0 0.5 1";
 	image = "HoseV2Image";
+	durability = 1000000;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/hose";
 };
@@ -195,6 +235,11 @@ function HoseV2Image::onFire(%this, %obj, %slot)
 	waterCanFire(%this, %obj, %slot);
 }
 
+function HoseV2Image::onReady(%this, %obj, %slot)
+{
+	wateringCanReady(%this, %obj, %slot);
+}
+
 ////
 
 datablock ItemData(HoseSnakeItem : WateringCanItem) 
@@ -203,6 +248,7 @@ datablock ItemData(HoseSnakeItem : WateringCanItem)
 	uiName = "Watering Snake";
 	colorShiftColor = "0 0.5 0 1";
 	image = "HoseSnakeImage";
+	durability = 1000000;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/hosesnake";
 };
@@ -221,6 +267,11 @@ datablock ShapeBaseImageData(HoseSnakeImage : WateringCanImage)
 function HoseSnakeImage::onFire(%this, %obj, %slot)
 {
 	waterCanFire(%this, %obj, %slot);
+}
+
+function HoseSnakeImage::onReady(%this, %obj, %slot)
+{
+	wateringCanReady(%this, %obj, %slot);
 }
 
 
@@ -249,6 +300,15 @@ datablock AudioProfile(waterCanLotsSound : exitWaterSound)
 	description = AudioWatering3D;
 };
 
+function wateringCanReady(%this, %obj, %slot)
+{
+	if (isObject(%cl = %obj.client))
+	{
+		%durability = getDurability(%this, %obj, %slot);
+		%cl.centerprint("\n<just:right><color:cccccc>Durability: " @ %durability, 1);
+	}
+}
+
 function waterCanFire(%this, %obj, %slot)
 {
     %obj.playThread(0, plant);
@@ -271,11 +331,12 @@ function waterCanFire(%this, %obj, %slot)
 
         if (%db.isDirt || %db.isWaterTank)
         {
+        	%durability = useDurability(%this, %obj, %slot);
             if (%db.isWaterTank)
             {
             	%amt = %this.tankAmount;
             }
-            else
+            else if (%durability > 0)
             {
                 %amt = %this.waterAmount;
             }
@@ -294,31 +355,40 @@ function waterCanFire(%this, %obj, %slot)
             %post = %hit.waterLevel;
             %dispensed = %post - %pre;
             %waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
+
             %obj.waterCount++;
-            if (%obj.waterCount >= 100)
+            if (%obj.waterCount >= 10)
             {
-                %waterLevel = %waterLevel @ " <just:right>\c2Combo: " @ %obj.waterCount;
+                %waterLevel = %waterLevel @ " <just:right>\c2Combo: " @ %obj.waterCount @ " \n";
             }
-            %obj.client.centerprint("<just:right><color:ffffff>Watering... (+" @ %dispensed @ "/" @ %amt @ ") <br>" @ %waterLevel @ " ", 1);
-            %obj.client.schedule(50, centerprint, "<just:right><color:cccccc>Watering... (+" @ %dispensed @ "/" @ %amt @ ") <br>" @ %waterLevel @ " ", 1);
+
+            %waterString = "Watering... (+" @ %dispensed @ "/" @ %amt @ ") \n";
+            %durabilityString = "Durability: " @ %durability @ " \n";
+
+            %obj.client.centerprint("<just:right><color:ffffff>" @ %waterString @ %waterLevel @ %durabilityString, 1);
+            %obj.client.schedule(50, centerprint, "<just:right><color:cccccc>" @ %waterString @ %waterLevel @ %durabilityString, 1);
+
+            cancel(%obj.client.waterComboSchedule);
+            %obj.client.waterComboSchedule = schedule(1000, 0, checkWaterCombo, %obj, %obj.client.bl_id, %obj.client.name, %obj.waterCount);
         }
     }
+}
 
-    if ($Sim::Time - %obj.lastWater >= 1)
+function checkWaterCombo(%obj, %blid, %name, %waterCount)
+{
+    if (%waterCount > $Pref::Server::maxWaterCombo)
     {
-    	%obj.waterCount--;
-        if (%obj.waterCount > $Pref::Server::maxWaterCombo)
-        {
-            announce("<bitmap:base/client/ui/ci/star>\c3" @ %obj.client.name @ "\c6 set a new watering combo count of \c3" @ %obj.waterCount @ "\c6!");
-            $Pref::Server::maxWaterCombo = %obj.waterCount SPC "(" @ %obj.client.name @ ")";
-        }
-        %obj.waterCount = 0;
+        announce("<bitmap:base/client/ui/ci/star>\c3" @ %name @ "\c6 set a new watering combo count of \c3" @ %waterCount @ "\c6!");
+        $Pref::Server::maxWaterCombo = %obj.waterCount SPC "(" @ %name @ ")";
     }
-
-    %obj.lastWater = $Sim::Time;
+    else if (isObject(%obj.client) && %waterCount > 500)
+    {
+    	messageClient(%obj.client, '', "<bitmap:base/client/ui/ci/star>\c3You achieved a watering combo of "@ %waterCount);
+    }
+    %obj.waterCount = 0;
 }
 
 function serverCmdTopCombo(%cl)
 {
-	%cl.chatmessage("\c6<bitmap:base/client/ui/ci/star> The longest watering combo is \c3" @ $Pref::Server::maxWaterCombo @ "\c6!");
+	%cl.chatmessage("\c6<bitmap:base/client/ui/ci/star> T*longest watering combo is \c3" @ $Pref::Server::maxWaterCombo @ "\c6!");
 }

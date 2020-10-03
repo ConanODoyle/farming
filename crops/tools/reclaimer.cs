@@ -4,11 +4,16 @@ datablock ItemData(ReclaimerItem : HammerItem)
 	iconName = "Add-Ons/Server_Farming/crops/icons/Seed_Reclaimer";
 	uiName = "Seed Reclaimer";
 
+	durabilityFunction = "generateHarvestToolDurability";
+	baseDurability = 300;
+	chanceDurability = 0.8;
+	bonusDurability = 20;
+
 	colorShiftColor = "0.4 0 0 1";
-	image = ReclaimerImage2;
+	image = ReclaimerImage;
 };
 
-datablock ShapeBaseImageData(ReclaimerImage2)
+datablock ShapeBaseImageData(ReclaimerImage)
 {
 	shapeFile = "./Reclaimer.dts";
 	emap = true;
@@ -29,6 +34,9 @@ datablock ShapeBaseImageData(ReclaimerImage2)
 	stateTimeoutValue[0] = 0.1;
 
 	stateName[1] = "Ready";
+	stateTransitionOnTimeout[1] = "Ready2";
+	stateTimeoutValue[1] = 0.2;
+	stateScript[1] = "onReady";
 	stateTransitionOnTriggerDown[1] = "Fire";
 	
 	stateName[2] = "Fire";
@@ -36,9 +44,24 @@ datablock ShapeBaseImageData(ReclaimerImage2)
 	stateTransitionOnTriggerUp[2] = "Ready";
 	stateTimeoutValue[2] = 0.1;
 	stateWaitForTimeout[2] = true;
+
+	stateName[3] = "Ready2";
+	stateTransitionOnTimeout[3] = "Ready";
+	stateTimeoutValue[3] = 0.2;
+	stateScript[3] = "onReady";
+	stateTransitionOnTriggerDown[3] = "Fire";
 };
 
-function ReclaimerImage2::onFire(%this, %obj, %slot)
+function ReclaimerImage::onReady(%this, %obj, %slot)
+{
+	if (isObject(%cl = %obj.client))
+	{
+		%durability = getDurability(%img, %obj, %slot);
+		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability, 1);
+	}
+}
+
+function ReclaimerImage::onFire(%this, %obj, %slot)
 {
 	%obj.playThread(0, shiftDown);
 
@@ -67,9 +90,15 @@ function ReclaimerImage2::onFire(%this, %obj, %slot)
 			%cl.centerprint(getBrickgroupFromObject(%hit).name @ "<color:ff0000> does not trust you enough to do that.", 1);
 			return;
 		}
+		if (getDurability(%this, %obj, %slot) == 0)
+		{
+			%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!", 1);
+			return;
+		}
 		%db = %hit.getDatablock();
 		%stage = %db.stage;
 		%type = %db.cropType;
+		useDurability(%this, %obj, %slot);
 		
 		%yield = getPlantData(%type, %stage, "yield");
 
@@ -105,6 +134,6 @@ function ReclaimerImage2::onFire(%this, %obj, %slot)
 			%experienceCost = mCeil(getPlantData(%type, "experienceCost") / 2);
 			messageClient(%cl, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed the plant and received \c3" @ %experienceCost @ "\c6 experience back!");
 			%cl.addExperience(%experienceCost);
-		}\
+		}
 	}
 }

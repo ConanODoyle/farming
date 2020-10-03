@@ -7,6 +7,11 @@ datablock ItemData(TrowelItem : HammerItem)
 	shapeFile = "./trowel.dts";
 	uiName = "Trowel";
 
+	durabilityFunction = "generateHarvestToolDurability";
+	baseDurability = 200;
+	chanceDurability = 0.8;
+	bonusDurability = 20;
+
 	image = "TrowelImage";
 	colorShiftColor = "0.4 0 0 1";
 };
@@ -29,6 +34,9 @@ datablock ShapeBaseImageData(TrowelImage)
 	stateTransitionOnTimeout[0] = "Ready";
 
 	stateName[1] = "Ready";
+	stateTransitionOnTimeout[1] = "Ready2";
+	stateTimeoutValue[1] = 0.2;
+	stateScript[1] = "onReady";
 	stateTransitionOnTriggerDown[1] = "Fire";
 
 	stateName[2] = "Fire";
@@ -42,11 +50,22 @@ datablock ShapeBaseImageData(TrowelImage)
 	stateTimeoutValue[3] = 0.12;
 	stateTransitionOnTimeout[3] = "Fire";
 	stateTransitionOnTriggerUp[3] = "Ready";
+
+	stateName[4] = "Ready2";
+	stateTransitionOnTimeout[4] = "Ready";
+	stateTimeoutValue[4] = 0.2;
+	stateScript[4] = "onReady";
+	stateTransitionOnTriggerDown[4] = "Fire";
 };
 
 function TrowelImage::onFire(%this, %obj, %slot)
 {
 	toolHarvest(%this, %obj, %slot);
+}
+
+function TrowelImage::onReady(%this, %obj, %slot)
+{
+	harvestToolReady(%this, %obj, %slot);
 }
 
 ////
@@ -56,6 +75,11 @@ datablock ItemData(ClipperItem : HammerItem)
 	iconName = "Add-ons/Server_Farming/crops/icons/Clipper";
 	shapeFile = "./Clipper.dts";
 	uiName = "Clipper";
+
+	durabilityFunction = "generateHarvestToolDurability";
+	baseDurability = 200;
+	chanceDurability = 0.8;
+	bonusDurability = 20;
 
 	image = "ClipperImage";
 	colorShiftColor = "0.4 0 0 1";
@@ -78,6 +102,11 @@ function ClipperImage::onFire(%this, %obj, %slot)
 	toolHarvest(%this, %obj, %slot);
 }
 
+function ClipperImage::onReady(%this, %obj, %slot)
+{
+	harvestToolReady(%this, %obj, %slot);
+}
+
 ////
 
 datablock ItemData(HoeItem : HammerItem)
@@ -86,10 +115,13 @@ datablock ItemData(HoeItem : HammerItem)
 	shapeFile = "./Hoe.dts";
 	uiName = "Hoe";
 
+	durabilityFunction = "generateHarvestToolDurability";
+	baseDurability = 300;
+	chanceDurability = 0.8;
+	bonusDurability = 20;
+
 	image = "HoeImage";
 	colorShiftColor = "0.4 0 0 1";
-
-	cost = 1300;
 };
 
 datablock ShapeBaseImageData(HoeImage : TrowelImage)
@@ -110,6 +142,11 @@ function HoeImage::onFire(%this, %obj, %slot)
 	toolHarvest(%this, %obj, %slot);
 }
 
+function HoeImage::onReady(%this, %obj, %slot)
+{
+	harvestToolReady(%this, %obj, %slot);
+}
+
 ////
 
 datablock ItemData(SickleItem : HammerItem)
@@ -117,6 +154,11 @@ datablock ItemData(SickleItem : HammerItem)
 	iconName = "Add-ons/Server_Farming/crops/icons/Sickle";
 	shapeFile = "./Sickle.dts";
 	uiName = "Sickle";
+
+	durabilityFunction = "generateHarvestToolDurability";
+	baseDurability = 300;
+	chanceDurability = 0.8;
+	bonusDurability = 20;
 
 	image = "SickleImage";
 	colorShiftColor = "0.4 0 0 1";
@@ -140,7 +182,61 @@ function SickleImage::onFire(%this, %obj, %slot)
 	toolHarvest(%this, %obj, %slot);
 }
 
+function SickleImage::onReady(%this, %obj, %slot)
+{
+	harvestToolReady(%this, %obj, %slot);
+}
+
 ////
+
+datablock ItemData(LongClipperItem : HammerItem)
+{
+	iconName = "Add-ons/Server_Farming/crops/icons/LongClipper";
+	shapeFile = "./LongClipper.dts";
+	uiName = "LongClipper";
+
+	durabilityFunction = "generateHarvestToolDurability";
+	baseDurability = 300;
+	chanceDurability = 0.8;
+	bonusDurability = 20;
+
+	image = "LongClipperImage";
+	colorShiftColor = "0.4 0 0 1";
+};
+
+datablock ShapeBaseImageData(LongClipperImage : TrowelImage)
+{
+	shapeFile = "./LongClipper.dts";
+
+	item = LongClipperItem;
+	doColorShift = true;
+
+	areaHarvest = 2;
+	stateTimeoutValue[2] = 0.4;
+
+	toolTip = "Area harvest above ground crops";
+};
+
+function LongClipperImage::onFire(%this, %obj, %slot)
+{
+	toolHarvest(%this, %obj, %slot);
+}
+
+function LongClipperImage::onReady(%this, %obj, %slot)
+{
+	harvestToolReady(%this, %obj, %slot);
+}
+
+////
+
+function harvestToolReady(%img, %obj, %slot)
+{
+	if (isObject(%cl = %obj.client))
+	{
+		%durability = getDurability(%img, %obj, %slot);
+		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability, 1);
+	}
+}
 
 function toolHarvest(%img, %obj, %slot)
 {
@@ -176,6 +272,13 @@ function toolHarvest(%img, %obj, %slot)
 		}
 	}
 
+	%durability = getDurability(%img, %obj, %slot);
+	if (%durability == 0 && isObject(%cl = %obj.client))
+	{
+		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!", 1);
+		return;
+	}
+
 	if (%img.areaHarvest > 0 && isObject(%hit))
 	{
 		initContainerRadiusSearch(getWords(%ray, 1, 3), %img.areaHarvest, $Typemasks::fxBrickObjectType);
@@ -183,7 +286,15 @@ function toolHarvest(%img, %obj, %slot)
 		{
 			if (%next.getDatablock().isPlant)
 			{
+				%type = %next.getDatablock().cropType;
 				%err = harvestBrick(%next, %item, %obj);
+				if (%err)
+				{
+					%hasHarvested = 1;
+					%dataID = %obj.toolDataID[%obj.currTool];
+					%count = getDataIDArrayTagValue(%dataID, %type);
+					setDataIDArrayTagValue(%dataID, %type, %count + 1);
+				}
 			}
 		}
 	}
@@ -192,6 +303,32 @@ function toolHarvest(%img, %obj, %slot)
 		if (isObject(%hit) && %hit.getDatablock().isPlant)
 		{
 			%err = harvestBrick(%hit, %item, %obj);
+			if (%err)
+			{
+				%hasHarvested = 1;
+				%dataID = %obj.toolDataID[%obj.currTool];
+				%count = getDataIDArrayTagValue(%dataID, %type);
+				setDataIDArrayTagValue(%dataID, %type, %count + 1);
+			}
 		}
 	}
+
+	if (%hasHarvested)
+	{
+		useDurability(%img, %obj, %slot);
+	}
+}
+
+function generateHarvestToolDurability(%item)
+{
+	%baseDurability = %item.durability > 0 ? %item.durability : 100;
+	%bonusDurability = %item.extraDurability;
+	%chanceDurability = %item.chanceDurability;
+
+	while (getRandom() < %chanceDurability)
+	{
+		%baseDurability += %bonusDurability;
+	}
+
+	return %baseDurability;
 }
