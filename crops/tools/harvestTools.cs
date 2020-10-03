@@ -7,6 +7,9 @@ datablock ItemData(TrowelItem : HammerItem)
 	shapeFile = "./trowel.dts";
 	uiName = "Trowel";
 
+	hasDataID = 1;
+	isDataIDTool = 1;
+
 	durabilityFunction = "generateHarvestToolDurability";
 	baseDurability = 200;
 	chanceDurability = 0.8;
@@ -76,6 +79,9 @@ datablock ItemData(ClipperItem : HammerItem)
 	shapeFile = "./Clipper.dts";
 	uiName = "Clipper";
 
+	hasDataID = 1;
+	isDataIDTool = 1;
+
 	durabilityFunction = "generateHarvestToolDurability";
 	baseDurability = 200;
 	chanceDurability = 0.8;
@@ -114,6 +120,9 @@ datablock ItemData(HoeItem : HammerItem)
 	iconName = "Add-ons/Server_Farming/crops/icons/Hoe";
 	shapeFile = "./Hoe.dts";
 	uiName = "Hoe";
+
+	hasDataID = 1;
+	isDataIDTool = 1;
 
 	durabilityFunction = "generateHarvestToolDurability";
 	baseDurability = 300;
@@ -155,6 +164,9 @@ datablock ItemData(SickleItem : HammerItem)
 	shapeFile = "./Sickle.dts";
 	uiName = "Sickle";
 
+	hasDataID = 1;
+	isDataIDTool = 1;
+
 	durabilityFunction = "generateHarvestToolDurability";
 	baseDurability = 300;
 	chanceDurability = 0.8;
@@ -194,6 +206,9 @@ datablock ItemData(LongClipperItem : HammerItem)
 	iconName = "Add-ons/Server_Farming/crops/icons/LongClipper";
 	shapeFile = "./LongClipper.dts";
 	uiName = "LongClipper";
+
+	hasDataID = 1;
+	isDataIDTool = 1;
 
 	durabilityFunction = "generateHarvestToolDurability";
 	baseDurability = 300;

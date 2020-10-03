@@ -4,6 +4,9 @@ datablock ItemData(ReclaimerItem : HammerItem)
 	iconName = "Add-Ons/Server_Farming/crops/icons/Seed_Reclaimer";
 	uiName = "Seed Reclaimer";
 
+	hasDataID = 1;
+	isDataIDTool = 1;
+
 	durabilityFunction = "generateHarvestToolDurability";
 	baseDurability = 300;
 	chanceDurability = 0.8;

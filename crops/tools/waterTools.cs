@@ -10,6 +10,9 @@ datablock ItemData(WateringCanItem : HammerItem)
 
 	image = "WateringCanImage";
 	durability = 1000000;
+
+	hasDataID = 1;
+	isDataIDTool = 1;
 	colorShiftColor = "0.6 0.6 0.6 1";
 };
 
@@ -78,6 +81,9 @@ datablock ItemData(WateringCan2Item : WateringCanItem)
 	image = "WateringCan2Image";
 	durability = 1000000;
 
+	hasDataID = 1;
+	isDataIDTool = 1;
+
 	iconName = "Add-ons/Server_Farming/crops/icons/wateringCan2";
 };
 
@@ -111,6 +117,9 @@ datablock ItemData(WateringCan3Item : WateringCanItem)
 	colorShiftColor = "0 0.7 1 1";
 	image = "WateringCan3Image";
 	durability = 1000000;
+
+	hasDataID = 1;
+	isDataIDTool = 1;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/wateringCan3";
 };
@@ -147,6 +156,9 @@ datablock ItemData(WateringCatItem : WateringCanItem)
 	image = "WateringCatImage";
 	durability = 1000000;
 
+	hasDataID = 1;
+	isDataIDTool = 1;
+
 	iconName = "Add-ons/Server_Farming/crops/icons/wateringCat";
 };
 
@@ -182,6 +194,9 @@ datablock ItemData(HoseItem : WateringCanItem)
 	image = "HoseImage";
 	durability = 1000000;
 
+	hasDataID = 1;
+	isDataIDTool = 1;
+
 	iconName = "Add-ons/Server_Farming/crops/icons/hose";
 };
 
@@ -216,6 +231,9 @@ datablock ItemData(HoseV2Item : WateringCanItem)
 	image = "HoseV2Image";
 	durability = 1000000;
 
+	hasDataID = 1;
+	isDataIDTool = 1;
+
 	iconName = "Add-ons/Server_Farming/crops/icons/hose";
 };
 
@@ -249,6 +267,9 @@ datablock ItemData(HoseSnakeItem : WateringCanItem)
 	colorShiftColor = "0 0.5 0 1";
 	image = "HoseSnakeImage";
 	durability = 1000000;
+
+	hasDataID = 1;
+	isDataIDTool = 1;
 
 	iconName = "Add-ons/Server_Farming/crops/icons/hosesnake";
 };

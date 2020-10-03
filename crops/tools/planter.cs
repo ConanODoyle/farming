@@ -4,6 +4,9 @@ datablock ItemData(PlanterItem : HammerItem)
 	iconName = "Add-Ons/Server_Farming/crops/icons/Planter_Icon";
 	uiName = "Seed Planter";
 
+	hasDataID = 1;
+	isDataIDTool = 1;
+
 	durability = 1000;
 
 	colorShiftColor = "0.4 0 0 1";
@@ -54,6 +57,9 @@ datablock ItemData(PlanterV2Item : HammerItem)
 	shapeFile = "./planter.dts";
 	iconName = "Add-Ons/Server_Farming/crops/icons/Planter_V2_Icon";
 	uiName = "Seed Planter V2";
+
+	hasDataID = 1;
+	isDataIDTool = 1;
 
 	durability = 1000;
 
