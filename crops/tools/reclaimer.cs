@@ -88,14 +88,19 @@ function ReclaimerImage::onFire(%this, %obj, %slot)
 
 	if (isObject(%hit = getWord(%ray, 0)) && %hit.getDatablock().isPlant)
 	{
+		if (getDurability(%this, %obj, %slot) == 0)
+		{
+			%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!", 1);
+			return;
+		}
 		if (getTrustLevel(%hit, %obj) < 2)
 		{
 			%cl.centerprint(getBrickgroupFromObject(%hit).name @ "<color:ff0000> does not trust you enough to do that.", 1);
 			return;
 		}
-		if (getDurability(%this, %obj, %slot) == 0)
+		else if (%hit.getDatablock().isTree)
 		{
-			%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!", 1);
+			%cl.centerprint("You cannot reclaim trees!", 1);
 			return;
 		}
 		%db = %hit.getDatablock();
