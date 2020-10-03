@@ -13,8 +13,8 @@ function repairDurability(%dataID, %amount)
 	}
 
 	%max = getDataIDArrayTagValue(%dataID, "maxDurability");
-	%durability = getDataIDArrayTagValue(%dataID, "durability") + %amount | 0);
-	%final = %durability > %max : %max ? %durability; //ternaries auto apply | 0
+	%durability = getDataIDArrayTagValue(%dataID, "durability") + %amount | 0;
+	%final = (%durability > %max) ? %max : %durability; //ternaries auto apply | 0
 	setDataIDArrayTagValue(%dataID, "durability", %final);
 }
 
