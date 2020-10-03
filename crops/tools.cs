@@ -67,11 +67,7 @@ function generateToolDataID(%item)
 
 	if (isFunction(%item.modifiersFunction))
 	{
-		%modifiers = call(%item.modifiersFunction);
-		for (%i = 0; %i < getFieldCount(%modifiers); %i++)
-		{
-			setDataIDArrayValue(%dataID, %i, getField(%modifiers, %i));
-		}
+		call(%item.modifiersFunction, %item, %dataID);
 	}
 
 	return %dataID;

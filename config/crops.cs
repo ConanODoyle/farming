@@ -44,3 +44,7 @@ $ProduceCheck_["Peach"] 		= 1;
 $ProduceCheck_["Weed"] 			= 1;
 $ProduceCheck_["Wheat"] 		= 1;
 $ProduceCheck_["Portobello"] 	= 1;
+
+$UndergroundCropsList = "Potato\tCarrot\tOnion\tTurnip\tPortobello";
+$AbovegroundCropsList = "Tomato\tCorn\tWheat\tCabbage\tBlueberry\tChili\tWatermelon";
+$TreeCropsList = "Apple\tMango\tCactus\tPeach\tDate";

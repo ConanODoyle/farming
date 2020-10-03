@@ -11,6 +11,7 @@ datablock ItemData(TrowelItem : HammerItem)
 	isDataIDTool = 1;
 
 	durabilityFunction = "generateHarvestToolDurability";
+	modifiersFunction = "generateHarvestToolModifiers";
 	baseDurability = 200;
 	chanceDurability = 0.8;
 	bonusDurability = 20;
@@ -83,6 +84,7 @@ datablock ItemData(ClipperItem : HammerItem)
 	isDataIDTool = 1;
 
 	durabilityFunction = "generateHarvestToolDurability";
+	modifiersFunction = "generateHarvestToolModifiers";
 	baseDurability = 200;
 	chanceDurability = 0.8;
 	bonusDurability = 20;
@@ -125,6 +127,7 @@ datablock ItemData(HoeItem : HammerItem)
 	isDataIDTool = 1;
 
 	durabilityFunction = "generateHarvestToolDurability";
+	modifiersFunction = "generateHarvestToolModifiers";
 	baseDurability = 300;
 	chanceDurability = 0.8;
 	bonusDurability = 20;
@@ -168,6 +171,7 @@ datablock ItemData(SickleItem : HammerItem)
 	isDataIDTool = 1;
 
 	durabilityFunction = "generateHarvestToolDurability";
+	modifiersFunction = "generateHarvestToolModifiers";
 	baseDurability = 300;
 	chanceDurability = 0.8;
 	bonusDurability = 20;
@@ -211,6 +215,7 @@ datablock ItemData(TreeClipperItem : HammerItem)
 	isDataIDTool = 1;
 
 	durabilityFunction = "generateHarvestToolDurability";
+	modifiersFunction = "generateHarvestToolModifiers";
 	baseDurability = 300;
 	chanceDurability = 0.8;
 	bonusDurability = 20;
@@ -250,10 +255,10 @@ function harvestToolReady(%img, %obj, %slot)
 	{
 		%durability = getDurability(%img, %obj, %slot);
 
-		%kills = %obj.getToolKillCount();
-		if (%kills !$= "" && getWord(%kills, 1) >= 80)
+		%statTrak = %obj.getToolStatTrak();
+		if (%statTrak !$= "")
 		{
-			%string = %string @ "\c4" @ getWord(%kills, 0) @ " kills: " @ getWord(%kills, 1) @ " ";
+			%string = "\c4" @ %statTrak " ";
 		}
 
 		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n" @ %string, 1);
@@ -301,6 +306,8 @@ function toolHarvest(%img, %obj, %slot)
 		return;
 	}
 
+	%toolHarvestType = getDataIDArrayTagValue(%obj.toolDataID[%obj.currTool], "statTrakType");
+
 	if (%img.areaHarvest > 0 && isObject(%hit))
 	{
 		initContainerRadiusSearch(getWords(%ray, 1, 3), %img.areaHarvest, $Typemasks::fxBrickObjectType);
@@ -313,9 +320,12 @@ function toolHarvest(%img, %obj, %slot)
 				if (%err)
 				{
 					%hasHarvested = 1;
-					%dataID = %obj.toolDataID[%obj.currTool];
-					%count = getDataIDArrayTagValue(%dataID, %type);
-					setDataIDArrayTagValue(%dataID, %type, %count + 1);
+					if (%type $= %toolHarvestType)
+					{
+						%dataID = %obj.toolDataID[%obj.currTool];
+						%count = getDataIDArrayTagValue(%dataID, %type);
+						setDataIDArrayTagValue(%dataID, %type, %count + 1);
+					}
 				}
 			}
 		}
@@ -329,9 +339,12 @@ function toolHarvest(%img, %obj, %slot)
 			if (%err)
 			{
 				%hasHarvested = 1;
-				%dataID = %obj.toolDataID[%obj.currTool];
-				%count = getDataIDArrayTagValue(%dataID, %type);
-				setDataIDArrayTagValue(%dataID, %type, %count + 1);
+				if (%type $= %toolHarvestType)
+				{
+					%dataID = %obj.toolDataID[%obj.currTool];
+					%count = getDataIDArrayTagValue(%dataID, %type);
+					setDataIDArrayTagValue(%dataID, %type, %count + 1);
+				}
 			}
 		}
 	}
@@ -356,10 +369,32 @@ function generateHarvestToolDurability(%item)
 	return %baseDurability;
 }
 
+function generateHarvestToolModifiers(%item, %dataID)
+{
+	%statTrak = getRandom() < 0.1;
+
+	if (%statTrak)
+	{
+		switch$ (%item.uiName)
+		{
+			case "Trowel": %list = $UndergroundCropsList;
+			case "Hoe": %list = $UndergroundCropsList;
+			case "Clipper": %list = $AbovegroundCropsList;
+			case "Sickle": %list = $AbovegroundCropsList;
+			case "Tree Clipper": %list = $TreeCropsList;
+			default: return "";
+		}
+		%crop = getField(%list, getRandom(getFieldCount(%list) - 1));
+		%displayAsKills = getRandom() < 0.1;
+
+		setDataIDArrayTagValue(%dataID, "statTrakType", %crop);
+		setDataIDArrayTagValue(%dataID, "displayAsKills", %displayAsKills);
+	}
+}
 
 
 
-function Player::getToolKillCount(%pl)
+function Player::getToolStatTrak(%pl)
 {
 	if (%pl.tool[%pl.currTool].isDataIDTool)
 	{
@@ -372,12 +407,22 @@ function Player::getToolKillCount(%pl)
 			case (TreeClipperItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
 			default: return "";
 		}
-		return getHighestToolKillCount(%dataID);
+		%displayAsKills = getDataIDArrayTagValue(%dataID, "displayAsKills");
+		%type = getDataIDArrayTagValue(%dataID, "statTrakType");
+		%count = getDataIDArrayTagValue(%dataID, %type) + 0 | 0;
+
+		if (%type $= "")
+		{
+			return "";
+		}
+
+		%word = %displayAsKills ? "kills:" : "harvests:";
+		return %type SPC %word SPC %count;
 	}
 	return "";
 }
 
-function getHighestToolKillCount(%dataID)
+function getHighestToolHarvestCount(%dataID)
 {
 	if (%dataID $= "")
 	{

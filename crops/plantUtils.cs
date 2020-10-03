@@ -631,10 +631,10 @@ function OrganicAnalyzerImage::onLoop(%this, %obj, %slot)
 				%string = %string @ "\c6" @ %hit.getMountedImage(0).item.uiName @ " \n";
 			}
 
-			%kills = %hit.getToolKillCount();
-			if (%kills !$= "" && getWord(%kills, 1) >= 80)
+			%statTrak = %hit.getToolStatTrak();
+			if (%statTrak !$= "")
 			{
-				%string = %string @ "\c4" @ getWord(%kills, 0) @ " kills: " @ getWord(%kills, 1) @ " ";
+				%string = %string @ "\c4" @ %statTrak @ " ";
 			}
 
 			%cl.centerprint("<just:right>" @ %string, 1);
