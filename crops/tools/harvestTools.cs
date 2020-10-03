@@ -249,7 +249,14 @@ function harvestToolReady(%img, %obj, %slot)
 	if (isObject(%cl = %obj.client))
 	{
 		%durability = getDurability(%img, %obj, %slot);
-		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " ", 1);
+
+		%kills = %obj.getToolKillCount();
+		if (%kills !$= "" && getWord(%kills, 1) >= 80)
+		{
+			%string = %string @ "\c4" @ getWord(%kills, 0) @ " kills: " @ getWord(%kills, 1) @ " ";
+		}
+
+		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n" @ %string, 1);
 	}
 }
 
@@ -347,4 +354,52 @@ function generateHarvestToolDurability(%item)
 	}
 
 	return %baseDurability;
+}
+
+
+
+
+function Player::getToolKillCount(%pl)
+{
+	if (%pl.tool[%pl.currTool].isDataIDTool)
+	{
+		switch (%pl.tool[%pl.currTool])
+		{
+			case (TrowelItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
+			case (ClipperItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
+			case (SickleItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
+			case (HoeItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
+			case (LongClipperItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
+			default: return "";
+		}
+		return getHighestToolKillCount(%dataID);
+	}
+	return "";
+}
+
+function getHighestToolKillCount(%dataID)
+{
+	if (%dataID $= "")
+	{
+		return "";
+	}
+	%tags = getDataIDArrayTags(%dataID);
+	for (%i = 0; %i < getWordCount(%tags); %i++)
+	{
+		%tag = getWord(%tags, %i);
+		talk(%tag);
+		if (%tag $= "datablock" || %tag $= "durability" || %tag $= "maxDurability")
+		{
+			continue;
+		}
+
+		%count = getDataIDArrayTagValue(%dataID, %tag);
+		if (%count > %maxCount)
+		{
+			%maxCount = %count;
+			%maxType = %tag;
+		}
+	}
+
+	return %maxType SPC %maxCount;
 }

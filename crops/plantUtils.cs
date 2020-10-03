@@ -628,7 +628,13 @@ function OrganicAnalyzerImage::onLoop(%this, %obj, %slot)
 			%string = "\c3" @ %hit.client.getPlayerName() @ " \n";
 			if (isObject(%hit.getMountedImage(0)))
 			{
-				%string = %string @ %hit.getMountedImage(0).item.uiName;
+				%string = %string @ "\c6" @ %hit.getMountedImage(0).item.uiName @ " \n";
+			}
+
+			%kills = %hit.getToolKillCount();
+			if (%kills !$= "" && getWord(%kills, 1) >= 80)
+			{
+				%string = %string @ "\c4" @ getWord(%kills, 0) @ " kills: " @ getWord(%kills, 1) @ " ";
 			}
 
 			%cl.centerprint("<just:right>" @ %string, 1);
