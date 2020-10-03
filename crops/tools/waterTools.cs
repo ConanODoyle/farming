@@ -244,7 +244,7 @@ function HoseV2Image::onReady(%this, %obj, %slot)
 
 datablock ItemData(HoseSnakeItem : WateringCanItem) 
 {
-	shapeFile = "./hoseSnakeItem.dts";
+	shapeFile = "./wateringSnakeItem.dts";
 	uiName = "Watering Snake";
 	colorShiftColor = "0 0.5 0 1";
 	image = "HoseSnakeImage";
@@ -255,7 +255,7 @@ datablock ItemData(HoseSnakeItem : WateringCanItem)
 
 datablock ShapeBaseImageData(HoseSnakeImage : WateringCanImage)
 {
-	shapeFile = "./hoseSnake.dts";
+	shapeFile = "./wateringSnake.dts";
 	item = HoseSnakeItem;
 	colorShiftColor = HoseSnakeItem.colorShiftColor;
 	waterAmount = 100;
