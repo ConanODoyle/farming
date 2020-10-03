@@ -60,7 +60,7 @@ function ReclaimerImage::onReady(%this, %obj, %slot)
 	if (isObject(%cl = %obj.client))
 	{
 		%durability = getDurability(%img, %obj, %slot);
-		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability, 1);
+		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " ", 1);
 	}
 }
 

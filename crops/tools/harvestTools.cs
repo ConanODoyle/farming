@@ -249,7 +249,7 @@ function harvestToolReady(%img, %obj, %slot)
 	if (isObject(%cl = %obj.client))
 	{
 		%durability = getDurability(%img, %obj, %slot);
-		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability, 1);
+		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " ", 1);
 	}
 }
 
@@ -336,8 +336,8 @@ function toolHarvest(%img, %obj, %slot)
 
 function generateHarvestToolDurability(%item)
 {
-	%baseDurability = %item.durability > 0 ? %item.durability : 100;
-	%bonusDurability = %item.extraDurability;
+	%baseDurability = %item.baseDurability > 0 ? %item.baseDurability : 100;
+	%bonusDurability = %item.bonusDurability;
 	%chanceDurability = %item.chanceDurability;
 
 	while (getRandom() < %chanceDurability)
