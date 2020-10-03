@@ -9,10 +9,10 @@ $BuyCost_["Large_Storage_Cart_2x_DASH_1200"] = 1200;
 $BuyCost_["Horse_Cart_DASH_2000"] = 2000;
 
 
-$BuyCost_["Trowel"] = 1000;
-$BuyCost_["Clipper"] = 1600;
-$BuyCost_["Hoe"] = 1300;
-$BuyCost_["Sickle"] = 1800;
+$BuyCost_["Trowel"] = 400;
+$BuyCost_["Clipper"] = 400;
+$BuyCost_["Hoe"] = 1200;
+$BuyCost_["Sickle"] = 1200;
 
 $BuyCost_["Seed_Planter"] = 1000;
 $BuyCost_["Seed_Planter_V2"] = 2000;
