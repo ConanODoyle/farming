@@ -139,7 +139,7 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 		{
 			if (%db.hasDataID !$= "")
 			{
-				%entry = trim(%display) @ " [" @ getSubStr(%itemDataID, strLen(%itemDataID) - 4, 3) @ "]";
+				%entry = trim(%display) @ " [" @ getSubStr(%itemDataID, strLen(%itemDataID) - 3, 3) @ "]";
 			}
 			else
 			{

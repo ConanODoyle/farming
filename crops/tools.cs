@@ -50,7 +50,7 @@ function generateToolDataID(%item)
 		return "";
 	}
 
-	%dataID = getRandomHash() @ "Tool";
+	%dataID = "Tool" @ getRandomHash();
 	setDataIDArrayTagValue(%dataID, "datablock", %item.getName());
 
 	if (isFunction(%item.durabilityFunction))

@@ -363,6 +363,10 @@ function waterCanFire(%this, %obj, %slot)
             {
                 %amt = %this.waterAmount;
             }
+            else
+            {
+            	%amt = 0;
+            }
 
             if (%amt < 40)
             {
@@ -387,6 +391,10 @@ function waterCanFire(%this, %obj, %slot)
             %waterLevel = %waterLevel @ " \n";
 
             %waterString = "Watering... (+" @ %dispensed @ "/" @ %amt @ ") \n";
+            if (%durability == 0)
+            {
+            	%durability = %durability @ " \n\c0This tool needs repairs!";
+            }
             %durabilityString = "Durability: " @ %durability @ " \n";
 
             %obj.client.centerprint("<just:right><color:ffffff>" @ %waterString @ %durabilityString @ %waterLevel, 1);
