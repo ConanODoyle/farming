@@ -317,6 +317,7 @@ function toolHarvest(%img, %obj, %slot)
 	{
 		if (isObject(%hit) && %hit.getDatablock().isPlant)
 		{
+			%type = %hit.getDatablock().cropType;
 			%err = harvestBrick(%hit, %item, %obj);
 			if (%err)
 			{
