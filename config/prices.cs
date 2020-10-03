@@ -11,6 +11,7 @@ $BuyCost_["Horse_Cart_DASH_2000"] = 2000;
 
 $BuyCost_["Trowel"] = 400;
 $BuyCost_["Clipper"] = 400;
+$BuyCost_["Tree_Clipper"] = 1400;
 $BuyCost_["Hoe"] = 1200;
 $BuyCost_["Sickle"] = 1200;
 
