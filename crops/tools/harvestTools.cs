@@ -417,7 +417,8 @@ function Player::getToolStatTrak(%pl)
 		}
 
 		%word = %displayAsKills ? "kills:" : "harvests:";
-		return %type SPC %word SPC %count;
+		%color = %displayAsKills ? "\c0" : "\c5";
+		return "[CropTrak\x99] \n" @ %color @ %type SPC %word SPC %count;
 	}
 	return "";
 }
