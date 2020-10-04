@@ -23,7 +23,11 @@ function harvestBrick(%brick, %tool, %harvester)
 	%seedDropChance = getPlantData(%type, %stage, "dropSeed");
 	%harvestMax = getPlantData(%type, %stage, "harvestMax");
 	%pruneTool = getPlantData(%type, %stage, "pruneTool");
-	%harvestExperience = getPlantData(%type, "harvestExperience");
+	%harvestExperience = getPlantData(%type, %stage, "harvestExperience");
+	if (%harvestExperience $= "")
+	{
+		%harvestExperience = getPlantData(%type, "harvestExperience");
+	}
 
 	%totalHarvestCount = getWord(%brick.getNutrients(), 2);
 
