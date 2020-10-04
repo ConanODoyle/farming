@@ -162,7 +162,8 @@ function fxDTSBrick::runGrowthTick(%brick)
 	%dirt = getWord(%dirtList, 0);
 	if (!isObject(%dirt))
 	{
-		talk("Plant has no dirt under it!");
+		%brick.nextGrowTime = $Sim::Time + 10;
+		return 0;
 	}
 	%dirtNutrients = %dirt.getNutrients();
 	%lightInfo = getPlantLightLevel(%brick);
@@ -174,7 +175,7 @@ function fxDTSBrick::runGrowthTick(%brick)
 	%dirt.setNutrients(getWord(%leftover, 0), getWord(%leftover, 1), getWord(%leftover, 2));
 	if (!isObject(%brick))
 	{
-		return;
+		return 0;
 	}
 	
 	%brickNutrients = %brick.getNutrients();

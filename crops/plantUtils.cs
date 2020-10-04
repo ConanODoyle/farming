@@ -242,10 +242,14 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 	%rainWaterMod = getPlantData(%type, "rainWaterModifier");
 	%heatWaterMod = getPlantData(%type, "heatWaveWaterModifier");
 
-	%nutrientUse = getPlantData(%type, %stage, "nutrientUsePerTick");
-	%wetNutriUse = getPlantData(%type, %stage, "nutrientUseIfWet");
-	%dryNutriUse = getPlantData(%type, %stage, "nutrientUseIfDry");
+	%nutrientAdd = getPlantData(%type, %stage, "nutrientAddPerTick");
+	%wetNutriAdd = getPlantData(%type, %stage, "nutrientAddIfWet");
+	%dryNutriAdd = getPlantData(%type, %stage, "nutrientAddIfDry");
 	%levelUpRequirement = getPlantData(%type, %stage, "nutrientStageRequirement");
+	if (isObject(%dirt))
+	{
+		%dirtNutrients = %dirt.getNutrients();
+	}
 
 	if (%requiredLight == 1 && %light == 0) //plant requires full light to grow, no light available
 	{
@@ -273,10 +277,11 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 	if (%dirt.waterLevel < %waterReq)
 	{
 		%brick.dryTicks++;
-		if (%dryNutriUse)
+		%brick.wetTicks = getMax(%brick.wetTicks - 1, 0);
+		if (%dryNutriAdd && %dirtNutrients !$= "")
 		{
-			%plantNutrients = vectorSub(%plantNutrients, %nutrientUse);
-			%brick.setNutrients(getWord(%plantNutrients, 0), getWord(%plantNutrients, 1));
+			%dirtNutrients = vectorAdd(%dirtNutrients, %nutrientAdd);
+			%dirt.setNutrients(getWord(%dirtNutrients, 0), getWord(%dirtNutrients, 1), getWord(%dirtNutrients, 2));
 		}
 
 		%nutrientDiff = vectorSub(%plantNutrients, %levelUpRequirement);
@@ -299,11 +304,12 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 	else
 	{
 		%brick.wetTicks++;
+		%brick.dryTicks = getMax(%brick.dryTicks - 1, 0);
 		%dirt.setWaterLevel(%dirt.waterLevel - %waterReq);
-		if (%wetNutriUse)
+		if (%wetNutriAdd && %dirtNutrients !$= "")
 		{
-			%plantNutrients = vectorSub(%plantNutrients, %nutrientUse);
-			%brick.setNutrients(getWord(%plantNutrients, 0), getWord(%plantNutrients, 1));
+			%dirtNutrients = vectorAdd(%dirtNutrients, %nutrientAdd);
+			%dirt.setNutrients(getWord(%dirtNutrients, 0), getWord(%dirtNutrients, 1), getWord(%dirtNutrients, 2));
 		}
 		
 		%nutrientDiff = vectorSub(%plantNutrients, %levelUpRequirement);
