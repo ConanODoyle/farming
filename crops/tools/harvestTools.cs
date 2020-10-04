@@ -258,7 +258,7 @@ function harvestToolReady(%img, %obj, %slot)
 		%statTrak = %obj.getToolStatTrak();
 		if (%statTrak !$= "")
 		{
-			%string = "\c4" @ %statTrak " ";
+			%string = "\c4" @ %statTrak @ " ";
 		}
 
 		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n" @ %string, 1);
