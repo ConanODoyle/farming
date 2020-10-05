@@ -438,7 +438,8 @@ function validateWaterSystem(%waterDataID)
 	for (%i = 0; %i < %tankCount; %i++)
 	{
 		%tank = getWord(%tanks, %i);
-		if (!isObject(%tank) || !%tank.getDatablock().isWaterTank)
+		if (!isObject(%tank) || !%tank.getDatablock().isWaterTank 
+			|| getWaterTankDataID(%tank) !$= %waterDataID)
 		{
 			continue;
 		}
@@ -465,7 +466,8 @@ function validateWaterSystem(%waterDataID)
 	for (%i = 0; %i < %sprinklerCount; %i++)
 	{
 		%sprinkler = getWord(%sprinklers, %i);
-		if (!isObject(%sprinkler) || !%sprinkler.getDatablock().isSprinkler)
+		if (!isObject(%sprinkler) || !%sprinkler.getDatablock().isSprinkler
+			|| getSprinklerDataID(%sprinkler) !$= %waterDataID)
 		{
 			continue;
 		}
