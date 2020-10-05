@@ -207,6 +207,14 @@ datablock AudioProfile(FarmingHarvestAboveGroundPlantSound)
 	uiName = "";
 };
 
+datablock AudioProfile(PixieLaughSound)
+{
+	filename = "./MajoraLaugh.wav";
+	description = AudioClose3d;
+	preload = true;
+	uiName = "";
+};
+
 datablock AudioProfile(PageTurnSound)
 {
 	filename = "./pageTurn.wav";
