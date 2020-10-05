@@ -706,10 +706,14 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 			else
 			{
 				%hitStatus = "\c0Not connected";
-				%obj.displaySet.deleteAll();
+
+				if (isObject(%obj.displaySet))
+				{
+					%obj.displaySet.deleteAll();
+				}
 			}
 		}
-		else
+		else if (isObject(%obj.displaySet))
 		{
 			%obj.displaySet.deleteAll();
 		}
