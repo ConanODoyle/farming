@@ -104,26 +104,6 @@ schedule(15000, 0, "webcom_postServer();");
 
 RegisterPersistenceVar("farmingExperience", false, "");
 
-RegisterPersistenceVar("questItemInfo0", false, "");
-RegisterPersistenceVar("questItemInfo1", false, "");
-RegisterPersistenceVar("questItemInfo2", false, "");
-RegisterPersistenceVar("questItemInfo3", false, "");
-RegisterPersistenceVar("questItemInfo4", false, "");
-RegisterPersistenceVar("questItemInfo5", false, "");
-RegisterPersistenceVar("questItemInfo6", false, "");
-RegisterPersistenceVar("questItemInfo7", false, "");
-RegisterPersistenceVar("questItemInfo8", false, "");
-RegisterPersistenceVar("questItemInfo9", false, "");
-RegisterPersistenceVar("questItemInfo10", false, "");
-RegisterPersistenceVar("questItemInfo12", false, "");
-RegisterPersistenceVar("questItemInfo13", false, "");
-RegisterPersistenceVar("questItemInfo14", false, "");
-RegisterPersistenceVar("questItemInfo15", false, "");
-RegisterPersistenceVar("questItemInfo16", false, "");
-RegisterPersistenceVar("questItemInfo17", false, "");
-RegisterPersistenceVar("questItemInfo18", false, "");
-RegisterPersistenceVar("questItemInfo19", false, "");
-
 // Glass loading screen image
 registerloadingscreen("https://i.imgur.com/06fAw4h.png", "png", "", 1);
 
