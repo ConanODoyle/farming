@@ -45,6 +45,7 @@ exec("./util/radiusAnnounce.cs");
 exec("./util/roundToStudCenter.cs");
 exec("./util/scorefix.cs");
 exec("./util/setAllWaterLevelsFull.cs");
+exec("./util/setWhiteout.cs");
 exec("./util/shortcuts.cs");
 exec("./util/stackTypeCheck.cs");
 exec("./util/strLastPos.cs");
