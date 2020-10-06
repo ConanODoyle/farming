@@ -331,7 +331,7 @@ function powerCheck(%brick)
 		{
 			%dev_on[%dev_onCount++ - 1] = %dev;
 			%proDB = %devDB;
-			%powerDraw = %proDB.energyUse;
+			%powerDraw = %pro.getEnergyUse();
 
 			%totalPowerUsage += %powerDraw;
 			%proOnCount++;
@@ -442,6 +442,11 @@ function fxDTSBrick::autoAddPowerControlSystem(%brick)
 			connectToControlSystem(%brick, %powerDataID);
 		}
 	}
+}
+
+function fxDTSBrick::getEnergyUse(%brick)
+{
+	return %brick.getDatablock().energyUse;
 }
 
 function togglePower(%cl, %menu, %option)
