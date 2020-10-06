@@ -35,6 +35,14 @@ function fxDTSBrick::setWaterLevel(%b, %amt)
 
 package DirtWaterColor
 {
+	function ndTrustCheckSelect(%brick, %group, %bl_id, %admin)
+	{
+		if (%brick.getDatablock().maxWater > 0 || %brick.getDatablock().isSprinkler)
+		{
+			return false;
+		}
+		return parent::ndTrustCheckSelect(%brick, %group, %bl_id, %admin);
+	}
 	function fxDTSBrick::onAdd(%obj)
 	{
 		if (%obj.getDatablock().isDirt)

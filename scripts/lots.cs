@@ -316,14 +316,14 @@ package lotBuild
 		return parent::onRemove(%this);
 	}
 
-	function ndTrustCheckModify(%brick, %group, %bl_id, %admin)
+	function ndTrustCheckSelect(%brick, %group, %bl_id, %admin)
 	{
 		if (%brick.getDatablock().isLot)
 		{
 			return 0;
 		}
 
-		return parent::ndTrustCheckModify(%brick, %group, %bl_id, %admin);
+		return parent::ndTrustCheckSelect(%brick, %group, %bl_id, %admin);
 	}
 
 	function getTrustLevel(%obj1, %obj2)

@@ -12,6 +12,16 @@ if (!isObject(PlantSimSet))
 
 package NoPlantBuild
 {
+	function ndTrustCheckSelect(%brick, %group, %bl_id, %admin)
+	{
+		if (%brick.getDatablock().isPlant)
+		{
+			return 0;
+		}
+
+		return parent::ndTrustCheckSelect(%brick, %group, %bl_id, %admin);
+	}
+
 	function fxDTSBrick::onAdd(%obj)
 	{
 		%db = %obj.getDatablock();
