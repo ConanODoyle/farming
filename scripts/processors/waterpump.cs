@@ -20,6 +20,10 @@ datablock fxDTSBrickData(brickMediumPumpData)
 	keepActivate = 1;
 	isPoweredProcessor = 1;
 	energyUse = 2;
+	pumpPowerMod = 2;
+	baseRate = 20;
+	pumpRate = 15;
+	maxRate = 4;
 	powerFunction = "pumpWater";
 
 	isWaterPump = 1;
@@ -47,6 +51,10 @@ datablock fxDTSBrickData(brickLargePumpData)
 	keepActivate = 1;
 	isPoweredProcessor = 1;
 	energyUse = 3;
+	pumpPowerMod = 2;
+	baseRate = 20;
+	pumpRate = 20;
+	maxRate = 6;
 	powerFunction = "pumpWater";
 
 	isWaterPump = 1;
@@ -87,8 +95,8 @@ datablock ShapeBaseImageData(MediumPumpBrickImage : BrickPlacerImage)
 	doColorshift = true;
 	colorShiftColor = MediumPumpItem.colorShiftColor;
 
-	toolTip = "Places an indoor light";
-	loopTip = "When powered, lets plants grow";
+	toolTip = "Places a Medium Tank water pump";
+	loopTip = "When powered, pumps water into a Medium Tank";
 	placeBrick = "brickMediumPumpData";
 };
 
@@ -114,6 +122,56 @@ function MediumPumpBrickImage::onFire(%this, %obj, %slot)
 
 
 
+datablock ItemData(LargePumpItem : brickPlacerItem)
+{
+	shapeFile = "./resources/toolbox.dts";
+	uiName = "Large Tank Pump";
+	image = "LargePumpBrickImage";
+	colorShiftColor = "0.9 0 0 1";
+
+	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
+};
+
+datablock ShapeBaseImageData(LargePumpBrickImage : BrickPlacerImage)
+{
+	shapeFile = "./resources/toolbox.dts";
+	
+	offset = "-0.56 0 0";
+	eyeOffset = "0 0 0";
+	rotation = eulerToMatrix("0 0 90");
+
+	item = LargePumpItem;
+	
+	doColorshift = true;
+	colorShiftColor = LargePumpItem.colorShiftColor;
+
+	toolTip = "Places a Large Tank water pump";
+	loopTip = "When powered, pumps water into a Large Tank";
+	placeBrick = "brickLargePumpData";
+};
+
+function LargePumpBrickImage::onMount(%this, %obj, %slot)
+{
+	brickPlacerItem_onMount(%this, %obj, %slot);
+}
+
+function LargePumpBrickImage::onUnmount(%this, %obj, %slot)
+{
+	brickPlacerItem_onUnmount(%this, %obj, %slot);
+}
+
+function LargePumpBrickImage::onLoop(%this, %obj, %slot)
+{
+	brickPlacerItemLoop(%this, %obj, %slot);
+}
+
+function LargePumpBrickImage::onFire(%this, %obj, %slot)
+{
+	brickPlacerItemFire(%this, %obj, %slot);
+}
+
+
+
 //////////////
 //Light code//
 //////////////
@@ -126,14 +184,31 @@ package WaterPump
 		%db = %brick.getDatablock();
 		if (%db.isMediumPump)
 		{
-			%power = mFloor(%brick.lightPower * 100);
+			%dataID = %brick.eventOutputParameter0_1;
+			if (isObject(%brick.pumpTank))
+			{
+				%water = %brickDB.baseRate * %brick.pumpPower 
+					+ mCeil(getDataIDArrayTagValue(%dataID, "rate") * %brick.pumpPower * %brick.pumpPower * %db.pumpRate);
+			}
+			else
+			{
+				%water = 0;
+			}
+
+			%energyUse = %db.energyUse + getDataIDArrayTagValue(%dataID, "rate") * %db.pumpPowerMod;
+			%power = mFloor(%brick.pumpPower * 100);
 			if (%power < 50) %color = "\c0";
 			else if (%power < 100) %color = "\c3";
 			else %color = "\c2";
-			%brick.centerprintMenu.menuOptionCount = 1; //only keep the first power toggle option accessible
-			%brick.centerprintMenu.menuOption[1] = "Current Power: " @ %color @ mFloor(%brick.lightPower * 100) @ "%";
-			%brick.centerprintMenu.menuFunction[1] = "reopenCenterprintMenu";
-			%brick.centerprintMenu.menuOption[2] = "Uses " @ %db.energyUse @ " power per tick";
+			
+			%brick.centerprintMenu.menuOptionCount = 3; //only keep the first power toggle option accessible
+			%brick.centerprintMenu.menuOption[1] = "Increase rate";
+			%brick.centerprintMenu.menuFunction[1] = "increasePumpRate";
+			%brick.centerprintMenu.menuOption[2] = "Decrease rate";
+			%brick.centerprintMenu.menuFunction[2] = "decreasePumpRate";
+			%brick.centerprintMenu.menuOption[3] = "Current rate: " @ %water 
+											@ " Current Power: " @ %color @ mFloor(%brick.lightPower * 100) @ "%";
+			%brick.centerprintMenu.menuOption[4] = "Uses " @ %energyUse @ " power per tick";
 		}
 		return %ret;
 	}
@@ -142,31 +217,69 @@ package WaterPump
 	{
 		if (%brick.getDatablock().isWaterPump)
 		{
+			%db = brick.getDatablock();
+			if (!isObject(%brick.pumpTank))
+			{
+				%brick.pumpTank = checkForTank(%brick);
+				if (!isObject(%brick.pumpTank))
+				{
+					return 0;
+				}
+			}
 
+			%power = %db.energyUse + getDataIDArrayTagValue(%dataID, "rate") * %db.pumpPowerMod;
+			return %power;
 		}
 		return fxDTSBrick::getEnergyUse(%brick);
 	}
 };
 activatePackage(WaterPump);
 
-function powerLight(%brick, %powerRatio)
+function increasePumpRate(%cl, %menu, %option)
 {
-	%newLightPower = getMin(1, %powerRatio);
-	%oldLightPower = %brick.lightPower;
-	%brick.lightPower = %newLightPower;
-	if (%newlightPower != %oldLightPower)
+	%brick = %menu.brick;
+	if (!isObject(%brick))
 	{
-		%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
+		return;
 	}
+	%dataID = %brick.eventOutputParameter0_1;
+	%rate = getMin(getDataIDArrayTagValue(%dataID, "rate") + 1, %brick.getDatablock().maxRate);
+	setDataIDArrayTagValue(%dataID, "rate", %rate + 1, %rate);
+	serverPlay3D(ToggleStartSound, %brick.getPosition());
+	%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
 
-	if (%newLightPower > 0 && !isObject(%brick.emitter))
+	reopenCenterprintMenu(%cl, %menu, %option);
+	return %rate;
+}
+
+function decreasePumpRate(%cl, %menu, %option)
+{
+	%brick = %menu.brick;
+	if (!isObject(%brick))
 	{
-		%brick.setEmitter("silverEmitter");
+		return;
 	}
-	else if (%newLightPower <= 0 && isObject(%brick.emitter))
+	%dataID = %brick.eventOutputParameter0_1;
+	%rate = getMax(getDataIDArrayTagValue(%dataID, "rate") + 1, 0);
+	setDataIDArrayTagValue(%dataID, "rate", %rate + 1, %rate);
+	serverPlay3D(ToggleStopSound, %brick.getPosition());
+	%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
+
+	reopenCenterprintMenu(%cl, %menu, %option);
+	return %rate;
+}
+
+function pumpWater(%brick, %powerRatio)
+{
+	%db = %brick.getDatablock();
+	%dataID = %brick.eventOutputParameter0_1;
+	%water = %brickDB.baseRate * %powerRatio 
+		+ mCeil(getDataIDArrayTagValue(%dataID, "rate") * %powerRatio * %powerRatio * %db.pumpRate);
+	if (isObject(%brick.pumpTank))
 	{
-		%brick.setEmitter("None");
+		%brick.pumpTank.setWaterLevel(%brick.pumpTank.waterLevel + %water);
 	}
+	%brick.pumpPower = %powerRatio;
 }
 
 function checkForTank(%pump)
@@ -203,7 +316,8 @@ function checkForTank(%pump)
 		%rot = %hit.angleID;
 
 		talk(%diff);
-		if (vectorDist(%diff, %offset) < 0.05 && %rot == %rotation)
+		if (vectorDist(%diff, %offset) < 0.05 && %rot == %rotation 
+			&& %hit.getDatablock() $= %pump.getDatablock().targetDatablock.getID())
 		{
 			return %hit;
 		}
