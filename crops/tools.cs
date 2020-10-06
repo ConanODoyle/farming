@@ -43,6 +43,16 @@ function useDurability(%this, %obj, %slot)
 	return getMax(%durability, 0);
 }
 
+function incDurability(%dataID, %amt)
+{
+	%max = getDataIDArrayTagValue(%dataID, "maxDurability");
+	%curr = getDataIDArrayTagValue(%dataID, "durability");
+	%final = getMin(getMax(%curr + %amt, 0), %max);
+	setDataIDArrayTagValue(%dataID, "maxDurability", %final);
+	
+	return %final - %curr;
+}
+
 function generateToolDataID(%item)
 {
 	if (!isObject(%item))
