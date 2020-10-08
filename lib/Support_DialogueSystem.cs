@@ -88,11 +88,12 @@ package Support_DialogueSystem
 {
 	function serverCmdMessageSent(%cl, %msg)
 	{
-		if (%cl.player.dialogueData.dialogueObject.waitForResponse)
+		%dataObj = %cl.player.dialogueData;
+		if (%dataObj.dialogueObject.waitForResponse)
 		{
 			//parse message for dialogue
 			messageClient(%cl, '', $starBitmap @ " \c3" @ %cl.name @ "\c6: " @ %msg);
-			schedule(1000, %cl.player.dialogueData, handleResponse, %cl, %cl.player.dialogueData, %msg);
+			schedule(1000, %dataObj, handleResponse, %cl, %dataObj, %msg);
 		}
 		else
 		{
@@ -118,6 +119,13 @@ function Player::startDialogue(%pl, %speaker, %dialogueObject)
 		return;
 	}
 
+
+	%maxRange = %dialogueObject.maxRange <= 0 ? 3 : %dialogueObject.maxRange;
+	if (vectorDist(%speaker.position, %pl.position) >= %maxRange)
+	{
+		return;
+	}
+
 	if (isObject(%pl.dialogueData))
 	{
 		%pl.dialogueData.delete();
@@ -131,6 +139,20 @@ function Player::startDialogue(%pl, %speaker, %dialogueObject)
 	};
 
 	%pl.dialogueData.enterDialogue(%dialogueObject);
+	%pl.dialogueLoop();
+}
+
+function Player::dialogueLoop(%pl)
+{
+	cancel(%pl.dialogueLoopSched);
+	%dData = %pl.dialogueData;
+	if (!isObject(%dData.speaker) || !isObject(%dData.dialogueObject)
+		|| vectorDist(%pl.position, %dData.speaker.position) > %dData.maxRange)
+	{
+		%pl.quitDialogue();
+		return;
+	}
+	%pl.dialogueLoopSched = %pl.schedule(300, dialogueLoop);
 }
 
 function Player::quitDialogue(%pl)
@@ -146,9 +168,9 @@ function Player::quitDialogue(%pl)
 	}
 }
 
-function handleResponse(%cl, %dialogueData, %msg)
+function handleResponse(%cl, %dataObj, %msg)
 {
-	if (!isObject(%dialogueData) || %msg $= "")
+	if (!isObject(%dataObj) || %msg $= "")
 	{
 		return;
 	}
@@ -162,30 +184,30 @@ function handleResponse(%cl, %dialogueData, %msg)
 
 	if (isObject(%dialogueObject))
 	{
-		%dialogueData.enterDialogue(%dialogueObject);
+		%dataObj.enterDialogue(%dialogueObject);
 	}
 	else //exit cause they didnt do anything to check
 	{
-		%dialogueData.delete();
+		%dataObj.delete();
 	}
 }
 
-function defaultResponseParser(%dialogueData, %msg)
+function defaultResponseParser(%dataObj, %msg)
 {
-	%pl = %dialogueData.player;
-	if (!isObject(%pl) || !isObject(%dialogueData.dialogueObject) || !isObject(%dialogueData.speaker))
+	%pl = %dataObj.player;
+	if (!isObject(%pl) || !isObject(%dataObj.dialogueObject) || !isObject(%dataObj.speaker))
 	{
 		%pl.quitDialogue(%pl);
 		return 0;
 	}
 
-	%msg = stripChars(%msg, "!@#$%^&*()./?<>{}[]\\|-=+~`\"");
+	%msg = stripChars(%msg, "!@#$%^&*().,/?<>{}[]\\|-=+~`\";:'");
 	%msg = strReplace(%msg, " ", "_");
 
-	%next = %dialogueData.dialogueObject.response[%msg];
+	%next = %dataObj.dialogueObject.response[%msg];
 	if (!isObject(%next))
 	{
-		%next = %dialogueData.dialogueObject.response["Error"];
+		%next = %dataObj.dialogueObject.response["Error"];
 	}
 
 	return %next;
@@ -208,6 +230,7 @@ function DialogueData::enterDialogue(%dataObj, %dialogueObject)
 		return;
 	}
 	%dataObj.dialogueObject = %dialogueObject;
+	%dataObj.maxRange = %dialogueObject.maxRange <= 0 ? 3 : %dialogueObject.maxRange;
 	if (isFunction(%dialogueObject.functionOnStart))
 	{
 		%exit = call(%dialogueObject.functionOnStart, %dataObj);
@@ -259,6 +282,18 @@ function DialogueData::sendDialogue(%dataObj)
 	for (%i = 0; %i < %dialogueObject.messageCount; %i++)
 	{
 		%msg = %dialogueObject.message[%i];
+
+		%searchStart = 0;
+		while ((%pos = strPos(%msg, "%", %searchStart)) >= 0)
+		{
+			%searchStart = %pos + 1;
+			%next = strPos(%msg, "%", %searchStart);
+			%varName = getSubStr(%msg, %pos, %next - %pos);
+			if (%varName $= stripChars(%varName, "!@#$%^&*().,/?<>{}[]\\|-=+~`\";:' "))
+			{
+				strReplace(%msg, "%" @ %varName @ "%", %dataObj.var_[%varName]);
+			}
+		}
 		%dataObj.scheduleMessage(%time * 1000, %cl, %msg);
 		%time += %dialogueObject.messageTimeout[%i];
 	}
