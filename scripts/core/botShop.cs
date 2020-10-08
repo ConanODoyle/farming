@@ -46,10 +46,11 @@ function setupPurchase(%dataObj)
 	%seller = %dataObj.speaker;
 
 	%dataObj.var_product = %seller.sellItem.uiName;
-	%dataObj.var_price = getBuyPrice(%seller.sellItem.uiName, 1);
+	%dataObj.var_price = "$" @ MFloatLength(getBuyPrice(%seller.sellItem.uiName, 1), 2);
 }
 
 function purchaseResponseParser(%dataObj, %msg)
 {
 	%pl = %dataObj.player;
+	return %dataObj.dialogueObject.response["Quit"];
 }

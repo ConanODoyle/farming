@@ -11,8 +11,6 @@ if (isObject($exampleDialogueObj1))
 }
 $exampleDialogueObj1 = new ScriptObject(ExampleDialogue1)
 {
-	isDialogueObject = 1;
-
 	response["Yes"] = "CorrectResponse";
 	response["No"] = "IncorrectResponse";
 	response["Quit"] = "ExitResponse";
@@ -34,8 +32,6 @@ $exampleDialogueObj1 = new ScriptObject(ExampleDialogue1)
 
 $exampleDialogueObj2 = new ScriptObject(CorrectResponse)
 {
-	isDialogueObject = 1;
-
 	messageCount = 1;
 	message[0] = "Correct!";
 	messageTimeout[0] = 1;
@@ -45,8 +41,6 @@ $exampleDialogueObj2 = new ScriptObject(CorrectResponse)
 
 $exampleDialogueObj3 = new ScriptObject(IncorrectResponse)
 {
-	isDialogueObject = 1;
-
 	messageCount = 1;
 	message[0] = "You didn't say yes...";
 	messageTimeout[0] = 1;
@@ -56,8 +50,6 @@ $exampleDialogueObj3 = new ScriptObject(IncorrectResponse)
 
 $exampleDialogueObj4 = new ScriptObject(ExitResponse)
 {
-	isDialogueObject = 1;
-
 	messageCount = 1;
 	message[0] = "Bye!";
 	messageTimeout[0] = 1;
@@ -65,8 +57,6 @@ $exampleDialogueObj4 = new ScriptObject(ExitResponse)
 
 $exampleDialogueObj5 = new ScriptObject(ErrorResponse)
 {
-	isDialogueObject = 1;
-
 	messageCount = 1;
 	message[0] = "Um... ok...";
 	messageTimeout[0] = 1;
@@ -175,18 +165,23 @@ function handleResponse(%cl, %dataObj, %msg)
 		return;
 	}
 
-	%func = %cl.player.dialogueData.responseParser;
+	%func = %dataObj.dialogueObject.responseParser;
 	if (!isFunction(%func))
 	{
 		%func = "defaultResponseParser";
 	}
-	%dialogueObject = call(%func, %cl.player.dialogueData, %msg);
+	%dialogueKey = call(%func, %cl.player.dialogueData, %msg);
+	%dialogueObject = %dataObj.getResponseObject(%dialogueKey);
+	if (!isObject(%dialogueObject))
+	{
+		%dialogueObject = %dataObj.getResponseObject("Error");
+	}
 
 	if (isObject(%dialogueObject))
 	{
 		%dataObj.enterDialogue(%dialogueObject);
 	}
-	else //exit cause they didnt do anything to check
+	else //exit cause there is no designated response or error response
 	{
 		%dataObj.delete();
 	}
@@ -194,24 +189,39 @@ function handleResponse(%cl, %dataObj, %msg)
 
 function defaultResponseParser(%dataObj, %msg)
 {
-	%pl = %dataObj.player;
-	if (!isObject(%pl) || !isObject(%dataObj.dialogueObject) || !isObject(%dataObj.speaker))
-	{
-		%pl.quitDialogue(%pl);
-		return 0;
-	}
-
 	%msg = stripChars(%msg, "!@#$%^&*().,/?<>{}[]\\|-=+~`\";:'");
 	%msg = strReplace(%msg, " ", "_");
 
-	%next = %dataObj.dialogueObject.response[%msg];
-	if (!isObject(%next))
+	return %msg;
+}
+
+function yesNoResponseParser(%dataObj, %msg)
+{
+	%lwr = " " @ strLwr(%msg) @ " ";
+	%yes = "yes yeah ye yea y";
+	%no = "no n nope cancel quit";
+
+	for (%i = 0; %i < getWordCount(%yes); %i++)
 	{
-		%next = %dataObj.dialogueObject.response["Error"];
+		%word = " " @ getWord(%yes, %i) @ " ";
+		if (strPos(%lwr, %word) >= 0)
+		{
+			return "Yes";
+		}
 	}
 
-	return %next;
+	for (%i = 0; %i < getWordCount(%no); %i++)
+	{
+		%word = " " @ getWord(%no, %i) @ " ";
+		if (strPos(%lwr, %word) >= 0)
+		{
+			return "No";
+		}
+	}
+	
+	return "";
 }
+
 
 
 
@@ -224,8 +234,7 @@ function defaultResponseParser(%dataObj, %msg)
 
 function DialogueData::enterDialogue(%dataObj, %dialogueObject)
 {
-	if (!isObject(%dataObj.player) || !isObject(%dialogueObject) || !isObject(%dataObj.speaker) 
-		|| !%dialogueObject.isDialogueObject)
+	if (!isObject(%dataObj.player) || !isObject(%dialogueObject) || !isObject(%dataObj.speaker))
 	{
 		return;
 	}
@@ -288,10 +297,16 @@ function DialogueData::sendDialogue(%dataObj)
 		{
 			%searchStart = %pos + 1;
 			%next = strPos(%msg, "%", %searchStart);
-			%varName = getSubStr(%msg, %pos, %next - %pos);
-			if (%varName $= stripChars(%varName, "!@#$%^&*().,/?<>{}[]\\|-=+~`\";:' "))
+			if (%next < 0)
 			{
-				strReplace(%msg, "%" @ %varName @ "%", %dataObj.var_[%varName]);
+				break;
+			}
+			
+			%varName = getSubStr(%msg, %pos + 1, %next - %pos - 1);
+			if (%varName $= stripChars(%varName, "!@#$%^&*().,/?<>{}[]\\|-=+~`\";:' ")
+				&& %varName !$= "")
+			{
+				%msg = strReplace(%msg, "%" @ %varName @ "%", %dataObj.var_[%varName]);
 			}
 		}
 		%dataObj.scheduleMessage(%time * 1000, %cl, %msg);
