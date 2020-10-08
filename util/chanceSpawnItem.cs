@@ -8,7 +8,7 @@ function fxDTSBrick::onChanceSpawnItem(%this, %cl)
 	$InputTarget_["Client"] = %cl;
 	$InputTarget_["MiniGame"] = getMiniGameFromObject(%this);
 
-	%this.processInputEvent("onChanceSpawnItem", %client);
+	%this.processInputEvent("onChanceSpawnItem", %cl);
 }
 registerInputEvent("fxDTSBrick", "onChanceSpawnItem", "Self fxDTSBrick" TAB "Player Player" TAB "Client GameConnection" TAB "MiniGame MiniGame");
 

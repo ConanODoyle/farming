@@ -42,6 +42,7 @@ exec("./util/gitpull.cs");
 exec("./util/hexToInt.cs");
 exec("./util/ipCheck.cs");
 exec("./util/makeLotSingle.cs");
+exec("./util/onRandomChance.cs");
 exec("./util/radiusAnnounce.cs");
 exec("./util/roundToStudCenter.cs");
 exec("./util/scorefix.cs");
