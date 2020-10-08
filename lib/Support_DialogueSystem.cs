@@ -198,27 +198,28 @@ function defaultResponseParser(%dataObj, %msg)
 function yesNoResponseParser(%dataObj, %msg)
 {
 	%lwr = " " @ strLwr(%msg) @ " ";
-	%yes = "yes yeah ye yea y";
-	%no = "no n nope cancel quit";
+	%lwr = stripChars("!@#$%^&*()[];,.<>/?[]{}\\|-_=+");
+	%yes = "yes\tyeah\tye\tyea\ty\tok\talright\ti guess\tig";
+	%no = "no\tn\tnope\tcancel\tquit\tfuck off";
 
-	for (%i = 0; %i < getWordCount(%yes); %i++)
+	for (%i = 0; %i < getFieldCount(%yes); %i++)
 	{
-		%word = " " @ getWord(%yes, %i) @ " ";
+		%word = " " @ getField(%yes, %i) @ " ";
 		if (strPos(%lwr, %word) >= 0)
 		{
 			return "Yes";
 		}
 	}
 
-	for (%i = 0; %i < getWordCount(%no); %i++)
+	for (%i = 0; %i < getFieldCount(%no); %i++)
 	{
-		%word = " " @ getWord(%no, %i) @ " ";
+		%word = " " @ getField(%no, %i) @ " ";
 		if (strPos(%lwr, %word) >= 0)
 		{
 			return "No";
 		}
 	}
-	
+
 	return "";
 }
 
