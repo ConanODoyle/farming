@@ -8,8 +8,8 @@ if(isFile("config/Farming/scoreGrant.cs"))
 	exec("config/Farming/scoreGrant.cs");
 
 // Vehicle Costs
-JeepVehicle.maxWheelSpeed = 20;
+JeepVehicle.maxWheelSpeed = 22;
 JeepSpring.force = 2000;
 JeepSpring.damping = 5000;
-HorseArmor.maxForwardSpeed = 9;
-HorseArmor.maxForwardCrouchSpeed = 9;
+HorseArmor.maxForwardSpeed = 10;
+HorseArmor.maxForwardCrouchSpeed = 10;

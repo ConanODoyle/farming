@@ -19,6 +19,7 @@ exec("./lib/Support_MultipleSlots.cs");
 exec("./lib/Support_FarmingAutosaver.cs");
 exec("./lib/Support_TCPClient.cs");
 exec("./lib/Support_DiscordListener.cs");
+exec("./lib/Support_DialogueSystem.cs");
 
 exec("./lib/Support_DataID/server.cs");
 exec("./lib/Support_ShapeLines/server.cs");
