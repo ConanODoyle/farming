@@ -29,7 +29,7 @@ $exampleDialogueObj1 = new ScriptObject(ExampleDialogue1)
 	responseParser = "defaultResponseParser";
 	functionOnStart = "";
 
-	maxRange = 10;
+	maxRange = 3;
 };
 
 $exampleDialogueObj2 = new ScriptObject(CorrectResponse)
@@ -145,9 +145,9 @@ function Player::startDialogue(%pl, %speaker, %dialogueObject)
 function Player::dialogueLoop(%pl)
 {
 	cancel(%pl.dialogueLoopSched);
-	%dData = %pl.dialogueData;
-	if (!isObject(%dData.speaker) || !isObject(%dData.dialogueObject)
-		|| vectorDist(%pl.position, %dData.speaker.position) > %dData.maxRange)
+	%dataObj = %pl.dialogueData;
+	if (!isObject(%dataObj.speaker) || !isObject(%dataObj.dialogueObject)
+		|| vectorDist(%pl.position, %dataObj.speaker.position) > %dataObj.maxRange)
 	{
 		%pl.quitDialogue();
 		return;
@@ -158,7 +158,7 @@ function Player::dialogueLoop(%pl)
 function Player::quitDialogue(%pl)
 {
 	%dataObj = %pl.dialogueData;
-	if (isObject(%dialogueData))
+	if (isObject(%dataObj))
 	{
 		if (isObject(%dataObj.getResponseObject("Quit")))
 		{
