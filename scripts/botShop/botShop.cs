@@ -1,6 +1,6 @@
 
 $count = 0;
-if (isObject($PurchaseDialogue0))
+if (isObject($PurchaseDialogue1))
 {
 	for (%i = 0; %i < 20; %i++)
 	{
@@ -195,7 +195,7 @@ function purchaseResponseParser(%dataObj, %msg)
 
 
 $count = 0;
-if (isObject($StoreDialogue0))
+if (isObject($StoreDialogue1))
 {
 	for (%i = 0; %i < 20; %i++)
 	{
