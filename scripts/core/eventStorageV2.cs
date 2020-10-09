@@ -79,8 +79,6 @@ function initializeStorage(%brick, %dataID)
 		{
 			error("Storage datablock mismatch! brick:[" @ %brick @ "] brickDB:["
 				@ %brick.getDatablock().getName() @ "] dataID:[" @ %dataID @ "]");
-			talk("ERROR: storage datablock mismatch! Please inform the host! brick:[" @ %brick @ "] brickDB:["
-				@ %brick.getDatablock().getName() @ "] dataID:[" @ %dataID @ "]");
 			return 1;
 		}
 	}
