@@ -1,5 +1,5 @@
 $starBitmap = "<bitmap:base/client/ui/ci/star>";
-
+$DefaultDialogueRange = 5;
 
 if (isObject($exampleDialogueObj1))
 {
@@ -110,7 +110,7 @@ function Player::startDialogue(%pl, %speaker, %dialogueObject)
 	}
 
 
-	%maxRange = %dialogueObject.maxRange <= 0 ? 3 : %dialogueObject.maxRange;
+	%maxRange = %dialogueObject.maxRange <= 0 ? $DefaultDialogueRange : %dialogueObject.maxRange;
 	if (vectorDist(%speaker.position, %pl.position) >= %maxRange)
 	{
 		return;
@@ -128,6 +128,7 @@ function Player::startDialogue(%pl, %speaker, %dialogueObject)
 		player = %pl;
 	};
 
+	%pl.dialogueData.originalRange = vectorDist(%pl.position, %speaker.position);
 	%pl.dialogueData.enterDialogue(%dialogueObject);
 	%pl.dialogueLoop();
 }
@@ -137,7 +138,8 @@ function Player::dialogueLoop(%pl)
 	cancel(%pl.dialogueLoopSched);
 	%dataObj = %pl.dialogueData;
 	if (!isObject(%dataObj.speaker) || !isObject(%dataObj.dialogueObject)
-		|| vectorDist(%pl.position, %dataObj.speaker.position) > %dataObj.maxRange)
+		|| vectorDist(%pl.position, %dataObj.speaker.position) > %dataObj.maxRange
+		|| vectorDist(%pl.position, %dataObj.speaker.position) > %dataObj.originalRange + 1.5)
 	{
 		%pl.quitDialogue();
 		return;
@@ -154,6 +156,8 @@ function Player::quitDialogue(%pl)
 		{
 			%dataObj.enterDialogue(%dataObj.getResponseObject("Quit"));
 		}
+		cancel(%dataObj.timeoutSched);
+
 		%dataObj.delete();
 	}
 }
@@ -251,7 +255,7 @@ function DialogueData::enterDialogue(%dataObj, %dialogueObject)
 		return;
 	}
 	%dataObj.dialogueObject = %dialogueObject;
-	%dataObj.maxRange = %dialogueObject.maxRange <= 0 ? 3 : %dialogueObject.maxRange;
+	%dataObj.maxRange = %dialogueObject.maxRange <= 0 ? $DefaultDialogueRange : %dialogueObject.maxRange;
 	if (isFunction(%dialogueObject.functionOnStart))
 	{
 		%exit = call(%dialogueObject.functionOnStart, %dataObj);

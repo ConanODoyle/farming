@@ -13,6 +13,7 @@ if (isObject($PurchaseDialogue0))
 
 $PurchaseDialogue[$count++] = new ScriptObject(PurchaseDialogueStart)
 {
+	response["Quit"] = "ExitResponse";
 	messageCount = 1;
 	message[0] = "Hello!";
 	messageTimeout[0] = 1;
@@ -207,6 +208,7 @@ if (isObject($StoreDialogue0))
 
 $StoreDialogue[$count++] = new ScriptObject(StoreDialogueStart)
 {
+	response["Quit"] = "ExitResponse";
 	messageCount = 1;
 	message[0] = "Hello!";
 	messageTimeout[0] = 1;
