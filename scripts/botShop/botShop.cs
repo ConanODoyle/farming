@@ -24,7 +24,9 @@ $PurchaseDialogue[$count++] = new ScriptObject(PurchaseDialogueStart)
 $PurchaseDialogue[$count++] = new ScriptObject(PurchaseDialogueCore)
 {
 	response["CanPurchase"] = "PurchaseConfirmation";
+	response["CanPurchaseSingular"] = "PurchaseConfirmationSingular";
 	response["InsufficientMoney"] = "PurchaseFail";
+	response["InsufficientMoneySingular"] = "PurchaseFailSingular";
 	response["InvalidAmount"] = "PurchaseInvalid";
 	response["Quit"] = "ExitResponse";
 	response["Error"] = "ErrorResponse";
@@ -54,6 +56,11 @@ $PurchaseDialogue[$count++] = new ScriptObject(PurchaseConfirmation)
 	responseParser = "yesNoResponseParser";
 };
 
+$PurchaseDialogue[$count++] = new ScriptObject(PurchaseConfirmationSingular : PurchaseConfirmation)
+{
+	message[0] = "That'll be $%total% for %amount% %product%. Are you sure? Say yes to confirm.";
+};
+
 $PurchaseDialogue[$count++] = new ScriptObject(PurchaseProduct)
 {
 	messageCount = 1;
@@ -76,6 +83,11 @@ $PurchaseDialogue[$count++] = new ScriptObject(PurchaseFail)
 	dialogueTransitionOnTimeout = "PurchaseDialogueCore";
 };
 
+$PurchaseDialogue[$count++] = new ScriptObject(PurchaseFailSingular : PurchaseFail)
+{
+	message[0] = "You don't have enough money! %amount% %product% costs $%total%.";
+};
+
 $PurchaseDialogue[$count++] = new ScriptObject(PurchaseInvalid)
 {
 	messageCount = 1;
@@ -83,12 +95,36 @@ $PurchaseDialogue[$count++] = new ScriptObject(PurchaseInvalid)
 	messageTimeout[0] = 1;
 
 	botTalkAnim = 1;
-	dialogueTransitionOnTimeout = "PurchaseDialogueCore";
+	dialogueTransitionOnTimeout = "ExitResponse";
 };
 
 
 
 
+
+function dialogue_purchaseProduct(%dataObj)
+{
+	%pl = %dataObj.player;
+	%cl = %pl.client;
+
+	if (%cl.score >= %dataObj.var_total)
+	{
+		%cl.setScore(%cl.score - %dataObj.var_total);
+		%item = %dataObj.sellItem;
+		if (!%item.isStackable)
+		{
+			for (%i = 0; %i < %dataObj.var_amount; %i++)
+			{
+				%pl.farmingAddItem(%item);
+			}
+		}
+		else
+		{
+			%pl.farmingAddStackableItem(%item, %dataObj.var_amount);
+		}
+	}
+	return 0;
+}
 
 function setupPurchase(%dataObj)
 {
@@ -129,10 +165,188 @@ function purchaseResponseParser(%dataObj, %msg)
 	}
 	else if (%pl.client.score < %price)
 	{
+		if (%num == 1)
+		{
+			return "InsufficientMoneySingular";
+		}
 		return "InsufficientMoney";
 	}
 	else if (%pl.client.score >= %price)
 	{
+		if (%num == 1)
+		{
+			return "CanPurchaseSingular";
+		}
 		return "CanPurchase";
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+$count = 0;
+if (isObject($StoreDialogue0))
+{
+	for (%i = 0; %i < 20; %i++)
+	{
+		if (isObject($StoreDialogue[%i]))
+		{
+			$StoreDialogue[%i].delete();
+		}
+	}
+}
+
+$StoreDialogue[$count++] = new ScriptObject(StoreDialogueStart)
+{
+	messageCount = 1;
+	message[0] = "Hello!";
+	messageTimeout[0] = 1;
+	functionOnStart = "setupStorePurchase";
+
+	dialogueTransitionOnTimeout = "StoreDialogueCore";
+};
+
+$StoreDialogue[$count++] = new ScriptObject(StoreDialogueCore)
+{
+	response["ValidSelection"] = "PurchaseDialogueCore";
+	response["InvalidSelection"] = "SelectionInvalid";
+	response["Quit"] = "ExitResponse";
+	response["Error"] = "ErrorResponse";
+
+	messageCount = 2;
+	message[0] = "I'm selling %productlist%!";
+	messageTimeout[0] = 1;
+	message[1] = "What would you like to buy?";
+	messageTimeout[1] = 1;
+
+	botTalkAnim = 1;
+	waitForResponse = 1;
+	responseParser = "storeSelectionParser";
+};
+
+$StoreDialogue[$count++] = new ScriptObject(SelectionInvalid)
+{
+	messageCount = 1;
+	message[0] = "I'm not selling that. Something else, maybe?";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+	dialogueTransitionOnTimeout = "StoreDialogueCore";
+};
+
+
+
+
+
+function setupStorePurchase(%dataObj)
+{
+	%pl = %dataObj.player;
+	%seller = %dataObj.speaker;
+
+	for (%i = 0; %i < getWordCount(%seller.sellItems); %i++)
+	{
+		%item = getWord(%seller.sellItems, %i);
+		if (%item $= "" || !isObject(%item))
+		{
+			continue;
+		}
+
+		%dataObj.sellItem[%i] = %item;
+		if (%list !$= "")
+		{
+			%list = %list TAB %dataObj.sellItem[%i].uiName @ "s";
+		}
+		else
+		{
+			%list = %dataObj.sellItem[%i].uiName @ "s";
+		}
+		%count++;
+	}
+	%dataObj.sellItemCount = %count;
+
+	%list = trim(setField(%list, %count - 1, "and " @ getField(%list, %count - 1)));
+	%list = strReplace(%list, "\t", ", ");
+
+	%dataObj.var_productList = %list;
+}
+
+function storeSelectionParser(%dataObj, %msg)
+{
+	%pl = %dataObj.player;
+
+	%msg = strLwr(%msg);
+	if (strPos(%msg, "nothing") >= 0)
+	{
+		return "Quit";
+	}
+
+	for (%i = 0; %i < %dataObj.sellItemCount; %i++)
+	{
+		%item = %dataObj.sellItem[%i];
+		if (strPos(strLwr(%item.uiName), %msg) >= 0)
+		{
+			%selectedItem = %item;
+			break;
+		}
+	}
+
+	if (!isObject(%selectedItem))
+	{
+		return "InvalidSelection";
+	}
+	else
+	{
+		%dataObj.sellItem = %item;
+		%dataObj.var_product = %item.uiName;
+		%dataObj.var_price = mFloatLength(getBuyPrice(%item.uiName, 1), 2);
+		return "ValidSelection";
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function AIPlayer::setSellItems(%bot, %string)
+{
+	%sellItem = "";
+	for (%i = 0; %i < getWordCount(%string); %i++)
+	{
+		%item = getWord(%string, %i);
+		if (isObject(%item))
+		{
+			%sellItem = %sellItem SPC %item;
+			%count++;
+		}
+	}
+	%sellItem = trim(%sellItem);
+
+	if (%count == 1)
+	{
+		%bot.sellItem = %sellItem;
+	}
+	else if (%count > 1)
+	{
+		%bot.sellItems = %sellItem;
+	}
+}
+registerOutputEvent("Bot", "setSellItems", "string 200 200", 1);

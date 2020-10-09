@@ -198,7 +198,7 @@ function defaultResponseParser(%dataObj, %msg)
 function yesNoResponseParser(%dataObj, %msg)
 {
 	%lwr = " " @ strLwr(%msg) @ " ";
-	%lwr = stripChars("!@#$%^&*()[];,.<>/?[]{}\\|-_=+");
+	%lwr = stripChars(%lwr, "!@#$%^&*()[];,.<>/?[]{}\\|-_=+");
 	%yes = "yes\tyeah\tye\tyea\ty\tok\talright\ti guess\tig";
 	%no = "no\tn\tnope\tcancel\tquit\tfuck off";
 
@@ -222,6 +222,17 @@ function yesNoResponseParser(%dataObj, %msg)
 
 	return "";
 }
+
+function AIPlayer::startDialogue(%bot, %dialogueObj, %cl)
+{
+	if (!isObject(%dialogueObj) || !isObject(%cl.player))
+	{
+		return;
+	}
+
+	%cl.player.startDialogue(%bot, %dialogueObj);
+}
+registerOutputEvent("Bot", "startDialogue", "string 200 200", 1);
 
 
 
