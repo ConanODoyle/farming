@@ -124,6 +124,7 @@ function sprinklerTick(%index)
 		}
 		if (%waterDataID $= "") //no water system attached, no point running waterflow functions
 		{
+            %totalBricksProcessed++;
 			continue;
 		}
 		
