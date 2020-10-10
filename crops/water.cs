@@ -37,7 +37,7 @@ package DirtWaterColor
 {
 	function ndTrustCheckSelect(%brick, %group, %bl_id, %admin)
 	{
-		if (%brick.getDatablock().maxWater > 0 || %brick.getDatablock().isSprinkler)
+		if ((%brick.getDatablock().maxWater > 0 || %brick.getDatablock().isSprinkler) && !findClientByBL_ID(%bl_id).isBuilder)
 		{
 			return false;
 		}

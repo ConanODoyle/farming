@@ -14,7 +14,7 @@ package NoPlantBuild
 {
 	function ndTrustCheckSelect(%brick, %group, %bl_id, %admin)
 	{
-		if (%brick.getDatablock().isPlant)
+		if (%brick.getDatablock().isPlant && !findClientByBL_ID(%bl_id).isBuilder)
 		{
 			return 0;
 		}
