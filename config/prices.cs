@@ -31,9 +31,10 @@ $BuyCost_["Large_Compost_Bin"] = 1600;
 $BuyCost_["Flower_Pot"] = 100;
 $BuyCost_["Planter_Box"] = 300;
 
-$BuyCost_["Coal_Generator"] = 800;
-$BuyCost_["Power_Control_Box"] = 800;
-$BuyCost_["Battery"] = 400;
+$BuyCost_["Coal_Generator"] = 600;
+$BuyCost_["Power_Control_Box"] = 400;
+$BuyCost_["Battery"] = 300;
+$BuyCost_["IndoorLightItem"] = 200;
 
 
 //Produce
