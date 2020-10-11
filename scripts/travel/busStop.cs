@@ -6,20 +6,21 @@ if (!isObject($BusStopSimSet))
 
 package BusStops
 {
-    function fxDTSBrick::setNTObjectName(%obj, %name, %a, %b)
+    function fxDTSBrick::setNTObjectName(%obj, %name)
     {
-        if (strPos(strLwr(%name), "busstop") == 0 && !$BusStopSimSet.isMember(%obj))
+        if (strPos(strLwr(%name), "busstop") == 0 && %obj.getGroup().bl_id == 888888
+            && !$BusStopSimSet.isMember(%obj))
         {
             $BusStopSimSet.add(%obj);
         }
-        return parent::setNTObjectName(%obj, %name, %a, %b);
+        return parent::setNTObjectName(%obj, %name);
     }
 };
 activatePackage(BusStops);
 
 function configureBusStopCenterprintMenu(%menu)
 {
-    if (%menu.lastConfiguredMenu + 20 | 0 > $Sim::Time)
+    if ((%menu.lastConfiguredMenu + 20 | 0) > $Sim::Time)
     {
         return;
     }
@@ -62,7 +63,7 @@ function configureBusStopCenterprintMenu(%menu)
     return %menuOptionCount;
 }
 
-function goToBusStop(%menu, %cl, %option)
+function goToBusStop(%cl, %menu, %option)
 {
     %brick = %menu.menuBrick[%option];
     %pl = %cl.player;
@@ -88,7 +89,7 @@ function fxDTSBrick::displayBusStopMenu(%brick, %cl)
         $masterBusStopMenu = new ScriptObject(masterBusStopMenu)
         {
             isCenterprintMenu = 1;
-            menuName = "Bus Stops";
+            menuName = "-Bus Stops-";
         };
         MissionCleanup.add($masterBusStopMenu);
     }
