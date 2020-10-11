@@ -18,7 +18,7 @@ package BusStops
 };
 activatePackage(BusStops);
 
-function configureBusStopCenterprintMenu(%menu)
+function configureBusStopCenterprintMenu(%menu, %brick)
 {
     if ((%menu.lastConfiguredMenu + 20 | 0) > $Sim::Time)
     {
@@ -51,11 +51,22 @@ function configureBusStopCenterprintMenu(%menu)
             continue;
         }
         %name = getSubStr(%name, 8, 20);
-        %name = strReplace(%name, "_", " ");
+        %name = strUpr(strReplace(%name, "_", " "));
+        %originalName = %name;
+        if (%obj == %brick || vectorDist(%obj.position, %brick.position) < 8)
+        {
+            %name = %name @ " - You are here";
+        }
+        else if (isObject(%brick))
+        {
+            %dist = mFloor(vectorDist(%brick.position, %obj.position) / 10) / 100;
+            %name = %name @ " - " @ %dist @ "km";
+        }
 
-        %menu.menuOption[%i] = strUpr(%name);
+        %menu.menuOption[%i] = %name;
         %menu.menuFunction[%i] = "goToBusStop";
         %menu.menuBrick[%i] = %obj;
+        %menu.stopName[%i] = %originalName;
         %menuOptionCount++;
     }
 
@@ -74,6 +85,8 @@ function goToBusStop(%cl, %menu, %option)
     }
 
     %pl.setTransform(%brick.getTransform());
+    %pl.setWhiteout(1);
+    messageClient(%cl, '', "\c6Arrived at bus stop \"\c3" @ %menu.stopName[%option] @ "\c6\"!");
 }
 
 function fxDTSBrick::displayBusStopMenu(%brick, %cl)
@@ -84,19 +97,19 @@ function fxDTSBrick::displayBusStopMenu(%brick, %cl)
         return;
     }
 
-    if (!isObject($masterBusStopMenu))
+    if (!isObject(%brick.busStopMenu))
     {
-        $masterBusStopMenu = new ScriptObject(masterBusStopMenu)
+        %brick.busStopMenu = new ScriptObject(masterBusStopMenu)
         {
             isCenterprintMenu = 1;
             menuName = "-Bus Stops-";
         };
-        MissionCleanup.add($masterBusStopMenu);
+        MissionCleanup.add(%brick.busStopMenu);
     }
 
-    configureBusStopCenterprintMenu($masterBusStopMenu);
+    configureBusStopCenterprintMenu(%brick.busStopMenu, %brick);
 
-    %cl.startCenterprintMenu($masterBusStopMenu);
+    %cl.startCenterprintMenu(%brick.busStopMenu);
     busStopLoop(%cl, %brick);
 }
 registerOutputEvent("fxDTSBrick", "displayBusStopMenu", "", 1);
@@ -110,7 +123,7 @@ function busStopLoop(%cl, %obj)
         %exit = 1;
     }
 
-    if (vectorDist(%obj.getPosition(), %cl.player.getPosition()) > 6)
+    if (vectorDist(%obj.getPosition(), %cl.player.getPosition()) > 4)
     {
         %exit = 1;
     }
