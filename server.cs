@@ -62,7 +62,7 @@ echo("\c4    --Loading Farming Assets");
 exec("./config/general.cs");
 exec("./config/crops.cs");
 exec("./config/prices.cs");
-exec("./config/storage.cs")
+exec("./config/storage.cs");
 exec("./config/botShop.cs");
 
 // Crop code

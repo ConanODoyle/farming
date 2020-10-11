@@ -56,7 +56,7 @@ function AIPlayer::randomShopLoop(%bot, %selectionCount, %speak, %timerange, %sh
 
 	if (%selectionCount > 1)
 	{
-		%bot.
+		return;
 	}
 
 	%bot.randomShopLoopSched = %bot.schedule(10000, %selectionCount, %speak, %timerange, %shopObjects);
