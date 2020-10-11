@@ -1,5 +1,5 @@
 exec("./busStop.cs");
-
+exec("./dialogueObjects.cs");
 
 function collectTeledoors(%group, %i, %g, %c)
 {
