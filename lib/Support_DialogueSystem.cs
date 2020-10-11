@@ -118,6 +118,7 @@ function Player::startDialogue(%pl, %speaker, %dialogueObject)
 
 	if (isObject(%pl.dialogueData))
 	{
+		%pl.dialogueData.clearScheduledMessages();
 		%pl.dialogueData.delete();
 	}
 
@@ -275,7 +276,8 @@ function DialogueData::enterDialogue(%dataObj, %dialogueObject)
 	}
 	else if (!%dialogueObject.waitForResponse) //no responses, no transition on timeout - final state. exit.
 	{
-		%dataObj.delete();
+		//schedule the delete so messages can be canceled
+		%dataObj.schedule(%talkTime * 1000, delete);
 	}
 }
 
@@ -332,8 +334,8 @@ function DialogueData::sendDialogue(%dataObj)
 	%time = getMax(%time, 0.5);
 	if (isObject(%speaker) && %speaker.getType() & $Typemasks::PlayerObjectType)
 	{
-		%speaker.playThread(3, talk);
-		%speaker.schedule(%time * 1000, playThread, 3, root);
+		%speaker.playThread(0, talk);
+		%speaker.schedule(%time * 1000, playThread, 0, root);
 	}
 	return %time;
 }
