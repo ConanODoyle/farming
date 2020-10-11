@@ -184,6 +184,11 @@ package Support_CenterprintMenuSystemPackage
 		%dist = %max - %min;
 		while (%dist < 4)
 		{
+			if (%menu.menuOptionCount <= 0)
+			{
+				break;
+			}
+			
 			if (%min > 0)
 				%min--;
 			if (%max < %menu.menuOptionCount - 1) {
