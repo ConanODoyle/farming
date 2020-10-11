@@ -1,2 +1,3 @@
 exec("./botShop.cs");
-exec("./buyer.cs");
+exec("./botBuyer.cs");
+exec("./shopSelection.cs");

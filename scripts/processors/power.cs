@@ -331,7 +331,7 @@ function powerCheck(%brick)
 		{
 			%dev_on[%dev_onCount++ - 1] = %dev;
 			%proDB = %devDB;
-			%powerDraw = %pro.getEnergyUse();
+			%powerDraw = %dev.getEnergyUse();
 
 			%totalPowerUsage += %powerDraw;
 			%proOnCount++;
