@@ -22,6 +22,5 @@ exec("./water.cs");
 exec("./harvest.cs");
 exec("./shinyPlants.cs");
 exec("./weeds.cs");
-exec("./writePlantData.cs");
 
 exec("./tools.cs");
