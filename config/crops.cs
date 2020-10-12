@@ -1,4 +1,4 @@
-
+	
 //Weed chance
 $WeedBaseChance = 0.003;
 $WeedFertModifier = 0.00005;
@@ -48,3 +48,4 @@ $ProduceCheck_["Portobello"] 	= 1;
 $UndergroundCropsList = "Potato\tCarrot\tOnion\tTurnip\tPortobello";
 $AbovegroundCropsList = "Tomato\tCorn\tWheat\tCabbage\tBlueberry\tChili\tWatermelon";
 $TreeCropsList = "Apple\tMango\tCactus\tPeach\tDate";
+$ProduceList = $UndergroundCropsList TAB $AbovegroundCropsList TAB $TreeCropsList;
