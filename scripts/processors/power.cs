@@ -1397,7 +1397,7 @@ datablock fxDTSBrickData(brickPowerControlBoxData)
 	maxGenerators = 4;
 	maxProcessors = 16;
 	maxBatteries = 4;
-	tickTime = 0.8;
+	tickTime = 1;
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
 	storageSlotCount = 1;
