@@ -110,8 +110,31 @@ function setupPurchase(%dataObj)
 	
 	switch$ (%crop)
 	{
-		
+		case "Potato": %v1 = "var";
+		case "Carrot":
+		case "Onion":
+		case "Turnip":
+		case "Portobello":
+
+		case "Tomato":
+		case "Corn":
+		case "Wheat":
+		case "Cabbage":
+		case "Blueberry":
+		case "Chili":
+		case "Watermelon":
+
+		case "Cactus":
+		case "Apple":
+		case "Mango":
+		case "Peach":
+		case "Date":
+
+		case "Lily":
+		case "Daisy":
+		case "Rose":
 	}
+
 	%dataObj.var_product = %seller.sellItem.uiName;
 	%dataObj.var_price = mFloatLength(getBuyPrice(%seller.sellItem.uiName, 1), 2);
 }
