@@ -1377,6 +1377,9 @@ datablock fxDTSBrickData(brickCoalGeneratorData)
 	storageSlotCount = 1;
 	itemStackCount = 0;
 	storageMultiplier = 12;
+
+	musicRange = 30;
+	musicDescription = "AudioMusicLooping3d";
 };
 
 datablock fxDTSBrickData(brickPowerControlBoxData)
