@@ -52,13 +52,12 @@ function getFreeLotCount()
 function checkFreeLots()
 {
 	%count = getFreeLotCount();
-	while (%count < $minFreeLots)
+	if (%count < $minFreeLots)
 	{
 		%error = attemptUnloadOldestLot();
 		if (%error)
 		{
-			echo("Could not free any more lots! Total freed: " @ (%lotFreed + 0));
-			break;
+			echo("Could not free a lot!");
 		}
 		else
 		{
@@ -72,9 +71,30 @@ function checkFreeLots()
 function attemptUnloadOldestLot()
 {
 	%oldest = "";
+	%oldestTime = "";
 	%count = $SingleLotSimSet.getCount();
 	for (%i = 0; %i < %count; %i++)
 	{
-		
+		%group = $SingleLotSimSet.getObject(%i);
+		%blid = %group.bl_id;
+		if (%oldest $= "" || %oldestTime > $Pref::LotMoving::LastOn[%blid])
+		{
+			if (isObject(findClientByBL_ID(%blid)))
+			{
+				continue;
+			}
+			%oldestTime = $Pref::LotMoving::LastOn[%blid];
+			%oldest = %blid;
+		}
+	}
+
+	if (%oldest $= "" || $Server::AS["InUse"])
+	{
+		return 2;
+	}
+	else
+	{
+		unloadLot(%oldest);
+		return 0;
 	}
 }

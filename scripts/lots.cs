@@ -318,7 +318,7 @@ package lotBuild
 
 	function ndTrustCheckSelect(%brick, %group, %bl_id, %admin)
 	{
-		if (%brick.getDatablock().isLot)
+		if (%brick.getDatablock().isLot && !findClientByBL_ID(%bl_id).isBuilder)
 		{
 			return 0;
 		}
