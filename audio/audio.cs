@@ -62,6 +62,22 @@ datablock AudioProfile(AmbientLakeSound)
 	uiName = "Ambient - Lake";
 };
 
+datablock AudioProfile(AmbientWaterfallSound)
+{
+	filename = "./SFX_-_Waterfall.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Ambient - Waterfall";
+};
+
+datablock AudioProfile(AmbientBirdsSound)
+{
+	filename = "./SFX_-_Song_Birds.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Ambient - Song Birds";
+};
+
 datablock AudioProfile(AmbientRiverSound)
 {
 	filename = "./amb_river.ogg";
@@ -167,6 +183,14 @@ datablock AudioProfile(BatteryLoopSound)
 {
 	filename = "./Power/battery_loop.ogg";
 	description = AudioMusicLoopingClose3d;
+	preload = true;
+	uiName = "Ambient - Battery";
+};
+
+datablock AudioProfile(BusSound)
+{
+	filename = "./bus.wav";
+	description = AudioDefault3d;
 	preload = true;
 	uiName = "Ambient - Battery";
 };
