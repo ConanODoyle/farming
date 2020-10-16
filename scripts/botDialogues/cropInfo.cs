@@ -145,10 +145,18 @@ function setupPurchase(%dataObj)
 			%s1 = "Chilis are a desert crop, using very little water. They need nutrients to fully grow, and drop 2-5 per harvest.";
 			%s2 = "They can be harvested 2 times, costing 12 experience and returning 5-6 per harvest.";
 		case "Watermelon":
+			%s1 = "Watermelon are an unusual desert crop, not wanting any water at all in their second-to-last stage.";
+			%s2 = "They drop 1-2 watermelons every harvest, and in total get 8 harvests. They cost 40 exp to plant, and give 3-5.";
 
 		case "Cactus":
+			%s1 = "Cacti are the smallest tree-like plant, able to grow with no water at all. Each harvest gives 2-5 fruit.";
+			%s2 = "They can be harvested up to 15 times, giving 3-5 experience per harvest. They cost 60 experience to plant.";
 		case "Apple":
+			%s1 = "Apples have the quickest growth time out of all the trees, but needs nutrients throughout its growth.";
+			%s2 = "They can be harvested up to 35 times, and can be pruned during its harvesting loop to drop more fruit.";
 		case "Mango":
+			%s1 = "Apples have the quickest growth time out of all the trees, but needs nutrients throughout its growth.";
+			%s2 = "They can be harvested up to 35 times, and can be pruned during its harvesting loop to drop more fruit.";
 		case "Peach":
 		case "Date":
 
