@@ -14,7 +14,7 @@ $CropInfo[$count++] = new ScriptObject(CropInfoStart)
 {
 	response["Quit"] = "ExitResponse";
 
-	messageCount = 2
+	messageCount = 2;
 	message[0] = "Hello!";
 	messageTimeout[0] = 1;
 	message[1] = "I can tell you information about any crop!";
@@ -30,7 +30,7 @@ $CropInfo[$count++] = new ScriptObject(CropInfoCore)
 	response["Quit"] = "ExitResponse";
 	response["Error"] = "ErrorResponse";
 
-	messageCount = 1
+	messageCount = 1;
 	message[0] = "What crop would you like to know more about?";
 	messageTimeout[0] = 2;
 
@@ -42,7 +42,7 @@ $CropInfo[$count++] = new ScriptObject(CropInfoInvalidSelection)
 {
 	response["Quit"] = "ExitResponse";
 
-	messageCount = 1
+	messageCount = 1;
 	message[1] = "I can't tell you anything about that, sorry...";
 	messageTimeout[1] = 2;
 
@@ -53,7 +53,7 @@ $CropInfo[$count++] = new ScriptObject(CropInfoSelection)
 {
 	response["Quit"] = "ExitResponse";
 
-	messageCount = 2
+	messageCount = 2;
 	message[0] = "%data1%";
 	messageTimeout[1] = 3;
 	message[1] = "%data2%";
