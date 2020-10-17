@@ -8,7 +8,7 @@ datablock fxDTSBrickData(brickMediumPumpData)
 {
 	uiName = "Medium Pump";
 
-	brickFile = "./resources/waterpump/mediumPump.blb";
+	brickFile = "./resources/waterpump/mediumTankPump.blb";
 
 	iconName = "";
 
@@ -28,8 +28,8 @@ datablock fxDTSBrickData(brickMediumPumpData)
 
 	isWaterPump = 1;
 	targetDatablock = "brickMediumWaterTankData";
-	rotationChange = 1; //add to pump >> tank rotation
-	tankOffset = "0 -2.25 0.6"; //add to pump, should be tank location
+	rotationChange = 0; //add to pump >> tank rotation
+	tankOffset = "0 0.25 0.4"; //add to pump, should be tank location
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
 	storageSlotCount = 1;
@@ -39,7 +39,7 @@ datablock fxDTSBrickData(brickLargePumpData)
 {
 	uiName = "Large Pump";
 
-	brickFile = "./resources/waterpump/LargePump.blb";
+	brickFile = "./resources/waterpump/largeTankPump.blb";
 
 	iconName = "";
 
@@ -59,8 +59,8 @@ datablock fxDTSBrickData(brickLargePumpData)
 
 	isWaterPump = 1;
 	targetDatablock = "brickLargeWaterTankData";
-	rotationChange = 1; //add to pump >> tank rotation
-	tankOffset = "0 -2.25 0.6"; //add to pump, should be tank location
+	rotationChange = 0; //add to pump >> tank rotation
+	tankOffset = "0.75 -1.75 1"; //add to pump, should be tank location
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
 	storageSlotCount = 1;
@@ -230,7 +230,7 @@ package WaterPump
 			%power = %db.energyUse + getDataIDArrayTagValue(%dataID, "rate") * %db.pumpPowerMod;
 			return %power;
 		}
-		return fxDTSBrick::getEnergyUse(%brick);
+		return parent::getEnergyUse(%brick);
 	}
 };
 activatePackage(WaterPump);
@@ -286,7 +286,7 @@ function checkForTank(%pump)
 {
 	if (!isObject(%pump) || !%pump.getDatablock().isWaterPump)
 	{
-		return;
+		return 0;
 	}
 
 	%rotation = (%pump.getDatablock().rotationChange + %pump.angleID) % 4;
@@ -299,27 +299,29 @@ function checkForTank(%pump)
 	switch (%pump.angleID)
 	{
 		case 0: %xf = %x;		%yf = %y;
-		case 1: %xf = %y;		%yf = %x;
+		case 1: %xf = %y;		%yf = -1 * %x;
 		case 2: %xf = -1 * %x;	%yf = -1 * %y;
-		case 3: %xf = -1 * %y;	%yf = -1 * %x;
+		case 3: %xf = -1 * %y;	%yf = %x;
 		default: talk("REEEEEEE rotation issues REEEEEE");
 	}
 	%offset = %xf SPC %yf SPC %z;
 
-	%top = vectorAdd(%pump.getPosition(), "0 0 " @ (%pump.getDatablock().brickSizeZ * 0.1 - 0.1));
-	%end = vectorAdd(%top, %xf SPC %yf SPC 0);
-	%ray = containerRaycast(%top, %end, $Typemasks::fxBrickObjectType, %pump);
-
-	if (isObject(%hit = getWord(%ray, 0)))
+	%box = "1 1 1";
+	initContainerBoxSearch(%pump.getPosition(), %box, $Typemasks::fxBrickObjectType);
+	while (isObject(%next = containerSearchNext()))
 	{
-		%diff = vectorSub(%hit.getPosition(), %pump.getPosition());
-		%rot = %hit.angleID;
-
-		talk(%diff);
-		if (vectorDist(%diff, %offset) < 0.05 && %rot == %rotation 
-			&& %hit.getDatablock() $= %pump.getDatablock().targetDatablock.getID())
+		if (!%next.getDatablock().isWaterTank)
 		{
-			return %hit;
+			continue;
+		}
+
+		%diff = vectorSub(%next.getPosition(), %pump.getPosition());
+		%rot = %next.angleID;
+
+		if (vectorDist(%diff, %offset) < 0.05 && %rot == %rotation 
+			&& %next.getDatablock() $= %pump.getDatablock().targetDatablock.getID())
+		{
+			return %next;
 		}
 	}
 	return 0;

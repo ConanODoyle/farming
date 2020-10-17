@@ -84,17 +84,6 @@ datablock fxDTSBrickData(brickMediumWaterTankData)
 	maxSprinklers = 4;
 };
 
-datablock fxDTSBrickData(brickMediumTankPumpData)
-{
-	category = "";
-	subCategory = "";
-	uiName = "Medium Tank Pump";
-
-	brickFile = "./bricks/medTankPump.blb";
-
-	iconName = "Add-Ons/Server_Farming/crops/icons/medium_tank_pump";
-};
-
 datablock fxDTSBrickData(brickLargeWaterTankData)
 {
 	category = "Farming";
@@ -110,17 +99,6 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 	maxWater = 100000;
 	maxSprinklers = 0;
 	isOutflowTank = 1;
-};
-
-datablock fxDTSBrickData(brickLargeTankPumpData)
-{
-	category = "";
-	subCategory = "";
-	uiName = "Large Tank Pump";
-
-	brickFile = "./bricks/largeTankPump.blb";
-
-	iconName = "Add-Ons/Server_Farming/crops/icons/large_tank_pump";
 };
 
 // datablock fxDTSBrickData(brickMassiveWaterTankData)
