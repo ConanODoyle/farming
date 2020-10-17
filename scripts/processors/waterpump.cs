@@ -8,7 +8,7 @@ datablock fxDTSBrickData(brickMediumPumpData)
 {
 	uiName = "Medium Pump";
 
-	brickFile = "./resources/waterpump/mediumTankPump.blb";
+	brickFile = "./resources/waterpump/medTankPump.blb";
 
 	iconName = "";
 

@@ -18,12 +18,26 @@ package BusStops
 };
 activatePackage(BusStops);
 
+function findAllBusStops()
+{
+    for (%i = 0; %i < Brickgroup_888888.getCount(); %i++)
+    {
+        %b = Brickgroup_888888.getObject(%i);
+        %name = %b.getName();
+        if (!$BusStopSimSet.isMember(%b) && strPos(strLwr(%name), "_busstop") == 0)
+        {
+            $BusStopSimSet.add(%b);
+        }
+    }
+}
+
 function configureBusStopCenterprintMenu(%menu, %brick)
 {
     if ((%menu.lastConfiguredMenu + 20 | 0) > $Sim::Time)
     {
         return;
     }
+    findAllBusStops();
 
     %menu.lastConfiguredMenu = $Sim::Time;
     %oldMenuCount = %menu.menuOptionCount;
