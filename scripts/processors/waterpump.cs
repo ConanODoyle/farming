@@ -182,7 +182,7 @@ package WaterPump
 	{
 		%ret = parent::updateStorageMenu(%brick, %dataID); //call parent since poweredProcessor has its own package
 		%db = %brick.getDatablock();
-		if (%db.isMediumPump)
+		if (%db.isWaterPump)
 		{
 			%dataID = %brick.eventOutputParameter0_1;
 			if (isObject(%brick.pumpTank))
@@ -201,13 +201,13 @@ package WaterPump
 			else if (%power < 100) %color = "\c3";
 			else %color = "\c2";
 			
-			%brick.centerprintMenu.menuOptionCount = 3; //only keep the first power toggle option accessible
-			%brick.centerprintMenu.menuOption[1] = "Increase rate";
+			%brick.centerprintMenu.menuOptionCount = 3; //only keep the first three power toggle option accessible
+			%brick.centerprintMenu.menuOption[1] = "Inc. rate";
 			%brick.centerprintMenu.menuFunction[1] = "increasePumpRate";
-			%brick.centerprintMenu.menuOption[2] = "Decrease rate";
+			%brick.centerprintMenu.menuOption[2] = "Dec. rate";
 			%brick.centerprintMenu.menuFunction[2] = "decreasePumpRate";
-			%brick.centerprintMenu.menuOption[3] = "Current rate: " @ %water 
-											@ " Current Power: " @ %color @ mFloor(%brick.lightPower * 100) @ "%";
+			%brick.centerprintMenu.menuOption[3] = "Current rate: " @ %water @ " | " 
+											@ " Current Power: " @ %color @ mFloor(%brick.pumpPower * 100) @ "%";
 			%brick.centerprintMenu.menuOption[4] = "Uses " @ %energyUse @ " power per tick";
 		}
 		return %ret;
@@ -244,7 +244,7 @@ function increasePumpRate(%cl, %menu, %option)
 	}
 	%dataID = %brick.eventOutputParameter0_1;
 	%rate = getMin(getDataIDArrayTagValue(%dataID, "rate") + 1, %brick.getDatablock().maxRate);
-	setDataIDArrayTagValue(%dataID, "rate", %rate + 1, %rate);
+	setDataIDArrayTagValue(%dataID, "rate", %rate);
 	serverPlay3D(ToggleStartSound, %brick.getPosition());
 	%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
 
@@ -260,8 +260,8 @@ function decreasePumpRate(%cl, %menu, %option)
 		return;
 	}
 	%dataID = %brick.eventOutputParameter0_1;
-	%rate = getMax(getDataIDArrayTagValue(%dataID, "rate") + 1, 0);
-	setDataIDArrayTagValue(%dataID, "rate", %rate + 1, %rate);
+	%rate = getMax(getDataIDArrayTagValue(%dataID, "rate") - 1, 0);
+	setDataIDArrayTagValue(%dataID, "rate", %rate);
 	serverPlay3D(ToggleStopSound, %brick.getPosition());
 	%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
 
