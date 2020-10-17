@@ -10,7 +10,7 @@ datablock fxDTSBrickData(brickIndoorLightData)
 
 	brickFile = "./resources/light/2x6light.blb";
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/crops/icons/IndoorLight2x6";
 
 	cost = 0;
 	isProcessor = 1;
@@ -42,7 +42,7 @@ datablock ItemData(IndoorLightItem : brickPlacerItem)
 	image = "IndoorLightBrickImage";
 	colorShiftColor = "0.9 0 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
+	iconName = "Add-ons/Server_Farming/crops/icons/IndoorLight2x6";
 };
 
 datablock ShapeBaseImageData(IndoorLightBrickImage : BrickPlacerImage)

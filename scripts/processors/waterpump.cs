@@ -10,7 +10,7 @@ datablock fxDTSBrickData(brickMediumPumpData)
 
 	brickFile = "./resources/waterpump/medTankPump.blb";
 
-	iconName = "";
+	iconName = "Add-Ons/Server_Farming/crops/icons/MediumTankPump";
 
 	cost = 0;
 	isProcessor = 1;
@@ -41,7 +41,7 @@ datablock fxDTSBrickData(brickLargePumpData)
 
 	brickFile = "./resources/waterpump/largeTankPump.blb";
 
-	iconName = "";
+	iconName = "Add-Ons/Server_Farming/crops/icons/LargeTankPump";
 
 	cost = 0;
 	isProcessor = 1;
@@ -79,7 +79,7 @@ datablock ItemData(MediumPumpItem : brickPlacerItem)
 	image = "MediumPumpBrickImage";
 	colorShiftColor = "0.9 0 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
+	iconName = "Add-ons/Server_Farming/crops/icons/MediumTankPump";
 };
 
 datablock ShapeBaseImageData(MediumPumpBrickImage : BrickPlacerImage)
@@ -129,7 +129,7 @@ datablock ItemData(LargePumpItem : brickPlacerItem)
 	image = "LargePumpBrickImage";
 	colorShiftColor = "0.9 0 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
+	iconName = "Add-ons/Server_Farming/crops/icons/LargeTankPump";
 };
 
 datablock ShapeBaseImageData(LargePumpBrickImage : BrickPlacerImage)

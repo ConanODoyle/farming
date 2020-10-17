@@ -519,7 +519,7 @@ datablock ItemData(OrganicAnalyzerItem : HammerItem)
 	shapeFile = "./tools/organicanalyzer.dts";
 	uiName = "Organic Analyzer";
 	image = "OrganicAnalyzerImage";
-	iconName = "Add-ons/Server_Farming/crops/icons/organic_analyzer";
+	iconName = "Add-ons/Server_Farming/crops/icons/OrganicAnalyzer";
 	doColorShift = true;
 	colorShiftColor = "0.2 0.6 0.2 1";
 };
