@@ -101,13 +101,13 @@ function AIPlayer::canBuy(%bot, %item)
 	{
 		for (%i = 0; %i < getWordCount(%bot.buyItems); %i++)
 		{
-			%item = getWord(%bot.buyItems, %i);
-			if (%item $= "" || !isObject(%item))
+			%buyitem = getWord(%bot.buyItems, %i);
+			if (%buyitem $= "" || (!isObject(%buyitem) && %buyitem !$= %itemDB.stackType))
 			{
 				continue;
 			}
 
-			if (%item.getID() == %itemDB)
+			if (%buyitem.getID() == %itemDB || %buyitem $= %itemDB.stackType)
 			{
 				return 1;
 			}
@@ -115,6 +115,10 @@ function AIPlayer::canBuy(%bot, %item)
 		return 0;
 	}
 	else if (isObject(%bot.buyItem) && %bot.buyItem.getID() == %itemDB)
+	{
+		return 1;
+	}
+	else if (%bot.buyItem == %itemDB.stackType)
 	{
 		return 1;
 	}
@@ -185,6 +189,10 @@ function AIPlayer::attemptBuy(%bot, %item)
 		if (strPos(strLwr(%type), "seed") >= 0) //halve seed prices //come up with a better way to store/change this info
 		{
 			%amount = %amount / 2;
+		}
+		if (%bot.buyMultiplier > 0)
+		{
+			%amount *= %bot.buyMultiplier
 		}
 	}
 	else
