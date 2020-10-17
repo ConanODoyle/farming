@@ -86,21 +86,21 @@ datablock AudioProfile(AmbientRiverSound)
 	uiName = "Ambient - River";
 };
 
-datablock AudioProfile(AmbientGentleBreezeSound)
-{
-	filename = "./Ambient_-_Gentle_Breeze.ogg";
-	description = AudioMusicLooping3d;
-	preload = true;
-	uiName = "Ambient - Gentle Breeze";
-};
+// datablock AudioProfile(AmbientGentleBreezeSound)
+// {
+// 	filename = "./Ambient_-_Gentle_Breeze.wav";
+// 	description = AudioMusicLooping3d;
+// 	preload = true;
+// 	uiName = "Ambient - Gentle Breeze";
+// };
 
-datablock AudioProfile(AmbientHallowWindSound)
-{
-	filename = "./Ambient_-_Hallow_Wind.ogg";
-	description = AudioMusicLooping3d;
-	preload = true;
-	uiName = "Ambient - Hallow Wind";
-};
+// datablock AudioProfile(AmbientHallowWindSound)
+// {
+// 	filename = "./Ambient_-_Hallow_Wind.wav";
+// 	description = AudioMusicLooping3d;
+// 	preload = true;
+// 	uiName = "Ambient - Hallow Wind";
+// };
 
 
 
