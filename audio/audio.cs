@@ -30,21 +30,21 @@ datablock AudioProfile(AmbientMeadowsSound)
 	uiName = "Ambient - Meadow";
 };
 
-datablock AudioProfile(AmbientSeaSound)
-{
-	filename = "./Sea/sea_calm.ogg";
-	description = AudioMusicLooping3d;
-	preload = true;
-	uiName = "Ambient - Sea";
-};
+// datablock AudioProfile(AmbientSeaSound)
+// {
+// 	filename = "./Sea/sea_calm.ogg";
+// 	description = AudioMusicLooping3d;
+// 	preload = true;
+// 	uiName = "Ambient - Sea";
+// };
 
-datablock AudioProfile(AmbientSeaWavesSound)
-{
-	filename = "./Sea/sea_waves_crashing.ogg";
-	description = AudioMusicLooping3d;
-	preload = true;
-	uiName = "Ambient - Sea Cliff";
-};
+// datablock AudioProfile(AmbientSeaWavesSound)
+// {
+// 	filename = "./Sea/sea_waves_crashing.ogg";
+// 	description = AudioMusicLooping3d;
+// 	preload = true;
+// 	uiName = "Ambient - Sea Cliff";
+// };
 
 datablock AudioProfile(AmbientForestSound)
 {
@@ -84,6 +84,22 @@ datablock AudioProfile(AmbientRiverSound)
 	description = AudioMusicLooping3d;
 	preload = true;
 	uiName = "Ambient - River";
+};
+
+datablock AudioProfile(AmbientGentleBreezeSound)
+{
+	filename = "./Ambient_-_Gentle_Breeze.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Ambient - Gentle Breeze";
+};
+
+datablock AudioProfile(AmbientHallowWindSound)
+{
+	filename = "./Ambient_-_Hallow_Wind.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Ambient - Hallow Wind";
 };
 
 
