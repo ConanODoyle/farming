@@ -83,7 +83,7 @@ function cropInfoSelectionParser(%dataObj, %msg)
 	for (%i = 0; %i < getFieldCount(%list); %i++)
 	{
 		%produce = getField(%list, %i);
-		%pos = strPos(%msg, %produce);
+		%pos = strPos(%msg, strLwr(%produce));
 		if (%pos >= 0 && %pos < %firstSlot)
 		{
 			%first = %produce;
@@ -102,7 +102,7 @@ function cropInfoSelectionParser(%dataObj, %msg)
 	}
 }
 
-function setupPurchase(%dataObj)
+function setupCropInfo(%dataObj)
 {
 	%pl = %dataObj.player;
 	%seller = %dataObj.speaker;
@@ -152,19 +152,38 @@ function setupPurchase(%dataObj)
 			%s1 = "Cacti are the smallest tree-like plant, able to grow with no water at all. Each harvest gives 2-5 fruit.";
 			%s2 = "They can be harvested up to 15 times, giving 3-5 experience per harvest. They cost 60 experience to plant.";
 		case "Apple":
-			%s1 = "Apples have the quickest growth time out of all the trees, but needs nutrients throughout its growth.";
-			%s2 = "They can be harvested up to 35 times, and can be pruned during its harvesting loop to drop more fruit.";
+			%s1 = "Apples have the smallest radius and do not shade plants under it. Like all trees, it needs nutrients to grow.";
+			%s2 = "They can be harvested up to 35 times for 8-14 apples, and can be pruned during its harvesting loop for more yield.";
 		case "Mango":
-			%s1 = "Apples have the quickest growth time out of all the trees, but needs nutrients throughout its growth.";
-			%s2 = "They can be harvested up to 35 times, and can be pruned during its harvesting loop to drop more fruit.";
+			%s1 = "Mangoes cover a wide area and create significant shade, which reduces some plants' growth time.";
+			%s2 = "They can be harvested up to 35 times, dropping 11-16 per harvest.";
 		case "Peach":
+			%s1 = "Peach trees require less water than other trees, but need more nutrients to produce a harvest.";
+			%s2 = "They can be harvested up to 50 times, dropping 6-12 per harvest.";
 		case "Date":
+			%s1 = "Date trees require no water to grow, and in fact grow significantly slower if water is present.";
+			%s2 = "Like peaches, they can be harvested up to 50 times, dropping 6-12 per harvest.";
 
 		case "Lily":
+			%s1 = "Lilies are flowers that add 2 nitrogen to soil every minute, in their final flowering stage.";
+			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+		case "Lilies":
+			%s1 = "Lilies are flowers that add 2 nitrogen to soil every minute, in their final flowering stage.";
+			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
 		case "Daisy":
+			%s1 = "Daisies are flowers that add 2 phosphate to soil every minute, in their final flowering stage.";
+			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+		case "Daisies":
+			%s1 = "Daisies are flowers that add 2 phosphate to soil every minute, in their final flowering stage.";
+			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
 		case "Rose":
+			%s1 = "Roses are flowers that add 1 nitrogen and 1 phosphate to soil every minute, in their final flowering stage.";
+			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+		default:
+			%s1 = "...";
+			%s2 = "...I don't know anything about that, sorry.";
 	}
 
-	%dataObj.var_product = %seller.sellItem.uiName;
-	%dataObj.var_price = mFloatLength(getBuyPrice(%seller.sellItem.uiName, 1), 2);
+	%dataObj.var_data1 = %s1;
+	%dataObj.var_data2 = %s2;
 }
