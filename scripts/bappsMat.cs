@@ -47,6 +47,10 @@ function setBappsMatText(%string) {
 	%string = centerString(%string, 6);
 	for (%i = 0; %i < 6; %i++) {
 		%brick = "_BappsWelcomeMat" @ %i;
+		if (!isObject(%brick))
+		{
+			continue;
+		}
 		%printID = alphaNumericToPrintID(getSubStr(%string, %i, 1));
 		%brick.setPrint(%printID);
 	}
@@ -84,3 +88,5 @@ function randomBappsMatLoop() {
 
 	$BappsMatSchedule = schedule($Farming::BappsMatCycleTime, 0, randomBappsMatLoop);
 }
+
+randomBappsMatLoop();

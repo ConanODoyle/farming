@@ -13,3 +13,18 @@ JeepSpring.force = 2000;
 JeepSpring.damping = 5000;
 HorseArmor.maxForwardSpeed = 10;
 HorseArmor.maxForwardCrouchSpeed = 10;
+
+
+addBappsMatString("gaming");
+addBappsMatString("bapps!");
+addBappsMatString("turnip");
+addBappsMatString("  e.  ");
+addBappsMatString("tomato");
+addBappsMatString("at dos");
+addBappsMatString(" onyo");
+addBappsMatString(" lmao");
+addBappsMatString("wheeet");
+addBappsMatString("    hi");
+addBappsMatString("potato");
+addBappsMatString("??????");
+addBappsMatString("shroom");

@@ -17,6 +17,7 @@ exec("./mining/server.cs");
 
 // exec("./chatFilter.cs");
 exec("./chestScore.cs");
+exec("./bappsMat.cs");
 exec("./donator.cs");
 exec("./lights.cs");
 exec("./lots.cs");
