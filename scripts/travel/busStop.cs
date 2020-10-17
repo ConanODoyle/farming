@@ -101,6 +101,7 @@ function goToBusStop(%cl, %menu, %option)
     %pl.setTransform(%brick.getTransform());
     %pl.setWhiteout(1);
     %cl.play2D(BusSound);
+    %pl.schedule(100, spawnExplosion, spawnProjectile, "1");
     messageClient(%cl, '', "\c6Arrived at bus stop \"\c3" @ %menu.stopName[%option] @ "\c6\"!");
 }
 
