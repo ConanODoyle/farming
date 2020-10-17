@@ -77,7 +77,8 @@ package disableWrenchData
 	function fxDTSBrick::setRaycasting(%this, %bool)
 	{
 		%db = %this.getDatablock();
-		if (%db.isPlant || %db.isStorageBrick || %db.isSprinkler || %db.isWaterTank || %db.isDirt || %db.isGreenhouse)
+		if (%db.isPlant || %db.isStorageBrick || %db.isProcessor || %db.isSprinkler 
+			|| %db.isWaterTank || %db.isDirt || %db.isGreenhouse)
 		{
 			%bool = 1;
 		}
@@ -87,7 +88,8 @@ package disableWrenchData
 	function fxDTSBrick::setRendering(%this, %bool)
 	{
 		%db = %this.getDatablock();
-		if (%db.isPlant || %db.isStorageBrick || %db.isGreenhouse || %db.isSprinkler || %db.isWaterTank || %db.isDirt)
+		if (%db.isPlant || %db.isStorageBrick || %db.isProcessor || %db.isSprinkler 
+			|| %db.isWaterTank || %db.isDirt || %db.isGreenhouse)
 		{
 			%bool = 1;
 		}
@@ -97,7 +99,8 @@ package disableWrenchData
 	function fxDTSBrick::setColliding(%this, %bool)
 	{
 		%db = %this.getDatablock();
-		if (%db.isStorageBrick || %db.isGreenhouse || %db.isWaterTank || %db.isDirt || %db.isTree)
+		if (%db.isStorageBrick || %db.isGreenhouse || %db.isWaterTank || %db.isDirt 
+			|| %db.isTree || %db.isProcessor)
 		{
 			if (%db.noCollision)
 			{
@@ -118,7 +121,8 @@ package disableWrenchData
 	function fxDTSBrick::setShapeFX(%this, %type)
 	{
 		%db = %this.getDatablock();
-		if (%db.isStorageBrick || %db.isSprinkler || %db.isGreenhouse || %db.isWaterTank || %db.isDirt || %db.isPlant || %db.isLot)
+		if (%db.isStorageBrick || %db.isSprinkler || %db.isGreenhouse || %db.isWaterTank 
+			|| %db.isDirt || %db.isPlant || %db.isLot || %db.isProcessor)
 		{
 			%type = 0;
 		}
@@ -128,7 +132,8 @@ package disableWrenchData
 	function fxDTSBrick::setColorFX(%this, %type)
 	{
 		%db = %this.getDatablock();
-		if (%db.isStorageBrick || %db.isSprinkler || %db.isGreenhouse || %db.isWaterTank || %db.isDirt || %db.isPlant || %db.isLot)
+		if (%db.isStorageBrick || %db.isSprinkler || %db.isGreenhouse || %db.isWaterTank 
+			|| %db.isDirt || %db.isPlant || %db.isLot || %db.isProcessor)
 		{
 			%type = 0;
 		}
