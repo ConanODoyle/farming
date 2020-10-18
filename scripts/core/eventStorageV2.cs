@@ -467,7 +467,7 @@ function AIPlayer::updateStorageDatablock(%bot, %fillLevel, %open)
 	if (%bot.getDatablock().baseDatablockName !$= "")
 	{
 		%datablockName = %bot.getDatablock().baseDatablockName;
-		if (%bot.isOpenable)
+		if (%bot.getDataBlock().isOpenable)
 		{
 			if (%open)
 			{
@@ -481,7 +481,7 @@ function AIPlayer::updateStorageDatablock(%bot, %fillLevel, %open)
 			}
 		}
 
-		if (%bot.hasFillLevels)
+		if (%bot.getDataBlock().hasFillLevels)
 		{
 			%datablockName = %datablockName @ (%fillLevel + 0);
 		}
@@ -833,6 +833,25 @@ package StorageBricks
 			}
 		}
 		return parent::onDeath(%this);
+	}
+
+	function fxDTSBrick::onLoadPlant(%this)
+	{
+		%result = Parent::onLoadPlant(%this);
+
+		if (%this.getDatablock().isStorageBrick)
+		{
+			%dataID = %this.eventOutputParameter[0, 1];
+			%this.updateStorageDatablock(%dataID);
+		}
+
+		if (isObject(%this.vehicle) && %this.vehicle.getDatablock().isStorageVehicle)
+		{
+			%dataID = %this.eventOutputParameter[0, 1];
+			%this.vehicle.updateStorageDatablock(%dataID);
+		}
+
+		return %result;
 	}
 
 	function serverCmdDropTool(%cl, %slot)
