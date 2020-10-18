@@ -30,7 +30,7 @@ function unloadLot(%bl_id)
 
 function loadLot(%bl_id, %lot)
 {
-	if (!isObject(%lot) || !%lot.getDatablock().isSingle || !%lot.getDatablock().isLot)
+	if (!isObject(%lot) || !%lot.getDatablock().isLot || !%lot.getDatablock().isSingle)
 	{
 		talk("ERROR: loadLot - invalid lot provided! " @ %lot);
 		error("ERROR: loadLot - invalid lot provided! " @ %lot);

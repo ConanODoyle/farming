@@ -21,7 +21,6 @@ exec("./bappsMat.cs");
 exec("./donator.cs");
 exec("./lights.cs");
 exec("./lots.cs");
-exec("./lotmoving.cs");
 exec("./weather.cs");
 exec("./wateringTools.cs");
 exec("./weedLmao.cs");

@@ -192,7 +192,7 @@ function AIPlayer::attemptBuy(%bot, %item)
 		}
 		if (%bot.buyMultiplier > 0)
 		{
-			%amount *= %bot.buyMultiplier
+			%amount *= %bot.buyMultiplier;
 		}
 	}
 	else
