@@ -70,3 +70,24 @@ function parseCSV(%filePath)
 }
 
 parseCSV("Add-ons/Server_Farming/config/plantData.csv");
+
+
+//Math utility functions
+//returns average gained seeds per seed given total harvestcount and drop probability
+function getAverageExtraSeedsPerSeed(%harvestCount, %dropProb)
+{
+	return %harvestCount * %dropProb;
+}
+
+function getSeedsPerSeed(%harvestCount, %dropProb)
+{
+	%amt = getAverageExtraSeedsPerSeed(%harvestCount, %dropProb);
+	return 1 / (1 - %amt);
+}
+
+
+
+function generateAvgHarvest(%crop, %stage)
+{
+
+}

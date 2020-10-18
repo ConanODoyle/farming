@@ -6,34 +6,6 @@
 
 
 
-//Math utility functions
-//returns average gained seeds per seed given total harvestcount and drop probability
-function getAverageExtraSeedsPerSeed(%harvestCount, %dropProb)
-{
-	%noDropProb = 1 - %dropProb;
-	for (%i = 0; %i < %harvestCount; %i++)
-	{
-		%prob = 1;
-		for (%j = 0; %j < %harvestCount; %j++)
-		{
-			%curr = %j <= %i ? %dropProb : %noDropProb;
-			echo("   Curr: " @ %curr);
-			%prob *= %j <= %i ? %dropProb : %noDropProb;
-		}
-		echo("Adding " @ %prob * %harvestCount * (%i + 1));
-		%total += %prob * %harvestCount * (%i + 1);
-	}
-	return %total;
-}
-
-function getSeedsPerSeed(%harvestCount, %dropProb)
-{
-	%amt = getAverageExtraSeedsPerSeed(%harvestCount, %dropProb);
-	return (1 / %amt) / (1 / %amt - 1);
-}
-
-
-
 
 // Resource functions
 //returns dirt bricks under plant, in order of highest water
