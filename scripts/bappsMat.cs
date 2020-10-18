@@ -88,5 +88,3 @@ function randomBappsMatLoop() {
 
 	$BappsMatSchedule = schedule($Farming::BappsMatCycleTime, 0, randomBappsMatLoop);
 }
-
-randomBappsMatLoop();
