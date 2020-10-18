@@ -74,8 +74,12 @@ function removeBappsMatString(%index) {
 
 function setRandomBappsMatString() {
 	%index = getRandom(1, getFieldCount($Farming::BappsMatStrings)) - 1;
+	%sentinel = 0;
 	while ((%string = getField($Farming::BappsMatStrings, %index)) $= $Farming::LastBappsMatString) {
+		if (%sentinel > 100) break;
+
 		%index = getRandom(1, getFieldCount($Farming::BappsMatStrings)) - 1;
+		%sentinel++;
 	}
 
 	setBappsMatText(%string);
