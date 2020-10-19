@@ -85,6 +85,11 @@ function addBappsMatStrings()
 	addBappsMatString("todo");
 	addBappsMatString("unused");
 	addBappsMatString("temp");
+	addBappsMatString("baps");
+	addBappsMatString("christ");
+	addBappsMatString("m'lady");
+	addBappsMatString("cursed");
+	addBappsMatString("bapp's");
 	addBappsMatString("remove");
 	addBappsMatString("delete");
 	addBappsMatString("404.");
