@@ -55,7 +55,7 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManageLoad)
 {
 	response["Yes"] = "LotManageLoadConfirmed";
 	response["No"] = "LotManagePrompt";
-	response["Quit"] = "LotManagePrompt";
+	response["Quit"] = "ExitResponse";
 	response["Error"] = "LotManageErrorResponse";
 
 	messageCount = 2;
@@ -103,7 +103,7 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManageUnload)
 	response["Yes"] = "LotManageUnloadConfirmed";
 	response["InsufficientMoney"] = "LotManageUnloadInsufficientMoney";
 	response["No"] = "LotManagePrompt";
-	response["Quit"] = "LotManagePrompt";
+	response["Quit"] = "ExitResponse";
 	response["Error"] = "LotManageErrorResponse";
 
 	messageCount = 2;
