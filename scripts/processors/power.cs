@@ -1327,6 +1327,7 @@ function ElectricalCableImage::onFire(%this, %obj, %slot)
 							return;
 					case 1: %errorString = "\c0Object is connected to a different control brick!";
 					case 3: %errorString = "\c0Power control box has no more free " @ %type @ " connections!";
+					case 4: %errorString = "\c0Power control box too far!";
 					default: %errorString = "\c0Critical error! Please report to an admin!";
 				}
 				%obj.errorString = %errorString;

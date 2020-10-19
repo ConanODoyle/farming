@@ -33,6 +33,9 @@ datablock fxDTSBrickData(brickMediumPumpData)
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
 	storageSlotCount = 1;
+
+	musicRange = 50;
+	musicDescription = "AudioMusicLooping3d";
 };
 
 datablock fxDTSBrickData(brickLargePumpData)
@@ -64,6 +67,9 @@ datablock fxDTSBrickData(brickLargePumpData)
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
 	storageSlotCount = 1;
+
+	musicRange = 50;
+	musicDescription = "AudioMusicLooping3d";
 };
 
 
@@ -184,10 +190,9 @@ package WaterPump
 		%db = %brick.getDatablock();
 		if (%db.isWaterPump)
 		{
-			%dataID = %brick.eventOutputParameter0_1;
-			if (isObject(%brick.pumpTank))
+			if (isObject(%brick.pumpTank) && %brick.isPoweredOn())
 			{
-				%water = %brickDB.baseRate * %brick.pumpPower 
+				%water = %db.baseRate * %brick.pumpPower 
 					+ mCeil(getDataIDArrayTagValue(%dataID, "rate") * %brick.pumpPower * %brick.pumpPower * %db.pumpRate);
 			}
 			else
@@ -195,7 +200,16 @@ package WaterPump
 				%water = 0;
 			}
 
-			%energyUse = %db.energyUse + getDataIDArrayTagValue(%dataID, "rate") * %db.pumpPowerMod;
+			if (%brick.isPoweredOn())
+			{
+				%energyUse = %db.energyUse + getDataIDArrayTagValue(%dataID, "rate") * %db.pumpPowerMod;
+			}
+			else
+			{
+				%energyUse = 0;
+				%brick.pumpPower = 0;
+			}
+
 			%power = mFloor(%brick.pumpPower * 100);
 			if (%power < 50) %color = "\c0";
 			else if (%power < 100) %color = "\c3";
@@ -217,7 +231,8 @@ package WaterPump
 	{
 		if (%brick.getDatablock().isWaterPump)
 		{
-			%db = brick.getDatablock();
+			%db = %brick.getDatablock();
+			%dataID = %brick.eventOutputParameter0_1;
 			if (!isObject(%brick.pumpTank))
 			{
 				%brick.pumpTank = checkForTank(%brick);
@@ -228,6 +243,7 @@ package WaterPump
 			}
 
 			%power = %db.energyUse + getDataIDArrayTagValue(%dataID, "rate") * %db.pumpPowerMod;
+            %brick.updateStorageMenu(%dataID);
 			return %power;
 		}
 		return parent::getEnergyUse(%brick);
@@ -271,15 +287,30 @@ function decreasePumpRate(%cl, %menu, %option)
 
 function pumpWater(%brick, %powerRatio)
 {
-	%db = %brick.getDatablock();
-	%dataID = %brick.eventOutputParameter0_1;
-	%water = %brickDB.baseRate * %powerRatio 
-		+ mCeil(getDataIDArrayTagValue(%dataID, "rate") * %powerRatio * %powerRatio * %db.pumpRate);
-	if (isObject(%brick.pumpTank))
-	{
-		%brick.pumpTank.setWaterLevel(%brick.pumpTank.waterLevel + %water);
-	}
-	%brick.pumpPower = %powerRatio;
+    %db = %brick.getDatablock();
+    %dataID = %brick.eventOutputParameter0_1;
+    %water = %db.baseRate * %powerRatio 
+        + mCeil(getDataIDArrayTagValue(%dataID, "rate") * %powerRatio * %powerRatio * %db.pumpRate);
+    if (isObject(%brick.pumpTank))
+    {
+        %brick.pumpTank.setWaterLevel(%brick.pumpTank.waterLevel + %water);
+    }
+    %brick.pumpPower = %powerRatio;
+
+    if (%powerRatio > 0)
+    {
+        if (!isObject(%brick.audioEmitter))
+        {
+            %brick.setMusic("WaterPumpOnSound".getID());
+        }
+    }
+    else if (%powerRatio <= 0)
+    {
+        if (isObject(%brick.audioEmitter))
+        {
+            %brick.setMusic("");
+        }
+    }
 }
 
 function checkForTank(%pump)
@@ -326,3 +357,18 @@ function checkForTank(%pump)
 	}
 	return 0;
 }
+
+
+
+datablock AudioProfile(WaterPumpSound : BatteryLoopSound)
+{
+    description = AudioMusicLoopingLoud3d;
+    preload = true;
+    uiName = "";
+};
+
+datablock AudioDescription(AudioMusicLoopingLoud3d : AudioMusicLooping3d)
+{
+    volume = 1;
+    maxDistance = 20;
+};
