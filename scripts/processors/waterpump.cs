@@ -21,8 +21,8 @@ datablock fxDTSBrickData(brickMediumPumpData)
 	isPoweredProcessor = 1;
 	energyUse = 2;
 	pumpPowerMod = 2;
-	baseRate = 20;
-	pumpRate = 15;
+	baseRate = 100;
+	pumpRate = 50;
 	maxRate = 4;
 	powerFunction = "pumpWater";
 
@@ -55,8 +55,8 @@ datablock fxDTSBrickData(brickLargePumpData)
 	isPoweredProcessor = 1;
 	energyUse = 3;
 	pumpPowerMod = 2;
-	baseRate = 20;
-	pumpRate = 20;
+	baseRate = 150;
+	pumpRate = 100;
 	maxRate = 6;
 	powerFunction = "pumpWater";
 
@@ -301,7 +301,7 @@ function pumpWater(%brick, %powerRatio)
     {
         if (!isObject(%brick.audioEmitter))
         {
-            %brick.setMusic("WaterPumpOnSound".getID());
+            %brick.setMusic("WaterPumpSound".getID());
         }
     }
     else if (%powerRatio <= 0)
