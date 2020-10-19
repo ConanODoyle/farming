@@ -135,13 +135,19 @@ function ReclaimerImage::onFire(%this, %obj, %slot)
 			%item.setTransform(%hit.getPosition() SPC getRandomRotation());
 			%item.setVelocity(%vel);
 		}
+		%nutrients = %hit.getNutrients();
 		%hit.delete();
 
 		if (getPlantData(%type, "experienceCost") > 0)
 		{
-			%experienceCost = mCeil(getPlantData(%type, "experienceCost") / 2);
-			messageClient(%cl, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed the plant and received \c3" @ %experienceCost @ "\c6 experience back!");
-			%cl.addExperience(%experienceCost);
+			%harvestCount = getWord(%nutrients, 1);
+			%totalHarvestCount = getPlantData(%type, %stage, "harvestMax");
+			%experienceCost = mCeil(getPlantData(%type, "experienceCost") / 2 * (%totalHarvestCount - %harvestCount - 1) / %totalHarvestCount);
+			if (%experienceCost > 0)
+			{
+				messageClient(%cl, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed the plant and received \c3" @ %experienceCost @ "\c6 experience back!");
+				%cl.addExperience(%experienceCost);
+			}
 		}
 	}
 }
