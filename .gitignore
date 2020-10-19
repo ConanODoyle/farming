@@ -2,3 +2,4 @@ debug/console.log
 crops/bricks/*.log
 persistence/*
 *.zip
+*.sublime-workspace
