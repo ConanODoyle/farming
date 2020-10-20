@@ -298,17 +298,34 @@ function powerCheck(%brick)
 				{
 					%gen.setMusic("BatteryLoopSound".getID());
 				}
+				if (%gen.lastCalledEvent !$= "On")
+				{
+					%gen.onGeneratorPoweredOn();
+					%gen.lastCalledEvent = "On";
+				}
 				%gen.updateStorageMenu(%genDataID);
 			}
 			else if (isObject(%gen.audioEmitter))
 			{
 				%gen.setMusic("");
+
+				if (%gen.lastCalledEvent !$= "Off")
+				{
+					%gen.onGeneratorPoweredOff();
+					%gen.lastCalledEvent = "Off";
+				}
 			}
 			%genOnCount++;
 		}
 		else if (isObject(%gen.audioEmitter))
 		{
 			%gen.setMusic("");
+
+			if (%gen.lastCalledEvent !$= "Off")
+			{
+				%gen.onGeneratorPoweredOff();
+				%gen.lastCalledEvent = "Off";
+			}
 		}
 	}
 
@@ -1067,6 +1084,28 @@ function drawControlNetwork(%PowerDataID, %simSet, %focusObj)
 
 	return %simSet;
 }
+
+function fxDTSBrick::onGeneratorPoweredOn(%this)
+{
+	$InputTarget_["Self"] = %this;
+	$InputTarget_["Player"] = 0;
+	$InputTarget_["Client"] = 0;
+	$InputTarget_["MiniGame"] = getMiniGameFromObject(%this);
+
+	%this.processInputEvent("onGeneratorPoweredOn", 0);
+}
+registerInputEvent("fxDTSBrick", "onGeneratorPoweredOn", "Self fxDTSBrick" TAB "MiniGame MiniGame");
+
+function fxDTSBrick::onGeneratorPoweredOff(%this)
+{
+	$InputTarget_["Self"] = %this;
+	$InputTarget_["Player"] = 0;
+	$InputTarget_["Client"] = 0;
+	$InputTarget_["MiniGame"] = getMiniGameFromObject(%this);
+
+	%this.processInputEvent("onGeneratorPoweredOff", 0);
+}
+registerInputEvent("fxDTSBrick", "onGeneratorPoweredOff", "Self fxDTSBrick" TAB "MiniGame MiniGame");
 
 
 
