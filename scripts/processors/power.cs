@@ -426,7 +426,7 @@ function powerCheck(%brick)
 		}
 	}
 
-	%powerRatio = (%totalGeneratedPower + %batteryDischarge) / %totalPowerUsage;
+	%powerRatio = getMin((%totalGeneratedPower + %batteryDischarge) / %totalPowerUsage, 1);
 	if (%totalPowerUsage <= 0)
 	{
 		%powerRatio = 0;
