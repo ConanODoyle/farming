@@ -771,7 +771,7 @@ package StorageBricks
 
 	function serverCmdClearEvents(%client)
 	{
-		if (isObject(%client) && !%client.isAdmin)
+		if (isObject(%client) && !(%client.isAdmin || %client.isBuilder))
 		{
 			return;
 		}
@@ -783,7 +783,7 @@ package StorageBricks
 
 	function serverCmdAddEvent(%client, %enabled, %inputEventIdx, %delay, %targetIdx, %NTNameIdx, %outputEventIdx, %par1, %par2, %par3, %par4)
 	{
-		if (isObject(%b = %client.wrenchBrick) && %b.storageAddEvent == -1)
+		if (isObject(%b = %client.wrenchBrick) && %b.storageAddEvent == -1 && !%client.isBuilder)
 		{
 			return;
 		}
