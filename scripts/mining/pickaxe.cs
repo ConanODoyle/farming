@@ -75,6 +75,6 @@ function fxDTSBrick::onPickaxeHit(%this, %pl)
 	$InputTarget_["Client"] = %cl;
 	$InputTarget_["MiniGame"] = getMiniGameFromObject(%this);
 
-	%this.processInputEvent("onPickaxeHit", %client);
+	%this.processInputEvent("onPickaxeHit", %cl);
 }
 registerInputEvent("fxDTSBrick", "onPickaxeHit", "Self fxDTSBrick" TAB "Player Player" TAB "Client GameConnection" TAB "MiniGame MiniGame");
