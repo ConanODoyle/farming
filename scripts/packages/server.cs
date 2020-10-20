@@ -21,6 +21,7 @@ datablock ItemData(ShippingPackageItem)
 
     hasDataID = true;
     canPickupMultiple = true;
+    cannotSpawn = 1;
 };
 
 datablock ShapeBaseImageData(ShippingPackageImage)
