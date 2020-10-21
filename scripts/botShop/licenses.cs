@@ -7,7 +7,7 @@ function GameConnection::hasLicense(%cl, %type)
 	}
 	if (getSubStr(%type, strLen(%type) - 4, 4) $= "seed")
 	{
-		%type = getSubStr(%type, strLen(%type) - 4);
+		%type = getSubStr(%type, 0, strLen(%type) - 4);
 	}
 
 	%licenseList = " " @ strLwr($Pref::Farming::License[%cl.bl_id]) @ " ";
@@ -27,7 +27,7 @@ function GameConnection::buyLicense(%cl, %type)
 		%type = getSubStr(%type, strLen(%type) - 4);
 	}
 
-	%price = getPlantData(%type, "licenseCost");
+	%price = getPlantData(%type, 0, "licenseCost");
 	if (%price <= 0)
 	{
 		return 2;
@@ -40,7 +40,7 @@ function GameConnection::buyLicense(%cl, %type)
 	else
 	{
 		%cl.farmingExperience = %cl.farmingExperience - %price | 0;
-		%Pref::Farming::License[%cl.bl_id] = trim($Pref::Farming::License[%cl.bl_id] SPC %type);
+		$Pref::Farming::License[%cl.bl_id] = trim($Pref::Farming::License[%cl.bl_id] SPC %type);
 		return 0;
 	}
 }
@@ -50,7 +50,7 @@ function getLicenseCost(%type)
 	%type = strLwr(trim(%type));
 	if (getSubStr(%type, strLen(%type) - 4, 4) $= "seed")
 	{
-		%type = getSubStr(%type, strLen(%type) - 4);
+		%type = getSubStr(%type, 0, strLen(%type) - 4);
 	}
 	
 	%price = getPlantData(%type, "licenseCost");
