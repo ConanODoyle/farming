@@ -24,7 +24,7 @@ $BotDialogue[$count++] = new ScriptObject(PowerSystemDialogue1)
 	messageCount = 2;
 	message[0] = "A shipment of electrical equipment has arrived lately... I hear it'll help a lot with optimizing your farm.";
 	messageTimeout[0] = 2;
-	message[1] = "Powered indoor lights and water pumps allow you to grow stuff indoors!";
+	message[1] = "Powered water pumps to fill tanks, and indoor lights that allow you to grow stuff indoors!";
 	messageTimeout[1] = 2;
 };
 
@@ -51,7 +51,7 @@ $BotDialogue[$count++] = new ScriptObject(ToolDialogue1)
 	messageCount = 2;
 	message[0] = "Ever since we moved to this new area, we've been getting worse tools... they keep breaking down!";
 	messageTimeout[0] = 2;
-	message[1] = "Thankfully our local toolsmith can help repair them! He can be found in the workshop in town";
+	message[1] = "Thankfully our local toolsmith can help repair them! He can be found in the workshop in town.";
 	messageTimeout[1] = 2;
 };
 
