@@ -27,6 +27,7 @@ $PurchaseDialogue[$count++] = new ScriptObject(PurchaseDialogueCore)
 	response["CanPurchase"] = "PurchaseConfirmation";
 	response["CanPurchaseSingular"] = "PurchaseConfirmationSingular";
 	response["InsufficientMoney"] = "PurchaseFail";
+	response["LicenseRequired"] = "LicenseRequiredDialogue";
 	response["InsufficientMoneySingular"] = "PurchaseFailSingular";
 	response["InvalidAmount"] = "PurchaseInvalid";
 	response["Quit"] = "ExitResponse";
@@ -93,7 +94,17 @@ $PurchaseDialogue[$count++] = new ScriptObject(PurchaseInvalid)
 {
 	messageCount = 1;
 	message[0] = "I can't sell you %amount% %product%s...";
-	messageTimeout[0] = 1;
+	messageTimeout[0] = 2;
+
+	botTalkAnim = 1;
+	dialogueTransitionOnTimeout = "ExitResponse";
+};
+
+$PurchaseDialogue[$count++] = new ScriptObject(LicenseRequiredDialogue)
+{
+	messageCount = 1;
+	message[0] = "You need a license to buy those! Get one from the Farming Overseer in City Hall!";
+	messageTimeout[0] = 2;
 
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "ExitResponse";
@@ -148,6 +159,12 @@ function purchaseResponseParser(%dataObj, %msg)
 	if (%num > 0)
 	{
 		%price = getBuyPrice(%product.uiName, %num);
+	}
+
+	%type = %dataObj.sellItem.stackType;
+	if (getLicenseCost(%type) > 0 && !%pl.client.hasLicense(%type))
+	{
+		return "LicenseRequired";
 	}
 
 	%dataObj.var_amount = %num;
