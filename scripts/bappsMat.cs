@@ -23,6 +23,7 @@ function alphaNumericToPrintID(%char) {
 	switch$ (%char) {
 		case "&": %char = "-and";
 		case "'": %char = "-apostrophe";
+		case "*": %char = "-asterisk";
 		case "@": %char = "-at";
 		case "!": %char = "-bang";
 		case "^": %char = "-caret";
