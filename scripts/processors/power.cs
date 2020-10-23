@@ -203,7 +203,7 @@ function powerTick(%index)
 		return;
 	}
 
-	for (%i = 0; %i < %count; %i++)
+	for (%i = 0; %i < 32; %i++)
 	{
 		if (%index >= %count)
 		{
@@ -214,6 +214,7 @@ function powerTick(%index)
 
 		if (%powerDataID $= "")
 		{
+			%index++;
 			continue;
 		}
 
