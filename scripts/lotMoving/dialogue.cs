@@ -16,7 +16,7 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManageDialogueStart)
 {
 	response["Quit"] = "ExitResponse";
 	messageCount = 1;
-	message[0] = "Welcome to City Hall! I'm the Lot Manager, how can I help?";
+	message[0] = "Welcome to City Hall! I'm the Lot Manager!";
 	messageTimeout[0] = 1;
 	functionOnStart = "setupLotManagement";
 
@@ -198,9 +198,50 @@ function lotManageInitialParser(%dataObj, %msg)
 	return "";
 }
 
+function hasLoadedLot(%bl_id)
+{
+	%bg = "Brickgroup_" @ %bl_id;
+	
+	%singleLot = 0;
+	if (isObject(%bg))
+	{
+		for (%i = 0; %i < getWordCount(%bg.lotList); %i++)
+		{
+			%b = getWord(%bg.lotList, %i);
+			if (%b.getDatablock().isLot && %b.getDatablock().isSingle)
+			{
+				%singleLot = 1;
+				break;
+			}
+		}
+	}
+
+	if (isFile(***LOT_FILE***))
+	{
+		return %singleLot;
+	}
+	else if (!%singleLot) //no file, no lot at all
+	{
+		return 2;
+	}
+	else
+	{
+		return 1;
+	}
+}
+
 function sendPlayerToFreeLotLocation(%dataObj)
 {
-	talk("If you're seeing this, irrel has work to do...");
+	%count = Brickgroup_888888.getCount();
+	for (%i = 0; %i < %count; %i++)
+	{
+		%b = Brickgroup_888888.getObject(%i);
+		if (%b.getDatablock().isLot && %b.getDatablock().isSingle)
+		{
+			%found = %b;
+			break;
+		}
+	}
 }
 
 function yesNoPriceResponseParser(%dataObj, %msg)
@@ -208,7 +249,7 @@ function yesNoPriceResponseParser(%dataObj, %msg)
 	%lwr = " " @ strLwr(%msg) @ " ";
 	%lwr = stripChars(%lwr, "!@#$%^&*()[];,.<>/?[]{}\\|-_=+");
 	%yes = "yes\tyeah\tye\tyea\ty\tok\talright\ti guess\tig";
-	%no = "no\tn\tnope\tcancel\tquit\tfuck off";
+	%no = "no\tn\tnope\tcancel\tquit";
 
 	%pl = %dataObj.player;
 	%cl = %pl.client;
