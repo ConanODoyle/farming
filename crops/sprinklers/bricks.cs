@@ -15,11 +15,11 @@ datablock fxDTSBrickData(brickSmallSprinklerData)
 	cost = 200;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
-	boxSize = "4 4 1";
+	boxSize = "2 2 1";
 	waterPerSecond = 20;
 };
 
-datablock fxDTSBrickData(brickSmall SprinklerDownData)
+datablock fxDTSBrickData(brickSmallSprinklerDownData)
 {
 	category = "Farming";
 	subCategory = "Sprinklers";
@@ -50,7 +50,7 @@ datablock fxDTSBrickData(brickMedSprinklerData)
 	cost = 500;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
-	boxSize = "8 8 1";
+	boxSize = "4 4 1";
 	waterPerSecond = 40;
 };
 
@@ -67,7 +67,7 @@ datablock fxDTSBrickData(brickLargeSprinklerData)
 	cost = 800;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.4";
-	boxSize = "12 12 1";
+	boxSize = "6 6 1";
 	waterPerSecond = 60;
 };
 
@@ -118,6 +118,6 @@ datablock fxDTSBrickData(brickSwaySprinklerData)
 	cost = 600;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
-	boxSize = "8 4 1";
+	boxSize = "8 2 1";
 	waterPerSecond = 60;
 };
