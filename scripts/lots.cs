@@ -14,6 +14,7 @@ datablock fxDTSBrickData(brick32x32LotData : brick32x32fData)
 
 datablock fxDTSBrickData(brick32x32SingleLotData : brick32x32fData)
 {
+	brickFile = "./core/resources/basementLot.blb";
 	category = "Baseplates";
 	subcategory = "Lots";
 	uiName = "32x32 Single Lot";

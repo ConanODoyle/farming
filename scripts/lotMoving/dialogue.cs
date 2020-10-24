@@ -216,7 +216,7 @@ function hasLoadedLot(%bl_id)
 		}
 	}
 
-	if (isFile(***LOT_FILE***))
+	if (isFile("lotpath"))
 	{
 		return %singleLot;
 	}
