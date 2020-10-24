@@ -154,6 +154,46 @@ datablock AudioProfile(ShoppingMusicSound)
 	uiName = "Music - Shopping";
 };
 
+datablock AudioProfile(SpelunkyShopASound)
+{
+	filename = "./Music/Spelunky_Shop_A.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Music - Spelunky Shop A";
+};
+
+datablock AudioProfile(SpelunkyShopBSound)
+{
+	filename = "./Music/Spelunky_Shop_B.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Music - Spelunky Shop B";
+};
+
+datablock AudioProfile(SpelunkyShopCSound)
+{
+	filename = "./Music/Spelunky_Shop_C.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Music - Spelunky Shop C";
+};
+
+datablock AudioProfile(HomeDepotSound)
+{
+	filename = "./Music/home_depot.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Music - Home Depot";
+};
+
+datablock AudioProfile(SexyDepotSound)
+{
+	filename = "./Music/Sexy_Depot.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Sexy Depot";
+};
+
 
 
 
