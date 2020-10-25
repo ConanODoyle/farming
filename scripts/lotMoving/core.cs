@@ -159,7 +159,7 @@ function restoreLotBricks(%dataObj)
 	for (%i = 0; %i < %dataObj.count; %i++)
 	{
 		if (%i == 0) %db = "brick32x32SingleLotData";
-		else %db = "brick32x32LotData";
+		else %db = "brick32x32LotRaisedData";
 
 		%b = new fxDTSBrick() {
 			dataBlock = %db;

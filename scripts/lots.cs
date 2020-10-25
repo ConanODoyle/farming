@@ -13,6 +13,17 @@ datablock fxDTSBrickData(brick32x32LotData : brick32x32fData)
 	isLot = 1;
 };
 
+datablock fxDTSBrickData(brick32x32LotRaisedData : brick32x32fData)
+{
+	brickFile = "./core/resources/normalLotRaised.blb";
+	category = "";
+	subcategory = "";
+	uiName = "32x32 Lot Raised";
+
+	cost = -1;
+	isLot = 1;
+};
+
 datablock fxDTSBrickData(brick32x32SingleLotData : brick32x32fData)
 {
 	brickFile = "./core/resources/basementLot.blb";
@@ -456,6 +467,7 @@ function serverCmdBuyLot(%cl)
 	%cl.addExperience(-1 * %costExp);
 	clearLotRecursive(%hit, %cl);
 	%cl.brickGroup.add(%hit);
+	%hit.setDatablock(brick32x32LotData);
 	%hit.updateGroupLotCount(1);
 	%hit.setTrusted(1);
 	%cl.repeatBuyLot = 0;
@@ -527,6 +539,7 @@ function serverCmdSellLot(%cl, %force)
 
 	%hit.updateGroupLotCount(-1);
 	BrickGroup_888888.add(%hit);
+	%hit.setDatablock(brick32x32LotRaisedData);
 	clearLotRecursive(%hit, %cl);
 	fixLotColor(%hit);
 	// %cl.refundRatio = 0;
@@ -618,6 +631,7 @@ function serverCmdSellAllLots(%cl)
 		%lot = getWord(%list, %i);
 		clearLotRecursive(%lot, %cl);
 		BrickGroup_888888.add(%lot);
+		%lot.setDatablock(brick32x32LotRaisedData);
 		fixLotColor(%lot);
 		if (%sellExperience)
 		{
