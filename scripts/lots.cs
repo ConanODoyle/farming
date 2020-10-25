@@ -1,9 +1,10 @@
 //building & brickgroup
 
-$maxLotBuildHeight = 30;
+$maxLotBuildHeight = 40;
 
 datablock fxDTSBrickData(brick32x32LotData : brick32x32fData)
 {
+	brickFile = "./core/resources/normalLot.blb";
 	category = "Baseplates";
 	subcategory = "Lots";
 	uiName = "32x32 Lot";

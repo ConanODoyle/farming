@@ -216,7 +216,7 @@ function hasLoadedLot(%bl_id)
 		}
 	}
 
-	if (isFile("lotpath"))
+	if (isFile($Pref::Farming::LastLotAutosave[%bl_id])) //has a lot save, return lot value
 	{
 		return %singleLot;
 	}
@@ -248,8 +248,8 @@ function yesNoPriceResponseParser(%dataObj, %msg)
 {
 	%lwr = " " @ strLwr(%msg) @ " ";
 	%lwr = stripChars(%lwr, "!@#$%^&*()[];,.<>/?[]{}\\|-_=+");
-	%yes = "yes\tyeah\tye\tyea\ty\tok\talright\ti guess\tig";
-	%no = "no\tn\tnope\tcancel\tquit";
+	%yes = "yes\tyeah\tye\tyea\ty\tok\talright\ti guess\tig\tsure";
+	%no = "no\tn\tnope\tcancel\tquit\tfuck off";
 
 	%pl = %dataObj.player;
 	%cl = %pl.client;
