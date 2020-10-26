@@ -198,6 +198,11 @@ function lotManageInitialParser(%dataObj, %msg)
 	return "";
 }
 
+function hasSavedLot(%bl_id)
+{
+	return isFile($Pref::Farming::LastLotAutosave[%bl_id]);
+}
+
 function hasLoadedLot(%bl_id)
 {
 	%bg = "Brickgroup_" @ %bl_id;
@@ -216,7 +221,7 @@ function hasLoadedLot(%bl_id)
 		}
 	}
 
-	if (isFile($Pref::Farming::LastLotAutosave[%bl_id])) //has a lot save, return lot value
+	if (hasSavedLot()) //has a lot save, return lot value
 	{
 		return %singleLot;
 	}
@@ -232,6 +237,8 @@ function hasLoadedLot(%bl_id)
 
 function sendPlayerToFreeLotLocation(%dataObj)
 {
+	%pl = %dataObj.player;
+
 	%count = Brickgroup_888888.getCount();
 	for (%i = 0; %i < %count; %i++)
 	{
@@ -241,6 +248,13 @@ function sendPlayerToFreeLotLocation(%dataObj)
 			%found = %b;
 			break;
 		}
+	}
+
+	if (isObject(%found))
+	{
+		%pl.setTransform(%found.getSpawnPoint());
+		%pl.spawnExplosion(spawnProjectile, 1);
+		%pl.setWhiteout(1);
 	}
 }
 
