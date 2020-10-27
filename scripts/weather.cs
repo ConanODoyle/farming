@@ -434,7 +434,7 @@ function heatLoop(%index)
 			%pos = vectorAdd(%pos, %x SPC %y SPC 0);
 			%ray = containerRaycast(%pos, vectorAdd(%pos, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
 			%hit = getWord(%ray, 0);
-			while (%hit.getDatablock().isPlant)
+			while (isObject(%hit) && %hit.getDatablock().isPlant)
 			{
 				%pos = getWords(%ray, 1, 3);
 				%ray = containerRaycast(%pos, vectorAdd(%pos, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %hit);

@@ -200,7 +200,7 @@ function lotManageInitialParser(%dataObj, %msg)
 
 function hasSavedLot(%bl_id)
 {
-	return isFile($Pref::Farming::LastLotAutosave[%bl_id]);
+	return isFile("saves/Autosaver/" @ $Pref::Farming::LastLotAutosave[%bl_id] @ ".bls");
 }
 
 function hasLoadedLot(%bl_id)
