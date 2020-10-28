@@ -221,7 +221,7 @@ function hasLoadedLot(%bl_id)
 		}
 	}
 
-	if (hasSavedLot()) //has a lot save, return lot value
+	if (hasSavedLot(%bl_id)) //has a lot save, return lot value
 	{
 		return %singleLot;
 	}

@@ -129,6 +129,11 @@ function clearLots(%bg)
 			Brickgroup_888888.add(%b);
 			fixLotColor(%b);
 
+			if (!%b.getDatablock().isSingle)
+			{
+				%b.setDatablock("brick32x32LotRaisedData");
+			}
+
 			schedule(100, %b, clearLotRecursive, %b);
 		}
 		else

@@ -454,6 +454,11 @@ function serverCmdBuyLot(%cl)
 		messageClient(%cl, '', "You can only have one connected group of lots!");
 		return;
 	}
+	else if (hasSavedLot(%cl.bl_id) && !%hit.getDatablock().isSingle)
+	{
+		messageClient(%cl, '', "You cannot load your lot on a non-single lot!");
+		return;
+	}
 	else if (%cl.repeatBuyLot != %hit)
 	{
 		messageClient(%cl, '', "\c5This lot will cost you \c3" @ %costString @ "\c5. Repeat /buylot to confirm.");
@@ -467,7 +472,10 @@ function serverCmdBuyLot(%cl)
 	%cl.addExperience(-1 * %costExp);
 	clearLotRecursive(%hit, %cl);
 	%cl.brickGroup.add(%hit);
-	%hit.setDatablock(brick32x32LotData);
+	if (!%hit.getDatablock().isSingle)
+	{
+		%hit.setDatablock(brick32x32LotData);
+	}
 	%hit.updateGroupLotCount(1);
 	%hit.setTrusted(1);
 	%cl.repeatBuyLot = 0;
@@ -501,6 +509,11 @@ function serverCmdSellLot(%cl, %force)
 	else if (%hit.getGroup() != %cl.brickGroup && !%force)
 	{
 		messageClient(%cl, '', "You do not own this lot!");
+		return;
+	}
+	else if (getWordCount(%cl.brickgroup.lotList) > 1 && %hit.getDatablock().isSingle)
+	{
+		messageClient(%cl, '', "You cannot sell a single lot without selling all your other lots first!");
 		return;
 	}
 	else if (%cl.repeatSellLot != %hit)
@@ -539,7 +552,11 @@ function serverCmdSellLot(%cl, %force)
 
 	%hit.updateGroupLotCount(-1);
 	BrickGroup_888888.add(%hit);
-	%hit.setDatablock(brick32x32LotRaisedData);
+	if (!%hit.getDatablock().isSingle)
+	{
+		%hit.setDatablock(brick32x32LotRaisedData);
+		%cl.player.addVelocity("0 0 15");
+	}
 	clearLotRecursive(%hit, %cl);
 	fixLotColor(%hit);
 	// %cl.refundRatio = 0;
@@ -631,7 +648,10 @@ function serverCmdSellAllLots(%cl)
 		%lot = getWord(%list, %i);
 		clearLotRecursive(%lot, %cl);
 		BrickGroup_888888.add(%lot);
-		%lot.setDatablock(brick32x32LotRaisedData);
+		if (!%lot.getDatablock().isSingle)
+		{
+			%lot.setDatablock(brick32x32LotRaisedData);
+		}
 		fixLotColor(%lot);
 		if (%sellExperience)
 		{
@@ -639,6 +659,7 @@ function serverCmdSellAllLots(%cl)
 		}
 	}
 	%cl.repeatSellAllLots = 0;
+	%cl.player.addVelocity("0 0 15");
 
 	%bg.lotCount = 0;
 	%bg.refreshLotList();
@@ -739,8 +760,8 @@ function getLotCount(%bg)
 
 function clearLotRecursive(%lotBrick, %client)
 {
-	%top = vectorAdd(%lotBrick.getPosition(), "0 0 0.1");
-	%pos = vectorAdd(%top, "0 0 " @ $maxLotBuildHeight / 2);
+	%base = vectorAdd(%lotBrick.getPosition(), "0 0 " @ -0.1 * %lotBrick.getDatablock().brickSizeZ);
+	%pos = vectorAdd(%base, "0 0 " @ $maxLotBuildHeight / 2);
 	%box = %lotBrick.getDatablock().brickSizeX * 0.5 - 0.05;
 	%box = %box SPC %box SPC ($maxLotBuildHeight - 0.05);
 
@@ -755,6 +776,10 @@ function clearLotRecursive(%lotBrick, %client)
 			//we're done
 			%client.refundRatio = 0;
 			return;
+		}
+		else if (%next.dataBlock.isLot)
+		{
+			continue;
 		}
 
 
@@ -786,7 +811,7 @@ function getSellPriceSingleWrapper(%lotBrick, %client, %exp)
 	%top = vectorAdd(%lotBrick.getPosition(), "0 0 0.1");
 	%pos = vectorAdd(%top, "0 0 100");
 	%box = %lotBrick.getDatablock().brickSizeX * 0.5 - 0.05;
-	%box = %box SPC %box SPC 199.95;
+	%box = %box SPC %box SPC $maxLotBuildHeight;
 
 	initContainerBoxSearch(%pos, %box, $TypeMasks::fxBrickAlwaysObjectType);
 	getSellPriceSingleRecursive(%lotBrick, %client, %exp);
@@ -827,7 +852,7 @@ function getSellPriceMultiWrapper(%cl, %num, %exp)
 	%top = vectorAdd(%lotBrick.getPosition(), "0 0 0.1");
 	%pos = vectorAdd(%top, "0 0 100");
 	%box = %lotBrick.getDatablock().brickSizeX * 0.5 - 0.05;
-	%box = %box SPC %box SPC 199.95;
+	%box = %box SPC %box SPC $maxLotBuildHeight;
 
 	initContainerBoxSearch(%pos, %box, $TypeMasks::fxBrickAlwaysObjectType);
 	getSellPriceMultiRecursive(%cl, %num, %exp);
