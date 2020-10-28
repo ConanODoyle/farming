@@ -128,7 +128,7 @@ function bottomprintInfo(%cl)
 			else
 			{
 				%start = %pl.getHackPosition();
-				%end = getWords(%start, 0, 1) SPC 0;
+				%end = vectorSub(%start, "0 0 " @ ($maxLotBuildHeight - 0.2 * 27));
 
 				%ray = containerRaycast(%start, %end, $Typemasks::fxBrickAlwaysObjectType);
 
