@@ -4,7 +4,7 @@ function serverCmdStuck(%cl)
 	{
 		if (isObject(%pl = %cl.player))
 		{
-			%pl.setTransform(vectorAdd(%pl.getTransform(), "0 0 2.5") SPC getWords(%pl.getTransform(), 3, 6));
+			%pl.setTransform(vectorAdd(%pl.getTransform(), "0 0 4") SPC getWords(%pl.getTransform(), 3, 6));
 			%cl.nextUnstuckTime = $Sim::Time + 3;
 		}
 	}
