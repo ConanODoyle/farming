@@ -462,6 +462,14 @@ datablock fxDTSBrickData(brickDaisy2CropData : brickDaisy0CropData)
 	stage = 2;
 };
 
+datablock fxDTSBrickData(brickDaisy3CropData : brickDaisy0CropData)
+{
+	uiName = "Daisy3";
+
+	brickFile = "./bricks/Daisy3.blb";
+	stage = 3;
+};
+
 
 //lily
 datablock fxDTSBrickData(brickLily0CropData)
@@ -491,6 +499,14 @@ datablock fxDTSBrickData(brickLily2CropData : brickLily0CropData)
 	stage = 2;
 };
 
+datablock fxDTSBrickData(brickLily3CropData : brickLily0CropData)
+{
+	uiName = "Lily3";
+
+	brickFile = "./bricks/Lily3.blb";
+	stage = 3;
+};
+
 
 //rose
 datablock fxDTSBrickData(brickRose0CropData)
@@ -518,6 +534,14 @@ datablock fxDTSBrickData(brickRose2CropData : brickRose0CropData)
 
 	brickFile = "./bricks/Rose2.blb";
 	stage = 2;
+};
+
+datablock fxDTSBrickData(brickRose3CropData : brickRose0CropData)
+{
+	uiName = "Rose3";
+
+	brickFile = "./bricks/Rose3.blb";
+	stage = 3;
 };
 
 
