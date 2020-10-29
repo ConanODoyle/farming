@@ -194,6 +194,22 @@ datablock AudioProfile(SexyDepotSound)
 	uiName = "Sexy Depot";
 };
 
+datablock AudioProfile(ZeusShrine1Sound)
+{
+	filename = "./zeushrine1.wav";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Zeushrine 1";
+};
+
+datablock AudioProfile(ZeusShrine2Sound)
+{
+	filename = "./zeushrine2.wav";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Zeushrine 2";
+};
+
 
 
 
