@@ -28,7 +28,7 @@ function saveLotBLID(%bl_id)
 	return 0;
 }
 
-function loadLotAutosave(%name, %position)
+function loadLotAutosave(%name, %dataObj, %rotation)
 {
 	%path = $Pref::Server::AS_["Directory"] @ %name @ ".bls";
 	%file = new FileObject();
@@ -39,69 +39,35 @@ function loadLotAutosave(%name, %position)
 	%file.close();
 	%file.delete();
 	%offset = getField(%desc, 1);
+	%position = %dataObj.pos[0];
 
 	if (%position !$= "")
 	{
-		$loadOffset = vectorSub(%position, %offset);
+		%offset = vectorSub(%position, %offset);
 	}
 	else
 	{
-		$loadOffset = "0 0 0";
+		%offset = "0 0 0";
 	}
-	talk("Set loadoffset to " @ $loadOffset @ " - description: " @ %desc);
+	talk("Set loadoffset to " @ %offset @ " - description: " @ %desc);
 	// return;
-	loadAutosave(%name);
+	echo("loadLotAutosave: " @ %dataObj);
+	farmingDirectLoadLot(%path, %dataObj, %offset, %position, %rotation, 3, 1);
 }
 
-function loadLastLotAutosave(%bl_id, %position)
+function loadLastLotAutosave(%bl_id, %dataObj, %rotation)
 {
 	if ($Pref::Farming::LastLotAutosave[%bl_id] !$= "")
 	{
-		loadLotAutosave($Pref::Farming::LastLotAutosave[%bl_id], %position);
-		%brickGroup = "Brickgroup_" @ %bl_id;
-		if (isObject(%brickGroup))
-		{
-			$CurrentLotLoading = %brickgroup;
-			%brickgroup.isLoadingLot = 1;
-		}
-		talk("Loading lot " @ %bl_id @ " at " @ %position @ "...");
+		loadLotAutosave($Pref::Farming::LastLotAutosave[%bl_id], %dataObj, %rotation);
+		talk("Loading lot " @ %bl_id @ " at " @ %dataObj.pos[0] @ "...");
 		return;
 	}
 	echo("[" @ getDateTime() @ "] loadLastLotAutosave: No last lot found for BLID " @ %bl_id @ "!");
 }
 
-function resetLotLoading()
-{
-	$CurrentLotLoading.isLoadingLot = 0;
-	$LotLoadingFlag = 0;
-	$CurrentLotLoading = "";
-	$loadOffset = "0 0 0";
-}
-
 package FarmingAutosaverLoader
 {
-	function serverDirectSaveFileLoad(%fileName, %colorMethod, %dirName, %ownership, %silent)
-	{
-		talk("direct save file load called");
-		if (isObject($CurrentLotLoading))
-		{	
-			$LotLoadingFlag = 1;
-			talk("Lot currently loading, please wait...");
-			return;
-		}
-
-		return parent::serverDirectSaveFileLoad(%fileName, %colorMethod, %dirName, %ownership, %silent);
-	}
-
-	function ServerLoadSaveFile_End()
-	{
-		parent::ServerLoadSaveFile_End();
-
-		talk("Loading complete");
-
-		schedule(100, 0, resetLotLoading);
-	}
-
 	function Autosaver_Begin(%name, %bl_id)
 	{
 		if ($Server::AS["InUse"])

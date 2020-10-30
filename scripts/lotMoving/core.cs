@@ -1,5 +1,12 @@
 function unloadLot(%bl_id)
 {
+	if (hasLoadedLot(%bl_id) != 1)
+	{
+		talk("ERROR: unloadLot - BLID " @ %bl_id @ " does not have a lot loaded!");
+		error("ERROR: unloadLot - BLID " @ %bl_id @ " does not have a lot loaded!");
+		return;
+	}
+
 	%bg = "Brickgroup_" @ %bl_id;
 	if (!isObject(%bg))
 	{
@@ -28,7 +35,7 @@ function unloadLot(%bl_id)
 	}
 }
 
-function loadLot(%bl_id, %lot)
+function loadLot(%bl_id, %lot, %rotation)
 {
 	if (!isObject(%lot) || !%lot.getDatablock().isLot || !%lot.getDatablock().isSingle)
 	{
@@ -77,8 +84,7 @@ function loadLot(%bl_id, %lot)
 	}
 	%dataObj.count = %count;
 
-	loadLastLotAutosave(%bl_id, %dataObj.pos[0]);
-	$LotLoadDataObject = %dataObj;
+	loadLastLotAutosave(%bl_id, %dataObj, %rotation);
 }
 
 package lotMovingPackage
