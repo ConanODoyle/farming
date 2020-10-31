@@ -400,6 +400,27 @@ function getLotCost(%count, %lot)
 	return %cost SPC %expCost;
 }
 
+function serverCmdLoadLot(%cl)
+{
+	%load = hasLoadedLot(%cl);
+	if (%load == 2)
+	{
+		messageClient(%cl, '', "You don't have a lot, or a lot saved! Use /buyLot to buy a single lot for free.");
+		return;
+	}
+	else if (%load == 1)
+	{
+		messageClient(%cl, '', "Your lot is already loaded! You can unload your lot in town.");
+		return;
+	}
+	else if (!hasSavedLot(%cl.bl_id))
+	{
+		messageClient(%cl, '', "You don't have a lot to load!");
+		return;
+	}
+	serverCmdBuyLot(%cl);
+}
+
 function serverCmdBuyLot(%cl)
 {
 	if (!isObject(%pl = %cl.player))
@@ -454,14 +475,21 @@ function serverCmdBuyLot(%cl)
 		messageClient(%cl, '', "You can only have one connected group of lots!");
 		return;
 	}
-	else if (hasSavedLot(%cl.bl_id) && !%hit.getDatablock().isSingle)
+	else if (hasSavedLot(%cl.bl_id) && !%hit.getDatablock().isSingle && !hasLoadedLot(%cl.bl_id))
 	{
 		messageClient(%cl, '', "You cannot load your lot on a non-single lot!");
 		return;
 	}
 	else if (%cl.repeatBuyLot != %hit)
 	{
-		messageClient(%cl, '', "\c5This lot will cost you \c3" @ %costString @ "\c5. Repeat /buylot to confirm.");
+		if (hasSavedLot(%cl.bl_id) && !hasLoadedLot(%cl.bl_id))
+		{
+			messageClient(%cl, '', "\c5Are you sure you want to load your lot here? Repeat /loadLot to confirm.");
+		}
+		else
+		{
+			messageClient(%cl, '', "\c5This lot will cost you \c3" @ %costString @ "\c5. Repeat /buylot to confirm.");
+		}
 		%cl.repeatBuyLot = %hit;
 		cancel(%cl.clearRepeatBuyLotSched);
 		%cl.clearRepeatBuyLotSched = schedule(5000, %cl, eval, %cl @ ".repeatBuyLot = 0;");
