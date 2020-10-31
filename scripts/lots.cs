@@ -400,7 +400,7 @@ function getLotCost(%count, %lot)
 	return %cost SPC %expCost;
 }
 
-function serverCmdLoadLot(%cl)
+function serverCmdLoadLot(%cl, %rotation)
 {
 	%load = hasLoadedLot(%cl);
 	if (%load == 2)
@@ -418,16 +418,18 @@ function serverCmdLoadLot(%cl)
 		messageClient(%cl, '', "You don't have a lot to load!");
 		return;
 	}
-	serverCmdBuyLot(%cl);
+	serverCmdBuyLot(%cl, %rotation);
 }
 
-function serverCmdBuyLot(%cl)
+function serverCmdBuyLot(%cl, %rotation)
 {
 	if (!isObject(%pl = %cl.player))
 	{
 		messageClient(%cl, '', "You are dead!");
 		return;
 	}
+
+	%rotation = %rotation | 0;
 
 	%start = %cl.player.getHackPosition();
 	%end = vectorAdd(%start, "0 0 -10");
@@ -493,6 +495,12 @@ function serverCmdBuyLot(%cl)
 		%cl.repeatBuyLot = %hit;
 		cancel(%cl.clearRepeatBuyLotSched);
 		%cl.clearRepeatBuyLotSched = schedule(5000, %cl, eval, %cl @ ".repeatBuyLot = 0;");
+		return;
+	}
+
+	if (hasSavedLot(%cl.bl_id) && !hasLoadedLot(%cl.bl_id))
+	{
+		loadLot(%cl.bl_id, %lot, %rotation);
 		return;
 	}
 
