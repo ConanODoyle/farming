@@ -182,9 +182,12 @@ function AIPlayer::randomShopLoop(%bot, %selectionCount, %speak, %timeRange, %sh
 			case 2: %str = %prefix @ "\c3" SPC %name @ "\c6: I'm selling ";
 					%sellList = trim(%sellList);
 					%sellListCount = getFieldCount(%sellList);
-					%pre = getFields(%sellList, 0, %sellListCount - 2);
-					%post = getField(%sellList, %sellListCount - 1);
-					%sellList = trim(strReplace(%pre, "\t", ", ")) @ " and " @ %post;
+					if (%sellListCount > 1)
+					{
+						%pre = getFields(%sellList, 0, %sellListCount - 2);
+						%post = getField(%sellList, %sellListCount - 1);
+						%sellList = trim(strReplace(%pre, "\t", ", ")) @ " and " @ %post;
+					}
 					%str = %str @ %sellList @ "!";
 		}
 		messageAll('', %str);
@@ -210,11 +213,15 @@ function AIPlayer::randomBuyerLoop(%bot, %selectionCount, %speak, %timeRange, %s
 		%bot.nextDealTime = $Sim::Time + getRandom(getWord(%timeRange, 0), getWord(%timeRange, 1));
 	}
 
-	if (%bot.nextDealTime < $Sim::Time)
+	if (%bot.nextDealTime > $Sim::Time)
 	{
 		//slight drift to prevent permanent sync
 		%bot.randomDealLoopSched = %bot.schedule(getRandom(8, 12) * 1000, %selectionCount, %speak, %timeRange, %shopObjects);
 		return;
+	}
+	else
+	{
+		%bot.nextDealTime = $Sim::Time + getRandom(getWord(%timeRange, 0), getWord(%timeRange, 1));
 	}
 
 	%count = 0;
@@ -268,9 +275,12 @@ function AIPlayer::randomBuyerLoop(%bot, %selectionCount, %speak, %timeRange, %s
 			case 2: %str = %prefix @ "\c3" SPC %name @ "\c6: I'm buying ";
 					%sellList = trim(%sellList);
 					%sellListCount = getFieldCount(%sellList);
-					%pre = getFields(%sellList, 0, %sellListCount - 2);
-					%post = getField(%sellList, %sellListCount - 1);
-					%sellList = trim(strReplace(%pre, "\t", ", ")) @ " and " @ %post;
+					if (%sellListCount > 1)
+					{
+						%pre = getFields(%sellList, 0, %sellListCount - 2);
+						%post = getField(%sellList, %sellListCount - 1);
+						%sellList = trim(strReplace(%pre, "\t", ", ")) @ " and " @ %post;
+					}
 					%str = %str @ %sellList @ "!";
 		}
 		messageAll('', %str);

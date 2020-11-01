@@ -8,7 +8,7 @@ function getBuyPrice(%name, %count) //price to purchase items from bots
 	}
 	%name = strReplace(%name, "-", "DASH");
 	%name = strReplace(%name, " ", "_");
-	%name = stripChars(%name, "!@#$%^&*()[]{}:;<>,.?/|-=_+");
+	%name = stripChars(%name, "!@#$%^&*()[]{}:;<>,.?/|=+");
 
 	if (getSubStr(%name, strLen(%name) - 4, 4) $= "Seed") //is a crop seed, get the crop buy price
 	{
@@ -34,7 +34,7 @@ function getSellPrice(%name, %count) //price to sell items to bots
 	}
 	%name = strReplace(%name, "-", "DASH");
 	%name = strReplace(%name, " ", "_");
-	%name = stripChars(%name, "!@#$%^&*()[]{}:;<>,.?/|-=_+");
+	%name = stripChars(%name, "!@#$%^&*()[]{}:;<>,.?/|=+");
 
 	%basePrice = getPlantData(%name, "sellPrice");
 	if (%basePrice $= "")

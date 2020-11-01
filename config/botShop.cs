@@ -40,34 +40,36 @@ BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Date"			TAB 2;
 BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Peach"			TAB 2;
 
 
-BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "PotatoSeedItem"		TAB 60;
-BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "CarrotSeedItem"		TAB 60;
-BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "TomatoSeedItem"		TAB 40;
-BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "CornSeedItem"			TAB 40;
-BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "CabbageSeedItem"		TAB 30;
-BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "OnionSeedItem"		TAB 60;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "PotatoSeedItem"		TAB 80;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "CarrotSeedItem"		TAB 80;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "TomatoSeedItem"		TAB 60;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "CornSeedItem"			TAB 60;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "CabbageSeedItem"		TAB 50;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "OnionSeedItem"		TAB 80;
 BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "BlueberrySeedItem"	TAB 10;
 BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "TurnipSeedItem"		TAB 10;
-BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "DaisySeedItem"		TAB 25;
-BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "LilySeedItem"			TAB 25;
-BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "RoseSeedItem"			TAB 25;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "DaisySeedItem"		TAB 2;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "LilySeedItem"			TAB 2;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "RoseSeedItem"			TAB 2;
 BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "AppleSeedItem"		TAB 8;
 BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "MangoSeedItem"		TAB 4;
-BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "ChiliSeedItem"		TAB 25;
-BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "CactusSeedItem"		TAB 25;
-BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "WatermelonSeedItem"	TAB 15;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "ChiliSeedItem"		TAB 30;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "CactusSeedItem"		TAB 30;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "WheatSeedItem"		TAB 60;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "PortobelloSeedItem"	TAB 10;
+BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "WatermelonSeedItem"	TAB 10;
 BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "DateSeedItem"			TAB 5;
 BS_Seeds_All.option[BS_Seeds_All.count++ - 1]  = "PeachSeedItem"		TAB 5;
 
 
-BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "PotatoSeedItem"		TAB 60;
-BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "CarrotSeedItem"		TAB 60;
-BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "TomatoSeedItem"		TAB 40;
-BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "CornSeedItem"			TAB 40;
-BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "WheatSeedItem"		TAB 30;
+BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "PotatoSeedItem"		TAB 80;
+BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "CarrotSeedItem"		TAB 80;
+BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "TomatoSeedItem"		TAB 60;
+BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "CornSeedItem"			TAB 60;
+BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "WheatSeedItem"		TAB 60;
 BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "PortobelloSeedItem"	TAB 10;
 BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "CabbageSeedItem"		TAB 30;
-BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "OnionSeedItem"		TAB 60;
+BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "OnionSeedItem"		TAB 70;
 BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "BlueberrySeedItem"	TAB 10;
 BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "TurnipSeedItem"		TAB 10;
 
