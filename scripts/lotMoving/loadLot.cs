@@ -570,6 +570,7 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 			{
 				%trans = %trans SPC " 0 0 -1" SPC $piOver2;
 			}
+			%brickGroup.isLoadingLot = 1;
 			%b = new fxDTSBrick("")
 			{
 				dataBlock = %db;
@@ -596,7 +597,6 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 			%b.setTransform(%trans);
 			%b.trustCheckFinished();
 			%lastLoadedBrick = %b;
-			%brickGroup.isLoadingLot = 1;
 			%err = %b.plant();
 			%brickGroup.isLoadingLot = 0;
 			if (%err == 1 || %err == 3 || %err == 5)
