@@ -120,11 +120,15 @@ function AIPlayer::randomShopLoop(%bot, %selectionCount, %speak, %timeRange, %sh
 		%bot.nextDealTime = $Sim::Time + getRandom(getWord(%timeRange, 0), getWord(%timeRange, 1));
 	}
 
-	if (%bot.nextDealTime < $Sim::Time)
+	if (%bot.nextDealTime > $Sim::Time)
 	{
 		//slight drift to prevent permanent sync
-		%bot.randomDealLoopSched = %bot.schedule(getRandom(8, 12) * 1000, %selectionCount, %speak, %timeRange, %shopObjects);
+		%bot.randomDealLoopSched = %bot.schedule(getRandom(8, 12) * 1000, randomShopLoop, %selectionCount, %speak, %timeRange, %shopObjects);
 		return;
+	}
+	else
+	{
+		%bot.nextDealTime = $Sim::Time + getRandom(getWord(%timeRange, 0), getWord(%timeRange, 1));
 	}
 
 	%count = 0;
@@ -188,7 +192,7 @@ function AIPlayer::randomShopLoop(%bot, %selectionCount, %speak, %timeRange, %sh
 
 	%bot.lastChangedSale = $Sim::Time;
 	//slight drift to prevent permanent sync
-	%bot.randomDealLoopSched = %bot.schedule(getRandom(8, 12) * 1000, %selectionCount, %speak, %timeRange, %shopObjects);
+	%bot.randomDealLoopSched = %bot.schedule(getRandom(8, 12) * 1000, randomShopLoop, %selectionCount, %speak, %timeRange, %shopObjects);
 }
 
 function AIPlayer::randomBuyerLoop(%bot, %selectionCount, %speak, %timeRange, %shopObjects)
