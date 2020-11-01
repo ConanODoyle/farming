@@ -11,50 +11,184 @@ if (isObject($RepairDialogue1))
 	}
 }
 
-
-$PurchaseDialogue[$count++] = new ScriptObject(PurchaseDialogueStart)
+$RepairDialogue[$count++] = new ScriptObject(RepairDialogueStart)
 {
 	response["Quit"] = "ExitResponse";
 	messageCount = 1;
-	message[0] = "Hello!";
+	message[0] = "Hello! I can repair your tools!";
 	messageTimeout[0] = 1;
-	functionOnStart = "setupPurchase";
 
-	dialogueTransitionOnTimeout = "PurchaseDialogueCore";
+	dialogueTransitionOnTimeout = "RepairDialogueCore";
 };
 
-$PurchaseDialogue[$count++] = new ScriptObject(PurchaseDialogueCore)
+$RepairDialogue[$count++] = new ScriptObject(RepairDialogueCore)
 {
-	response["CanPurchase"] = "PurchaseConfirmation";
-	response["CanPurchaseSingular"] = "PurchaseConfirmationSingular";
-	response["InsufficientMoney"] = "PurchaseFail";
-	response["LicenseRequired"] = "LicenseRequiredDialogue";
-	response["InsufficientMoneySingular"] = "PurchaseFailSingular";
-	response["InvalidAmount"] = "PurchaseInvalid";
+	response["CanRepair"] = "RepairConfirmation";
+	response["InsufficientMoney"] = "RepairFail";
+	response["FullDurability"] = "RepairUnneeded";
+	response["CannotRepair"] = "RepairInvalid";
 	response["Quit"] = "ExitResponse";
 	response["Error"] = "ErrorResponse";
 
-	messageCount = 1;
-	message[0] = "I'm selling %product%s at $%price% per item! How many would you like to buy?";
+	messageCount = 2;
+	message[0] = "Which tool would you like me to repair?";
 	messageTimeout[0] = 1;
+	message[1] = "Say the name, slot number (first slot is 1), or 'current tool' if you're holding it.";
+	messageTimeout[1] = 1;
 
 	botTalkAnim = 1;
 	waitForResponse = 1;
-	responseParser = "purchaseResponseParser";
+	responseParser = "RepairResponseParser";
 };
 
-$PurchaseDialogue[$count++] = new ScriptObject(PurchaseConfirmation)
+$RepairDialogue[$count++] = new ScriptObject(RepairFail)
 {
-	response["Yes"] = "PurchaseProduct";
-	response["No"] = "PurchaseDialogueCore";
-	response["Quit"] = "PurchaseDialogueCore";
-	response["Error"] = "PurchaseDialogueCore";
+	messageCount = 1;
+	message[0] = "You don't have enough money! Repairing %toolName% to full costs $%repairPrice%.";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+	dialogueTransitionOnTimeout = "RepairDialogueCore";
+};
+
+$RepairDialogue[$count++] = new ScriptObject(RepairConfirmation)
+{
+	response["Yes"] = "RepairProduct";
+	response["No"] = "RepairDialogueCore";
+	response["Quit"] = "RepairDialogueCore";
+	response["Error"] = "RepairDialogueCore";
 
 	messageCount = 1;
-	message[0] = "That'll be $%total% for %amount% %product%s. Are you sure? Say yes to confirm.";
+	message[0] = "It will cost $%repairPrice% to repair your %toolName% to %maxDurability%. Are you sure? Say yes to confirm.";
 	messageTimeout[0] = 1;
 
 	botTalkAnim = 1;
 	waitForResponse = 1;
 	responseParser = "yesNoResponseParser";
 };
+
+$RepairDialogue[$count++] = new ScriptObject(RepairInvalid)
+{
+	messageCount = 1;
+	message[0] = "I can't repair that...";
+	messageTimeout[0] = 2;
+
+	botTalkAnim = 1;
+	dialogueTransitionOnTimeout = "ExitResponse";
+};
+
+$RepairDialogue[$count++] = new ScriptObject(RepairUnneeded)
+{
+	messageCount = 1;
+	message[0] = "Your %toolName% doesn't need repairs...?";
+	messageTimeout[0] = 2;
+
+	botTalkAnim = 1;
+	dialogueTransitionOnTimeout = "RepairDialogueCore";
+};
+
+$RepairDialogue[$count++] = new ScriptObject(RepairProduct)
+{
+	messageCount = 1;
+	message[0] = "I've repaired your %toolName%! Come again soon!";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+	functionOnStart = "dialogue_RepairProduct";
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+function dialogue_RepairProduct(%dataObj)
+{
+	%pl = %dataObj.player;
+	%cl = %pl.client;
+
+	if (%cl.score >= %dataObj.var_total)
+	{
+		%cl.setScore(%cl.score - %dataObj.var_repairPrice);
+		%toolDataID = %dataObj.var_toolDataID;
+		setDataIDArrayTagValue(%toolDataID, "durability", %dataObj.var_maxDurability | 0);
+	}
+	return 0;
+}
+
+function RepairResponseParser(%dataObj, %msg)
+{
+	%pl = %dataObj.player;
+	%product = %dataObj.sellItem;
+
+	if (%msg > 0)
+	{
+		%tool = %pl.tool[%msg - 1];
+		%toolDataID = %pl.toolDataID[%msg - 1];
+	}
+	else if (%msg $= "current tool")
+	{
+		%tool = %pl.tool[%pl.currTool];
+		%toolDataID = %pl.toolDataID[%pl.currTool];
+	}
+	else
+	{
+		%msg = strLwr(%msg);
+		for (%i = 0; %i < %pl.getDatablock().maxTools; %i++)
+		{
+			%currTool = %pl.tool[%i];
+			if (strPos(strLwr(%currTool.uiName), %msg) >= 0)
+			{
+				%tool = %currTool;
+				%toolDataID = %pl.toolDataID[%i];
+				break;
+			}
+		}
+	}
+
+	if (!isObject(%tool) || getDataIDArrayTagValue(%toolDataID, "maxDurability") <= 0)
+	{
+		return "CannotRepair";
+	}
+
+	%basePrice = getBuyPrice(%tool);
+	%flatFee = mFloor(%basePrice / 10);
+	%variableFee = mFloor(%basePrice / 100);
+	%maxDurability = %originalDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
+	if (%maxDurability > 10000)
+	{
+		%maxDurability = %maxDurability /= 1000;
+	}
+	%price = %flatFee + %variableFee * %maxDurability;
+
+	%dataObj.var_tool = %tool;
+	%dataObj.var_toolDataID = %toolDataID;
+	%dataObj.var_toolName = %tool.uiName;
+	%dataObj.var_repairPrice = %price;
+	%dataObj.var_maxDurability = %originalDurability;
+
+	if (%tool $= "")
+	{
+		return "Error";
+	}
+	else if (%originalDurability == getDataIDArrayTagValue(%toolDataID, "durability"))
+	{
+		return "FullDurability";
+	}
+	else if (%pl.client.score < %price)
+	{
+		return "InsufficientMoney";
+	}
+	else if (%pl.client.score >= %price)
+	{
+		return "CanRepair";
+	}
+	return "Error";
+}
