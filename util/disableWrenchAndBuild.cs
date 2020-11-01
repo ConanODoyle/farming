@@ -67,6 +67,14 @@ package disableWrenchData
 							continue;
 						}
 					// put above in a vehicle purchase subscript
+					case "SDB":
+						if (%db.musicRange > 10)
+						{
+							%data = removeField(%data, %i);
+							messageClient(%cl, '', "You can only set music on short range bricks!");
+							%i--;
+							continue;
+						}
 				}
 			}
 		}
@@ -146,7 +154,7 @@ package disableWrenchData
 		{
 			%db = %pl.tempBrick.getDatablock();
 			if ((%db.category $= "Baseplates" && %db.subCategory !$= "Plain") || %db.subCategory $= "Drinks" || %db.subCategory $= "Holes"
-				|| %db.uiName $= "Treasure Chest" || %db.isLot || %db.isTeledoor || %db.musicDescription !$= "")
+				|| %db.uiName $= "Treasure Chest" || %db.isLot || %db.isTeledoor || %db.isIllegal)
 			{
 				if (%db.subCategory $= "Cube" && getWord(%db.uiname, 0) < 16)
 				{
@@ -190,7 +198,7 @@ function checkItemAllowed(%itemDB)
 function checkBrickAllowed(%brick)
 {
 	if ((%db.category $= "Baseplates" && %db.subCategory !$= "Plain") || %db.subCategory $= "Drinks" || %db.subCategory $= "Holes"
-				|| %db.uiName $= "Treasure Chest" || %db.isLot)
+				|| %db.uiName $= "Treasure Chest" || %db.isLot || %db.isTeledoor || %db.isIllegal)
 	{
 		if (%db.subCategory $= "Cube" && getWord(%db.uiname, 0) < 16)
 		{
