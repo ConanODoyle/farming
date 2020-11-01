@@ -402,7 +402,7 @@ function getLotCost(%count, %lot)
 
 function serverCmdLoadLot(%cl, %rotation)
 {
-	%load = hasLoadedLot(%cl);
+	%load = hasLoadedLot(%cl.bl_id);
 	if (%load == 2)
 	{
 		messageClient(%cl, '', "You don't have a lot, or a lot saved! Use /buyLot to buy a single lot for free.");
