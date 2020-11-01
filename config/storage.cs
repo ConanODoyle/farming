@@ -58,7 +58,7 @@ $StorageTypeCropsList = "Potato\tCarrot\tTomato\tCorn\tWheat\tCabbage\tOnion\tBl
 $StorageTypeCropsIsBlacklist = false;
 
 $StorageTypeToolsExists = true;
-$StorageTypeToolsList = "toolgunItem\tHammerItem\tWrenchItem\tPrintGun\tSprinklerLinkItem\tElectricalCableItem\tPickaxeItem\tWateringCanItem\tWateringCan2Item\tWateringCan3Item\tWateringCatItem\tHoseItem\tHoseV2Item\tWeedWhackerItem\tWeedKiller\tPlanterItem\tPlanterV2Item\tTrowelItem\tClipperItem\tHoeItem\tSickleItem\tOrganicAnalyzerItem";
+$StorageTypeToolsList = "toolgunItem\tHammerItem\tWrenchItem\tPrintGun\tSprinklerLinkItem\tElectricalCableItem\tPickaxeItem\tWateringCanItem\tWateringCan2Item\tWateringCan3Item\tWateringCatItem\tHoseItem\tHoseV2Item\tWeedWhackerItem\tWeedKiller\tPlanterItem\tPlanterV2Item\tTrowelItem\tClipperItem\tTreeClipperItem\tHoeItem\tSickleItem\tOrganicAnalyzerItem";
 $StorageTypeToolsIsBlacklist = false;
 
 $StorageTypeQuestsExists = true;
