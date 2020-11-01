@@ -500,7 +500,7 @@ function serverCmdBuyLot(%cl, %rotation)
 
 	if (hasSavedLot(%cl.bl_id) && !hasLoadedLot(%cl.bl_id))
 	{
-		loadLot(%cl.bl_id, %lot, %rotation);
+		loadLot(%cl.bl_id, %hit, %rotation);
 		return;
 	}
 
