@@ -202,6 +202,7 @@ function farmingLoadLotEnd(%loadFile, %dataObj)
 	%time = getSimTime() - %startTime;
 	%loadFile.delete();
 	restoreLotBricks(%dataObj);
+	%brickGroup.isLoadingLot = 0;
 }
 
 function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount) // needs replacing ServerLoadSaveFile_Tick
@@ -570,7 +571,6 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 			{
 				%trans = %trans SPC " 0 0 -1" SPC $piOver2;
 			}
-			%brickGroup.isLoadingLot = 1;
 			%b = new fxDTSBrick("")
 			{
 				dataBlock = %db;
@@ -581,6 +581,7 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 				colorFxID = %colorFX;
 				shapeFxID = %shapeFX;
 				isPlanted = 1;
+				skipBuy = 1;
 			};
 			if (isObject(%brickGroup))
 			{
@@ -598,7 +599,6 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 			%b.trustCheckFinished();
 			%lastLoadedBrick = %b;
 			%err = %b.plant();
-			%brickGroup.isLoadingLot = 0;
 			if (%err == 1 || %err == 3 || %err == 5)
 			{
 				%failCount += 1;
@@ -722,6 +722,7 @@ function farmingStartLoadLot(%filename, %dataObj, %offset, %center, %rotation, %
 		%i += 1;
 	}
 	farmingProcessLotColorData(%loadFile, %colorMethod);
+	%brickGroup.isLoadingLot = 1;
 	farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount);
 	stopRaytracer();
 }
