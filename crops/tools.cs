@@ -40,7 +40,7 @@ function useDurability(%this, %obj, %slot)
 	{
 		setDataIDArrayTagValue(%dataID, "durability", %durability - 1 | 0);
 	}
-	return getMax(%durability, 0);
+	return getMax((%durability - 1) | 0, 0);
 }
 
 function incDurability(%dataID, %amt)

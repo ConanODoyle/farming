@@ -355,7 +355,7 @@ function waterCanFire(%this, %obj, %slot)
         if (%db.isDirt || %db.isWaterTank)
         {
         	%durability = useDurability(%this, %obj, %slot);
-            if (%db.isWaterTank)
+            if (%db.isWaterTank && %durability > 0)
             {
             	%amt = %this.tankAmount;
             }
@@ -368,7 +368,11 @@ function waterCanFire(%this, %obj, %slot)
             	%amt = 0;
             }
 
-            if (%amt < 40)
+            if (%amt < 1)
+            {
+            	serverPlay3D(pushBroomHitSound, %obj.getMuzzlePoint(%slot));
+            }
+            else if (%amt < 40)
             {
                 serverPlay3D(waterCanSound, %obj.getMuzzlePoint(%slot));
             }
