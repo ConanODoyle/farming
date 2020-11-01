@@ -143,9 +143,11 @@ function setupPurchase(%dataObj)
 	%pl = %dataObj.player;
 	%seller = %dataObj.speaker;
 
+	%mod = %seller.sellPriceMod > 0 ? %seller.sellPriceMod : 1;
+
 	%dataObj.sellItem = %seller.sellItem;
 	%dataObj.var_product = %seller.sellItem.uiName;
-	%dataObj.var_price = mFloatLength(getBuyPrice(%seller.sellItem.uiName, 1), 2);
+	%dataObj.var_price = mFloatLength(getBuyPrice(%seller.sellItem, 1) * %mod, 2);
 }
 
 function purchaseResponseParser(%dataObj, %msg)
@@ -369,3 +371,9 @@ function AIPlayer::setSellItems(%bot, %string)
 	}
 }
 registerOutputEvent("Bot", "setSellItems", "string 200 200", 1);
+
+function AIPlayer::setSellPriceMod(%bot, %num)
+{
+	%bot.sellPriceMod = %num;
+}
+registerOutputEvent("Bot", "setSellPriceMod", "string 200 50", 1);
