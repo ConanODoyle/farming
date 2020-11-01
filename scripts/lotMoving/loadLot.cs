@@ -202,7 +202,6 @@ function farmingLoadLotEnd(%loadFile, %dataObj)
 	%time = getSimTime() - %startTime;
 	%loadFile.delete();
 	restoreLotBricks(%dataObj);
-	%brickGroup.isLoadingLot = 0;
 }
 
 function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount) // needs replacing ServerLoadSaveFile_Tick
@@ -597,7 +596,9 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 			%b.setTransform(%trans);
 			%b.trustCheckFinished();
 			%lastLoadedBrick = %b;
+			%brickGroup.isLoadingLot = 1;
 			%err = %b.plant();
+			%brickGroup.isLoadingLot = 0;
 			if (%err == 1 || %err == 3 || %err == 5)
 			{
 				%failCount += 1;
@@ -721,12 +722,11 @@ function farmingStartLoadLot(%filename, %dataObj, %offset, %center, %rotation, %
 		%i += 1;
 	}
 	farmingProcessLotColorData(%loadFile, %colorMethod);
-	%brickGroup.isLoadingLot = 1;
 	farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount);
 	stopRaytracer();
 }
 
-function farmingDirectLoadLot(%filename, %dataObj, %offset, %center, %rotation, %colorMethod, %ownership)
+function farmingDirectLoadLot(%client, %filename, %dataObj, %offset, %center, %rotation, %colorMethod, %ownership)
 {
 	echo("Direct load " @ %filename @ ", " @ ", " @ %center @ ", " @ %rotation @ ", " @ %colorMethod @ ", " @ %ownership);
 	if (!isFile(%filename))
@@ -738,8 +738,7 @@ function farmingDirectLoadLot(%filename, %dataObj, %offset, %center, %rotation, 
 	{
 		%ownership = 1;
 	}
-	%client = findLocalClient();
-	if (%client)
+	if (isObject(%client))
 	{
 		if (%ownership == 2)
 		{

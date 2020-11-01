@@ -28,7 +28,7 @@ function saveLotBLID(%bl_id)
 	return 0;
 }
 
-function loadLotAutosave(%name, %dataObj, %rotation)
+function loadLotAutosave(%name, %dataObj, %rotation, %bl_id)
 {
 	%path = $Pref::Server::AS_["Directory"] @ %name @ ".bls";
 	%file = new FileObject();
@@ -52,14 +52,14 @@ function loadLotAutosave(%name, %dataObj, %rotation)
 	talk("Set loadoffset to " @ %offset @ " - description: " @ %desc);
 	// return;
 	echo("loadLotAutosave: " @ %dataObj);
-	farmingDirectLoadLot(%path, %dataObj, %offset, %position, %rotation, 3, 1);
+	farmingDirectLoadLot(findClientByBL_ID(%bl_id), %path, %dataObj, %offset, %position, %rotation, 3, 1);
 }
 
 function loadLastLotAutosave(%bl_id, %dataObj, %rotation)
 {
 	if ($Pref::Farming::LastLotAutosave[%bl_id] !$= "")
 	{
-		loadLotAutosave($Pref::Farming::LastLotAutosave[%bl_id], %dataObj, %rotation);
+		loadLotAutosave($Pref::Farming::LastLotAutosave[%bl_id], %dataObj, %rotation, %bl_id);
 		talk("Loading lot " @ %bl_id @ " at " @ %dataObj.pos[0] @ "...");
 		return;
 	}
