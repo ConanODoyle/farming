@@ -545,7 +545,7 @@ function OrganicAnalyzerImage::onLoop(%this, %obj, %slot)
 			%string = "\c5" @ %db.uiName @ " \n";
 			%string = %string @ "Water Level: " @ %waterLevel;
 			%nutrients = %hit.getNutrients();
-			%string = %string @ " \nNutrients: " @ getWord(%nutrients, 0) @ "n+" @ getWord(%nutrients, 1) @ "p";
+			%string = %string @ " \nNutrients: " @ getWord(%nutrients, 0) @ "nitrogen, " @ getWord(%nutrients, 1) @ "phosphate";
 			%string = %string @ " \nMax Nutrients: " @ (%db.maxNutrients + 0);
 			%string = %string @ " \nWeedkiller: " @ getWord(%nutrients, 2) @ "/"
 				@ %db.maxWeedkiller @ " ";
