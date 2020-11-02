@@ -40,6 +40,11 @@ function serverCmdBuilder(%cl, %target)
 		%cl.isBuilder = 1;
 		%cl.player.setDatablock(PlayerStandardArmor);
 		messageClient(%cl, '', "\c6You are now a builder!");
+		messageClient(%cl, '', "\c6Use /getTrust [blid] to get trust if needed!");
+	}
+	else if (%cl.isAdmin)
+	{
+		messageClient(%cl, '', "Please ask a Super Admin to run /toggleBuilderAdmin");
 	}
 }
 
@@ -61,6 +66,16 @@ function serverCmdUnbuilder(%cl, %target)
 		messageClient(%cl, '', "\c6You are not a builder anymore!");
 	}
 }
+
+function serverCmdGetTrust(%cl, %blid)
+{
+	if (%cl.isBuilder)
+	{
+		setMutualBrickGroupTrust(%cl.bl_id, %blid, 2);
+		messageClient(%cl, '', "\c6You now have full trust with \c3" @ %blid);
+	}
+}
+function serverCmdTrust(%cl, %blid) { serverCmdGetTrust(%cl, %blid); }
 
 datablock ParticleData(BuilderOrbCameraParticle : CameraParticleA)
 {
