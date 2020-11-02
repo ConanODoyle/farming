@@ -1,7 +1,7 @@
 $count = 0;
 if (isObject($BotDialogue1))
 {
-	for (%i = 0; %i < 30; %i++)
+	for (%i = 0; %i < 40; %i++)
 	{
 		if (isObject($BotDialogue[%i]))
 		{
@@ -111,10 +111,21 @@ $BotDialogue[$count++] = new ScriptObject(OrganicAnalyzerDialogue)
 
 $BotDialogue[$count++] = new ScriptObject(NutrientDialogue)
 {
-	messageCount = 2;
+	messageCount = 3;
 	message[0] = "Some crops need nutrients - you can figure out what they need by using an Organic Analyzer on them.";
 	messageTimeout[0] = 2;
-	message[1] = "Phosphate can be mined from some areas, and nitrogen comes from compost made from Compost Bins.";
+	message[1] = "Phosphate can be mined from phosphate mines, and nitrogen comes from compost made from Compost Bins.";
+	messageTimeout[1] = 2;
+	message[2] = "Flowers also give nutrients to the dirt brick they're growing on! Make sure to pick them before they wilt.";
+	messageTimeout[2] = 2;
+};
+
+$BotDialogue[$count++] = new ScriptObject(ShovelDialogue)
+{
+	messageCount = 2;
+	message[0] = "With shovels, you can retrieve nutrients from soil. Some of it will be lost though!";
+	messageTimeout[0] = 2;
+	message[1] = "You can use an organic analyzer to detect what nutrients (and how much) are in the soil.";
 	messageTimeout[1] = 2;
 };
 
@@ -133,5 +144,63 @@ $BotDialogue[$count++] = new ScriptObject(CompostBinDialogue2)
 	message[0] = "Big compost bins store more crops and compost, on top of generating compost faster.";
 	messageTimeout[0] = 2;
 	message[1] = "Quite useful when you want to save storage space on compost!";
+	messageTimeout[1] = 2;
+};
+
+$BotDialogue[$count++] = new ScriptObject(ToolSellerDialogue)
+{
+	messageCount = 2;
+	message[0] = "The Tool Seller works at the Tool Depot, near the bus stop TRW.";
+	messageTimeout[0] = 2;
+	message[1] = "He sells all kinds of tools! Check back regularly to see what he's offering.";
+	messageTimeout[1] = 2;
+};
+
+$BotDialogue[$count++] = new ScriptObject(SeedSellerDialogue)
+{
+	messageCount = 2;
+	message[0] = "The Seed Seller works at his greenhouse, at the pond near the OFL bus stop.";
+	messageTimeout[0] = 2;
+	message[1] = "He sells all kinds of seeds for half price! Check back regularly to see what he's offering.";
+	messageTimeout[1] = 2;
+};
+
+$BotDialogue[$count++] = new ScriptObject(PostOfficeDialogue)
+{
+	messageCount = 3;
+	message[0] = "The Post Office is where you go to complete quests and receive quest rewards!";
+	messageTimeout[0] = 2;
+	message[1] = "Get a Quest Slip from the Task Manager, drop it into a post office box, then drop your deliveries into it.";
+	messageTimeout[1] = 2;
+	message[2] = "The quest slip will show you the progress and quest rewards. When you're done, drop it into the box to get your reward!";
+	messageTimeout[2] = 2;
+};
+
+$BotDialogue[$count++] = new ScriptObject(TaskManagerDialogue)
+{
+	messageCount = 3;
+	message[0] = "Hi, I'm the Task Manager! I get orders from people, and pass them on to you as quests!";
+	messageTimeout[0] = 2;
+	message[1] = "Check the quest notepads to see what's available! You can store quests in crates, toolboxes, and quest cabinets.";
+	messageTimeout[1] = 2;
+	message[2] = "Talk to the post office clerk to get information on how to complete quests. Good day to you!";
+	messageTimeout[2] = 2;
+};
+
+$BotDialogue[$count++] = new ScriptObject(FakeSellerDialogue)
+{
+	messageCount = 2;
+	message[0] = "Hi, I'm selling Rocket Launchers!";
+	messageTimeout[0] = 5;
+	message[1] = "...Unfortunately I'm out of stock. Check back later!";
+	messageTimeout[1] = 2;
+};
+
+$BotDialogue[$count++] = new ScriptObject(PyramidSchemeDialogue)
+{
+	messageCount = 2;
+	message[0] = "Hi, I'm selling pyramids! For every pyramid you buy, you'll get two later!";
+	messageTimeout[0] = 5;
+	message[1] = "You can then sell these back to me for their original price!";
 	messageTimeout[1] = 2;
 };
