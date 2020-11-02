@@ -15,6 +15,17 @@ package BusStops
         }
         return parent::setNTObjectName(%obj, %name);
     }
+
+    function GameConnection::exitCenterprintMenu(%cl)
+    {
+        if (%cl.centerprintMenu.isBusStopMenu)
+        {
+            %cl.setControlObject(%cl.player);
+            %cl.camera.busStopObj = "";
+            %cl.camera.setControlObject(%cl.camera);
+        }
+        return parent::exitCenterprintMenu(%cl);
+    }
 };
 activatePackage(BusStops);
 
@@ -47,6 +58,7 @@ function configureBusStopCenterprintMenu(%menu, %brick)
         %menu.menuFunction[%i] = "";
         %menu.menuBrick[%i] = "";
     }
+    %menu.isBusStopMenu = 1;
 
     %menuOptionCount = 0;
     for (%i = $BusStopSimSet.getCount() - 1; %i >= 0; %i--)
@@ -81,6 +93,7 @@ function configureBusStopCenterprintMenu(%menu, %brick)
         %menu.menuFunction[%i] = "goToBusStop";
         %menu.menuBrick[%i] = %obj;
         %menu.stopName[%i] = %originalName;
+        %menu.stopBrick[%i] = %obj;
         %menuOptionCount++;
     }
 
@@ -97,6 +110,12 @@ function goToBusStop(%cl, %menu, %option)
     {
         return;
     }
+    else if (%cl.score < 0.5)
+    {
+        messageClient(%cl, '', "You cannot afford to take the bus! You need $0.50 to ride.");
+        return;
+    }
+    %cl.setScore(%cl.score - 0.5);
 
     %pl.setTransform(%brick.getTransform());
     %pl.setWhiteout(1);
@@ -118,7 +137,8 @@ function fxDTSBrick::displayBusStopMenu(%brick, %cl)
         %brick.busStopMenu = new ScriptObject(masterBusStopMenu)
         {
             isCenterprintMenu = 1;
-            menuName = "-Bus Stops-";
+            isBusStopMenu = 1;
+            menuName = "-Bus Stops ($0.50)-";
         };
         MissionCleanup.add(%brick.busStopMenu);
     }
@@ -139,7 +159,7 @@ function busStopLoop(%cl, %obj)
         %exit = 1;
     }
 
-    if (vectorDist(%obj.getPosition(), %cl.player.getPosition()) > 4)
+    if (vectorDist(%obj.getPosition(), %cl.player.getPosition()) > 8)
     {
         %exit = 1;
     }
@@ -155,6 +175,32 @@ function busStopLoop(%cl, %obj)
     {
         %cl.exitCenterprintMenu();
         return;
+    }
+
+    %currBrick = %cl.centerprintMenu.stopBrick[%cl.currOption];
+    if (%cl.camera.busStopObj != %currBrick)
+    {
+        %cl.camera.setFlyMode();
+        %pos = vectorAdd(%currBrick.getPosition(), "0 0 8");
+        %start = vectorAdd(%pos, vectorScale(%currBrick.getForwardVector(), 5));
+        %end = vectorAdd(%pos, "0 0 -3");
+
+        //aim the camera at the target brick
+        %delta = vectorSub(%end, %start);
+        %deltaX = getWord(%delta, 0);
+        %deltaY = getWord(%delta, 1);
+        %deltaZ = getWord(%delta, 2);
+        %deltaXYHyp = vectorLen(%deltaX SPC %deltaY SPC 0);
+
+        %rotZ = mAtan(%deltaX, %deltaY) * -1; 
+        %rotX = mAtan(%deltaZ, %deltaXYHyp);
+
+        %aa = eulerRadToMatrix(%rotX SPC 0 SPC %rotZ); //this function should be called eulerToAngleAxis...
+
+        %cl.camera.setTransform(%start SPC %aa);
+        %cl.setControlObject(%cl.camera);
+        %cl.camera.setControlObject(%cl.dummyCamera);
+        %cl.camera.busStopObj = %currBrick;
     }
 
     %cl.busStopSchedule = schedule(200, %cl, busStopLoop, %cl, %obj);
