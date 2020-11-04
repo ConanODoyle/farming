@@ -1,24 +1,26 @@
 
-$count = 0;
-if (isObject($BS1))
+if (isObject($BotShopSet))
 {
-	for (%i = 0; %i < 20; %i++)
-	{
-		if (isObject($BS[%i]))
-		{
-			$BS[%i].delete();
-		}
-	}
+	$BotShopSet = new SimSet(BotShopSet);
 }
+$BotShopSet.deleteAll();
 
-$BS[$count++] = new ScriptObject(BS_BigBuyer) { class = "ShopObject"; };
-$BS[$count++] = new ScriptObject(BS_Seeds_All) { class = "ShopObject"; };
-$BS[$count++] = new ScriptObject(BS_Seeds_Basic) { class = "ShopObject"; };
-$BS[$count++] = new ScriptObject(BS_Tools_All) { class = "ShopObject"; };
-$BS[$count++] = new ScriptObject(BS_Tools_Farming) { class = "ShopObject"; };
-$BS[$count++] = new ScriptObject(BS_Tools_Watering) { class = "ShopObject"; };
-$BS[$count++] = new ScriptObject(BS_Tools_Extras) { class = "ShopObject"; };
-$BS[$count++] = new ScriptObject(BS_Instruments) { class = "ShopObject"; };
+$obj = new ScriptObject(BS_BigBuyer) { class = "ShopObject"; };
+$BotShopSet.add($obj);
+$obj = new ScriptObject(BS_Seeds_All) { class = "ShopObject"; };
+$BotShopSet.add($obj);
+$obj = new ScriptObject(BS_Seeds_Basic) { class = "ShopObject"; };
+$BotShopSet.add($obj);
+$obj = new ScriptObject(BS_Tools_All) { class = "ShopObject"; };
+$BotShopSet.add($obj);
+$obj = new ScriptObject(BS_Tools_Farming) { class = "ShopObject"; };
+$BotShopSet.add($obj);
+$obj = new ScriptObject(BS_Tools_Watering) { class = "ShopObject"; };
+$BotShopSet.add($obj);
+$obj = new ScriptObject(BS_Tools_Extras) { class = "ShopObject"; };
+$BotShopSet.add($obj);
+$obj = new ScriptObject(BS_Instruments) { class = "ShopObject"; };
+$BotShopSet.add($obj);
 
 
 BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Potato"			TAB 60;

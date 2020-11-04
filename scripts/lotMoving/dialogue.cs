@@ -1,18 +1,12 @@
 $Farming::LotUnloadPrice = 200;
 
-$count = 0;
-if (isObject($LotManageDialogue1))
+if (!isObject($LotManageDialogueSet))
 {
-	for (%i = 0; %i < 20; %i++)
-	{
-		if (isObject($LotManageDialogue[%i]))
-		{
-			$LotManageDialogue[%i].delete();
-		}
-	}
+	$LotManageDialogueSet = new SimSet(LotManageDialogueSet);
 }
+$LotManageDialogueSet.deleteAll();
 
-$LotManageDialogue[%count++] = new ScriptObject(LotManageDialogueStart)
+$obj = new ScriptObject(LotManageDialogueStart)
 {
 	response["Quit"] = "ExitResponse";
 	messageCount = 1;
@@ -23,15 +17,17 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManageDialogueStart)
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "LotManagePrompt";
 };
+$LotManageDialogueSet.add($obj);
 
-$LotManageDialogue[%count++] = new ScriptObject(LotManageErrorResponse : ErrorResponse)
+$obj = new ScriptObject(LotManageErrorResponse : ErrorResponse)
 {
 	message[0] = "I'm sorry, I didn't understand you...";
 
 	dialogueTransitionOnTimeout = "LotManagePrompt";
 };
+$LotManageDialogueSet.add($obj);
 
-$LotManageDialogue[%count++] = new ScriptObject(LotManagePrompt)
+$obj = new ScriptObject(LotManagePrompt)
 {
 	response["Quit"] = "ExitResponse";
 	response["Error"] = "LotManageErrorResponse";
@@ -50,8 +46,9 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManagePrompt)
 	waitForResponse = 1;
 	responseParser = "lotManageInitialParser";
 };
+$LotManageDialogueSet.add($obj);
 
-$LotManageDialogue[%count++] = new ScriptObject(LotManageLoad)
+$obj = new ScriptObject(LotManageLoad)
 {
 	response["Yes"] = "LotManageLoadConfirmed";
 	response["No"] = "LotManagePrompt";
@@ -68,8 +65,9 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManageLoad)
 	waitForResponse = 1;
 	responseParser = "yesNoResponseParser";
 };
+$LotManageDialogueSet.add($obj);
 
-$LotManageDialogue[%count++] = new ScriptObject(LotManageLoadFail : LotManageLoad)
+$obj = new ScriptObject(LotManageLoadFail : LotManageLoad)
 {
 	message[1] = "...But it looks like you already have your lot loaded in.";
 
@@ -77,8 +75,9 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManageLoadFail : LotManageLoa
 	responseParser = "";
 	dialogueTransitionOnTimeout = "LotManageUnload";
 };
+$LotManageDialogueSet.add($obj);
 
-$LotManageDialogue[%count++] = new ScriptObject(LotManageLoadConfirmed)
+$obj = new ScriptObject(LotManageLoadConfirmed)
 {
 	messageCount = 1;
 	message[0] = "Got it! I'll find a spot where you can load your lot in and send you there now. One moment please...";
@@ -87,8 +86,9 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManageLoadConfirmed)
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "LotManageLoadSent";
 };
+$LotManageDialogueSet.add($obj);
 
-$LotManageDialogue[%count++] = new ScriptObject(LotManageLoadSent)
+$obj = new ScriptObject(LotManageLoadSent)
 {
 	messageCount = 1;
 	message[0] = "Here's the place! If you need more help, come back and let me know!";
@@ -97,8 +97,9 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManageLoadSent)
 
 	dialogueTransitionOnTimeout = "ExitResponse";
 };
+$LotManageDialogueSet.add($obj);
 
-$LotManageDialogue[%count++] = new ScriptObject(LotManageUnload)
+$obj = new ScriptObject(LotManageUnload)
 {
 	response["Yes"] = "LotManageUnloadConfirmed";
 	response["InsufficientMoney"] = "LotManageUnloadInsufficientMoney";
@@ -116,8 +117,9 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManageUnload)
 	waitForResponse = 1;
 	responseParser = "yesNoPriceResponseParser";
 };
+$LotManageDialogueSet.add($obj);
 
-$LotManageDialogue[%count++] = new ScriptObject(LotManageUnloadFail : LotManageUnload)
+$obj = new ScriptObject(LotManageUnloadFail : LotManageUnload)
 {
 	message[1] = "...But you don't have your lot loaded in yet.";
 
@@ -125,8 +127,9 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManageUnloadFail : LotManageU
 	responseParser = "";
 	dialogueTransitionOnTimeout = "LotManageLoad";
 };
+$LotManageDialogueSet.add($obj);
 
-$LotManageDialogue[%count++] = new ScriptObject(LotManageUnloadConfirmed)
+$obj = new ScriptObject(LotManageUnloadConfirmed)
 {
 	messageCount = 2;
 	message[0] = "Okay, that's $%price% - I'll unload your lot right away!";
@@ -136,8 +139,9 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManageUnloadConfirmed)
 
 	dialogueTransitionOnTimeout = "ExitResponse";
 };
+$LotManageDialogueSet.add($obj);
 
-$LotManageDialogue[%count++] = new ScriptObject(LotManageUnloadInsufficientMoney)
+$obj = new ScriptObject(LotManageUnloadInsufficientMoney)
 {
 	messageCount = 2;
 	message[0] = "That'll be $%price%... oh, it looks like you don't have enough money.";
@@ -147,6 +151,7 @@ $LotManageDialogue[%count++] = new ScriptObject(LotManageUnloadInsufficientMoney
 
 	dialogueTransitionOnTimeout = "ExitResponse";
 };
+$LotManageDialogueSet.add($obj);
 
 function setupLotManagement(%dataObj)
 {

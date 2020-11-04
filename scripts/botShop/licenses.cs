@@ -1,16 +1,10 @@
-$count = 0;
-if (isObject($LicenseDialogue1))
+if (!isObject($LicenseDialogueSet))
 {
-	for (%i = 0; %i < 30; %i++)
-	{
-		if (isObject($LicenseDialogue[%i]))
-		{
-			$LicenseDialogue[%i].delete();
-		}
-	}
+	$LicenseDialogueSet = new SimSet(LicenseDialogueSet);
 }
+$LicenseDialogueSet.deleteAll();
 
-$LicenseDialogue[$count++] = new ScriptObject(LicenseDialogueStart)
+$obj = new ScriptObject(LicenseDialogueStart)
 {
 	response["Quit"] = "ExitResponse";
 	messageCount = 1;
@@ -19,8 +13,9 @@ $LicenseDialogue[$count++] = new ScriptObject(LicenseDialogueStart)
 
 	dialogueTransitionOnTimeout = "LicenseDialogueCore";
 };
+$LicenseDialogueSet.add($obj);
 
-$LicenseDialogue[$count++] = new ScriptObject(LicenseDialogueCore)
+$obj = new ScriptObject(LicenseDialogueCore)
 {
 	response["CanPurchase"] = "LicenseConfirmation";
 	response["InsufficentExp"] = "LicenseFail";
@@ -37,8 +32,9 @@ $LicenseDialogue[$count++] = new ScriptObject(LicenseDialogueCore)
 	waitForResponse = 1;
 	responseParser = "licenseResponseParser";
 };
+$LicenseDialogueSet.add($obj);
 
-$LicenseDialogue[$count++] = new ScriptObject(LicenseConfirmation)
+$obj = new ScriptObject(LicenseConfirmation)
 {
 	response["Yes"] = "LicenseProduct";
 	response["No"] = "LicenseDialogueCore";
@@ -53,8 +49,9 @@ $LicenseDialogue[$count++] = new ScriptObject(LicenseConfirmation)
 	waitForResponse = 1;
 	responseParser = "yesNoResponseParser";
 };
+$LicenseDialogueSet.add($obj);
 
-$LicenseDialogue[$count++] = new ScriptObject(LicenseProduct)
+$obj = new ScriptObject(LicenseProduct)
 {
 	messageCount = 1;
 	message[0] = "Here's your %licenseType% licence!";
@@ -63,8 +60,9 @@ $LicenseDialogue[$count++] = new ScriptObject(LicenseProduct)
 	botTalkAnim = 1;
 	functionOnStart = "dialogue_purchaseLicense";
 };
+$LicenseDialogueSet.add($obj);
 
-$LicenseDialogue[$count++] = new ScriptObject(LicenseFail)
+$obj = new ScriptObject(LicenseFail)
 {
 	messageCount = 1;
 	message[0] = "You don't have enough farming experience! The %licenceType% license costs %total% experience.";
@@ -73,8 +71,9 @@ $LicenseDialogue[$count++] = new ScriptObject(LicenseFail)
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "LicenseDialogueCore";
 };
+$LicenseDialogueSet.add($obj);
 
-$LicenseDialogue[$count++] = new ScriptObject(LicenseOwned)
+$obj = new ScriptObject(LicenseOwned)
 {
 	messageCount = 1;
 	message[0] = "You already own the %licenseType% license!";
@@ -83,8 +82,9 @@ $LicenseDialogue[$count++] = new ScriptObject(LicenseOwned)
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "LicenseDialogueCore";
 };
+$LicenseDialogueSet.add($obj);
 
-$LicenseDialogue[$count++] = new ScriptObject(LicenseInvalid)
+$obj = new ScriptObject(LicenseInvalid)
 {
 	messageCount = 1;
 	message[0] = "You don't need a license for \"%licenseType%\"...";
@@ -93,6 +93,7 @@ $LicenseDialogue[$count++] = new ScriptObject(LicenseInvalid)
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "ExitResponse";
 };
+$LicenseDialogueSet.add($obj);
 
 
 

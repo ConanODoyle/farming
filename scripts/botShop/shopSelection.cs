@@ -1,18 +1,12 @@
 $DealRerollTimeout = 60 * 5;
 
-$count = 0;
-if (isObject($DealDialogue1))
+if (!isObject($DealDialogueSet))
 {
-	for (%i = 0; %i < 20; %i++)
-	{
-		if (isObject($DealDialogue[%i]))
-		{
-			$DealDialogue[%i].delete();
-		}
-	}
+	$DealDialogueSet = new SimSet(DealDialogueSet);
 }
+$DealDialogueSet.deleteAll();
 
-$DealDialogue[$count++] = new ScriptObject(ShopNotDeal)
+$obj = new ScriptObject(ShopNotDeal)
 {
 	messageCount = 1;
 	message[0] = "Sorry, I don't do special deals. Try asking someone whose offer changes regularly!";
@@ -20,8 +14,9 @@ $DealDialogue[$count++] = new ScriptObject(ShopNotDeal)
 
 	botTalkAnim = 1;
 };
+$DealDialogueSet.add($obj);
 
-$DealDialogue[$count++] = new ScriptObject(DealTimeout)
+$obj = new ScriptObject(DealTimeout)
 {
 	messageCount = 1;
 	message[0] = "Sorry, you'll have to wait %time% before I can change my deal!";
@@ -30,8 +25,9 @@ $DealDialogue[$count++] = new ScriptObject(DealTimeout)
 	botTalkAnim = 1;
 	functionOnStart = "checkDealTimeout";
 };
+$DealDialogueSet.add($obj);
 
-$DealDialogue[$count++] = new ScriptObject(DealChange)
+$obj = new ScriptObject(DealChange)
 {
 	messageCount = 1;
 	message[0] = "Okay, I can change my deal! Thanks for being a donator!";
@@ -39,6 +35,7 @@ $DealDialogue[$count++] = new ScriptObject(DealChange)
 
 	botTalkAnim = 1;
 };
+$DealDialogueSet.add($obj);
 
 
 

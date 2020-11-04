@@ -1,17 +1,10 @@
-
-$count = 0;
-if (isObject($RepairDialogue1))
+if (!isObject($RepairDialogueSet))
 {
-	for (%i = 0; %i < 20; %i++)
-	{
-		if (isObject($RepairDialogue[%i]))
-		{
-			$RepairDialogue[%i].delete();
-		}
-	}
+	$RepairDialogueSet = new SimSet(RepairDialogueSet);
 }
+$RepairDialogueSet.deleteAll();
 
-$RepairDialogue[$count++] = new ScriptObject(RepairDialogueStart)
+$obj = new ScriptObject(RepairDialogueStart)
 {
 	response["Quit"] = "ExitResponse";
 	messageCount = 1;
@@ -20,8 +13,9 @@ $RepairDialogue[$count++] = new ScriptObject(RepairDialogueStart)
 
 	dialogueTransitionOnTimeout = "RepairDialogueCore";
 };
+$RepairDialogueSet.add($obj);
 
-$RepairDialogue[$count++] = new ScriptObject(RepairDialogueCore)
+$obj = new ScriptObject(RepairDialogueCore)
 {
 	response["CanRepair"] = "RepairConfirmation";
 	response["InsufficientMoney"] = "RepairFail";
@@ -40,8 +34,9 @@ $RepairDialogue[$count++] = new ScriptObject(RepairDialogueCore)
 	waitForResponse = 1;
 	responseParser = "RepairResponseParser";
 };
+$RepairDialogueSet.add($obj);
 
-$RepairDialogue[$count++] = new ScriptObject(RepairFail)
+$obj = new ScriptObject(RepairFail)
 {
 	messageCount = 1;
 	message[0] = "You don't have enough money! Repairing %toolName% to full costs $%repairPrice%.";
@@ -50,8 +45,9 @@ $RepairDialogue[$count++] = new ScriptObject(RepairFail)
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "RepairDialogueCore";
 };
+$RepairDialogueSet.add($obj);
 
-$RepairDialogue[$count++] = new ScriptObject(RepairConfirmation)
+$obj = new ScriptObject(RepairConfirmation)
 {
 	response["Yes"] = "RepairProduct";
 	response["No"] = "RepairDialogueCore";
@@ -66,8 +62,9 @@ $RepairDialogue[$count++] = new ScriptObject(RepairConfirmation)
 	waitForResponse = 1;
 	responseParser = "yesNoResponseParser";
 };
+$RepairDialogueSet.add($obj);
 
-$RepairDialogue[$count++] = new ScriptObject(RepairInvalid)
+$obj = new ScriptObject(RepairInvalid)
 {
 	messageCount = 1;
 	message[0] = "I can't repair that...";
@@ -76,8 +73,9 @@ $RepairDialogue[$count++] = new ScriptObject(RepairInvalid)
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "ExitResponse";
 };
+$RepairDialogueSet.add($obj);
 
-$RepairDialogue[$count++] = new ScriptObject(RepairUnneeded)
+$obj = new ScriptObject(RepairUnneeded)
 {
 	messageCount = 1;
 	message[0] = "Your %toolName% doesn't need repairs...?";
@@ -86,8 +84,9 @@ $RepairDialogue[$count++] = new ScriptObject(RepairUnneeded)
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "RepairDialogueCore";
 };
+$RepairDialogueSet.add($obj);
 
-$RepairDialogue[$count++] = new ScriptObject(RepairProduct)
+$obj = new ScriptObject(RepairProduct)
 {
 	messageCount = 1;
 	message[0] = "I've repaired your %toolName%! Come again soon!";
@@ -96,6 +95,7 @@ $RepairDialogue[$count++] = new ScriptObject(RepairProduct)
 	botTalkAnim = 1;
 	functionOnStart = "dialogue_RepairProduct";
 };
+$RepairDialogueSet.add($obj);
 
 
 

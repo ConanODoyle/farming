@@ -12,7 +12,7 @@ function getBasicDialogueCounts(%dialogueObj)
 		for (%j = 0; %j < %bg.getCount(); %j++)
 		{
 			%brick = %bg.getObject(%j);
-			if (%brick.hBot && isObject(%brick.hBot))
+			if (%brick.dataBlock.isBotHole)
 			{
 				for (%k = 0; %k < %brick.numEvents; %k++)
 				{

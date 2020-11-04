@@ -1,16 +1,10 @@
-$count = 0;
-if (isObject($CropInfo1))
+if (!isObject($CropInfoSet))
 {
-	for (%i = 0; %i < 30; %i++)
-	{
-		if (isObject($CropInfo[%i]))
-		{
-			$CropInfo[%i].delete();
-		}
-	}
+	$CropInfoSet = new SimSet(CropInfoSet);
 }
+$CropInfoSet.deleteAll();
 
-$CropInfo[$count++] = new ScriptObject(CropInfoStart)
+$obj = new ScriptObject(CropInfoStart)
 {
 	response["Quit"] = "ExitResponse";
 
@@ -22,8 +16,9 @@ $CropInfo[$count++] = new ScriptObject(CropInfoStart)
 
 	dialogueTransitionOnTimeout = "CropInfoCore";
 };
+$CropInfoSet.add($obj);
 
-$CropInfo[$count++] = new ScriptObject(CropInfoCore)
+$obj = new ScriptObject(CropInfoCore)
 {
 	response["InvalidSelection"] = "CropInfoInvalidSelection";
 	response["BasicInfo"] = "CropInfoSelection";
@@ -37,8 +32,9 @@ $CropInfo[$count++] = new ScriptObject(CropInfoCore)
 	waitForResponse = 1;
 	responseParser = "cropInfoSelectionParser";
 };
+$CropInfoSet.add($obj);
 
-$CropInfo[$count++] = new ScriptObject(CropInfoInvalidSelection)
+$obj = new ScriptObject(CropInfoInvalidSelection)
 {
 	response["Quit"] = "ExitResponse";
 
@@ -48,8 +44,9 @@ $CropInfo[$count++] = new ScriptObject(CropInfoInvalidSelection)
 
 	dialogueTransitionOnTimeout = "CropInfoCore";
 };
+$CropInfoSet.add($obj);
 
-$CropInfo[$count++] = new ScriptObject(CropInfoSelection)
+$obj = new ScriptObject(CropInfoSelection)
 {
 	response["Quit"] = "ExitResponse";
 
@@ -62,6 +59,7 @@ $CropInfo[$count++] = new ScriptObject(CropInfoSelection)
 	functionOnStart = "setupCropInfo";
 	dialogueTransitionOnTimeout = "CropInfoCore";
 };
+$CropInfoSet.add($obj);
 
 
 

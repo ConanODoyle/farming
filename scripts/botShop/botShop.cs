@@ -1,17 +1,10 @@
-
-$count = 0;
-if (isObject($PurchaseDialogue1))
+if (!isObject($ShopDialogueSet))
 {
-	for (%i = 0; %i < 20; %i++)
-	{
-		if (isObject($PurchaseDialogue[%i]))
-		{
-			$PurchaseDialogue[%i].delete();
-		}
-	}
+	$ShopDialogueSet = new SimSet(ShopDialogueSet);
 }
+$ShopDialogueSet.deleteAll();
 
-$PurchaseDialogue[$count++] = new ScriptObject(PurchaseDialogueStart)
+$obj = new ScriptObject(PurchaseDialogueStart)
 {
 	response["Quit"] = "ExitResponse";
 	messageCount = 1;
@@ -21,8 +14,9 @@ $PurchaseDialogue[$count++] = new ScriptObject(PurchaseDialogueStart)
 
 	dialogueTransitionOnTimeout = "PurchaseDialogueCore";
 };
+$ShopDialogueSet.add($obj);
 
-$PurchaseDialogue[$count++] = new ScriptObject(PurchaseDialogueCore)
+$obj = new ScriptObject(PurchaseDialogueCore)
 {
 	response["CanPurchase"] = "PurchaseConfirmation";
 	response["CanPurchaseSingular"] = "PurchaseConfirmationSingular";
@@ -41,8 +35,9 @@ $PurchaseDialogue[$count++] = new ScriptObject(PurchaseDialogueCore)
 	waitForResponse = 1;
 	responseParser = "purchaseResponseParser";
 };
+$ShopDialogueSet.add($obj);
 
-$PurchaseDialogue[$count++] = new ScriptObject(PurchaseConfirmation)
+$obj = new ScriptObject(PurchaseConfirmation)
 {
 	response["Yes"] = "PurchaseProduct";
 	response["No"] = "PurchaseDialogueCore";
@@ -57,13 +52,15 @@ $PurchaseDialogue[$count++] = new ScriptObject(PurchaseConfirmation)
 	waitForResponse = 1;
 	responseParser = "yesNoResponseParser";
 };
+$ShopDialogueSet.add($obj);
 
-$PurchaseDialogue[$count++] = new ScriptObject(PurchaseConfirmationSingular : PurchaseConfirmation)
+$obj = new ScriptObject(PurchaseConfirmationSingular : PurchaseConfirmation)
 {
 	message[0] = "That'll be $%total% for %amount% %product%. Are you sure? Say yes to confirm.";
 };
+$ShopDialogueSet.add($obj);
 
-$PurchaseDialogue[$count++] = new ScriptObject(PurchaseProduct)
+$obj = new ScriptObject(PurchaseProduct)
 {
 	messageCount = 1;
 	message[0] = "Here's %amount% %product%s for $%total%! Thanks!";
@@ -72,8 +69,9 @@ $PurchaseDialogue[$count++] = new ScriptObject(PurchaseProduct)
 	botTalkAnim = 1;
 	functionOnStart = "dialogue_purchaseProduct";
 };
+$ShopDialogueSet.add($obj);
 
-$PurchaseDialogue[$count++] = new ScriptObject(PurchaseFail)
+$obj = new ScriptObject(PurchaseFail)
 {
 	messageCount = 2;
 	message[0] = "You don't have enough money! %amount% %product%s cost $%total%.";
@@ -84,13 +82,15 @@ $PurchaseDialogue[$count++] = new ScriptObject(PurchaseFail)
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "PurchaseDialogueCore";
 };
+$ShopDialogueSet.add($obj);
 
-$PurchaseDialogue[$count++] = new ScriptObject(PurchaseFailSingular : PurchaseFail)
+$obj = new ScriptObject(PurchaseFailSingular : PurchaseFail)
 {
 	message[0] = "You don't have enough money! %amount% %product% costs $%total%.";
 };
+$ShopDialogueSet.add($obj);
 
-$PurchaseDialogue[$count++] = new ScriptObject(PurchaseInvalid)
+$obj = new ScriptObject(PurchaseInvalid)
 {
 	messageCount = 1;
 	message[0] = "I can't sell you %amount% %product%s...";
@@ -99,8 +99,9 @@ $PurchaseDialogue[$count++] = new ScriptObject(PurchaseInvalid)
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "ExitResponse";
 };
+$ShopDialogueSet.add($obj);
 
-$PurchaseDialogue[$count++] = new ScriptObject(LicenseRequiredDialogue)
+$obj = new ScriptObject(LicenseRequiredDialogue)
 {
 	messageCount = 1;
 	message[0] = "You need a license to buy those! Get one from the Farming Overseer in City Hall!";
@@ -109,6 +110,7 @@ $PurchaseDialogue[$count++] = new ScriptObject(LicenseRequiredDialogue)
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "ExitResponse";
 };
+$ShopDialogueSet.add($obj);
 
 
 
@@ -213,19 +215,8 @@ function purchaseResponseParser(%dataObj, %msg)
 
 
 
-$count = 0;
-if (isObject($StoreDialogue1))
-{
-	for (%i = 0; %i < 20; %i++)
-	{
-		if (isObject($StoreDialogue[%i]))
-		{
-			$StoreDialogue[%i].delete();
-		}
-	}
-}
 
-$StoreDialogue[$count++] = new ScriptObject(StoreDialogueStart)
+$obj = new ScriptObject(StoreDialogueStart)
 {
 	response["Quit"] = "ExitResponse";
 	messageCount = 1;
@@ -235,8 +226,9 @@ $StoreDialogue[$count++] = new ScriptObject(StoreDialogueStart)
 
 	dialogueTransitionOnTimeout = "StoreDialogueCore";
 };
+$ShopDialogueSet.add($obj);
 
-$StoreDialogue[$count++] = new ScriptObject(StoreDialogueCore)
+$obj = new ScriptObject(StoreDialogueCore)
 {
 	response["ValidSelection"] = "PurchaseDialogueCore";
 	response["InvalidSelection"] = "SelectionInvalid";
@@ -253,8 +245,9 @@ $StoreDialogue[$count++] = new ScriptObject(StoreDialogueCore)
 	waitForResponse = 1;
 	responseParser = "storeSelectionParser";
 };
+$ShopDialogueSet.add($obj);
 
-$StoreDialogue[$count++] = new ScriptObject(SelectionInvalid)
+$obj = new ScriptObject(SelectionInvalid)
 {
 	messageCount = 1;
 	message[0] = "I'm not selling that. Something else, maybe?";
@@ -263,6 +256,7 @@ $StoreDialogue[$count++] = new ScriptObject(SelectionInvalid)
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "StoreDialogueCore";
 };
+$ShopDialogueSet.add($obj);
 
 
 

@@ -1,17 +1,10 @@
-
-$count = 0;
-if (isObject($BuyDialogue1))
+if (!isObject($BuyDialogueSet))
 {
-	for (%i = 0; %i < 20; %i++)
-	{
-		if (isObject($BuyDialogue[%i]))
-		{
-			$BuyDialogue[%i].delete();
-		}
-	}
+	$BuyDialogueSet = new SimSet(BuyDialogueSet);
 }
+$BuyDialogueSet.deleteAll();
 
-$BuyDialogue[$count++] = new ScriptObject(BuyDialogueStart)
+$obj = new ScriptObject(BuyDialogueStart)
 {
 	response["Quit"] = "ExitResponse";
 
@@ -23,6 +16,7 @@ $BuyDialogue[$count++] = new ScriptObject(BuyDialogueStart)
 
 	functionOnStart = "setupBuyDialogue";
 };
+$BuyDialogueSet.add($obj);
 
 function setupBuyDialogue(%dataObj)
 {
