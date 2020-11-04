@@ -14,7 +14,7 @@ JeepSpring.damping = 5000;
 HorseArmor.maxForwardSpeed = 10;
 HorseArmor.maxForwardCrouchSpeed = 10;
 
-
+$Farming::BappsMatCycleTime = 60 * 60 * 1000 | 0; // 1 hour
 function addBappsMatStrings()
 {
 	addBappsMatString("gaming");

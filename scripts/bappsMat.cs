@@ -1,7 +1,5 @@
 // brapps
 
-$Farming::BappsMatCycleTime = 60 * 60 * 1000 | 0; // 1 hour
-
 function centerString(%string, %width) {
 	if (strLen(%string) % 2 != strLen(%width) % 2) {
 		%string = %string @ " ";
