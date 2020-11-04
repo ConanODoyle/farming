@@ -4,7 +4,7 @@ function unloadLot(%bl_id)
 	{
 		talk("ERROR: unloadLot - BLID " @ %bl_id @ " does not have a lot loaded!");
 		error("ERROR: unloadLot - BLID " @ %bl_id @ " does not have a lot loaded!");
-		return;
+		return -2;
 	}
 
 	%bg = "Brickgroup_" @ %bl_id;

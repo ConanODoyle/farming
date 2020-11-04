@@ -1,5 +1,3 @@
-$Farming::LotUnloadPrice = 200;
-
 if (!isObject($LotManageDialogueSet))
 {
 	$LotManageDialogueSet = new SimSet(LotManageDialogueSet);
@@ -208,11 +206,10 @@ function hasSavedLot(%bl_id)
 	return isFile("saves/Autosaver/" @ $Pref::Farming::LastLotAutosave[%bl_id] @ ".bls");
 }
 
-function hasLoadedLot(%bl_id)
+function getLoadedLot(%bl_id)
 {
 	%bg = "Brickgroup_" @ %bl_id;
-	
-	%singleLot = 0;
+
 	if (isObject(%bg))
 	{
 		for (%i = 0; %i < getWordCount(%bg.lotList); %i++)
@@ -220,19 +217,24 @@ function hasLoadedLot(%bl_id)
 			%b = getWord(%bg.lotList, %i);
 			if (%b.getDatablock().isLot && %b.getDatablock().isSingle)
 			{
-				%singleLot = 1;
-				break;
+				return %b;
 			}
 		}
 	}
+	return 0;
+}
+
+function hasLoadedLot(%bl_id)
+{
+	%lotExists = isObject(getLoadedLot(%bl_id));
 
 	if (hasSavedLot(%bl_id)) //has a lot save, return lot value
 	{
-		return %singleLot;
+		return %lotExists;
 	}
-	else if (!%singleLot) //no file, no lot at all
+	else if (!%lotExists) //no file, no lot at all
 	{
-		return 2;
+		return "noSavedLot";
 	}
 	else
 	{

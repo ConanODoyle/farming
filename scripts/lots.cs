@@ -246,6 +246,14 @@ function SimGroup::refreshLotList(%bg)
 
 	%bg.lotList = trim(%str);
 	%bg.lotCount = getWordCount(%bg.lotList);
+
+	if ($Farming::ReloadLot[%bg.bl_id] !$= "")
+	{
+		%lot = getWord($Farming::ReloadLot[%bg.bl_id], 0);
+		%rotation = getWord($Farming::ReloadLot[%bg.bl_id], 1);
+		$Farming::ReloadLot[%bg.bl_id] = "";
+		loadLot(%bg.bl_id, %lot, %rotation);
+	}
 }
 
 function fixLotColor(%brick)
@@ -403,7 +411,7 @@ function getLotCost(%count, %lot)
 function serverCmdLoadLot(%cl, %rotation)
 {
 	%load = hasLoadedLot(%cl.bl_id);
-	if (%load == 2)
+	if (%load $= "noSavedLot")
 	{
 		messageClient(%cl, '', "You don't have a lot, or a lot saved! Use /buyLot to buy a single lot for free.");
 		return;
@@ -411,11 +419,6 @@ function serverCmdLoadLot(%cl, %rotation)
 	else if (%load == 1)
 	{
 		messageClient(%cl, '', "Your lot is already loaded! You can unload your lot in town.");
-		return;
-	}
-	else if (!hasSavedLot(%cl.bl_id))
-	{
-		messageClient(%cl, '', "You don't have a lot to load!");
 		return;
 	}
 	serverCmdBuyLot(%cl, %rotation);
@@ -487,6 +490,10 @@ function serverCmdBuyLot(%cl, %rotation)
 		if (hasSavedLot(%cl.bl_id) && !hasLoadedLot(%cl.bl_id))
 		{
 			messageClient(%cl, '', "\c5Are you sure you want to load your lot here? Repeat /loadLot to confirm.");
+			if (%rotation $= "")
+			{
+				messageClient(%cl, '', "\c5You can rotate your lot by any number of 90 degree counterclockwise turns with /loadLot [rotation].");
+			}
 		}
 		else
 		{
@@ -501,6 +508,8 @@ function serverCmdBuyLot(%cl, %rotation)
 	if (hasSavedLot(%cl.bl_id) && !hasLoadedLot(%cl.bl_id))
 	{
 		loadLot(%cl.bl_id, %hit, %rotation);
+		%cl.repeatBuyLot = 0;
+		cancel(%cl.clearRepeatBuyLotSched);
 		return;
 	}
 
@@ -517,6 +526,74 @@ function serverCmdBuyLot(%cl, %rotation)
 	%cl.repeatBuyLot = 0;
 
 	messageClient(%cl, '', "\c5You bought a lot for \c0" @ %costString @ "\c5!");
+}
+
+function serverCmdRotateLot(%cl, %rotation)
+{
+	if ($nextLotRotation[%cl.bl_id] > $Sim::Time)
+	{
+		messageClient(%cl, '', "You need to wait " @ convTime($nextLotRotation[%cl.bl_id]) @ " before rotating your lot again.");
+		return;
+	}
+
+	if (%rotation == 0)
+	{
+		messageClient(%cl, '', "Please provide a number to rotate your lot.");
+		messageClient(%cl, '', "Put in a number to rotate your lot by that many 90 degree increments, counterclockwise.");
+		return;
+	}
+
+	if (%cl.repeatRotateLot != %rotation)
+	{
+		if (hasLoadedLot(%cl.bl_id))
+		{
+			messageClient(%cl, '', "\c5Are you sure you want to rotate your lot by " @ mAbs(%rotation) * 90 @ " degrees " @ ((%rotation >= 0) ? "counter" : "") @ "clockwise?");
+			messageClient(%cl, '', "\c5This will cost \c3$" @ $Farming::LotRotatePrice @ "\c5. Type /rotateLot " @ %rotation @ " again to confirm.");
+			%cl.repeatRotateLot = %rotation;
+			%cl.clearRepeatRotateLotSched = schedule(5000, %cl, eval, %cl @ ".repeatRotateLot = \"\";");
+			return;
+		}
+		else
+		{
+			messageClient(%cl, '', "You don't currently have a lot to rotate!");
+			if (hasSavedLot(%cl.bl_id))
+			{
+				messageClient(%cl, '', "However, you have a saved lot. If you want to load and rotate this lot, use /loadLot [rotation].");
+				messageClient(%cl, '', "Put in a number to rotate your lot by that many 90 degree increments, counterclockwise.");
+			}
+			else
+			{
+				messageClient(%cl, '', "You can buy an unclaimed red lot with /buyLot.");
+				messageClient(%cl, '', "Once you've claimed a lot, you can use this function to rotate your lot by 90 degree counterclockwise increments.");
+			}
+			return;
+		}
+	}
+	else
+	{
+		%lot = getLoadedLot(%cl.bl_id);
+		$Farming::ReloadLot[%cl.bl_id] = %lot SPC %rotation;
+		%unloadResult = unloadLot(%cl.bl_id);
+
+		if (%unloadResult == -1)
+		{
+			messageClient(%cl, '', "Please wait for a few moments. Either the autosaver is currently running or another player is unloading their lot.");
+			$Farming::ReloadLot[%cl.bl_id] = "";
+			return;
+		}
+		else if (%unloadResult == -2)
+		{
+			messageClient(%cl, '', "Something went wrong. Your lot brick no longer exists. Please inform an admin.");
+			$Farming::ReloadLot[%cl.bl_id] = "";
+			return;
+		}
+
+		messageClient(%cl, '', "\c5You have rotated your lot for \c0$" @ $Farming::LotRotatePrice @ "\c5. Please wait while your lot reloads.");
+		%cl.score -= $Farming::LotRotatePrice;
+		%cl.repeatRotateLot = "";
+		cancel(%cl.clearRepeatRotateLotSched);
+		return;
+	}
 }
 
 function serverCmdSellLot(%cl, %force)

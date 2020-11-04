@@ -81,3 +81,6 @@ $BuyCost_["RoseSeed"] = 1.00;
 
 $BuyCost_["Fertilizer"] = 1.60;
 $BuyCost_["Weed_Killer"] = 5.00;
+
+$Farming::LotRotatePrice = 20;
+$Farming::LotUnloadPrice = 200;
