@@ -11,7 +11,7 @@ $obj = new ScriptObject(BuyDialogueStart)
 	messageCount = 2;
 	message[0] = "Hello!";
 	messageTimeout[0] = 1;
-	message[1] = "I'm buying %purchase%! Toss me anything you'd like to sell.";
+	message[1] = "I'm buying %purchase%%factorPhrase%! Toss me anything you'd like to sell.";
 	messageTimeout[1] = 1;
 
 	functionOnStart = "setupBuyDialogue";
@@ -62,14 +62,29 @@ function setupBuyDialogue(%dataObj)
 	{
 		%dataObj.var_purchase = %buyer.buyType;
 	}
+
+	if (%buyer.buyFactor != 1)
+	{
+		%dataObj.var_factorPhrase = " for " @ mFloor(%buyer.buyFactor * 100) @ "% of its normal price";
+	}
 }
 
 
-function AIPlayer::setBuyMode(%bot, %mode, %item, %string)
+function AIPlayer::setBuyMode(%bot, %mode, %item, %string, %factor)
 {
 	%bot.buyType = "";
 	%bot.buyItems = "";
 	%bot.buyItem = "";
+	
+	if (%factor > 0) //no ternary cause that casts to int >:(
+	{
+		%bot.buyFactor = %factor;
+	}
+	else
+	{
+		%bot.buyFactor = 1;
+	}
+
 	switch (%mode)
 	{
 		case 0: //All
@@ -82,7 +97,7 @@ function AIPlayer::setBuyMode(%bot, %mode, %item, %string)
 			%bot.buyType = %string;
 	}
 }
-registerOutputEvent("Bot", "setBuyMode", "list All 0 Item 1 Items 2 ItemType 3" TAB "dataBlock ItemData" TAB "string 200 250", 1);
+registerOutputEvent("Bot", "setBuyMode", "list All 0 Item 1 Items 2 ItemType 3" TAB "dataBlock ItemData" TAB "string 200 100" TAB "string 200 20", 1);
 
 
 function AIPlayer::canBuy(%bot, %item)
@@ -184,9 +199,9 @@ function AIPlayer::attemptBuy(%bot, %item)
 		{
 			%amount = %amount / 2;
 		}
-		if (%bot.buyMultiplier > 0)
+		if (%bot.buyFactor > 0)
 		{
-			%amount *= %bot.buyMultiplier;
+			%amount *= %bot.buyFactor;
 		}
 	}
 	else
