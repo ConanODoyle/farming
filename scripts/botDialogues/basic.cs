@@ -200,7 +200,7 @@ $BotDialogue[$count++] = new ScriptObject(PyramidSchemeDialogue)
 {
 	messageCount = 2;
 	message[0] = "Hi, I'm selling pyramids! For every pyramid you buy, you'll get two later!";
-	messageTimeout[0] = 5;
+	messageTimeout[0] = 3;
 	message[1] = "You can then sell these back to me for their original price!";
 	messageTimeout[1] = 2;
 };
