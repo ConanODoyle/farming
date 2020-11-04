@@ -42,5 +42,11 @@ function getSellPrice(%name, %count) //price to sell items to bots
 		%basePrice = $SellCost_[%name];
 	}
 
+	if (%basePrice <= 0)
+	{
+		//fallback to 50% of buy price
+		%basePrice = mFloatLength(getBuyPrice(%name, 1) * 0.5, 2);
+	}
+
 	return %basePrice * %count;
 }
