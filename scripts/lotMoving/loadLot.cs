@@ -1,3 +1,13 @@
+%error = forceRequiredAddon("Server_Floating_Bricks");
+
+if (%error == $Error::Addon_NotFound)
+{
+	error("ERROR: Server_Farming/lib/automodSettings.cs - required add-on Server_Floating_Bricks not found!");
+	error("Will not continue, please install Server_Floating_Bricks");
+	crash();
+}
+
+
 function farmingProcessLotColorData(%loadFile, %colorMethod)
 {
 	%colorCount = -1;
@@ -519,7 +529,7 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 		%line = getSubStr(%line, %quotePos + 2, 9999);
 		%pos = getWords(%line, 0, 2);
 		%angId = getWord(%line, 3);
-		%isBaseplate = getWord(%line, 4) || %db.isLot;
+		%isBaseplate = getWord(%line, 4);
 		%colorId = %loadFile.colorTranslation[mFloor(getWord(%line, 5))];
 		%printName = getWord(%line, 6);
 		if (strpos(%printName, "/") != -1)
@@ -583,6 +593,10 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 				isPlanted = 1;
 				skipBuy = 1;
 			};
+			if (%db.isLot)
+			{
+				%b.forceBaseplate; // relies on Server_Floating_Bricks
+			}
 			if (isObject(%brickGroup))
 			{
 				%brickGroup.add(%b);
