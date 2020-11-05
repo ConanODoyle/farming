@@ -519,7 +519,7 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 		%line = getSubStr(%line, %quotePos + 2, 9999);
 		%pos = getWords(%line, 0, 2);
 		%angId = getWord(%line, 3);
-		%isBaseplate = getWord(%line, 4);
+		%isBaseplate = getWord(%line, 4) || %db.isLot;
 		%colorId = %loadFile.colorTranslation[mFloor(getWord(%line, 5))];
 		%printName = getWord(%line, 6);
 		if (strpos(%printName, "/") != -1)
@@ -583,10 +583,6 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 				isPlanted = 1;
 				skipBuy = 1;
 			};
-			if (%b.getDataBlock().isLot)
-			{
-				%b.isBaseplate = 1;
-			}
 			if (isObject(%brickGroup))
 			{
 				%brickGroup.add(%b);
