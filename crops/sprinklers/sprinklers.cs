@@ -795,15 +795,15 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 
 		if (%hitDB.isSprinkler || %hitDB.isWaterTank)
 		{
-			if (!isObject(%obj.waterLinkObj))
+			if (%obj.waterLinkObj == %hit)
 			{
-				%obj.waterLinkObj = %hit;
+				%obj.waterLinkObj = "";
 				SprinklerLinkImage::onLoop(%this, %obj, %slot);
 				return;
 			}
-			else if (%obj.waterLinkObj == %hit)
+			else if (%hitDB.isSprinkler)
 			{
-				%obj.waterLinkObj = "";
+				%obj.waterLinkObj = %hit;
 				SprinklerLinkImage::onLoop(%this, %obj, %slot);
 				return;
 			}
