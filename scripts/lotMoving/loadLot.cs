@@ -583,6 +583,10 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 				isPlanted = 1;
 				skipBuy = 1;
 			};
+			if (%b.getDataBlock().isLot)
+			{
+				%b.isBaseplate = 1;
+			}
 			if (isObject(%brickGroup))
 			{
 				%brickGroup.add(%b);
