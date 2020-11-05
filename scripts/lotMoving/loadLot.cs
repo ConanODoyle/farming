@@ -595,7 +595,7 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 			};
 			if (%db.isLot)
 			{
-				%b.forceBaseplate; // relies on Server_Floating_Bricks
+				%b.forceBaseplate = 1; // relies on Server_Floating_Bricks
 			}
 			if (isObject(%brickGroup))
 			{
