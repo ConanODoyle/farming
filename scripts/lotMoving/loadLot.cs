@@ -209,6 +209,29 @@ function rotatePoint(%center, %point, %deg)
 
 function farmingLoadLotEnd(%loadFile, %dataObj)
 {
+	// loop through all of the bricks
+	%brickSet = %dataObj.brickSet;
+	if (isObject(%brickSet))
+	{
+		%numBricks = %brickSet.getCount();
+		for(%i = 0; %i < %numBricks; %i++)
+		{
+			%brick = %brickSet.getObject(%i);
+
+			// check if brick is floating
+			if(!%brick.hasPathToGround() && %brick.getNumDownBricks() == 0)
+			{
+				%brick.isFloatingBrick = true;
+				%brick.isBaseplate = true;
+
+				// fixes a strange bug
+				if(%brick.getNumUpBricks() != 0)
+					%brick.onToolBreak(); // wtf
+			}
+		}
+		%dataObj.brickSet.delete();
+	}
+
 	%time = getSimTime() - %startTime;
 	%loadFile.delete();
 	restoreLotBricks(%dataObj);
@@ -593,10 +616,6 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 				isPlanted = 1;
 				skipBuy = 1;
 			};
-			if (%db.isLot)
-			{
-				%b.forceBaseplate = 1; // relies on Server_Floating_Bricks
-			}
 			if (isObject(%brickGroup))
 			{
 				%brickGroup.add(%b);
@@ -663,6 +682,11 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 				{
 					%lastLoadedBrick.client = %client;
 				}
+				if (!isObject(%dataObj.brickSet))
+				{
+					%dataObj.brickSet = new SimSet();
+				}
+				%dataObj.brickSet.add(%b);
 			}
 		}
 		else 

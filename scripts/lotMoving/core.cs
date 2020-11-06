@@ -180,6 +180,8 @@ function restoreLotBricks(%dataObj)
 			colorID = 0;
 		};
 		%err = %b.plant();
+		%b.isFloatingBrick = 1;
+		%b.isBaseplate = 1;
 		if (%err != 2 && %err != 0)
 		{
 			%b.delete();
