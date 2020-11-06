@@ -29,18 +29,18 @@ function getBasicDialogueCounts(%dialogueObj)
 	return %count + 0 TAB trim(%list);
 }
 
-function getAllDialogueCounts()
+function getAllDialogueCounts(%set)
 {
 	messageAll('', "\c6Dialogue Counts:");
-	for (%i = 1; %i < 40; %i++)
+	for (%i = 0; %i < %set.getCount(); %i++)
 	{
-		if (!isObject($BotDialogue[%i]))
-		{
-			break;
-		}
-		%obj = $BotDialogue[%i];
-		%count = getBasicDialogueCounts(%obj);
-
-		messageAll('', "\c5" @ %obj.getName() @ "\c6: " @ %count);
+		%obj = %set.getObject(%i);
+		schedule(10 * %i, MissionCleanup, talkDialogueCount, %obj);
 	}
+}
+
+function talkDialogueCount(%obj)
+{
+	%count = getWord(getBasicDialogueCounts(%obj), 0);
+	messageAll('', "\c5" @ %obj.getName() @ "\c6: " @ %count);
 }
