@@ -155,14 +155,13 @@ function setupPurchase(%dataObj)
 function purchaseResponseParser(%dataObj, %msg)
 {
 	%pl = %dataObj.player;
-	%product = %dataObj.sellItem;
 
 	%string = stripChars(%msg, "-1234567890");
 	%num = stripChars(%msg, %string);
 
 	if (%num > 0)
 	{
-		%price = getBuyPrice(%product.uiName, %num);
+		%price = %dataObj.var_price * %num;
 	}
 
 	%type = %dataObj.sellItem.stackType;

@@ -151,7 +151,7 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(CompostBinDialogue1)
 {
 	messageCount = 2;
-	message[0] = "Buy your compost bins here! To make compost, you just toss in any full basket of crops.";
+	message[0] = "Compost bins make compost that provide nitrogen to soil! To make compost, you just toss in full baskets of crops.";
 	messageTimeout[0] = 2;
 	message[1] = "Over time, the produce will decompose and generate compost!";
 	messageTimeout[1] = 2;
