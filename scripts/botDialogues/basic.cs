@@ -251,3 +251,13 @@ $obj = new ScriptObject(PyramidSchemeDialogue)
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
+
+$obj = new ScriptObject(MailEnhancementDialogue)
+{
+	messageCount = 2;
+	message[0] = "We've got a special deal going on!";
+	messageTimeout[0] = 3;
+	message[1] = "Sign up for our mail enhancement program and gain 5\" of mailbox space!";
+	messageTimeout[1] = 2;
+};
+$BasicDialogueSet.add($obj);
