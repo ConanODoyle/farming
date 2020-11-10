@@ -28,7 +28,7 @@ $obj = new ScriptObject(PurchaseDialogueCore)
 	response["Error"] = "ErrorResponse";
 
 	messageCount = 1;
-	message[0] = "I'm selling %product%s at $%price% per item! How many would you like to buy?";
+	message[0] = "I'm selling %productPlural% at $%price% per item! How many would you like to buy?";
 	messageTimeout[0] = 1;
 
 	botTalkAnim = 1;
@@ -45,7 +45,7 @@ $obj = new ScriptObject(PurchaseConfirmation)
 	response["Error"] = "PurchaseDialogueCore";
 
 	messageCount = 1;
-	message[0] = "That'll be $%total% for %amount% %product%s. Are you sure? Say yes to confirm.";
+	message[0] = "That'll be $%total% for %amount% %productPlural%. Are you sure? Say yes to confirm.";
 	messageTimeout[0] = 1;
 
 	botTalkAnim = 1;
@@ -63,7 +63,7 @@ $ShopDialogueSet.add($obj);
 $obj = new ScriptObject(PurchaseProduct)
 {
 	messageCount = 1;
-	message[0] = "Here's %amount% %product%s for $%total%! Thanks!";
+	message[0] = "Here's %amount% %productPlural% for $%total%! Thanks!";
 	messageTimeout[0] = 1;
 
 	botTalkAnim = 1;
@@ -74,9 +74,9 @@ $ShopDialogueSet.add($obj);
 $obj = new ScriptObject(PurchaseFail)
 {
 	messageCount = 2;
-	message[0] = "You don't have enough money! %amount% %product%s cost $%total%.";
+	message[0] = "You don't have enough money! %amount% %productPlural% cost $%total%.";
 	messageTimeout[0] = 1;
-	message[1] = "You can buy at most %maxAmount% %product%s for $%maxTotal%.";
+	message[1] = "You can buy at most %maxAmount% %productPlural% for $%maxTotal%.";
 	messageTimeout[1] = 1;
 
 	botTalkAnim = 1;
@@ -93,7 +93,7 @@ $ShopDialogueSet.add($obj);
 $obj = new ScriptObject(PurchaseInvalid)
 {
 	messageCount = 1;
-	message[0] = "I can't sell you %amount% %product%s...";
+	message[0] = "I can't sell you %amount% %productPlural%...";
 	messageTimeout[0] = 2;
 
 	botTalkAnim = 1;
@@ -146,9 +146,24 @@ function setupPurchase(%dataObj)
 	%seller = %dataObj.speaker;
 
 	%mod = %seller.sellPriceMod > 0 ? %seller.sellPriceMod : 1;
+	%uiName = %seller.sellItem.uiName;
+	%lastChar = getSubStr(%uiName, strLen(%uiName) - 1, 1);
+	if (%lastChar $= "y")
+	{
+		%productPlural = getSubStr(%uiName, 0, strLen(%uiName) - 1) @ "ies";
+	}
+	else if (%lastChar $= "x" || getSubStr(%uiName, strLen(%uiName) - 6, 6) $= "tomato")
+	{
+		%productPlural = %uiName @ "es";
+	}
+	else
+	{
+		%productPlural = %uiName @ "s";
+	}
 
 	%dataObj.sellItem = %seller.sellItem;
 	%dataObj.var_product = %seller.sellItem.uiName;
+	%dataObj.var_productPlural = %productPlural;
 	%dataObj.var_price = mFloatLength(getBuyPrice(%seller.sellItem, 1) * %mod, 2);
 }
 
