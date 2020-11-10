@@ -212,6 +212,26 @@ $obj = new ScriptObject(TaskManagerDialogue)
 };
 $BasicDialogueSet.add($obj);
 
+$obj = new ScriptObject(CoalMiningDialogue)
+{
+	messageCount = 2;
+	message[0] = "Hey you, you can mine coal here! Use it to fuel coal generators, or sell it in town for a small profit.";
+	messageTimeout[0] = 2;
+	message[1] = "Grab a pickaxe and get to it! Each coal takes 100 seconds to burn.";
+	messageTimeout[1] = 2;
+};
+$BasicDialogueSet.add($obj);
+
+$obj = new ScriptObject(PhosphateMiningDialogue)
+{
+	messageCount = 2;
+	message[0] = "Hey you, you can mine phosphate here! Use it to fertilize dirt for crops that need it.";
+	messageTimeout[0] = 2;
+	message[1] = "Grab a pickaxe and get to it! Each phosphate ore gives 5 phosphate to dirt it's applied to.";
+	messageTimeout[1] = 2;
+};
+$BasicDialogueSet.add($obj);
+
 $obj = new ScriptObject(FakeSellerDialogue)
 {
 	messageCount = 2;
