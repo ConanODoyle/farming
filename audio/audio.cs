@@ -210,6 +210,14 @@ datablock AudioProfile(ZeusShrine2Sound)
 	uiName = "Zeushrine 2";
 };
 
+datablock AudioProfile(FFIXShipMusic)
+{
+	filename = "./Music/FFIX_-_Place_III_Return.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Airship Music";
+};
+
 
 
 
