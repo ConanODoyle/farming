@@ -102,7 +102,7 @@ BS_Tools_Farming.option[BS_Tools_Farming.count++ - 1]  = "PlanterItem"			TAB 25;
 BS_Tools_Farming.option[BS_Tools_Farming.count++ - 1]  = "PlanterV2Item"		TAB 15;
 BS_Tools_Farming.option[BS_Tools_Farming.count++ - 1]  = "ReclaimerItem"		TAB 20;
 BS_Tools_Farming.option[BS_Tools_Farming.count++ - 1]  = "WeedKiller0Item"		TAB 20;
-BS_Tools_Farming.option[BS_Tools_Farming.count++ - 1]  = "Fertilizer0Item"		TAB 20;
+BS_Tools_Farming.option[BS_Tools_Farming.count++ - 1]  = "FertilizerBag0Item"	TAB 20;
 
 
 BS_Tools_Watering.option[BS_Tools_Watering.count++ - 1]  = "WateringCan2Item"	TAB 120;
