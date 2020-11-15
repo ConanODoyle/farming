@@ -82,6 +82,7 @@ BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "HoseItem"					TAB 50;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "HoseV2Item"				TAB 20;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "TrowelItem"				TAB 50;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "ClipperItem"				TAB 50;
+BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "TreeClipperItem"			TAB 15;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "HoeItem"					TAB 35;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "SickleItem"				TAB 35;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "PlanterItem"				TAB 25;
@@ -96,6 +97,7 @@ BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "WateringCatItem"			TAB 5;
 
 BS_Tools_Farming.option[BS_Tools_Farming.count++ - 1]  = "TrowelItem"			TAB 50;
 BS_Tools_Farming.option[BS_Tools_Farming.count++ - 1]  = "ClipperItem"			TAB 50;
+BS_Tools_Farming.option[BS_Tools_Farming.count++ - 1]  = "TreeClipperItem"		TAB 15;
 BS_Tools_Farming.option[BS_Tools_Farming.count++ - 1]  = "HoeItem"				TAB 35;
 BS_Tools_Farming.option[BS_Tools_Farming.count++ - 1]  = "SickleItem"			TAB 35;
 BS_Tools_Farming.option[BS_Tools_Farming.count++ - 1]  = "PlanterItem"			TAB 25;
