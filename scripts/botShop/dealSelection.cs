@@ -164,7 +164,7 @@ function AIPlayer::randomShopLoop(%bot, %selectionCount, %speak, %timeRange, %sh
 		%bot.sellItems = "";
 	}
 
-	if (%speak > 0)
+	if (%speak > 0 && %count > 0)
 	{
 		%prefix = "<bitmap:base/data/particles/exclamation><bitmap:base/client/ui/ci/star>";
 		%name = %bot.name $= "" ? "Seller" : %bot.name;

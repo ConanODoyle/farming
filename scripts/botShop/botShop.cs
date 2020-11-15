@@ -112,6 +112,17 @@ $obj = new ScriptObject(LicenseRequiredDialogue)
 };
 $ShopDialogueSet.add($obj);
 
+$obj = new ScriptObject(NotSellingAnythingDialogue)
+{
+	messageCount = 1;
+	message[0] = "Sorry, I'm not selling anything right now. Check back later!";
+	messageTimeout[0] = 2;
+
+	botTalkAnim = 1;
+	dialogueTransitionOnTimeout = "ExitResponse";
+};
+$ShopDialogueSet.add($obj);
+
 
 
 
@@ -159,6 +170,13 @@ function setupPurchase(%dataObj)
 	else
 	{
 		%productPlural = %uiName @ "s";
+	}
+
+	//reroute dialogue if not selling anything
+	if (!isObject(%seller.sellItem))
+	{
+		%pl.startDialogue(%seller, NotSellingAnythingDialogue);
+		return 1;
 	}
 
 	%dataObj.sellItem = %seller.sellItem;
