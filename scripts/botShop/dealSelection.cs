@@ -137,9 +137,14 @@ function AIPlayer::randomShopLoop(%bot, %selectionCount, %speak, %timeRange, %sh
 				%curr = %obj.selectRandom();
 			}
 
+			if (%picked[%curr])
+			{
+				continue;
+			}
+
 			%selection[%count] = %curr;
 			%picked[%curr] = 1;
-			%sellList = %sellList TAB %curr.uiName @ "s";
+			%sellList = %sellList TAB getPluralWord(%curr.uiName);
 			%count++;
 		}
 	}
@@ -180,7 +185,12 @@ function AIPlayer::randomShopLoop(%bot, %selectionCount, %speak, %timeRange, %sh
 						%post = getField(%sellList, %sellListCount - 1);
 						%sellList = trim(strReplace(%pre, "\t", ", ")) @ " and " @ %post;
 					}
-					%str = %str @ %sellList @ "!";
+
+					if (%bot.sellPriceMod > 0)
+					{
+						%mod = " for " @ mFloor(%bot.sellPriceMod * 100) @ "% of the normal price";
+					}
+					%str = %str @ %sellList @ %mod @ "!";
 		}
 		messageAll('', %str);
 	}
@@ -225,9 +235,24 @@ function AIPlayer::randomBuyerLoop(%bot, %selectionCount, %speak, %timeRange, %s
 				%curr = %obj.selectRandom();
 			}
 
+			if (%picked[%curr])
+			{
+				continue;
+			}
+
+			if (!isObject(%curr))
+			{
+				%old = %curr;
+				%curr = %curr @ "Item";
+				if (!isObject(%curr))
+				{
+					%curr = getStackTypeDatablock(%old, 1);
+				}
+			}
+
 			%selection[%count] = %curr;
 			%picked[%curr] = 1;
-			%sellList = %sellList TAB %curr.uiName @ "s";
+			%buyList = %buyList TAB getPluralWord(%curr.uiName);
 			%count++;
 		}
 	}
@@ -260,15 +285,20 @@ function AIPlayer::randomBuyerLoop(%bot, %selectionCount, %speak, %timeRange, %s
 		{
 			case 1: %str = %prefix @ "\c3" SPC %name @ "\c6: I got some new deals, come by and check!";
 			case 2: %str = %prefix @ "\c3" SPC %name @ "\c6: I'm buying ";
-					%sellList = trim(%sellList);
-					%sellListCount = getFieldCount(%sellList);
-					if (%sellListCount > 1)
+					%buyList = trim(%buyList);
+					%buyListCount = getFieldCount(%buyList);
+					if (%buyListCount > 1)
 					{
-						%pre = getFields(%sellList, 0, %sellListCount - 2);
-						%post = getField(%sellList, %sellListCount - 1);
-						%sellList = trim(strReplace(%pre, "\t", ", ")) @ " and " @ %post;
+						%pre = getFields(%buyList, 0, %buyListCount - 2);
+						%post = getField(%buyList, %buyListCount - 1);
+						%buyList = trim(strReplace(%pre, "\t", ", ")) @ " and " @ %post;
 					}
-					%str = %str @ %sellList @ "!";
+
+					if (%bot.buyPriceMod > 0)
+					{
+						%mod = " for " @ mFloor(%bot.buyPriceMod * 100) @ "% of the normal price";
+					}
+					%str = %str @ %buyList @ %mod @ "!";
 		}
 		messageAll('', %str);
 	}

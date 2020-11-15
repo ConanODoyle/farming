@@ -11,7 +11,7 @@ $obj = new ScriptObject(BuyDialogueStart)
 	messageCount = 2;
 	message[0] = "Hello!";
 	messageTimeout[0] = 1;
-	message[1] = "I'm buying %purchase%%factorPhrase%! Toss me anything you'd like to sell.";
+	message[1] = "I'm buying %purchase%%factorPhrase% Use Ctrl-W (drop tool) to give me anything you'd like to sell.";
 	messageTimeout[1] = 1;
 
 	functionOnStart = "setupBuyDialogue";
@@ -34,11 +34,11 @@ function setupBuyDialogue(%dataObj)
 
 			if (%list !$= "")
 			{
-				%list = %list TAB %dataObj.buyItem[%i].uiName @ "s";
+				%list = %list TAB getPluralWord(%item[%i].uiName);
 			}
 			else
 			{
-				%list = %dataObj.buyItem[%i].uiName @ "s";
+				%list = getPluralWord(%item[%i].uiName);
 			}
 			%count++;
 		}
@@ -51,21 +51,25 @@ function setupBuyDialogue(%dataObj)
 		}
 		else if (%count > 0)
 		{
-			%dataObj.var_purchase = %dataObj.buyItem.uiName @ "s";
+			%dataObj.var_purchase = getPluralWord(%buyer.buyItem.uiName);
 		}
 	}
 	else if (isObject(%buyer.buyItem))
 	{
-		%dataObj.var_purchase = %dataObj.buyItem.uiName @ "s";
+		%dataObj.var_purchase = getPluralWord(%buyer.buyItem.uiName);
 	}
 	else if (%buyer.buyType !$= "")
 	{
 		%dataObj.var_purchase = %buyer.buyType;
 	}
 
-	if (%buyer.buyFactor != 1)
+	if (%buyer.buyPriceMod != 1)
 	{
-		%dataObj.var_factorPhrase = " for " @ mFloor(%buyer.buyFactor * 100) @ "% of its normal price";
+		%dataObj.var_factorPhrase = " for " @ mFloor(%buyer.buyPriceMod * 100) @ "% of its normal price!";
+	}
+	else
+	{
+		%dataObj.var_factorPhrase = "!";
 	}
 }
 
@@ -78,11 +82,11 @@ function AIPlayer::setBuyMode(%bot, %mode, %item, %string, %factor)
 	
 	if (%factor > 0) //no ternary cause that casts to int >:(
 	{
-		%bot.buyFactor = %factor;
+		%bot.buyPriceMod = %factor;
 	}
 	else
 	{
-		%bot.buyFactor = 1;
+		%bot.buyPriceMod = 1;
 	}
 
 	switch (%mode)
@@ -199,9 +203,9 @@ function AIPlayer::attemptBuy(%bot, %item)
 		{
 			%amount = %amount / 2;
 		}
-		if (%bot.buyFactor > 0)
+		if (%bot.buyPriceMod > 0)
 		{
-			%amount *= %bot.buyFactor;
+			%amount *= %bot.buyPriceMod;
 		}
 	}
 	else
@@ -230,7 +234,6 @@ function AIPlayer::attemptBuy(%bot, %item)
 		%item.delete();
 		return 1;
 	}
-
 
 	return 0;
 }

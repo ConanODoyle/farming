@@ -158,19 +158,7 @@ function setupPurchase(%dataObj)
 
 	%mod = %seller.sellPriceMod > 0 ? %seller.sellPriceMod : 1;
 	%uiName = %seller.sellItem.uiName;
-	%lastChar = getSubStr(%uiName, strLen(%uiName) - 1, 1);
-	if (%lastChar $= "y")
-	{
-		%productPlural = getSubStr(%uiName, 0, strLen(%uiName) - 1) @ "ies";
-	}
-	else if (%lastChar $= "x" || getSubStr(%uiName, strLen(%uiName) - 6, 6) $= "tomato")
-	{
-		%productPlural = %uiName @ "es";
-	}
-	else
-	{
-		%productPlural = %uiName @ "s";
-	}
+	%productPlural = getPluralWord(%uiName);
 
 	//reroute dialogue if not selling anything
 	if (!isObject(%seller.sellItem))

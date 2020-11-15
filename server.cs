@@ -37,6 +37,7 @@ exec("./util/eventParser.cs");
 exec("./util/disableWrenchAndBuild.cs");
 exec("./util/dualClient.cs");
 exec("./util/fixSchedulePop.cs");
+exec("./util/getPluralWord.cs");
 exec("./util/getRandomHash.cs");
 exec("./util/getRandomBrickOrthoRot.cs");
 exec("./util/gitpull.cs");

@@ -1,5 +1,5 @@
 
-if (isObject($BotShopSet))
+if (!isObject($BotShopSet))
 {
 	$BotShopSet = new SimSet(BotShopSet);
 }
