@@ -182,4 +182,5 @@ package QuestBricks {
 
 		return parent::onAdd(%this);
 	}
-}
+};
+activatePackage(QuestBricks);
