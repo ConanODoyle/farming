@@ -7,6 +7,11 @@
 //$Stackable_stackType_stackedItem2 = datablock SPC max;
 //etc...
 //$Stackable_stackType_stackedItemTotal = 3;
+function isStackType(%stackType)
+{
+	return $Stackable_[%stackType, "StackedItemTotal"] !$= "";
+}
+
 function getMaxStack(%stackType)
 {
 	%idxMax = $Stackable_[%stackType, "stackedItemTotal"];
