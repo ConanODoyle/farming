@@ -46,7 +46,7 @@ function addBappsMatStrings()
 	addBappsMatString("icup");
 	addBappsMatString("o.");
 	addBappsMatString("conan?");
-	addBappsMatString("based");
+	addBappsMatString("based.");
 	addBappsMatString("FIGHT!");
 	addBappsMatString("helpme");
 	addBappsMatString("help");
@@ -73,8 +73,8 @@ function addBappsMatStrings()
 	addBappsMatString("ree!");
 	addBappsMatString("die.");
 	addBappsMatString("abcd");
-	addBappsMatString("!sspab");
-	addBappsMatString("ssparb");
+	addBappsMatString("!sppab");
+	addBappsMatString("spparb");
 	addBappsMatString("matt");
 	addBappsMatString("800815");
 	addBappsMatString("lololo");
@@ -98,12 +98,12 @@ function addBappsMatStrings()
 	addBappsMatString("ooga");
 	addBappsMatString("awooga");
 	addBappsMatString("honk");
-	addBappsMatString("b*pps");
+	addBappsMatString("b*pps.");
 	addBappsMatString("mwah");
 	addBappsMatString("waaagh");
 	addBappsMatString("floor.");
 	addBappsMatString("2020");
-	addBappsMatString("pemis");
+	addBappsMatString("pemis.");
 	addBappsMatString("%I");
 	addBappsMatString("%>");
 	addBappsMatString("yeet");
