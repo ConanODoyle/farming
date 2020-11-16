@@ -116,13 +116,14 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 		}
 	}
 
+	setDataIDArrayCount(%questID, getDataIDArrayCount(%questID) + %items);
+	setDataIDArrayTagValue(%questID, "num" @ %mode, %items);
 	for (%i = 0; %i < %items; %i++) {
 		%item = getWord(%itemList, %i);
 		%entry = %item SPC %itemCount[%item];
 		addToDataIDArray(%questID, %entry);
 	}
 
-	setDataIDArrayTagValue(%questID, "num" @ %mode, %items);
 
 	return %maxBudget - %remainingBudget; // get overall cost
 }
@@ -282,7 +283,14 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 			%item = getWord(%reward, 0);
 			%count = getWord(%reward, 1);
 
-			%displayString = %displayString @ %item.uiName @ "\c6: " @ %count @ " \n\c3";
+			%itemName = isStackType(%item) ? %item : %item.uiName;
+
+			%displayString = %displayString @ %itemName @ "\c6: " @ %count @ " \n\c3";
+		}
+
+		%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
+		if (%cashReward > 0) {
+			%displayString = %displayString @ "Money\c6: $" @ mFloatLength(%cashReward, 2);
 		}
 	} else {
 		%displayString = "<just:right>\c3-Quest Requests- \n\c3";
@@ -293,12 +301,9 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 			%count = getWord(%request, 1);
 			%delivered = getWord(%request, 2) + 0;
 
-			%displayString = %displayString @ %item.uiName @ "\c6: " @ %delivered @ "/" @ %count @ " \n\c3";
-		}
+			%itemName = isStackType(%item) ? %item : %item.uiName;
 
-		%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
-		if (%cashReward > 0) {
-			%displayString = %displayString @ "Money\c6: $" @ mFloatLength(%cashReward, 2);
+			%displayString = %displayString @ %itemName @ "\c6: " @ %delivered @ "/" @ %count @ " \n\c3";
 		}
 	}
 
@@ -308,23 +313,27 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 function getQuestString(%questID, %showDelivered) {
 	%string = "Requests:\n";
 	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
+	%numRewards = getDataIDArrayTagValue(%questID, "numRewards");
 	for (%i = 0; %i < %numRequests; %i++) {
-		%request = getDataIDArrayValue(%questID, %i);
+		%request = getDataIDArrayValue(%questID, %numRewards + %i);
 		%item = getWord(%request, 0);
 		%count = getWord(%request, 1);
 		%delivered = getWord(%request, 2) + 0;
 
-		%string = %string @ %item.uiName @ ": " @ (%showDelivered ? %delivered @ "/" : "") @ %count @ "\n";
+		%itemName = isStackType(%item) ? %item : %item.uiName;
+
+		%string = %string @ %itemName @ ": " @ (%showDelivered ? %delivered @ "/" : "") @ %count @ "\n";
 	}
 
 	%string = %string @ "\nRewards:\n";
-	%numRewards = getDataIDArrayTagValue(%questID, "numRewards");
 	for (%i = 0; %i < %numRewards; %i++) {
-		%reward = getDataIDArrayValue(%questID, %numRequests + %i); // offset by number of requests into array
+		%reward = getDataIDArrayValue(%questID, %i); // offset by number of requests into array
 		%item = getWord(%reward, 0);
 		%count = getWord(%reward, 1);
 
-		%string = %string @ %item.uiName @ ": " @ %count @ "\n";
+		%itemName = isStackType(%item) ? %item : %item.uiName;
+
+		%string = %string @ %itemName @ ": " @ %count @ "\n";
 	}
 
 	%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
