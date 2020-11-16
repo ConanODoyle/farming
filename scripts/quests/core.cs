@@ -3,18 +3,6 @@ $Farming::QuestDepositPointPrefix = "DepositPoint_";
 $Farming::QuestRewardBonus = 1.0;
 $Farming::QuestRequestValueBonus = 1.15;
 
-function getQuestItem(%table, %slots) {
-	%item = farmingTableGetItem(%table);
-	%count = %slots;
-
-	if (%item.isStackable) {
-		%perSlotCount = getMaxStack(%item.stackType);
-		%count = %perSlotCount * (%slots - 1) + getRandom(mFloor(%perSlotCount / 2), %perSlotCount);
-	}
-
-	return %item SPC %count;
-}
-
 function isQuest(%questID) {
 	return getDataIDArrayTagValue(%questID, "isQuest");
 }
@@ -24,62 +12,135 @@ function deleteQuest(%questID) {
 	return deleteDataIDArray(%questID);
 }
 
-function generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes) {
+function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
+	if (%mode $= "Requests") {
+		%minBudget = %maxBudget * %this.minBonusFactor;
+		%maxBudget *= %this.minBonusFactor + (getRandom() * (%this.maxBonusFactor - %this.minBonusFactor));
+
+		%table = %this.requestTable;
+		%count = %this.maxRequestItems;
+	} else if (%mode $= "Rewards") {
+		%table = %this.rewardTable;
+		%count = %this.maxRewardItems;
+	} else {
+		error("ERROR - QuestType::addQuestItems - Invalid mode! Mode must be either \"Requests\" or \"Rewards\"");
+		return;
+	}
+
+	%numItems = getRandom(1, %count);
+	%remainingBudget = %maxBudget;
+
+	if (%mode $= "Rewards") {
+		%cashReward = %this.cashRewardIncrement * getRandom(%this.minCashReward, %this.maxCashReward);
+		setDataIDArrayTagValue(%questID, "cashReward", %cashReward);
+		%remainingBudget -= %cashReward;
+	}
+
+	%addItemAttempts = 0;
+	%itemList = "";
+	%items = 0;
+	%stackableItemList = "";
+	%stackableItems = 0;
+	for (%i = 0; %i < %numItems; %i++) {
+		%selectUniqueItemAttempts = 0;
+		while (%itemCount[%item = %table.selectRandom()] !$= "") { // do our best to add only unique items
+			%selectUniqueItemAttempts++;
+			if (%selectUniqueItemAttempts >= 100) break;
+		}
+
+		%itemPrice = (%mode $= "Rewards") ? getBuyPrice(%item) : getSellPrice(%item);
+
+		if (isStackType(%item) || (isObject(%item) && %item.isStackable)) {
+			%itemCount = getMax(mFloor(getMaxStack(%item) / 4), 1);
+			%itemPrice = %itemPrice * %itemCount;
+			%stackableItemList = trim(%stackableItemList SPC %item);
+			%allStackableItemsCost += %itemPrice;
+			%stackableItems++;
+		} else {
+			%itemCount = 1;
+		}
+
+		if (%remainingBudget - %itemPrice >= 0) {
+			%remainingBudget -= %itemPrice;
+			if (%remainingBudget == 0) break;
+		} else {
+			continue;
+		}
+
+		if (%itemCount[%item] !$= "") { // just in case we get a non-unique item
+			%itemCount[%item] += %itemCount;
+		} else {
+			%itemCount[%item] = %itemCount;
+			%itemList = trim(%itemList SPC %item);
+			%items++;
+		}
+	}
+
+	for (%i = 0; %i < %items; %i++) { // handle extra items
+		%item = getWord(%itemList, %i);
+		%itemPrice = (%mode $= "Rewards") ? getBuyPrice(%item) : getSellPrice(%item);
+
+		if (isStackType(%item) || (isObject(%item) && %item.isStackable)) {
+			%maxExtra = mFloor(%remainingBudget / %itemPrice); // if we have any budget left, try adding more items
+			%extra = getRandom(0, %maxExtra);
+
+			%itemCount[%item] += %extra;
+			%remainingBudget -= %extra * %itemPrice;
+		}
+	}
+
+	if (%mode $= "Requests") { // handle ensuring sufficient bonus
+		if (%maxBudget - %remainingBudget < %maxBudget) { // if we don't meet the minimum bonus
+			while (getWordCount(%stackableItemList) > 0) { // while we have some stackable items to mess with
+				// get and remove the most expensive item from the list
+				%maxItemPrice = getSellPrice(getWord(%stackableItemList, 0));
+				%itemIndex = 0;
+				for (%i = 1; %i < %stackableItems; %i++) {
+					%item = getWord(%stackableItemList, %i);
+					%itemPrice = getSellPrice(%item);
+					if (%itemPrice > %maxItemPrice) {
+						%maxItemPrice = %itemPrice;
+						%itemIndex = %i;
+					}
+				}
+				%item = getWord(%stackableItemList, %itemIndex);
+				%stackableItemList = removeWord(%stackableItemList, %itemIndex);
+
+				// we want to add at least as many less expensive as more expensive ones
+				%extra = mFloor(%remainingBudget / %allStackableItemsCost);
+				%itemCount[%item] += %extra;
+
+				%remainingBudget -= %extra * %maxItemPrice;
+				%allStackableItemsCost -= %maxItemPrice;
+			}
+		}
+	}
+
+	for (%i = 0; %i < %items; %i++) {
+		%item = getWord(%itemList, %i);
+		%entry = %item SPC %itemCount[%item];
+		addToDataIDArray(%questID, %entry);
+	}
+
+	setDataIDArrayTagValue(%questID, "num" @ %mode, %items);
+
+	return %maxBudget - %remainingBudget; // get overall cost
+}
+
+function QuestType::selectRewards(%this, %questID) {
+	return %this.addQuestItems(%questID, %this.maxBudget, "Rewards");
+}
+
+function QuestType::selectRequests(%this, %questID, %maxBudget) {
+	%this.addQuestItems(%questID, %maxBudget, "Requests");
+}
+
+function QuestType::generateQuest(%this) {
 	%questID = $Farming::QuestPrefix @ getRandomHash("quest");
 	setDataIDArrayTagValue(%questID, "isQuest", true);
 
-	%requestTypes = $Farming::Metatable_[%requestTypes];
-	%rewardTypes = $Farming::Metatable_[%rewardTypes];
-
-	%numRequests = getMin(%requestSlots, getRandom(1, 3));
-	for (%numSpareRequestSlots = %requestSlots - %numRequests; %numSpareRequestSlots > 0; %numSpareRequestSlots--) {
-		%i = getRandom(0, %numRequests - 1);
-		%extraRequestSlots[%i] += 1;
-	}
-
-	%numRewards = getMin(%rewardSlots, getRandom(1, 3));
-	for (%numSpareRewardSlots = %rewardSlots - %numRewards; %numSpareRewardSlots > 0; %numSpareRewardSlots--) {
-		%i = getRandom(0, %numRewards - 1);
-		%extraRewardSlots[%i] += 1;
-	}
-
-	setDataIDArrayCount(%questID, %numRequests + %numRewards);
-	setDataIDArrayTagValue(%questID, "numRequests", %numRequests);
-	setDataIDArrayTagValue(%questID, "numRewards", %numRewards);
-
-	%totalRequestValue = 0;
-	for (%i = 0; %i < %numRequests; %i++) {
-		%tableIndex = getRandom(0, getFieldCount(%requestTypes) - 1);
-		%table = getField(%requestTypes, %tableIndex);
-		%requestTypes = removeField(%requestTypes, %tableIndex);
-
-		%request = getQuestItem(%table, 1 + %extraRequestSlots[%i]);
-		%item = getWord(%request, 0);
-		%amount = getWord(%request, 1);
-
-		%totalRequestValue += getSellPrice(%item);
-
-		addToDataIDArray(%questID, %request);
-	}
-
-	%totalRewardValue = 0;
-	for (%i = 0; %i < %numRewards; %i++) {
-		%tableIndex = getRandom(0, getFieldCount(%rewardTypes) - 1);
-		%table = getField(%rewardTypes, %tableIndex);
-		%rewardTypes = removeField(%rewardTypes, %tableIndex);
-
-		%reward = getQuestItem(%table, 1 + %extraRewardSlots[%i]);
-		%item = getWord(%request, 0);
-		%amount = getWord(%request, 1);
-
-		%totalRewardValue += getBuyPrice(%item);
-
-		addToDataIDArray(%questID, %reward);
-	}
-
-	%cashReward = getMax(0, (%totalRequestValue * ($Farming::QuestRequestValueBonus - %totalRewardValue)) * $Farming::QuestRewardBonus);
-
-	setDataIDArrayTagValue(%questID, "cashReward", %cashReward);
+	%budget = %this.selectRewards(%questID);
+	%this.selectRequests(%questID, %budget);
 
 	return %questID;
 }
@@ -101,10 +162,11 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 	}
 
 	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
+	%requestStart = getDataIDArrayTagValue(%questID, "numRewards");
 
 	%alreadyDelivered = false;
 	for (%i = 0; %i < %numRequests; %i++) {
-		%request = getDataIDArrayValue(%questID, %i);
+		%request = getDataIDArrayValue(%questID, %requestStart + %i);
 		%item = getWord(%request, 0);
 		%count = getWord(%request, 1);
 		%delivered = getWord(%request, 2);
@@ -124,7 +186,7 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 				%delivered += %deliveredCount;
 			}
 
-			setDataIDArrayValue(%questID, %i, %item SPC %count SPC %delivered);
+			setDataIDArrayValue(%questID, %requestStart + %i, %item SPC %count SPC %delivered);
 			return true SPC %overflow;
 		}
 	}
@@ -145,9 +207,10 @@ function GameConnection::checkQuestComplete(%client, %questID) {
 	}
 
 	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
+	%requestStart = getDataIDArrayTagValue(%questID, "numRewards");
 
 	for (%i = 0; %i < %numRequests; %i++) {
-		%request = getDataIDArrayValue(%questID, %i);
+		%request = getDataIDArrayValue(%questID, %requestStart + %i);
 		%count = getWord(%request, 1);
 		%delivered = getWord(%request, 2);
 
@@ -172,10 +235,9 @@ function GameConnection::completeQuest(%client, %questID) {
 		return false;
 	}
 
-	%rewardStart = getDataIDArrayTagValue(%questID, "numRequests");
 	%numRewards = getDataIDArrayTagValue(%questID, "numRewards");
 	for (%i = 0; %i < %numRewards; %i++) {
-		%reward = getDataIDArrayValue(%questID, %rewardStart + %i);
+		%reward = getDataIDArrayValue(%questID, %i);
 		%item = getWord(%reward, 0);
 		%count = getWord(%reward, 1);
 
@@ -212,12 +274,11 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 		return;
 	}
 
-	%numRequests = getDataIDArrayTagValue(%questID, "numRequests"); // needed for offset
+	%numRewards = getDataIDArrayTagValue(%questID, "numRewards"); // needed for offset
 	if (%displayRewards) {
 		%displayString = "<just:right>\c3-Quest Rewards- \n\c3";
-		%numRewards = getDataIDArrayTagValue(%questID, "numRewards");
 		for (%i = 0; %i < %numRewards; %i++) {
-			%reward = getDataIDArrayValue(%questID, %numRequests + %i); // offset by number of requests into array
+			%reward = getDataIDArrayValue(%questID, %i); // offset by number of requests into array
 			%item = getWord(%reward, 0);
 			%count = getWord(%reward, 1);
 
@@ -225,8 +286,9 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 		}
 	} else {
 		%displayString = "<just:right>\c3-Quest Requests- \n\c3";
+		%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
 		for (%i = 0; %i < %numRequests; %i++) {
-			%request = getDataIDArrayValue(%questID, %i);
+			%request = getDataIDArrayValue(%questID, %numRewards + %i);
 			%item = getWord(%request, 0);
 			%count = getWord(%request, 1);
 			%delivered = getWord(%request, 2) + 0;

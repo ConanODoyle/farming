@@ -1,10 +1,6 @@
-$Farming::QuestCooldown = 600;
-$Farming::QuestAcceptTime = 15;
-$Farming::QuestCompleteCooldown = 300;
-
 //////////////////////////////
 
-function fxDTSBrick::getNewQuest(%this, %requestData, %rewardData, %client) {
+function fxDTSBrick::getNewQuest(%this, %questTables, %client) {
     if (%this.nextQuestTime[%client.bl_id] > $Sim::Time) {
         if (%this.questRetrieved[%client.bl_id]) {
             %timeToWait = convTime(%this.nextQuestTime[%client.bl_id] - $Sim::Time);
@@ -16,13 +12,13 @@ function fxDTSBrick::getNewQuest(%this, %requestData, %rewardData, %client) {
             %this.nextQuestTime[%client.bl_id] = 0;
         }
     } else {
-        %requestSlots = getRandom(getWord(%requestData, 0), getWord(%requestData, 1));
-        %requestTypes = getWord(%requestData, 2);
+        %questTable = getWord(%questTables, getRandom(0, getWordCount(%questTables) - 1));
+        if (!isObject(%questTable) || %questTable.class !$= "QuestType") {
+            talk("ERROR - getNewQuest - Quest brick " @ %this @ " has bad quest table " @ %questTable);
+            echo("ERROR - getNewQuest - Quest brick " @ %this @ " has bad quest table " @ %questTable);
+        }
+        %quest = %questTable.generateQuest();
 
-        %rewardSlots = getRandom(getWord(%rewardData, 0), getWord(%rewardData, 1));
-        %rewardTypes = getWord(%rewardData, 2);
-
-        %quest = generateQuest(%requestSlots, %requestTypes, %rewardSlots, %rewardTypes);
         %this.quest[%client.bl_id] = %quest;
         %this.nextQuestTime[%client.bl_id] = $Sim::Time + $Farming::QuestCooldown;
         %this.deleteQuestSchedule[%client.bl_id] = schedule($Farming::QuestCooldown * 1000, 0, deleteQuest, %quest);
@@ -63,7 +59,7 @@ function serverCmdAcceptQuest(%client) {
     %client.questToGet = "";
 }
 
-registerOutputEvent("fxDTSBrick", "getNewQuest", "string 200 150" TAB "string 200 150", true);
+registerOutputEvent("fxDTSBrick", "getNewQuest", "string 200 150", true);
 
 //////////////////////////////
 
@@ -105,3 +101,5 @@ function serverCmdGetQuestCopy(%client) {
 }
 
 registerOutputEvent("fxDTSBrick", "displayActiveQuest", "string 200 500", true);
+
+//////////////////////////////
