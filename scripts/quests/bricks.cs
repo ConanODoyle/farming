@@ -121,3 +121,65 @@ datablock fxDTSBrickData(brickDepositBoxOpenData)
 	isQuestSubmissionPoint = true;
 	closedDatablock = brickDepositBoxClosedData;
 };
+
+
+
+function addQuestDepositEvent(%this, %botForm)
+{
+	for (%i = 1; %i < 5; %i++)
+	{
+		%param[%i] = %this.eventOutputParameter[0, %i];
+	}
+	%this.clearEvents();
+
+	%enabled = 1;
+	if (%botForm)
+	{
+		%inputEvent = "onBotActivated";
+	}
+	else
+	{
+		%inputEvent = "onActivate";
+	}
+	%delay = 0;
+	%target = "Self";
+	%outputEvent = "displayActiveQuest";
+	if (%param1 $= "")
+	{
+		%param1 = $Farming::QuestDepositPointPrefix @ getRandomHash("depositPoint");
+	}
+
+	if (!isObject(%this.getGroup().client))
+	{
+		%this.getGroup().client = new ScriptObject(DummyClient)
+		{
+			isAdmin = 1;
+			isSuperAdmin = 1;
+			wrenchBrick = %this;
+			bl_id = %this.getGroup().bl_id;
+			brickGroup = %this.getGroup();
+		};
+		%this.getGroup().client.client = %this.getGroup().client;
+		%dummy = 1;
+	}
+	%prev = %this.getGroup().client.isAdmin;
+	%this.getGroup().client.isAdmin = 1;
+	%this.addEvent(%enabled, %delay, %inputEvent, %target, %outputEvent, %param1, %param2, %param3, %param4);
+	%this.getGroup().client.isAdmin = %prev;
+	if (%dummy)
+	{
+		%this.getGroup().client.delete();
+	}
+}
+
+package QuestBricks {
+	function fxDTSBrick::onAdd(%this)
+	{
+		if (%this.isPlanted && %this.getDatablock().isQuestSubmissionPoint)
+		{
+			schedule(100, %this, addQuestDepositEvent, %this);
+		}
+
+		return parent::onAdd(%this);
+	}
+}
