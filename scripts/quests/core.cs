@@ -19,7 +19,7 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 		%table = %this.requestTable;
 
 		%maxItems = %this.maxRequestItems;
-		%minItems = getMin(mFloor(%maxBudget / %this.budgetPerRequestItem), %maxItems);
+		%minItems = mClamp(1, %maxItems, mFloor(%maxBudget / %this.budgetPerRequestItem));
 		%numItems = getRandom(%minItems, %maxItems);
 	} else if (%mode $= "Rewards") {
 		%table = %this.rewardTable;
@@ -39,7 +39,8 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 		%remainingBudget -= %cashReward;
 	}
 
-	%addItemAttempts = 0;
+	%maxBudgetPerItem = %remainingBudget / %numItems;
+
 	%itemList = "";
 	%items = 0;
 	%stackableItemList = "";
@@ -54,7 +55,11 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 		%itemPrice = (%mode $= "Rewards") ? getBuyPrice(%item) : getSellPrice(%item);
 
 		if (isStackType(%item) || (isObject(%item) && %item.isStackable)) {
-			%itemCount = getMax(mFloor(getMaxStack(%item) / 4), 1);
+			if (isObject(%item)) {
+				%item = %item.stackType;
+			}
+
+			%itemCount = getMax(mCeil(getMaxStack(%item) / 4), mFloor(%maxBudgetPerItem / %itemPrice));
 			%itemPrice = %itemPrice * %itemCount;
 			%stackableItemList = trim(%stackableItemList SPC %item);
 			%allStackableItemsCost += %itemPrice;
@@ -79,12 +84,13 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 		}
 	}
 
+	%maxBudgetPerStep = mClamp(0, %remainingBudget, %remainingBudget / %items);
 	for (%i = 0; %i < %items; %i++) { // handle extra items
 		%item = getWord(%itemList, %i);
 		%itemPrice = (%mode $= "Rewards") ? getBuyPrice(%item) : getSellPrice(%item);
 
 		if (isStackType(%item) || (isObject(%item) && %item.isStackable)) {
-			%maxExtra = mFloor(%remainingBudget / %itemPrice); // if we have any budget left, try adding more items
+			%maxExtra = mFloor(getMin(%remainingBudget, %maxBudgetPerStep) / %itemPrice); // if we have any budget left, try adding more items
 			%extra = getRandom(0, %maxExtra);
 
 			%itemCount[%item] += %extra;
@@ -95,26 +101,27 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 	if (%mode $= "Requests") { // handle ensuring sufficient bonus
 		if (%maxBudget - %remainingBudget < %maxBudget) { // if we don't meet the minimum bonus
 			while (getWordCount(%stackableItemList) > 0) { // while we have some stackable items to mess with
-				// get and remove the most expensive item from the list
-				%maxItemPrice = getSellPrice(getWord(%stackableItemList, 0));
+				// get and remove the least expensive item from the list
+				%minItemPrice = getSellPrice(getWord(%stackableItemList, 0));
 				%itemIndex = 0;
 				for (%i = 1; %i < %stackableItems; %i++) {
 					%item = getWord(%stackableItemList, %i);
 					%itemPrice = getSellPrice(%item);
-					if (%itemPrice > %maxItemPrice) {
-						%maxItemPrice = %itemPrice;
+					if (%itemPrice < %minItemPrice) {
+						%minItemPrice = %itemPrice;
 						%itemIndex = %i;
 					}
 				}
 				%item = getWord(%stackableItemList, %itemIndex);
 				%stackableItemList = removeWord(%stackableItemList, %itemIndex);
+				%stackableItems--;
 
-				// we want to add at least as many less expensive as more expensive ones
+				// we want to add at least as many more expensive as less expensive ones
 				%extra = mFloor(%remainingBudget / %allStackableItemsCost);
 				%itemCount[%item] += %extra;
 
-				%remainingBudget -= %extra * %maxItemPrice;
-				%allStackableItemsCost -= %maxItemPrice;
+				%remainingBudget -= %extra * %minItemPrice;
+				%allStackableItemsCost -= %minItemPrice;
 			}
 		}
 	}
