@@ -293,6 +293,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 		isPlanted = 1;
 		dataBlock = %brickDB;
 		rotation = getRandomBrickOrthoRot();
+		plantedTime = $Sim::Time;
 	};
 	%error = %b.plant();
 	if (%error > 0 || %error $= "")

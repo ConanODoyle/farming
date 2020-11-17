@@ -9,8 +9,8 @@ datablock ItemData(ReclaimerItem : HammerItem)
 
 	durabilityFunction = "generateHarvestToolDurability";
 	baseDurability = 300;
-	chanceDurability = 0.8;
-	bonusDurability = 20;
+	chanceDurability = 0.85;
+	bonusDurability = 25;
 
 	colorShiftColor = "0.4 0 0 1";
 	image = ReclaimerImage;
@@ -28,7 +28,7 @@ datablock ShapeBaseImageData(ReclaimerImage)
 
 	armReady = true;
 
-	tooltip = "Reclaims seeds, rare chance for 2 if harvestable";
+	tooltip = "Reclaims seeds";
 
 	min = 4;
 
@@ -57,11 +57,66 @@ datablock ShapeBaseImageData(ReclaimerImage)
 
 function ReclaimerImage::onReady(%this, %obj, %slot)
 {
-	if (isObject(%cl = %obj.client))
+	if (!isObject(%cl = %obj.client))
 	{
-		%durability = getDurability(%img, %obj, %slot);
-		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " ", 1);
+		return;
 	}
+
+	%start = %obj.getEyePoint();
+	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
+	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
+
+	if (isObject(%hit = getWord(%ray, 0)) && %hit.getDatablock().isPlant)
+	{
+		%canReclaim = 0;
+		%reclaimExpFactor = 0.75;
+		%color = "\c0";
+		%amt = 1;
+
+		%db = %hit.getDatablock();
+		%stage = %db.stage;
+		%type = %db.cropType;
+		%yield = getPlantData(%type, %stage, "yield");
+		%timeSincePlanted = $Sim::Time - %hit.plantedTime;
+		%harvestCount = getWord(%hit.getNutrients(), 2);
+		
+		if (%timeSincePlanted < 40 || %harvestCount < 1)
+		{
+			%canReclaim = 1;
+			%reclaimExpFactor = 1;
+		}
+		
+		if (%db.isTree && %harvestCount < 1)
+		{
+			if (%timeSincePlanted < 60 * 5) //5 minutes forgiveness for trees
+			{
+				%canReclaim = 1;
+				%reclaimExpFactor = 1;
+			}
+			else if (%stage < 3)
+			{
+				%canReclaim = 1;
+				%reclaimExpFactor = 0.85;
+				%color = "\c3";
+			}
+		}
+	}
+
+	%durability = getDurability(%img, %obj, %slot);
+	if (%canReclaim)
+	{
+		%reclaimString = "\c2Can reclaim! <br>";
+		if (%reclaimExpFactor == 1)
+		{
+			%color = "\c2";
+		}
+		%reclaimString = %reclaimString @ "\c6EXP returned: " @ %color @ mFloor(%reclaimExpFactor * 100) @ "% ";
+	}
+	else if (%db.isPlant)
+	{
+		%reclaimString = "\c0Cannot reclaim! ";
+	}
+	%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " <br>" @ %reclaimString, 1);
 }
 
 function ReclaimerImage::onFire(%this, %obj, %slot)
@@ -93,35 +148,64 @@ function ReclaimerImage::onFire(%this, %obj, %slot)
 			%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!", 1);
 			return;
 		}
-		if (getTrustLevel(%hit, %obj) < 2)
+		else if (getTrustLevel(%hit, %obj) < 2)
 		{
 			%cl.centerprint(getBrickgroupFromObject(%hit).name @ "<color:ff0000> does not trust you enough to do that.", 1);
 			return;
 		}
-		else if (%hit.getDatablock().isTree)
-		{
-			%cl.centerprint("You cannot reclaim trees!", 1);
-			return;
-		}
+
+		%canReclaim = 0;
+		%reclaimExpFactor = 0.75;
+		%amt = 1;
+
 		%db = %hit.getDatablock();
 		%stage = %db.stage;
 		%type = %db.cropType;
-		useDurability(%this, %obj, %slot);
-		
 		%yield = getPlantData(%type, %stage, "yield");
+		%timeSincePlanted = $Sim::Time - %hit.plantedTime;
+		%harvestCount = getWord(%hit.getNutrients(), 2);
+		
+		if (%timeSincePlanted < 40 || %harvestCount < 1)
+		{
+			%canReclaim = 1;
+			%reclaimExpFactor = 1;
+		}
+		
+		if (%db.isTree)
+		{
+			if (%timeSincePlanted < 60 * 5) //5 minutes forgiveness for trees
+			{
+				%canReclaim = 1;
+				%reclaimExpFactor = 1;
+			}
+			else if (%stage < 3)
+			{
+				%canReclaim = 1;
+				%reclaimExpFactor = 0.85;
+			}
+			else
+			{
+				%cl.centerprint("You cannot reclaim trees!", 1);
+				return;
+			}
+		}
 
-		%itemDB = %type @ "SeedItem";
-
-		if ((%yield !$= "" || vectorLen(%yield) > 0.1) && getRandom() < 0.2)
+		if ((%yield !$= "") && getRandom() < 0.2)
 		{
 			%amt = 2;
 			messageClient(%obj.client, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed two seeds!");
 		}
-		else
+
+
+
+		if (!%canReclaim)
 		{
-			%amt = 1;
+			%cl.centerprint("You are unable to reclaim this plant!", 1);
+			return;
 		}
 
+		%itemDB = %type @ "SeedItem";
+		useDurability(%this, %obj, %slot);
 		for (%i = 0; %i < %amt; %i++)
 		{
 			%vel = (getRandom(6) - 3) / 2 SPC  (getRandom(6) - 3) / 2 SPC 6;
@@ -142,7 +226,7 @@ function ReclaimerImage::onFire(%this, %obj, %slot)
 		{
 			%harvestCount = getWord(%nutrients, 1);
 			%totalHarvestCount = getPlantData(%type, %stage, "harvestMax");
-			%experienceCost = mCeil(getPlantData(%type, "experienceCost") / 2 * (%totalHarvestCount - %harvestCount - 1) / %totalHarvestCount);
+			%experienceCost = mCeil(getPlantData(%type, "experienceCost") * %reclaimExpFactor;
 			if (%experienceCost > 0)
 			{
 				messageClient(%cl, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed the plant and received \c3" @ %experienceCost @ "\c6 experience back!");
