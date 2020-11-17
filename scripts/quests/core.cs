@@ -15,7 +15,7 @@ function deleteQuest(%questID) {
 function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 	if (%mode $= "Requests") {
 		%minBudget = %maxBudget * %this.minBonusFactor;
-		%maxBudget *= %this.minBonusFactor + (getRandom() * (%this.maxBonusFactor - %this.minBonusFactor));
+		%maxBudget /= %this.minBonusFactor + (getRandom() * (%this.maxBonusFactor - %this.minBonusFactor));
 
 		%table = %this.requestTable;
 		%count = %this.maxRequestItems;
