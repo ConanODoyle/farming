@@ -14,20 +14,23 @@ function deleteQuest(%questID) {
 
 function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 	if (%mode $= "Requests") {
-		%minBudget = %maxBudget * %this.minBonusFactor;
 		%maxBudget /= %this.minBonusFactor + (getRandom() * (%this.maxBonusFactor - %this.minBonusFactor));
 
 		%table = %this.requestTable;
-		%count = %this.maxRequestItems;
+
+		%maxItems = %this.maxRequestItems;
+		%minItems = getMin(mFloor(%maxBudget / %this.budgetPerRequestItem), %maxItems);
+		%numItems = getRandom(%minItems, %maxItems);
 	} else if (%mode $= "Rewards") {
 		%table = %this.rewardTable;
-		%count = %this.maxRewardItems;
+
+		%maxItems = %this.maxRewardItems;
+		%numItems = getRandom(1, %maxItems);
 	} else {
 		error("ERROR - QuestType::addQuestItems - Invalid mode! Mode must be either \"Requests\" or \"Rewards\"");
 		return;
 	}
 
-	%numItems = getRandom(1, %count);
 	%remainingBudget = %maxBudget;
 
 	if (%mode $= "Rewards") {

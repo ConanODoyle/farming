@@ -5,15 +5,16 @@ $Farming::QuestCompleteCooldown = 300;
 new ScriptObject(SeedQuestType) {
 	class = "QuestType";
 
-	maxBudget = 3700;
+	maxBudget = 1200;
 	rewardTable = BS_Seeds_Rare;
 	maxRewardItems = 2;
 	minCashReward = 1;
 	maxCashReward = 10;
 	cashRewardIncrement = 10;
 
-	minBonusFactor = 1.3;
-	maxBonusFactor = 1.7;
+	minBonusFactor = 2;
+	maxBonusFactor = 2.5;
 	requestTable = BS_BigBuyer;
+	budgetPerRequestItem = 300;
 	maxRequestItems = 4;
 };
