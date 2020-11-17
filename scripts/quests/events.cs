@@ -14,8 +14,10 @@ function fxDTSBrick::getNewQuest(%this, %questTables, %client) {
     } else {
         %questTable = getWord(%questTables, getRandom(0, getWordCount(%questTables) - 1));
         if (!isObject(%questTable) || %questTable.class !$= "QuestType") {
-            talk("ERROR - getNewQuest - Quest brick " @ %this @ " has bad quest table " @ %questTable);
-            echo("ERROR - getNewQuest - Quest brick " @ %this @ " has bad quest table " @ %questTable);
+            talk("ERROR - getNewQuest - Quest brick " @ %this @ " has bad quest table list \"" @ %questTable @ "\"");
+            error("ERROR - getNewQuest - Quest brick " @ %this @ " has bad quest table list \"" @ %questTable @ "\"");
+            commandToClient(%client, 'MessageBoxOK', "Error", "Something went wrong. Please notify an admin.");
+            return;
         }
         %quest = %questTable.generateQuest();
 
