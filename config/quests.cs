@@ -432,6 +432,10 @@ new ScriptObject(CompostQuestType) {
 	rewardTable = CompostQuestRewards;
 	maxRewardItems = 1;
 
+	minCashReward = 1;
+	maxCashReward = 6;
+	cashRewardIncrement = 5;
+
 	minBonusFactor = 1.2;
 	maxBonusFactor = 1.4;
 
@@ -448,6 +452,10 @@ new ScriptObject(FertilizerQuestType) {
 	rewardsItems = true;
 	rewardTable = FertilizerQuestRewards;
 	maxRewardItems = 1;
+
+	minCashReward = 1;
+	maxCashReward = 6;
+	cashRewardIncrement = 5;
 
 	minBonusFactor = 0.8;
 	maxBonusFactor = 1.1;
