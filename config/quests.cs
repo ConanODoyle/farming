@@ -226,12 +226,18 @@ BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "Larg
 
 new ScriptObject(CompostQuestRewards) { class = "ShopObject"; };
 
-CompostQuestRewards.option[CompostQuestRewards.count++ - 1]  = "PlanterItem"			TAB 7;
+CompostQuestRewards.option[CompostQuestRewards.count++ - 1]  = "PlanterItem"	TAB 7;
 
 
 new ScriptObject(FertilizerQuestRewards) { class = "ShopObject"; };
 
-FertilizerQuestRewards.option[FertilizerQuestRewards.count++ - 1]  = "PlanterItem"			TAB 7;
+FertilizerQuestRewards.option[FertilizerQuestRewards.count++ - 1]  = "PlanterItem"	TAB 7;
+
+
+new ScriptObject(CompostBinQuestRewards) { class = "ShopObject"; };
+
+CompostBinQuestRewards.option[CompostBinQuestRewards.count++ - 1]  = "CompostBinItem"		TAB 5;
+CompostBinQuestRewards.option[CompostBinQuestRewards.count++ - 1]  = "LargeCompostBinItem"	TAB 1;
 
 
 new ScriptObject(RareSeedQuestRewards) { class = "ShopObject"; };
@@ -447,6 +453,24 @@ new ScriptObject(FertilizerQuestType) {
 	maxBonusFactor = 1.1;
 
 	requestTable = FertilizerRequests;
+	maxRequestItems = 3;
+};
+
+new ScriptObject(CompostBinQuestType) {
+	class = "QuestType";
+	questWeight = 5;
+
+	maxBudget = 1600;
+
+	rewardsItems = true;
+	rewardTable = CompostBinQuestRewards;
+	maxRewardItems = 1;
+
+	minBonusFactor = 1.3;
+	maxBonusFactor = 1.8;
+
+	requestTable = RareRequests;
+	budgetPerRequestItem = 1;
 	maxRequestItems = 3;
 };
 
