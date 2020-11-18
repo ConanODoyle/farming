@@ -80,7 +80,7 @@ function ReclaimerImage::onReady(%this, %obj, %slot)
 		%timeSincePlanted = $Sim::Time - %hit.plantedTime;
 		%harvestCount = getWord(%hit.getNutrients(), 2);
 		
-		if (%timeSincePlanted < 40 || %harvestCount < 1)
+		if (%timeSincePlanted < 40 && %harvestCount < 1)
 		{
 			%canReclaim = 1;
 			%reclaimExpFactor = 1;
@@ -165,7 +165,7 @@ function ReclaimerImage::onFire(%this, %obj, %slot)
 		%timeSincePlanted = $Sim::Time - %hit.plantedTime;
 		%harvestCount = getWord(%hit.getNutrients(), 2);
 		
-		if (%timeSincePlanted < 40 || %harvestCount < 1)
+		if (%timeSincePlanted < 40 && %harvestCount < 1)
 		{
 			%canReclaim = 1;
 			%reclaimExpFactor = 1;
