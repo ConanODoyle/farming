@@ -1,7 +1,5 @@
 $Farming::QuestPrefix = "Quest_";
 $Farming::QuestDepositPointPrefix = "DepositPoint_";
-$Farming::QuestRewardBonus = 1.0;
-$Farming::QuestRequestValueBonus = 1.15;
 
 function isQuest(%questID) {
 	return getDataIDArrayTagValue(%questID, "isQuest");
