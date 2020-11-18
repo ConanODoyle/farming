@@ -78,7 +78,6 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 
 		if (%remainingBudget - %itemPrice >= 0) {
 			%remainingBudget -= %itemPrice;
-			if (%remainingBudget == 0) break;
 		} else {
 			continue;
 		}
@@ -90,6 +89,8 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 			%itemList = trim(%itemList SPC %item);
 			%items++;
 		}
+
+		if (%remainingBudget == 0) break;
 	}
 
 	%maxBudgetPerStep = mClamp(0, %remainingBudget, %remainingBudget / %items);
