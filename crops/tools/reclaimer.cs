@@ -226,7 +226,7 @@ function ReclaimerImage::onFire(%this, %obj, %slot)
 		{
 			%harvestCount = getWord(%nutrients, 1);
 			%totalHarvestCount = getPlantData(%type, %stage, "harvestMax");
-			%experienceCost = mCeil(getPlantData(%type, "experienceCost") * %reclaimExpFactor;
+			%experienceCost = mCeil(getPlantData(%type, "experienceCost") * %reclaimExpFactor);
 			if (%experienceCost > 0)
 			{
 				messageClient(%cl, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed the plant and received \c3" @ %experienceCost @ "\c6 experience back!");
