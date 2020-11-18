@@ -14,6 +14,7 @@ function Player::farmingSetItem(%player, %datablock, %slot, %dataID) {
     }
 
     %player.tool[%slot] = %datablock;
+    %player.toolDataID[%slot] = "";
     if (%dataID !$= "")
     {
         %player.toolDataID[%slot] = %dataID;
