@@ -29,9 +29,9 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(PowerSystemDialogue1)
 {
 	messageCount = 2;
-	message[0] = "A shipment of electrical equipment has arrived lately... I hear it'll help a lot with optimizing your farm.";
+	message[0] = "A boatload of electrical whatchamacallits just arrived 'ere... If yer' lookin' to expand, yous should look into thems.";
 	messageTimeout[0] = 2;
-	message[1] = "Powered water pumps to fill tanks, and indoor lights that allow you to grow stuff indoors!";
+	message[1] = "Looks like yous'll get water pumps to fill up yer' tanks, an' some inside lights that'll let yous grow stuff indoors...";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -39,9 +39,9 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(PowerSystemDialogue2)
 {
 	messageCount = 2;
-	message[0] = "To use electrical equipment, hook them up to a Power Control Box.";
+	message[0] = "To use electrical equipment, hook them up to a Power Control Box. Mind your fingers, wouldn't want to get fried before your time in the sun does it. Heh.";
 	messageTimeout[0] = 2;
-	message[1] = "Then hook up a generator or some charged batteries to power them! Don't forget to put in some coal!";
+	message[1] = "Afterwards, you can hook up a generator or some charged batteries to power them! Don't forget to put in some coal if you're using the former.";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -49,9 +49,9 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(PowerSystemDialogue3)
 {
 	messageCount = 2;
-	message[0] = "Use Electrical Cable to connect electrical devices. You can get it free in town.";
+	message[0] = "Duhhaa... You can use da eclectrical cable to connect da eclectical things togetha! Dey give it away for free in da town...";
 	messageTimeout[0] = 2;
-	message[1] = "Use it on an electrical brick, then on the power control box to connect the two.";
+	message[1] = "You shoulddda probablys use it on da eclectical brick, then on to da power box thinger to connect tha two.";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -59,9 +59,9 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(ToolDialogue1)
 {
 	messageCount = 2;
-	message[0] = "Ever since we moved to this new area, we've been getting worse tools... they keep breaking down!";
+	message[0] = "Ever since we got here, our tools have kept breaking... Stupid manufacturers don't know how to make them right!";
 	messageTimeout[0] = 2;
-	message[1] = "Thankfully our local toolsmith can help repair them! He can be found in the workshop in town.";
+	message[1] = "Luckily our local toolsmith knows how to repair them... You should find him in town, you'll need to get your tools fixed eventually.";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
