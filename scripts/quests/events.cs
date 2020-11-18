@@ -1,5 +1,26 @@
 //////////////////////////////
 
+function selectQuestTable(%list)
+{
+    %questListLength = getWordCount(%list);
+    for (%i = 0; %i < %questListLength; %i++)
+    {
+        %weight += getWord(%list, %i).questWeight;
+    }
+
+    %currWeight = 0;
+    %selectedWeight = getRandom() * %weight;
+    for (%i = 0; %i < %questListLength; %i++)
+    {
+        %currWeight += getWord(%list, %i).questWeight;
+        if (%selectedWeight < %currWeight)
+        {
+            return getWord(%list, %i);
+        }
+    }
+    return "";
+}
+
 function fxDTSBrick::getNewQuest(%this, %questTables, %client) {
     if (%this.nextQuestTime[%client.bl_id] > $Sim::Time) {
         if (%this.questRetrieved[%client.bl_id]) {
@@ -12,7 +33,7 @@ function fxDTSBrick::getNewQuest(%this, %questTables, %client) {
             %this.nextQuestTime[%client.bl_id] = 0;
         }
     } else {
-        %questTable = getWord(%questTables, getRandom(0, getWordCount(%questTables) - 1));
+        %questTable = selectQuestTable(%questTables);
         if (!isObject(%questTable) || %questTable.class !$= "QuestType") {
             talk("ERROR - getNewQuest - Quest brick " @ %this @ " has bad quest table list \"" @ %questTable @ "\"");
             error("ERROR - getNewQuest - Quest brick " @ %this @ " has bad quest table list \"" @ %questTable @ "\"");

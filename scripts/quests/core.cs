@@ -18,14 +18,22 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 
 		%table = %this.requestTable;
 
+		if (%this.budgetPerRequestItem == 0) {
+			%this.budgetPerRequestItem = -1;
+		}
+
 		%maxItems = %this.maxRequestItems;
-		%minItems = mClamp(1, %maxItems, mFloor(%maxBudget / %this.budgetPerRequestItem));
+		%minItems = mClamp(1, %maxItems, mCeil(%maxBudget / %this.budgetPerRequestItem));
 		%numItems = getRandom(%minItems, %maxItems);
 	} else if (%mode $= "Rewards") {
 		%table = %this.rewardTable;
 
-		%maxItems = %this.maxRewardItems;
-		%numItems = getRandom(1, %maxItems);
+		if (%this.rewardsItems) {
+			%maxItems = %this.maxRewardItems;
+			%numItems = getRandom(1, %maxItems);
+		} else {
+			%numItems = 0;
+		}
 	} else {
 		error("ERROR - QuestType::addQuestItems - Invalid mode! Mode must be either \"Requests\" or \"Rewards\"");
 		return;
@@ -64,8 +72,10 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 			%stackableItemList = trim(%stackableItemList SPC %item);
 			%allStackableItemsCost += %itemPrice;
 			%stackableItems++;
-		} else {
+		} else if (isObject(%item)) {
 			%itemCount = 1;
+		} else { // handle the case when no item is selected
+			continue;
 		}
 
 		if (%remainingBudget - %itemPrice >= 0) {
