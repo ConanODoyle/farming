@@ -192,8 +192,10 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 		%delivered = getWord(%request, 2);
 		if (%count == %delivered) {
 			if (
-				(%deliveredItem.isStackable && %item.isStackable && %deliveredItem.stackType $= %item.stackType)
-				|| (isStackType(%item) && %deliveredItem.stackType $= %item)
+				(%deliveredItem.isStackable && (
+					(%item.isStackable && %deliveredItem.stackType $= %item.stackType)
+					|| (isStackType(%item) && %deliveredItem.stackType $= %item)
+				))
 				|| %deliveredItem.getID() == %item.getID()
 			) {
 				%alreadyDelivered = true;
