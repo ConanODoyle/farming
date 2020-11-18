@@ -198,6 +198,7 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 			))
 			|| %deliveredItem.getID() == %item.getID()
 		);
+
 		if (%count == %delivered) {
 			if (%isSameItem) {
 				%alreadyDelivered = true;
