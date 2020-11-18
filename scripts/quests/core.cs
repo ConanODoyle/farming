@@ -190,20 +190,22 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 		%item = getWord(%request, 0);
 		%count = getWord(%request, 1);
 		%delivered = getWord(%request, 2);
+
+		%isSameItem = (
+			(%deliveredItem.isStackable && (
+				(%item.isStackable && %deliveredItem.stackType $= %item.stackType)
+				|| (isStackType(%item) && %deliveredItem.stackType $= %item)
+			))
+			|| %deliveredItem.getID() == %item.getID()
+		);
 		if (%count == %delivered) {
-			if (
-				(%deliveredItem.isStackable && (
-					(%item.isStackable && %deliveredItem.stackType $= %item.stackType)
-					|| (isStackType(%item) && %deliveredItem.stackType $= %item)
-				))
-				|| %deliveredItem.getID() == %item.getID()
-			) {
+			if (%isSameItem) {
 				%alreadyDelivered = true;
 			}
 			continue;
 		}
 
-		if ((%deliveredItem.isStackable && %item.isStackable && %deliveredItem.stackType $= %item.stackType) || %deliveredItem.getID() == %item.getID()) {
+		if (%isSameItem) {
 			%overflow = getMax((%delivered + %deliveredCount) - %count, 0);
 
 			if (%overflow > 0) {
