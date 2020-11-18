@@ -21,8 +21,6 @@ exec("./daisy.cs");
 exec("./lily.cs");
 exec("./rose.cs");
 
-exec("./planter.cs");
-exec("./reclaimer.cs");
 	// case 0: return 0;
 	// case 1: return "overlap";
 	// case 2: return "float";
