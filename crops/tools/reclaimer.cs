@@ -80,24 +80,29 @@ function ReclaimerImage::onReady(%this, %obj, %slot)
 		%timeSincePlanted = $Sim::Time - %hit.plantedTime;
 		%harvestCount = getWord(%hit.getNutrients(), 2);
 		
-		if (%timeSincePlanted < 40 && %harvestCount < 1)
+		if (%harvestCount < 1)
 		{
-			%canReclaim = 1;
-			%reclaimExpFactor = 1;
-		}
-		
-		if (%db.isTree && %harvestCount < 1)
-		{
-			if (%timeSincePlanted < 60 * 5) //5 minutes forgiveness for trees
+			if (!%db.isTree)
 			{
 				%canReclaim = 1;
-				%reclaimExpFactor = 1;
+				if (%timeSincePlanted < 40)
+				{
+					%reclaimExpFactor = 1;
+				}
 			}
-			else if (%stage < 3)
+			else
 			{
-				%canReclaim = 1;
-				%reclaimExpFactor = 0.85;
-				%color = "\c3";
+				if (%timeSincePlanted < 60 * 5) //5 minutes forgiveness for trees
+				{
+					%canReclaim = 1;
+					%reclaimExpFactor = 1;
+				}
+				else if (%stage < 3)
+				{
+					%canReclaim = 1;
+					%reclaimExpFactor = 0.85;
+					%color = "\c3";
+				}
 			}
 		}
 	}
@@ -165,28 +170,33 @@ function ReclaimerImage::onFire(%this, %obj, %slot)
 		%timeSincePlanted = $Sim::Time - %hit.plantedTime;
 		%harvestCount = getWord(%hit.getNutrients(), 2);
 		
-		if (%timeSincePlanted < 40 && %harvestCount < 1)
+		if (%harvestCount < 1)
 		{
-			%canReclaim = 1;
-			%reclaimExpFactor = 1;
-		}
-		
-		if (%db.isTree)
-		{
-			if (%timeSincePlanted < 60 * 5) //5 minutes forgiveness for trees
+			if (!%db.isTree)
 			{
 				%canReclaim = 1;
-				%reclaimExpFactor = 1;
-			}
-			else if (%stage < 3)
-			{
-				%canReclaim = 1;
-				%reclaimExpFactor = 0.85;
+				if (%timeSincePlanted < 40)
+				{
+					%reclaimExpFactor = 1;
+				}
 			}
 			else
 			{
-				%cl.centerprint("You cannot reclaim trees!", 1);
-				return;
+				if (%timeSincePlanted < 60 * 5) //5 minutes forgiveness for trees
+				{
+					%canReclaim = 1;
+					%reclaimExpFactor = 1;
+				}
+				else if (%stage < 3)
+				{
+					%canReclaim = 1;
+					%reclaimExpFactor = 0.85;
+				}
+				else
+				{
+					%cl.centerprint("You cannot reclaim trees!", 1);
+					return;
+				}
 			}
 		}
 
