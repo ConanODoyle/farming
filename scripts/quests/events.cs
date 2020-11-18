@@ -21,7 +21,7 @@ function selectQuestTable(%list)
     return "";
 }
 
-function fxDTSBrick::getNewQuest(%this, %questTables, %client) {
+function fxDTSBrick::getNewQuest(%this, %questTables, %timeout, %client) {
     if (%this.nextQuestTime[%client.bl_id] > $Sim::Time) {
         if (%this.questRetrieved[%client.bl_id]) {
             %timeToWait = convTime(%this.nextQuestTime[%client.bl_id] - $Sim::Time);
@@ -43,7 +43,11 @@ function fxDTSBrick::getNewQuest(%this, %questTables, %client) {
         %quest = %questTable.generateQuest();
 
         %this.quest[%client.bl_id] = %quest;
-        %this.nextQuestTime[%client.bl_id] = $Sim::Time + $Farming::QuestCooldown;
+        if (%timeout <= 0)
+        {
+            %timeout = $Farming::QuestCooldown;
+        }
+        %this.nextQuestTime[%client.bl_id] = $Sim::Time + %timeout;
         %this.deleteQuestSchedule[%client.bl_id] = schedule($Farming::QuestCooldown * 1000, 0, deleteQuest, %quest);
         %client.promptGetQuest(%this, %this.quest[%client.bl_id]);
         %client.questSourceBrick.questRetrieved[%client.bl_id] = false;
@@ -82,7 +86,7 @@ function serverCmdAcceptQuest(%client) {
     %client.questToGet = "";
 }
 
-registerOutputEvent("fxDTSBrick", "getNewQuest", "string 200 150", true);
+registerOutputEvent("fxDTSBrick", "getNewQuest", "string 200 150" TAB "int 0 100000 0", true);
 
 //////////////////////////////
 
