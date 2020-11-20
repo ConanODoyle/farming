@@ -17,6 +17,10 @@ function getPluralWord(%word)
 	{
 		return %word @ "es";
 	}
+	else if (%lastWord $= "Cactus")
+	{
+		return getSubStr(%word, 0, strLen(%word) - 2) @ "i";
+	}
 	else
 	{
 		return %word @ "s";
