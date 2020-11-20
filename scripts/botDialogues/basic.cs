@@ -39,9 +39,9 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(PowerSystemDialogue2)
 {
 	messageCount = 2;
-	message[0] = "To use electrical equipment, hook them up to a Power Control Box. Mind your fingers, wouldn't want to get fried before your time in the sun does it. Heh.";
+	message[0] = "To use electrical equipment, hook them up to a Power Control Box. Mind your fingers, wouldn't want to get fried before the sun can do it to ya. Heh.";
 	messageTimeout[0] = 2;
-	message[1] = "Afterwards, you can hook up a generator or some charged batteries to power them! Don't forget to put in some coal if you're using the former.";
+	message[1] = "Make sure to hook up a generator or some charged batteries to power them! Don't forget to put in some coal to burn!";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -49,7 +49,7 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(PowerSystemDialogue3)
 {
 	messageCount = 2;
-	message[0] = "Duhhaa... You can use da eclectrical cable to connect da eclectical things togetha! Dey give it away for free in da town...";
+	message[0] = "Duhhaa... You can use da eclectrical cable to connect da eclectical things togetha! Dey give it away for free rite heea...";
 	messageTimeout[0] = 2;
 	message[1] = "You shoulddda probablys use it on da eclectical brick, then on to da power box thinger to connect tha two.";
 	messageTimeout[1] = 2;
@@ -59,9 +59,9 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(ToolDialogue1)
 {
 	messageCount = 2;
-	message[0] = "Ever since we got here, our tools have kept breaking... Stupid manufacturers don't know how to make them right!";
+	message[0] = "Ever since we got here, our tools have kept breaking... Stupid manufacturers don't know how to make them last!";
 	messageTimeout[0] = 2;
-	message[1] = "Luckily our local toolsmith knows how to repair them... You should find him in town, you'll need to get your tools fixed eventually.";
+	message[1] = "Luckily our local toolsmith knows how to repair them... You can find him in town, you'll need to get your tools fixed eventually.";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -71,7 +71,7 @@ $obj = new ScriptObject(ToolDialogue2)
 	messageCount = 2;
 	message[0] = "We've been occasionally getting tools that inexplicably have microchips embedded in them.";
 	messageTimeout[0] = 2;
-	message[1] = "They seem to keep track of something... I wonder what? Our crops, maybe?";
+	message[1] = "They seem to keep track of something... Our crops, maybe? If I were you, I'd wrap all my tools in tinfoil.";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -79,9 +79,9 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(ToolDialogue3)
 {
 	messageCount = 2;
-	message[0] = "Have you used a trowel on buried crops? They drop more produce when you use them to harvest!";
+	message[0] = "Have you used a trowel on buried crops? It'll give you more produce when you use them to harvest!";
 	messageTimeout[0] = 2;
-	message[1] = "On the other hand, hoes let you harvest a bunch of belowground crops at once. Fast!";
+	message[1] = "On the other hand, hoes let you harvest a bunch of belowground crops at once. Saves you lots of time!";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -89,9 +89,9 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(ToolDialogue4)
 {
 	messageCount = 2;
-	message[0] = "Clippers are a really handy tool that boosts your harvest for aboveground crops!";
+	message[0] = "Clippers are a really handy tool to get you more from harvesting surface crops like corn and wheat!";
 	messageTimeout[0] = 2;
-	message[1] = "But if you want to harvest those fields of wheat faster, use a sickle instead!";
+	message[1] = "But if you want to harvest those seas of grain faster, use a sickle! Cuts 'em all down in an instant!";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -99,9 +99,9 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(ToolDialogue5)
 {
 	messageCount = 2;
-	message[0] = "Tree Clippers let you boost the harvest from trees significantly. Big profits!";
+	message[0] = "Tree Clippers let you harvest significantly more from trees. Big profits!";
 	messageTimeout[0] = 2;
-	message[1] = "You can also use them to prune apple trees before harvest, increasing yield!";
+	message[1] = "You can also use them to prune flowering apple trees before harvest! Pruned trees bear way more fruit!";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -119,22 +119,24 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(OrganicAnalyzerDialogue)
 {
 	messageCount = 2;
-	message[0] = "Have you seen this tool before? It's so cool! Tells you everything about the things you look at!";
+	message[0] = "Have you seen this analyzer before? It's so cool! Tells you everything about the things you look at!";
 	messageTimeout[0] = 2;
-	message[1] = "Doesn't seem to work on anything inorganic though, so I only gave it a 2 out of 5 stars.";
+	message[1] = "Doesn't seem to work on anything inorganic though, so I really can only gave it a solid 5/7.";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
 
 $obj = new ScriptObject(NutrientDialogue)
 {
-	messageCount = 3;
-	message[0] = "Some crops need nutrients - you can figure out what they need by using an Organic Analyzer on them.";
+	messageCount = 4;
+	message[0] = "Some crops are demanding little buggers - they won't grow without nutrients!";
 	messageTimeout[0] = 2;
-	message[1] = "Phosphate can be mined from phosphate mines, and nitrogen comes from compost made from Compost Bins.";
+	message[1] = "If you got yourself an Organic Analyzer, you can use it to see what they need. They draw nutrients from the soil they're on.";
 	messageTimeout[1] = 2;
-	message[2] = "Flowers also give nutrients to the dirt brick they're growing on! Make sure to pick them before they wilt.";
+	message[2] = "Nitrogen comes from compost, which you can buy right here, while phosphate can be mined from the phosphate mines.";
 	messageTimeout[2] = 2;
+	message[3] = "In addition, flowers add nutrients to the soil they're growing on. Make sure to pick them before they wilt though!";
+	messageTimeout[3] = 2;
 };
 $BasicDialogueSet.add($obj);
 
@@ -143,7 +145,7 @@ $obj = new ScriptObject(ShovelDialogue)
 	messageCount = 2;
 	message[0] = "With shovels, you can retrieve nutrients from soil. Some of it will be lost though!";
 	messageTimeout[0] = 2;
-	message[1] = "You can use an organic analyzer to detect what nutrients (and how much) are in the soil.";
+	message[1] = "You can use an organic analyzer to detect what nutrients, and how much, are in the soil.";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -153,7 +155,7 @@ $obj = new ScriptObject(CompostBinDialogue1)
 	messageCount = 2;
 	message[0] = "Compost bins make compost that provide nitrogen to soil! To make compost, you just toss in full baskets of crops.";
 	messageTimeout[0] = 2;
-	message[1] = "Over time, the produce will decompose and generate compost!";
+	message[1] = "Over time, the produce will decompose and generate compost! With the Combiner, you can combine it with phosphate to make fertilizer!";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -161,7 +163,7 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(CompostBinDialogue2)
 {
 	messageCount = 2;
-	message[0] = "Big compost bins store more crops and compost, on top of generating compost faster.";
+	message[0] = "Big compost bins store more crops and compost, on top of generating more compost faster.";
 	messageTimeout[0] = 2;
 	message[1] = "Quite useful when you want to save storage space on compost!";
 	messageTimeout[1] = 2;
@@ -171,9 +173,9 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(ToolSellerDialogue)
 {
 	messageCount = 2;
-	message[0] = "The Tool Seller works at the Tool Depot, near the bus stop TRW.";
+	message[0] = "Need tools? The Tool Seller works at the [COPYRIGHT INFRINGEMENT] Depot, near the bus stop TRW.";
 	messageTimeout[0] = 2;
-	message[1] = "He sells all kinds of tools! Check back regularly to see what he's offering.";
+	message[1] = "He sells all kinds of tools! He also offers quests for tools, check back regularly to see what he's got available!";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -183,7 +185,7 @@ $obj = new ScriptObject(SeedSellerDialogue)
 	messageCount = 2;
 	message[0] = "The Seed Seller works at his greenhouse, at the pond near the OFL bus stop.";
 	messageTimeout[0] = 2;
-	message[1] = "He sells all kinds of seeds for half price! Check back regularly to see what he's offering.";
+	message[1] = "He's a real big guy, sells all of his seeds for half price! He's also got quests for rare seeds - you should check it often for crops you want!";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -191,11 +193,13 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(PostOfficeDialogue)
 {
 	messageCount = 3;
-	message[0] = "The Post Office is where you go to complete quests and receive quest rewards!";
+	message[0] = "Welcome to the Post Office! Here you deliver quest materials and get your rewards!";
 	messageTimeout[0] = 2;
-	message[1] = "Get a Quest Slip from the Task Manager, drop it into a post office box, then drop your deliveries into it.";
+	message[1] = "You can get Quest Slips from the notepads near special bots - once you have one, drop it into a post office box, followed by the requested items.";
 	messageTimeout[1] = 2;
-	message[2] = "The quest slip will show you the progress and quest rewards. When you're done, drop it into the box to get your reward!";
+	message[2] = "The quest slip will show you your progress and quest rewards. When you're done, drop it into the box to get your reward!";
+	messageTimeout[2] = 2;
+	message[2] = "If you lose your slip, click the delivery box it's linked to to get a new copy of the quest slip.";
 	messageTimeout[2] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -203,11 +207,11 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(TaskManagerDialogue)
 {
 	messageCount = 3;
-	message[0] = "Hi, I'm the Task Manager! I get orders from people, and pass them on to you as quests!";
+	message[0] = "Need work? I take produce orders from lands far away, and pass them on to you farmers as quests!";
 	messageTimeout[0] = 2;
-	message[1] = "Check the quest notepads to see what's available! You can store quests in crates, toolboxes, and quest cabinets.";
+	message[1] = "Check the quest pads to see what's available! You can store quests in crates, toolboxes, and quest cabinets.";
 	messageTimeout[1] = 2;
-	message[2] = "Talk to the post office clerk to get information on how to complete quests. Good day to you!";
+	message[2] = "Once you got the requests together, head over to a Post Office to deliver them! I'm only a middleman, so I can't take your stuff.";
 	messageTimeout[2] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -215,9 +219,9 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(CoalMiningDialogue)
 {
 	messageCount = 2;
-	message[0] = "Hey you, you can mine coal here! Use it to fuel coal generators, or sell it in town for a small profit.";
+	message[0] = "This here's a coal mine. If you're lookin' for work, or some quick cash, you can mine some coal to fill out coal quests.";
 	messageTimeout[0] = 2;
-	message[1] = "Grab a pickaxe and get to it! Each coal takes 100 seconds to burn.";
+	message[1] = "You can get coal quests right over there, in... Coal's? Cole's? Kohl's? No idea how you kids say it.";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -225,9 +229,19 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(PhosphateMiningDialogue)
 {
 	messageCount = 2;
-	message[0] = "Hey you, you can mine phosphate here! Use it to fertilize dirt for crops that need it.";
+	message[0] = "Hey you, you can mine phosphate here! Some crops need it to grow, you can talk to the guys at the barn to find out which ones.";
 	messageTimeout[0] = 2;
-	message[1] = "Grab a pickaxe and get to it! Each phosphate ore gives 5 phosphate to dirt it's applied to.";
+	message[1] = "Each phosphate item gives 5 phosphate to dirt bricks it's applied to.";
+	messageTimeout[1] = 2;
+};
+$BasicDialogueSet.add($obj);
+
+$obj = new ScriptObject(MiningQuestsDialogue)
+{
+	messageCount = 2;
+	message[0] = "Lookin' for work? I got mineral orders to fill and not enough people to do 'em!";
+	messageTimeout[0] = 2;
+	message[1] = "Pick up an order from the quest pads over there, it'll tell you what needs doin'. Once you got it, you can deliver the stuff at the drop box here.";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
@@ -247,7 +261,7 @@ $obj = new ScriptObject(PyramidSchemeDialogue)
 	messageCount = 2;
 	message[0] = "Hi, I'm selling pyramids! For every pyramid you buy, you'll get two later!";
 	messageTimeout[0] = 3;
-	message[1] = "You can then sell these back to me for their original price!";
+	message[1] = "You can then sell these back to me for their original price, after someone else buys some more from me!";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
