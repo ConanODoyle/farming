@@ -7,7 +7,7 @@ $BasicDialogueSet.deleteAll();
 $obj = new ScriptObject(BusInfoDialogue)
 {
 	messageCount = 3;
-	message[0] = "Bus stops are really cool! They're free, and bring you around really fast.";
+	message[0] = "Bus stops are really cool! They only cost $0.50 to use, and bring you around really fast.";
 	messageTimeout[0] = 2;
 	message[1] = "The bus line info shows all the stops available to travel to when you click it!";
 	messageTimeout[1] = 3;
