@@ -73,6 +73,7 @@ exec("./crops/exec.cs");
 
 // Datablocks
 exec("./vehicles/cart.cs");
+exec("./vehicles/player_cat.cs");
 exec("./audio/audio.cs");
 
 // Particles
