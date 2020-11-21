@@ -40,8 +40,8 @@ function getFreeLotCount()
 	for (%i = 0; %i < %count; %i++)
 	{
 		%b = $SingleLotSimSet.getObject(%i);
-		%bDB = getDatablock();
-		if (%bDB.getGroup().bl_id == 888888)
+		%bDB = %b.getDatablock();
+		if (%b.getGroup().bl_id == 888888 && %bDB.isSingle)
 		{
 			%count++;
 		}
