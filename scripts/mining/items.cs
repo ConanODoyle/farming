@@ -91,7 +91,7 @@ datablock ShapeBaseImageData(DiamondImage)
 
 	armReady = 1;
 
-	offset = "0.1 0.1 0";
+	offset = "-0.1 0.1 0";
 
 	item = "DiamondItem";
 };
