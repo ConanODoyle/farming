@@ -1,3 +1,104 @@
+//Valuable gems!
+
+datablock ItemData(RubyItem : HammerItem)
+{
+	shapeFile = "./resources/ruby.dts";
+	uiName = "Ruby";
+	image = "RubyImage";
+	doColorShift = true;
+	colorShiftColor = "1 0 0 1";
+};
+
+datablock ShapeBaseImageData(RubyImage)
+{
+	shapeFile = "./resources/ruby.dts";
+	emap = true;
+
+	doColorShift = RubyItem.doColorShift;
+	colorShiftColor = RubyItem.colorShiftColor;
+
+	armReady = 1;
+
+	offset = "0 0.1 0";
+
+	item = "RubyItem";
+};
+
+datablock ItemData(SapphireItem : HammerItem)
+{
+	shapeFile = "./resources/Sapphire.dts";
+	uiName = "Sapphire";
+	image = "SapphireImage";
+	doColorShift = true;
+	colorShiftColor = "0.15 0 0.77 1";
+};
+
+datablock ShapeBaseImageData(SapphireImage)
+{
+	shapeFile = "./resources/Sapphire.dts";
+	emap = true;
+
+	doColorShift = SapphireItem.doColorShift;
+	colorShiftColor = SapphireItem.colorShiftColor;
+
+	armReady = 1;
+
+	offset = "0 0.1 0";
+
+	item = "SapphireItem";
+};
+
+datablock ItemData(EmeraldItem : HammerItem)
+{
+	shapeFile = "./resources/Emerald.dts";
+	uiName = "Emerald";
+	image = "EmeraldImage";
+	doColorShift = true;
+	colorShiftColor = "0 0.847 0 1";
+};
+
+datablock ShapeBaseImageData(EmeraldImage)
+{
+	shapeFile = "./resources/Emerald.dts";
+	emap = true;
+
+	doColorShift = EmeraldItem.doColorShift;
+	colorShiftColor = EmeraldItem.colorShiftColor;
+
+	armReady = 1;
+
+	offset = "0 0.1 0";
+
+	item = "EmeraldItem";
+};
+
+datablock ItemData(DiamondItem : HammerItem)
+{
+	shapeFile = "./resources/Diamond.dts";
+	uiName = "Diamond";
+	image = "DiamondImage";
+	doColorShift = true;
+	colorShiftColor = "1 1 1 1";
+};
+
+datablock ShapeBaseImageData(DiamondImage)
+{
+	shapeFile = "./resources/Diamond.dts";
+	emap = true;
+
+	doColorShift = DiamondItem.doColorShift;
+	colorShiftColor = DiamondItem.colorShiftColor;
+
+	armReady = 1;
+
+	offset = "0.1 0.1 0";
+
+	item = "DiamondItem";
+};
+
+
+
+
 //Phosphate bag information set in /scripts/processors/fertilizer.cs
 
 datablock ItemData(PhosphateItem : HammerItem)
