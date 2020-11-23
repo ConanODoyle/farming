@@ -296,20 +296,21 @@ function setupStorePurchase(%dataObj)
 		}
 
 		%dataObj.sellItem[%i] = %item;
-		if (%list !$= "")
-		{
-			%list = %list TAB %dataObj.sellItem[%i].uiName @ "s";
-		}
-		else
-		{
-			%list = %dataObj.sellItem[%i].uiName @ "s";
-		}
+		%list = %list TAB getPluralWord(%dataObj.sellItem[%i].uiName);
 		%count++;
 	}
 	%dataObj.sellItemCount = %count;
+	%list = trim(%list);
 
 	%list = trim(setField(%list, %count - 1, "and " @ getField(%list, %count - 1)));
-	%list = strReplace(%list, "\t", ", ");
+	if (getFieldCount(%list) > 2)
+	{
+		%list = strReplace(%list, "\t", ", ");
+	}
+	else
+	{
+		%list = strReplace(%list, "\t", " ");
+	}
 
 	%dataObj.var_productList = %list;
 }
@@ -340,9 +341,10 @@ function storeSelectionParser(%dataObj, %msg)
 	}
 	else
 	{
-		%dataObj.sellItem = %item;
-		%dataObj.var_product = %item.uiName;
-		%dataObj.var_price = mFloatLength(getBuyPrice(%item.uiName, 1), 2);
+		%dataObj.sellItem = %selectedItem;
+		%dataObj.var_product = %selectedItem.uiName;
+		%dataObj.var_productPlural = getPluralWord(%selectedItem.uiName);
+		%dataObj.var_price = mFloatLength(getBuyPrice(%selectedItem.uiName, 1), 2);
 		return "ValidSelection";
 	}
 }
