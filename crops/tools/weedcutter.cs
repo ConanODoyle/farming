@@ -1,7 +1,7 @@
 datablock ItemData(WeedCutterItem : HammerItem)
 {
 	iconName = "Add-Ons/Server_Farming/icons/weed_whacker";
-	shapeFile = "./weed_whacker.dts";
+	shapeFile = "./weedWhacker/weed_whacker.dts";
 	uiName = "Weed Cutter";
 
 	image = "WeedCutterImage";
@@ -19,7 +19,7 @@ datablock ShapeBaseImageData(WeedCutterImage)
 	armReady = true;
 
 	item = WeedCutterItem;
-	doColorShift = fakse;
+	doColorShift = false;
 	colorShiftColor = WeedCutterItem.colorShiftColor;
 
 	areaHarvest = 2;

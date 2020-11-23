@@ -2,20 +2,21 @@
 datablock ItemData(PickaxeItem : HammerItem)
 {
 	iconName = "Add-ons/Server_Farming/icons/Pickaxe";
-	shapeFile = "./resources/Pickaxe.dts";
+	shapeFile = "./resources/pickaxe/Pickaxe.dts";
 	uiName = "Pickaxe";
 
 	image = "PickaxeImage";
 	colorShiftColor = "0.4 0 0 1";
+	doColorShift = false;
 };
 
 datablock ShapeBaseImageData(PickaxeImage)
 {
-	shapeFile = "./resources/Pickaxe.dts";
+	shapeFile = "./resources/pickaxe/Pickaxe.dts";
 	emap = true;
 
 	item = PickaxeItem;
-	doColorShift = true;
+	doColorShift = false;
 	colorShiftColor = "0.4 0 0 1";
 
 	armReady = true;

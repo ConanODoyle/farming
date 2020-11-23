@@ -1,6 +1,6 @@
 datablock ItemData(ReclaimerItem : HammerItem)
 {
-	shapeFile = "./Reclaimer.dts";
+	shapeFile = "./redtools/Reclaimer.dts";
 	iconName = "Add-Ons/Server_Farming/icons/Seed_Reclaimer";
 	uiName = "Seed Reclaimer";
 
@@ -12,16 +12,17 @@ datablock ItemData(ReclaimerItem : HammerItem)
 	chanceDurability = 0.85;
 	bonusDurability = 25;
 
+	doColorshift = false;
 	colorShiftColor = "0.4 0 0 1";
 	image = ReclaimerImage;
 };
 
 datablock ShapeBaseImageData(ReclaimerImage)
 {
-	shapeFile = "./Reclaimer.dts";
+	shapeFile = "./redtools/Reclaimer.dts";
 	emap = true;
 
-	doColorshift = true;
+	doColorshift = false;
 	colorShiftColor = ReclaimerItem.colorShiftColor;
 
 	item = ReclaimerItem;

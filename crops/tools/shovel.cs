@@ -1,10 +1,10 @@
 datablock ItemData(ShovelItem : HammerItem)
 {
-	shapeFile = "./shovel.dts";
+	shapeFile = "./redtools/shovel.dts";
 	uiName = "Shovel";
 	image = "ShovelImage";
 	colorShiftColor = "0.4 0 0 1";
-	doColorShift = true;
+	doColorShift = false;
 
 	baseDurability = 200;
 	chanceDurability = 0.8;
@@ -15,10 +15,10 @@ datablock ItemData(ShovelItem : HammerItem)
 
 datablock ShapeBaseImageData(ShovelImage)
 {
-	shapeFile = "./shovel.dts";
+	shapeFile = "./redtools/shovel.dts";
 	emap = true;
 
-	doColorShift = true;
+	doColorShift = false;
 	colorShiftColor = ShovelItem.colorShiftColor;
 
 	item = "ShovelItem";

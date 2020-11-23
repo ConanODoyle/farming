@@ -1,4 +1,5 @@
 exec("./tools/harvestTools.cs");
+exec("./tools/organicAnalyzer.cs");
 exec("./tools/planter.cs");
 exec("./tools/reclaimer.cs");
 exec("./tools/shovel.cs");

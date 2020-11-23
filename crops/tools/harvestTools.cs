@@ -4,7 +4,7 @@
 datablock ItemData(TrowelItem : HammerItem)
 {
 	iconName = "Add-ons/Server_Farming/icons/Trowel";
-	shapeFile = "./trowel.dts";
+	shapeFile = "./redtools/trowel.dts";
 	uiName = "Trowel";
 
 	hasDataID = 1;
@@ -18,15 +18,16 @@ datablock ItemData(TrowelItem : HammerItem)
 
 	image = "TrowelImage";
 	colorShiftColor = "0.4 0 0 1";
+	doColorShift = false;
 };
 
 datablock ShapeBaseImageData(TrowelImage)
 {
-	shapeFile = "./Trowel.dts";
+	shapeFile = "./redtools/Trowel.dts";
 	emap = true;
 
 	item = TrowelItem;
-	doColorShift = true;
+	doColorShift = false;
 	colorShiftColor = "0.4 0 0 1";
 
 	armReady = true;
@@ -77,7 +78,7 @@ function TrowelImage::onReady(%this, %obj, %slot)
 datablock ItemData(ClipperItem : HammerItem)
 {
 	iconName = "Add-ons/Server_Farming/icons/Clipper";
-	shapeFile = "./Clipper.dts";
+	shapeFile = "./redtools/Clipper.dts";
 	uiName = "Clipper";
 
 	hasDataID = 1;
@@ -91,14 +92,15 @@ datablock ItemData(ClipperItem : HammerItem)
 
 	image = "ClipperImage";
 	colorShiftColor = "0.4 0 0 1";
+	doColorShift = false;
 };
 
 datablock ShapeBaseImageData(ClipperImage : TrowelImage)
 {
-	shapeFile = "./Clipper.dts";
+	shapeFile = "./redtools/Clipper.dts";
 
 	item = ClipperItem;
-	doColorShift = true;
+	doColorShift = false;
 
 	projectile = "swordProjectile";
 
@@ -120,7 +122,7 @@ function ClipperImage::onReady(%this, %obj, %slot)
 datablock ItemData(HoeItem : HammerItem)
 {
 	iconName = "Add-ons/Server_Farming/icons/Hoe";
-	shapeFile = "./Hoe.dts";
+	shapeFile = "./redtools/Hoe.dts";
 	uiName = "Hoe";
 
 	hasDataID = 1;
@@ -134,14 +136,15 @@ datablock ItemData(HoeItem : HammerItem)
 
 	image = "HoeImage";
 	colorShiftColor = "0.4 0 0 1";
+	doColorShift = false;
 };
 
 datablock ShapeBaseImageData(HoeImage : TrowelImage)
 {
-	shapeFile = "./Hoe.dts";
+	shapeFile = "./redtools/Hoe.dts";
 
 	item = HoeItem;
-	doColorShift = true;
+	doColorShift = false;
 
 	areaHarvest = 2;
 	stateTimeoutValue[2] = 0.4;
@@ -164,7 +167,7 @@ function HoeImage::onReady(%this, %obj, %slot)
 datablock ItemData(SickleItem : HammerItem)
 {
 	iconName = "Add-ons/Server_Farming/icons/Sickle";
-	shapeFile = "./Sickle.dts";
+	shapeFile = "./redtools/Sickle.dts";
 	uiName = "Sickle";
 
 	hasDataID = 1;
@@ -178,14 +181,15 @@ datablock ItemData(SickleItem : HammerItem)
 
 	image = "SickleImage";
 	colorShiftColor = "0.4 0 0 1";
+	doColorShift = false;
 };
 
 datablock ShapeBaseImageData(SickleImage : TrowelImage)
 {
-	shapeFile = "./Sickle.dts";
+	shapeFile = "./redtools/Sickle.dts";
 
 	item = SickleItem;
-	doColorShift = true;
+	doColorShift = false;
 
 	areaHarvest = 2;
 	stateTimeoutValue[2] = 0.4;
@@ -208,7 +212,7 @@ function SickleImage::onReady(%this, %obj, %slot)
 datablock ItemData(TreeClipperItem : HammerItem)
 {
 	iconName = "Add-ons/Server_Farming/icons/TreeClipper";
-	shapeFile = "./TreeClipper.dts";
+	shapeFile = "./redtools/TreeClipper.dts";
 	uiName = "Tree Clipper";
 
 	hasDataID = 1;
@@ -222,14 +226,15 @@ datablock ItemData(TreeClipperItem : HammerItem)
 
 	image = "TreeClipperImage";
 	colorShiftColor = "0.4 0 0 1";
+	doColorShift = false;
 };
 
 datablock ShapeBaseImageData(TreeClipperImage : TrowelImage)
 {
-	shapeFile = "./TreeClipper.dts";
+	shapeFile = "./redtools/TreeClipper.dts";
 
 	item = TreeClipperItem;
-	doColorShift = true;
+	doColorShift = false;
 
 	areaHarvest = 2;
 	stateTimeoutValue[2] = 0.4;
@@ -299,14 +304,17 @@ function toolHarvest(%img, %obj, %slot)
 		}
 	}
 
-	%durability = getDurability(%img, %obj, %slot);
-	if (%durability == 0 && isObject(%cl = %obj.client))
+	if (%item.hasDataID)
 	{
-		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!", 1);
-		return;
+		%durability = getDurability(%img, %obj, %slot);
+		if (%durability == 0 && isObject(%cl = %obj.client))
+		{
+			%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!", 1);
+			return;
+		}
+		%toolHarvestType = getDataIDArrayTagValue(%obj.toolDataID[%obj.currTool], "statTrakType");
 	}
 
-	%toolHarvestType = getDataIDArrayTagValue(%obj.toolDataID[%obj.currTool], "statTrakType");
 
 	if (%img.areaHarvest > 0 && isObject(%hit))
 	{
@@ -349,7 +357,7 @@ function toolHarvest(%img, %obj, %slot)
 		}
 	}
 
-	if (%hasHarvested)
+	if (%hasHarvested && %item.hasDataID)
 	{
 		useDurability(%img, %obj, %slot);
 	}

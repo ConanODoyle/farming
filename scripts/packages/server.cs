@@ -13,7 +13,7 @@ datablock ItemData(ShippingPackageItem)
 
     uiName = "Package";
     iconName = "Add-Ons/Server_Farming/icons/Package";
-    doColorShift = true;
+    doColorShift = false;
     colorShiftColor = "0.71 0.56 0.38 1";
 
     image = ShippingPackageImage;

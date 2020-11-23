@@ -1,6 +1,6 @@
 datablock ItemData(PlanterItem : HammerItem)
 {
-	shapeFile = "./planter.dts";
+	shapeFile = "./redtools/planter.dts";
 	iconName = "Add-Ons/Server_Farming/icons/Planter_Icon";
 	uiName = "Seed Planter";
 
@@ -9,16 +9,17 @@ datablock ItemData(PlanterItem : HammerItem)
 
 	durability = 1000;
 
+	doColorshift = false;
 	colorShiftColor = "0.4 0 0 1";
 	image = PlanterImage;
 };
 
 datablock ShapeBaseImageData(PlanterImage)
 {
-	shapeFile = "./planter.dts";
+	shapeFile = "./redtools/planter.dts";
 	emap = true;
 
-	doColorshift = true;
+	doColorshift = false;
 	colorShiftColor = PlanterItem.colorShiftColor;
 
 	item = PlanterItem;
@@ -56,7 +57,7 @@ datablock ShapeBaseImageData(PlanterImage)
 
 datablock ItemData(PlanterV2Item : HammerItem)
 {
-	shapeFile = "./planter.dts";
+	shapeFile = "./bluetools/planter.dts";
 	iconName = "Add-Ons/Server_Farming/icons/Planter_V2_Icon";
 	uiName = "Seed Planter V2";
 
@@ -65,16 +66,17 @@ datablock ItemData(PlanterV2Item : HammerItem)
 
 	durability = 1000;
 
+	doColorshift = false;
 	colorShiftColor = "0 0 0.4 1";
 	image = PlanterV2Image;
 };
 
 datablock ShapeBaseImageData(PlanterV2Image)
 {
-	shapeFile = "./planter.dts";
+	shapeFile = "./bluetools/planter.dts";
 	emap = true;
 
-	doColorshift = true;
+	doColorshift = false;
 	colorShiftColor = PlanterV2Item.colorShiftColor;
 
 	item = PlanterV2Item;

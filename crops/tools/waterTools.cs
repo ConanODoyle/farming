@@ -5,7 +5,7 @@
 datablock ItemData(WateringCanItem : HammerItem)
 {
 	iconName = "Add-ons/Server_Farming/icons/wateringCan";
-	shapeFile = "./wateringCan.dts";
+	shapeFile = "./waterCan/wateringCan.dts";
 	uiName = "Watering Can";
 
 	image = "WateringCanImage";
@@ -14,15 +14,16 @@ datablock ItemData(WateringCanItem : HammerItem)
 	hasDataID = 1;
 	isDataIDTool = 1;
 	colorShiftColor = "0.6 0.6 0.6 1";
+	doColorShift = false;
 };
 
 datablock ShapeBaseImageData(WateringCanImage)
 {
-	shapeFile = "./wateringCan.dts";
+	shapeFile = "./waterCan/wateringCan.dts";
 	emap = true;
 
 	item = WateringCanItem;
-	doColorShift = true;
+	doColorShift = false;
 	colorShiftColor = "0.6 0.6 0.6 1";
 
 	waterAmount = 12;
@@ -77,7 +78,7 @@ function WateringCanImage::onReady(%this, %obj, %slot)
 
 datablock ItemData(WateringCan2Item : WateringCanItem) 
 {
-	shapeFile = "./wateringCan2.dts";
+	shapeFile = "./waterCan2/wateringCan2.dts";
 	uiName = "Watering Can v2";
 	colorShiftColor = "0.75 0 0 1";
 	image = "WateringCan2Image";
@@ -91,7 +92,7 @@ datablock ItemData(WateringCan2Item : WateringCanItem)
 
 datablock ShapeBaseImageData(WateringCan2Image : WateringCanImage)
 {
-	shapeFile = "./wateringCan2.dts";
+	shapeFile = "./waterCan2/wateringCan2.dts";
 	item = WateringCan2Item;
 	colorShiftColor = WateringCan2Item.colorShiftColor;
 	waterAmount = 30;
@@ -114,7 +115,7 @@ function WateringCan2Image::onReady(%this, %obj, %slot)
 
 datablock ItemData(WateringCan3Item : WateringCanItem) 
 {
-	shapeFile = "./wateringCan3.dts";
+	shapeFile = "./waterCan3/wateringCan3.dts";
 	uiName = "Watering Can v3";
 	colorShiftColor = "0 0.7 1 1";
 	image = "WateringCan3Image";
@@ -128,7 +129,7 @@ datablock ItemData(WateringCan3Item : WateringCanItem)
 
 datablock ShapeBaseImageData(WateringCan3Image : WateringCanImage)
 {
-	shapeFile = "./wateringCan3.dts";
+	shapeFile = "./waterCan3/wateringCan3.dts";
 	item = WateringCan3Item;
 	colorShiftColor = WateringCan3Item.colorShiftColor;
 	waterAmount = 50;
@@ -152,7 +153,7 @@ function WateringCan3Image::onReady(%this, %obj, %slot)
 
 datablock ItemData(WateringCatItem : WateringCanItem) 
 {
-	shapeFile = "./wateringCat.dts";
+	shapeFile = "./waterCat/wateringCat.dts";
 	uiName = "Watering Cat";
 	colorShiftColor = "0.1 0.1 0.1 1";
 	image = "WateringCatImage";
@@ -166,7 +167,7 @@ datablock ItemData(WateringCatItem : WateringCanItem)
 
 datablock ShapeBaseImageData(WateringCatImage : WateringCanImage)
 {
-	shapeFile = "./wateringCat.dts";
+	shapeFile = "./waterCat/wateringCat.dts";
 	item = WateringCatItem;
 	colorShiftColor = WateringCatItem.colorShiftColor;
 	waterAmount = 150;
@@ -190,7 +191,7 @@ function WateringCatImage::onReady(%this, %obj, %slot)
 
 datablock ItemData(HoseItem : WateringCanItem) 
 {
-	shapeFile = "./hoseItem.dts";
+	shapeFile = "./greentools/hoseItem.dts";
 	uiName = "Hose";
 	colorShiftColor = "0 0.5 0 1";
 	image = "HoseImage";
@@ -204,7 +205,7 @@ datablock ItemData(HoseItem : WateringCanItem)
 
 datablock ShapeBaseImageData(HoseImage : WateringCanImage)
 {
-	shapeFile = "./hose.dts";
+	shapeFile = "./greentools/hose.dts";
 	item = HoseItem;
 	colorShiftColor = HoseItem.colorShiftColor;
 	waterAmount = 30;
@@ -227,7 +228,7 @@ function HoseImage::onReady(%this, %obj, %slot)
 
 datablock ItemData(HoseV2Item : WateringCanItem) 
 {
-	shapeFile = "./hoseItem.dts";
+	shapeFile = "./bluetools/hoseItem.dts";
 	uiName = "Hose V2";
 	colorShiftColor = "0 0 0.5 1";
 	image = "HoseV2Image";
@@ -241,7 +242,7 @@ datablock ItemData(HoseV2Item : WateringCanItem)
 
 datablock ShapeBaseImageData(HoseV2Image : WateringCanImage)
 {
-	shapeFile = "./hoseV2.dts";
+	shapeFile = "./bluetools/hoseV2.dts";
 	item = HoseV2Item;
 	colorShiftColor = HoseV2Item.colorShiftColor;
 	waterAmount = 50;
@@ -264,7 +265,7 @@ function HoseV2Image::onReady(%this, %obj, %slot)
 
 datablock ItemData(WateringSnakeItem : WateringCanItem) 
 {
-	shapeFile = "./wateringSnakeItem.dts";
+	shapeFile = "./wateringSnake/wateringSnakeItem.dts";
 	uiName = "Watering Snake";
 	colorShiftColor = "0 0.5 0 1";
 	image = "WateringSnakeImage";
@@ -278,7 +279,7 @@ datablock ItemData(WateringSnakeItem : WateringCanItem)
 
 datablock ShapeBaseImageData(WateringSnakeImage : WateringCanImage)
 {
-	shapeFile = "./wateringSnake.dts";
+	shapeFile = "./wateringSnake/wateringSnake.dts";
 	item = WateringSnakeItem;
 	colorShiftColor = WateringSnakeItem.colorShiftColor;
 	waterAmount = 100;
