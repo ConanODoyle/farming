@@ -21,7 +21,7 @@ datablock ItemData(WheatBasket0Item : HammerItem)
 	image = "WheatBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Wheat_Basket";
+	iconName = "Add-ons/Server_Farming/icons/Wheat_Basket";
 
 	isStackable = 1;
 	stackType = "Wheat";
@@ -35,7 +35,7 @@ datablock ItemData(WheatBasket1Item : HammerItem)
 	image = "WheatBasket1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Wheat_Basket_Half";
+	iconName = "Add-ons/Server_Farming/icons/Wheat_Basket_Half";
 
 	isStackable = 1;
 	stackType = "Wheat";
@@ -49,7 +49,7 @@ datablock ItemData(WheatBasket2Item : HammerItem)
 	image = "WheatBasket2Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Wheat_Star";
+	iconName = "Add-ons/Server_Farming/icons/Wheat_Star";
 
 	isStackable = 1;
 	stackType = "Wheat";

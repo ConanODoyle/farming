@@ -20,7 +20,7 @@ datablock ItemData(CactusBasket0Item : HammerItem)
 	image = "CactusBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Cactus_Basket";
+	iconName = "Add-ons/Server_Farming/icons/Cactus_Basket";
 
 	isStackable = 1;
 	stackType = "Cactus";
@@ -34,7 +34,7 @@ datablock ItemData(CactusBasket1Item : HammerItem)
 	image = "CactusBasket1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Cactus_Star";
+	iconName = "Add-ons/Server_Farming/icons/Cactus_Star";
 
 	isStackable = 1;
 	stackType = "Cactus";

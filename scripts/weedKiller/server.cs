@@ -147,7 +147,7 @@ datablock ItemData(WeedKiller0Item : HammerItem)
 	colorShiftColor = "1 1 1 1";
 	doColorShift = true;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/WeedKiller";
+	iconName = "Add-ons/Server_Farming/icons/WeedKiller";
 
 	isStackable = 1;
 	stackType = "WeedKiller";

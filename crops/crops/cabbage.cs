@@ -20,7 +20,7 @@ datablock ItemData(CabbageBasket0Item : HammerItem)
 	image = "CabbageBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Cabbage_Basket";
+	iconName = "Add-ons/Server_Farming/icons/Cabbage_Basket";
 
 	isStackable = 1;
 	stackType = "Cabbage";
@@ -34,7 +34,7 @@ datablock ItemData(CabbageBasket1Item : HammerItem)
 	image = "CabbageBasket1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Cabbage_Star";
+	iconName = "Add-ons/Server_Farming/icons/Cabbage_Star";
 
 	isStackable = 1;
 	stackType = "Cabbage";

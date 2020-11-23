@@ -10,7 +10,7 @@ datablock fxDTSBrickData(brickSmallSprinklerData)
 
 	brickFile = "./smallSprinkler.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/small_sprinkler";
+	iconName = "Add-Ons/Server_Farming/icons/small_sprinkler";
 
 	cost = 200;
 	isSprinkler = 1;
@@ -27,7 +27,7 @@ datablock fxDTSBrickData(brickSmallSprinklerDownData)
 
 	brickFile = "./smallSprinklerDown.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/small_sprinkler_down";
+	iconName = "Add-Ons/Server_Farming/icons/small_sprinkler_down";
 
 	cost = 200;
 	isSprinkler = 1;
@@ -45,7 +45,7 @@ datablock fxDTSBrickData(brickMedSprinklerData)
 
 	brickFile = "./MedSprinkler.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/medium_sprinkler";
+	iconName = "Add-Ons/Server_Farming/icons/medium_sprinkler";
 
 	cost = 500;
 	isSprinkler = 1;
@@ -62,7 +62,7 @@ datablock fxDTSBrickData(brickLargeSprinklerData)
 
 	brickFile = "./LargeSprinkler.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/large_sprinkler";
+	iconName = "Add-Ons/Server_Farming/icons/large_sprinkler";
 
 	cost = 800;
 	isSprinkler = 1;
@@ -79,7 +79,7 @@ datablock fxDTSBrickData(brickDripLineData)
 
 	brickFile = "./DripLine.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/drip_line";
+	iconName = "Add-Ons/Server_Farming/icons/drip_line";
 
 	cost = 100;
 	isSprinkler = 1;
@@ -96,7 +96,7 @@ datablock fxDTSBrickData(brickStraightSprinklerData)
 
 	brickFile = "./StraightSprinkler.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/straight_sprinkler";
+	iconName = "Add-Ons/Server_Farming/icons/straight_sprinkler";
 
 	cost = 500;
 	isSprinkler = 1;
@@ -113,7 +113,7 @@ datablock fxDTSBrickData(brickSwaySprinklerData)
 
 	brickFile = "./SwaySprinkler.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/sway_sprinkler";
+	iconName = "Add-Ons/Server_Farming/icons/sway_sprinkler";
 
 	cost = 600;
 	isSprinkler = 1;

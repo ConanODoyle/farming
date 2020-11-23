@@ -12,7 +12,7 @@ datablock ItemData(ShippingPackageItem)
     emap = true;
 
     uiName = "Package";
-    iconName = "Add-Ons/Server_Farming/crops/icons/Package";
+    iconName = "Add-Ons/Server_Farming/icons/Package";
     doColorShift = true;
     colorShiftColor = "0.71 0.56 0.38 1";
 

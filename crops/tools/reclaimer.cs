@@ -1,7 +1,7 @@
 datablock ItemData(ReclaimerItem : HammerItem)
 {
 	shapeFile = "./Reclaimer.dts";
-	iconName = "Add-Ons/Server_Farming/crops/icons/Seed_Reclaimer";
+	iconName = "Add-Ons/Server_Farming/icons/Seed_Reclaimer";
 	uiName = "Seed Reclaimer";
 
 	hasDataID = 1;

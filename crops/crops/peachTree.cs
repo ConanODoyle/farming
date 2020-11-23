@@ -20,7 +20,7 @@ datablock ItemData(PeachBasket0Item : HammerItem)
 	image = "PeachBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Peach_Basket";
+	iconName = "Add-ons/Server_Farming/icons/Peach_Basket";
 
 	isStackable = 1;
 	stackType = "Peach";
@@ -34,7 +34,7 @@ datablock ItemData(PeachBasket1Item : HammerItem)
 	image = "PeachBasket1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Peach_Star";
+	iconName = "Add-ons/Server_Farming/icons/Peach_Star";
 
 	isStackable = 1;
 	stackType = "Peach";

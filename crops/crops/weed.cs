@@ -20,7 +20,7 @@ datablock ItemData(Weed0Item : HammerItem)
 	image = "Weed0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/WeedLmao";
+	iconName = "Add-ons/Server_Farming/icons/WeedLmao";
 
 	isStackable = 1;
 	stackType = "Weed";
@@ -34,7 +34,7 @@ datablock ItemData(Weed1Item : HammerItem)
 	image = "Weed1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/DudeWeedLmao";
+	iconName = "Add-ons/Server_Farming/icons/DudeWeedLmao";
 
 	isStackable = 1;
 	stackType = "Weed";

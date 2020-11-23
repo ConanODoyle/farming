@@ -498,7 +498,7 @@ datablock fxDTSBrickData(brickCompostBinData)
 
 	brickFile = "./resources/fertilizer/compostBin.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/compost_bin";
+	iconName = "Add-Ons/Server_Farming/icons/compost_bin";
 
 	cost = 0;
 	isProcessor = 1;
@@ -524,7 +524,7 @@ datablock fxDTSBrickData(brickLargeCompostBinData)
 
 	brickFile = "./resources/fertilizer/largecompostBin.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/large_compost_bin";
+	iconName = "Add-Ons/Server_Farming/icons/large_compost_bin";
 
 	cost = 0;
 	isProcessor = 1;
@@ -555,7 +555,7 @@ datablock ItemData(CompostBinItem : brickPlacerItem)
 	image = "CompostBinBrickImage";
 	colorShiftColor = "0.9 0 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
+	iconName = "Add-ons/Server_Farming/icons/compost_bin";
 };
 
 datablock ShapeBaseImageData(CompostBinBrickImage : BrickPlacerImage)
@@ -605,7 +605,7 @@ datablock ItemData(LargeCompostBinItem : brickPlacerItem)
 	image = "LargeCompostBinBrickImage";
 	colorShiftColor = "0.5 0 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/large_compost_bin";
+	iconName = "Add-ons/Server_Farming/icons/large_compost_bin";
 };
 
 datablock ShapeBaseImageData(LargeCompostBinBrickImage : BrickPlacerImage)
@@ -663,7 +663,7 @@ datablock ItemData(FertilizerBag0Item : HammerItem)
 	colorShiftColor = "0.5 0.3 0 1";
 	doColorShift = true;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Fertilizer_Bag";
+	iconName = "Add-ons/Server_Farming/icons/Fertilizer_Bag";
 
 	isStackable = 1;
 	stackType = "Fertilizer";
@@ -719,7 +719,7 @@ datablock ItemData(FertilizerBag1Item : FertilizerBag0Item)
 	image = "FertilizerBag1Image";
 	uiName = "Half Fertilizer Bag";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Fertilizer_Bag_Half";
+	iconName = "Add-ons/Server_Farming/icons/Fertilizer_Bag_Half";
 };
 
 datablock ShapeBaseImageData(FertilizerBag1Image : FertilizerBag0Image)
@@ -736,7 +736,7 @@ datablock ItemData(FertilizerBag2Item : FertilizerBag0Item)
 	image = "FertilizerBag2Image";
 	uiName = "Full Fertilizer Bag";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Fertilizer_Bag_Full";
+	iconName = "Add-ons/Server_Farming/icons/Fertilizer_Bag_Full";
 };
 
 datablock ShapeBaseImageData(FertilizerBag2Image : FertilizerBag0Image)
@@ -813,7 +813,7 @@ datablock ItemData(CompostBag0Item : HammerItem)
 	colorShiftColor = "0.73 0.53 0.25 1";
 	doColorShift = true;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Compost_Bag";
+	iconName = "Add-ons/Server_Farming/icons/Compost_Bag";
 
 	isStackable = 1;
 	stackType = "Compost";
@@ -867,7 +867,7 @@ datablock ItemData(CompostBag1Item : CompostBag0Item)
 	image = "CompostBag1Image";
 	uiName = "Half Compost Bag";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Compost_Bag_Half";
+	iconName = "Add-ons/Server_Farming/icons/Compost_Bag_Half";
 };
 
 datablock ShapeBaseImageData(CompostBag1Image : CompostBag0Image)
@@ -884,7 +884,7 @@ datablock ItemData(CompostBag2Item : CompostBag0Item)
 	image = "CompostBag2Image";
 	uiName = "Full Compost Bag";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Compost_Bag_Full";
+	iconName = "Add-ons/Server_Farming/icons/Compost_Bag_Full";
 };
 
 datablock ShapeBaseImageData(CompostBag2Image : CompostBag0Image)
@@ -961,7 +961,7 @@ datablock ItemData(PhosphateBag0Item : HammerItem)
 	colorShiftColor = "0.54 0.48 0.42 1";
 	doColorShift = true;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Phosphate_Bag";
+	iconName = "Add-ons/Server_Farming/icons/Phosphate_Bag";
 
 	isStackable = 1;
 	stackType = "Phosphate";
@@ -1015,7 +1015,7 @@ datablock ItemData(PhosphateBag1Item : PhosphateBag0Item)
 	image = "PhosphateBag1Image";
 	uiName = "Half Phosphate Bag";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Phosphate_Bag_Half";
+	iconName = "Add-ons/Server_Farming/icons/Phosphate_Bag_Half";
 };
 
 datablock ShapeBaseImageData(PhosphateBag1Image : PhosphateBag0Image)
@@ -1032,7 +1032,7 @@ datablock ItemData(PhosphateBag2Item : PhosphateBag0Item)
 	image = "PhosphateBag2Image";
 	uiName = "Full Phosphate Bag";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Phosphate_Bag_Full";
+	iconName = "Add-ons/Server_Farming/icons/Phosphate_Bag_Full";
 };
 
 datablock ShapeBaseImageData(PhosphateBag2Image : PhosphateBag0Image)

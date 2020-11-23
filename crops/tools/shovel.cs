@@ -10,7 +10,7 @@ datablock ItemData(ShovelItem : HammerItem)
 	chanceDurability = 0.8;
 	bonusDurability = 20;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Shovel";
+	iconName = "Add-ons/Server_Farming/icons/Shovel";
 };
 
 datablock ShapeBaseImageData(ShovelImage)

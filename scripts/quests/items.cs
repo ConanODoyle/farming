@@ -12,7 +12,7 @@ datablock ItemData(QuestItem)
     emap = true;
 
     uiName = "Quest Slip";
-    iconName = "Add-Ons/Server_Farming/crops/icons/Quest";
+    iconName = "Add-Ons/Server_Farming/icons/Quest";
     doColorShift = false;
     colorShiftColor = "0.7 0.7 0.7 1";
 

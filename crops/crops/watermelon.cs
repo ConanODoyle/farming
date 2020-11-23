@@ -19,7 +19,7 @@ datablock ItemData(WatermelonBasket0Item : HammerItem)
 	image = "WatermelonBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Watermelon_Star";
+	iconName = "Add-ons/Server_Farming/icons/Watermelon_Star";
 
 	isStackable = 1;
 	stackType = "Watermelon";

@@ -10,7 +10,7 @@ datablock fxDTSBrickData(brickPlanterBoxData : brick1x1Data)
 
 	brickFile = "./resources/planterbox/PlanterBox.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/4x_planter";
+	iconName = "Add-Ons/Server_Farming/icons/4x_planter";
 
 	cost = 0;
 	isDirt = 1;
@@ -33,7 +33,7 @@ datablock ItemData(PlanterBoxItem : brickPlacerItem)
 	image = "PlanterBoxBrickImage";
 	colorShiftColor = "0.90 0.48 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/4x_planter";
+	iconName = "Add-ons/Server_Farming/icons/4x_planter";
 };
 
 datablock ShapeBaseImageData(PlanterBoxBrickImage : BrickPlacerImage)

@@ -3,7 +3,7 @@
 
 datablock ItemData(TrowelItem : HammerItem)
 {
-	iconName = "Add-ons/Server_Farming/crops/icons/Trowel";
+	iconName = "Add-ons/Server_Farming/icons/Trowel";
 	shapeFile = "./trowel.dts";
 	uiName = "Trowel";
 
@@ -76,7 +76,7 @@ function TrowelImage::onReady(%this, %obj, %slot)
 
 datablock ItemData(ClipperItem : HammerItem)
 {
-	iconName = "Add-ons/Server_Farming/crops/icons/Clipper";
+	iconName = "Add-ons/Server_Farming/icons/Clipper";
 	shapeFile = "./Clipper.dts";
 	uiName = "Clipper";
 
@@ -119,7 +119,7 @@ function ClipperImage::onReady(%this, %obj, %slot)
 
 datablock ItemData(HoeItem : HammerItem)
 {
-	iconName = "Add-ons/Server_Farming/crops/icons/Hoe";
+	iconName = "Add-ons/Server_Farming/icons/Hoe";
 	shapeFile = "./Hoe.dts";
 	uiName = "Hoe";
 
@@ -163,7 +163,7 @@ function HoeImage::onReady(%this, %obj, %slot)
 
 datablock ItemData(SickleItem : HammerItem)
 {
-	iconName = "Add-ons/Server_Farming/crops/icons/Sickle";
+	iconName = "Add-ons/Server_Farming/icons/Sickle";
 	shapeFile = "./Sickle.dts";
 	uiName = "Sickle";
 
@@ -207,7 +207,7 @@ function SickleImage::onReady(%this, %obj, %slot)
 
 datablock ItemData(TreeClipperItem : HammerItem)
 {
-	iconName = "Add-ons/Server_Farming/crops/icons/TreeClipper";
+	iconName = "Add-ons/Server_Farming/icons/TreeClipper";
 	shapeFile = "./TreeClipper.dts";
 	uiName = "Tree Clipper";
 

@@ -10,7 +10,7 @@ datablock fxDTSBrickData(brickFlowerPotData : brick1x1Data)
 
 	brickFile = "./resources/flowerpot/flowerPot.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/flower_pot";
+	iconName = "Add-Ons/Server_Farming/icons/flower_pot";
 
 	cost = 0;
 	isDirt = 1;
@@ -33,7 +33,7 @@ datablock ItemData(FlowerPotItem : brickPlacerItem)
 	image = "FlowerpotBrickImage";
 	colorShiftColor = "0.90 0.48 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/flower_pot";
+	iconName = "Add-ons/Server_Farming/icons/flower_pot";
 };
 
 datablock ShapeBaseImageData(FlowerpotBrickImage : BrickPlacerImage)

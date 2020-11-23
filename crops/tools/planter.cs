@@ -1,7 +1,7 @@
 datablock ItemData(PlanterItem : HammerItem)
 {
 	shapeFile = "./planter.dts";
-	iconName = "Add-Ons/Server_Farming/crops/icons/Planter_Icon";
+	iconName = "Add-Ons/Server_Farming/icons/Planter_Icon";
 	uiName = "Seed Planter";
 
 	hasDataID = 1;
@@ -57,7 +57,7 @@ datablock ShapeBaseImageData(PlanterImage)
 datablock ItemData(PlanterV2Item : HammerItem)
 {
 	shapeFile = "./planter.dts";
-	iconName = "Add-Ons/Server_Farming/crops/icons/Planter_V2_Icon";
+	iconName = "Add-Ons/Server_Farming/icons/Planter_V2_Icon";
 	uiName = "Seed Planter V2";
 
 	hasDataID = 1;

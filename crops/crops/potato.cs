@@ -20,7 +20,7 @@ datablock ItemData(PotatoBasket0Item : HammerItem)
 	image = "PotatoBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Potato_Basket";
+	iconName = "Add-ons/Server_Farming/icons/Potato_Basket";
 
 	isStackable = 1;
 	stackType = "Potato";
@@ -34,7 +34,7 @@ datablock ItemData(PotatoBasket1Item : HammerItem)
 	image = "PotatoBasket1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Potato_Star";
+	iconName = "Add-ons/Server_Farming/icons/Potato_Star";
 
 	isStackable = 1;
 	stackType = "Potato";

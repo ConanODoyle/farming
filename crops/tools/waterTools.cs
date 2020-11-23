@@ -4,7 +4,7 @@
 
 datablock ItemData(WateringCanItem : HammerItem)
 {
-	iconName = "Add-ons/Server_Farming/crops/icons/wateringCan";
+	iconName = "Add-ons/Server_Farming/icons/wateringCan";
 	shapeFile = "./wateringCan.dts";
 	uiName = "Watering Can";
 
@@ -86,7 +86,7 @@ datablock ItemData(WateringCan2Item : WateringCanItem)
 	hasDataID = 1;
 	isDataIDTool = 1;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/wateringCan2";
+	iconName = "Add-ons/Server_Farming/icons/wateringCan2";
 };
 
 datablock ShapeBaseImageData(WateringCan2Image : WateringCanImage)
@@ -123,7 +123,7 @@ datablock ItemData(WateringCan3Item : WateringCanItem)
 	hasDataID = 1;
 	isDataIDTool = 1;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/wateringCan3";
+	iconName = "Add-ons/Server_Farming/icons/wateringCan3";
 };
 
 datablock ShapeBaseImageData(WateringCan3Image : WateringCanImage)
@@ -161,7 +161,7 @@ datablock ItemData(WateringCatItem : WateringCanItem)
 	hasDataID = 1;
 	isDataIDTool = 1;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/wateringCat";
+	iconName = "Add-ons/Server_Farming/icons/wateringCat";
 };
 
 datablock ShapeBaseImageData(WateringCatImage : WateringCanImage)
@@ -199,7 +199,7 @@ datablock ItemData(HoseItem : WateringCanItem)
 	hasDataID = 1;
 	isDataIDTool = 1;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/hose";
+	iconName = "Add-ons/Server_Farming/icons/hose";
 };
 
 datablock ShapeBaseImageData(HoseImage : WateringCanImage)
@@ -236,7 +236,7 @@ datablock ItemData(HoseV2Item : WateringCanItem)
 	hasDataID = 1;
 	isDataIDTool = 1;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/hose";
+	iconName = "Add-ons/Server_Farming/icons/hose";
 };
 
 datablock ShapeBaseImageData(HoseV2Image : WateringCanImage)
@@ -273,7 +273,7 @@ datablock ItemData(WateringSnakeItem : WateringCanItem)
 	hasDataID = 1;
 	isDataIDTool = 1;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/WateringSnake";
+	iconName = "Add-ons/Server_Farming/icons/WateringSnake";
 };
 
 datablock ShapeBaseImageData(WateringSnakeImage : WateringCanImage)

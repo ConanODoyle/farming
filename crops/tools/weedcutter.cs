@@ -1,6 +1,6 @@
 datablock ItemData(WeedCutterItem : HammerItem)
 {
-	iconName = "Add-Ons/Server_Farming/crops/icons/weed_whacker";
+	iconName = "Add-Ons/Server_Farming/icons/weed_whacker";
 	shapeFile = "./weed_whacker.dts";
 	uiName = "Weed Cutter";
 

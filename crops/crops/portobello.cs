@@ -21,7 +21,7 @@ datablock ItemData(PortobelloBasket0Item : HammerItem)
 	image = "PortobelloBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Portobello_Basket_Quarter";
+	iconName = "Add-ons/Server_Farming/icons/Portobello_Basket_Quarter";
 
 	isStackable = 1;
 	stackType = "Portobello";
@@ -35,7 +35,7 @@ datablock ItemData(PortobelloBasket1Item : HammerItem)
 	image = "PortobelloBasket1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Portobello_Basket_Half";
+	iconName = "Add-ons/Server_Farming/icons/Portobello_Basket_Half";
 
 	isStackable = 1;
 	stackType = "Portobello";
@@ -49,7 +49,7 @@ datablock ItemData(PortobelloBasket2Item : HammerItem)
 	image = "PortobelloBasket2Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Portobello_Basket_Star";
+	iconName = "Add-ons/Server_Farming/icons/Portobello_Basket_Star";
 
 	isStackable = 1;
 	stackType = "Portobello";

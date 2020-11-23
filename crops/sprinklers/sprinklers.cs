@@ -604,7 +604,7 @@ function flowWater(%tank)
 
 datablock ItemData(SprinklerLinkItem : HammerItem)
 {
-	iconName = "Add-Ons/Server_Farming/crops/icons/sprinklerHose";
+	iconName = "Add-Ons/Server_Farming/icons/sprinklerHose";
 	shapeFile = "./sprinklerHoseItem.dts";
 	uiName = "Sprinkler Hose";
 	image = SprinklerLinkImage;

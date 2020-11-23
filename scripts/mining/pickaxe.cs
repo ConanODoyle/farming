@@ -1,7 +1,7 @@
 
 datablock ItemData(PickaxeItem : HammerItem)
 {
-	iconName = "Add-ons/Server_Farming/crops/icons/Pickaxe";
+	iconName = "Add-ons/Server_Farming/icons/Pickaxe";
 	shapeFile = "./resources/Pickaxe.dts";
 	uiName = "Pickaxe";
 

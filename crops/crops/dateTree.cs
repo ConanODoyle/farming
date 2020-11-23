@@ -21,7 +21,7 @@ datablock ItemData(DateBasket0Item : HammerItem)
 	image = "DateBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Date_Basket_1";
+	iconName = "Add-ons/Server_Farming/icons/Date_Basket_1";
 
 	isStackable = 1;
 	stackType = "Date";
@@ -35,7 +35,7 @@ datablock ItemData(DateBasket1Item : HammerItem)
 	image = "DateBasket1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Date_Basket_2";
+	iconName = "Add-ons/Server_Farming/icons/Date_Basket_2";
 
 	isStackable = 1;
 	stackType = "Date";
@@ -49,7 +49,7 @@ datablock ItemData(DateBasket2Item : HammerItem)
 	image = "DateBasket2Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Date_Star";
+	iconName = "Add-ons/Server_Farming/icons/Date_Star";
 
 	isStackable = 1;
 	stackType = "Date";

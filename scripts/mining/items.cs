@@ -4,7 +4,7 @@ datablock ItemData(RubyItem : HammerItem)
 {
 	shapeFile = "./resources/ruby.dts";
 	uiName = "Ruby";
-	iconName = "Add-ons/Server_Farming/crops/icons/Icon_Ruby";
+	iconName = "Add-ons/Server_Farming/icons/Icon_Ruby";
 	image = "RubyImage";
 
 	doColorShift = false;
@@ -30,7 +30,7 @@ datablock ItemData(SapphireItem : HammerItem)
 {
 	shapeFile = "./resources/Sapphire.dts";
 	uiName = "Sapphire";
-	iconName = "Add-ons/Server_Farming/crops/icons/Icon_Sapphire";
+	iconName = "Add-ons/Server_Farming/icons/Icon_Sapphire";
 	image = "SapphireImage";
 	doColorShift = false;
 	colorShiftColor = "0.15 0 0.77 1";
@@ -55,7 +55,7 @@ datablock ItemData(EmeraldItem : HammerItem)
 {
 	shapeFile = "./resources/Emerald.dts";
 	uiName = "Emerald";
-	iconName = "Add-ons/Server_Farming/crops/icons/Icon_Emerald";
+	iconName = "Add-ons/Server_Farming/icons/Icon_Emerald";
 	image = "EmeraldImage";
 	doColorShift = false;
 	colorShiftColor = "0 0.847 0 1";
@@ -80,7 +80,7 @@ datablock ItemData(DiamondItem : HammerItem)
 {
 	shapeFile = "./resources/Diamond.dts";
 	uiName = "Diamond";
-	iconName = "Add-ons/Server_Farming/crops/icons/Icon_Diamond";
+	iconName = "Add-ons/Server_Farming/icons/Icon_Diamond";
 	image = "DiamondImage";
 	doColorShift = false;
 	colorShiftColor = "1 1 1 1";
@@ -148,7 +148,7 @@ datablock ItemData(CoalBasket0Item : HammerItem)
 	image = "CoalBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Coal_Basket";
+	iconName = "Add-ons/Server_Farming/icons/Coal_Basket";
 
 	isStackable = 1;
 	stackType = "Coal";
@@ -162,7 +162,7 @@ datablock ItemData(CoalBasket1Item : HammerItem)
 	image = "CoalBasket1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Coal_Basket_Half";
+	iconName = "Add-ons/Server_Farming/icons/Coal_Basket_Half";
 
 	isStackable = 1;
 	stackType = "Coal";
@@ -176,7 +176,7 @@ datablock ItemData(CoalBasket2Item : HammerItem)
 	image = "CoalBasket2Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Coal_Star";
+	iconName = "Add-ons/Server_Farming/icons/Coal_Star";
 
 	isStackable = 1;
 	stackType = "Coal";

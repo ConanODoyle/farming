@@ -41,7 +41,7 @@ datablock fxDTSBrickData(brickSmallWaterTankData)
 
 	brickFile = "./bricks/smallWaterTank.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/small_water_tank";
+	iconName = "Add-Ons/Server_Farming/icons/small_water_tank";
 
 	cost = 200;
 	isWaterTank = 1;
@@ -56,7 +56,7 @@ datablock fxDTSBrickData(brickSmallWaterInfiniteTankData)
 
 	brickFile = "./bricks/smallWaterTank.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/small_water_tank";
+	iconName = "Add-Ons/Server_Farming/icons/small_water_tank";
 
 	cost = -1;
 	isInfiniteWaterSource = 1;
@@ -75,7 +75,7 @@ datablock fxDTSBrickData(brickMediumWaterTankData)
 
 	brickFile = "./bricks/medWaterTank.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/medium_water_tank";
+	iconName = "Add-Ons/Server_Farming/icons/medium_water_tank";
 
 	cost = 800;
 	isWaterTank = 1;
@@ -92,7 +92,7 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 
 	brickFile = "./bricks/largeWaterTank.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/large_water_tank";
+	iconName = "Add-Ons/Server_Farming/icons/large_water_tank";
 
 	cost = 2200;
 	isWaterTank = 1;
@@ -109,7 +109,7 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 
 // 	brickFile = "./bricks/massiveWaterTank.blb";
 
-// 	iconName = "Add-Ons/Server_Farming/crops/icons/massive_water_tank";
+// 	iconName = "Add-Ons/Server_Farming/icons/massive_water_tank";
 
 // 	cost = 4000;
 // 	isWaterTank = 1;
@@ -131,7 +131,7 @@ datablock fxDTSBrickData(brickGreenhouseData)
 
 	brickFile = "./bricks/Greenhouse.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/greenhouse";
+	iconName = "Add-Ons/Server_Farming/icons/greenhouse";
 
 	isGreenhouse = 1;
 
@@ -151,7 +151,7 @@ datablock fxDTSBrickData(brickShopStallData)
 
 	brickFile = "./bricks/shopBrick.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/shopstall";
+	iconName = "Add-Ons/Server_Farming/icons/shopstall";
 
 	isShopBrick = 1;
 	isStorageBrick = 1;
@@ -176,7 +176,7 @@ datablock fxDTSBrickData(brickGoldIngotData)
 
 	brickFile = "./bricks/goldingot.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/Gold_Ingot";
+	iconName = "Add-Ons/Server_Farming/icons/Gold_Ingot";
 
 	isGreenhouse = 1;
 
@@ -198,7 +198,7 @@ datablock fxDTSBrickData(brickStorageCrateData)
 
 	brickFile = "./bricks/storageCrate.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/storage_crate";
+	iconName = "Add-Ons/Server_Farming/icons/storage_crate";
 
 	isStorageBrick = 1;
 	storageSlotCount = 4;
@@ -217,7 +217,7 @@ datablock fxDTSBrickData(brickSiloData)
 
 	brickFile = "./bricks/Silo.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/silo";
+	iconName = "Add-Ons/Server_Farming/icons/silo";
 
 	isStorageBrick = 1;
 	storageSlotCount = 1;
@@ -237,7 +237,7 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 
 	brickFile = "./bricks/toolboxLargeFeatures.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/toolbox";
+	iconName = "Add-Ons/Server_Farming/icons/toolbox";
 
 	isStorageBrick = 1;
 	storageSlotCount = 8;

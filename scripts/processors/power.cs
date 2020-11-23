@@ -1126,7 +1126,7 @@ datablock ItemData(ElectricalCableItem : HammerItem)
 	doColorshift = false;
 	colorShiftColor = "1 1 1 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/ElectricalCable";
+	iconName = "Add-ons/Server_Farming/icons/ElectricalCable";
 };
 
 datablock ShapeBaseImageData(ElectricalCableImage)
@@ -1403,7 +1403,7 @@ datablock fxDTSBrickData(brickCoalGeneratorData)
 
 	brickFile = "./resources/power/CoalGenerator.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/CoalGenerator";
+	iconName = "Add-Ons/Server_Farming/icons/CoalGenerator";
 
 	cost = 0;
 	isProcessor = 1;
@@ -1431,7 +1431,7 @@ datablock fxDTSBrickData(brickPowerControlBoxData)
 
 	brickFile = "./resources/power/controlBoxClosed.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/PowerControlBox";
+	iconName = "Add-Ons/Server_Farming/icons/PowerControlBox";
 
 	cost = 0;
 	isProcessor = 1;
@@ -1462,7 +1462,7 @@ datablock fxDTSBrickData(brickBatteryData)
 
 	brickFile = "./resources/power/battery.blb";
 
-	iconName = "Add-Ons/Server_Farming/crops/icons/Battery";
+	iconName = "Add-Ons/Server_Farming/icons/Battery";
 
 	cost = 0;
 	isProcessor = 1;
@@ -1491,7 +1491,7 @@ datablock ItemData(CoalGeneratorItem : brickPlacerItem)
 	image = "CoalGeneratorBrickImage";
 	colorShiftColor = "0.9 0 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/CoalGenerator";
+	iconName = "Add-ons/Server_Farming/icons/CoalGenerator";
 };
 
 datablock ShapeBaseImageData(CoalGeneratorBrickImage : BrickPlacerImage)
@@ -1541,7 +1541,7 @@ datablock ItemData(PowerControlBoxItem : brickPlacerItem)
 	image = "PowerControlBoxBrickImage";
 	colorShiftColor = "0.9 0 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/PowerControlBox";
+	iconName = "Add-ons/Server_Farming/icons/PowerControlBox";
 };
 
 datablock ShapeBaseImageData(PowerControlBoxBrickImage : BrickPlacerImage)
@@ -1591,7 +1591,7 @@ datablock ItemData(BatteryItem : brickPlacerItem)
 	image = "BatteryBrickImage";
 	colorShiftColor = "0.9 0 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Battery";
+	iconName = "Add-ons/Server_Farming/icons/Battery";
 };
 
 datablock ShapeBaseImageData(BatteryBrickImage : BrickPlacerImage)

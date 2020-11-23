@@ -76,7 +76,7 @@ datablock ItemData(GrinderItem : brickPlacerItem)
 	image = "GrinderBrickImage";
 	colorShiftColor = "0.9 0 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/compost_bin";
+	iconName = "Add-ons/Server_Farming/icons/compost_bin";
 	
 	cost = 800;
 };
@@ -128,7 +128,7 @@ datablock ItemData(LiquifierItem : brickPlacerItem)
 	image = "LiquifierBrickImage";
 	colorShiftColor = "0.5 0 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/large_compost_bin";
+	iconName = "Add-ons/Server_Farming/icons/large_compost_bin";
 	
 	cost = 1600;
 };
@@ -180,7 +180,7 @@ datablock ItemData(BaguetteMachineItem : brickPlacerItem)
 	image = "BaguetteMachineBrickImage";
 	colorShiftColor = "0.5 0 0 1";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/large_compost_bin";
+	iconName = "Add-ons/Server_Farming/icons/large_compost_bin";
 	
 	cost = 1600;
 };
@@ -246,7 +246,7 @@ datablock ItemData(FlourBag0Item : HammerItem)
 	colorShiftColor = "0.85 0.78 0.6 1";
 	doColorShift = true;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Flour_Bag";
+	iconName = "Add-ons/Server_Farming/icons/Flour_Bag";
 
 	isStackable = 1;
 	stackType = "Flour";
@@ -302,7 +302,7 @@ datablock ItemData(FlourBag1Item : FlourBag0Item)
 	image = "FlourBag1Image";
 	uiName = "Half Flour Bag";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Flour_Bag_Half";
+	iconName = "Add-ons/Server_Farming/icons/Flour_Bag_Half";
 };
 
 datablock ShapeBaseImageData(FlourBag1Image : FlourBag0Image)
@@ -319,7 +319,7 @@ datablock ItemData(FlourBag2Item : FlourBag0Item)
 	image = "FlourBag2Image";
 	uiName = "Full Flour Bag";
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Flour_Bag_Full";
+	iconName = "Add-ons/Server_Farming/icons/Flour_Bag_Full";
 };
 
 datablock ShapeBaseImageData(FlourBag2Image : FlourBag0Image)

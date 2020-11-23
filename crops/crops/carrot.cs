@@ -21,7 +21,7 @@ datablock ItemData(CarrotBasket0Item : HammerItem)
 	image = "CarrotBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Carrot_Basket";
+	iconName = "Add-ons/Server_Farming/icons/Carrot_Basket";
 
 	isStackable = 1;
 	stackType = "Carrot";
@@ -35,7 +35,7 @@ datablock ItemData(CarrotBasket1Item : HammerItem)
 	image = "CarrotBasket1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Carrot_Basket_Half";
+	iconName = "Add-ons/Server_Farming/icons/Carrot_Basket_Half";
 
 	isStackable = 1;
 	stackType = "Carrot";
@@ -49,7 +49,7 @@ datablock ItemData(CarrotBasket2Item : HammerItem)
 	image = "CarrotBasket2Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Carrot_Star";
+	iconName = "Add-ons/Server_Farming/icons/Carrot_Star";
 
 	isStackable = 1;
 	stackType = "Carrot";

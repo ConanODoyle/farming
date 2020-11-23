@@ -21,7 +21,7 @@ datablock ItemData(BlueberryBasket0Item : HammerItem)
 	image = "BlueberryBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Blueberry_Basket";
+	iconName = "Add-ons/Server_Farming/icons/Blueberry_Basket";
 
 	isStackable = 1;
 	stackType = "Blueberry";
@@ -35,7 +35,7 @@ datablock ItemData(BlueberryBasket1Item : HammerItem)
 	image = "BlueberryBasket1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Blueberry_Basket_Half";
+	iconName = "Add-ons/Server_Farming/icons/Blueberry_Basket_Half";
 
 	isStackable = 1;
 	stackType = "Blueberry";
@@ -49,7 +49,7 @@ datablock ItemData(BlueberryBasket2Item : HammerItem)
 	image = "BlueberryBasket2Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Blueberry_Star";
+	iconName = "Add-ons/Server_Farming/icons/Blueberry_Star";
 
 	isStackable = 1;
 	stackType = "Blueberry";

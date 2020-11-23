@@ -20,7 +20,7 @@ datablock ItemData(MangoBasket0Item : HammerItem)
 	image = "MangoBasket0Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Mango_Basket";
+	iconName = "Add-ons/Server_Farming/icons/Mango_Basket";
 
 	isStackable = 1;
 	stackType = "Mango";
@@ -34,7 +34,7 @@ datablock ItemData(MangoBasket1Item : HammerItem)
 	image = "MangoBasket1Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/crops/icons/Mango_Star";
+	iconName = "Add-ons/Server_Farming/icons/Mango_Star";
 
 	isStackable = 1;
 	stackType = "Mango";
