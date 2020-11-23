@@ -256,38 +256,27 @@ function GameConnection::completeQuest(%client, %questID) {
 		return false;
 	}
 
-	// TODO: player variable and its check will be unnecessary once item packaging/storage is done
 	%player = %client.player;
 
+	//TODO: Mailbox dropoff
 	if (!isObject(%player)) {
 		error("ERROR: Client has no player to give rewards to");
 		return false;
 	}
 
+	%packageDataID = "Package_" @ getRandomHash("package");
+
 	%numRewards = getDataIDArrayTagValue(%questID, "numRewards");
 	for (%i = 0; %i < %numRewards; %i++) {
 		%reward = getDataIDArrayValue(%questID, %i);
-		%item = getWord(%reward, 0);
-		%count = getWord(%reward, 1);
-
-		if (%item.isStackable) {
-			%player.farmingAddStackableItem(%item, %count);
-		} else {
-            if (%item.hasDataID) //dataid item
-            {
-                %player.farmingAddItem(%item, %count); 
-            }
-            else //possibly multiple normal items
-            {
-                for (%j = 0; %j < %count; %j++) { 
-                    %player.farmingAddItem(%item);
-                }
-            }
-		}
+		addToPackageArray(%packageDataID, %reward);
 	}
 
 	%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
-	%client.incScore(%cashReward);
+	addToPackageArray(%packageDataID, "cashReward" SPC %cashReward);
+	//TODO: Mailbox dropoff
+	createPackage(%packageDataID, %player, %player.position);
+
 	deleteQuest(%questID);
 
 	return true;
