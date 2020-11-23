@@ -4,8 +4,10 @@ datablock ItemData(RubyItem : HammerItem)
 {
 	shapeFile = "./resources/ruby.dts";
 	uiName = "Ruby";
+	iconName = "Add-ons/Server_Farming/crops/icons/Icon_Ruby";
 	image = "RubyImage";
-	doColorShift = true;
+
+	doColorShift = false;
 	colorShiftColor = "1 0 0 1";
 };
 
@@ -28,8 +30,9 @@ datablock ItemData(SapphireItem : HammerItem)
 {
 	shapeFile = "./resources/Sapphire.dts";
 	uiName = "Sapphire";
+	iconName = "Add-ons/Server_Farming/crops/icons/Icon_Sapphire";
 	image = "SapphireImage";
-	doColorShift = true;
+	doColorShift = false;
 	colorShiftColor = "0.15 0 0.77 1";
 };
 
@@ -52,8 +55,9 @@ datablock ItemData(EmeraldItem : HammerItem)
 {
 	shapeFile = "./resources/Emerald.dts";
 	uiName = "Emerald";
+	iconName = "Add-ons/Server_Farming/crops/icons/Icon_Emerald";
 	image = "EmeraldImage";
-	doColorShift = true;
+	doColorShift = false;
 	colorShiftColor = "0 0.847 0 1";
 };
 
@@ -76,8 +80,9 @@ datablock ItemData(DiamondItem : HammerItem)
 {
 	shapeFile = "./resources/Diamond.dts";
 	uiName = "Diamond";
+	iconName = "Add-ons/Server_Farming/crops/icons/Icon_Diamond";
 	image = "DiamondImage";
-	doColorShift = true;
+	doColorShift = false;
 	colorShiftColor = "1 1 1 1";
 };
 
