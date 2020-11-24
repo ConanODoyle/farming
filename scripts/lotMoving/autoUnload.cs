@@ -36,6 +36,7 @@ if (!isObject($SingleLotSimSet))
 
 function getFreeLotCount()
 {
+	%freeLots = 0;
 	%count = $SingleLotSimSet.getCount();
 	for (%i = 0; %i < %count; %i++)
 	{
@@ -43,10 +44,10 @@ function getFreeLotCount()
 		%bDB = %b.getDatablock();
 		if (%b.getGroup().bl_id == 888888 && %bDB.isSingle)
 		{
-			%count++;
+			%freeLots++;
 		}
 	}
-	return %count;
+	return %freeLots;
 }
 
 function checkFreeLots()
