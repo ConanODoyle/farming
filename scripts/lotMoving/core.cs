@@ -180,14 +180,18 @@ function restoreLotBricks(%dataObj)
 			colorID = 0;
 		};
 		%err = %b.plant();
-		%b.isFloatingBrick = 1;
-		%b.isBaseplate = 1;
 		if (%err != 2 && %err != 0)
 		{
 			%b.delete();
 			continue;
 		}
-		%b.onToolBreak(); // weird fix thing rears its ugly head
+
+		if (%err == 2)
+		{
+			%b.isBaseplate = 1;
+			%b.willCauseChainKill(); // recompute - thanks new duplicator
+		}
+
 		%b.setTrusted(1);
 		Brickgroup_888888.add(%b);
 	}

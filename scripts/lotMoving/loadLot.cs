@@ -221,11 +221,8 @@ function farmingLoadLotEnd(%loadFile, %dataObj)
 			// check if brick is floating
 			if(!%brick.hasPathToGround() && %brick.getNumDownBricks() == 0)
 			{
-				%brick.isFloatingBrick = true;
 				%brick.isBaseplate = true;
-
-				// fixes a strange bug
-				%brick.onToolBreak(); // wtf
+				%brick.willCauseChainKill(); // recompute - thanks new duplicator
 			}
 		}
 		%dataObj.brickSet.delete();
