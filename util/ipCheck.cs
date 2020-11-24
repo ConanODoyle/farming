@@ -7,7 +7,7 @@ package IPLogger
 		%blid = %cl.bl_id;
 		%oldVar = $Pref::IPLogger::BLID_[%blid];
 
-		if (strPos(" " @ $Pref::IPLogger @ "\t", " " @ %ip @ "\t") < 0)
+		if (strPos(" " @ $Pref::IPLogger::BLID_[%blid] @ "\t", " " @ %ip @ "\t") < 0)
 		{
 			$Pref::IPLogger::BLID_[%blid] = trim($Pref::IPLogger::BLID_[%blid] SPC %ip TAB %port);
 			export("$Pref*", "config/server/prefs.cs");
