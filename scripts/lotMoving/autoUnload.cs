@@ -76,8 +76,12 @@ function attemptUnloadOldestLot()
 	%count = $SingleLotSimSet.getCount();
 	for (%i = 0; %i < %count; %i++)
 	{
-		%group = $SingleLotSimSet.getObject(%i);
+		%brick = $SingleLotSimSet.getObject(%i);
+		%group = %brick.getGroup();
 		%blid = %group.bl_id;
+
+		if (%blid == 888888) continue;
+
 		if (%oldest $= "" || %oldestTime > $Pref::LotMoving::LastOn[%blid])
 		{
 			if (isObject(findClientByBL_ID(%blid)))
