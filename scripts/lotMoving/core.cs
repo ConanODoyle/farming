@@ -187,6 +187,7 @@ function restoreLotBricks(%dataObj)
 			%b.delete();
 			continue;
 		}
+		%b.onToolBreak(); // weird fix thing rears its ugly head
 		%b.setTrusted(1);
 		Brickgroup_888888.add(%b);
 	}

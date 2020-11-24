@@ -225,8 +225,7 @@ function farmingLoadLotEnd(%loadFile, %dataObj)
 				%brick.isBaseplate = true;
 
 				// fixes a strange bug
-				if(%brick.getNumUpBricks() != 0)
-					%brick.onToolBreak(); // wtf
+				%brick.onToolBreak(); // wtf
 			}
 		}
 		%dataObj.brickSet.delete();
