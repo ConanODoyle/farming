@@ -39,8 +39,8 @@ $obj = new ScriptObject(CropInfoInvalidSelection)
 	response["Quit"] = "ExitResponse";
 
 	messageCount = 1;
-	message[1] = "I can't tell you anything about that, sorry...";
-	messageTimeout[1] = 2;
+	message[0] = "I can't tell you anything about that, sorry...";
+	messageTimeout[0] = 2;
 
 	dialogueTransitionOnTimeout = "CropInfoCore";
 };
