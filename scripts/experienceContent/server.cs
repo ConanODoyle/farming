@@ -17,17 +17,18 @@ function Player::sacrificeKill(%pl, %modifier, %max, %announcement)
 				%totalCost += getSellPrice(%pl.tool[%i]) / 2;
 				%pl.tool[%i] = "";
 			}
+			%pl.tool[%i] = "";
 		}
 
 		%exp = getMin(%max, mCeil(%totalCost * %modifier));
 		%cl.addExperience(%exp);
 		if (%exp > 0)
-			messageAll('', %prefix @ " \c3" @ %cl.name @ "\c6 has sacrificed themself for \c3" @ %exp @ " \c6experience...");
+			messageAll('', %prefix @ " \c3" @ %cl.name @ "\c6 has sacrificed themselves for \c3" @ %exp @ " \c6experience...");
 		else
 			if (strLen(%announcement = trim(%announcement)) > 0)
 				messageAll('', %prefix @ "\c3" @ %cl.name @ "\c6 " @ %announcement);
 			else
-				messageAll('', %prefix @ " \c3" @ %cl.name @ "\c6 has sacrificed themself to the volcano god...");
+				messageAll('', %prefix @ " \c3" @ %cl.name @ "\c6 has sacrificed themselves to the gods...");
 	}
 	%pl.kill();
 }
