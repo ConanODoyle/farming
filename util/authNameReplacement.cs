@@ -47,5 +47,12 @@ function serverCmdSetBLIDName(%cl, %blid, %a, %b, %c, %d, %e, %f, %g, %h, %i, %j
 	%blid = %blid + 0;
 
 	$AuthNameReplacement[%blid] = trim(%a SPC %b SPC %c SPC %d SPC %e SPC %f SPC %g SPC %h SPC %i SPC %j SPC %k);
-	messageAll('', "\c3" @ %cl.name @ "\c6 set \c1" @ %blid @ "\c6's name to \"" @ $AuthNameReplacement[%blid] @ "\"");
+	if ($AuthNameReplacement[%blid] $= "")
+	{
+		messageAll('', "\c3" @ %cl.name @ "\c6 has reset \c1" @ %blid @ "\c6's name to their default.");
+	}
+	else
+	{
+		messageAll('', "\c3" @ %cl.name @ "\c6 set \c1" @ %blid @ "\c6's name to \"\c3" @ $AuthNameReplacement[%blid] @ "\"");
+	}
 }
