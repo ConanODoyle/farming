@@ -25,7 +25,7 @@ $obj = new ScriptObject(LicenseDialogueCore)
 	response["Error"] = "ErrorResponse";
 
 	messageCount = 1;
-	message[0] = "You can get permanent crop licenses to buy crops from me! What license would you like to buy?";
+	message[0] = "I sell crop licenses that let you buy crops! What license would you like to buy?";
 	messageTimeout[0] = 1;
 
 	botTalkAnim = 1;
@@ -38,11 +38,11 @@ $obj = new ScriptObject(LicenseConfirmation)
 {
 	response["Yes"] = "LicenseProduct";
 	response["No"] = "LicenseDialogueCore";
-	response["Quit"] = "LicenseDialogueCore";
-	response["Error"] = "LicenseDialogueCore";
+	response["Quit"] = "ExitResponse";
+	response["Error"] = "ErrorResponse";
 
 	messageCount = 1;
-	message[0] = "That'll be %total% for %licenceType%. Are you sure? Say yes to confirm.";
+	message[0] = "That'll be %total% experience for %licenseType%. Are you sure? Say yes to confirm.";
 	messageTimeout[0] = 1;
 
 	botTalkAnim = 1;
@@ -54,7 +54,7 @@ $LicenseDialogueSet.add($obj);
 $obj = new ScriptObject(LicenseProduct)
 {
 	messageCount = 1;
-	message[0] = "Here's your %licenseType% licence!";
+	message[0] = "Here's your %licenseType% licence! Make sure you talk to the Crop Expert to find out how to grow them!";
 	messageTimeout[0] = 1;
 
 	botTalkAnim = 1;
@@ -65,7 +65,7 @@ $LicenseDialogueSet.add($obj);
 $obj = new ScriptObject(LicenseFail)
 {
 	messageCount = 1;
-	message[0] = "You don't have enough farming experience! The %licenceType% license costs %total% experience.";
+	message[0] = "You don't have enough farming experience! The %licenseType% license costs %total% experience.";
 	messageTimeout[0] = 2;
 
 	botTalkAnim = 1;
@@ -76,7 +76,7 @@ $LicenseDialogueSet.add($obj);
 $obj = new ScriptObject(LicenseOwned)
 {
 	messageCount = 1;
-	message[0] = "You already own the %licenseType% license!";
+	message[0] = "You already own a %licenseType% license!";
 	messageTimeout[0] = 2;
 
 	botTalkAnim = 1;
@@ -110,6 +110,7 @@ function dialogue_purchaseLicense(%dataObj)
 function licenseResponseParser(%dataObj, %msg)
 {
 	%pl = %dataObj.player;
+	%cl = %pl.client;
 	%product = %dataObj.sellItem;
 
 	%license = trim(strLwr(%msg));
