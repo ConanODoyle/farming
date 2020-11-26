@@ -14,6 +14,11 @@ JeepSpring.damping = 5000;
 HorseArmor.maxForwardSpeed = 10;
 HorseArmor.maxForwardCrouchSpeed = 10;
 
+hangglidervehicle.lift = 8;
+hangglidervehicle.verticalSurfaceForce = 17;
+hangglidervehicle.forwardThrust = 5;
+hangglidervehicle.reverseThrust = 5;
+
 $Farming::BappsMatCycleTime = 60 * 60 * 1000 | 0; // 1 hour
 function addBappsMatStrings()
 {
