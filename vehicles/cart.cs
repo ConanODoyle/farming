@@ -17,7 +17,7 @@ datablock PlayerData(StorageCartArmor : HorseArmor)
 
 	isStorageVehicle = 1;
 	storageSlotCount = 4;
-	storageMultiplier = 1;
+	storageMultiplier = 2;
 	itemStackCount = 2;
 	menuName = "Storage Cart";
 
@@ -42,7 +42,7 @@ datablock PlayerData(HorseStorageCartArmor : HorseArmor)
 
 	isStorageVehicle = 1;
 	storageSlotCount = 4;
-	storageMultiplier = 1;
+	storageMultiplier = 2;
 	itemStackCount = 2;
 	menuName = "Horse Cart";
 
@@ -57,7 +57,7 @@ datablock PlayerData(LargeStorageCartArmor : StorageCartArmor)
 
 	isStorageVehicle = 1;
 	storageSlotCount = 4;
-	storageMultiplier = 2;
+	storageMultiplier = 4;
 	itemStackCount = 2;
 	menuName = "Large Storage Cart";
 
