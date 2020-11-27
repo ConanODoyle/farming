@@ -199,7 +199,7 @@ if(!isObject(AIConsole))
 	{
 		name = "Console";
 		netname = "Console";
-		BL_ID = 42;
+		BL_ID = ":tomato:";
 		isAdmin = true;
 		isSuperAdmin = true;
 		echoMessages = true;
