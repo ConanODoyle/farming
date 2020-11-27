@@ -50,7 +50,7 @@ function loadLotAutosave(%name, %dataObj, %rotation, %bl_id)
 	{
 		%offset = "0 0 0";
 	}
-	talk("Set loadoffset to " @ %offset @ " - description: " @ %desc);
+	// talk("Set loadoffset to " @ %offset @ " - description: " @ %desc);
 	// return;
 	echo("loadLotAutosave: " @ %dataObj);
 	farmingDirectLoadLot(findClientByBL_ID(%bl_id), %path, %dataObj, %offset, %position, %rotation, 3, 1);
@@ -61,7 +61,7 @@ function loadLastLotAutosave(%bl_id, %dataObj, %rotation)
 	if ($Pref::Farming::LastLotAutosave[%bl_id] !$= "")
 	{
 		loadLotAutosave($Pref::Farming::LastLotAutosave[%bl_id], %dataObj, %rotation, %bl_id);
-		talk("Loading lot " @ %bl_id @ " at " @ %dataObj.pos[0] @ "...");
+		// talk("Loading lot " @ %bl_id @ " at " @ %dataObj.pos[0] @ "...");
 		return;
 	}
 	echo("[" @ getDateTime() @ "] loadLastLotAutosave: No last lot found for BLID " @ %bl_id @ "!");
