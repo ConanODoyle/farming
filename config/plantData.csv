@@ -1,11 +1,11 @@
 Stage,tickTime,wetNextStage,dryNextStage,waterPerTick,numWetTicks,numDryTicks,killOnWetGrow,killOnDryGrow,nutrientAddPerTick,nutrientTimeModifier,nutrientAddIfWet,nutrientAddIfDry,nutrientStageRequirement,maxNutrients,----,yield,item,harvestMax,harvestTool,toolBuff,pruneTool,changeOnHarvest,changeOnPrune,dropSeed,----,plantSpace,rainWaterModifier,rainTimeModifier,heatWaveWaterModifier,heatWaveTimeModifier,licenseCost,experienceRequired,experienceCost,harvestExperience,plantingExperience,requiredLightLevel,lightTimeModifier,lightLevelFactor,plantingLayer,plantingBoxDisabled,sellPrice,buyPrice
-Potato 0,6,brickPotato1CropData,,3,10,-1,,,,,,,,,,,,,,,,,,,,2,0.5,1.5,1.5,1,,0,0,1 2,,,,,0,,0.14,1.20
+Potato 0,6,brickPotato1CropData,,3,10,-1,,,,,,,,,,,,,,,,,,,,2,0.5,1.5,1.5,1,,0,0,1 2,,,,,0,,0.18,1.20
 Potato 1,6,brickPotato2CropData,,3,10,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Potato 2,6,brickPotato3CropData,,1,10,-1,,,,,,,,,,2 3 4,PotatoItem,1,Trowel Hoe,1,,,,0.8,,,,,,,,,,,,,,,,,,
 Potato 3,,,,,,,,,,,,,,,,1 2 3,PotatoItem,1,Trowel Hoe,1,,,,0.875,,,,,,,,,,,,,,,,,,
 ,00:03:00,,,70,0.388888888888889,,,,,,,,,,,,,,,,,,,5,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Carrot 0,7,brickCarrot1CropData,,3,10,-1,,,,,,,,,,,,,,,,,,,,2,0.5,1.5,1.5,1,,0,0,0 0 0 1,,,,,0,,0.17,1.20
+Carrot 0,7,brickCarrot1CropData,,3,10,-1,,,,,,,,,,,,,,,,,,,,2,0.5,1.5,1.5,1,,0,0,0 0 0 1,,,,,0,,0.21,1.20
 Carrot 1,7,brickCarrot2CropData,,3,10,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Carrot 2,7,brickCarrot3CropData,,1,15,-1,,,,,,,,,,2 2 3,CarrotItem,1,Trowel Hoe,1,,,,0.875,,,,,,,,,,,,,,,,,,
 Carrot 3,,,,,,,,,,,,,,,,0 1 2,CarrotItem,1,Trowel Hoe,1,,,,0.8,,,,,,,,,,,,,,,,,,
