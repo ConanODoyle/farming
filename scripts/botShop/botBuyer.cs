@@ -128,13 +128,16 @@ function AIPlayer::canBuy(%bot, %item)
 		}
 		return 0;
 	}
-	else if (isObject(%bot.buyItem) && %bot.buyItem.getID() == %itemDB)
+	else if (%bot.buyItem !$= "")
 	{
-		return 1;
-	}
-	else if (%bot.buyItem $= %itemDB.stackType)
-	{
-		return 1;
+		if (isObject(%bot.buyItem) && %bot.buyItem.getID() == %itemDB)
+		{
+			return 1;
+		}
+		else if (%bot.buyItem $= %itemDB.stackType)
+		{
+			return 1;
+		}
 	}
 	else if (%bot.buyType !$= "")
 	{
