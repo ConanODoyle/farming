@@ -1,3 +1,5 @@
+$minFreeLots = 30;
+
 package LotMoving
 {
 	function GameConnection::spawnPlayer(%cl)
