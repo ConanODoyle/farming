@@ -240,6 +240,7 @@ function createPackage(%packageID, %player, %pos)
     {
         %pos = %player.getTransform();
     }
+    setDataIDArrayTagValue(%packageID, "isPackage", 1);
 
     %item = new Item() {
         dataBlock = ShippingPackageItem;
