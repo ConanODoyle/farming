@@ -149,6 +149,13 @@ function openPackage(%packageID, %player)
         return false;
     }
 
+    %client = %player.client;
+
+    if (!isObject(%client)) {
+        error("ERROR: No client to reward money to!");
+        return false;
+    }
+
     %count = getDataIDArrayCount(%packageID);
     for (%i = 0; %i < %count; %i++) {
         %reward = getDataIDArrayValue(%packageID, %i);
