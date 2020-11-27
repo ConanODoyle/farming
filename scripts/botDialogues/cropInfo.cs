@@ -159,16 +159,16 @@ function setupCropInfo(%dataObj)
 			%s2 = "They can be harvested up to 15 times, giving 3-5 experience per harvest. They cost 60 experience to plant.";
 		case "Apple":
 			%s1 = "Apples have the smallest plant radius and hardly shade any plants under it. Like all trees, it needs nutrients to grow.";
-			%s2 = "They can be harvested up to 35 times for 8-14 apples, and can be pruned during its flower or pre-flower stage for around 4 more apples.";
+			%s2 = "They can be harvested up to 70 times for 8-14 apples, and can be pruned during its flower or pre-flower stage for around 4 more apples.";
 		case "Mango":
 			%s1 = "Mangoes cover a wide area and cast significant shade on crops underneath, which can reduce plants' growth time.";
-			%s2 = "They can be harvested up to 35 times, dropping 11-16 per harvest.";
+			%s2 = "They can be harvested up to 70 times, dropping 11-16 per harvest.";
 		case "Peach":
 			%s1 = "Peach trees require less water than other trees, but need 3x more nutrients to reach its harvesting stage.";
-			%s2 = "They can be harvested up to 50 times, dropping 6-12 per harvest.";
+			%s2 = "They can be harvested up to 100 times, dropping 6-12 per harvest.";
 		case "Date":
 			%s1 = "Date trees require no water to grow, and in fact grow significantly slower if water is present. It needs the same amount of nutrients as peaches do.";
-			%s2 = "Just like peaches, they can be harvested up to 50 times, dropping 6-12 per harvest.";
+			%s2 = "Just like peaches, they can be harvested up to 100 times, dropping 6-12 per harvest.";
 
 		case "Lily":
 			%s1 = "Lilies are flowers that add 2 nitrogen to soil every minute, in their final flowering stage.";
