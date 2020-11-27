@@ -13,6 +13,8 @@ $obj = new ScriptObject(BS_Seeds_Basic) { class = "ShopObject"; };
 $BotShopSet.add($obj);
 $obj = new ScriptObject(BS_Seeds_Rare) { class = "ShopObject"; };
 $BotShopSet.add($obj);
+$obj = new ScriptObject(BS_Seeds_Desert) { class = "ShopObject"; };
+$BotShopSet.add($obj);
 $obj = new ScriptObject(BS_Seeds_Tree) { class = "ShopObject"; };
 $BotShopSet.add($obj);
 $obj = new ScriptObject(BS_Tools_All) { class = "ShopObject"; };
@@ -73,26 +75,32 @@ BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "CarrotSeedItem"		TAB 80;
 BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "TomatoSeedItem"		TAB 60;
 BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "CornSeedItem"			TAB 60;
 BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "WheatSeedItem"		TAB 60;
-BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "PortobelloSeedItem"	TAB 10;
+BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "PortobelloSeedItem"	TAB 5;
 BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "CabbageSeedItem"		TAB 30;
 BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "OnionSeedItem"		TAB 70;
-BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "BlueberrySeedItem"	TAB 10;
-BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "TurnipSeedItem"		TAB 10;
-BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "ChiliSeedItem"		TAB 30;
+BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "BlueberrySeedItem"	TAB 5;
+BS_Seeds_Basic.option[BS_Seeds_Basic.count++ - 1]  = "TurnipSeedItem"		TAB 5;
 
 
+BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "ChiliSeedItem"			TAB 30;
 BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "BlueberrySeedItem"		TAB 10;
 BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "TurnipSeedItem"			TAB 10;
 BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "DaisySeedItem"			TAB 2;
 BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "LilySeedItem"			TAB 2;
 BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "RoseSeedItem"			TAB 2;
-BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "AppleSeedItem"			TAB 8;
-BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "MangoSeedItem"			TAB 4;
 BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "CactusSeedItem"			TAB 30;
 BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "PortobelloSeedItem"		TAB 10;
 BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "WatermelonSeedItem"		TAB 10;
-BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "DateSeedItem"			TAB 5;
-BS_Seeds_Rare.option[BS_Seeds_Rare.count++ - 1]  = "PeachSeedItem"			TAB 5;
+
+
+BS_Seeds_Desert.option[BS_Seeds_Desert.count++ - 1]  = "DaisySeedItem"			TAB 2;
+BS_Seeds_Desert.option[BS_Seeds_Desert.count++ - 1]  = "LilySeedItem"			TAB 2;
+BS_Seeds_Desert.option[BS_Seeds_Desert.count++ - 1]  = "RoseSeedItem"			TAB 2;
+BS_Seeds_Desert.option[BS_Seeds_Desert.count++ - 1]  = "CactusSeedItem"			TAB 30;
+BS_Seeds_Desert.option[BS_Seeds_Desert.count++ - 1]  = "ChiliSeedItem"			TAB 30;
+BS_Seeds_Desert.option[BS_Seeds_Desert.count++ - 1]  = "WatermelonSeedItem"		TAB 15;
+BS_Seeds_Desert.option[BS_Seeds_Desert.count++ - 1]  = "DateSeedItem"			TAB 5;
+BS_Seeds_Desert.option[BS_Seeds_Desert.count++ - 1]  = "PeachSeedItem"			TAB 5;
 
 
 BS_Seeds_Tree.option[BS_Seeds_Tree.count++ - 1]  = "AppleSeedItem"			TAB 8;
