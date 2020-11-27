@@ -234,22 +234,7 @@ package Donators
 
 	function serverCmdMessageSent(%cl, %msg)
 	{
-		if (%cl.isDonator && getSubStr(%msg, 0, 1) !$= "\\")
-		{
-			if($autoModeratorMute[%cl.BL_ID] < $sim::time && !%cl.isSpamming)
-			{
-				chatMessageAll(%cl, '\c7%1<color:ffaa00>%2\c7%3\c6: %4', %cl.clanPrefix, %cl.getPlayerName(), %cl.clanSuffix, getDonatorMessage(%msg));
-				echo(%cl.getPlayerName() @ ": " @ %msg);
-				if (isFunction(sendMessage) && !$DiscordChatDisabled)
-				{
-					sendMessage(%cl, %msg); //discord listener hook
-				}
-			}
-		}
-		else
-		{
-			return parent::serverCmdMessageSent(%cl, %msg);
-		}
+		return parent::serverCmdMessageSent(%cl, %msg);
 	}
 
 	function GameConnection::spawnPlayer(%cl)
