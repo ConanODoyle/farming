@@ -539,3 +539,23 @@ function GoldenSickleImage::onFire(%this, %obj, %slot)
 {
 	toolHarvest(%this, %obj, %slot);
 }
+
+function GoldenTrowelImage::onReady(%this, %obj, %slot)
+{
+	harvestToolReady(%this, %obj, %slot);
+}
+
+function GoldenClipperImage::onReady(%this, %obj, %slot)
+{
+	harvestToolReady(%this, %obj, %slot);
+}
+
+function GoldenHoeImage::onReady(%this, %obj, %slot)
+{
+	harvestToolReady(%this, %obj, %slot);
+}
+
+function GoldenSickleImage::onReady(%this, %obj, %slot)
+{
+	harvestToolReady(%this, %obj, %slot);
+}
