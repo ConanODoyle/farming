@@ -207,7 +207,7 @@ function rotatePoint(%center, %point, %deg)
 	return vectorAdd(%rotatedPoint, %center);
 }
 
-function farmingLoadLotEnd(%loadFile, %dataObj)
+function farmingLoadLotEnd(%loadFile, %dataObj, %brickGroup)
 {
 	// loop through all of the bricks
 	%brickSet = %dataObj.brickSet;
@@ -719,7 +719,7 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 	}
 	else
 	{
-		farmingLoadLotEnd(%loadFile, %dataObj);
+		farmingLoadLotEnd(%loadFile, %dataObj, %brickGroup);
 	}
 }
 
