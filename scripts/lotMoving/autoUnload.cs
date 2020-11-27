@@ -1,11 +1,14 @@
-$minFreeLots = 30;
+$minFreeLots = 3;
 
 package LotMoving
 {
 	function GameConnection::spawnPlayer(%cl)
 	{
 		%ret = parent::spawnPlayer(%cl);
-
+		if (!%cl.hasSpawnedOnce)
+		{
+			checkFreeLots();
+		}
 		%cl.hasSpawnedOnce = 1;
 		$Pref::LotMoving::LastOn[%cl.bl_id] = getRealTime();
 		return %ret;
@@ -16,6 +19,7 @@ package LotMoving
 		if (%cl.hasSpawnedOnce)
 		{
 			$Pref::LotMoving::LastOn[%cl.bl_id] = getRealTime();
+			checkFreeLots();
 		}
 		return parent::onDrop(%cl);
 	}

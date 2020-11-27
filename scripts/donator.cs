@@ -1,5 +1,5 @@
 //Donors
-$Farming::MaxPlayers = 45;
+$Farming::MaxPlayers = 33;
 $isDonator_["blid"] = 1 TAB "comment here";
 
 $isVIP_["4928"]		= 1 TAB "Conan";
@@ -180,7 +180,7 @@ package Donators
 	function servAuthTCPObj::onLine(%this, %line) 
 	{
 		%word = getWord(%line, 0);
-		if (%word $= "YES")
+		if (%word $= "SUCCESS")
 		{
 			%cl = %this.client;
 			if (%cl.hasLoaded) 
