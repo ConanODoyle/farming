@@ -2,7 +2,7 @@
 
 if (%error == $Error::Addon_NotFound)
 {
-	error("ERROR: Server_Farming/lib/automodSettings.cs - required add-on Server_Floating_Bricks not found!");
+	error("ERROR: Server_Farming/scripts/lotMoving/loadlot.cs - required add-on Server_Floating_Bricks not found!");
 	error("Will not continue, please install Server_Floating_Bricks");
 	crash();
 }

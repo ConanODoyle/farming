@@ -109,15 +109,15 @@ function Autosaver_InitGroups()
 		//START OF CHANGES
 		if ($LotCenterBrick $= " " || $Server::ASGroupCount > 1)
 		{
-			if ($Server::ASGroupCount > 1)
-				talk("Global saving");
-			else
-				talk("Multiple or no lot center bricks found!");
+			// if ($Server::ASGroupCount > 1)
+			// 	talk("Global saving");
+			// else
+			// 	talk("Multiple or no lot center bricks found!");
 			$LotCenterBrick = "";
 		}
 		else
 		{
-			talk("One lot center brick found (" @ getField($LotCenterBrick, 0) @ ") [" @ getField($LotCenterBrick, 1) @ "]");
+			// talk("One lot center brick found (" @ getField($LotCenterBrick, 0) @ ") [" @ getField($LotCenterBrick, 1) @ "]");
 		}
 		Autosaver_SaveInit($LotCenterBrick);
 		//END OF CHANGES
