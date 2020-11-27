@@ -220,7 +220,7 @@ package EthanolRefinery
 			%brick.centerprintMenu.menuOptionCount = 3; //add on/off toggle
 			%brick.centerprintMenu.menuOption[0] = %brick.centerprintMenu.menuOption[0] SPC "(Input)";
 			%brick.centerprintMenu.menuFunction[0] = "reopenCenterprintMenu";
-			%brick.centerprintMenu.menuOption[1] SPC "(Output)";
+			%brick.centerprintMenu.menuOption[1] = %brick.centerprintMenu.menuOption[1] SPC "(Output)";
 			%brick.centerprintMenu.menuOption[2] = "Power: " @ (%brick.isPoweredOn() ? "\c2On" : "\c0Off");
 			%brick.centerprintMenu.menuFunction[2] = "togglePower";
 			%brick.centerprintMenu.menuOption[3] = "Progress: " @ %brick.deviceProgress @ "% | Current Power: " @ %color @ mFloor(%brick.devicePower * 100) @ "%";
@@ -236,7 +236,7 @@ package EthanolRefinery
 			%db = %brick.getDatablock();
 			%dataID = %brick.eventOutputParameter0_1;
 
-			%brick.recipeProcessor
+			// %brick.recipeProcessor
 
 			%power = %db.energyUse + getDataIDArrayTagValue(%dataID, "rate") * %db.pumpPowerMod;
             %brick.updateStorageMenu(%dataID);
