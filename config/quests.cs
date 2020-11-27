@@ -144,23 +144,23 @@ AllRequests.option[AllRequests.count++ - 1]  = "Date"		TAB 3;
 
 new ScriptObject(CompostRequests) { class = "ShopObject"; };
 
-AllRequests.option[AllRequests.count++ - 1]  = "Potato"		TAB 20;
-AllRequests.option[AllRequests.count++ - 1]  = "Carrot"		TAB 20;
-AllRequests.option[AllRequests.count++ - 1]  = "Tomato"		TAB 30;
-AllRequests.option[AllRequests.count++ - 1]  = "Turnip"		TAB 10;
-AllRequests.option[AllRequests.count++ - 1]  = "Portobello"	TAB 20;
-AllRequests.option[AllRequests.count++ - 1]  = "Watermelon"	TAB 20;
+CompostRequests.option[CompostRequests.count++ - 1]  = "Potato"		TAB 20;
+CompostRequests.option[CompostRequests.count++ - 1]  = "Carrot"		TAB 20;
+CompostRequests.option[CompostRequests.count++ - 1]  = "Tomato"		TAB 30;
+CompostRequests.option[CompostRequests.count++ - 1]  = "Turnip"		TAB 10;
+CompostRequests.option[CompostRequests.count++ - 1]  = "Portobello"	TAB 20;
+CompostRequests.option[CompostRequests.count++ - 1]  = "Watermelon"	TAB 20;
 
 
 new ScriptObject(FertilizerRequests) { class = "ShopObject"; };
 
-AllRequests.option[AllRequests.count++ - 1]  = "Phosphate"	TAB 480;
-AllRequests.option[AllRequests.count++ - 1]  = "Potato"		TAB 20;
-AllRequests.option[AllRequests.count++ - 1]  = "Carrot"		TAB 20;
-AllRequests.option[AllRequests.count++ - 1]  = "Tomato"		TAB 30;
-AllRequests.option[AllRequests.count++ - 1]  = "Turnip"		TAB 10;
-AllRequests.option[AllRequests.count++ - 1]  = "Portobello"	TAB 20;
-AllRequests.option[AllRequests.count++ - 1]  = "Watermelon"	TAB 20;
+FertilizerRequests.option[FertilizerRequests.count++ - 1]  = "Phosphate"	TAB 480;
+FertilizerRequests.option[FertilizerRequests.count++ - 1]  = "Potato"		TAB 20;
+FertilizerRequests.option[FertilizerRequests.count++ - 1]  = "Carrot"		TAB 20;
+FertilizerRequests.option[FertilizerRequests.count++ - 1]  = "Tomato"		TAB 30;
+FertilizerRequests.option[FertilizerRequests.count++ - 1]  = "Turnip"		TAB 10;
+FertilizerRequests.option[FertilizerRequests.count++ - 1]  = "Portobello"	TAB 20;
+FertilizerRequests.option[FertilizerRequests.count++ - 1]  = "Watermelon"	TAB 20;
 
 
 new ScriptObject(MineralRequests) { class = "ShopObject"; };
@@ -195,7 +195,7 @@ WateringToolQuestRewards.option[WateringToolQuestRewards.count++ - 1]  = "Wateri
 
 new ScriptObject(WeedKillerQuestRewards) { class = "ShopObject"; };
 
-WeedKillerQuestRewards.option[WeedKillerQuestRewards.count++ - 1]  = "WeedKiller0Item"	TAB 1;
+WeedKillerQuestRewards.option[WeedKillerQuestRewards.count++ - 1]  = "WeedKiller"	TAB 1;
 
 
 new ScriptObject(MiscToolQuestRewards) { class = "ShopObject"; };
@@ -225,12 +225,12 @@ BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "Larg
 
 new ScriptObject(CompostQuestRewards) { class = "ShopObject"; };
 
-CompostQuestRewards.option[CompostQuestRewards.count++ - 1]  = "PlanterItem"	TAB 7;
+CompostQuestRewards.option[CompostQuestRewards.count++ - 1]  = "Compost"	TAB 7;
 
 
 new ScriptObject(FertilizerQuestRewards) { class = "ShopObject"; };
 
-FertilizerQuestRewards.option[FertilizerQuestRewards.count++ - 1]  = "PlanterItem"	TAB 7;
+FertilizerQuestRewards.option[FertilizerQuestRewards.count++ - 1]  = "Fertilizer"	TAB 7;
 
 
 new ScriptObject(CompostBinQuestRewards) { class = "ShopObject"; };
@@ -423,7 +423,7 @@ new ScriptObject(AdvancedElectricQuestType) {
 
 new ScriptObject(CompostQuestType) {
 	class = "QuestType";
-	questWeight = 5;
+	questWeight = 6;
 
 	maxBudget = 240;
 
@@ -444,7 +444,7 @@ new ScriptObject(CompostQuestType) {
 
 new ScriptObject(FertilizerQuestType) {
 	class = "QuestType";
-	questWeight = 5;
+	questWeight = 3;
 
 	maxBudget = 120;
 
@@ -465,7 +465,7 @@ new ScriptObject(FertilizerQuestType) {
 
 new ScriptObject(CompostBinQuestType) {
 	class = "QuestType";
-	questWeight = 5;
+	questWeight = 1;
 
 	maxBudget = 1600;
 
