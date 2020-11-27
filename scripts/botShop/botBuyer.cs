@@ -106,7 +106,8 @@ registerOutputEvent("Bot", "setBuyMode", "list All 0 Item 1 Items 2 ItemType 3" 
 
 function AIPlayer::canBuy(%bot, %item)
 {
-	if (!isObject(%item) || !isObject(%itemDB = %item.getDatablock()) || (%itemDB.isStackable && %item.count <= 0))
+	if (!isObject(%item) || !isObject(%itemDB = %item.getDatablock()) || (%itemDB.isStackable && %item.count <= 0)
+		|| (%bot.buyType $= "" && %bot.buyItems $= "" && %bot.buyItem $= ""))
 	{
 		return 0;
 	}
@@ -131,7 +132,7 @@ function AIPlayer::canBuy(%bot, %item)
 	{
 		return 1;
 	}
-	else if (%bot.buyItem == %itemDB.stackType)
+	else if (%bot.buyItem $= %itemDB.stackType)
 	{
 		return 1;
 	}
