@@ -28,6 +28,10 @@ function purchaseVehicle(%cl, %vehicle)
 	}
 
 	%cost = getBuyPrice(%vehicle);
+	if (%cost <= 0)
+	{
+		return 0;
+	}
 	if (%cl.score >= %cost)
 	{
 		%cl.setScore(%cl.score - %cost);
