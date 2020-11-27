@@ -246,6 +246,14 @@ $obj = new ScriptObject(MiningQuestsDialogue)
 };
 $BasicDialogueSet.add($obj);
 
+$obj = new ScriptObject(GemDialogue)
+{
+	messageCount = 1;
+	message[0] = "Got any shiny gems? I buy them!";
+	messageTimeout[0] = 2;
+};
+$BasicDialogueSet.add($obj);
+
 $obj = new ScriptObject(FakeSellerDialogue)
 {
 	messageCount = 2;

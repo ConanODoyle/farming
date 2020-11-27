@@ -33,6 +33,11 @@ $BuyCost_["Compost"] = 0.50;
 $BuyCost_["Phosphate"] = 0.50;
 $BuyCost_["Coal"] = 0.50;
 
+//Gems
+$BuyCost_["Sapphire"] = 200;
+$BuyCost_["Emerald"] = 400;
+$BuyCost_["Ruby"] = 1200;
+$BuyCost_["Diamond"] = 2500;
 
 
 
