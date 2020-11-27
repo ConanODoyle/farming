@@ -104,7 +104,7 @@ $ShopDialogueSet.add($obj);
 $obj = new ScriptObject(LicenseRequiredDialogue)
 {
 	messageCount = 1;
-	message[0] = "You need a license to buy those! Get one from the Farming Overseer in City Hall!";
+	message[0] = "You need a license to buy those! Get one from the Licenser in City Hall!";
 	messageTimeout[0] = 2;
 
 	botTalkAnim = 1;

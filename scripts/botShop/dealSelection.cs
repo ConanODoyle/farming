@@ -213,7 +213,7 @@ function AIPlayer::randomBuyerLoop(%bot, %selectionCount, %speak, %timeRange, %s
 	if (%bot.nextDealTime > $Sim::Time)
 	{
 		//slight drift to prevent permanent sync
-		%bot.randomDealLoopSched = %bot.schedule(getRandom(8, 12) * 1000, %selectionCount, %speak, %timeRange, %shopObjects);
+		%bot.randomDealLoopSched = %bot.schedule(getRandom(8, 12) * 1000, randomBuyerLoop, %selectionCount, %speak, %timeRange, %shopObjects);
 		return;
 	}
 	else
@@ -305,7 +305,7 @@ function AIPlayer::randomBuyerLoop(%bot, %selectionCount, %speak, %timeRange, %s
 
 	%bot.lastChangedSale = $Sim::Time;
 	//slight drift to prevent permanent sync
-	%bot.randomDealLoopSched = %bot.schedule(getRandom(8, 12) * 1000, %selectionCount, %speak, %timeRange, %shopObjects);
+	%bot.randomDealLoopSched = %bot.schedule(getRandom(8, 12) * 1000, randomBuyerLoop, %selectionCount, %speak, %timeRange, %shopObjects);
 }
 
 function AIPlayer::rerollDeal(%bot, %cl)

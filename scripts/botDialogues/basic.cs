@@ -259,9 +259,9 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(PyramidSchemeDialogue)
 {
 	messageCount = 2;
-	message[0] = "Hi, I'm selling pyramids! For every pyramid you buy, you'll get two later!";
+	message[0] = "Hi, I'm selling potsherds! For every potsherd you buy, you'll get two later!";
 	messageTimeout[0] = 3;
-	message[1] = "You can then sell these back to me for their original price, after someone else buys some more from me!";
+	message[1] = "You can then sell these back to me, to purchase more potsherds! Or after someone else buys some more from me!";
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
