@@ -104,9 +104,6 @@ function servercmdMessageSent(%client,%msg)
 	}
 
 	// Custom name colors
-	if(%client.isDonator)
-		%color = "<color:ffaa00>";
-	
 	if($Pref::Farming::CustomNameColor[%client.BL_ID] !$= "")
 		%color = $Pref::Farming::CustomNameColor[%client.BL_ID];
 	else if(%client.nameColor !$= "")
