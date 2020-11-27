@@ -108,7 +108,7 @@ function ShippingPackageImage::openPackage(%image, %player, %slot)
 }
 
 function GameConnection::displayPackage(%client, %packageID) {
-    if (!getDataIDArrayValue(%packageID, "isPackage")) {
+    if (!getDataIDArrayTagValue(%packageID, "isPackage")) {
         %client.centerPrint("<just:right>\c6The package is empty... ", 1);
         return;
     }
@@ -139,7 +139,7 @@ function GameConnection::displayPackage(%client, %packageID) {
 
 function openPackage(%packageID, %player)
 {
-    if (!getDataIDArrayValue(%packageID, "isPackage")) {
+    if (!getDataIDArrayTagValue(%packageID, "isPackage")) {
         error("ERROR: Invalid packageID!");
         return false;
     }
