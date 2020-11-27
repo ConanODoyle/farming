@@ -254,6 +254,14 @@ $obj = new ScriptObject(GemDialogue)
 };
 $BasicDialogueSet.add($obj);
 
+$obj = new ScriptObject(ToolBuyerDialogue)
+{
+	messageCount = 1;
+	message[0] = "I buy tools! Yes, even broken ones!";
+	messageTimeout[0] = 2;
+};
+$BasicDialogueSet.add($obj);
+
 $obj = new ScriptObject(FakeSellerDialogue)
 {
 	messageCount = 2;
