@@ -120,7 +120,13 @@ function GameConnection::displayPackage(%client, %packageID) {
         %item = getWord(%reward, 0);
         %count = getSubStr(getWord(%reward, 1), 0, 5);
 
-        %displayString = %displayString @ %item.uiName @ "\c6: " @ %count @ " \n\c3";
+        if (isObject(%item)) {
+            %itemName = %item.uiName;
+        } else {
+            %itemName = %item;
+        }
+
+        %displayString = %displayString @ %itemName @ "\c6: " @ %count @ " \n\c3";
     }
 
     %cashReward = getDataIDArrayTagValue(%packageID, "cashReward");
@@ -149,7 +155,7 @@ function openPackage(%packageID, %player)
         %item = getWord(%reward, 0);
         %count = getWord(%reward, 1);
 
-        if (%item.isStackable) {
+        if (isStackType(%item) || (isObject(%item) && %item.isStackable)) {
             %player.farmingAddStackableItem(%item, %count);
         } else {
             if (%item.hasDataID) //dataid item
