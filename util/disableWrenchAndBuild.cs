@@ -175,7 +175,11 @@ package disableWrenchData
 
 	function Armor::onCollision(%this, %obj, %col, %vec, %speed)
 	{
-		if (%col.getClassName() $= "Item" && getBrickgroupFromObject(%col).bl_id == 888888 && %col.spawnBrick.getName() $= "")
+		if (%col.getClassName() $= "Item" && %col.client == -1)
+		{
+			%col.client = "";
+		}
+		if (%col.getClassName() $= "Item" && getBrickgroupFromObject(%col).bl_id == 888888 && %col.isStatic() && %col.spawnBrick.getName() $= "")
 		{
 			return;
 		}
