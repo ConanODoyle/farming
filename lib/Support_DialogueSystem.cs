@@ -91,6 +91,18 @@ package Support_DialogueSystem
 		}
 	}
 
+	function serverCmdStartTalking(%cl)
+	{
+		%dataObj = %cl.player.dialogueData;
+		if (%dataObj.dialogueObject.waitForResponse)
+		{
+			// Don't show that they're typing when their message is just gonna get intercepted by a bot
+			return;
+		}
+
+		return parent::serverCmdStartTalking(%cl);
+	}
+
 	function Armor::onRemove(%this, %obj)
 	{
 		if (isObject(%obj.dialogueData))
