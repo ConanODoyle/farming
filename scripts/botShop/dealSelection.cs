@@ -149,7 +149,7 @@ function AIPlayer::randomShopLoop(%bot, %selectionCount, %speak, %timeRange, %sh
 		}
 	}
 
-	if (%selectionCount > 1)
+	if (%count > 1)
 	{
 		for (%i = 0; %i < %count; %i++)
 		{
@@ -158,7 +158,7 @@ function AIPlayer::randomShopLoop(%bot, %selectionCount, %speak, %timeRange, %sh
 		%bot.sellItems = trim(%list);
 		%bot.sellItem = "";
 	}
-	else if (%selectionCount == 1)
+	else if (%count == 1)
 	{
 		%bot.sellItem = %selection[0];
 		%bot.sellItems = "";
