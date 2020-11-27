@@ -17,7 +17,7 @@ function saveLotBLID(%bl_id)
 
 	%name = "Lots/" @ %bl_id @ "/Lot Autosave (" @ %bl_id @ ") - " @ %save_date @ " at " @ %save_time;
 	$Pref::Farming::LastLotAutosave[%bl_id] = %name;
-	export("$Pref::*", "config/server/prefs.cs");
+	exportServerPrefs();
 
 	//force autosave to happen even without changes
 	$Server::AS["BrickChanged"] = 1;

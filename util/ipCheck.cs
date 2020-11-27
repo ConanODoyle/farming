@@ -10,7 +10,7 @@ package IPLogger
 		if (strPos(" " @ $Pref::IPLogger::BLID_[%blid] @ "\t", " " @ %ip @ "\t") < 0)
 		{
 			$Pref::IPLogger::BLID_[%blid] = trim($Pref::IPLogger::BLID_[%blid] SPC %ip TAB %port);
-			export("$Pref*", "config/server/prefs.cs");
+			exportServerPrefs();
 			echo("Wrote IP " @ %ip TAB %port @ " to entry BL_ID " @ %blid @ " in the IP Logger variables.");
 		}
 		else

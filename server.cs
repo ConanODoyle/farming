@@ -30,6 +30,7 @@ exec("./lib/zoneBrick1x4x5Fix.cs");
 exec("./lib/onDupCut.cs");
 
 // Scripts specific to this mod
+exec("./util/exportPrefs.cs");
 exec("./util/authNameReplacement.cs");
 exec("./util/botNameOverride.cs");
 exec("./util/clearScripts.cs");
