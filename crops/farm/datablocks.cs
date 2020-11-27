@@ -245,7 +245,7 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 	storageType = "Tools";
 	itemStackCount = 1;
 
-	cost = 150;
+	cost = 10;
 };
 
 datablock fxDTSBrickData(brickLeftQuestCabinetClosed0Data)
