@@ -13,7 +13,7 @@ datablock ItemData(WeedCutterItem : HammerItem)
 
 datablock ShapeBaseImageData(WeedCutterImage)
 {
-	shapeFile = "./weed_whacker.dts";
+	shapeFile = "./weedWhacker/weed_whacker.dts";
 
 	emap = true;
 	armReady = true;
@@ -43,7 +43,7 @@ datablock ShapeBaseImageData(WeedCutterImage)
 
 	stateName[3] = "Repeat";
 	stateTimeoutValue[3] = 0.12;
-	stateTransitionOnTimeout[3] = "Fire";
+	stateTransitixonOnTimeout[3] = "Fire";
 	stateTransitionOnTriggerUp[3] = "Ready";
 };
 
