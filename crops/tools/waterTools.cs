@@ -427,5 +427,5 @@ function checkWaterCombo(%obj, %blid, %name, %waterCount)
 
 function serverCmdTopCombo(%cl)
 {
-	%cl.chatmessage("\c6<bitmap:base/client/ui/ci/star> T*longest watering combo is \c3" @ $Pref::Server::maxWaterCombo @ "\c6!");
+	%cl.chatmessage("\c6<bitmap:base/client/ui/ci/star> The longest watering combo is \c3" @ $Pref::Server::maxWaterCombo @ "\c6!");
 }
