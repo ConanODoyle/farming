@@ -38,6 +38,10 @@ $BuyCost_["Sapphire"] = 200;
 $BuyCost_["Emerald"] = 400;
 $BuyCost_["Ruby"] = 1200;
 $BuyCost_["Diamond"] = 2500;
+$SellCost_["Sapphire"] = 200;
+$SellCost_["Emerald"] = 400;
+$SellCost_["Ruby"] = 1200;
+$SellCost_["Diamond"] = 2500;
 
 
 

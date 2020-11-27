@@ -199,7 +199,15 @@ function AIPlayer::attemptBuy(%bot, %item)
 	{
 		%count = 1;
 	}
-	%type = %item.getDatablock().stackType;
+	if (%item.getDatablock().stackType !$= "")
+	{
+		%type = %item.getDatablock().stackType;
+	}
+	else
+	{
+		%type = %item.getDatablock().getName();
+	}
+	
 	if (%bot.buyCost[%type] <= 0)
 	{
 		%amount = getSellPrice(%type, %count);
