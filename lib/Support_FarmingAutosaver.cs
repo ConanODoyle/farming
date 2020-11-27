@@ -16,8 +16,6 @@ function saveLotBLID(%bl_id)
 	%save_time = stripChars(getWord(%date, 1), ":");
 
 	%name = "Lots/" @ %bl_id @ "/Lot Autosave (" @ %bl_id @ ") - " @ %save_date @ " at " @ %save_time;
-	$Pref::Farming::LastLotAutosave[%bl_id] = %name;
-	exportServerPrefs();
 
 	//force autosave to happen even without changes
 	$Server::AS["BrickChanged"] = 1;
@@ -26,6 +24,10 @@ function saveLotBLID(%bl_id)
 		echo("ERROR: saveLotBLID - autosaver is running");
 		return -1;
 	}
+
+	$Pref::Farming::LastLotAutosave[%bl_id] = %name;
+	exportServerPrefs();
+
 	return 0;
 }
 
