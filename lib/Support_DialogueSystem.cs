@@ -100,7 +100,7 @@ package Support_DialogueSystem
 		return parent::onRemove(%this, %obj);
 	}
 };
-schedule(1000, 0, activatePackage, Support_DialogueSystem);
+schedule(2000, 0, activatePackage, Support_DialogueSystem);
 
 function Player::startDialogue(%pl, %speaker, %dialogueObject)
 {
