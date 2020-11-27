@@ -168,16 +168,18 @@ function generateInstrumentShop()
 		%db = DatablockGroup.getObject(%i);
 		if (isObject(%db.image) && %db.image.instrumentType !$= "")
 		{
-			BS_Instruments.option[%instrumentCount + 0] = %db SPC 10;
-			$SellCost_[%db.uiName] = 1000;
-			$BuyCost_[%db.uiName] = 1200;
+			BS_Instruments.option[%instrumentCount + 0] = %db TAB 10;
+			%fixedName = strReplace(%db.uiName, " ", "_");
+			%fixedName = stripchars(%fixedName, "-'!@#$%^&*()<>,.?/;:[]{}\\|+=");
+			$SellCost_[%fixedName] = 1000;
+			$BuyCost_[%fixedName] = 1200;
 			%instrumentCount++;
 
-			if (%db.uiName $= "Keytar")
+			if (%fixedName $= "Keytar")
 			{
-				BS_Instruments.option[%instrumentCount - 1] = %db SPC 5;
-				$SellCost_[%db.uiName] = 4800;
-				$BuyCost_[%db.uiName] = 5000;
+				BS_Instruments.option[%instrumentCount - 1] = %db TAB 5;
+				$SellCost_[%fixedName] = 4800;
+				$BuyCost_[%fixedName] = 5000;
 				%keytarFound = 1;
 				%keytarIDX = %instrumentCount - 1;
 			}
