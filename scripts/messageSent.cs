@@ -24,8 +24,8 @@ function servercmdMessageSent(%client,%msg)
 		%pre = "<spush>" @ %client.title @ "<spop>" SPC %pre;
 
 	// Donor ribbon if you want I guess
-	if(%client.donorRibbon)
-		%pre = "<bitmap:base/client/ui/CI/blueRibbon.png>\c7 " @ %pre;
+	//if(%client.isDonator)
+	//	%pre = "<bitmap:base/client/ui/CI/blueRibbon.png>\c7 " @ %pre;
 
 	if(%client.netname $= "CONSOLE")
 		%name = "CONSOLE";
@@ -104,6 +104,9 @@ function servercmdMessageSent(%client,%msg)
 	}
 
 	// Custom name colors
+	if(%client.isDonator)
+		%color = "<color:ffaa00>";
+
 	if($Pref::Farming::CustomNameColor[%client.BL_ID] !$= "")
 		%color = $Pref::Farming::CustomNameColor[%client.BL_ID];
 	else if(%client.nameColor !$= "")

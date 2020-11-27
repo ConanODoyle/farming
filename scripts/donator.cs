@@ -96,10 +96,10 @@ function applyDonatorSettings(%cl)
 	if (%cl.name !$= "The Titanium" && %cl.name !$= "Conan")
 	{
 		%cl.isDonator = 1;
-		%cl.nameColor = "0.95 0.85 0";
+		%cl.shapeNameColor = "0.95 0.85 0";
 		if (isObject(%cl.player))
 		{
-			%cl.player.setShapeNameColor(%cl.nameColor);
+			%cl.player.setShapeNameColor(%cl.shapeNameColor);
 		}
 		messageAll('', "<bitmap:base/client/ui/ci/star> \c3" @ %cl.name @ "\c6 is a donator!");
 	}
@@ -234,30 +234,15 @@ package Donators
 
 	function serverCmdMessageSent(%cl, %msg)
 	{
-		if (%cl.isDonator && getSubStr(%msg, 0, 1) !$= "\\")
-		{
-			if($autoModeratorMute[%cl.BL_ID] < $sim::time && !%cl.isSpamming)
-			{
-				chatMessageAll(%cl, '\c7%1<color:ffaa00>%2\c7%3\c6: %4', %cl.clanPrefix, %cl.getPlayerName(), %cl.clanSuffix, getDonatorMessage(%msg));
-				echo(%cl.getPlayerName() @ ": " @ %msg);
-				if (isFunction(sendMessage) && !$DiscordChatDisabled)
-				{
-					sendMessage(%cl, %msg); //discord listener hook
-				}
-			}
-		}
-		else
-		{
-			return parent::serverCmdMessageSent(%cl, %msg);
-		}
+		return parent::serverCmdMessageSent(%cl, %msg);
 	}
 
 	function GameConnection::spawnPlayer(%cl)
 	{
 		%ret = parent::spawnPlayer(%cl);
-		if (%cl.nameColor !$= "")
+		if (%cl.shapeNameColor !$= "")
 		{
-			%cl.player.setShapeNameColor(%cl.nameColor);
+			%cl.player.setShapeNameColor(%cl.shapeNameColor);
 		}
 		return %ret;
 	}
