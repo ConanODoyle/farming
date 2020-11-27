@@ -102,11 +102,14 @@ activatePackage(autoModeratorEnforcement);
 
 function unmute(%bl_id)
 {
-	deleteVariable("$autoModeratorMute" @ %bl_id);
+	deleteVariables("$autoModeratorMute" @ %bl_id);
 }
 
 function serverCmdUnmute(%cl, %a, %b, %c, %d)
 {
+	if(!%cl.isSuperAdmin)
+		return;
+
 	%name = trim(%a SPC %b SPC %c SPC %d);
 	if (!isObject(%target = findClientByName(%name)))
 	{
