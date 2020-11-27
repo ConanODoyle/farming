@@ -237,11 +237,11 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 	{
 		if (%isRaining) //raining
 		{
-			%waterReq = mCeil(%waterReq, %rainWaterMod);
+			%waterReq = mCeil(%waterReq * %rainWaterMod);
 		}
 		else if (%isHeatWave)
 		{
-			%waterReq = mCeil(%waterReq, %heatWaterMod);
+			%waterReq = mCeil(%waterReq * %heatWaterMod);
 		}
 	}
 
