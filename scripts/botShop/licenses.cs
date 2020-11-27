@@ -54,7 +54,7 @@ $LicenseDialogueSet.add($obj);
 $obj = new ScriptObject(LicenseProduct)
 {
 	messageCount = 1;
-	message[0] = "Here's your %licenseType% licence! Make sure you talk to the Crop Expert to find out how to grow them!";
+	message[0] = "Here's your %licenseType% licence! Make sure you talk to the Cropmaster in the barn to find out how to grow them!";
 	messageTimeout[0] = 1;
 
 	botTalkAnim = 1;
