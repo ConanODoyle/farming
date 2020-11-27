@@ -104,7 +104,6 @@ function sellObject(%b)
 		return;
 	}
 
-	%group = getBrickgroupFromObject(%b);
 	%db = %b.getDatablock();
 	%cl = %group.client;
 
@@ -113,9 +112,9 @@ function sellObject(%b)
 		return;
 	}
 
-	if (%b.createdTimeout < $Sim::Time)
+	if (%b.createdTimeout < $Sim::Time && %cl.score >= 100)
 	{
-		if (%db.customRefundCost > 0 || %cl.score < 100)
+		if (%db.customRefundCost > 0)
 		{
 			%cost = %db.customRefundCost;
 		}
