@@ -344,7 +344,7 @@ function storeSelectionParser(%dataObj, %msg)
 		%dataObj.sellItem = %selectedItem;
 		%dataObj.var_product = %selectedItem.uiName;
 		%dataObj.var_productPlural = getPluralWord(%selectedItem.uiName);
-		%dataObj.var_price = mFloatLength(getBuyPrice(%selectedItem.uiName, 1), 2);
+		%dataObj.var_price = mFloatLength(getBuyPrice(%selectedItem, 1), 2);
 		return "ValidSelection";
 	}
 }
