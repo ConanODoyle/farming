@@ -425,7 +425,7 @@ new ScriptObject(CompostQuestType) {
 	class = "QuestType";
 	questWeight = 6;
 
-	maxBudget = 240;
+	maxBudget = 60;
 
 	rewardsItems = true;
 	rewardTable = CompostQuestRewards;
@@ -446,7 +446,7 @@ new ScriptObject(FertilizerQuestType) {
 	class = "QuestType";
 	questWeight = 3;
 
-	maxBudget = 120;
+	maxBudget = 60;
 
 	rewardsItems = true;
 	rewardTable = FertilizerQuestRewards;
