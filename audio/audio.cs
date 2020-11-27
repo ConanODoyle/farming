@@ -218,6 +218,56 @@ datablock AudioProfile(MagusFFIXShipMusic)
 	uiName = "FFIX - Place Ill Return";
 };
 
+datablock AudioProfile(AbhijitMusic)
+{
+	filename = "./Music/Abhijit.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Abhijit";
+};
+
+datablock AudioProfile(CarnivalMusic)
+{
+	filename = "./Music/Carnival.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Carnival";
+};
+
+datablock AudioProfile(RadioOingoBoingoMusic)
+{
+	filename = "./Music/Radio_Effect_-_Oingo_Boingo.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Radio Effect - Oingo Boingo";
+};
+
+datablock AudioProfile(SupercowMapMusic)
+{
+	filename = "./Music/Supercow_OST_-_Map.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Supercow OST - Map";
+};
+
+datablock AudioProfile(SupercowMenuMusic)
+{
+	filename = "./Music/Supercow_OST_-_Menu.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Supercow Ost - Menu";
+};
+
+datablock AudioProfile(TearsInTheRainMusic)
+{
+	filename = "./Music/Tears_in_the_Rain.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Tears in the Rain";
+};
+
+
+
 
 datablock AudioDescription(AudioMusicLoopingClose3d : AudioMusicLooping3d)
 {
