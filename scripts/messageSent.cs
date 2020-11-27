@@ -104,7 +104,9 @@ function servercmdMessageSent(%client,%msg)
 	}
 
 	// Custom name colors
-	if(%client.nameColor !$= "")
+	if($Pref::Farming::CustomNameColor[%client.BL_ID] !$= "")
+		%color = $Pref::Farming::CustomNameColor[%client.BL_ID];
+	else if(%client.nameColor !$= "")
 		%color = %client.nameColor;
 
 	if(%all $= "")
