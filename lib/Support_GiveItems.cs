@@ -107,13 +107,13 @@ function farmingStackableItemOverflow(%player, %stackType, %count) {
 // 0: picked none up or errored
 // 1: picked all up
 // 2: picked some up
-function Player::farmingAddStackableItem(%player, %datablock, %count, %ignoreOverflow) {
-    if (!%datablock.isStackable) {
+function Player::farmingAddStackableItem(%player, %item, %count, %ignoreOverflow) {
+    if (!(isStackType(%item) || (isObject(%item) && %item.isStackable))) {
         error("ERROR: Attempted to treat unstackable item as stackable when adding to player!");
         return 0;
     }
 
-    %stackType = %datablock.stackType;
+    %stackType = isStackType(%item) ? %item : %item.stackType;
     %maxStackSize = getMaxStack(%stackType);
 
     for (%slot = %player.getFirstStackableSlot(%stackType); %count > 0 && %slot !$= ""; %slot = %player.getFirstStackableSlot(%stackType, %slot + 1)) {
