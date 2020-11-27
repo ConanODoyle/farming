@@ -108,7 +108,7 @@ function harvestBrick(%brick, %tool, %harvester)
 
 
 	//spawn harvest + seeds
-	%pickedTotal = getWord(%yield, getRandom(getWordCount(%yield) - 1)) + %toolYield + extraYield;
+	%pickedTotal = getWord(%yield, getRandom(getWordCount(%yield) - 1)) + %toolYield + %extraYield;
 
 	%pos = %brick.getPosition();
 	%bg = !%bypassTrustRequirement ? getBrickgroupFromObject(%brick) : "";
