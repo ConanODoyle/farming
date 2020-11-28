@@ -7,57 +7,30 @@ $LotManageDialogueSet.deleteAll();
 $obj = new ScriptObject(LotManageDialogueStart)
 {
 	response["Quit"] = "ExitResponse";
-	messageCount = 1;
-	message[0] = "Welcome to City Hall! I'm the Lot Manager!";
-	messageTimeout[0] = 1;
+	messageCount = 0;
 	functionOnStart = "setupLotManagement";
-
-	botTalkAnim = 1;
-	dialogueTransitionOnTimeout = "LotManagePrompt";
 };
 $LotManageDialogueSet.add($obj);
 
-$obj = new ScriptObject(LotManageErrorResponse : ErrorResponse)
-{
-	message[0] = "I'm sorry, I didn't understand you...";
 
-	dialogueTransitionOnTimeout = "LotManagePrompt";
-};
-$LotManageDialogueSet.add($obj);
-
-$obj = new ScriptObject(LotManagePrompt)
+//no lot, no lot unloaded -> newbie
+$obj = new ScriptObject(IntroLotDialogue)
 {
 	response["Quit"] = "ExitResponse";
-	response["Error"] = "LotManageErrorResponse";
-	response["LoadOK"] = "LotManageLoad";
-	response["LoadBad"] = "LotManageLoadFail";
-	response["UnloadOK"] = "LotManageUnload";
-	response["UnloadBad"] = "LotManageUnloadFail";
+	response["Yes"] = "LotTeleportConfirmed";
+	response["No"] = "ExitResponse";//"LotManagerExit";
+	response["Exit"] = "ExitResponse";//"LotManagerExit";
 
-	messageCount = 2;
-	message[0] = "I can help you load or unload your lot.";
-	messageTimeout[0] = 1;
-	message[1] = "Which would you like me to help you with? Load, or unload?";
-	messageTimeout[1] = 1;
-
-	botTalkAnim = 1;
-	waitForResponse = 1;
-	responseParser = "lotManageInitialParser";
-};
-$LotManageDialogueSet.add($obj);
-
-$obj = new ScriptObject(LotManageLoad)
-{
-	response["Yes"] = "LotManageLoadConfirmed";
-	response["No"] = "LotManagePrompt";
-	response["Quit"] = "ExitResponse";
-	response["Error"] = "LotManageErrorResponse";
-
-	messageCount = 2;
-	message[0] = "If your lot isn't loaded, I can help you find a spot to load it back in.";
-	messageTimeout[0] = 1;
-	message[1] = "Would you like me to find a space for you?";
-	messageTimeout[1] = 1;
+	messageCount = 4;
+	message[0] = "Hello, I'm the Lot Manager! Welcome to Town Hall!";
+	messageTimeout[0] = 2;
+	message[1] = "I notice you have no lot - you can buy your first lot free. Talk to bots around to get info on game mechanics!";
+	messageTimeout[1] = 2;
+	message[2] = "To buy a lot, use /buylot while standing over an unowned red Center Lot! You can see who owns it in the bottomprint.";
+	messageTimeout[2] = 3;
+	message[3] = "Would you like help finding a lot to purchase? I can teleport you to an available free lot.";
+	messageTimeout[3] = 3;
+	functionOnStart = "setupLotPrice";
 
 	botTalkAnim = 1;
 	waitForResponse = 1;
@@ -65,20 +38,10 @@ $obj = new ScriptObject(LotManageLoad)
 };
 $LotManageDialogueSet.add($obj);
 
-$obj = new ScriptObject(LotManageLoadFail : LotManageLoad)
-{
-	message[1] = "...But it looks like you already have your lot loaded in.";
-
-	waitForResponse = 0;
-	responseParser = "";
-	dialogueTransitionOnTimeout = "LotManageUnload";
-};
-$LotManageDialogueSet.add($obj);
-
-$obj = new ScriptObject(LotManageLoadConfirmed)
+$obj = new ScriptObject(LotTeleportConfirmed)
 {
 	messageCount = 1;
-	message[0] = "Got it! I'll find a spot where you can load your lot in and send you there now. One moment please...";
+	message[0] = "Got it! I'll find a lot with a free spot and send you there now. One moment please...";
 	messageTimeout[0] = 1;
 
 	botTalkAnim = 1;
@@ -97,33 +60,55 @@ $obj = new ScriptObject(LotManageLoadSent)
 };
 $LotManageDialogueSet.add($obj);
 
-$obj = new ScriptObject(LotManageUnload)
+//has lot saved
+$obj = new ScriptObject(LotUnloadedDialogue)
 {
-	response["Yes"] = "LotManageUnloadConfirmed";
-	response["InsufficientMoney"] = "LotManageUnloadInsufficientMoney";
-	response["No"] = "LotManagePrompt";
 	response["Quit"] = "ExitResponse";
-	response["Error"] = "LotManageErrorResponse";
+	response["Yes"] = "LotTeleportConfirmed";
+	response["No"] = "ExitResponse";//"LotManagerExit";
+	response["Exit"] = "ExitResponse";//"LotManagerExit";
 
-	messageCount = 2;
-	message[0] = "If your lot is already loaded, I can have it unloaded so you can move for a small fee.";
-	messageTimeout[0] = 1;
-	message[1] = "Would you like me to have your lot unloaded? This will cost $%price%.";
-	messageTimeout[1] = 1;
+	messageCount = 4;
+	message[0] = "Hello, I'm the Lot Manager! Welcome to Town Hall!";
+	messageTimeout[0] = 2;
+	message[1] = "I notice that you've got an unloaded lot! To load it, find an unclaimed center lot, then do /loadLot to load it!";
+	messageTimeout[1] = 2;
+	message[2] = "You can also rotate a loaded lot by doing /rotatelot # while having a loaded lot.";
+	messageTimeout[2] = 2;
+	message[3] = "Would you like help finding a lot to load onto? I can teleport you to an available free lot.";
+	messageTimeout[3] = 3;
+	functionOnStart = "setupLotPrice";
+
+	botTalkAnim = 1;
+	waitForResponse = 1;
+	responseParser = "yesNoResponseParser";
+};
+$LotManageDialogueSet.add($obj);
+
+
+//has a lot
+$obj = new ScriptObject(LotPresentDialogue)
+{
+	response["Quit"] = "ExitResponse";
+	response["InsufficientMoney"] = "LotManageUnloadInsufficientMoney";
+	response["Yes"] = "LotManageUnloadConfirmed";
+	response["No"] = "ExitResponse";//"LotManagerExit";
+	response["Exit"] = "ExitResponse";//"LotManagerExit";
+
+	messageCount = 4;
+	message[0] = "Hello, I'm the Lot Manager! Welcome to Town Hall!";
+	messageTimeout[0] = 2;
+	message[1] = "I notice that you've already got a lot! If you'd like to rotate it, do /rotatelot # - theres a small fee.";
+	messageTimeout[1] = 2;
+	message[2] = "You can move if you would like, by unloading your lot for a fee and loading it somewhere else. Loading a lot is always free!.";
+	messageTimeout[2] = 2;
+	message[3] = "Would you like to unload your lot? The fee is $%price%.";
+	messageTimeout[3] = 3;
+	functionOnStart = "setupLotPrice";
 
 	botTalkAnim = 1;
 	waitForResponse = 1;
 	responseParser = "yesNoPriceResponseParser";
-};
-$LotManageDialogueSet.add($obj);
-
-$obj = new ScriptObject(LotManageUnloadFail : LotManageUnload)
-{
-	message[1] = "...But you don't have your lot loaded in yet.";
-
-	waitForResponse = 0;
-	responseParser = "";
-	dialogueTransitionOnTimeout = "LotManageLoad";
 };
 $LotManageDialogueSet.add($obj);
 
@@ -132,7 +117,7 @@ $obj = new ScriptObject(LotManageUnloadConfirmed)
 	messageCount = 2;
 	message[0] = "Okay, that's $%price% - I'll unload your lot right away!";
 	messageTimeout[0] = 1;
-	message[1] = "Let me know if you'd like to load your lot again.";
+	message[1] = "Talk to me if you'd like help with loading your lot again.";
 	functionOnStart = "playerUnloadLot";
 
 	dialogueTransitionOnTimeout = "ExitResponse";
@@ -151,10 +136,33 @@ $obj = new ScriptObject(LotManageUnloadInsufficientMoney)
 };
 $LotManageDialogueSet.add($obj);
 
-function setupLotManagement(%dataObj)
+
+function setupLotPrice(%dataObj)
 {
 	%dataObj.var_price = $Farming::LotUnloadPrice;
 }
+
+function setupLotManagement(%dataObj)
+{
+	%dataObj.var_price = $Farming::LotUnloadPrice;
+
+	%player = %dataObj.player;
+	%manager = %dataObj.speaker;
+
+	%type = hasLoadedLot(%player.client.BL_ID);
+	if (%type == 1) %type = "hasLoadedLot";
+	else if (%type $= "0") %type = "noLot";
+
+	switch$ (%type)
+	{
+		case "noSavedLot": %manager.startDialogue("IntroLotDialogue", %player.client);
+		case "noLot": %manager.startDialogue("LotUnloadedDialogue", %player.client);
+		case "hasLoadedLot": %manager.startDialogue("LotPresentDialogue", %player.client);
+	}
+
+	return 1; //redirected into different dialogue object BUT still want the text
+}
+
 
 function lotManageInitialParser(%dataObj, %msg)
 {
