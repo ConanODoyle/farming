@@ -159,7 +159,7 @@ function RepairResponseParser(%dataObj, %msg)
 	}
 
 	%basePrice = getBuyPrice(%tool);
-	%flatFee = mFloor(%basePrice / 10);
+	%flatFee = mFloor(%basePrice / 100);
 	%variableFee = mFloor(%basePrice / 100);
 	%maxDurability = %originalDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
 	if (%maxDurability > 10000)
