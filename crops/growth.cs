@@ -54,7 +54,30 @@ package PlantSimSetCollector
 	{
 		%ret = parent::onAdd(%brick);
 
-		if (%brick.isPlanted && %brick.getDatablock().isPlant)
+		if ((%brick.isPlanted && %brick.getDatablock().isPlant)
+			|| %brick.getGroup().isLoadingLot)
+		{
+			PlantSimSet.add(%brick);
+		}
+		return %ret;
+	}
+
+	function fxDTSBrick::onLoadPlant(%brick)
+	{
+		%ret = parent::onLoadPlant(%brick);
+
+		if (%brick.getDatablock().isPlant)
+		{
+			PlantSimSet.add(%brick);
+		}
+		return %ret;
+	}
+
+	function fxDTSBrick::plant(%brick)
+	{
+		%ret = parent::plant(%brick);
+
+		if (%brick.getDatablock().isPlant)
 		{
 			PlantSimSet.add(%brick);
 		}
