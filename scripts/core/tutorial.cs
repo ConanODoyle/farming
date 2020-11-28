@@ -12,13 +12,13 @@ function serverCmdContinueTutorial(%client)
 			%text = "Farming is a freebuild server with farming mechanics, where the goal is to build a farm, explore, and make money.";
 		case 2:
 			%head = "Tutorial - Basics";
-			%text = "Buy your first lot for free with /buyLot on an empty single lot!<br><br>Buy dirt bricks, plant seeds, and water the dirt so your crops grow!";
+			%text = "Talk to the Lot Manager in City Hall for help in getting your first lot!<br><br>Buy dirt bricks, plant seeds, and water the dirt so your crops grow!";
 		case 3:
 			%head = "Tutorial - Basics";
-			%text = "You buy seeds and sell produce at the shop.<br><br>Click bots to find out what they do or sell! Some bots have limited time deals.";
+			%text = "You buy seeds at the shop and sell produce to the Supermarket Buyer.<br><br>Click bots to find out what they do or sell! Some bots have limited time deals.";
 		case 4:
 			%head = "Tutorial - Basics";
-			%text = "If you don't know what something does, do /tutorial [name] to find out more.<br><br>Examples: storage, water, shop, money, planting";
+			%text = "If you don't know what something does, do /tutorial [name] to find out more.<br><br>Options: storage, water, shop, money, planting";
 		default:
 			commandToClient(%client, 'messageBoxOK', "Tutorial - End", "This is the end of the basic tutorial. Have fun!<br><br>Do /tutorial if you wish to view this again.");
 			return;
@@ -68,13 +68,13 @@ function serverCmdContinueShopTutorial(%client)
 			%text = "The Tool Seller, Seed Seller, Shop Clerk, and Big Buyer will announce special deals occasionally.<br><br>These special offers last a few minutes, and each bot has a different range of selections.";
 		case 2:
 			%head = "Tutorial - Shop";
-			%text = "Some valuable seeds can only be bought through the Seed Seller and Shop Clerk, so keep an eye out for them!";
+			%text = "Some valuable seeds can only be bought through the Seed Seller and Bapps shop clerks, so keep an eye out for them!";
 		case 3:
 			%head = "Tutorial - Shop";
-			%text = "Watering can upgrades, seed row planters, harvesting equipment, and other useful tools can be bought from the Tool Seller or Shop Clerk.";
+			%text = "Watering can upgrades, seed row planters, harvesting equipment, and other useful tools can be bought from the Tool Seller and specific sellers.";
 		case 4:
 			%head = "Tutorial - Shop";
-			%text = "Hoe/Sickle: area harvest<br>Clipper/Trowel: +1 harvest bonus<br>Hose: fill tanks fast<br>Planter: plant multiple seeds in a row<br>Reclaimer: reclaim seeds from fully-grown plants";
+			%text = "Hoe/Sickle: area harvest<br>Clipper/Trowel: +1 harvest bonus<br>Hose: fill tanks fast<br>Planter: plant multiple seeds in a row<br>Reclaimer: reclaim seeds from non-grown plants";
 		default:
 			commandToClient(%client, 'messageBoxOK', "Tutorial - End", "This is the end of the Shop tutorial. <br><br>Do /tutorial Shop if you wish to view this again.");
 			return;
@@ -90,7 +90,7 @@ function serverCmdContinueWaterTutorial(%client)
 	{
 		case 0:
 			%head = "Tutorial - Water";
-			%text = "Water dirt to let crops on them grow.<br><br>Crops take water from the dirt under them.";
+			%text = "Water dirt to let crops on them grow.<br><br>Crops take water and nutrients from the dirt under them.";
 		case 1:
 			%head = "Tutorial - Water";
 			%text = "Sprinklers show their radius in their ghost brick.<br><br>The sprinkler has to cover any part of a dirt brick to water it.";
@@ -130,7 +130,7 @@ function serverCmdContinueMoneyTutorial(%client)
 			%text = "If you ever get broke, hunt for treasure chests.<br><br>They contain $100 each! There's " @ $TreasureChest::NumChests @ " on the server...";
 		case 3:
 			%head = "Tutorial - Money";
-			%text = "Everything stackable can be sold for money.<br><br>You can only make a decent profit selling produce, though.";
+			%text = "You can also do mining quests at Coal's if you're dead broke. Quests in general give a better return on crops than selling crops directly.";
 		default:
 			commandToClient(%client, 'messageBoxOK', "Tutorial - End", "This is the end of the Money tutorial. <br><br>Do /tutorial Shop if you wish to view this again.");
 			return;
