@@ -246,6 +246,16 @@ $obj = new ScriptObject(MiningQuestsDialogue)
 };
 $BasicDialogueSet.add($obj);
 
+$obj = new ScriptObject(PlantLayerDialogue)
+{
+	messageCount = 2;
+	message[0] = "Not all crops interact with each other when determining crop spacing! For example, you can plant potatoes right up against tomatoes!";
+	messageTimeout[0] = 2;
+	message[1] = "It's a neat trick to make your farm space more effective! Test crop combinations out to see what works and what doesnt!";
+	messageTimeout[1] = 2;
+};
+$BasicDialogueSet.add($obj);
+
 $obj = new ScriptObject(GemDialogue)
 {
 	messageCount = 1;
