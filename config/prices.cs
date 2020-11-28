@@ -5,8 +5,8 @@ HorseArmor.uiName = "Horse - $200";
 $BuyCost_["Jeep_DASH_700"] = 700;
 $BuyCost_["Horse_DASH_200"] = 200;
 $BuyCost_["Storage_Cart_DASH_250"] = 250;
-$BuyCost_["Large_Storage_Cart_2x_DASH_1200"] = 1200;
-$BuyCost_["Horse_Cart_DASH_2000"] = 2000;
+$BuyCost_["Large_Storage_Cart_4x_DASH_1200"] = 1200;
+$BuyCost_["Horse_Cart_DASH_500"] = 500;
 
 
 

@@ -28,7 +28,7 @@ datablock PlayerData(HorseStorageCartArmor : HorseArmor)
 {
 	shapeFile = "./horseCart.dts";
 
-	uiName = "Horse Cart - $2000";
+	uiName = "Horse Cart - $500";
 	maxForwardSpeed = 9;
 	maxForwardCrouchSpeed = 9;
 
@@ -46,7 +46,7 @@ datablock PlayerData(HorseStorageCartArmor : HorseArmor)
 	itemStackCount = 2;
 	menuName = "Horse Cart";
 
-	cost = 2000;
+	cost = 500;
 };
 
 datablock PlayerData(LargeStorageCartArmor : StorageCartArmor)
@@ -57,7 +57,7 @@ datablock PlayerData(LargeStorageCartArmor : StorageCartArmor)
 
 	isStorageVehicle = 1;
 	storageSlotCount = 4;
-	storageMultiplier = 4;
+	storageMultiplier = 8;
 	itemStackCount = 2;
 	menuName = "Large Storage Cart";
 
