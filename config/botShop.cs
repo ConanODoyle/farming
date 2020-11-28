@@ -178,8 +178,8 @@ function generateInstrumentShop()
 			if (%fixedName $= "Keytar")
 			{
 				BS_Instruments.option[%instrumentCount - 1] = %db TAB 5;
-				$SellCost_[%fixedName] = 4800;
-				$BuyCost_[%fixedName] = 5000;
+				$SellCost_[%fixedName] = 48000;
+				$BuyCost_[%fixedName] = 50000;
 				%keytarFound = 1;
 				%keytarIDX = %instrumentCount - 1;
 			}
