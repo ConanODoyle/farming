@@ -1,6 +1,6 @@
 function purchaseVehicle(%cl, %vehicle)
 {
-	if (%cl.isBuilder)
+	if (%cl.isBuilder || %cl.brickgroup.isLoadingLot)
 	{
 		return 1;
 	}
