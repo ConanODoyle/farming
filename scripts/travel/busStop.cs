@@ -199,7 +199,8 @@ function busStopLoop(%cl, %obj)
 
         %cl.camera.setTransform(%start SPC %aa);
         %cl.setControlObject(%cl.camera);
-        %cl.camera.setControlObject(%cl.dummyCamera);
+        %cl.camera.setControlObject(%cl.camera);
+        %cl.camera.setDollyMode(%start, vectorAdd(%start, "0 0 0.1"));
         %cl.camera.busStopObj = %currBrick;
     }
 
