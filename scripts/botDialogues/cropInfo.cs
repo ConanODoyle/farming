@@ -52,7 +52,7 @@ $obj = new ScriptObject(CropInfoSelection)
 
 	messageCount = 3;
 	message[0] = "%data1%";
-	messageTimeout[1] = 3;
+	messageTimeout[0] = 3;
 	message[1] = "%data2%";
 	messageTimeout[1] = 3;
 	message[2] = "%data3%";
@@ -191,23 +191,30 @@ function setupCropInfo(%dataObj)
 		case "Lily":
 			%s1 = "Lilies are flowers that add 2 nitrogen to soil every minute, in their final flowering stage.";
 			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		case "Lilies":
 			%s1 = "Lilies are flowers that add 2 nitrogen to soil every minute, in their final flowering stage.";
 			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		case "Daisy":
 			%s1 = "Daisies are flowers that add 2 phosphate to soil every minute, in their final flowering stage.";
 			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		case "Daisies":
 			%s1 = "Daisies are flowers that add 2 phosphate to soil every minute, in their final flowering stage.";
 			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		case "Rose":
 			%s1 = "Roses are flowers that add 1 nitrogen and 1 phosphate to soil every minute, in their final flowering stage.";
 			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		default:
 			%s1 = "...";
 			%s2 = "...I don't know anything about that, sorry.";
+			%s3 = "...";
 	}
 
 	%dataObj.var_data1 = %s1;
 	%dataObj.var_data2 = %s2;
+	%dataObj.var_data3 = %s3;
 }
