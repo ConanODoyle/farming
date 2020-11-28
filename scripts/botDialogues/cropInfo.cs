@@ -55,6 +55,8 @@ $obj = new ScriptObject(CropInfoSelection)
 	messageTimeout[1] = 3;
 	message[1] = "%data2%";
 	messageTimeout[1] = 3;
+	message[2] = "%data3%";
+	messageTimeout[2] = 3;
 
 	functionOnStart = "setupCropInfo";
 	dialogueTransitionOnTimeout = "CropInfoCore";
@@ -116,59 +118,75 @@ function setupCropInfo(%dataObj)
 		case "Potato": 
 			%s1 = "Potatoes are very quick to grow, and drop between 2-4 potatoes and usually a seed.";
 			%s2 = "Be careful not to let them grow too long or else they'll give less! Keep an eye on how many potatoes are showing.";
+			%s3 = "[Required spacing: 2, required nutrients: none]";
 		case "Carrot":
 			%s1 = "Carrots are quick to grow, and give between 2-3 carrots and usually a seed. They sell for slightly more than potatoes!";
 			%s2 = "Like potatoes, if they grow too long, they'll drop less, so keep an eye on them!";
+			%s3 = "[Required spacing: 2, required nutrients: none]";
 		case "Onion":
 			%s1 = "Onions take a while to grow, but give a lot of experience and are carried in big stacks. Each plant drops 3-5 onions and often a seed.";
 			%s2 = "You can harvest them early and still get full experience, but you'll get fewer onions and a lower chance for a seed.";
+			%s3 = "[Required spacing: 2, required nutrients: none]";
 		case "Turnip":
 			%s1 = "Turnips are profitable cash crops, but take a decent bit to grow, and don't stack well. Use a trowel to boost their yield!";
 			%s2 = "I hear sometimes they look like they're staring at you...";
+			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Portobello":
 			%s1 = "Portobellos are mushrooms sensitive to light. They can even grow with no light, but need nutrients to grow.";
 			%s2 = "However, they still want some light - anything different than what they want will slow growth. Use an organic analyzer to check!";
-
+			%s3 = "[Required spacing: 2, required nutrients: 2 nitrogen 2 phosphate]";
 		case "Tomato":
 			%s1 = "Tomatoes are cheap crops that can be harvested 12 times. They drop 2-5 tomatoes per harvest and take relatively little water.";
 			%s2 = "They cost 10 experience to plant, and give 0-1 experience per harvest.";
+			%s3 = "[Required spacing: 3 - 2x2 crop, required nutrients: none]";
 		case "Corn":
 			%s1 = "Corn can be harvested 3 times, and drop 3-4 per harvest, but need nutrients to finish growing. They can be harvested earlier for less yield.";
 			%s2 = "They cost 9 experience to plant, and give 2-3 experience per harvest. Use an organic analyzer to figure out what nutrients they need!";
+			%s3 = "[Required spacing: 2, required nutrients: 4 phosphate]";
 		case "Wheat":
 			%s1 = "Wheat is a more compact alternative to corn, dropping 3-5 per harvest. They take slightly longer to grow as well, but use less nutrients.";
 			%s2 = "They cost 12 experience to plant, and give 3-4 experience per harvest. Use an organic analyzer to figure out what nutrients they need!";
+			%s3 = "[Required spacing: 1, required nutrients: 2 phosphate]";
 		case "Cabbage":
 			%s1 = "Cabbage is a water-hungry crop, and drops 2-3 per harvest. However, they don't need nutrients to finish growing!";
 			%s2 = "You can harvest them 4 times, giving 3-5 experience per harvest. They cost 20 experience to plant.";
+			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Blueberry":
 			%s1 = "Blueberries are profitable cash crops, able to be harvested 3 times for 2-6 berries per harvest.";
 			%s2 = "However, they need nutrients to grow fully. They cost 20 experience to plant, and give 5-6 experience per harvest.";
+			%s3 = "[Required spacing: 3, required nutrients: 2 nitrogen, 2 phosphate]";
 		case "Chili":
 			%s1 = "Chilis are a desert crop that use very little water and drop 2-5 per harvest. However, they need nutrients to fully grow.";
 			%s2 = "They can be harvested 2 times, costing 12 experience and returning 5-6 experience per harvest.";
+			%s3 = "[Required spacing: 2, required nutrients: 5 nitrogen, 5 phosphate]";
 		case "Watermelon":
 			%s1 = "Watermelon are an unusual desert crop, which grows faster without any water at all in their second-to-last stage.";
 			%s2 = "They drop 1-2 watermelons every harvest, and in total get 8 harvests. They cost 40 experience to plant, and give 3-5 experience per harvest.";
-
+			%s3 = "[Required spacing: 3 - 2x2 crop, required nutrients: none]";
 		case "Cactus":
 			%s1 = "Cacti are small tree-like plants, able to grow with no water at all (but grow faster with). Each harvest gives 2-5 cactus fruit.";
 			%s2 = "They can be harvested up to 15 times, giving 3-5 experience per harvest. They cost 60 experience to plant.";
+			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Cacti":
 			%s1 = "Cacti are small tree-like plants, able to grow with no water at all (but grow faster with). Each harvest gives 2-5 cactus fruit.";
 			%s2 = "They can be harvested up to 15 times, giving 3-5 experience per harvest. They cost 60 experience to plant.";
+			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Apple":
 			%s1 = "Apples have the smallest plant radius and hardly shade any plants under it. Like all trees, it needs nutrients to grow.";
 			%s2 = "They can be harvested up to 70 times for 8-14 apples, and can be pruned during its flower or pre-flower stage for around 4 more apples.";
+			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 4 nitrogen, 10 phosphate to grow + per harvest]";
 		case "Mango":
 			%s1 = "Mangoes cover a wide area and cast significant shade on crops underneath, which can reduce plants' growth time.";
 			%s2 = "They can be harvested up to 70 times, dropping 11-16 per harvest.";
+			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 10 nitrogen, 10 phosphate to grow + per harvest]";
 		case "Peach":
 			%s1 = "Peach trees require less water than other trees, but need 3x more nutrients to reach its harvesting stage.";
 			%s2 = "They can be harvested up to 100 times, dropping 6-12 per harvest.";
+			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 30 nitrogen, 30 phosphate to grow + per harvest]";
 		case "Date":
 			%s1 = "Date trees require no water to grow, and in fact grow significantly slower if water is present. It needs the same amount of nutrients as peaches do.";
 			%s2 = "Just like peaches, they can be harvested up to 100 times, dropping 6-12 per harvest.";
+			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 30 nitrogen, 30 phosphate to grow + per harvest]";
 
 		case "Lily":
 			%s1 = "Lilies are flowers that add 2 nitrogen to soil every minute, in their final flowering stage.";
