@@ -427,7 +427,7 @@ function heatLoop(%index)
 		%pos = %brick.getPosition();
 		if (%brick.nextHeat < $Sim::Time && !%brick.inGreenhouse && %brick.waterLevel > 0)
 		{
-			%numTimes = mFloor(($Sim::Time - %brick.nextRain) / 2) + 1;
+			%numTimes = mFloor(($Sim::Time - %brick.nextHeat) / 2) + 1;
 
 			%x = (getRandom() - 0.5) * %db.brickSizeX;
 			%y = (getRandom() - 0.5) * %db.brickSizeX;
