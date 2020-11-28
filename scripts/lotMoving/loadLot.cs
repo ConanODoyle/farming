@@ -23,7 +23,7 @@ function farmingProcessLotColorData(%loadFile, %colorMethod)
 	if (%colorMethod == 0)
 	{
 		
-	}
+	}	
 	else if (%colorMethod == 1)
 	{
 		%divCount = 0;
@@ -231,7 +231,7 @@ function farmingLoadLotEnd(%loadFile, %dataObj, %brickGroup)
 	%time = getSimTime() - %startTime;
 	%loadFile.delete();
 	restoreLotBricks(%dataObj);
-	%brickGroup.isLoadingLot = 0;
+	schedule(1000, %brickGroup, eval, %brickGroup @ ".isLoadingLot = 0;");
 }
 
 function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount) // needs replacing ServerLoadSaveFile_Tick
