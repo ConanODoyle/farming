@@ -77,9 +77,9 @@ package PowerSystems
 		return parent::onRemove(%obj);
 	}
 
-	function addStorageEvent(%brick)
+	function addStorageEvent(%brick, %botform)
 	{
-		parent::addStorageEvent(%brick);
+		parent::addStorageEvent(%brick, %botform);
 		%db = %brick.getDatablock();
 		if (%db.isGenerator || %db.isPoweredProcessor || %db.isPowerControlBox || %db.isBattery)
 		{
