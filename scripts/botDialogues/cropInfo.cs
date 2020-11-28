@@ -50,7 +50,7 @@ $obj = new ScriptObject(CropInfoSelection)
 {
 	response["Quit"] = "ExitResponse";
 
-	messageCount = 2;
+	messageCount = 3;
 	message[0] = "%data1%";
 	messageTimeout[1] = 3;
 	message[1] = "%data2%";
