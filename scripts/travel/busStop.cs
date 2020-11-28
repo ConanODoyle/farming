@@ -124,9 +124,21 @@ function goToBusStop(%cl, %menu, %option)
         messageClient(%cl, '', "You cannot afford to take the bus! You need $0.50 to ride.");
         return;
     }
-    %cl.setScore(%cl.score - 0.5);
 
-    %pl.setTransform(%brick.getTransform());
+    %target = %pl;
+    while (isObject(%target.getObjectMount()) && %safety++ < 10)
+    {
+        %target = %target.getObjectMount();
+        if (!(%target.getType() & $Typemasks::PlayerObjectType))
+        {
+            messageClient(%cl, '', "You cannot take the bus while riding a wheeled vehicle!");
+            return;
+        }
+    }
+
+    %cl.setScore(%cl.score - 0.5);
+    %target.setTransform(%brick.getTransform());
+
     %pl.setWhiteout(1);
     %cl.play2D(BusSound);
     %pl.schedule(100, spawnExplosion, spawnProjectile, "1");
