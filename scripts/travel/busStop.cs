@@ -82,6 +82,7 @@ function configureBusStopCenterprintMenu(%menu, %brick)
         if (%obj == %brick || vectorDist(%obj.position, %brick.position) < 8)
         {
             %name = %name @ " - You are here";
+            %here = 1;
         }
         else if (isObject(%brick))
         {
@@ -90,7 +91,15 @@ function configureBusStopCenterprintMenu(%menu, %brick)
         }
 
         %menu.menuOption[%i] = %name;
-        %menu.menuFunction[%i] = "goToBusStop";
+        if (%here)
+        {
+            %menu.menuFunction[%i] = "";
+            %here = 0;
+        }
+        else
+        {
+            %menu.menuFunction[%i] = "goToBusStop";
+        }
         %menu.menuBrick[%i] = %obj;
         %menu.stopName[%i] = %originalName;
         %menu.stopBrick[%i] = %obj;
