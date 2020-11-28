@@ -42,6 +42,8 @@ $isDonator_["216258"]	= 1 TAB "butterninja";
 $isDonator_["3636"]		= 1;
 $isDonator_["187278"]	= 1 TAB "brib (borb in discord)";
 $isDonator_["28317"]	= 1 TAB "Kraiyick";
+$isDonator_["9374"]		= 1 TAB "Aware";
+$isDonator_["16788"]	= 1 TAB "xLEGOx";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
