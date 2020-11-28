@@ -51,8 +51,8 @@ $obj = new ScriptObject(RepairConfirmation)
 {
 	response["Yes"] = "RepairProduct";
 	response["No"] = "RepairDialogueCore";
-	response["Quit"] = "RepairDialogueCore";
-	response["Error"] = "RepairDialogueCore";
+	response["Quit"] = "ExitResponse";
+	response["Error"] = "ErrorResponse";
 
 	messageCount = 1;
 	message[0] = "It will cost $%repairPrice% to repair your %toolName% to %maxDurability%. Are you sure? Say yes to confirm.";
@@ -159,14 +159,14 @@ function RepairResponseParser(%dataObj, %msg)
 	}
 
 	%basePrice = getBuyPrice(%tool);
-	%flatFee = mFloor(%basePrice / 100);
-	%variableFee = mFloor(%basePrice / 100);
+	%flatFee = %basePrice / 100;
+	%variableFee = %basePrice / 5000;
 	%maxDurability = %originalDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
 	if (%maxDurability > 10000)
 	{
 		%maxDurability = %maxDurability /= 1000;
 	}
-	%price = %flatFee + %variableFee * %maxDurability;
+	%price = mFloor(%flatFee + %variableFee * %maxDurability);
 
 	%dataObj.var_tool = %tool;
 	%dataObj.var_toolDataID = %toolDataID;
