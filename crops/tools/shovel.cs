@@ -6,6 +6,9 @@ datablock ItemData(ShovelItem : HammerItem)
 	colorShiftColor = "0.4 0 0 1";
 	doColorShift = false;
 
+	hasDataID = 1;
+	isDataIDTool = 1;
+	
 	baseDurability = 200;
 	chanceDurability = 0.8;
 	bonusDurability = 20;
