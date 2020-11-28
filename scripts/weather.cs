@@ -122,6 +122,11 @@ function stopRain()
 	//delete precipitation
 
 	gradualEnvColorshift(1.666666, 1.666666, 2, 10000);
+	for (%i = 0; %i < RainFillSimSet.getCount(); %i++)
+	{
+		RainFillSimSet.getObject(%i).nextRain = "";
+		RainFillSimSet.getObject(%i).nextHeat = "";
+	}
 	clearRain();
 	stopRainSound();
 	cancel($masterRainLoop);
@@ -153,6 +158,11 @@ function stopHeatWave()
 
 	cancel($masterHeatLoop);
 
+	for (%i = 0; %i < RainFillSimSet.getCount(); %i++)
+	{
+		RainFillSimSet.getObject(%i).nextRain = "";
+		RainFillSimSet.getObject(%i).nextHeat = "";
+	}
 	$isHeatWave = 0;
 	$HeatWaveTicksLeft = 0;
 	$lastHeatWave = $Sim::Time;
