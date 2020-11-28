@@ -589,6 +589,11 @@ function storageLoop(%cl, %obj)
 
 function addStorageEvent(%this, %botForm)
 {
+	if (%this.getGroup().isLoadingLot)
+	{
+		return;
+	}
+	
 	for (%i = 1; %i < 5; %i++)
 	{
 		%param[%i] = %this.eventOutputParameter[0, %i];

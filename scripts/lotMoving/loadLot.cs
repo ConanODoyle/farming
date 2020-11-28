@@ -251,6 +251,8 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 	%firstWord = getWord(%line, 0);
 	if (%firstWord $= "+-EVENT")
 	{
+		%prev = %brickGroup.client.isAdmin;
+		%brickGroup.client.isAdmin = 1;
 		if (isObject(%lastLoadedBrick))
 		{
 			%idx = getField(%line, 1);
@@ -299,6 +301,7 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 			serverCmdAddEvent(%client, %enabled, %inputEventIdx, %delay, %targetIdx, %NTNameIdx, %outputEventIdx, %par1, %par2, %par3, %par4);
 			%lastLoadedBrick.eventNT[%lastLoadedBrick.numEvents - 1] = %NT;
 		}
+		%brickGroup.client.isAdmin = %prev;
 	}
 	else if (%firstWord $= "+-NTOBJECTNAME")
 	{
