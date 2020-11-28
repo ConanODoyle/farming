@@ -383,27 +383,20 @@ function getLotCost(%count, %lot)
 	}
 	if (%count >= 4)
 	{
-		%cost = mPow(2, %count - 1) * 3000;
+		%cost = mPow(2, %count - 1) * 500;
 	}
 	else if (%count > 0)
 	{
-		%cost = mPow(2, %count) * 1000;
+		%cost = mPow(2, %count) * 250;
 	}
 	else
 	{
-		if (%lot.getDatablock().isLot && !%lot.getDatablock().isSingle && getNumAdjacentLots(%lot) > 0)
-		{
-			%cost = 1000;
-		}
-		else
-		{
-			%cost = 0;
-		}
+		%cost = 0;
 	}
 
 	if (!%lot.getDatablock().isSingle)
 	{
-		%expCost = 100 * mFloor(mPow(%count, 1.5));
+		%expCost = 200 * mFloor(mPow(%count, 1.5));
 	}
 	return %cost SPC %expCost;
 }
