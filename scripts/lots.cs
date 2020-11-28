@@ -152,7 +152,7 @@ function lotCheckPlant(%cl)
 		{
 			if (getTrustLevel(%cl, %next) < 1)
 			{
-				return 0;
+				continue;
 			}
 			else
 			{
