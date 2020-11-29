@@ -167,7 +167,10 @@ function openPackage(%packageID, %player)
         } else {
             if (%item.hasDataID) //dataid item
             {
-                %player.farmingAddItem(%item, %count); 
+                for (%j = 0; %j < %count; %j++)
+                {
+                    %player.farmingAddItem(%item);
+                }
             }
             else //possibly multiple normal items
             {
