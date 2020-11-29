@@ -299,7 +299,13 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 				}
 			}
 			%client.wrenchBrick = %lastLoadedBrick;
+
+			%globalLastLoaded = $LastLoadedBrick;
+			$LastLoadedBrick = %lastLoadedBrick; // for serverCmdAddEvent
+
 			serverCmdAddEvent(%client, %enabled, %inputEventIdx, %delay, %targetIdx, %NTNameIdx, %outputEventIdx, %par1, %par2, %par3, %par4);
+			$LastLoadedBrick = %globalLastLoaded; // restore global variable just in case
+
 			%lastLoadedBrick.eventNT[%lastLoadedBrick.numEvents - 1] = %NT;
 		}
 		%brickGroup.client.isAdmin = %prev;

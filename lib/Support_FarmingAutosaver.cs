@@ -31,9 +31,8 @@ function saveLotBLID(%bl_id)
 	return 0;
 }
 
-function loadLotAutosave(%name, %dataObj, %rotation, %bl_id)
+function loadLotAutosave(%path, %dataObj, %rotation, %bl_id)
 {
-	%path = $Pref::Server::AS_["Directory"] @ %name @ ".bls";
 	%file = new FileObject();
 	%file.openForRead(%path);
 	%file.readLine();

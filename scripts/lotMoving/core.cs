@@ -14,23 +14,9 @@ function unloadLot(%bl_id)
 		error("ERROR: unloadLot - no brickgroup with BLID " @ %bl_id @ " exists!");
 		return;
 	}
-	if ($Server::AS["InUse"] || isObject($CurrentLotSaving))
-	{
-		return -1;
-	}
 
-	%set = new SimSet(NonOwnedBricks);
-	for (%i = 0; %i < %bg.lotCount; %i++)
+	if (farmingSaveLot(%bl_id, true) == -1)
 	{
-		%b = getWord(%bg.lotList, %i);
-		obtainAllOwnership(%b, %set);
-	}
-	%bg.isSaveClearingLot = 1;
-	$CurrentLotSaving = %bg;
-	$CurrentLotSavingExtraBricks = %set;
-	if (saveLotBLID(%bl_id) == -1)
-	{
-		%set.delete();
 		return -1;
 	}
 }
