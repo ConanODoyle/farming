@@ -118,9 +118,9 @@ function sellObject(%b)
 		{
 			%cost = %db.customRefundCost;
 		}
-		else if (%cl.refundRatio <= 0.75)
+		else if (%cl.refundRatio <= 9 / 10)
 		{
-			%cost = %db.cost * 3 / 4;
+			%cost = %db.cost * 9 / 10;
 		}
 		else
 		{
