@@ -57,7 +57,7 @@ function OrganicAnalyzerImage::onLoop(%this, %obj, %slot)
 			%string = "\c5" @ %db.uiName @ " \n";
 			%string = %string @ "Water Level: " @ %waterLevel;
 			%nutrients = %hit.getNutrients();
-			%string = %string @ " \nNutrients: " @ getWord(%nutrients, 0) @ "nitrogen, " @ getWord(%nutrients, 1) @ "phosphate";
+			%string = %string @ " \nNutrients: " @ getWord(%nutrients, 0) @ " nitrogen, " @ getWord(%nutrients, 1) @ " phosphate";
 			%string = %string @ " \nMax Nutrients: " @ (%db.maxNutrients + 0);
 			%string = %string @ " \nWeedkiller: " @ getWord(%nutrients, 2) @ "/"
 				@ %db.maxWeedkiller @ " ";
@@ -75,7 +75,7 @@ function OrganicAnalyzerImage::onLoop(%this, %obj, %slot)
 				%cropType = %db.cropType;
 				%nutrients = %hit.getNutrients();
 				%requiredNutrients = getPlantData(%cropType, %db.stage, "nutrientStageRequirement");
-				if (%requiredNutrients > 0)
+				if (vectorLen(%requiredNutrients) > 0)
 				{
 					%hit.requiresNutrients = getWords(vectorSub(%requiredNutrients, %nutrients), 0, 1);
 				}
