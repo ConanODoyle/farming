@@ -423,7 +423,7 @@ new ScriptObject(AdvancedElectricQuestType) {
 
 new ScriptObject(CompostQuestType) {
 	class = "QuestType";
-	questWeight = 6;
+	questWeight = 5;
 
 	maxBudget = 60;
 
@@ -465,7 +465,7 @@ new ScriptObject(FertilizerQuestType) {
 
 new ScriptObject(CompostBinQuestType) {
 	class = "QuestType";
-	questWeight = 1;
+	questWeight = 2;
 
 	maxBudget = 1600;
 
