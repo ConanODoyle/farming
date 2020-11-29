@@ -11,7 +11,7 @@ datablock fxDTSBrickData(brick4x4DirtData : brick4x4Data)
 	cost = 20;
 	isDirt = 1;
 	maxWater = 150;
-	maxNutrients = 30;
+	maxNutrients = 80;
 	maxWeedkiller = 20;
 };
 
@@ -24,7 +24,7 @@ datablock fxDTSBrickData(brick8x8DirtData : brick8x8Data)
 	cost = 120;
 	isDirt = 1;
 	maxWater = 1200;
-	maxNutrients = 150;
+	maxNutrients = 350;
 	maxWeedkiller = 80;
 };
 
@@ -48,6 +48,7 @@ datablock fxDTSBrickData(brickSmallWaterTankData)
 	maxWater = 10000;
 
 	maxSprinklers = 4;
+	maxTanks = 0;
 };
 
 datablock fxDTSBrickData(brickSmallWaterInfiniteTankData)
@@ -65,6 +66,7 @@ datablock fxDTSBrickData(brickSmallWaterInfiniteTankData)
 	waterPerSecond = 50;
 
 	maxSprinklers = 100;
+	maxTanks = 0;
 };
 
 datablock fxDTSBrickData(brickMediumWaterTankData)
@@ -82,6 +84,7 @@ datablock fxDTSBrickData(brickMediumWaterTankData)
 	maxWater = 50000;
 
 	maxSprinklers = 4;
+	maxTanks = 0;
 };
 
 datablock fxDTSBrickData(brickLargeWaterTankData)
@@ -99,6 +102,7 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 	maxWater = 100000;
 	maxSprinklers = 0;
 	isOutflowTank = 1;
+	maxTanks = 4;
 };
 
 // datablock fxDTSBrickData(brickMassiveWaterTankData)
