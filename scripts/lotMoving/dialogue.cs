@@ -213,9 +213,9 @@ function hasSavedLot(%bl_id)
 {
 	if (!isFile($Pref::Farming::LastLotAutosave[%bl_id]))
 	{
-		return isFile($Pref::Server::AS_["Directory"] @ $Pref::Farming::LastLotAutosave[%bl_id] @ ".bls")
+		return isFile($Pref::Server::AS_["Directory"] @ $Pref::Farming::LastLotAutosave[%bl_id] @ ".bls");
 	}
-	return ;
+	return true;
 }
 
 function getLoadedLot(%bl_id)
