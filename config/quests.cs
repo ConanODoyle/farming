@@ -22,12 +22,12 @@ AdvancedRequests.option[AdvancedRequests.count++ - 1]  = "Onion"	TAB 40;
 
 new ScriptObject(SpecialRequests) { class = "ShopObject"; };
 
-NonTreeRareRequests.option[NonTreeRareRequests.count++ - 1]  = "Blueberry"	TAB 10;
-NonTreeRareRequests.option[NonTreeRareRequests.count++ - 1]  = "Turnip"		TAB 10;
-NonTreeRareRequests.option[NonTreeRareRequests.count++ - 1]  = "Cactus"		TAB 10;
-NonTreeRareRequests.option[NonTreeRareRequests.count++ - 1]  = "Portobello"	TAB 10;
-NonTreeRareRequests.option[NonTreeRareRequests.count++ - 1]  = "Watermelon"	TAB 10;
-NonTreeRareRequests.option[NonTreeRareRequests.count++ - 1]  = "Chili"		TAB 10;
+SpecialRequests.option[SpecialRequests.count++ - 1]  = "Blueberry"	TAB 10;
+SpecialRequests.option[SpecialRequests.count++ - 1]  = "Turnip"		TAB 10;
+SpecialRequests.option[SpecialRequests.count++ - 1]  = "Cactus"		TAB 10;
+SpecialRequests.option[SpecialRequests.count++ - 1]  = "Portobello"	TAB 10;
+SpecialRequests.option[SpecialRequests.count++ - 1]  = "Watermelon"	TAB 10;
+SpecialRequests.option[SpecialRequests.count++ - 1]  = "Chili"		TAB 10;
 
 
 new ScriptObject(RareRequests) { class = "ShopObject"; };
@@ -46,7 +46,7 @@ RareRequests.option[RareRequests.count++ - 1]  = "Date"			TAB 3;
 
 new ScriptObject(RareAndEthanolRequests) { class = "ShopObject"; };
 
-RareAndEthanolRequests.option[RareAndEthanolRequests.count++ - 1]  = "Ethanol"		TAB 108;
+//RareAndEthanolRequests.option[RareAndEthanolRequests.count++ - 1]  = "Ethanol"		TAB 108;
 RareAndEthanolRequests.option[RareAndEthanolRequests.count++ - 1]  = "Blueberry"	TAB 10;
 RareAndEthanolRequests.option[RareAndEthanolRequests.count++ - 1]  = "Turnip"		TAB 10;
 RareAndEthanolRequests.option[RareAndEthanolRequests.count++ - 1]  = "Cactus"		TAB 10;
@@ -216,11 +216,11 @@ BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "Batt
 
 new ScriptObject(AdvancedElectricQuestRewards) { class = "ShopObject"; };
 
-BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "LargePumpItem"			TAB 5;
-// BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "EthanolGeneratorItem"	TAB 18;
-// BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "LargeIndoorLightItem"	TAB 14;
-// BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "Combiner"				TAB 10;
-// BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "LargeBatteryItem"		TAB 11;
+AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "LargePumpItem"			TAB 5;
+// AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "EthanolGeneratorItem"	TAB 18;
+// AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "LargeIndoorLightItem"	TAB 14;
+// AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "Combiner"				TAB 10;
+// AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "LargeBatteryItem"		TAB 11;
 
 
 new ScriptObject(CompostQuestRewards) { class = "ShopObject"; };
