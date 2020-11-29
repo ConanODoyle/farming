@@ -9,6 +9,7 @@ datablock ItemData(ShovelItem : HammerItem)
 	hasDataID = 1;
 	isDataIDTool = 1;
 	
+	durabilityFunction = "generateHarvestToolDurability";
 	baseDurability = 200;
 	chanceDurability = 0.8;
 	bonusDurability = 20;
