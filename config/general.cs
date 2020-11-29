@@ -11,8 +11,8 @@ if(isFile("config/Farming/scoreGrant.cs"))
 JeepVehicle.maxWheelSpeed = 22;
 JeepSpring.force = 2000;
 JeepSpring.damping = 5000;
-HorseArmor.maxForwardSpeed = 10;
-HorseArmor.maxForwardCrouchSpeed = 10;
+HorseArmor.maxForwardSpeed = 12;
+HorseArmor.maxForwardCrouchSpeed = 12;
 
 hangglidervehicle.lift = 8;
 hangglidervehicle.verticalSurfaceForce = 17;
