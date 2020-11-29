@@ -134,7 +134,7 @@ function setupCropInfo(%dataObj)
 		case "Portobello":
 			%s1 = "Portobellos are mushrooms sensitive to light. They can even grow with no light, but need nutrients to grow.";
 			%s2 = "However, they still want some light - anything different than what they want will slow growth. Use an organic analyzer to check!";
-			%s3 = "[Required spacing: 2, required nutrients: 2 nitrogen 2 phosphate]";
+			%s3 = "[Required spacing: 2, required nutrients: 4 nitrogen 4 phosphate]";
 		case "Tomato":
 			%s1 = "Tomatoes are cheap crops that can be harvested 12 times. They drop 2-5 tomatoes per harvest and take relatively little water.";
 			%s2 = "They cost 10 experience to plant, and give 0-1 experience per harvest.";
@@ -178,7 +178,7 @@ function setupCropInfo(%dataObj)
 		case "Mango":
 			%s1 = "Mangoes cover a wide area and cast significant shade on crops underneath, which can reduce plants' growth time.";
 			%s2 = "They can be harvested up to 70 times, dropping 11-16 per harvest.";
-			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 10 nitrogen, 10 phosphate to grow + per harvest]";
+			%s3 = "[Required spacing: 16 - 2x2 crop, required nutrients: 10 nitrogen, 10 phosphate to grow + per harvest]";
 		case "Peach":
 			%s1 = "Peach trees require less water than other trees, but need 3x more nutrients to reach its harvesting stage.";
 			%s2 = "They can be harvested up to 100 times, dropping 6-12 per harvest.";
