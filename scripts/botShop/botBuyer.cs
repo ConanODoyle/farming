@@ -154,7 +154,7 @@ function AIPlayer::canBuy(%bot, %item)
 		}
 
 		%list = "\t" @ $StorageType[%bot.buyType @ "List"] @ "\t";
-		%type = %itemDB.stackType $= "" ? %itemDB.uiName : %itemDB.stackType;
+		%type = %itemDB.stackType $= "" ? %itemDB.getName() : %itemDB.stackType;
 		if (strPos(%list, "\t" @ %type @ "\t") >= 0)
 		{
 			return 1;
