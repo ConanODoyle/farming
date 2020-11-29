@@ -225,14 +225,7 @@ function farmingSaveLotWriteSaveRecursive(%file, %delete, %brickIndex)
 function farmingSaveLotGatherSingleBrick(%file, %brick)
 {
 	%file.linecount++;
-	if (ServerConnection.isLocal())
-	{
-		if (%brick.isBasePlate)
-		{
-			%file.linecount++;
-		}
-	}
-	else if (%brick.bl_id !$= "")
+	if (%brick.bl_id !$= "")
 	{
 		%file.linecount++;
 	}
