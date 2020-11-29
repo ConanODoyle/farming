@@ -219,10 +219,11 @@ function farmingLoadLotEnd(%loadFile, %dataObj, %brickGroup)
 			%brick = %brickSet.getObject(%i);
 
 			// check if brick is floating
-			if(!%brick.hasPathToGround() && %brick.getNumDownBricks() == 0)
+			if((!%brick.hasPathToGround() && %brick.getNumDownBricks() == 0) || %brick.getDataBlock().isLot)
 			{
 				%brick.isBaseplate = true;
 				%brick.willCauseChainKill(); // recompute - thanks new duplicator
+				%brick.onToolBreak(); // fix strange bug
 			}
 		}
 		%dataObj.brickSet.delete();
