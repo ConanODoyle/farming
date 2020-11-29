@@ -442,14 +442,14 @@ function processIntoFertilizer(%brick, %cl, %slot)
 		if (!%isProduce)
 		{
 			serverCmdUnuseTool(%cl);
-			%cl.centerprint("You cannot process this into fertilizer!", 1);
+			%cl.centerprint("You cannot process this into compost!", 1);
 			return;
 		}
 
 		if (%pl.toolStackCount[%slot] < %max)
 		{
 			serverCmdUnuseTool(%cl);
-			%cl.centerprint("You need to have a full basket of produce to create fertilizer!", 1);
+			%cl.centerprint("You need to have a full basket of produce to create compost!", 1);
 			return;
 		}
 		%pl.tool[%slot] = "";
@@ -464,13 +464,13 @@ function processIntoFertilizer(%brick, %cl, %slot)
 		initializeStorage(%brick, %dataID);
 		setDataIDArrayTagValue(%dataID, "compostQueue", getDataIDArrayTagValue(%dataID, "compostQueue") + %rand);
 
-		%cl.centerprint("<color:ffffff>You started making <color:ffff00>" @ %rand @ "<color:ffffff> fertilizer out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
-		%cl.schedule(100, centerprint, "<color:cccccc>You started making <color:ffff00>" @ %rand @ "<color:cccccc> fertilizer out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
+		%cl.centerprint("<color:ffffff>You started making <color:ffff00>" @ %rand @ "<color:ffffff> compost out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
+		%cl.schedule(100, centerprint, "<color:cccccc>You started making <color:ffff00>" @ %rand @ "<color:cccccc> compost out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
 		return;
 	}
 	else
 	{
-		%cl.centerprint("You cannot process this into fertilizer!", 1);
+		%cl.centerprint("You cannot process this into compost!", 1);
 		return;
 	}
 }
