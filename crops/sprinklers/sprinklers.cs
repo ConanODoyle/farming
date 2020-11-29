@@ -1,3 +1,150 @@
+$SprinklerMaxDistance = 20;
+
+function getWaterSystemDataID()
+{
+	%id = getSubStr(getRandomHash(), 0, 15) @ "WS";
+	while (!checkOpenWaterSystemDataID(%id))
+	{
+		%id = getSubStr(getRandomHash(), 0, 15) @ "WS";
+	}
+	return %id;
+}
+
+function checkOpenWaterSystemDataID(%dataID)
+{
+	if (getDataIDArrayCount(%dataID) > 0)
+	{
+		return 0;
+	}
+	return 1;
+}
+
+//name format: waterSystem_selfID_targetID
+function parseWaterDeviceName(%brick)
+{
+	%name = getSubStr(%brick.getName(), 1, 40);
+
+	return strReplace(%name, "_", "\t");
+}
+
+function addWaterDevice(%dataID, %brick)
+{
+	addToDataIDArray(%dataID, %brick);
+}
+
+function validateWaterSystem(%dataID)
+{
+	%count = getDataIDArrayCount(%dataID);
+
+	//get water tanks, sprinklers, tanks
+	for (%i = 0; %i < %count; %i++)
+	{
+		%obj = getDataIDArrayValue(%dataID, %i);
+		if (isObject(%obj))
+		{
+			%name = parseWaterDeviceName(%brick);
+			%tankDataID = getField(%name, 0);
+			%id = getField(%name, 1);
+			%upFlow = getField(%name, 2);
+
+			if (%dataID !$= %tankDataID || %objectID[%id] !$= "")
+			{
+				removeDataIDArrayValue(%dataID, %i);
+				continue;
+			}
+
+			%db = %obj.getDatablock();
+			if (%db.isWaterTank)
+			{
+				%tankList[%tankCount++ - 1] = %obj;
+				%objectID[%id] = %obj TAB (%db.isOutflowTank + 0);
+				%objectIndex[%id] = %i;
+			}
+			else if (%db.isSprinkler)
+			{
+				%sprinklerList[%sprinklerCount++ - 1] = %obj TAB %i TAB %upFlow;
+			}
+			else
+			{
+				talk("wtf");
+			}
+
+			%totalObjectCount++;
+		}
+	}
+
+	//check for sprinkler >> tank associations, remove excess sprinklers linked to a single tank
+	for (%i = 0; %i < %sprinklerCount; %i++)
+	{
+		%sprinkler = getField(%sprinklerList[%i], 0);
+		%sprinklerIndex = getField(%sprinklerList[%i], 1);
+		%tankID = getField(%sprinklerList[%i], 2);
+		
+		%tank = %objectID[%tankID];
+		%tankObj = getField(%tank, 0);
+
+		if (!isObject(%tankObj) 
+			|| vectorDist(%tankObj.getPosition(), %sprinkler.getPosition()) > $SprinklerMaxDistance
+			|| %tankSprinklerCount[%tankObj] >= %tank.getDatablock().maxSprinklers)
+		{
+			removeDataIDArrayValue(%dataID, %sprinklerIndex);
+			%sprinkler.setName("");
+			continue;
+		}
+		%sprinkler.drawTank = %tank;
+		%tankSprinklerCount[%tankID]++;
+	}
+
+	//check for tank > tank links
+	for (%i = 0; %i < %tankCount; %i++)
+	{
+
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //todo: disable naming sprinkler and watertower bricks
 //brickDB.directionalOffset = Vector3F TU;
 //brickDB.boxSize = Point3f Size;
