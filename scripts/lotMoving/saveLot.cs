@@ -282,30 +282,39 @@ function farmingSaveLotGatherSingleBrick(%file, %brick)
 	$Farming::Temp::LotBrickSet[%file].add(%brick);
 }
 
-function farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %rootBrick, %searchDown, %brickCount)
+function farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %rootBrick, %searchDown, %iterPos, %brickCount)
 {
 	// get bricks and save each recursively on a schedule
 	if (!%searchDown)
 	{
 		// big scary for block that just loops over up bricks while we have MaxBricksPerTick to spare
 		for (
-			%brick = %rootBrick.getUpBrick(%upBrickIndex = 0);
+			%brick = %rootBrick.getUpBrick(%iterPos);
 			isObject(%brick) && %brickCount < $Pref::Farming::SaveLot::MaxBricksPerTick;
-			%brick = %rootBrick.getUpBrick(%upBrickIndex++)
+			%brick = %rootBrick.getUpBrick(%iterPos++)
 		)
 		{
 			$Farming::Temp::LotBrickQueue[%file].add(%brick);
 			%brickCount++;
 		}
-	}
 
-	%searchDown = true;
+		if (%brickCount >= $Pref::Farming::SaveLot::MaxBricksPerTick)
+		{
+			// ran out of bricks to work with this tick
+			schedule(33, 0, farmingSaveLotGatherBricksRecursive, %file, %lots, %delete, %index, %rootBrick, false, %iterPos, 0);
+			return;
+		}
+
+		// if we got past the above, it means we got all up bricks and have more bricks to go - reset iteration position for down bricks
+		%searchDown = true;
+		%iterPos = 0;
+	}
 
 	// big scary for block that just loops over down bricks while we have MaxBricksPerTick to spare
 	for (
-		%brick = %rootBrick.getDownBrick(%downBrickIndex = 0);
+		%brick = %rootBrick.getDownBrick(%iterPos);
 		isObject(%brick) && %brickCount < $Pref::Farming::SaveLot::MaxBricksPerTick;
-		%brick = %rootBrick.getDownBrick(%downBrickIndex++)
+		%brick = %rootBrick.getDownBrick(%iterPos++)
 	)
 	{
 		$Farming::Temp::LotBrickQueue[%file].add(%brick);
@@ -315,43 +324,41 @@ function farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %roo
 	if (%brickCount >= $Pref::Farming::SaveLot::MaxBricksPerTick)
 	{
 		// ran out of bricks to work with this tick
-		schedule(33, 0, farmingSaveLotGatherBricksRecursive, %file, %lots, %delete, %index, %rootBrick, %searchDown, 0);
+		schedule(33, 0, farmingSaveLotGatherBricksRecursive, %file, %lots, %delete, %index, %rootBrick, true, %iterPos, 0);
 		return;
+	}
+
+	// add the root to the processed bricks list because we've processed it
+	farmingSaveLotGatherSingleBrick(%file, %rootBrick);
+
+	// we finished, move to the next brick
+	if ($Farming::Temp::LotBrickQueue[%file].getCount() > 0)
+	{
+		// don't re-process any bricks because duh
+		for (
+			%nextRoot = $Farming::Temp::LotBrickQueue[%file].getObject(0);
+			$Farming::Temp::LotBrickSet[%file].isMember(%nextRoot);
+			%nextRoot = $Farming::Temp::LotBrickQueue[%file].getObject(0)
+		)
+		{
+			$Farming::Temp::LotBrickQueue[%file].remove(%nextRoot);
+			if ($Farming::Temp::LotBrickQueue[%file].getCount() <= 0)
+			{
+				%nextRoot = "";
+				break;
+			}
+		}
+	}
+
+	if (isObject(%nextRoot))
+	{
+		// we still have more bricks for this lot!
+		farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %nextRoot, false, 0, %brickCount);
 	}
 	else
 	{
-		// add the root to the processed bricks list because we've processed it
-		farmingSaveLotGatherSingleBrick(%file, %rootBrick);
-
-		// we finished, move to the next brick
-		if ($Farming::Temp::LotBrickQueue[%file].getCount() > 0)
-		{
-			// don't re-process any bricks because duh
-			for (
-				%nextRoot = $Farming::Temp::LotBrickQueue[%file].getObject(0);
-				$Farming::Temp::LotBrickSet[%file].isMember(%nextRoot);
-				%nextRoot = $Farming::Temp::LotBrickQueue[%file].getObject(0)
-			)
-			{
-				$Farming::Temp::LotBrickQueue[%file].remove(%nextRoot);
-				if ($Farming::Temp::LotBrickQueue[%file].getCount() <= 0)
-				{
-					%nextRoot = "";
-					break;
-				}
-			}
-		}
-
-		if (isObject(%nextRoot))
-		{
-			// we still have more bricks for this lot!
-			farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %nextRoot, false, %brickCount);
-		}
-		else
-		{
-			// no more bricks for this lot
-			schedule(33, 0, farmingSaveLotGatherBricks, %file, %lots, %delete, %index + 1);
-		}
+		// no more bricks for this lot
+		schedule(33, 0, farmingSaveLotGatherBricks, %file, %lots, %delete, %index + 1);
 	}
 }
 
@@ -360,7 +367,7 @@ function farmingSaveLotGatherBricks(%file, %lots, %delete, %index)
 	%lot = getWord(%lots, %index);
 	if (isObject(%lot))
 	{
-		farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %lot, false, 0);
+		farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %lot);
 		return;
 	}
 	else
