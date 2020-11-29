@@ -1,25 +1,11 @@
 $SprinklerMaxDistance = 20;
 
-function getWaterSystemDataID()
+if (!isObject($SprinklerNameTable))
 {
-	%id = getSubStr(getRandomHash(), 0, 15) @ "WS";
-	while (!checkOpenWaterSystemDataID(%id))
-	{
-		%id = getSubStr(getRandomHash(), 0, 15) @ "WS";
-	}
-	return %id;
+	$SprinklerNameTable = new ScriptObject(SprinklerNameTable);
 }
 
-function checkOpenWaterSystemDataID(%dataID)
-{
-	if (getDataIDArrayCount(%dataID) > 0)
-	{
-		return 0;
-	}
-	return 1;
-}
-
-//name format: waterSystem_selfID_targetID
+//name format: selfID_targetID
 function parseWaterDeviceName(%brick)
 {
 	%name = getSubStr(%brick.getName(), 1, 40);
@@ -27,82 +13,75 @@ function parseWaterDeviceName(%brick)
 	return strReplace(%name, "_", "\t");
 }
 
-function addWaterDevice(%dataID, %brick)
+function validateWaterObject(%flowObj)
 {
-	addToDataIDArray(%dataID, %brick);
-}
+	%name = parseWaterDeviceName(%flowObj);
+	%id = getField(%name, 0);
+	%ufid = getField(%name, 1);
 
-function validateWaterSystem(%dataID)
-{
-	%count = getDataIDArrayCount(%dataID);
-
-	//get water tanks, sprinklers, tanks
-	for (%i = 0; %i < %count; %i++)
+	//update and retrieve from sprinkler name table
+	SprinklerNameTable.obj_[%id] = %flowObj;
+	%ufLinks = " " @ SprinklerNameTable.obj_[%ufid].linkedTo @ " ";
+	if (strPos(%ufLinks, " " @ %flowObj @ " ") < 0)
 	{
-		%obj = getDataIDArrayValue(%dataID, %i);
-		if (isObject(%obj))
-		{
-			%name = parseWaterDeviceName(%brick);
-			%tankDataID = getField(%name, 0);
-			%id = getField(%name, 1);
-			%upFlow = getField(%name, 2);
-
-			if (%dataID !$= %tankDataID || %objectID[%id] !$= "")
-			{
-				removeDataIDArrayValue(%dataID, %i);
-				continue;
-			}
-
-			%db = %obj.getDatablock();
-			if (%db.isWaterTank)
-			{
-				%tankList[%tankCount++ - 1] = %obj;
-				%objectID[%id] = %obj TAB (%db.isOutflowTank + 0);
-				%objectIndex[%id] = %i;
-			}
-			else if (%db.isSprinkler)
-			{
-				%sprinklerList[%sprinklerCount++ - 1] = %obj TAB %i TAB %upFlow;
-			}
-			else
-			{
-				talk("wtf");
-			}
-
-			%totalObjectCount++;
-		}
+		SprinklerNameTable.obj_[%ufid].linkedTo = trim($SprinklerNameTable.obj_[%ufid].linkedTo SPC %flowObj);
 	}
 
-	//check for sprinkler >> tank associations, remove excess sprinklers linked to a single tank
-	for (%i = 0; %i < %sprinklerCount; %i++)
+	//correct self linklist
+	for (%i = getWordCount(%flowObj.linkedTo) - 1; %i >= 0; %i--)
 	{
-		%sprinkler = getField(%sprinklerList[%i], 0);
-		%sprinklerIndex = getField(%sprinklerList[%i], 1);
-		%tankID = getField(%sprinklerList[%i], 2);
-		
-		%tank = %objectID[%tankID];
-		%tankObj = getField(%tank, 0);
-
-		if (!isObject(%tankObj) 
-			|| vectorDist(%tankObj.getPosition(), %sprinkler.getPosition()) > $SprinklerMaxDistance
-			|| %tankSprinklerCount[%tankObj] >= %tank.getDatablock().maxSprinklers)
+		%o = getWord(%flowObj.linkedTo, %i);
+		if (!isObject(%o))
 		{
-			removeDataIDArrayValue(%dataID, %sprinklerIndex);
-			%sprinkler.setName("");
+			%flowObj.linkedTo = removeWord(%flowObj.linkedTo, %i);
 			continue;
 		}
-		%sprinkler.drawTank = %tank;
-		%tankSprinklerCount[%tankID]++;
 	}
 
-	//check for tank > tank links
-	for (%i = 0; %i < %tankCount; %i++)
+	//remove excess links
+	%count = getWordCount(%flowObj.linkedTo);
+	%max = %flowObj.getDatablock().maxSprinklers;
+	if (%max <= 0) //no links
 	{
-
+		for (%i = 0; %i < %count; %i++)
+		{
+			%obj = getWord(%flowObj.linkedTo, %i);
+			%name = parseWaterDeviceName(%obj);
+			%obj.setName("_" @ getField(%name, 0)); //removes the upstream field while preserving its own id
+		}
+		%flowObj.linkedTo = "";
+	}
+	else if (%count > %max)
+	{
+		%remove = getWords(%flowObj.linkedTo, 0, %count - %max - 1);
+		for (%i = 0; %i < getWordCount(%remove); %i++)
+		{
+			%obj = getWord(%remove, %i);
+			%name = parseWaterDeviceName(%obj);
+			%obj.setName("_" @ getField(%name, 0)); //removes the upstream field while preserving its own id
+		}
+		%flowObj.linkedTo = getWords(%flowObj.linkedTo, %count - %max, %count - 1);
 	}
 }
 
+function linkWaterObjects(%downFlowObj, %upFlowObj, %dataID)
+{
+	%name = parseWaterDeviceName(%upFlowObj);
+	%upFlowID = getField(%name, 0);
+	%upFlowUFID = getField(%name, 1);
 
+	%name = parseWaterDeviceName(%downFlowObj);
+	%downFlowID = getField(%name, 0);
+
+	%downFlowID = (%downFlowID $= "" ? getSubStr(getRandomHash(), 0, 12) @ "WS" : %downFlowID);
+	%upFlowID = (%upFlowID $= "" ? getSubStr(getRandomHash(), 0, 12) @ "WS" : %upFlowID);
+	
+	%downName = "_" @ %downFlowID @ "_" @ %upFlowID;
+	%upName = "_" @ %upFlowID @ "_" @ %upFlowUFID;
+
+	%downFlowObj.setName(%downName);
+	%upFlowObj.setName(%upName);
+}
 
 
 
