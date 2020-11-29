@@ -203,6 +203,8 @@ function farmingSaveLotWriteSaveRecursive(%file, %delete, %brickIndex)
 				{
 					%brick.setDatablock(brick32x32LotRaisedData);
 				}
+
+				fixLotColor(%brick);
 			}
 			else
 			{
