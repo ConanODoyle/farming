@@ -33,6 +33,20 @@ function saveLotBLID(%bl_id)
 
 function loadLotAutosave(%path, %dataObj, %rotation, %bl_id)
 {
+	if (!isFile(%path))
+	{
+		if (isFile(%oldPath = $Pref::Server::AS_["Directory"] @ %path @ ".bls"))
+		{
+			%path = %oldPath;
+		}
+		else
+		{
+			error("ERROR: loadLotAutosave - %path " @ %path @ " is not a valid file");
+			talk("ERROR: loadLotAutosave - %path " @ %path @ " is not a valid file");
+			return -1;
+		}
+	}
+
 	%file = new FileObject();
 	%file.openForRead(%path);
 	%file.readLine();
