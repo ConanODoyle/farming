@@ -246,14 +246,6 @@ function SimGroup::refreshLotList(%bg)
 
 	%bg.lotList = trim(%str);
 	%bg.lotCount = getWordCount(%bg.lotList);
-
-	if ($Farming::ReloadLot[%bg.bl_id] !$= "")
-	{
-		%lot = getWord($Farming::ReloadLot[%bg.bl_id], 0);
-		%rotation = getWord($Farming::ReloadLot[%bg.bl_id], 1);
-		$Farming::ReloadLot[%bg.bl_id] = "";
-		loadLot(%bg.bl_id, %lot, %rotation);
-	}
 }
 
 function fixLotColor(%brick)

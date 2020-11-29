@@ -160,6 +160,14 @@ function farmingSaveLotEnd(%file)
 
 	%file.close();
 	%file.delete(); // deletes the file object, *not* the file
+
+	if ($Farming::ReloadLot[%file.savingBL_ID] !$= "")
+	{
+		%lot = getWord($Farming::ReloadLot[%file.savingBL_ID], 0);
+		%rotation = getWord($Farming::ReloadLot[%file.savingBL_ID], 1);
+		$Farming::ReloadLot[%file.savingBL_ID] = "";
+		loadLot(%file.savingBL_ID, %lot, %rotation);
+	}
 }
 
 function farmingSaveLotWriteSaveRecursive(%file, %delete, %brickIndex)
