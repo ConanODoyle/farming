@@ -114,18 +114,7 @@ function sellObject(%b)
 
 	if (%b.createdTimeout < $Sim::Time && %cl.score >= 100)
 	{
-		if (%db.customRefundCost > 0)
-		{
-			%cost = %db.customRefundCost;
-		}
-		else if (%cl.refundRatio <= 9 / 10)
-		{
-			%cost = %db.cost * 9 / 10;
-		}
-		else
-		{
-			%cost = %db.cost * %cl.refundRatio;
-		}
+		%cost = %db.cost;
 	}
 	else //full refund for bad placement (destroying within $createdTimeout seconds after purchase)
 	{
