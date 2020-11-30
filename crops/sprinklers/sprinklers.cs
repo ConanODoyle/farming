@@ -367,10 +367,33 @@ function linkWaterObjects(%downFlowObj, %upFlowObj)
 	%upFlowObj.setName(%upName);
 }
 
+function unlinkWaterObjects(%downFlowObj, %upFlowObj)
+{
+	%name = parseWaterDeviceName(%upFlowObj);
+	%upFlowID = getField(%name, 0);
+
+	%name = parseWaterDeviceName(%downFlowObj);
+	%downFlowID = getField(%name, 0);
+	%downFlowUFID = getField(%name, 1);
+
+	%branches = " " @ %upFlowObj.branches @ " ";
+	%branches strReplace(%branches, " " @ %downFlowID @ " ", " ");
+	%upFlowObj.branches = trim(%branches);
+
+	%downFlowObj.setName("_" @ %downFlowID);
+}
+
 function canLinkWaterObjects(%downFlowObj, %upFlowObj)
 {
 	%dfdb = %downFlowObj.getDatablock();
 	%ufdb = %upFlowObj.getDatablock();
+
+	%name = parseWaterDeviceName(%upFlowObj);
+	%upFlowID = getField(%name, 0);
+
+	%name = parseWaterDeviceName(%downFlowObj);
+	%downFlowID = getField(%name, 0);
+	%downFlowUFID = getField(%name, 1);
 
 	if (%ufdb.isSprinkler) //upflow cannot be sprinkler
 	{
@@ -384,9 +407,30 @@ function canLinkWaterObjects(%downFlowObj, %upFlowObj)
 	{
 		return 0;
 	}
+	else if (%downFlowUFID $= %upFlowID || strPos(" " @ %upFlowObj.branches @ " ", " " @ %downFlowID @ " ") >= 0)
+	{
+		return 0;
+	}
 
 	%branches = %upFlowObj.branches;
 	if (getWordCount(%branches) >= %ufdb.maxConnections) //upflow has maxed out connections
+	{
+		return 0;
+	}
+	return 1;
+}
+
+function canUnlinkWaterObjects(%downFlowObj, %upFlowObj)
+{
+	%name = parseWaterDeviceName(%upFlowObj);
+	%upFlowID = getField(%name, 0);
+
+	%name = parseWaterDeviceName(%downFlowObj);
+	%downFlowID = getField(%name, 0);
+	%downFlowUFID = getField(%name, 1);
+
+	if (%upFlowID != %downFlowUFID 
+		&& strPos(" " @ %upFlowObj.branches @ " ", " " @ %downFlowID @ " ") < 0) //not linked?
 	{
 		return 0;
 	}
@@ -489,91 +533,110 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 			%upFlowObj = WaterSystemNameTable.obj_[getField(%name, 2)];
 			if (isObject(%upFlowObj))
 			{
-				%obj.displaySet = drawWaterNetwork(%hit);
-				%hitStatus = "\c2Connected";
-			}
+				%obj.displaySet = drawWaterNetwork(%hit, %obj.displaySet);
+				}
 			else
 			{
-				%hitStatus = "Not connected";
-				if (isObject(%obj.displaySet))
-				{
-					%obj.displaySet.deleteAll();
-				}
+				%clearWaterNetwork = 1;
 			}
 		}
 		else if (%hitDB.isWaterTank)
 		{
-			%tankWaterID = getWaterTankDataID(%hit);
-			if (%tankWaterID !$= "")
+			%name = parseWaterDeviceName(%hit);
+			%upFlowObj = WaterSystemNameTable.obj_[getField(%name, 2)];
+			%branches = %hit.branches;
+
+			if (isObject(%upFlowObj) || %branches !$= "")
 			{
-				if (%hitDB.isOutflowTank) %obj.displaySet = drawWaterNetwork(%tankWaterID, %obj.displaySet);
-				else %obj.displaySet = drawWaterNetwork(%tankWaterID, %obj.displaySet, %hit);
-				%hitStatus = "\c2Connected";
-				if (%hitDB.maxSprinklers > 0)
-				{
-					%hitStatus = %hitStatus @ " - " @ %hit.sprinklerCount @ "/" @ %hitDB.maxSprinklers
-						@ " sprinkler" @ (%hitDB.maxSprinklers > 0 ? "s" : "");
-				}
+				%obj.displaySet = drawWaterNetwork(%tankWaterID, %obj.displaySet);
 			}
 			else
 			{
-				%hitStatus = "\c0Not connected";
-
-				if (isObject(%obj.displaySet))
-				{
-					%obj.displaySet.deleteAll();
-				}
+				%clearWaterNetwork = 1;
 			}
 		}
 		else if (isObject(%obj.displaySet))
 		{
-			%obj.displaySet.deleteAll();
+			%clearWaterNetwork = 1;
 		}
 	}
-	else if (isObject(%obj.displaySet))
+	else
+	{
+		%clearWaterNetwork = 1;
+	}
+
+	if (isObject(%obj.displaySet) && %clearWaterNetwork)
 	{
 		%obj.displaySet.deleteAll();
 	}
 
 	//build display mode string
-	if (%waterLinkObjDB $= "")
+	%centerprint = "<just:right>\c3Sprinkler Hose <br>";
+
+	if (%obj.sprinklerSelectedObj)
 	{
-		%mode = "Selection: [Click to select]";
-	}
-	else if (%waterLinkObj == %hit)
-	{
-		%mode = "\c0Selection: [Click to deselect]";
+		%sprinklerSelectedObjDB = %obj.sprinklerSelectedObj.getDatablock();
+		%selected = %sprinklerSelectedObjDB.uiName;
 	}
 	else
 	{
-		%mode = "Selection: " @ %waterLinkObjDB.uiName;
-		if (%waterLinkObjDB.isWaterTank)
-		{
-			if (%waterLinkObjDB.maxSprinklers > 0)
-			{
-				%mode = %mode @ " - " @ %waterLinkObj.sprinklerCount @ "/" @ %waterLinkObjDB.maxSprinklers
-					@ " sprinkler" @ (%waterLinkObjDB.maxSprinklers > 0 ? "s" : "");
-			}
-			else if (%waterLinkObjDB.isOutflowTank)
-			{
-				%mode = %mode @ " - Outflow tank: connect to another tank";
-			}
-		}
-		else if (%waterLinkObjDB.isSprinkler)
-		{
-			%mode = %mode @ ": connect to a tank";
-		}
+		%selected = "None";
 	}
+	%centerprint = %centerprint @ "\c6Selection: \c3" @ %selected @ " <br>";
 
 	if (isObject(%hit))
 	{
-		%mode = %mode @ " \n\c6" @ %hitDB.uiName @ " \n" @ %hitStatus;
+		if (%obj.sprinklerSelectedObj == %hit)
+		{
+			%view = "Click to deselect selection";
+		}
+		else if (canLinkWaterObjects(%obj.sprinklerSelectedObj, %hit))
+		{
+			%view = "Click to link " @ %sprinklerSelectedObjDB.uiName @ " to " @ %hitDB.uiName @ "";
+			%linkType = "objToHit";
+		}
+		else if (canLinkWaterObjects(%hit, %obj.sprinklerSelectedObj))
+		{
+			%view = "Click to link " @ %hitDB.uiName @ " to " @ %sprinklerSelectedObjDB.uiName @ ""; 
+			%linkType = "hitToObj";
+		}
+		else if (canUnlinkWaterObjects(%obj.sprinklerSelectedObj, %hit))
+		{
+			%view = "\c0Click to unlink " @ %sprinklerSelectedObjDB.uiName @ " to " @ %hitDB.uiName @ "";
+			%linkType = "objToHit";
+		}
+		else if (canLinkWaterObjects(%hit, %obj.sprinklerSelectedObj))
+		{
+			%view = "\c0Click to unlink " @ %hitDB.uiName @ " to " @ %sprinklerSelectedObjDB.uiName @ ""; 
+			%linkType = "hitToObj";
+		}
 	}
+	%centerprint = %centerprint @ "\c2[" @ %view @ "] <br>";
+
+	if (isObject(%hit) && %hitDB.isWaterTank && %linkType $= "objToHit")
+	{
+		%connections = %hitDB.maxConnections;
+		%count = getWordCount(%hit.branches);
+		if (%connections > 0)
+		{
+			%linkspace = %hitDB.uiname @ " - " @ %count @ " / " @ %connections @ " connections";
+		}
+	}
+	else if (isObject(%obj.sprinklerSelectedObj) && %sprinklerSelectedObjDB.isWaterTank && %linkType $= "objToHit")
+	{
+		%connections = %sprinklerSelectedObjDB.maxConnections;
+		%count = getWordCount(%sprinklerSelectedObj.branches);
+		if (%connections > 0)
+		{
+			%linkspace = %sprinklerSelectedObjDB.uiname @ " - " @ %count @ " / " @ %connections @ " connections used";
+		}
+	}
+	%centerprint = %centerprint @ "\c2[" @ %view @ "] <br>";
 
 	if (%obj.errorTicks > 0)
 	{
 		%obj.errorTicks--;
-		%mode = %mode @ " \n\c0" @ %obj.errorMessage;
+		%error = %obj.errorMessage;
 	}
 	else
 	{
@@ -582,7 +645,7 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 
 	if (isObject(%cl = %obj.client))
 	{
-		%cl.centerprint("\c2Water Linker: <br>\c3" @ %mode @ " ", 1);
+		%cl.centerprint(%centerprint, 1);
 	}
 	return %hit;
 }
@@ -694,6 +757,32 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
