@@ -4,7 +4,8 @@ package fixWhiteoutEvent
 {
 	function ShapeBase::setWhiteout(%obj, %val, %extra)
 	{
-		return parent::setWhiteout(%obj, %val);
+		parent::setWhiteout(%obj, %val);
+		return %val;	
 	}
 };
 activatePackage(fixWhiteoutEvent);
