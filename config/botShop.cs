@@ -194,4 +194,4 @@ function generateInstrumentShop()
 	}
 }
 
-schedule(1000, 0, generateInstrumentList); //instruments are executed after farming
+schedule(1000, 0, generateInstrumentShop); //instruments are executed after farming
