@@ -24,7 +24,8 @@ datablock ShapeBaseImageData(PickaxeImage)
 	toolTip = "Mine coal and other minerals";
 
 	stateName[0] = "Activate";
-	stateTimeoutValue[0] = 0.1;
+	stateTimeoutValue[0] = 0.12;
+	stateWaitForTimeout[0] = true;
 	stateTransitionOnTimeout[0] = "Ready";
 
 	stateName[1] = "Ready";
