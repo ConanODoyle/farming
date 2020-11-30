@@ -87,9 +87,9 @@ function fxDTSBrick::listProducePrices(%brick, %cl)
 			menuName = "Sell Produce Prices";
 		};
 
-		for (%i = 0; %i < $ProduceCount; %i++)
+		for (%i = 0; %i < getFieldCount($SellProduceList); %i++)
 		{
-			%produce = getField($ProduceList_[%i], 0);
+			%produce = getField($SellProduceList, %i);
 			%cost = getSellPrice(%produce);
 			%brick.centerprintMenu.menuOption[%i] = %produce @ " - $" @ mFloatLength(%cost, 2);
 		}

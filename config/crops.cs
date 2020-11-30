@@ -49,3 +49,4 @@ $UndergroundCropsList = "Potato\tCarrot\tOnion\tTurnip\tPortobello";
 $AbovegroundCropsList = "Tomato\tCorn\tWheat\tCabbage\tBlueberry\tChili\tWatermelon";
 $TreeCropsList = "Apple\tMango\tCactus\tPeach\tDate";
 $ProduceList = $UndergroundCropsList TAB $AbovegroundCropsList TAB $TreeCropsList TAB "Rose\tLily\tDaisy\tLilies\tDaisies";
+$SellProduceList = $UndergroundCropsList TAB $AbovegroundCropsList TAB $TreeCropsList;
