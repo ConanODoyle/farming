@@ -261,7 +261,7 @@ function drawWater(%waterObj, %targetAmt)
 		return 0;
 	}
 
-	%tankDB = tank.getDatablock();
+	%tankDB = %tank.getDatablock();
 	%maxGive = getMin(%tank.waterLevel, %targetAmt);
 	%tank.setWaterLevel(%tank.waterLevel - %maxGive);
 
