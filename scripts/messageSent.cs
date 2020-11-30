@@ -297,7 +297,11 @@ function servercmdMessageSent(%client,%msg)
 			commandToClient(%cl, 'chatMessage', %client, '', '', %all, %pre, %name, %suf @ "\c6", %msg, %color, %team.name, "<color:ffffff>"); 
 	}
 
-	echo(%name @ ":" SPC %msg);
+	echo(%name @ ":" SPC %newMsg);
+
+	// Send to the discord bridge
+	if(isFunction("sendMessage"))
+		sendMessage(%client, stripMLControlChars(%newMsg));
 
 	%client.lastMsg = %msg;
 	%client.lastMsgTime = %time;

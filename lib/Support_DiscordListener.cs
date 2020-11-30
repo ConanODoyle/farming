@@ -128,10 +128,11 @@ package DiscordListener
 	{
 		parent::serverCmdMessageSent(%cl, %msg);
 
-		if($autoModeratorMute[%cl.BL_ID] < $sim::time && !%cl.isSpamming && !$DiscordChatDisabled)
-		{
-			sendMessage(%cl, %msg);
-		}
+		// This is now handled directly in scripts/messageSent.cs
+		//if($autoModeratorMute[%cl.BL_ID] < $sim::time && !%cl.isSpamming && !$DiscordChatDisabled)
+		//{
+		//	sendMessage(%cl, %msg);
+		//}
 	}
 
 	function GameConnection::AutoAdminCheck(%cl)
