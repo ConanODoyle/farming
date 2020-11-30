@@ -1,9 +1,5 @@
 function serverCmdHome(%client) {
 	
-	if(%client.score < 1) {
-		%client.centerPrint("You don't have enough money. You need at least $1.", 3);
-		return;
-	}
 
 	if($Sim::Time - %client.lastHomeTime < 90) {
 		%client.centerPrint("You're trying to go home too early. Try again in" SPC convTime(90 - ($Sim::Time - %client.lastHomeTime), 0) @ ".", 3);
@@ -50,6 +46,10 @@ function serverCmdHome(%client) {
 			
 			if(isObject(%lot)) {
 				
+				if(%client.score < 1) {
+					%client.centerPrint("You don't have enough money. You need at least $1.", 3);
+					return;
+				}
 				if(%lot.getDataBlock().isLot && %lot.getDataBlock().isSingle) {
 					
 					%pb = new Projectile() {
