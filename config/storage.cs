@@ -8,7 +8,7 @@ $StorageMax_Cabbage = 15 * 2;
 $StorageMax_Onion = 45 * 3;
 $StorageMax_Blueberry = 42 * 2;
 $StorageMax_Turnip = 4 * 1;
-$StorageMax_Portobello = 3 * 1;
+$StorageMax_Portobello = 3 * 2;
 $StorageMax_Apple = 24 * 2;
 $StorageMax_Mango = 10 * 2;
 
