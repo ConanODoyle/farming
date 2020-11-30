@@ -30,7 +30,8 @@ package FarmingSpawn
 		{
 			if ($Farming::ScoreGrant[%cl.bl_id] > 0)
 			{
-				messageClient(%cl, '', "\c6You already have received a starting money grant!");
+				// I've disabled this because the message just confuses people.
+				// messageClient(%cl, '', "\c6You already have received a starting money grant!");
 			}
 			else if (%cl.score < $startingAmount)
 			{

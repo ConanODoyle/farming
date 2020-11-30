@@ -112,6 +112,10 @@ function cartAddEvent(%cart)
 	addStorageEvent(%cart.spawnBrick, 1);
 }
 
+// This makes the base code require trust level 1 to ride someone else's vehicle, making the below onMount checks unneeded
+// Yet another feature that should've been a game pref but instead is just completely hidden
+$TrustLevel::RideVehicle = 1;
+
 package Cart
 {
 	function Armor::onMount(%this, %obj, %mount, %slot)
