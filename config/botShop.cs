@@ -122,9 +122,7 @@ BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "PlanterItem"				TAB 25;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "PlanterV2Item"			TAB 15;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "ReclaimerItem"			TAB 20;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "WeedKiller0Item"			TAB 20;
-BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "Fertilizer0Item"			TAB 20;
-// BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "FlowerPotItem"			TAB 20;
-BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "CompostBinItem"			TAB 20;
+BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "FertilizerBag0Item"		TAB 20;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "WateringCatItem"			TAB 5;
 
 
