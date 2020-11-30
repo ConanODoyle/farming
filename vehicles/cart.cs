@@ -168,7 +168,8 @@ package Cart
 			%start = %pl.getEyePoint();
 			%end = vectorAdd(vectorScale(%pl.getEyeVector(), 6), %start);
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::PlayerObjectType, %cl.player), 0);
-			if (isObject(%hit) && %hit.getDatablock().isStorageVehicle && isObject(%brick = %hit.spawnBrick))
+			if (isObject(%hit) && %hit.getDatablock().isStorageVehicle && isObject(%brick = %hit.spawnBrick)
+				&& getTrustLevel(%brick, %cl) >= 2)
 			{
 				addStorageEvent(%brick, 1);
 				%success = %hit.insertIntoStorage(%hit.spawnBrick.eventOutputParameter[0, 1], 
