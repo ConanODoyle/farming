@@ -262,12 +262,12 @@ TreeSeedQuestRewards.option[TreeSeedQuestRewards.count++ - 1]  = "DateSeedItem"	
 
 new ScriptObject(PotQuestRewards) { class = "ShopObject"; };
 
-TreeSeedQuestRewards.option[TreeSeedQuestRewards.count++ - 1]  = "FlowerPotItem"	TAB 1;
+PotQuestRewards.option[PotQuestRewards.count++ - 1]  = "FlowerPotItem"	TAB 1;
 
 
 new ScriptObject(BoxQuestRewards) { class = "ShopObject"; };
 
-TreeSeedQuestRewards.option[TreeSeedQuestRewards.count++ - 1]  = "PlanterBoxItem"	TAB 1;
+BoxQuestRewards.option[BoxQuestRewards.count++ - 1]  = "PlanterBoxItem"	TAB 1;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 /// quests //////////////////////////////////////////////////////////////////////////////////////////
