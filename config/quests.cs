@@ -505,7 +505,7 @@ new ScriptObject(RareSeedQuestType) {
 
 new ScriptObject(TreeSeedQuestType) {
 	class = "QuestType";
-	questWeight = 4;
+	questWeight = 10;
 
 	maxBudget = 2000;
 
@@ -527,7 +527,7 @@ new ScriptObject(TreeSeedQuestType) {
 
 new ScriptObject(PotQuestType) {
 	class = "QuestType";
-	questWeight = 3;
+	questWeight = 8;
 
 	maxBudget = 100;
 
@@ -545,7 +545,7 @@ new ScriptObject(PotQuestType) {
 
 new ScriptObject(BoxQuestType) {
 	class = "QuestType";
-	questWeight = 2;
+	questWeight = 6;
 
 	maxBudget = 300;
 
