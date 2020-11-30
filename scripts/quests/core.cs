@@ -196,7 +196,7 @@ function GameConnection::questDeliverItem(%client, %questID, %deliveredItem, %de
 				(%item.isStackable && %deliveredItem.stackType $= %item.stackType)
 				|| (isStackType(%item) && %deliveredItem.stackType $= %item)
 			))
-			|| %deliveredItem.getID() == %item.getID()
+			|| isObject(%item) && (%deliveredItem.getID() == %item.getID())
 		);
 
 		if (%count == %delivered) {
