@@ -67,9 +67,9 @@ Wheat4,8,brickWheat5CropData,,1,20,-1,,,,,,,0 2 0,0 2 0,,0 1 1,WheatItem,3,Clipp
 Wheat5,,,,,,,,,,,,,,,,3 3 4 4 5,WheatItem,3,Clipper Sickle,1 1 1 2,,,,0.04,,,,,,,,,,,,,,,,,,
 ,00:09:30,,,165,0.289473684210526,,,,,,,,,,,,,,,,,,,1.13,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Portobello0,8,brickPortobello1CropData,,4,10,-1,,,,-1 * (%nit * 0.5 + %phos * 0.5),,,,2 2 0,,,,,,,,,,,,2,2,1,4,0.5,300,10,10,9 10 11 12,,0.5,50,,1,,1.75,3.00
-Portobello1,8,brickPortobello2CropData,brickPortobello0CropData,4,10,30,,,,-1 * (%nit * 0.5 + %phos * 0.5),,,2 2 0,2 2 0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Portobello2,8,brickPortobello3CropData,brickPortobello1CropData,4,10,30,,,,-1 * (%nit * 0.5 + %phos * 0.5),,,2 2 0,2 2 0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Portobello0,8,brickPortobello1CropData,,4,10,-1,,,,-1 * (%nit * 0.5 + %phos * 0.5),,,,1 2 0,,,,,,,,,,,,2,2,1,4,0.5,300,10,10,9 10 11 12,,0.5,50,,1,,1.75,3.00
+Portobello1,8,brickPortobello2CropData,brickPortobello0CropData,4,10,30,,,,-1 * (%nit * 0.5 + %phos * 0.5),,,1 2 0,1 2 0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Portobello2,8,brickPortobello3CropData,brickPortobello1CropData,4,10,30,,,,-1 * (%nit * 0.5 + %phos * 0.5),,,1 2 0,1 2 0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Portobello3,,,,,,,,,,,,,,,,1,PortobelloItem,1,Trowel Hoe,0 1,,,,0.5,,,,,,,,,,,,,,,,,,
 ,00:04:00,,,120,0.5,,,,,,,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -156,7 +156,7 @@ Peach6,80,brickPeachTree7CropData,brickPeachTree7CropData,10,25,30,,,,,,,,10 10 
 Peach7,80,brickPeachTree8CropData,brickPeachTree8CropData,10,25,30,,,,,,,30 30 0,30 30 0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Peach8,50,brickPeachTree9CropData, ,10,25,30,,,,,,,,30 30 0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Peach9,50,brickPeachTree10CropData, ,20,25,-1,,,,,,,30 30 0,30 30 0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Peach10,,,,,,,,,,,,,,,,6 7 8 9 10 11 12,PeachItem,100,Tree_Clipper,1 2 3,,brickPeachTree8Data,,,,,,,,,,,,,,,,,,,,
+Peach10,,,,,,,,,,,,,,,,6 7 8 9 10 11 12,PeachItem,100,Tree_Clipper,1 2 3,,brickPeachTree8CropData,,,,,,,,,,,,,,,,,,,,
 ,04:32:30,,,3250,0.198776758409786,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,00:41:40,,,750,0.299995486179027,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Date0,65,brickDateTree1CropData,brickDateTree1CropData,20,20,30,,,,,,,10 10 0,10 10 0,,,,,,,,,,,,7,0.5,1,1,0.5,,1200,1200,8 9 10,,1,200,0.95,2,1,4.80,1000.00
