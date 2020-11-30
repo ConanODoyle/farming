@@ -123,7 +123,7 @@ BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "PlanterV2Item"			TAB 15;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "ReclaimerItem"			TAB 20;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "WeedKiller0Item"			TAB 20;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "Fertilizer0Item"			TAB 20;
-BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "FlowerPotItem"			TAB 20;
+// BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "FlowerPotItem"			TAB 20;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "CompostBinItem"			TAB 20;
 BS_Tools_All.option[BS_Tools_All.count++ - 1]  = "WateringCatItem"			TAB 5;
 
@@ -148,10 +148,10 @@ BS_Tools_Watering.option[BS_Tools_Watering.count++ - 1]  = "WateringCatItem"	TAB
 BS_Tools_Watering.option[BS_Tools_Watering.count++ - 1]  = "WateringSnakeItem"	TAB 1;
 
 
-BS_Tools_Extras.option[BS_Tools_Extras.count++ - 1]  = "FlowerPotItem"			TAB 10;
-BS_Tools_Extras.option[BS_Tools_Extras.count++ - 1]  = "CompostBinItem"			TAB 60;
-BS_Tools_Extras.option[BS_Tools_Extras.count++ - 1]  = "LargeCompostBinItem"	TAB 40;
-BS_Tools_Extras.option[BS_Tools_Extras.count++ - 1]  = "PlanterBoxItem"			TAB 50;
+// BS_Tools_Extras.option[BS_Tools_Extras.count++ - 1]  = "FlowerPotItem"			TAB 10;
+// BS_Tools_Extras.option[BS_Tools_Extras.count++ - 1]  = "CompostBinItem"			TAB 60;
+// BS_Tools_Extras.option[BS_Tools_Extras.count++ - 1]  = "LargeCompostBinItem"	TAB 40;
+// BS_Tools_Extras.option[BS_Tools_Extras.count++ - 1]  = "PlanterBoxItem"			TAB 50;
 BS_Tools_Extras.option[BS_Tools_Extras.count++ - 1]  = "CoalGeneratorItem"		TAB 50;
 BS_Tools_Extras.option[BS_Tools_Extras.count++ - 1]  = "PowerControlBoxItem"	TAB 50;
 BS_Tools_Extras.option[BS_Tools_Extras.count++ - 1]  = "BatteryItem"			TAB 50;
