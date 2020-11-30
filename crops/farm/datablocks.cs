@@ -47,8 +47,8 @@ datablock fxDTSBrickData(brickSmallWaterTankData)
 	isWaterTank = 1;
 	maxWater = 10000;
 
-	maxSprinklers = 4;
-	maxTanks = 0;
+	canConnectSprinklers = 1;
+	maxConnections = 4;
 };
 
 datablock fxDTSBrickData(brickSmallWaterInfiniteTankData)
@@ -65,8 +65,8 @@ datablock fxDTSBrickData(brickSmallWaterInfiniteTankData)
 	maxWater = 10000;
 	waterPerSecond = 50;
 
-	maxSprinklers = 100;
-	maxTanks = 0;
+	canConnectSprinklers = 1;
+	maxConnections = 100;
 };
 
 datablock fxDTSBrickData(brickMediumWaterTankData)
@@ -83,8 +83,8 @@ datablock fxDTSBrickData(brickMediumWaterTankData)
 	isWaterTank = 1;
 	maxWater = 50000;
 
-	maxSprinklers = 4;
-	maxTanks = 0;
+	canConnectSprinklers = 1;
+	maxConnections = 4;
 };
 
 datablock fxDTSBrickData(brickLargeWaterTankData)
@@ -102,7 +102,8 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 	maxWater = 100000;
 	maxSprinklers = 0;
 	isOutflowTank = 1;
-	maxTanks = 4;
+	
+	maxConnections = 4;
 };
 
 // datablock fxDTSBrickData(brickMassiveWaterTankData)
