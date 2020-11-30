@@ -115,7 +115,7 @@ function servercmdMessageSent(%client,%msg)
 	if(%all $= "")
 		%all  = '\c7%1\c3%5%2\c7%3%7: %4';
 
-	// Conan discord ping stuff
+	// Discord ping stuff
 	for (%i = 0; %i < getWordCount(%msg); %i++)
 	{
 		%pingWord = getWord(%msg, %i);
@@ -139,25 +139,130 @@ function servercmdMessageSent(%client,%msg)
 	}
 
 	%newMsg = trim(%newMsg);
+	%wordCount = getWordCount(%newMsg);
+	%clientCount = ClientGroup.getCount();
 
-	for (%i = 0; %i < ClientGroup.getCount(); %i++)
+	// Check for exact name matches
+	for(%i = 0; %i < %wordCount; %i++)
 	{
-		%pingTarget = ClientGroup.getObject(%i);
-		%checkName = %pingTarget.name;
+		%word = getWord(%newMsg, %i);
 
-		if ((%ping = strPos(strLwr(%newMsg), "@" @ strLwr(%checkName))) >= 0)
+		for(%j = 0; %j < %clientCount; %j++)
 		{
-			%pingPre = getSubStr(%newMsg, 0, %ping);
-			%pingMid = "\c4@" @ %checkName @ "\c6";
-			%pingPost = getSubStr(%newMsg, %ping + strLen(%pingMid) - 1, 10000);
-			// echo("pre: [" @ %pre @ "]");
-			// echo("mid: [" @ %pingMid @ "]");
-			// echo("post: [" @ %pingPost @ "]");
-			%newMsg = %pingPre @ %pingMid SPC %pingPost;
+			%checkClient = ClientGroup.getObject(%j);
+			%checkName = %checkClient.name;
 
-			%pingUser = %pingUser SPC %pingTarget.getID();
+			if("@" @ strLwr(%checkName) $= strLwr(%word))
+			{
+				%newMsg = setWord(%newMsg, %i, "\c4@" @ %checkName @ "\c6");
+				%pingUser = %pingUser SPC %checkClient.getID();
+			}
 		}
 	}
+
+	// Check for partial name matches
+	// I'M SORRY BUT THIS IS GONNA BE IMPOSSIBLE TO READ
+	%msgLength = strLen(%newMsg);
+	%cursor = 0;
+	%error = 0;
+
+	for(%i = 0; %i < %msgLength; %i += %ping + 1)
+	{
+		%error++;
+		if(%error > 500)
+		{
+			announce("Ping chat exploded. This is a bug for Pecon to fix.");
+			break;
+		}
+
+		%ping = strPos(getSubStr(%newMsg, %i, %msgLength), "@");
+
+		if(%ping == -1)
+			break; // No @s found
+
+		if(%i > 0 || %ping > 0)
+		{
+			if(getSubStr(%newMsg, %i + %ping - 1, 1) !$= " ")
+			{
+				//warn("Preceeding space rule" SPC %i + %ping - 1);
+				continue; // If the @ is preceeded by something other than a space, it is invalid.
+			}
+		}
+
+		if(getSubStr(%newMsg, %ping + 1, 1) $= " ")
+		{
+			//warn("Following space rule");
+			continue; // If the @ is followed by a space, it is invalid
+		}
+
+		//warn("Found @" SPC %ping SPC %i);
+
+		%pingString = getSubStr(%newMsg, %i + %ping + 1, %msgLength);
+		%pingLength = strLen(%pingString);
+		%highestScore = 0;
+
+		for(%j = 0; %j < %clientCount; %j++)
+		{
+			%pingTarget = ClientGroup.getObject(%j);
+
+			if(%pingClient[%pingTarget])
+				continue;
+
+			%checkName = %pingTarget.name;
+			%valid = false;
+			%score = 0;
+			//warn("Testing '" @ %checkName @ "' '" @ %pingString @ "'");
+
+			for(%cursor = 1; %cursor <= %pingLength; %cursor++)
+			{
+				if(%cursor >= strLen(%checkName))
+					break;
+
+				if(strPos(strLwr(%pingString), strLwr(getSubStr(%checkName, 0, %cursor))) == 0)
+				{
+					//warn("Match" SPC strLwr(getSubStr(%checkName, 0, %cursor)));
+
+					if(%cursor > %highestScore)
+					{
+						%score = %cursor;
+						%scoreEndPos = %i + %ping + %cursor + 1;
+
+						//warn("validity:" SPC getSubStr(%pingString, %cursor + 1, 1) SPC %pingString SPC %cursor + 1);
+						if(getSubStr(%pingString, %cursor + 1, 1) $= " " || %cursor + 1 >= %pingLength)
+						{
+							%valid = true;
+
+							if(%cursor >= strLen(%checkName))
+								break;
+						}
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			if(%score > %highestScore && %valid)
+			{
+				%highestScore = %score;
+				%highest = %pingTarget;
+				%highestEndPos = %scoreEndPos;
+			}
+		}
+
+		if(isObject(%highest))
+		{
+			//warn("Using" SPC %highestScore SPC %highestEndPos);
+			%pingTarget[%highest] = true;
+			%pingUser = %pingUser SPC %highest.getID();
+
+			%newMsg = getSubStr(%newMsg, 0, %i + %ping) @ "\c4@" @ %highest.name @ "\c6" @ getSubStr(%newMsg, %highestEndPos, %msgLength);
+			%msgLength = strLen(%newMsg);
+			%i += %ping + strLen(%highest.name) + 2;
+		}
+	}
+
 	%pingUser = %pingUser @ " ";
 	// End discord ping stuff
 
