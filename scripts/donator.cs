@@ -250,7 +250,7 @@ package Donators
 		}
 		if (%cl.isDonator && !%cl.hasSeenDonatorPrompt)
 		{
-			schedule(1000, %cl, commandToClient, 'messageBoxOK', "Donator!", "<just:left>                     <bitmap:base/client/ui/ci/star> <font:arial bold:24>Donator<font:arial:12> <bitmap:base/client/ui/ci/star>"
+			schedule(1000, %cl, commandToClient, %cl, 'messageBoxOK', "Donator!", "<just:left>                     <bitmap:base/client/ui/ci/star> <font:arial bold:24>Donator<font:arial:12> <bitmap:base/client/ui/ci/star>"
                 @ " <br> <font:arial:16><just:center>Thank you for donating! You have access to /refreshDeal and /hat!");
 			%cl.hasSeenDonatorPrompt = 1;
 		}
