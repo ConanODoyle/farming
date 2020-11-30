@@ -153,7 +153,8 @@ function RepairResponseParser(%dataObj, %msg)
 		}
 	}
 
-	if (!isObject(%tool) || getDataIDArrayTagValue(%toolDataID, "maxDurability") <= 0)
+	if (!isObject(%tool) || getDataIDArrayTagValue(%toolDataID, "maxDurability") <= 0
+		|| !%tool.getDatablock().hasDataID || trim(%toolDataID) $= "")
 	{
 		return "CannotRepair";
 	}
