@@ -175,22 +175,24 @@ function AIPlayer::randomShopLoop(%bot, %selectionCount, %speak, %timeRange, %sh
 		%name = %bot.name $= "" ? "Seller" : %bot.name;
 		switch (%speak)
 		{
-			case 1: %str = %prefix @ "\c3" SPC %name @ "\c6: I got some new deals, come by and check!";
-			case 2: %str = %prefix @ "\c3" SPC %name @ "\c6: I'm selling ";
-					%sellList = trim(%sellList);
-					%sellListCount = getFieldCount(%sellList);
-					if (%sellListCount > 1)
-					{
-						%pre = getFields(%sellList, 0, %sellListCount - 2);
-						%post = getField(%sellList, %sellListCount - 1);
-						%sellList = trim(strReplace(%pre, "\t", ", ")) @ " and " @ %post;
-					}
+			case 1:
+				%str = %prefix @ "\c3" SPC %name @ "\c6: I got some new deals, come by and check!";
+			case 2:
+				%str = %prefix @ "\c3" SPC %name @ "\c6: I'm selling ";
+				%sellList = trim(%sellList);
+				%sellListCount = getFieldCount(%sellList);
+				if (%sellListCount > 1)
+				{
+					%pre = getFields(%sellList, 0, %sellListCount - 2);
+					%post = getField(%sellList, %sellListCount - 1);
+					%sellList = trim(strReplace(%pre, "\t", ", ")) @ (%sellListCount > 2 ? "," : "") @ " and " @ %post;
+				}
 
-					if (%bot.sellPriceMod > 0)
-					{
-						%mod = " for " @ mFloor(%bot.sellPriceMod * 100) @ "% of the normal price";
-					}
-					%str = %str @ %sellList @ %mod @ "!";
+				if (%bot.sellPriceMod > 0)
+				{
+					%mod = " for " @ mFloor(%bot.sellPriceMod * 100) @ "% of the normal price";
+				}
+				%str = %str @ %sellList @ %mod @ "!";
 		}
 		messageAll('', %str);
 	}
