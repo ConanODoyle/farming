@@ -1,8 +1,8 @@
 function getPluralWord(%word)
 {
-	%lastChar = getSubStr(%word, strLen(%word) - 1, 1);
+	%lastChar = getSubStr(%word, getMax(0, strLen(%word) - 1), 1);
 	%lastWord = getWord(%word, getWordCount(%word) - 1);
-	%noPluralAppend = "wheat corn coal phosphate";
+	%noPluralAppend = "wheat corn coal phosphate sticks";
 	%esAppend = "tomato potato";
 	
 	if (strPos(%noPluralAppend, strLwr(%lastWord)) >= 0)
