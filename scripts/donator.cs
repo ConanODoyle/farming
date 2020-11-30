@@ -1,5 +1,5 @@
 //Donors
-$Farming::MaxPlayers = 33;
+$Farming::MaxPlayers = 36;
 $isDonator_["blid"] = 1 TAB "comment here";
 
 $isVIP_["4928"]		= 1 TAB "Conan";
