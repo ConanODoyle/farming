@@ -53,7 +53,7 @@ datablock PlayerData(LargeStorageCartArmor : StorageCartArmor)
 {
 	shapeFile = "./largecart.dts";
 
-	uiName = "Large Storage Cart (2x) - $1200";
+	uiName = "Large Storage Cart (4x) - $1200";
 
 	isStorageVehicle = 1;
 	storageSlotCount = 4;
