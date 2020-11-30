@@ -119,6 +119,7 @@ function unloadEmptyLots()
 	{
 		%brickGroup = mainBrickGroup.getObject(%i);
 		if (isObject(BrickGroup_888888) && %brickGroup == BrickGroup_888888.getID()) continue;
+		if (isObject(%brickGroup.client)) continue;
 
 		%lotsAreEmpty = true;
 		%lotCount = getWordCount(%brickGroup.lotList);
