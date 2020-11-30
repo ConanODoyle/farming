@@ -319,7 +319,9 @@ function validateWaterObject(%flowObj)
 	for (%i = getWordCount(%flowObj.branches) - 1; %i >= 0; %i--)
 	{
 		%o = getWord(%flowObj.branches, %i);
-		if (!isObject(%o)) //object doesnt exist anymore
+		%upFlowID = getField(parseWaterDeviceName(%o), 1);
+
+		if (!isObject(%o) || %found[%o] || %upFlowID !$= %id) //object doesnt exist anymore or is duplicate
 		{
 			%flowObj.branches = removeWord(%flowObj.branches, %i);
 		}
@@ -329,6 +331,7 @@ function validateWaterObject(%flowObj)
 			%o.setName("_" @ getField(%name, 0));
 			%flowObj.branches = removeWord(%flowObj.branches, %i);
 		}
+		%found[%o] = 1;
 	}
 
 	//remove excess links
@@ -372,6 +375,8 @@ function linkWaterObjects(%downFlowObj, %upFlowObj)
 	%downName = "_" @ %downFlowID @ "_" @ %upFlowID;
 	%upName = "_" @ %upFlowID @ "_" @ %upFlowUFID;
 
+	%upFlowObj.branches = trim(%upFlowObj.branches SPC %downFlowObj);
+
 	%downFlowObj.setName(%downName);
 	%upFlowObj.setName(%upName);
 }
@@ -386,7 +391,7 @@ function unlinkWaterObjects(%downFlowObj, %upFlowObj)
 	%downFlowUFID = getField(%name, 1);
 
 	%branches = " " @ %upFlowObj.branches @ " ";
-	%branches = strReplace(%branches, " " @ %downFlowID @ " ", " ");
+	%branches = strReplace(%branches, " " @ %downFlowObj @ " ", " ");
 	%upFlowObj.branches = trim(%branches);
 
 	%downFlowObj.setName("_" @ %downFlowID);
@@ -398,9 +403,12 @@ function canLinkWaterObjects(%downFlowObj, %upFlowObj)
 	{
 		return 0;
 	}
-
 	%dfdb = %downFlowObj.getDatablock();
 	%ufdb = %upFlowObj.getDatablock();
+	if (!(%dfdb.isSprinkler || %dfdb.isWaterTank) || !%ufdb.isWaterTank)
+	{
+		return 0;
+	}
 
 	%name = parseWaterDeviceName(%upFlowObj);
 	%upFlowID = getField(%name, 0);
@@ -438,6 +446,12 @@ function canLinkWaterObjects(%downFlowObj, %upFlowObj)
 function canUnlinkWaterObjects(%downFlowObj, %upFlowObj)
 {
 	if (!isObject(%downFlowObj) || !isObject(%upFlowObj))
+	{
+		return 0;
+	}
+	%dfdb = %downFlowObj.getDatablock();
+	%ufdb = %upFlowObj.getDatablock();
+	if (!(%dfdb.isSprinkler || %dfdb.isWaterTank) || !%ufdb.isWaterTank)
 	{
 		return 0;
 	}
@@ -613,36 +627,41 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 	{
 		if (%obj.waterLinkObj == %hit)
 		{
-			%view = "\c4Click to deselect selection";
+			%view = "\c4[Click to deselect selection";
 		}
 		else if (canLinkWaterObjects(%obj.waterLinkObj, %hit) > 0)
 		{
-			%view = "Click to link " @ %waterLinkObjDB.uiName @ " to " @ %hitDB.uiName @ "";
+			%view = "[Click to link " @ %waterLinkObjDB.uiName @ " to " @ %hitDB.uiName @ "";
 			%linkType = "objToHit";
 		}
 		else if (canLinkWaterObjects(%hit, %obj.waterLinkObj) > 0)
 		{
-			%view = "Click to link " @ %hitDB.uiName @ " to " @ %waterLinkObjDB.uiName @ ""; 
+			%view = "[Click to link " @ %hitDB.uiName @ " to " @ %waterLinkObjDB.uiName @ ""; 
 			%linkType = "hitToObj";
 		}
 		else if (canUnlinkWaterObjects(%obj.waterLinkObj, %hit) > 0)
 		{
-			%view = "\c0Click to unlink " @ %waterLinkObjDB.uiName @ " to " @ %hitDB.uiName @ "";
+			%view = "\c0[Click to unlink " @ %waterLinkObjDB.uiName @ " to " @ %hitDB.uiName @ "";
 			%linkType = "objToHit";
 		}
 		else if (canUnlinkWaterObjects(%hit, %obj.waterLinkObj) > 0)
 		{
-			%view = "\c0Click to unlink " @ %hitDB.uiName @ " to " @ %waterLinkObjDB.uiName @ ""; 
+			%view = "\c0[Click to unlink " @ %hitDB.uiName @ " to " @ %waterLinkObjDB.uiName @ ""; 
 			%linkType = "hitToObj";
 		}
-		else if (isObject(%obj.waterLinkObj))
+		else if (isObject(%obj.waterLinkObj) && isObject(%hit))
 		{
-			%view = "\c5Cannot link to this object!";
+			%view = "\c5[Cannot link to this object!";
 		}
 	}
-	%centerprint = %centerprint @ "\c2[" @ %view @ "] <br>";
+	if (%view !$= "")
+	{
+		%view = "\c2" @ %view @ "]";
+	}
+	%centerprint = %centerprint @ %view @ " <br>";
 
-	if (isObject(%hit) && %hitDB.isWaterTank && %linkType $= "objToHit")
+	if (isObject(%hit) && %hitDB.isWaterTank 
+		&& (%linkType $= "objToHit" || %hit == %obj.waterLinkObj))
 	{
 		%connections = %hitDB.maxConnections;
 		%count = getWordCount(%hit.branches);
@@ -656,7 +675,7 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 	{
 		%linkspace = "\c2[" @ %hitDB.uiname @ ": " @ %count @ " / " @ %connections @ " connections]";
 	}
-	%centerprint = %centerprint @ %view @ " <br>";
+	%centerprint = %centerprint @ %linkspace @ " <br>";
 
 	if (%obj.errorTicks > 0)
 	{
@@ -727,7 +746,7 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 		{
 			unlinkWaterObjects(%hit, %obj.waterLinkObj);
 		}
-		else
+		else if (isObject(%obj.waterLinkObj) && isObject(%hit))
 		{
 			%obj.errorMessage = "Cannot link to the object!";
 			%obj.errorTicks = 20;
