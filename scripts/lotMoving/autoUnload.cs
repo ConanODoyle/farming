@@ -8,6 +8,7 @@ package LotMoving
 		if (!%cl.hasSpawnedOnce)
 		{
 			checkFreeLots();
+			unloadEmptyLots();
 		}
 		%cl.hasSpawnedOnce = 1;
 		$Pref::LotMoving::LastOn[%cl.bl_id] = getRealTime();
@@ -20,6 +21,7 @@ package LotMoving
 		{
 			$Pref::LotMoving::LastOn[%cl.bl_id] = getRealTime();
 			checkFreeLots();
+			unloadEmptyLots();
 		}
 		return parent::onDrop(%cl);
 	}
@@ -107,5 +109,34 @@ function attemptUnloadOldestLot()
 	{
 		unloadLot(%oldest);
 		return 0;
+	}
+}
+
+function unloadEmptyLots() 
+{
+	%numBrickGroups = mainBrickGroup.getCount();
+	for (%i = 0; %i < %numBrickGroups; %i++)
+	{
+		%brickGroup = mainBrickGroup.getObject(%i);
+		if (isObject(BrickGroup_888888) && %brickGroup == BrickGroup_888888.getID()) continue;
+
+		%lotsAreEmpty = true;
+		%lotCount = getWordCount(%brickGroup.lotList);
+		for (%j = 0; %j < %lotCount; %j++)
+		{
+			%lot = getWord(%brickGroup.lotList, %j);
+			if (%lot.getNumUpBricks() > 0 || %lot.getNumDownBricks() > 0)
+			{
+				%lotsAreEmpty = false;
+				break;
+			}
+
+			if (!%lotsAreEmpty) break;
+		}
+
+		if (%lotsAreEmpty && %lotCount > 0)
+		{
+			unloadLot(%brickGroup.bl_id);
+		}
 	}
 }
