@@ -171,6 +171,7 @@ function setupPurchase(%dataObj)
 	%dataObj.var_product = %seller.sellItem.uiName;
 	%dataObj.var_productPlural = %productPlural;
 	%dataObj.var_price = mFloatLength(getBuyPrice(%seller.sellItem, 1) * %mod, 2);
+	return 0;
 }
 
 function purchaseResponseParser(%dataObj, %msg)
