@@ -10,9 +10,9 @@ function getBuyPrice(%name, %count) //price to purchase items from bots
 	%name = strReplace(%name, " ", "_");
 	%name = stripChars(%name, "!@#$%^&*()[]{}:;<>,.?/|=+");
 
-	if (getSubStr(%name, getMin(0, strLen(%name) - 4), 4) $= "Seed") //is a crop seed, get the crop buy price
+	if (getSubStr(%name, getMax(0, strLen(%name) - 4), 4) $= "Seed") //is a crop seed, get the crop buy price
 	{
-		%name = getSubStr(%name, 0, getMin(0, strLen(%name) - 4));
+		%name = getSubStr(%name, 0, getMax(0, strLen(%name) - 4));
 	}
 
 	%basePrice = getPlantData(%name, "buyPrice");
