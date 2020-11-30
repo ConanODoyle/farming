@@ -67,7 +67,7 @@ Wheat4,8,brickWheat5CropData,,1,20,-1,,,,,,,0 2 0,0 2 0,,0 1 1,WheatItem,3,Clipp
 Wheat5,,,,,,,,,,,,,,,,3 3 4 4 5,WheatItem,3,Clipper Sickle,1 1 1 2,,,,0.04,,,,,,,,,,,,,,,,,,
 ,00:09:30,,,165,0.289473684210526,,,,,,,,,,,,,,,,,,,1.13,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Portobello0,8,brickPortobello1CropData,,4,10,-1,,,,-1 * (%nit * 0.5 + %phos * 0.5),,,,1 2 0,,,,,,,,,,,,2,2,1,4,0.5,300,10,10,9 10 11 12,,0.5,50,,1,,1.75,3.00
+Portobello0,8,brickPortobello1CropData,,4,10,-1,,,,-1 * (%nit * 0.5 + %phos * 0.5),,,,1 2 0,,,,,,,,,,,,2,2,1,4,0.5,300,10,10,9 10 11 12,,0.5,50,,1,,2.00,3.00
 Portobello1,8,brickPortobello2CropData,brickPortobello0CropData,4,10,30,,,,-1 * (%nit * 0.5 + %phos * 0.5),,,1 2 0,1 2 0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Portobello2,8,brickPortobello3CropData,brickPortobello1CropData,4,10,30,,,,-1 * (%nit * 0.5 + %phos * 0.5),,,1 2 0,1 2 0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Portobello3,,,,,,,,,,,,,,,,1,PortobelloItem,1,Trowel Hoe,0 1,,,,0.5,,,,,,,,,,,,,,,,,,
