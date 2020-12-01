@@ -38,7 +38,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	%type = %image.item.stackType;
 	%slot = %obj.currTool;
 	%toolStackCount = %obj.toolStackCount[%obj.currTool];
-	
+
 	%expRequirement = getPlantData(%cropType, "experienceRequired");
 	%expCost = getPlantData(%cropType, "experienceCost");
 	%plantingLayer = getPlantData(%cropType, "plantingLayer");
@@ -172,17 +172,15 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	%hitDB = %hit.getDatablock();
 	if ((%potFound || %planterFound) && (%plantingBoxDisabled || %isTree))
 	{
-		%obj.client.centerprint("You can only plant small plants on pots/planters!", 1);
+		%obj.client.centerprint("You cannot plant trees in pots/planters!", 1);
 		return 0;
 	}
 
 
-	//planting radius checks
-	%plantRad = (%radius - %planterFound) * 0.5 - 0.01 + 0.5;
 	if (!%potFound)
 	{
 		//check if this is in a greenhouse or not
-		%greenhouseCheck = getWord(containerRaycast(%hitloc, vectorAdd(%hitloc, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType), 0);
+		%greenhouseCheck = getWord(containerRaycast(%base, vectorAdd(%base, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType), 0);
 		if (isObject(%greenhouseCheck) && %greenhouseCheck.getDatablock().isGreenhouse)
 		{
 			%inGreenhouse = 1;
@@ -192,6 +190,9 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 				return 0;
 			}
 		}
+
+		//planting radius checks
+		%plantRad = (%radius - (%planterFound + %inGreenhouse)) * 0.5 - 0.01 + 0.5;
 
 		//check around the brick for any other plants and make sure we dont violate their radius requirement
 		//but exclude flowerpots since those root systems dont intersect with each other
@@ -253,7 +254,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 				%yDiff = mAbs(getWord(%nextPos, 1) - getWord(%pos, 1));
 
 				//calculate next plant's radius
-				%nextPlantRad = (%nextRadius - (%nextInGreenhouse || %nextDirt.getDatablock().isPlanter)) * 0.5 - 0.01 + 0.5;
+				%nextPlantRad = (%nextRadius - (%nextInGreenhouse + %nextDirt.getDatablock().isPlanter)) * 0.5 - 0.01 + 0.5;
 				if ((%xDiff < %nextPlantRad && %yDiff < %nextPlantRad)
 					|| (%xDiff < %plantRad && %yDiff < %plantRad)) //too close to another plant in the area
 				{
@@ -335,7 +336,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 
 	%toolStackCount = %obj.toolStackCount[%obj.currTool]--;
 	%slot = %obj.currTool;
-	
+
 	if (%toolStackCount <= 0) //no more seeds left, clear the item slot
 	{
 		messageClient(%obj.client, 'MsgItemPickup', '', %slot, 0);
