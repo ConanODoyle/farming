@@ -41,7 +41,7 @@ function weedTick(%index)
 function generateWeed(%brick)
 {
 	//check if we create a weed
-	if (%brick.weedImmunityExpires > $Sim::Time) {
+	if (%brick.weedImmunityExpires > $Sim::Time || %brick.inGreenhouse) {
 		return "";
 	}
 
