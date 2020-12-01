@@ -294,6 +294,7 @@ function farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %roo
 			%brick = %rootBrick.getUpBrick(%iterPos++)
 		)
 		{
+			if (%brick.getGroup() == BrickGroup_888888.getID()) continue;
 			$Farming::Temp::LotBrickQueue[%file].add(%brick);
 			%brickCount++;
 		}
@@ -317,6 +318,7 @@ function farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %roo
 		%brick = %rootBrick.getDownBrick(%iterPos++)
 	)
 	{
+		if (%brick.getGroup() == BrickGroup_888888.getID()) continue;
 		$Farming::Temp::LotBrickQueue[%file].add(%brick);
 		%brickCount++;
 	}
