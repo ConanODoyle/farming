@@ -195,7 +195,7 @@ function purchaseResponseParser(%dataObj, %msg)
 	%dataObj.var_amount = %num;
 	%dataObj.var_total = mFloatLength(%price, 2);
 	%dataObj.var_maxAmount = mFloor(%pl.client.score / %dataObj.var_price);
-	%dataObj.var_maxTotal = mFloatLength(getBuyPrice(%product.uiName, %dataObj.var_maxAmount), 2);
+	%dataObj.var_maxTotal = mFloatLength(getBuyPrice(%dataObj.sellItem) * %dataObj.var_maxAmount, 2);
 
 	if (%num $= "")
 	{
