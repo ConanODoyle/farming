@@ -156,11 +156,11 @@ function setupCropInfo(%dataObj)
 			%s2 = "However, they need nutrients to grow fully. They cost 20 experience to plant, and give 5-6 experience per harvest.";
 			%s3 = "[Required spacing: 3, required nutrients: 2 nitrogen, 2 phosphate]";
 		case "Chili":
-			%s1 = "Chilis are a desert crop that use very little water and drop 2-5 per harvest. However, they need nutrients to fully grow.";
+			%s1 = "Chilis are a desert crop that use nearly no water and drop 2-5 per harvest. However, they need nutrients to fully grow.";
 			%s2 = "They can be harvested 2 times, costing 12 experience and returning 5-6 experience per harvest.";
 			%s3 = "[Required spacing: 2, required nutrients: 5 nitrogen, 5 phosphate]";
 		case "Watermelon":
-			%s1 = "Watermelon are an unusual desert crop, which grows faster without any water at all in their second-to-last stage.";
+			%s1 = "Watermelon are an unusual desert crop, which needs lots of water in their second-to-last stage, and can revert a stage if left dry.";
 			%s2 = "They drop 1-2 watermelons every harvest, and in total get 8 harvests. They cost 40 experience to plant, and give 3-5 experience per harvest.";
 			%s3 = "[Required spacing: 3 - 2x2 crop, required nutrients: none]";
 		case "Cactus":
@@ -174,19 +174,19 @@ function setupCropInfo(%dataObj)
 		case "Apple":
 			%s1 = "Apples have the smallest plant radius and hardly shade any plants under it. Like all trees, it needs nutrients to grow.";
 			%s2 = "They can be harvested up to 70 times for 8-14 apples, and can be pruned during its flower or pre-flower stage for around 4 more apples.";
-			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 4 nitrogen, 10 phosphate to grow + per harvest]";
+			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 4 nitrogen, 10 phosphate to start growing + per harvest]";
 		case "Mango":
 			%s1 = "Mangoes cover a wide area and cast significant shade on crops underneath, which can reduce plants' growth time.";
 			%s2 = "They can be harvested up to 70 times, dropping 11-16 per harvest.";
-			%s3 = "[Required spacing: 16 - 2x2 crop, required nutrients: 10 nitrogen, 10 phosphate to grow + per harvest]";
+			%s3 = "[Required spacing: 16 - 2x2 crop, required nutrients: 10 nitrogen, 10 phosphate to start growing + per harvest]";
 		case "Peach":
 			%s1 = "Peach trees require less water than other trees, but need 3x more nutrients to reach its harvesting stage.";
 			%s2 = "They can be harvested up to 100 times, dropping 6-12 per harvest.";
-			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 30 nitrogen, 30 phosphate to grow + per harvest]";
+			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 30 nitrogen, 30 phosphate to start growing + per harvest]";
 		case "Date":
-			%s1 = "Date trees require no water to grow, and in fact grow significantly slower if water is present. It needs the same amount of nutrients as peaches do.";
+			%s1 = "Date trees require no water to grow, and in fact grow significantly slower if water is present. They have the same nutrient requirement as peaches.";
 			%s2 = "Just like peaches, they can be harvested up to 100 times, dropping 6-12 per harvest.";
-			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 30 nitrogen, 30 phosphate to grow + per harvest]";
+			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 30 nitrogen, 30 phosphate to start growing + per harvest]";
 
 		case "Lily":
 			%s1 = "Lilies are flowers that add 2 nitrogen to soil every minute, in their final flowering stage.";
