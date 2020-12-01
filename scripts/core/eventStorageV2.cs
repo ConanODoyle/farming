@@ -642,11 +642,10 @@ function addStorageEvent(%this, %botForm)
 	}
 }
 
-function dropStoredItems(%brick)
+function dropStoredItems(%brick, %storageSlotCount)
 {
-	%db = %brick.getDatablock();
 	%dataID = %brick.eventOutputParameter0_1;
-	for (%i = 0; %i < %db.storageSlotCount; %i++)
+	for (%i = 0; %i < %storageSlotCount; %i++)
 	{
 		%storageSlot = %i + 1;
 		%storageData = validateStorageValue(getDataIDArrayValue(%dataID, %storageSlot));
@@ -815,12 +814,19 @@ package StorageBricks
 			%this.centerprintMenu.delete();
 		}
 
-		if (%this.getDatablock().isStorageBrick)
+		%storageDataID = %this.eventOutputParameter0_1;
+		if (%this.getDatablock().isStorageBrick
+			|| getWord(getDataIDArrayValue(%storageDataID, 0), 0) $= "info")
 		{
+			%count = 4;
+			if (%this.getDatablock().storageSlotCount > 0)
+			{
+				%count = %this.getDatablock().storageSlotCount;
+			}
 			if (!%this.droppedStoredItems)
 			{
 				%this.droppedStoredItems = 1;
-				dropStoredItems(%this);
+				dropStoredItems(%this, %count);
 			}
 		}
 
@@ -829,12 +835,18 @@ package StorageBricks
 
 	function fxDTSBrick::onDeath(%this)
 	{
-		if (%this.getDatablock().isStorageBrick)
+		if (%this.getDatablock().isStorageBrick
+			|| getWord(getDataIDArrayValue(%storageDataID, 0), 0) $= "info")
 		{
+			%count = 4;
+			if (%this.getDatablock().storageSlotCount > 0)
+			{
+				%count = %this.getDatablock().storageSlotCount;
+			}
 			if (!%this.droppedStoredItems)
 			{
 				%this.droppedStoredItems = 1;
-				dropStoredItems(%this);
+				dropStoredItems(%this, %count);
 			}
 		}
 		return parent::onDeath(%this);
