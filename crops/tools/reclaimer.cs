@@ -106,10 +106,17 @@ function ReclaimerImage::onReady(%this, %obj, %slot)
 				}
 			}
 		}
-		else if (strPos("daisy lily rose", strLwr(%db.cropType)) >= 0)
+		if (strPos("daisy lily rose", strLwr(%db.cropType)) >= 0)
 		{
-			%canReclaim = 1;
-			%reclaimExpFactor = 1;
+			if (%stage > 2)
+			{
+				%canReclaim = 0;
+			}
+			else
+			{
+				%canReclaim = 1;
+				%reclaimExpFactor = 1;
+			}
 		}
 	}
 
@@ -205,11 +212,19 @@ function ReclaimerImage::onFire(%this, %obj, %slot)
 				}
 			}
 		}
-		else if (strPos("daisy lily rose", strLwr(%db.cropType)) >= 0)
+		
+		if (strPos("daisy lily rose", strLwr(%db.cropType)) >= 0)
 		{
-			%canReclaim = 1;
+			if (%stage > 2)
+			{
+				%canReclaim = 0;
+			}
+			else
+			{
+				%canReclaim = 1;
+				%reclaimExpFactor = 1;
+			}
 			%noDoubles = 1;
-			%reclaimExpFactor = 1;
 		}
 
 		if ((%yield !$= "") && getRandom() < 0.2 && !%noDoubles)
