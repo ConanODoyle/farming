@@ -94,7 +94,8 @@ function ShovelImage::onFire(%this, %obj, %slot)
 			%nutrients = %hit.getNutrients();
 			%nit = getWord(%nutrients, 0);
 			%pho = getWord(%nutrients, 1);
-			if (%nit >= 5 || %pho >= 5)
+			if (%nit >= CompostBag0Image.fertilizerNitrogen + 1 
+				|| %pho >= PhosphateBag0Image.fertilizerPhosphate + 1)
 			{
 				useDurability(%this, %obj, %slot);
 				if (%nit >= CompostBag0Image.fertilizerNitrogen + 1)
