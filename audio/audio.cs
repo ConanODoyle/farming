@@ -196,7 +196,7 @@ datablock AudioProfile(SexyDepotSound)
 
 datablock AudioProfile(ZeusShrine1Sound)
 {
-	filename = "./zeushrine1.wav";
+	filename = "./zeushrine1.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
 	uiName = "Zeushrine 1";
@@ -204,7 +204,7 @@ datablock AudioProfile(ZeusShrine1Sound)
 
 datablock AudioProfile(ZeusShrine2Sound)
 {
-	filename = "./zeushrine2.wav";
+	filename = "./zeushrine2.ogg";
 	description = AudioMusicLooping3d;
 	preload = true;
 	uiName = "Zeushrine 2";
