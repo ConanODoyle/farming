@@ -82,6 +82,7 @@ datablock fxDTSBrickData(brickMediumWaterTankData)
 	cost = 800;
 	isWaterTank = 1;
 	maxWater = 50000;
+	isOutflowTank = 1;
 
 	canConnectSprinklers = 1;
 	maxConnections = 4;
@@ -101,7 +102,7 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 	isWaterTank = 1;
 	maxWater = 100000;
 	maxSprinklers = 0;
-	isOutflowTank = 1;
+	isOutflowTank = 2;
 	
 	maxConnections = 4;
 };
