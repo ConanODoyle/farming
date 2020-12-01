@@ -5,6 +5,7 @@ if (!isObject(WaterSystemNameTable))
 	$WaterSystemNameTable = new SimSet(WaterSystemNameTable);
 }
 
+exec("./bricks.cs");
 
 package Sprinklers
 {
