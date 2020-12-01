@@ -46,6 +46,10 @@ datablock ShapeBaseImageData(PickaxeImage)
 
 function PickaxeImage::onFire(%this, %obj, %slot)
 {
+	if (%obj.nextHit > getSimTime())
+		return;
+	
+	%obj.nextHit = getSimTime() + 300;
 	%start = %obj.getEyeTransform();
 	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
 
