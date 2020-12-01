@@ -142,7 +142,7 @@ function setupCropInfo(%dataObj)
 		case "Corn":
 			%s1 = "Corn can be harvested 3 times, and drop 3-4 per harvest, but need nutrients to finish growing. They can be harvested earlier for less yield.";
 			%s2 = "They cost 9 experience to plant, and give 2-3 experience per harvest. Use an organic analyzer to figure out what nutrients they need!";
-			%s3 = "[Required spacing: 2, required nutrients: 4 phosphate]";
+			%s3 = "[Required spacing: 2, required nutrients: 3 phosphate]";
 		case "Wheat":
 			%s1 = "Wheat is a more compact alternative to corn, dropping 3-5 per harvest. They take slightly longer to grow as well, but use less nutrients.";
 			%s2 = "They cost 12 experience to plant, and give 3-4 experience per harvest. Use an organic analyzer to figure out what nutrients they need!";
@@ -158,7 +158,7 @@ function setupCropInfo(%dataObj)
 		case "Chili":
 			%s1 = "Chilis are a desert crop that use nearly no water and drop 2-5 per harvest. However, they need nutrients to fully grow.";
 			%s2 = "They can be harvested 2 times, costing 12 experience and returning 5-6 experience per harvest.";
-			%s3 = "[Required spacing: 2, required nutrients: 5 nitrogen, 5 phosphate]";
+			%s3 = "[Required spacing: 2, required nutrients: 2 nitrogen, 2 phosphate]";
 		case "Watermelon":
 			%s1 = "Watermelon are an unusual desert crop, which needs lots of water in their second-to-last stage, and can revert a stage if left dry.";
 			%s2 = "They drop 1-2 watermelons every harvest, and in total get 8 harvests. They cost 40 experience to plant, and give 3-5 experience per harvest.";
