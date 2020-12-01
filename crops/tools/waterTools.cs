@@ -9,7 +9,7 @@ datablock ItemData(WateringCanItem : HammerItem)
 	uiName = "Watering Can";
 
 	image = "WateringCanImage";
-	durability = 1000000;
+	durability = 100000;
 
 	hasDataID = 1;
 	isDataIDTool = 1;
@@ -82,7 +82,7 @@ datablock ItemData(WateringCan2Item : WateringCanItem)
 	uiName = "Watering Can v2";
 	colorShiftColor = "0.75 0 0 1";
 	image = "WateringCan2Image";
-	durability = 1000000;
+	durability = 100000;
 
 	hasDataID = 1;
 	isDataIDTool = 1;
@@ -119,7 +119,7 @@ datablock ItemData(WateringCan3Item : WateringCanItem)
 	uiName = "Watering Can v3";
 	colorShiftColor = "0 0.7 1 1";
 	image = "WateringCan3Image";
-	durability = 1000000;
+	durability = 100000;
 
 	hasDataID = 1;
 	isDataIDTool = 1;
@@ -157,7 +157,7 @@ datablock ItemData(WateringCatItem : WateringCanItem)
 	uiName = "Watering Cat";
 	colorShiftColor = "0.1 0.1 0.1 1";
 	image = "WateringCatImage";
-	durability = 1000000;
+	durability = 100000;
 
 	hasDataID = 1;
 	isDataIDTool = 1;
@@ -195,7 +195,7 @@ datablock ItemData(HoseItem : WateringCanItem)
 	uiName = "Hose";
 	colorShiftColor = "0 0.5 0 1";
 	image = "HoseImage";
-	durability = 1000000;
+	durability = 100000;
 
 	hasDataID = 1;
 	isDataIDTool = 1;
@@ -232,7 +232,7 @@ datablock ItemData(HoseV2Item : WateringCanItem)
 	uiName = "Hose V2";
 	colorShiftColor = "0 0 0.5 1";
 	image = "HoseV2Image";
-	durability = 1000000;
+	durability = 100000;
 
 	hasDataID = 1;
 	isDataIDTool = 1;
@@ -269,7 +269,7 @@ datablock ItemData(WateringSnakeItem : WateringCanItem)
 	uiName = "Watering Snake";
 	colorShiftColor = "0 0.5 0 1";
 	image = "WateringSnakeImage";
-	durability = 1000000;
+	durability = 100000;
 
 	hasDataID = 1;
 	isDataIDTool = 1;
