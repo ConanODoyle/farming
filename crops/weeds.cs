@@ -24,8 +24,9 @@ function weedTick(%index)
 		%db = %brick.getDatablock();
 		if (%db.isDirt && !(%db.isPlanter || %db.isPot) && %brick.getGroup().bl_id != 888888 && %brick.nextWeedCheck < $Sim::Time)
 		{
+			%pos = %brick.getPosition();
 			%brick.nextWeedCheck = $Sim::Time + $WeedSpawnTickTime;
-			%hit = containerRaycast(%brick.getPosition(), vectorAdd(%pos, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
+			%hit = containerRaycast(%pos, vectorAdd(%pos, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
 			if (isObject(%hit) && %hit.getDatablock().isGreenhouse)
 			{
 				%brick.inGreenhouse = 1;
