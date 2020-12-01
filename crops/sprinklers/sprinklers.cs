@@ -629,7 +629,7 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 	{
 		if (getTrustLevel(%obj, %hit) < 2)
 		{
-
+			%view = "\c0[Need trust with " @ %hit.getGroup().name @ "\c0!]"
 		}
 		else if (%obj.waterLinkObj == %hit)
 		{
@@ -717,6 +717,12 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 		%hitDB = %hit.getDatablock();
 		if (%hitDB.isWaterTank || %hitDB.isSprinkler)
 		{
+			if (getTrustLevel(%obj, %hit) < 2)
+			{
+				%obj.errorMessage = getBrickGroupFromObject(%hit).name @ " does not trust you enough to do that!"
+				%obj.errorTicks = 20;
+				return;
+			}
 			if (!isObject(%obj.waterLinkObj))
 			{
 				%obj.waterLinkObj = %hit;
@@ -739,6 +745,7 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 		if (getTrustLevel(%obj, %hit) < 2)
 		{
 			%obj.errorMessage = getBrickGroupFromObject(%hit).name @ " does not trust you enough to do that!"
+			%obj.errorTicks = 20;
 		}
 		else if (canLinkWaterObjects(%obj.waterLinkObj, %hit) > 0)
 		{
