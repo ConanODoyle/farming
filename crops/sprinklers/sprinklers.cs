@@ -748,7 +748,7 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 		}
 		else if (isObject(%obj.waterLinkObj) && isObject(%hit))
 		{
-			%obj.errorMessage = "Cannot link to the object!";
+			%obj.errorMessage = "Cannot link to this object!";
 			%obj.errorTicks = 20;
 		}
 	}
