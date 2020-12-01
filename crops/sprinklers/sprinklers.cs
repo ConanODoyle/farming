@@ -627,7 +627,11 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 
 	if (isObject(%hit))
 	{
-		if (%obj.waterLinkObj == %hit)
+		if (getTrustLevel(%obj, %hit) < 2)
+		{
+
+		}
+		else if (%obj.waterLinkObj == %hit)
 		{
 			%view = "\c4[Click to deselect selection";
 		}
@@ -732,7 +736,11 @@ function SprinklerLinkImage::onFire(%this, %obj, %slot)
 	//actual linking
 	if (%obj.waterLinkObj != %hit)
 	{
-		if (canLinkWaterObjects(%obj.waterLinkObj, %hit) > 0)
+		if (getTrustLevel(%obj, %hit) < 2)
+		{
+			%obj.errorMessage = getBrickGroupFromObject(%hit).name @ " does not trust you enough to do that!"
+		}
+		else if (canLinkWaterObjects(%obj.waterLinkObj, %hit) > 0)
 		{
 			linkWaterObjects(%obj.waterLinkObj, %hit);
 		}
