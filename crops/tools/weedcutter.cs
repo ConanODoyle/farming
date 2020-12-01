@@ -25,7 +25,7 @@ datablock ShapeBaseImageData(WeedCutterImage)
 	areaHarvest = 2;
 	stateTimeoutValue[2] = 0.4;
 
-	toolTip = "Area remove and prevent weeds";
+	toolTip = "Area remove weeds";
 
 	stateName[0] = "Activate";
 	stateTimeoutValue[0] = 0.1;
