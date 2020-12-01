@@ -141,7 +141,7 @@ datablock fxDTSBrickData(brickGreenhouseData)
 
 	isGreenhouse = 1;
 
-	cost = 4000;
+	cost = 2800;
 };
 
 
