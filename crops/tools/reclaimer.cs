@@ -106,6 +106,11 @@ function ReclaimerImage::onReady(%this, %obj, %slot)
 				}
 			}
 		}
+		else if (strPos("daisy lily rose", strLwr(%db.cropType)) >= 0)
+		{
+			%canReclaim = 1;
+			%reclaimExpFactor = 1;
+		}
 	}
 
 	%durability = getDurability(%img, %obj, %slot);
@@ -200,8 +205,14 @@ function ReclaimerImage::onFire(%this, %obj, %slot)
 				}
 			}
 		}
+		else if (strPos("daisy lily rose", strLwr(%db.cropType)) >= 0)
+		{
+			%canReclaim = 1;
+			%noDoubles = 1;
+			%reclaimExpFactor = 1;
+		}
 
-		if ((%yield !$= "") && getRandom() < 0.2)
+		if ((%yield !$= "") && getRandom() < 0.2 && !%noDoubles)
 		{
 			%amt = 2;
 			messageClient(%obj.client, '', "<bitmap:base/client/ui/ci/star> \c6You reclaimed two seeds!");
