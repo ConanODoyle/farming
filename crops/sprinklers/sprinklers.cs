@@ -1,4 +1,5 @@
 $SprinklerMaxDistance = 20;
+$SprinklerWaterTime = 500;
 
 if (!isObject(WaterSystemNameTable))
 {
@@ -313,7 +314,7 @@ function validateWaterObject(%flowObj)
 	%ufLinks = " " @ WaterSystemNameTable.obj_[%ufid].branches @ " ";
 	if (strPos(%ufLinks, " " @ %flowObj @ " ") < 0)
 	{
-		WaterSystemNameTable.obj_[%ufid].branches = trim($WaterSystemNameTable.obj_[%ufid].branches SPC %flowObj);
+		WaterSystemNameTable.obj_[%ufid].branches = trim(WaterSystemNameTable.obj_[%ufid].branches SPC %flowObj);
 	}
 
 	//correct self linklist - check for existence and under max distance
