@@ -53,7 +53,7 @@ datablock PlayerData(LargeStorageCartArmor : StorageCartArmor)
 {
 	shapeFile = "./largecart.dts";
 
-	uiName = "Large Storage Cart (4x) - $1200";
+	uiName = "Large Storage Cart (4x) - $900";
 
 	isStorageVehicle = 1;
 	storageSlotCount = 4;
@@ -61,7 +61,7 @@ datablock PlayerData(LargeStorageCartArmor : StorageCartArmor)
 	itemStackCount = 2;
 	menuName = "Large Storage Cart";
 
-	cost = 1200;
+	cost = 900;
 };
 
 // datablock PlayerData(LargeHorseStorageCartArmor : HorseStorageCartArmor)
