@@ -163,8 +163,6 @@ package duoJeepCargoPackage
     {
         Parent::onMount(%this, %obj, %col, %slot);
 
-        talk(%obj SPC %col SPC %slot);
-
         if (!isObject(%col) || %slot != 0 || (%col.getDatablock() != duoCargoJeepVehicle.getID() && %col.getDatablock() != duoStandardJeepVehicle.getID()))
             return;
 
