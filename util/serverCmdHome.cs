@@ -6,33 +6,37 @@ function serverCmdHome(%client) {
 		return;
 	}
 
-	if(isObject(%client.player)) {
+	if(isObject(%pl = %client.player)) {
 		
 		%lotList = %client.brickGroup.lotList;
 		
 		if(getWordCount(%lotList) < 1) {
 			%client.centerPrint("You don't have a home - sending you back to spawn! <br><font:palatino linotype:36>If your lot is missing, talk to the lot manager!", 8);
 			
+			if (isObject(%pl.getObjectMount())) {
+				%pl.dismount();
+			}
+
 			%pb = new Projectile() {
 				dataBlock = "deathProjectile";
 				initialVelocity = "0 0 0";
-				initialPosition = %client.player.getTransform();
-				sourceObject = %client.player;
+				initialPosition = %pl.getTransform();
+				sourceObject = %pl;
 				sourceSlot = 0;
 				client = %client;
 			};
 			
-			%pb.setScale(%client.player.getScale());
+			%pb.setScale(%pl.getScale());
 			MissionCleanup.add(%pb);
 			
 			%client.lastHomeTime = $Sim::Time;
-			%client.player.setTransform(_globalSpawn.getTransform());
+			%pl.setTransform(_globalSpawn.getTransform());
 			
 			%pa = new Projectile() {
 				dataBlock = "deathProjectile";
 				initialVelocity = "0 0 0";
-				initialPosition = %client.player.getTransform();
-				sourceObject = %client.player;
+				initialPosition = %pl.getTransform();
+				sourceObject = %pl;
 				sourceSlot = 0;
 				client = %client;
 			};
@@ -52,32 +56,38 @@ function serverCmdHome(%client) {
 				}
 				if(%lot.getDataBlock().isLot && %lot.getDataBlock().isSingle) {
 					
+					if (isObject(%veh = %pl.getObjectMount()))
+					{
+						%pl.dismount();
+						%veh.spawnBrick.recoverVehicle();
+					}
+					
 					%pb = new Projectile() {
 						dataBlock = "deathProjectile";
 						initialVelocity = "0 0 0";
-						initialPosition = %client.player.getTransform();
-						sourceObject = %client.player;
+						initialPosition = %pl.getTransform();
+						sourceObject = %pl;
 						sourceSlot = 0;
 						client = %client;
 					};
 					
-					%pb.setScale(%client.player.getScale());
+					%pb.setScale(%pl.getScale());
 					MissionCleanup.add(%pb);
 					
 					%client.score--;
 					%client.lastHomeTime = $Sim::Time;
-					%client.player.setTransform(%lot.getTransform());
+					%pl.setTransform(%lot.getTransform());
 					
 					%pa = new Projectile() {
 						dataBlock = "deathProjectile";
 						initialVelocity = "0 0 0";
-						initialPosition = %client.player.getTransform();
-						sourceObject = %client.player;
+						initialPosition = %pl.getTransform();
+						sourceObject = %pl;
 						sourceSlot = 0;
 						client = %client;
 					};
 					
-					%pa.setScale(%client.player.getScale());
+					%pa.setScale(%pl.getScale());
 					MissionCleanup.add(%pa);
 				}
 			}
