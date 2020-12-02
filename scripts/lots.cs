@@ -351,6 +351,16 @@ package lotBuild
 		}
 		return parent::getTrustLevel(%obj1, %obj2);
 	}
+
+	function hammerImage::onHitObject(%this, %player, %slot, %hitObj, %hitPos, %hitNormal)
+	{
+		if (%hitObj.getDatablock().isLot && !%hitObj.willCauseChainKill() && isObject(%player.client))
+		{
+			%player.client.centerprint("You cannot hammer lot bricks!", 3);
+			return;
+		}
+		return parent::onHitObject(%this, %player, %slot, %hitObj, %hitPos, %hitNormal);
+	}
 };
 schedule(1000, 0, activatePackage, lotBuild);
 
