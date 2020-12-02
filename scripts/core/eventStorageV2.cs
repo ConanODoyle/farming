@@ -158,7 +158,15 @@ function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCou
 
 function AIPlayer::insertIntoStorage(%bot, %dataID, %storeItemDB, %insertCount, %itemDataID)
 {
-	return insertIntoStorage(%bot, %bot.spawnBrick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+
+	%output = insertIntoStorage(%bot, %bot.spawnBrick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+
+	if (%bot.getDatablock().hasStorageNodes && (%output == 0 || %output == 1))
+	{
+		%bot.updateStorageNodes(%dataID);
+	}
+
+	return %output;
 }
 
 //input: storage object, brick being stored on, dataID, item db, count of objects inserted, item data id
@@ -347,9 +355,21 @@ function removeStack(%cl, %menu, %option)
 	{
 		%storageObj = %brick;
 	}
-	else if (isObject(%brick.vehicle) && %brick.vehicle.getDatablock().isStorageBrick)
+	else if (isObject(%brick.vehicle))
 	{
-		%storageObj = %brick.vehicle;
+		if (%brick.vehicle.getDatablock().isStorageVehicle)
+		{
+			%storageObj = %brick.vehicle;
+		}
+		else if (isObject(%brick.vehicle.storageBot))
+		{
+			%storageObj = %brick.vehicle.storageBot;
+		}
+	}
+
+	if (%storageObj.getDatablock().hasStorageNodes)
+	{
+		%storageObj.updateStorageNodes(%dataID);
 	}
 
 	if (isObject(%storageObj))
@@ -487,6 +507,55 @@ function AIPlayer::updateStorageDatablock(%bot, %fillLevel, %open)
 		}
 
 		%bot.setDatablock(%datablockName @ "Armor");
+	}
+}
+
+function AIPlayer::hideStorageNodes(%bot)
+{
+	%botDatablock = %bot.getDatablock();
+	%numStorageNodes = %botDatablock.numStorageNodes;
+	%startNode = %botDatablock.storageNodeType;
+	%prefix = %botDatablock.storageNodePrefix;
+	for (%i = %startNode; %i < %numStorageNodes; %i++)
+	{
+		%bot.hideNode(%prefix @ %i);
+	}
+}
+
+function AIPlayer::updateStorageNodes(%bot, %dataID)
+{
+	// we have to update the storage
+	%bot.hideStorageNodes();
+	%botDatablock = %bot.getDatablock();
+	%prefix = %botDatablock.storageNodePrefix;
+
+	%percentFull = 0;
+	%slotCount = %botDatablock.storageSlotCount;
+	for (%slot = 1; %slot < %slotCount + 1; %slot++)
+	{
+		%entry = validateStorageValue(getDataIDArrayValue(%dataID, %slot));
+		%itemDatablock = getField(%entry, 0);
+
+		%count = getField(%entry, 2);
+		%max = %bot.getStorageMax(%itemDatablock);
+
+		%percentFull += %count / %max;
+	}
+	%percentFull /= %slotCount;
+
+	%numNodes = %botDatablock.numStorageNodes;
+	%maxNode = mCeil(%percentFull * (%numNodes - 1));
+
+	if (%botDatablock.storageNodeType == 0)
+	{
+		%bot.unhideNode(%prefix @ %maxNode);
+	}
+	else if (%botDatablock.storageNodeType == 1)
+	{
+		for (%i = 1; %i <= %maxNode; %i++)
+		{
+			%bot.unhideNode(%prefix @ %i);
+		}
 	}
 }
 
