@@ -57,7 +57,7 @@ datablock PlayerData(LargeStorageCartArmor : StorageCartArmor)
 
 	isStorageVehicle = 1;
 	storageSlotCount = 4;
-	storageMultiplier = 8;
+	storageMultiplier = 5;
 	itemStackCount = 2;
 	menuName = "Large Storage Cart";
 
