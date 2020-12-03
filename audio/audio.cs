@@ -318,7 +318,7 @@ datablock AudioProfile(BatteryLoopSound)
 datablock AudioProfile(BusSound)
 {
 	filename = "./bus.wav";
-	description = AudioClose3d;
+	description = AudioClosest3d;
 	preload = true;
 	uiName = "Bus";
 };
