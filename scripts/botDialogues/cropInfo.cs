@@ -189,24 +189,24 @@ function setupCropInfo(%dataObj)
 			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 30 nitrogen, 30 phosphate to start growing + per harvest]";
 
 		case "Lily":
-			%s1 = "Lilies are flowers that add 2 nitrogen to soil every minute, in their final flowering stage.";
-			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+			%s1 = "Lilies are flowers that add 2 nitrogen to soil every 30 seconds, in their final flowering stage.";
+			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again. You can use a reclaimer to reclaim unwilted flowers!";
 			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		case "Lilies":
-			%s1 = "Lilies are flowers that add 2 nitrogen to soil every minute, in their final flowering stage.";
-			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+			%s1 = "Lilies are flowers that add 2 nitrogen to soil every 30 seconds, in their final flowering stage.";
+			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again. You can use a reclaimer to reclaim unwilted flowers!";
 			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		case "Daisy":
-			%s1 = "Daisies are flowers that add 2 phosphate to soil every minute, in their final flowering stage.";
-			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+			%s1 = "Daisies are flowers that add 2 phosphate to soil every 30 seconds, in their final flowering stage.";
+			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again. You can use a reclaimer to reclaim unwilted flowers!";
 			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		case "Daisies":
-			%s1 = "Daisies are flowers that add 2 phosphate to soil every minute, in their final flowering stage.";
-			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+			%s1 = "Daisies are flowers that add 2 phosphate to soil every 30 seconds, in their final flowering stage.";
+			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again. You can use a reclaimer to reclaim unwilted flowers!";
 			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		case "Rose":
-			%s1 = "Roses are flowers that add 1 nitrogen and 1 phosphate to soil every minute, in their final flowering stage.";
-			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again.";
+			%s1 = "Roses are flowers that add 1 nitrogen and 1 phosphate to soil every 30 seconds, in their final flowering stage.";
+			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again. You can use a reclaimer to reclaim unwilted flowers!";
 			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		default:
 			%s1 = "...";
