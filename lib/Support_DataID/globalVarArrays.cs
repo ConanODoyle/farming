@@ -20,6 +20,7 @@ function loadDataIDArray(%aid, %force)
 	{
 		if ($DataIDDebug) talk("loadDataIDArray");
 		deleteVariables("$DataID_" @ %aid @ "*");
+		deleteVariables("$executedDataID" @ %aid);
 		if (isFile("config/server/DataIDs/" @ %aid @ ".cs"))
 		{
 			exec("config/server/DataIDs/" @ %aid @ ".cs");
@@ -28,7 +29,10 @@ function loadDataIDArray(%aid, %force)
 		{
 			echo("No dataID file found for " @ %aid @ "!");
 		}
-		$loadedDataIDs = trim($loadedDataIDs SPC %aid);
+		if (strPos(" " @ $loadedDataIDs @ " ", " " @ %aid @ " ") < 0)
+		{
+			$loadedDataIDs = trim($loadedDataIDs SPC %aid);
+		}
 	}
 	$executedDataID[%aid] = 1;
 
@@ -43,6 +47,7 @@ function saveDataIDArray(%aid, %force)
 	if ($DataIDDebug) talk("saveDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
 	export("$DataID_" @ %aid @ "*", "config/server/DataIDs/" @ %aid @ ".cs");
+	$executedDataID[%aid] = 0;
 	return %aid;
 }
 
@@ -56,7 +61,7 @@ function unloadDataIDArray(%aid)
 	}
 	saveDataIDArray(%aid);
 	deleteVariables("$DataID_" @ %aid @ "*");
-	$executedDataID[%aid] = 0;
+	deleteVariables("$executedDataID" @ %aid);
 }
 
 function deleteDataIDArray(%aid)
@@ -64,6 +69,7 @@ function deleteDataIDArray(%aid)
 	if ($DataIDDebug) talk("deleteDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
 	deleteVariables("$DataID_" @ %aid @ "*");
+	deleteVariables("$executedDataID" @ %aid);
 	fileDelete("config/server/DataIDs/" @ %aid @ ".cs");
 	return %aid;
 }
@@ -320,6 +326,7 @@ function clearDataIDArray(%aid)
 	if ($DataIDDebug) talk("clearDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
 	deleteVariables("$DataID_" @ %aid @ "*");
+	deleteVariables("$executedDataID" @ %aid);
 
 	if (isFile("config/server/DataIDs/" @ %aid @ ".cs"))
 	{
