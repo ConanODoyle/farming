@@ -154,7 +154,7 @@ function setupCropInfo(%dataObj)
 		case "Blueberry":
 			%s1 = "Blueberries are profitable cash crops, able to be harvested 3 times for 2-6 berries per harvest.";
 			%s2 = "However, they need nutrients to grow fully. They cost 20 experience to plant, and give 5-6 experience per harvest.";
-			%s3 = "[Required spacing: 3, required nutrients: 2 nitrogen, 2 phosphate]";
+			%s3 = "[Required spacing: 3, required nutrients: 3 nitrogen, 3 phosphate]";
 		case "Chili":
 			%s1 = "Chilis are a desert crop that use nearly no water and drop 2-5 per harvest. However, they need nutrients to fully grow.";
 			%s2 = "They can be harvested 2 times, costing 12 experience and returning 5-6 experience per harvest.";
