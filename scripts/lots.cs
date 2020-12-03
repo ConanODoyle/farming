@@ -230,8 +230,21 @@ function fxDTSBrick::updateGroupLotCount(%brick, %amt)
 
 function SimGroup::refreshLotList(%bg)
 {
-	if (%bg.bl_id == 888888 || %bg.bl_id $= "") //no need to manage lots in public brickgroup
+	if (%bg.bl_id $= "")
 	{
+		return;
+	}
+	if (%bg.bl_id == 888888) //only remove non-lots
+	{
+		for (%i = 0; %i < %bg.lotList; %i++)
+		{
+			%o = getWord(%bg.lotList, %i);
+			if (isObject(%o) && %o.getDatablock().isLot)
+			{
+				%list = %list SPC %o;
+			}
+		}
+		%bg.lotList = trim(%list);
 		return;
 	}
 	%count = %bg.getCount();
@@ -261,7 +274,7 @@ function fixLotColor(%brick)
 		}
 		else
 		{
-			%brick.setColor(47);
+			%brick.setColor(57);
 		}
 	}
 	else
@@ -272,7 +285,7 @@ function fixLotColor(%brick)
 		}
 		else
 		{
-			%brick.setColor(48);
+			%brick.setColor(58);
 		}
 	}
 	%brick.setShapeFX(0);
