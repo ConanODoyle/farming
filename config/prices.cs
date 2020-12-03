@@ -29,7 +29,7 @@ $BuyCost_["Weed_Cutter"] = 200;
 $BuyCost_["Organic_Analyzer"] = 700;
 
 //Extra stackable items
-$BuyCost_["Fertilizer"] = 1.00;
+$BuyCost_["Fertilizer"] = 0.50;
 $BuyCost_["WeedKiller"] = 0.50;
 $BuyCost_["Compost"] = 0.50;
 $BuyCost_["Phosphate"] = 0.50;
