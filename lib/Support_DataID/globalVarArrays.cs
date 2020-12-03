@@ -47,7 +47,6 @@ function saveDataIDArray(%aid, %force)
 	if ($DataIDDebug) talk("saveDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
 	export("$DataID_" @ %aid @ "*", "config/server/DataIDs/" @ %aid @ ".cs");
-	$executedDataID[%aid] = 0;
 	return %aid;
 }
 
