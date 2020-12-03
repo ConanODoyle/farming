@@ -418,3 +418,38 @@ datablock AudioProfile(Fun0Sound)
 	preload = true;
 	uiName = "";
 };
+
+
+// serverPlay3D rewrite to avoid broadcasting 3D sound updates to players that are too far away to hear them.
+function serverPlay3D(%profile, %transform)
+{
+	if(!isObject(%profile))
+	{
+		error(%profile SPC "is not a valid AudioDescription.");
+		return;
+	}
+
+	%maxDistance = %profile.description.maxDistance * 2;
+
+	if(%maxDistance == 0)
+	{
+		warn(%profile.getName() SPC "has no maxDistance on its AudioDescription?");
+		backtrace();
+		%maxDistance = 20; // Just in case
+	}
+
+	%count = ClientGroup.getCount();
+
+	for(%i = 0; %i < %count; %i++)
+	{
+		%client = ClientGroup.getObject(%i);
+
+		if(isObject(%control = %client.getControlObject()))
+		{
+			if(vectorDist(%control.getPosition(), %transform) < %maxDistance)
+			{
+				%client.play3D(%profile, %transform);
+			}
+		}
+	}
+}
