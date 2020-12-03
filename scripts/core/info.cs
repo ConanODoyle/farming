@@ -145,6 +145,10 @@ function bottomprintInfo(%cl)
 						}
 						break;
 					}
+					else if (%hit.getGroup().bl_id == 888888)
+					{
+						break;
+					}
 					%ray = containerRaycast(vectorSub(getWords(%ray, 1, 3), "0 0 0.1"), %end, $Typemasks::fxBrickAlwaysObjectType, %hit);
 				}
 
