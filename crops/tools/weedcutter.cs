@@ -8,7 +8,13 @@ datablock ItemData(WeedCutterItem : HammerItem)
 	colorShiftColor = "0.4 0 0 1";
 	doColorShift = false;
 
-	cost = 1200;
+	hasDataID = 1;
+	isDataIDTool = 1;
+	
+	durabilityFunction = "generateHarvestToolDurability";
+	baseDurability = 20;
+	chanceDurability = 0.7;
+	bonusDurability = 10;
 };
 
 datablock ShapeBaseImageData(WeedCutterImage)
