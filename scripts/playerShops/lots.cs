@@ -56,6 +56,12 @@ function fxDTSBrick::updateShopSet(%this, %removed)
 	{
 		$ShopSet.add(%this);
 	}
+
+	%bg = %this.getGroup();
+	if (%bg.getName() $= "BrickGroup_888888")
+	{
+		fixShopLotColor(%brick);
+	}
 }
 
 package shopLotBuild
