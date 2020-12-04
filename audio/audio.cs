@@ -266,6 +266,14 @@ datablock AudioProfile(TearsInTheRainMusic)
 	uiName = "Tears in the Rain";
 };
 
+datablock AudioProfile(RatsBirthdayMusic)
+{
+	filename = "./Music/ratsbirthday.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "YMCA Rats";
+};
+
 
 
 
