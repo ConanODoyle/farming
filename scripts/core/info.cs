@@ -134,15 +134,20 @@ function bottomprintInfo(%cl)
 
 				while (isObject(%hit = getWord(%ray, 0)) && %safety++ < 100)
 				{
-					if (%hit.getDatablock().isLot)
+					if (%hit.getDatablock().isLot || %hit.getDatablock().isShopLot)
 					{
 						%owner = getBrickgroupFromObject(%hit).name;
 						%bl_id = getBrickgroupFromObject(%hit).bl_id;
 						if (%hit.getDatablock().isSingle)
 						{
-							%isSingle = 1;
-							%single = "Center ";
+							%prefix = "Center ";
 						}
+
+						if (%hit.getDatablock().isShopLot)
+						{
+							%prefix = "Shop ";
+						}
+
 						break;
 					}
 					else if (%hit.getGroup().bl_id == 888888)
@@ -154,11 +159,11 @@ function bottomprintInfo(%cl)
 
 				if (%owner !$= "" && %bl_id != 888888 && %bl_id != 999999)
 				{
-					%pre = %pre @ "\c6      [" @ %single @ "Lot Owner: \c2" @ %owner @ "\c6]";
+					%pre = %pre @ "\c6      [" @ %prefix @ "Lot Owner: \c2" @ %owner @ "\c6]";
 				}
 				else if (%owner !$= "")
 				{
-					%pre = %pre @ "\c6      [" @ %single @ "Lot Owner: None]";
+					%pre = %pre @ "\c6      [" @ %prefix @ "Lot Owner: None]";
 				}
 			}
 		}
@@ -171,15 +176,20 @@ function bottomprintInfo(%cl)
 
 			while (isObject(%hit = getWord(%ray, 0)) && %safety++ < 100)
 			{
-				if (%hit.getDatablock().isLot)
+				if (%hit.getDatablock().isLot || %hit.getDatablock().isShopLot)
 				{
 					%owner = getBrickgroupFromObject(%hit).name;
 					%bl_id = getBrickgroupFromObject(%hit).bl_id;
 					if (%hit.getDatablock().isSingle)
 					{
-						%isSingle = 1;
-						%single = "Center ";
+						%prefix = "Center ";
 					}
+
+					if (%hit.getDatablock().isShopLot)
+					{
+						%prefix = "Shop ";
+					}
+
 					break;
 				}
 				%ray = containerRaycast(vectorSub(getWords(%ray, 1, 3), "0 0 0.1"), %end, $Typemasks::fxBrickAlwaysObjectType, %hit);
@@ -187,11 +197,11 @@ function bottomprintInfo(%cl)
 
 			if (%owner !$= "" && %bl_id != 888888 && %bl_id != 999999)
 			{
-				%pre = %pre @ "\c6      [" @ %single @ "Lot Owner: \c2" @ %owner @ "\c6]";
+				%pre = %pre @ "\c6      [" @ %prefix @ "Lot Owner: \c2" @ %owner @ "\c6]";
 			}
 			else if (%owner !$= "")
 			{
-				%pre = %pre @ "\c6      [" @ %single @ "Lot Owner: None]";
+				%pre = %pre @ "\c6      [" @ %prefix @ "Lot Owner: None]";
 			}
 		}
 	}

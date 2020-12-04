@@ -36,16 +36,9 @@ function loadLot(%bl_id, %lot, %rotation)
 		return -1;
 	}
 
-	if ($LotLoadingFlag)
-	{
-		error("ERROR: loadLot - lot currently loading!");
-		return -2;
-	}
-
 	%adj = getField(getNumAdjacentLots(%lot, "all"), 1);
 	%count = 0;
 	%dataObj = new ScriptObject(LotLoadingDataObj);
-	%rot = "1 0 0 0";
 	%dataObj.pos[%count] = %lot.getPosition();
 	%dataObj.obj[%count] = %lot;
 	%count++;
@@ -70,31 +63,11 @@ function loadLot(%bl_id, %lot, %rotation)
 	}
 	%dataObj.count = %count;
 
-	loadLastLotAutosave(%bl_id, %dataObj, %rotation);
+	farmingLoadLastAutosave(%bl_id, "Lot", %dataObj, %rotation);
 }
 
 package lotMovingPackage
 {
-	function resetLotLoading()
-	{
-		%dataObj = $LotLoadDataObject;
-		$LotLoadDataObject = "";
-		schedule(1, MissionCleanup, restoreLotBricks, %dataObj);
-		return parent::resetLotLoading();
-	}
-
-	function Autosaver_Save(%file)
-	{
-		%currBrickgroup = $CurrentLotSaving;
-		%ret = parent::Autosaver_Save(%file);
-		if (%currBrickgroup.isSaveClearingLot)
-		{
-			clearLots(%currBrickgroup);
-			$CurrentLotSaving = "";
-		}
-		return %ret;
-	}
-
 	function serverCmdPlantBrick(%cl)
 	{
 		%bg = %cl.brickGroup;
@@ -108,43 +81,6 @@ package lotMovingPackage
 	}
 };
 schedule(5000, 0, activatePackage, lotMovingPackage);
-
-function clearLots(%bg)
-{
-	%count = %count + 0;
-	%bg.isSaveClearingLot = 1;
-	while (%bg.getCount() > 0 && %count < 1024)
-	{
-		%b = %bg.getObject(0);
-		if (%b.getDatablock().isLot)
-		{
-			Brickgroup_888888.add(%b);
-			fixLotColor(%b);
-
-			if (!%b.getDatablock().isSingle)
-			{
-				%b.setDatablock("brick32x32LotRaisedData");
-			}
-
-			schedule(100, %b, clearLotRecursive, %b);
-		}
-		else
-		{
-			%b.delete(); //deleted objects arent sold
-		}
-	}
-
-	if (%bg.getCount() == 0)
-	{
-		%bg.refreshLotList();
-		%bg.isSaveClearingLot = 0;
-		return;
-	}
-	else
-	{
-		schedule(1, %bg, clearLots, %bg);
-	}
-}
 
 function restoreLotBricks(%dataObj)
 {
@@ -182,34 +118,4 @@ function restoreLotBricks(%dataObj)
 		Brickgroup_888888.add(%b);
 	}
 	%dataObj.delete();
-}
-
-function obtainAllOwnership(%lotBrick)
-{
-	%lotGroup = %lotBrick.getGroup();
-
-	%top = vectorAdd(%lotBrick.getPosition(), "0 0 0.1");
-	%pos = vectorAdd(%top, "0 0 " @ $maxLotBuildHeight / 2);
-	%box = %lotBrick.getDatablock().brickSizeX * 0.5 - 0.05;
-	%box = %box SPC %box SPC ($maxLotBuildHeight - 0.05);
-
-
-	%lotBounds = getBrickBounds(%lotBrick, $maxLotBuildHeight);
-
-	initContainerBoxSearch(%pos, %box, $TypeMasks::fxBrickAlwaysObjectType);
-	for (%i = 0; %i < 1024 * 20; %i++)
-	{
-		if (!isObject(%next = containerSearchNext()))
-		{
-			//we're done
-			break;
-		}
-
-
-		if (%next.getGroup() != %lotGroup
-			&& isContainedInBounds(%next.getPosition() TAB %next.getPosition(), %lotBounds))
-		{
-			%lotGroup.add(%next);
-		}
-	}
 }

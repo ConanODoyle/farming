@@ -8,30 +8,7 @@ if (%error == $Error::Addon_NotFound)
 	crash();
 }
 
-
-function saveLotBLID(%bl_id)
-{
-	%date = getDateTime();
-	%save_date = strReplace(getWord(%date, 0), "/", "-");
-	%save_time = stripChars(getWord(%date, 1), ":");
-
-	%name = "Lots/" @ %bl_id @ "/Lot Autosave (" @ %bl_id @ ") - " @ %save_date @ " at " @ %save_time;
-
-	//force autosave to happen even without changes
-	$Server::AS["BrickChanged"] = 1;
-	if (Autosaver_Begin(%name, %bl_id) == -100)
-	{
-		echo("ERROR: saveLotBLID - autosaver is running");
-		return -1;
-	}
-
-	$Pref::Farming::LastLotAutosave[%bl_id] = %name;
-	exportServerPrefs();
-
-	return 0;
-}
-
-function loadLotAutosave(%path, %dataObj, %rotation, %bl_id)
+function farmingLoadAutosave(%path, %type, %dataObj, %rotation, %bl_id)
 {
 	if (!isFile(%path))
 	{
@@ -41,8 +18,8 @@ function loadLotAutosave(%path, %dataObj, %rotation, %bl_id)
 		}
 		else
 		{
-			error("ERROR: loadLotAutosave - %path " @ %path @ " is not a valid file");
-			talk("ERROR: loadLotAutosave - %path " @ %path @ " is not a valid file");
+			error("ERROR: farmingLoadAutosave - %path " @ %path @ " is not a valid file");
+			talk("ERROR: farmingLoadAutosave - %path " @ %path @ " is not a valid file");
 			return -1;
 		}
 	}
@@ -67,19 +44,19 @@ function loadLotAutosave(%path, %dataObj, %rotation, %bl_id)
 	}
 	// talk("Set loadoffset to " @ %offset @ " - description: " @ %desc);
 	// return;
-	echo("loadLotAutosave: " @ %dataObj);
-	farmingDirectLoadLot(findClientByBL_ID(%bl_id), %path, %dataObj, %offset, %position, %rotation, 3, 1);
+	echo("farmingLoadAutosave: " @ %dataObj);
+	farmingDirectLoad(findClientByBL_ID(%bl_id), %path, %type, %dataObj, %offset, %position, %rotation, 3, 1);
 }
 
-function loadLastLotAutosave(%bl_id, %dataObj, %rotation)
+function farmingLoadLastAutosave(%bl_id, %type, %dataObj, %rotation)
 {
-	if ($Pref::Farming::LastLotAutosave[%bl_id] !$= "")
+	if ($Pref::Farming::Last[%type @ "Autosave" @ %bl_id] !$= "")
 	{
-		loadLotAutosave($Pref::Farming::LastLotAutosave[%bl_id], %dataObj, %rotation, %bl_id);
+		farmingLoadAutosave($Pref::Farming::Last[%type @ "Autosave" @ %bl_id], %type, %dataObj, %rotation, %bl_id);
 		// talk("Loading lot " @ %bl_id @ " at " @ %dataObj.pos[0] @ "...");
 		return;
 	}
-	echo("[" @ getDateTime() @ "] loadLastLotAutosave: No last lot found for BLID " @ %bl_id @ "!");
+	echo("[" @ getDateTime() @ "] farmingLoadLastAutosave: No last lot found for BLID " @ %bl_id @ "!");
 }
 
 package FarmingAutosaverLoader

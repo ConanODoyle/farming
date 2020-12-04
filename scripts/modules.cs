@@ -10,7 +10,7 @@ exec("./botShop/server.cs");
 exec("./packages/server.cs");
 exec("./processors/server.cs");
 exec("./lotMoving/server.cs");
-// exec("./playerShops/server.cs");
+exec("./playerShops/server.cs");
 exec("./experienceContent/server.cs");
 exec("./weedKiller/server.cs");
 exec("./quests/server.cs");

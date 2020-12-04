@@ -1,19 +1,19 @@
 $Pref::Farming::SaveLot::MaxBricksPerTick = 128;
 
-function farmingSaveLotInitFile(%bl_id)
+function farmingSaveInitFile(%bl_id, %type)
 {
 	%date = getDateTime();
 	%save_date = strReplace(getWord(%date, 0), "/", "-");
 	%save_time = stripChars(getWord(%date, 1), ":");
 
-	%path = $Pref::Server::AS_["Directory"] @ "Lots/" @ %bl_id @ "/Lot Autosave (" @ %bl_id @ ") - " @ %save_date @ " at " @ %save_time @ ".bls";
+	%path = $Pref::Server::AS_["Directory"] @ %type @ "s/" @ %bl_id @ "/" @ %type @ " Autosave (" @ %bl_id @ ") - " @ %save_date @ " at " @ %save_time @ ".bls";
 	%file = new FileObject();
 	%file.savingBL_ID = %bl_id;
 	%file.savingGroup = "BrickGroup_" @ %bl_id;
 	%file.path = %path;
 
 	%file.openForWrite(%path);
-	%file.writeLine("This is a Farming lot autosave! Don't modify it, you'll likely cause it to load improperly.");
+	%file.writeLine("This is a Farming " @ strLwr(%type) @ " autosave! Don't modify it, you'll likely cause it to load improperly.");
 	%file.writeLine("1");
 	%file.writeLine("0 0 0"); // offset is 0
 
@@ -26,12 +26,12 @@ function farmingSaveLotInitFile(%bl_id)
 	return %file;
 }
 
-function farmingSaveLotWriteBrick(%file, %brick)
+function farmingSaveWriteBrick(%file, %brick)
 {
 	%brickData = %brick.getDataBlock();
 	%uiName = %brickData.uiName;
 	%trans = %brick.getTransform();
-	%pos = vectorSub(getWords(%trans, 0, 2), $Farming::Temp::LotOrigin[%file]);
+	%pos = vectorSub(getWords(%trans, 0, 2), $Farming::Temp::Origin[%file]);
 	if (%brickData.hasPrint)
 	{
 		%filename = getPrintTexture(%brick.getPrintID());
@@ -142,56 +142,64 @@ function farmingSaveLotWriteBrick(%file, %brick)
 	}
 }
 
-function farmingSaveLotEnd(%file)
+function capitalizeFirstChar(%string) {
+	return strUpr(getSubStr(%string, 0, 1)) @ strLwr(getSubStr(%string, 1, -1));
+}
+
+function farmingSaveEnd(%file, %type, %delete)
 {
 	// clean up global variables
-	deleteVariables("$Farming::Temp::LotOrigin" @ %file);
+	deleteVariables("$Farming::Temp::Origin" @ %file);
 
-	$Farming::Temp::LotBrickSet[%file].delete();
-	$Farming::Temp::LotBrickQueue[%file].delete();
-	deleteVariables("$Farming::Temp::LotBrickSet" @ %file);
-	deleteVariables("$Farming::Temp::LotBrickQueue" @ %file);
+	$Farming::Temp::BrickSet[%file].delete();
+	$Farming::Temp::BrickQueue[%file].delete();
+	deleteVariables("$Farming::Temp::BrickSet" @ %file);
+	deleteVariables("$Farming::Temp::BrickQueue" @ %file);
 
-	$Pref::Farming::LastLotAutosave[%file.savingBL_ID] = %file.path;
+	$Pref::Farming::Last[%type @ "Autosave" @ %file.savingBL_ID] = %file.path;
 
 	%file.savingGroup.isSaveClearingLot = false;
 
-	messageAll('', "\c6Finished saving \c2" @ %file.savingGroup.name @ "\c6's lot.");
+	messageAll('', "\c6Finished saving \c2" @ %file.savingGroup.name @ "\c6's " @ strLwr(%type) @ ".");
 
 	%file.close();
 
-	if ($Farming::ReloadLot[%file.savingBL_ID] !$= "")
+	if ($Farming::Reload[%file.savingBL_ID] !$= "")
 	{
-		%lot = getWord($Farming::ReloadLot[%file.savingBL_ID], 0);
-		%rotation = getWord($Farming::ReloadLot[%file.savingBL_ID], 1);
-		$Farming::ReloadLot[%file.savingBL_ID] = "";
-		loadLot(%file.savingBL_ID, %lot, %rotation);
+		%lot = getWord($Farming::Reload[%file.savingBL_ID], 0);
+		%rotation = getWord($Farming::Reload[%file.savingBL_ID], 1);
+		$Farming::Reload[%file.savingBL_ID] = "";
+		call("load" @ %type, %file.savingBL_ID, %lot, %rotation);
+	}
+	else if (%type $= "Lot" && isObject(%file.savingGroup.shopLot))
+	{
+		farmingSaveShop(%file.savingBL_ID, %delete);
 	}
 
 	%file.delete(); // deletes the file object, *not* the file
 }
 
-function farmingSaveLotWriteSaveRecursive(%file, %delete, %brickIndex)
+function farmingSaveWriteRecursive(%file, %type, %delete, %brickIndex)
 {
-	%brickCount = $Farming::Temp::LotBrickSet[%file].getCount();
+	%brickCount = $Farming::Temp::BrickSet[%file].getCount();
 	if (%brickCount <= %brickIndex)
 	{
 		// save is written
-		return farmingSaveLotEnd(%file);
+		return farmingSaveEnd(%file, %type, %delete);
 	}
 
 	// write the save!
-	for (%bricksThisTick = 0; %bricksThisTick < $Pref::Farming::SaveLot::MaxBricksPerTick && $Farming::Temp::LotBrickSet[%file].getCount() > 0; %bricksThisTick++)
+	for (%bricksThisTick = 0; %bricksThisTick < $Pref::Farming::SaveLot::MaxBricksPerTick && $Farming::Temp::BrickSet[%file].getCount() > 0; %bricksThisTick++)
 	{
-		%brick = $Farming::Temp::LotBrickSet[%file].getObject(0);
+		%brick = $Farming::Temp::BrickSet[%file].getObject(0);
 
-		farmingSaveLotWriteBrick(%file, %brick);
+		farmingSaveWriteBrick(%file, %brick, $Pref::Farming::SaveLot::MaxBricksPerTick);
 
-		$Farming::Temp::LotBrickSet[%file].remove(%brick);
+		$Farming::Temp::BrickSet[%file].remove(%brick);
 
 		if (%delete)
 		{
-			if (%brick.getDatablock().isLot)
+			if (%type $= "Lot" && %brick.getDatablock().isLot)
 			{
 				BrickGroup_888888.add(%brick);
 				BrickGroup_888888.lotList = BrickGroup_888888.lotList SPC %brick;
@@ -215,6 +223,13 @@ function farmingSaveLotWriteSaveRecursive(%file, %delete, %brickIndex)
 
 				fixLotColor(%brick);
 			}
+			else if (%type $= "Shop" && %brick.getDataBlock().isShopLot)
+			{
+				%brick.getGroup().shopLot = "";
+				BrickGroup_888888.add(%brick);
+
+				fixShopLotColor(%brick);
+			}
 			else
 			{
 				%brick.skipSell = true;
@@ -223,17 +238,17 @@ function farmingSaveLotWriteSaveRecursive(%file, %delete, %brickIndex)
 		}
 	}
 
-	if ($Farming::Temp::LotBrickSet[%file].getCount() <= 0)
+	if ($Farming::Temp::BrickSet[%file].getCount() <= 0)
 	{
 		// save is written
-		return farmingSaveLotEnd(%file, %delete);
+		return farmingSaveEnd(%file, %type, %delete);
 	}
 
 	// ran out of bricks this tick
-	schedule(33, 0, farmingSaveLotWriteSaveRecursive, %file, %delete, %brickIndex);
+	schedule(33, 0, farmingSaveWriteRecursive, %file, %type, %delete, %brickIndex);
 }
 
-function farmingSaveLotGatherSingleBrick(%file, %brick)
+function farmingSaveGatherSingleBrick(%file, %brick)
 {
 	%file.linecount++;
 	if (%brick.bl_id !$= "")
@@ -279,10 +294,10 @@ function farmingSaveLotGatherSingleBrick(%file, %brick)
 		%file.linecount++;
 	}
 
-	$Farming::Temp::LotBrickSet[%file].add(%brick);
+	$Farming::Temp::BrickSet[%file].add(%brick);
 }
 
-function farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %rootBrick, %searchDown, %iterPos, %brickCount)
+function farmingSaveGatherBricksRecursive(%file, %type, %lots, %delete, %index, %rootBrick, %searchDown, %iterPos, %brickCount)
 {
 	// get bricks and save each recursively on a schedule
 	if (!%searchDown)
@@ -295,14 +310,14 @@ function farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %roo
 		)
 		{
 			if (%brick.getGroup() == BrickGroup_888888.getID()) continue;
-			$Farming::Temp::LotBrickQueue[%file].add(%brick);
+			$Farming::Temp::BrickQueue[%file].add(%brick);
 			%brickCount++;
 		}
 
 		if (%brickCount >= $Pref::Farming::SaveLot::MaxBricksPerTick)
 		{
 			// ran out of bricks to work with this tick
-			schedule(33, 0, farmingSaveLotGatherBricksRecursive, %file, %lots, %delete, %index, %rootBrick, false, %iterPos, 0);
+			schedule(33, 0, farmingSaveGatherBricksRecursive, %file, %type, %lots, %delete, %index, %rootBrick, false, %iterPos, 0);
 			return;
 		}
 
@@ -319,32 +334,32 @@ function farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %roo
 	)
 	{
 		if (%brick.getGroup() == BrickGroup_888888.getID()) continue;
-		$Farming::Temp::LotBrickQueue[%file].add(%brick);
+		$Farming::Temp::BrickQueue[%file].add(%brick);
 		%brickCount++;
 	}
 
 	if (%brickCount >= $Pref::Farming::SaveLot::MaxBricksPerTick)
 	{
 		// ran out of bricks to work with this tick
-		schedule(33, 0, farmingSaveLotGatherBricksRecursive, %file, %lots, %delete, %index, %rootBrick, true, %iterPos, 0);
+		schedule(33, 0, farmingSaveGatherBricksRecursive, %file, %type, %lots, %delete, %index, %rootBrick, true, %iterPos, 0);
 		return;
 	}
 
 	// add the root to the processed bricks list because we've processed it
-	farmingSaveLotGatherSingleBrick(%file, %rootBrick);
+	farmingSaveGatherSingleBrick(%file, %rootBrick);
 
 	// we finished, move to the next brick
-	if ($Farming::Temp::LotBrickQueue[%file].getCount() > 0)
+	if ($Farming::Temp::BrickQueue[%file].getCount() > 0)
 	{
 		// don't re-process any bricks because duh
 		for (
-			%nextRoot = $Farming::Temp::LotBrickQueue[%file].getObject(0);
-			$Farming::Temp::LotBrickSet[%file].isMember(%nextRoot);
-			%nextRoot = $Farming::Temp::LotBrickQueue[%file].getObject(0)
+			%nextRoot = $Farming::Temp::BrickQueue[%file].getObject(0);
+			$Farming::Temp::BrickSet[%file].isMember(%nextRoot);
+			%nextRoot = $Farming::Temp::BrickQueue[%file].getObject(0)
 		)
 		{
-			$Farming::Temp::LotBrickQueue[%file].remove(%nextRoot);
-			if ($Farming::Temp::LotBrickQueue[%file].getCount() <= 0)
+			$Farming::Temp::BrickQueue[%file].remove(%nextRoot);
+			if ($Farming::Temp::BrickQueue[%file].getCount() <= 0)
 			{
 				%nextRoot = "";
 				break;
@@ -355,28 +370,30 @@ function farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %roo
 	if (isObject(%nextRoot))
 	{
 		// we still have more bricks for this lot!
-		farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %nextRoot, false, 0, %brickCount);
+		farmingSaveGatherBricksRecursive(%file, %type, %lots, %delete, %index, %nextRoot, false, 0, %brickCount);
 	}
 	else
 	{
 		// no more bricks for this lot
-		schedule(33, 0, farmingSaveLotGatherBricks, %file, %lots, %delete, %index + 1);
+		schedule(33, 0, farmingSaveGatherBricks, %file, %type, %lots, %delete, %index + 1);
 	}
 }
 
-function farmingSaveLotGatherBricks(%file, %lots, %delete, %index)
+// pass me a single lot like farmingSaveGatherBricks(file, lots, delete, type) :)
+function farmingSaveGatherBricks(%file, %type, %lots, %delete, %index)
 {
+
 	%lot = getWord(%lots, %index);
 	if (isObject(%lot))
 	{
-		farmingSaveLotGatherBricksRecursive(%file, %lots, %delete, %index, %lot);
+		farmingSaveGatherBricksRecursive(%file, %type, %lots, %delete, %index, %lot);
 		return;
 	}
 	else
 	{
 		%file.writeLine("Linecount " @ %file.linecount);
-		messageAll('', "\c6Saving " @ (%delete ? "and unloading " : "") @ "\c2" @ %file.savingGroup.name @ "\c6's lot... (" @ $Farming::Temp::LotBrickSet[%file].getCount() @ " bricks)");
-		farmingSaveLotWriteSaveRecursive(%file, %delete, 0);
+		messageAll('', "\c6Saving " @ (%delete ? "and unloading " : "") @ "\c2" @ %file.savingGroup.name @ "\c6's " @ strLwr(%type) @ "... (" @ $Farming::Temp::BrickSet[%file].getCount() @ " bricks)");
+		farmingSaveWriteRecursive(%file, %type, %delete);
 	}
 }
 
@@ -390,8 +407,6 @@ function farmingSaveLot(%bl_id, %delete)
 		echo("ERROR: farmingSaveLot - Client has no brickgroup! " @ %client);
 		return -1;
 	}
-
-	%brickGroup.isSaveClearingLot = true;
 
 	%lots = %brickGroup.lotList;
 	%numLots = getWordCount(%lots);
@@ -420,10 +435,12 @@ function farmingSaveLot(%bl_id, %delete)
 		return -1;
 	}
 
-	%file = farmingSaveLotInitFile(%bl_id);
+	%brickGroup.isSaveClearingLot = true;
 
-	$Farming::Temp::LotOrigin[%file] = %singleLot.position;
-	$Farming::Temp::LotBrickQueue[%file] = new SimSet();
-	$Farming::Temp::LotBrickSet[%file] = new SimSet();
-	farmingSaveLotGatherBricks(%file, %lots, %delete, 0);
+	%file = farmingSaveInitFile(%bl_id, "Lot");
+
+	$Farming::Temp::Origin[%file] = %singleLot.position;
+	$Farming::Temp::BrickQueue[%file] = new SimSet();
+	$Farming::Temp::BrickSet[%file] = new SimSet();
+	farmingSaveGatherBricks(%file, "Lot", %lots, %delete);
 }

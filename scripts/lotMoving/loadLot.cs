@@ -8,7 +8,7 @@ if (%error == $Error::Addon_NotFound)
 }
 
 
-function farmingProcessLotColorData(%loadFile, %colorMethod)
+function farmingProcessColorData(%loadFile, %colorMethod)
 {
 	%colorCount = -1;
 	%i = 0;
@@ -76,7 +76,7 @@ function farmingProcessLotColorData(%loadFile, %colorMethod)
 				}
 				if (%match == 0)
 				{
-					error("ERROR: farmingProcessLotColorData() - color method 0 specified but match not found for color " @ %color);
+					error("ERROR: farmingProcessColorData() - color method 0 specified but match not found for color " @ %color);
 				}
 			}
 		}
@@ -207,7 +207,7 @@ function rotatePoint(%center, %point, %deg)
 	return vectorAdd(%rotatedPoint, %center);
 }
 
-function farmingLoadLotEnd(%loadFile, %dataObj, %brickGroup)
+function farmingLoadEnd(%loadFile, %type, %dataObj, %brickGroup)
 {
 	// loop through all of the bricks
 	%brickSet = %dataObj.brickSet;
@@ -218,8 +218,13 @@ function farmingLoadLotEnd(%loadFile, %dataObj, %brickGroup)
 		{
 			%brick = %brickSet.getObject(%i);
 
+			if (%brick.getDataBlock().isShopLot)
+			{
+				%brick.getGroup().shopLot = %brick;
+			}
+
 			// check if brick is floating
-			if((!%brick.hasPathToGround() && %brick.getNumDownBricks() == 0) || %brick.getDataBlock().isLot)
+			if((!%brick.hasPathToGround() && %brick.getNumDownBricks() == 0) || %brick.getDataBlock().isLot || %brick.getDataBlock().isShopLot)
 			{
 				%brick.isBaseplate = true;
 				%brick.willCauseChainKill(); // recompute - thanks new duplicator
@@ -231,11 +236,14 @@ function farmingLoadLotEnd(%loadFile, %dataObj, %brickGroup)
 
 	%time = getSimTime() - %startTime;
 	%loadFile.delete();
-	restoreLotBricks(%dataObj);
+	if (%type $= "Lot")
+	{
+		restoreLotBricks(%dataObj);
+	}
 	schedule(1000, %brickGroup, eval, %brickGroup @ ".isLoadingLot = 0;");
 }
 
-function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount) // needs replacing ServerLoadSaveFile_Tick
+function farmingLoadTick(%loadFile, %type, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount) // needs replacing ServerLoadSaveFile_Tick
 {
 	if (isObject(ServerConnection))
 	{
@@ -544,13 +552,13 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 		if (getBrickCount() >= getBrickLimit())
 		{
 			MessageAll('', 'Brick limit reached (%1)', getBrickLimit());
-			farmingLoadLotEnd(%loadFile);
+			farmingLoadEnd(%loadFile, %type, %dataObj, %brickGroup);
 			return;
 		}
 		%quotePos = strstr(%line, "\"");
 		if (%quotePos <= 0)
 		{
-			error("ERROR: farmingLoadLotTick() - Bad line \"" @ %line @ "\" - expected brick line but found no uiname");
+			error("ERROR: farmingLoadTick() - Bad line \"" @ %line @ "\" - expected brick line but found no uiname");
 			return;
 		}
 		%uiName = getSubStr(%line, 0, %quotePos);
@@ -628,10 +636,10 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 			}
 			else 
 			{
-				error("ERROR: farmingLoadLotTick() - %brickGroup does not exist!");
-				MessageAll('', "ERROR: farmingLoadLotTick() - %brickGroup \"" @ %brickGroup @ "\" does not exist!");
+				error("ERROR: farmingLoadTick() - %brickGroup does not exist!");
+				MessageAll('', "ERROR: farmingLoadTick() - %brickGroup \"" @ %brickGroup @ "\" does not exist!");
 				%b.delete();
-				farmingLoadLotEnd(%loadFile);
+				farmingLoadEnd(%loadFile, %type, %dataObj, %brickGroup);
 				return;
 			}
 			%b.setTransform(%trans);
@@ -720,20 +728,20 @@ function farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %c
 	{
 		if ($Server::ServerType $= "SinglePlayer")
 		{
-			$farmingLotLoadTickSchedule[%client.bl_id] = schedule(0, 0, farmingLoadLotTick, %loadFile, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount);
+			$farmingLotLoadTickSchedule[%client.bl_id] = schedule(0, 0, farmingLoadTick, %loadFile, %type, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount);
 		}
 		else
 		{
-			$farmingLotLoadTickSchedule[%client.bl_id] = schedule(0, 0, farmingLoadLotTick, %loadFile, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount);
+			$farmingLotLoadTickSchedule[%client.bl_id] = schedule(0, 0, farmingLoadTick, %loadFile, %type, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount);
 		}
 	}
 	else
 	{
-		farmingLoadLotEnd(%loadFile, %dataObj, %brickGroup);
+		farmingLoadEnd(%loadFile, %type, %dataObj, %brickGroup);
 	}
 }
 
-function farmingStartLoadLot(%filename, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %colorMethod, %startTime)
+function farmingStartLoad(%filename, %type, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %colorMethod, %startTime)
 {
 	echo("LOADING BRICKS: " @ %filename @ " (ColorMethod " @ %colorMethod @ ")");
 	if ($Game::MissionCleaningUp)
@@ -765,15 +773,14 @@ function farmingStartLoadLot(%filename, %dataObj, %offset, %center, %rotation, %
 		%loadFile.readLine();
 		%i += 1;
 	}
-	farmingProcessLotColorData(%loadFile, %colorMethod);
+	farmingProcessColorData(%loadFile, %colorMethod);
 	%brickGroup.isLoadingLot = 1;
-	farmingLoadLotTick(%loadFile, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount);
+	farmingLoadTick(%loadFile, %type, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %lastLoadedBrick, %brickCount, %failCount);
 	stopRaytracer();
 }
 
-function farmingDirectLoadLot(%client, %filename, %dataObj, %offset, %center, %rotation, %colorMethod, %ownership)
+function farmingDirectLoad(%client, %filename, %type, %dataObj, %offset, %center, %rotation, %colorMethod, %ownership)
 {
-	echo("Direct load " @ %filename @ ", " @ ", " @ %center @ ", " @ %rotation @ ", " @ %colorMethod @ ", " @ %ownership);
 	if (!isFile(%filename))
 	{
 		MessageAll('', "ERROR: File \"" @ %filename @ "\" not found.  If you are seeing this, you broke something.");
@@ -820,5 +827,5 @@ function farmingDirectLoadLot(%client, %filename, %dataObj, %offset, %center, %r
 		%client = %brickGroup;
 	}
 	%startTime = getSimTime();
-	farmingStartLoadLot(%filename, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %colorMethod, %startTime);
+	farmingStartLoad(%filename, %type, %dataObj, %offset, %center, %rotation, %client, %brickGroup, %ownership, %colorMethod, %startTime);
 }

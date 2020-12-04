@@ -117,7 +117,7 @@ function lotCheckPlant(%cl)
 	}
 	else
 	{
-		if (!isObject(%pl) || !isObject(%temp) || %temp.getDatablock().isLot)
+		if (!isObject(%pl) || !isObject(%temp) || %temp.getDatablock().isLot || %temp.getDatablock().isShopLot)
 		{
 			return 1;
 		}
@@ -148,7 +148,7 @@ function lotCheckPlant(%cl)
 	%count = 0;
 	while (isObject(%next = containerSearchNext()))
 	{
-		if (%next.isPlanted && %next.getDatablock().isLot)
+		if (%next.isPlanted && (%next.getDatablock().isLot || %next.getDatablock().isShopLot))
 		{
 			if (getTrustLevel(%cl, %next) < 1)
 			{
@@ -157,11 +157,17 @@ function lotCheckPlant(%cl)
 			else
 			{
 				%groupBLID = %next.getGroup().bl_id;
-				if (%ownership !$= "" && %groupBLID == %ownership)
+				if (%ownership !$= "" && %groupBLID != %ownership)
 				{
 					return 0; //needs to be within own lot
 				}
 				%ownership = %groupBLID;
+
+				if (%next.getDatablock().isShopLot)
+				{
+					%rejectDirt = 1;
+				}
+
 				%lots[%count++ - 1] = getBrickBounds(%next);
 			}
 		}
@@ -198,6 +204,11 @@ function lotCheckPlant(%cl)
 
 	if (mAbs(%targetArea - %totalArea) < 0.05 && %zDiff < $maxLotBuildHeight && %zDiff > 0)
 	{
+		if (%temp.getDatablock().isDirt && %rejectDirt)
+		{
+			return 0 TAB "You cannot plant dirt on a shop lot!";
+		}
+
 		return 1;
 	}
 	else
@@ -324,7 +335,14 @@ package lotBuild
 		}
 		else
 		{
-			messageClient(%cl, '', "You cannot plant outside of your lot!");
+			if ((%message = getField(%canPlant, 1)) !$= "")
+			{
+				messageClient(%cl, '', %message);
+			}
+			else
+			{
+				messageClient(%cl, '', "You cannot plant outside of your lot!");
+			}
 		}
 		return 0;
 	}
