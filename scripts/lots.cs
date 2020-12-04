@@ -156,6 +156,7 @@ function lotCheckPlant(%cl)
 			}
 			else
 			{
+				%ownerships = %next.getGroup().bl_id;
 				%lots[%count++ - 1] = getBrickBounds(%next);
 			}
 		}
@@ -804,7 +805,7 @@ function isValidLotPurchase(%bg, %brick)
 
 	if (%bg.lotCount == 0) //no other lots in this group, always allow
 	{
-		return 1;
+		return %brick.getDatablock().isSingle;
 	}
 	else if (%brick.getDatablock().isSingle && %bg.lotCount > 0) //cant buy single lots if you own other ones!
 	{
@@ -816,12 +817,15 @@ function isValidLotPurchase(%bg, %brick)
 	for (%i = 0; %i < getWordCount(%lotList); %i++)
 	{
 		%curr = getWord(%lotList, %i);
-		%inList_[getWord(%lotList, %i)] = 1;
+		if (%curr.getDatablock().isSingle) //new lot must be corner adjacent to an owned single lot
+		{
+			%inList_[%curr] = 1;
+		}
 	}
 
 	//first start with searching around %brick (the new lot) and see if its in lotlist
 	%width = %brick.getDatablock().brickSizeX * 0.5 + 0.1;
-	%box1 = %width SPC 0 SPC 0.1; //dont want to get corner-contiguous
+	%box1 = %width SPC %width SPC 0.1; //dont want to get corner-contiguous
 	%box2 = 0 SPC %width SPC 0.1;
 
 	for (%i = 1; %i <= 2; %i++)
