@@ -79,7 +79,7 @@ package wrenchCostRefund
 {
 	function fxDTSBrick::onAdd(%obj) 
 	{
-		if (%obj.isPlanted)
+		if (%obj.isPlanted && !(%obj.getGroup().isLoadingLot || %obj.getGroup().bl_id == 888888))
 		{
 			schedule(33, %obj, checkBrickDataCost, %obj);
 		}
