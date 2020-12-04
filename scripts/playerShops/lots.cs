@@ -60,7 +60,7 @@ function fxDTSBrick::updateShopSet(%this, %removed)
 	%bg = getBrickgroupFromObject(%this);
 	if (%bg.getName() $= "BrickGroup_888888")
 	{
-		fixShopLotColor(%brick);
+		fixShopLotColor(%this);
 	}
 }
 
