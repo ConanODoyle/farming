@@ -156,7 +156,12 @@ function lotCheckPlant(%cl)
 			}
 			else
 			{
-				%ownerships = %next.getGroup().bl_id;
+				%groupBLID = %next.getGroup().bl_id;
+				if (%ownership !$= "" && %groupBLID == %ownership)
+				{
+					return 0; //needs to be within own lot
+				}
+				%ownership = %groupBLID;
 				%lots[%count++ - 1] = getBrickBounds(%next);
 			}
 		}
