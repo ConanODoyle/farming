@@ -183,6 +183,20 @@ function purgeDiscordMessages(%cl)
 	%tcp = TCPClient("POST", "155.138.204.83", "28010", "/purge", %query);
 }
 
+function serverCmdToggleDiscordChannel(%cl)
+{
+	if (!%cl.isSuperAdmin)
+	{
+		return;
+	}
+	%key = urlEnc($Pref::Server::bl2serverkey);
+
+	%query = "verifykey=" @ %key;
+	%tcp = TCPClient("POST", "155.138.204.83", "28010", "/toggleChannel", %query);
+	sendMessage(AIConsole, "Toggled Discord Chat Bridge\x99 channel!");
+	messageAll('', "\c3" @ %cl.name @ " \c5toggled the Discord Chat Bridge\x99 channel!");
+}
+
 function sendPlayerList()
 {
 	if ($nextPlayerList > $Sim::Time)
