@@ -60,6 +60,9 @@ function findAllBusStops(%idx)
 
 $busStopChance["ZUH"] = 0.005;
 
+$busStopGoToCost["WTF"] = 0;
+$busStopTravelFromCost["WTF"] = 0;
+
 function configureBusStopCenterprintMenu(%menu, %brick)
 {
     if ((%menu.lastConfiguredMenu + 20 | 0) > $Sim::Time)
@@ -105,17 +108,26 @@ function configureBusStopCenterprintMenu(%menu, %brick)
         {
             %name = %name @ " - You are here";
             %here = 1;
+            if ($busStopTravelFromCost[%originalName] !$= "")
+            {
+                %menu.menuName = "-Bus Stops ($" @ mFloatLength($busStopTravelFromCost[%originalName], 2) @ ")-";
+            }
         }
         else if (isObject(%brick))
         {
             %dist = mFloor(vectorDist(%brick.position, %obj.position) / 10) / 100;
             %name = %name @ " - " @ %dist @ "km";
+            if ($busStopGoToCost[%originalName] !$= "")
+            {
+                %name = %name @ " ($" @ mFloatLength($busStopGoToCost[%originalName], 2) @ ")";
+            }
         }
 
         %menu.menuOption[%menuOptionCount] = %name;
         if (%here)
         {
             %menu.menuFunction[%menuOptionCount] = "";
+            %menu.currentStopName = %originalName;
             %here = 0;
         }
         else
@@ -158,7 +170,16 @@ function goToBusStop(%cl, %menu, %option)
         }
     }
 
-    %cl.setScore(%cl.score - 0.5);
+    %cost = 0.5;
+    if ($busStopGoToCost[%menu.stopName[%option]] !$= "")
+    {
+        %cost = $busStopGoToCost[%menu.stopName[%option]];
+    }
+    if ($busStopTravelFromCost[%menu.currentStopName] !$= "")
+    {
+        %cost = $busStopTravelFromCost[%menu.stopName[%option]];   
+    }
+    %cl.setScore(%cl.score - %cost);
     %target.setTransform(%brick.getTransform());
 
     %pl.setWhiteout(1);
