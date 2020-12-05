@@ -117,7 +117,7 @@ package PlayerShops
 			%brick.updateShopMenus();
 
 			%cl.startCenterprintMenu(%cl.centerprintMenu);
-			%cl.displayCenterprintMenu();
+			%cl.displayCenterprintMenu(%cl.currOption);
 
 			return;
 		}
@@ -144,7 +144,7 @@ package PlayerShops
 			%brick.updateShopMenus();
 
 			%cl.startCenterprintMenu(%cl.centerprintMenu);
-			%cl.displayCenterprintMenu();
+			%cl.displayCenterprintMenu(%cl.currOption);
 
 			return;
 		}
@@ -435,7 +435,7 @@ function removeMoney(%cl, %menu, %option)
 	if (%moneyStored == 0)
 	{
 		%cl.startCenterprintMenu(%menu);
-		%cl.displayCenterprintMenu();
+		%cl.displayCenterprintMenu(%option);
 		return;
 	}
 
@@ -447,7 +447,7 @@ function removeMoney(%cl, %menu, %option)
 	%brick.updateShopMenus();
 
 	%cl.startCenterprintMenu(%menu);
-	%cl.displayCenterprintMenu();
+	%cl.displayCenterprintMenu(%option);
 }
 
 function fxDTSBrick::storeMoney(%brick, %amount)
@@ -496,7 +496,7 @@ function buyUnit(%cl, %menu, %option)
 		%cl.nextMessageEmpty = $Sim::Time + 2;
 
 		%cl.startCenterprintMenu(%menu);
-		%cl.displayCenterprintMenu();
+		%cl.displayCenterprintMenu(%option);
 		return;
 	}
 
@@ -512,7 +512,7 @@ function buyUnit(%cl, %menu, %option)
 		messageClient(%cl, '', "You can't afford this!", 1);
 
 		%cl.startCenterprintMenu(%menu);
-		%cl.displayCenterprintMenu();
+		%cl.displayCenterprintMenu(%option);
 
 		return;
 	}
@@ -572,7 +572,7 @@ function buyUnit(%cl, %menu, %option)
 	}
 
 	%cl.startCenterprintMenu(%menu);
-	%cl.displayCenterprintMenu();
+	%cl.displayCenterprintMenu(%option);
 }
 
 function purchasedMessageSchedule(%cl, %dataBlock, %displayName, %count, %amount)
