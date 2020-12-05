@@ -314,7 +314,7 @@ function fxDTSBrick::updateShopMenus(%brick)
 	%moneyStored = getDataIDArrayTagValue(%dataID, "moneyStored");
 	%lastWithdrawer = getDataIDArrayTagValue(%dataID, "lastWithdrawer");
 
-	%brick.shopStorageMenu.menuOption[%count] = "$" @ mFloatLength(%moneyStored, 2) @ " - Last withdrawal: " @ %lastWithdrawer;
+	%brick.shopStorageMenu.menuOption[%count] = "$" @ mFloatLength(%moneyStored, 2) @ " - Last withdrawal: " @ (%lastWithdrawer $= "" ? "None" : %lastWithdrawer);
 
 	%brick.updateShopDisplay();
 }
