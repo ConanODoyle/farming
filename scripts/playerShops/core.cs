@@ -498,6 +498,7 @@ function buyUnit(%cl, %menu, %option)
 	%entry = validateStorageValue(getDataIDArrayValue(%dataID, %storageSlot));
 	%dataBlock = getField(%entry, 0);
 	%displayName = getField(%entry, 1);
+	%storageCount = getField(%entry, 2);
 	%price = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
 
 	if (%cl.score < %price)
