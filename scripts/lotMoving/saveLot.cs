@@ -171,10 +171,6 @@ function farmingSaveEnd(%file, %type, %delete)
 		$Farming::Reload[%file.savingBL_ID] = "";
 		call("load" @ %type, %file.savingBL_ID, %lot, %rotation);
 	}
-	else if (%type $= "Lot" && isObject(%file.savingGroup.shopLot))
-	{
-		farmingSaveShop(%file.savingBL_ID, %delete);
-	}
 
 	%file.delete(); // deletes the file object, *not* the file
 }
