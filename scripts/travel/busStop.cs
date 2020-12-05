@@ -29,18 +29,36 @@ package BusStops
 };
 activatePackage(BusStops);
 
-function findAllBusStops()
+function findAllBusStops(%idx)
 {
-    for (%i = 0; %i < Brickgroup_888888.getCount(); %i++)
+    cancel($busStopSearchSchedule);
+    if (%idx $= "")
     {
+        %idx = 0;
+    }
+
+    for (%i = %idx; %i < Brickgroup_888888.getCount(); %i++)
+    {
+        if (%count++ > 1024)
+        {
+            break;
+        }
         %b = Brickgroup_888888.getObject(%i);
         %name = %b.getName();
-        if (!$BusStopSimSet.isMember(%b) && strPos(strLwr(%name), "_busstop") == 0)
+        if (strPos(strLwr(%name), "_busstop") == 0 && !$BusStopSimSet.isMember(%b))
         {
             $BusStopSimSet.add(%b);
         }
     }
+
+    if (%i > Brickgroup_888888.getCount())
+    {
+        return;
+    }
+    $busStopSearchSchedule = schedule(33, MissionCleanup, findAllBusStops, %i);
 }
+
+$busStopChance["ZUH"] = 0.005;
 
 function configureBusStopCenterprintMenu(%menu, %brick)
 {
@@ -79,6 +97,10 @@ function configureBusStopCenterprintMenu(%menu, %brick)
         %name = getSubStr(%name, 8, 20);
         %name = strUpr(strReplace(%name, "_", " "));
         %originalName = %name;
+        if ($busStopChance[%originalName] > 0 && getRandom() > $busStopChance[%originalName])
+        {
+            continue;
+        }
         if (%obj == %brick || vectorDist(%obj.position, %brick.position) < 8)
         {
             %name = %name @ " - You are here";
@@ -90,19 +112,19 @@ function configureBusStopCenterprintMenu(%menu, %brick)
             %name = %name @ " - " @ %dist @ "km";
         }
 
-        %menu.menuOption[%i] = %name;
+        %menu.menuOption[%menuOptionCount] = %name;
         if (%here)
         {
-            %menu.menuFunction[%i] = "";
+            %menu.menuFunction[%menuOptionCount] = "";
             %here = 0;
         }
         else
         {
-            %menu.menuFunction[%i] = "goToBusStop";
+            %menu.menuFunction[%menuOptionCount] = "goToBusStop";
         }
-        %menu.menuBrick[%i] = %obj;
-        %menu.stopName[%i] = %originalName;
-        %menu.stopBrick[%i] = %obj;
+        %menu.menuBrick[%menuOptionCount] = %obj;
+        %menu.stopName[%menuOptionCount] = %originalName;
+        %menu.stopBrick[%menuOptionCount] = %obj;
         %menuOptionCount++;
     }
 
