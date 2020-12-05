@@ -33,7 +33,7 @@ package disableWrenchData
 			{
 				%db = %cl.wrenchBrick.getDatablock();
 				if (%db.isPlant || %db.isStorageBrick || %db.isSprinkler || %db.isWaterTank || %db.isDirt || %db.isGreenhouse || %db.isLot
-					|| %db.isShopBrick || %db.isCompostBin || %db.isProcessor)
+					|| %db.isShopLot || %db.isShopBrick || %db.isCompostBin || %db.isProcessor)
 				{
 					messageClient(%cl, '', "You cannot edit wrench data on special bricks!");
 					return;
@@ -86,7 +86,7 @@ package disableWrenchData
 	{
 		%db = %this.getDatablock();
 		if (%db.isPlant || %db.isStorageBrick || %db.isProcessor || %db.isSprinkler 
-			|| %db.isWaterTank || %db.isDirt || %db.isGreenhouse)
+			|| %db.isShopLot || %db.isWaterTank || %db.isDirt || %db.isGreenhouse)
 		{
 			%bool = 1;
 		}
@@ -97,7 +97,7 @@ package disableWrenchData
 	{
 		%db = %this.getDatablock();
 		if (%db.isPlant || %db.isStorageBrick || %db.isProcessor || %db.isSprinkler 
-			|| %db.isWaterTank || %db.isDirt || %db.isGreenhouse)
+			|| %db.isShopLot || %db.isWaterTank || %db.isDirt || %db.isGreenhouse)
 		{
 			%bool = 1;
 		}
@@ -108,7 +108,7 @@ package disableWrenchData
 	{
 		%db = %this.getDatablock();
 		if (%db.isStorageBrick || %db.isGreenhouse || %db.isWaterTank || %db.isDirt 
-			|| %db.isTree || %db.isProcessor)
+			|| %db.isShopLot || %db.isTree || %db.isProcessor)
 		{
 			if (%db.noCollision)
 			{
@@ -130,7 +130,7 @@ package disableWrenchData
 	{
 		%db = %this.getDatablock();
 		if (%db.isStorageBrick || %db.isSprinkler || %db.isGreenhouse || %db.isWaterTank 
-			|| %db.isDirt || %db.isPlant || %db.isLot || %db.isProcessor)
+			|| %db.isShopLot || %db.isDirt || %db.isPlant || %db.isLot || %db.isProcessor)
 		{
 			%type = 0;
 		}
@@ -141,7 +141,7 @@ package disableWrenchData
 	{
 		%db = %this.getDatablock();
 		if (%db.isStorageBrick || %db.isSprinkler || %db.isGreenhouse || %db.isWaterTank 
-			|| %db.isDirt || %db.isPlant || %db.isLot || %db.isProcessor)
+			|| %db.isShopLot || %db.isDirt || %db.isPlant || %db.isLot || %db.isProcessor)
 		{
 			%type = 0;
 		}
@@ -154,7 +154,7 @@ package disableWrenchData
 		{
 			%db = %pl.tempBrick.getDatablock();
 			if ((%db.category $= "Baseplates" && %db.subCategory !$= "Plain") || %db.subCategory $= "Drinks" || %db.subCategory $= "Holes"
-				|| %db.uiName $= "Treasure Chest" || %db.isLot || %db.isTeledoor || %db.isIllegal)
+				|| %db.uiName $= "Treasure Chest" || %db.isShopLot || %db.isLot || %db.isTeledoor || %db.isIllegal)
 			{
 				if (%db.subCategory $= "Cube" && getWord(%db.uiname, 0) < 16)
 				{
@@ -202,7 +202,7 @@ function checkItemAllowed(%itemDB)
 function checkBrickAllowed(%brick)
 {
 	if ((%db.category $= "Baseplates" && %db.subCategory !$= "Plain") || %db.subCategory $= "Drinks" || %db.subCategory $= "Holes"
-				|| %db.uiName $= "Treasure Chest" || %db.isLot || %db.isTeledoor || %db.isIllegal)
+				|| %db.uiName $= "Treasure Chest" || %db.isShopLot || %db.isLot || %db.isTeledoor || %db.isIllegal)
 	{
 		if (%db.subCategory $= "Cube" && getWord(%db.uiname, 0) < 16)
 		{
