@@ -210,6 +210,11 @@ function serverCmdBuyShop(%cl, %rotation)
 		messageClient(%cl, '', "You cannot afford a shop lot! (Cost: " @ %costString @ ")");
 	}
 
+	if (isObject(%cl.brickGroup) && isObject(%cl.brickGroup.shopLot))
+	{
+		messageClient(%cl, '', "You cannot buy more than one shop lot!");
+	}
+
 	if (%cl.repeatBuyShopLot != %hit)
 	{
 		if (hasSavedLot(%cl.bl_id) && !hasLoadedLot(%cl.bl_id))
