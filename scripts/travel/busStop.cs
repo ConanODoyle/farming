@@ -60,7 +60,7 @@ function findAllBusStops(%idx)
 
 $busStopChance["ZUH"] = 0.005;
 
-$busStopGoToCost["WTF"] = 0;
+$busStopGoToCost["WTF"] = 0.5;
 $busStopTravelFromCost["WTF"] = 0;
 
 function configureBusStopCenterprintMenu(%menu, %brick)
