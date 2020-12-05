@@ -153,13 +153,16 @@ package PlayerShops
 
 	function fxDTSBrick::onDeath(%this, %obj)
 	{
-		if (%this.storageObj.getDatablock().isShop)
+		if (isObject(%this.storageObj))
 		{
-			for (%i = 0; %i < 4; %i++)
+			if (%this.storageObj.getDatablock().isShop)
 			{
-				if (isObject(%this.shopDisplayItem[%i]))
+				for (%i = 0; %i < 4; %i++)
 				{
-					%this.shopDisplayItem[%i].delete();
+					if (isObject(%this.shopDisplayItem[%i]))
+					{
+						%this.shopDisplayItem[%i].delete();
+					}
 				}
 			}
 		}
@@ -168,13 +171,16 @@ package PlayerShops
 
 	function fxDTSBrick::onRemove(%this, %obj)
 	{
-		if (%this.storageObj.getDatablock().isShop)
+		if (isObject(%this.storageObj))
 		{
-			for (%i = 0; %i < 4; %i++)
+			if (%this.storageObj.getDatablock().isShop)
 			{
-				if (isObject(%this.shopDisplayItem[%i]))
+				for (%i = 0; %i < 4; %i++)
 				{
-					%this.shopDisplayItem[%i].delete();
+					if (isObject(%this.shopDisplayItem[%i]))
+					{
+						%this.shopDisplayItem[%i].delete();
+					}
 				}
 			}
 		}
