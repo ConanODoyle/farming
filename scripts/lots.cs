@@ -925,7 +925,7 @@ function clearLotRecursive(%lotBrick, %client)
 			%client.refundRatio = 0;
 			return;
 		}
-		else if (%next.dataBlock.isLot)
+		else if (%next.dataBlock.isLot || %next.dataBlock.isShopLot || %next == %lotBrick)
 		{
 			continue;
 		}
