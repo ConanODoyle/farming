@@ -73,7 +73,7 @@ package PlayerShops
 				%price = mFloatLength(getSellPrice(%storeItemDB) * 1.5, 2);
 			}
 			%price = getMax(%price, 0.01);
-			setDataIDArrayTagValue(%dataID, %storeItemDB.getName() @ "Price", %price);
+			setDataIDArrayTagValue(%dataID, %storeItemDB.getName() @ "Price", mFloatLength(%price, 2));
 		}
 
 		%brick.updateShopMenus();
