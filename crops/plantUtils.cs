@@ -253,7 +253,10 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 		if (%dryNutriAdd && %dirtNutrients !$= "")
 		{
 			%dirtNutrients = vectorAdd(%dirtNutrients, %nutrientAdd);
-			%dirt.setNutrients(getWord(%dirtNutrients, 0), getWord(%dirtNutrients, 1), getWord(%dirtNutrients, 2));
+			if (getWord(%dirtNutrients, 0) + getWord(%dirtNutrients, 1) <= %brickDB.maxNutrients)
+			{
+				%dirt.setNutrients(getWord(%dirtNutrients, 0), getWord(%dirtNutrients, 1), getWord(%dirtNutrients, 2));
+			}
 		}
 
 		%nutrientDiff = vectorSub(%plantNutrients, %levelUpRequirement);
@@ -281,7 +284,10 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 		if (%wetNutriAdd && %dirtNutrients !$= "")
 		{
 			%dirtNutrients = vectorAdd(%dirtNutrients, %nutrientAdd);
-			%dirt.setNutrients(getWord(%dirtNutrients, 0), getWord(%dirtNutrients, 1), getWord(%dirtNutrients, 2));
+			if (getWord(%dirtNutrients, 0) + getWord(%dirtNutrients, 1) <= %brickDB.maxNutrients)
+			{
+				%dirt.setNutrients(getWord(%dirtNutrients, 0), getWord(%dirtNutrients, 1), getWord(%dirtNutrients, 2));
+			}
 		}
 		
 		%nutrientDiff = vectorSub(%plantNutrients, %levelUpRequirement);
