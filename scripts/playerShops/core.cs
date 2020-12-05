@@ -116,8 +116,9 @@ package PlayerShops
 
 			%brick.updateShopMenus();
 
+			%option = %cl.currOption;
 			%cl.startCenterprintMenu(%cl.centerprintMenu);
-			%cl.displayCenterprintMenu(%cl.currOption);
+			%cl.displayCenterprintMenu(%option);
 
 			return;
 		}
@@ -143,8 +144,9 @@ package PlayerShops
 
 			%brick.updateShopMenus();
 
+			%option = %cl.currOption;
 			%cl.startCenterprintMenu(%cl.centerprintMenu);
-			%cl.displayCenterprintMenu(%cl.currOption);
+			%cl.displayCenterprintMenu(%option);
 
 			return;
 		}
