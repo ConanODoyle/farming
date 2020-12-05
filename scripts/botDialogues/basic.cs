@@ -301,3 +301,53 @@ $obj = new ScriptObject(MailEnhancementDialogue)
 	messageTimeout[1] = 2;
 };
 $BasicDialogueSet.add($obj);
+
+$obj = new ScriptObject(BookDialogue0)
+{
+	messageCount = 1;
+	message[0] = "When the star shower came, it all burned. My beloved city, a pile of ruins. Some few survived, only a few. Was this the will of the heavens?";
+	messageTimeout[1] = 2;
+};
+$BasicDialogueSet.add($obj);
+
+$obj = new ScriptObject(BookDialogue1)
+{
+	messageCount = 1;
+	message[0] = "Despite our efforts, the earth could no longer bear life. Our homes being in rubble, I decided we must set out for the desert.";
+	messageTimeout[1] = 2;
+};
+$BasicDialogueSet.add($obj);
+
+$obj = new ScriptObject(BookDialogue2)
+{
+	messageCount = 1;
+	message[0] = "The harsh sun claimed those that remained, leaving only me to remember them. I set out again for home.";
+	messageTimeout[1] = 2;
+};
+$BasicDialogueSet.add($obj);
+
+$obj = new ScriptObject(BookDialogue3)
+{
+	messageCount = 1;
+	message[0] = "I know not how many years have passed. I must rebuild our home, no matter the cost. New arrivals have built atop the bones of my people.";
+	messageTimeout[0] = 0;
+	message[1] = "Is this to be how it ends? Forgotten, left to fade?";
+	messageTimeout[1] = 2;
+};
+$BasicDialogueSet.add($obj);
+
+$obj = new ScriptObject(BookDialogue4)
+{
+	messageCount = 1;
+	message[0] = "Does the world no longer have need of me? It has all gone silent. The faces, I cannot remember. I cannot surrender. I will not.";
+	messageTimeout[1] = 2;
+};
+$BasicDialogueSet.add($obj);
+
+$obj = new ScriptObject(BookDialogue5)
+{
+	messageCount = 1;
+	message[0] = "I must follow my brothers. My friends. The portal beckons. I must do this. We will meet again, at the end of all of this. We will.";
+	messageTimeout[1] = 2;
+};
+$BasicDialogueSet.add($obj);
