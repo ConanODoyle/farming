@@ -183,9 +183,12 @@ package PlayerShops
 
 	function fxDTSBrick::onAdd(%this, %obj)
 	{
-		if (%this.storageObj.getDatablock().isShop)
+		if (isObject(%this.storageObj))
 		{
-			%this.schedule(1000, updateShopMenus);
+			if (%this.storageObj.getDatablock().isShop)
+			{
+				%this.schedule(1000, updateShopMenus);
+			}
 		}
 		return parent::onAdd(%this, %obj);
 	}
