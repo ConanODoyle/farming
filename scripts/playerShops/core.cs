@@ -513,7 +513,6 @@ function buyUnit(%cl, %menu, %option)
 	%cl.incScore(-%price);
 	purchasedMessageSchedule(%cl, %dataBlock, %displayName, 1, %price);
 	%brick.storeMoney(%price);
-	%brick.updateShopMenus();
 
 	// remove item
 	%left = %storageCount - 1;
@@ -542,6 +541,8 @@ function buyUnit(%cl, %menu, %option)
 			%storageObj = %brick.vehicle.storageBot;
 		}
 	}
+
+	%brick.updateShopMenus();
 
 	if (%storageObj.getDatablock().hasStorageNodes)
 	{
