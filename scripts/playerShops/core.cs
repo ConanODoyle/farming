@@ -494,7 +494,8 @@ function buyUnit(%cl, %menu, %option)
 		return;
 	}
 
-	%entry = validateStorageValue(getDataIDArrayValue(%dataID, %option + 1));
+	%storageSlot = %option + 1;
+	%entry = validateStorageValue(getDataIDArrayValue(%dataID, %storageSlot));
 	%dataBlock = getField(%entry, 0);
 	%displayName = getField(%entry, 1);
 	%price = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
@@ -514,14 +515,52 @@ function buyUnit(%cl, %menu, %option)
 	%brick.storeMoney(%price);
 	%brick.updateShopMenus();
 
+	// remove item
+	%left = %storageCount - 1;
+
+	if (%left > 0)
+	{
+		setDataIDArrayValue(%dataID, %storageSlot, getStorageValue(%dataBlock, %left));
+	}
+	else
+	{
+		setDataIDArrayValue(%dataID, %storageSlot, "");
+	}
+
+	if (%brick.getDatablock().isStorageBrick)
+	{
+		%storageObj = %brick;
+	}
+	else if (isObject(%brick.vehicle))
+	{
+		if (%brick.vehicle.getDatablock().isStorageVehicle)
+		{
+			%storageObj = %brick.vehicle;
+		}
+		else if (isObject(%brick.vehicle.storageBot))
+		{
+			%storageObj = %brick.vehicle.storageBot;
+		}
+	}
+
+	if (%storageObj.getDatablock().hasStorageNodes)
+	{
+		%storageObj.updateStorageNodes(%dataID);
+	}
+
+	if (isObject(%storageObj))
+	{
+		%storageObj.updateStorageDatablock(%dataID, true);
+	}
+
 	if (%dataBlock.isStackable)
 	{
 		%pl.farmingAddStackableItem(%dataBlock, 1);
 	}
 	else
 	{
-		%dataID = getField(%entry, 3);
-		%pl.farmingAddItem(%dataBlock, %dataID);
+		%itemDataID = getField(%entry, 3);
+		%pl.farmingAddItem(%dataBlock, %itemDataID);
 	}
 
 	%cl.startCenterprintMenu(%menu);
