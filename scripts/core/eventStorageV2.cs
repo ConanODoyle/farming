@@ -323,7 +323,7 @@ function removeStack(%cl, %menu, %option)
 	%itemDataID = getField(%storageData, 3);
 	if (!isObject(%datablock))
 	{
-		talk("ERROR: removestack - storage data invalid! contents:[" @ strReplace(%storageData, "\t", "|") @ "]");
+		talk("ERROR: removestack - storage data invalid! contents:[" @ strReplace(%storageData, "\t", "|") @ "] @ slot \"" @ %storageSlot @ "\"");
 		talk("Please notify an admin of this error!");
 		return;
 	}
@@ -815,6 +815,23 @@ function storageTypeAccepts(%typeName, %storeable)
 	}
 
 	return false;
+}
+
+function storageTypeMatches(%typeName, %storeable)
+{
+	if (%storeable $= %storeable + 0)
+	{
+		%storeable = %storeable.getName();
+	}
+
+	if (isObject(%storeable) && %storeable.isStackable)
+	{
+		%storeable = %storeable.stackType;
+	}
+
+	if (!isStorageType(%typeName)) return false;
+
+	return strPos("\t" @ strLwr($StorageType[%typeName @ "List"]) @ "\t", "\t" @ strLwr(%storeable) @ "\t") != -1;
 }
 
 

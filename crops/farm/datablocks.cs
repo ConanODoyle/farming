@@ -159,10 +159,13 @@ datablock fxDTSBrickData(brickShopStallData)
 
 	iconName = "Add-Ons/Server_Farming/icons/shopstall";
 
-	isShopBrick = 1;
+	isShop = 1;
 	isStorageBrick = 1;
+	storageSlotCount = 4;
+	storageMultiplier = 1;
+	itemStackCount = 2;
 
-	cost = 200;
+	cost = 25;
 	itemPos0 = "1 0.7 0";
 	itemPos1 = "1 -0.7 0";
 	itemPos2 = "0 0.7 0.4";
