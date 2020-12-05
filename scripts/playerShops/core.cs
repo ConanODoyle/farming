@@ -61,7 +61,16 @@ package PlayerShops
 
 		if (%ret == 2) return %ret; // if insertion fails, no need to update shop menus
 
-		%price = getDataIDArrayTagValue(%dataID, %storeItemDB.getName() @ "Price");
+		if (%storeItemDB.isStackable)
+		{
+			%pricePrefix = %storeItemDB.stackType;
+		}
+		else
+		{
+			%pricePrefix = %storeItemDB.getName();
+		}
+		%price[%count] = getDataIDArrayTagValue(%dataID, %pricePrefix @ "Price");
+
 		if (%price $= "")
 		{
 			if (storageTypeMatches("Crops", %storeItemDB))
@@ -73,7 +82,7 @@ package PlayerShops
 				%price = mFloatLength(getSellPrice(%storeItemDB) * 1.5, 2);
 			}
 			%price = getMax(%price, 0.01);
-			setDataIDArrayTagValue(%dataID, %storeItemDB.getName() @ "Price", mFloatLength(%price, 2));
+			setDataIDArrayTagValue(%dataID, %pricePrefix @ "Price", mFloatLength(%price, 2));
 		}
 
 		%brick.updateShopMenus();
@@ -107,12 +116,20 @@ package PlayerShops
 
 			%entry = validateStorageValue(getDataIDArrayValue(%dataID, %storageField));
 			%dataBlock = getField(%entry, 0);
-			%price = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
+			if (%dataBlock.isStackable)
+			{
+				%pricePrefix = %dataBlock.stackType;
+			}
+			else
+			{
+				%pricePrefix = %dataBlock.getName();
+			}
+			%price[%count] = getDataIDArrayTagValue(%dataID, %pricePrefix @ "Price");
 
 			%price += %delta;
 			if (%price < 0.01) %price = 0.01;
 
-			setDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price", mFloatLength(%price, 2));
+			setDataIDArrayTagValue(%dataID, %pricePrefix @ "Price", mFloatLength(%price, 2));
 
 			%brick.updateShopMenus();
 
@@ -135,12 +152,20 @@ package PlayerShops
 
 			%entry = validateStorageValue(getDataIDArrayValue(%dataID, %storageField));
 			%dataBlock = getField(%entry, 0);
-			%price = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
+			if (%dataBlock.isStackable)
+			{
+				%pricePrefix = %dataBlock.stackType;
+			}
+			else
+			{
+				%pricePrefix = %dataBlock.getName();
+			}
+			%price[%count] = getDataIDArrayTagValue(%dataID, %pricePrefix @ "Price");
 
 			%price += %delta;
 			if (%price < 0.1) %price = 0.1;
 
-			setDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price", mFloatLength(%price, 2));
+			setDataIDArrayTagValue(%dataID, %pricePrefix @ "Price", mFloatLength(%price, 2));
 
 			%brick.updateShopMenus();
 
@@ -241,7 +266,14 @@ function fxDTSBrick::updateShopMenus(%brick)
 		%dataBlock = getField(%data[%count], 0);
 		if (isObject(%dataBlock))
 		{
-			%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
+			if (%dataBlock.isStackable)
+			{
+				%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.stackType @ "Price");
+			}
+			else
+			{
+				%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
+			}
 		}
 		%count++;
 	}
@@ -351,7 +383,14 @@ function fxDTSBrick::updateShopDisplay(%brick)
 		%dataBlock = getField(%data[%count], 0);
 		if (isObject(%dataBlock))
 		{
-			%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
+			if (%dataBlock.isStackable)
+			{
+				%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.stackType @ "Price");
+			}
+			else
+			{
+				%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
+			}
 		}
 		%count++;
 	}
@@ -507,7 +546,14 @@ function buyUnit(%cl, %menu, %option)
 	%dataBlock = getField(%entry, 0);
 	%displayName = getField(%entry, 1);
 	%storageCount = getField(%entry, 2);
-	%price = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
+	if (%dataBlock.isStackable)
+	{
+		%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.stackType @ "Price");
+	}
+	else
+	{
+		%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
+	}
 
 	if (%cl.score < %price)
 	{
