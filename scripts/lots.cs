@@ -445,8 +445,20 @@ function serverCmdLoadLot(%cl, %rotation)
 	%load = hasLoadedLot(%cl.bl_id);
 	if (%load $= "noSavedLot")
 	{
-		messageClient(%cl, '', "You don't have a lot, or a lot saved! Use /buyLot to buy a single lot for free.");
-		return;
+		%loc = "saves/Autosaver/Lots/" @ %cl.bl_id @ "/*.bls";
+		%first = findFirstFile(%loc);
+		$Pref::Farming::lastLotAutosave[%cl.bl_id] = %first;
+		%load = hasLoadedLot(%cl.bl_id);
+		if (%load $= "noSavedLot")
+		{
+			messageClient(%cl, '', "You don't have a lot, or a lot saved! Use /buyLot to buy a single lot for free.");
+			return;
+		}
+		else if (%load == 1)
+		{
+			messageClient(%cl, '', "Your lot is already loaded! You can unload your lot in town.");
+			return;
+		}
 	}
 	else if (%load == 1)
 	{
