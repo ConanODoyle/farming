@@ -208,11 +208,13 @@ function serverCmdBuyShop(%cl, %rotation)
 	if (%cl.score < %costMoney || %cl.farmingExperience < %costExp)
 	{
 		messageClient(%cl, '', "You cannot afford a shop lot! (Cost: " @ %costString @ ")");
+		return;
 	}
 
 	if (isObject(%cl.brickGroup) && isObject(%cl.brickGroup.shopLot))
 	{
 		messageClient(%cl, '', "You cannot buy more than one shop lot!");
+		return;
 	}
 
 	if (%cl.repeatBuyShopLot != %hit)
