@@ -479,7 +479,7 @@ function compostBinInfo(%brick, %pl)
 {
 	if (%pl.client.lastMessagedCompostBinInfo + 5 < $Sim::Time)
 	{
-		messageClient(%pl.client, '', "\c3Drop (Ctrl-W) a full basket of produce in the bin to make fertilizer! Amount varies with produce type.", 2);
+		messageClient(%pl.client, '', "\c3Drop (Ctrl-W) a full basket of produce in the bin to make compost! Amount varies with produce type.", 2);
 		%pl.client.lastMessagedCompostBinInfo = $Sim::Time;
 	}
 }
