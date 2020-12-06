@@ -36,8 +36,7 @@ function loadDataIDArray(%aid, %force)
 	}
 	$executedDataID[%aid] = 1;
 
-	cancel($dataIDPruneSchedule);
-	$dataIDPruneSchedule = schedule(1000, 0, pruneDataIDArrays);
+	pruneDataIDArrays();
 
 	return %aid;
 }
@@ -76,6 +75,11 @@ function deleteDataIDArray(%aid)
 function pruneDataIDArrays()
 {
 	if ($DataIDDebug) talk("pruneDataIDArrays");
+	if ($nextPruneDataIDArray > $Sim::Time)
+	{
+		return;
+	}
+	$nextPruneDataIDArray = $Sim::Time + 10;
 	while (getWordCount($loadedDataIDs) > 80)
 	{
 		%curr = getWord($loadedDataIDs, 0);
