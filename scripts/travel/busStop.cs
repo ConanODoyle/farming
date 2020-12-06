@@ -18,7 +18,7 @@ package BusStops
 
     function GameConnection::exitCenterprintMenu(%cl)
     {
-        if (%cl.centerprintMenu.isBusStopMenu)
+        if (%cl.getControlObject() == %cl.camera)
         {
             %cl.setControlObject(%cl.player);
             %cl.camera.busStopObj = "";
