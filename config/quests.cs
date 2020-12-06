@@ -476,7 +476,7 @@ new ScriptObject(CompostBinQuestType) {
 	minBonusFactor = 1.3;
 	maxBonusFactor = 1.8;
 
-	requestTable = RareRequests;
+	requestTable = SpecialRequests;
 	budgetPerRequestItem = 1;
 	maxRequestItems = 3;
 };
