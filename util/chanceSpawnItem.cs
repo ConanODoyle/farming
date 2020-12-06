@@ -1,6 +1,10 @@
 
 function fxDTSBrick::onChanceSpawnItem(%this, %cl)
 {
+	if (%this.lastOnChanceSpawnItem + 1 > $Sim::Time)
+	{
+		return;
+	}
 	%pl = %cl.player;
 
 	$InputTarget_["Self"] = %this;
@@ -8,6 +12,7 @@ function fxDTSBrick::onChanceSpawnItem(%this, %cl)
 	$InputTarget_["Client"] = %cl;
 	$InputTarget_["MiniGame"] = getMiniGameFromObject(%this);
 
+	%this.lastOnChanceSpawnItem = $Sim::Time;
 	%this.processInputEvent("onChanceSpawnItem", %cl);
 }
 registerInputEvent("fxDTSBrick", "onChanceSpawnItem", "Self fxDTSBrick" TAB "Player Player" TAB "Client GameConnection" TAB "MiniGame MiniGame");
