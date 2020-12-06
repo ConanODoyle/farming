@@ -440,3 +440,113 @@ function farmingSaveLot(%bl_id, %delete)
 	$Farming::Temp::BrickSet[%file] = new SimSet();
 	farmingSaveGatherBricks(%file, "Lot", %lots, %delete);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// external: (call with these parameters)
+// 	%collection: SimSet - holds all found bricks
+// 	%queue: SimSet - bricks that need to be checked
+// 	%visited: Simset - holds all visited bricks (popped off queue and run)
+//	%callback: function to call when done running the search, passes in %collection, %queue, %visited in order
+// internal: (do NOT call with these parameters)
+//	%rootBrick: current brick we're looking at
+//	%index: current index of the upbricks we're on
+//	%searchDown: searching downwards?
+function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBrick, %index, %searchDown)
+{
+	if (!isObject(%rootBrick) && %queue.getCount() <= 0) //base case, exit
+	{
+		if (isFunction(%callback))
+		{
+			call(%callback, %collection, %queue, %visited);
+		}
+		return;
+	}
+
+	if (!isObject(%rootBrick)) //need a new brick to start searching on
+	{
+		%rootBrick = %queue.getObject(0);
+		%queue.remove(%rootBrick);
+		if (!%visited.isMember(%rootBrick)) //add to visited cause we're processing it now
+		{
+			%visited.add(%rootBrick);
+		}
+	}
+
+	//search for bricks
+	%index = %index + 0; //ensure values are not empty string
+	%searchDown = %searchDown + 0;
+
+	//i hate complex for loops cause the more complex the logic is the harder it is to be sure the logic is perfectly sound
+	//for example, accidentally skipping the first brick due to off by one errors
+	if (!%searchDown) //searching upwards
+	{
+		%upBrickCount = %rootBrick.getNumUpBricks();
+		for (%i = 0; %i < $Pref::Farming::SaveLot::MaxBricksPerTick; %i++)
+		{
+			if (%index >= %upBrickCount)
+			{
+				%index = 0;
+				%searchDown = 1; //prepare for searching downwards
+				break;
+			}
+			%next = %rootBrick.getUpBrick(%index);
+
+			if (!%collection.isMember(%next)) //add all bricks, including public if for some reason player bricks are above public ones
+			{
+				%collection.add(%next);
+			}
+			if (!%visited.isMember(%next) && !%queue.isMember(%next)) //add non-visited, non-present bricks to queue
+			{
+				%queue.add(%next);
+			}
+
+			%index++;
+		}
+	}
+	else //searching downwards
+	{
+		%downBrickCount = %rootBrick.getNumDownBricks();
+		for (%i = 0; %i < $Pref::Farming::SaveLot::MaxBricksPerTick; %i++)
+		{
+			if (%index >= %downBrickCount)
+			{
+				%doneSearching = 1;
+				%searchDown = 0; //we're done
+				break;
+			}
+			%next = %rootBrick.getDownBrick(%index);
+
+			if (!%collection.isMember(%next)) //add all bricks, including public if for some reason player bricks are above public ones
+			{
+				%collection.add(%next);
+			}
+			if (!%visited.isMember(%next) && !%queue.isMember(%next)) //add non-visited, non-present bricks to queue
+			{
+				%queue.add(%next);
+			}
+
+			%index++;
+		}
+	}
+
+	if (%doneSearching)
+	{
+		schedule(3, MissionCleanup, recursiveGatherBricks, %collection, %queue, %visited, %callback, 0, 0, 0);
+	}
+	else
+	{
+		schedule(3, MissionCleanup, recursiveGatherBricks, %collection, %queue, %visited, %callback, %rootBrick, %index, %searchDown);	
+	}
+}
