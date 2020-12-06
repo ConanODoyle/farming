@@ -152,6 +152,10 @@ function harvestBrick(%brick, %tool, %harvester)
 			harvestedBG = %bg;
 			canVacuum = 1;
 		};
+		MissionCleanup.add(%item);
+		%item.schedule(60 * 1000, schedulePop);
+		%item.setTransform(%pos SPC getRandomRotation());
+		%item.setVelocity(%vel);
 		%p = new Projectile()
 		{
 			dataBlock = winStarProjectile;
@@ -160,10 +164,6 @@ function harvestBrick(%brick, %tool, %harvester)
 		};
 		%p.explode();
 		serverPlay3D(rewardSound, %item.getPosition());
-		MissionCleanup.add(%item);
-		%item.schedule(60 * 1000, schedulePop);
-		%item.setTransform(%pos SPC getRandomRotation());
-		%item.setVelocity(%vel);
 	}
 
 
