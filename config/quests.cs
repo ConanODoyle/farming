@@ -326,7 +326,7 @@ new ScriptObject(WateringToolQuestType) {
 	minBonusFactor = 2;
 	maxBonusFactor = 2.5;
 
-	requestTable = CommonRequests;
+	requestTable = NonTreeRequests;
 	budgetPerRequestItem = 800;
 	maxRequestItems = 4;
 };
@@ -344,7 +344,7 @@ new ScriptObject(HarvestToolQuestType) {
 	minBonusFactor = 1.5;
 	maxBonusFactor = 2;
 
-	requestTable = RareRequests;
+	requestTable = AdvancedAndSpecialRequests;
 	budgetPerRequestItem = 500;
 	maxRequestItems = 4;
 };
@@ -498,7 +498,7 @@ new ScriptObject(RareSeedQuestType) {
 	minBonusFactor = 1.3;
 	maxBonusFactor = 1.8;
 
-	requestTable = NonTreeRequests;
+	requestTable = AdvancedAndSpecialRequests;
 	budgetPerRequestItem = 150;
 	maxRequestItems = 4;
 };
@@ -520,7 +520,7 @@ new ScriptObject(TreeSeedQuestType) {
 	minBonusFactor = 1.8;
 	maxBonusFactor = 2.2;
 
-	requestTable = AllRequests;
+	requestTable = RareRequests;
 	budgetPerRequestItem = 150;
 	maxRequestItems = 4;
 };
@@ -538,7 +538,7 @@ new ScriptObject(PotQuestType) {
 	minBonusFactor = 0.6;
 	maxBonusFactor = 0.8;
 
-	requestTable = AllRequests;
+	requestTable = RareRequests;
 	budgetPerRequestItem = 150;
 	maxRequestItems = 4;
 };
@@ -556,7 +556,7 @@ new ScriptObject(BoxQuestType) {
 	minBonusFactor = 0.6;
 	maxBonusFactor = 0.8;
 
-	requestTable = AllRequests;
+	requestTable = RareRequests;
 	budgetPerRequestItem = 150;
 	maxRequestItems = 4;
 };
