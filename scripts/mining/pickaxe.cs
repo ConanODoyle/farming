@@ -49,7 +49,7 @@ function PickaxeImage::onFire(%this, %obj, %slot)
 	if (%obj.nextHit > getSimTime())
 		return;
 	
-	%obj.nextHit = getSimTime() + 300;
+	%obj.nextHit = getSimTime() + 300 | 0;
 	%start = %obj.getEyeTransform();
 	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
 
