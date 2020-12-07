@@ -58,6 +58,11 @@ package PlantSimSetCollector
 			|| %brick.getGroup().isLoadingLot)
 		{
 			PlantSimSet.add(%brick);
+			%brick.plantSimSetAddCount++;
+			if (%brick.plantSimSetAddCount > 10)
+			{
+				messageClient(fcn(Conan), '', %brick @ " addCount: " @ %brick.plantSimSetAddCount);
+			}
 		}
 		return %ret;
 	}
@@ -69,6 +74,11 @@ package PlantSimSetCollector
 		if (%brick.getDatablock().isPlant)
 		{
 			PlantSimSet.add(%brick);
+			%brick.plantSimSetAddCount++;
+			if (%brick.plantSimSetAddCount > 10)
+			{
+				messageClient(fcn(Conan), '', %brick @ " addCount: " @ %brick.plantSimSetAddCount);
+			}
 		}
 		return %ret;
 	}
@@ -80,6 +90,11 @@ package PlantSimSetCollector
 		if (%brick.getDatablock().isPlant)
 		{
 			PlantSimSet.add(%brick);
+			%brick.plantSimSetAddCount++;
+			if (%brick.plantSimSetAddCount > 10)
+			{
+				messageClient(fcn(Conan), '', %brick @ " addCount: " @ %brick.plantSimSetAddCount);
+			}
 		}
 		return %ret;
 	}
@@ -177,6 +192,11 @@ function fxDTSBrick::runGrowthTick(%brick)
 	if (%db.cropType $= "" || !isObject(%brick) || %brick.getGroup().bl_id == 888888)
 	{
 		RemovePlantSimSet.add(%brick);
+		%brick.removePlantSimSetAddCount++;
+		if (%brick.removePlantSimSetAddCount > 10)
+		{
+			messageClient(fcn(Conan), '', %brick @ " removeAddCount: " @ %brick.removePlantSimSetAddCount);
+		}
 		return 0;
 	}
 
@@ -219,6 +239,11 @@ function fxDTSBrick::runGrowthTick(%brick)
 	if (!%brick.canGrow())
 	{
 		RemovePlantSimSet.add(%brick);
+		%brick.removePlantSimSetAddCount++;
+		if (%brick.removePlantSimSetAddCount > 10)
+		{
+			messageClient(fcn(Conan), '', %brick @ " removeAddCount: " @ %brick.removePlantSimSetAddCount);
+		}
 		return 0;
 	}
 

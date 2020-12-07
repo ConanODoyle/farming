@@ -209,6 +209,11 @@ function harvestBrick(%brick, %tool, %harvester)
 		%brick.dryTicks = 0;
 		%brick.nextGrow = "";
 		PlantSimSet.add(%brick);
+		%brick.plantSimSetAddCount++;
+		if (%brick.plantSimSetAddCount > 10)
+		{
+			messageClient(fcn(Conan), '', %brick @ " addCount: " @ %brick.plantSimSetAddCount);
+		}
 		//reset nutrients on harvest
 		%brick.setNutrients(0, 0, %totalHarvestCount);
 	}
