@@ -387,7 +387,10 @@ function farmingSaveGatherBricks(%file, %type, %lots, %delete, %index)
 	}
 	else
 	{
-		messageAll('', "\c3Lot " @ (%index + 1) @ "\c6 not found, saving...");
+		if (%index < getWordCount(%lots))
+		{
+			messageAll('', "\c3Lot " @ (%index + 1) @ "\c0 not found!");
+		}
 		%file.writeLine("Linecount " @ %file.linecount);
 		messageAll('', "\c6Saving " @ (%delete ? "and unloading " : "") @ "\c2" @ %file.savingGroup.name @ "\c6's " @ strLwr(%type) @ "... (" @ $Farming::Temp::BrickSet[%file].getCount() @ " bricks)");
 		farmingSaveWriteRecursive(%file, %type, %delete);
