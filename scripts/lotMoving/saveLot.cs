@@ -378,15 +378,16 @@ function farmingSaveGatherBricksRecursive(%file, %type, %lots, %delete, %index, 
 // pass me a single lot like farmingSaveGatherBricks(file, lots, delete, type) :)
 function farmingSaveGatherBricks(%file, %type, %lots, %delete, %index)
 {
-
 	%lot = getWord(%lots, %index);
 	if (isObject(%lot))
 	{
+		messageAll('', "\c6Gathering from \c3lot " @ (%index + 1) @ "\c6...");
 		farmingSaveGatherBricksRecursive(%file, %type, %lots, %delete, %index, %lot);
 		return;
 	}
 	else
 	{
+		messageAll('', "\c3Lot " @ (%index + 1) @ "\c6 not found, saving...");
 		%file.writeLine("Linecount " @ %file.linecount);
 		messageAll('', "\c6Saving " @ (%delete ? "and unloading " : "") @ "\c2" @ %file.savingGroup.name @ "\c6's " @ strLwr(%type) @ "... (" @ $Farming::Temp::BrickSet[%file].getCount() @ " bricks)");
 		farmingSaveWriteRecursive(%file, %type, %delete);
@@ -403,6 +404,8 @@ function farmingSaveLot(%bl_id, %delete)
 		echo("ERROR: farmingSaveLot - Client has no brickgroup! " @ %client);
 		return -1;
 	}
+
+	%brickGroup.refreshLotList();
 
 	%lots = %brickGroup.lotList;
 	%numLots = getWordCount(%lots);
@@ -438,6 +441,7 @@ function farmingSaveLot(%bl_id, %delete)
 	$Farming::Temp::Origin[%file] = %singleLot.position;
 	$Farming::Temp::BrickQueue[%file] = new SimSet();
 	$Farming::Temp::BrickSet[%file] = new SimSet();
+	messageAll('', "\c6Gathering bricks from \c2" @ %brickGroup.name @ "'s brickGroup\c6, found \c3" @ getWordCount(%lots) @ " lots\c6...");
 	farmingSaveGatherBricks(%file, "Lot", %lots, %delete);
 }
 
