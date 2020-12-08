@@ -59,11 +59,11 @@ function farmingSaveWriteBrick(%file, %brick)
 	%line = %uiName @ "\"" SPC %pos SPC %brick.getAngleID() SPC %isLot SPC %brick.getColorID() SPC %printTexture SPC %brick.getColorFxID() SPC %brick.getShapeFxID() SPC %brick.isRayCasting() SPC %brick.isColliding() SPC %brick.isRendering();
 	%file.writeLine(%line);
 
-	if (%brick.getGroup().bl_id != %file.savingBL_ID)
-	{
-		%line = "+-OWNER" SPC %brick.getGroup().bl_id;
-		%file.writeLine(%line);
-	}
+	// if (%brick.getGroup().bl_id != 888888)
+	// {
+	%line = "+-OWNER" SPC %brick.getGroup().bl_id;
+	%file.writeLine(%line);
+	// }
 
 	if (%brick.getName() !$= "")
 	{
