@@ -475,6 +475,13 @@ function serverCmdBuyLot(%cl, %rotation)
 		messageClient(%cl, '', "You are dead!");
 		return;
 	}
+	%load = hasLoadedLot(%cl.bl_id);
+	if (%load $= "noSavedLot")
+	{
+		%loc = "saves/Autosaver/Lots/" @ %cl.bl_id @ "/*.bls";
+		%first = findFirstFile(%loc);
+		$Pref::Farming::lastLotAutosave[%cl.bl_id] = %first;
+	}
 
 	%rotation = %rotation | 0;
 
