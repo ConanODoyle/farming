@@ -633,7 +633,15 @@ function storageLoop(%cl, %obj)
 
 	%start = %cl.player.getEyePoint();
 	%end = vectorAdd(vectorScale(%cl.player.getEyeVector(), 8), %start);
-	if (containerRaycast(%start, %end, %obj.getType(), %cl.player) != %obj)
+	if (%obj.getType() & $Typemasks::fxBrickObjectType)
+	{
+		%type = $Typemasks::fxBrickObjectType;
+	}
+	else
+	{
+		%type = %obj.getType();
+	}
+	if (containerRaycast(%start, %end, %type, %cl.player) != %obj)
 	{
 		%exit = 1;
 	}
