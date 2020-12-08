@@ -164,7 +164,7 @@ package Donators
 		{
 			$Pref::Server::maxPlayers = ClientGroup.getCount() + 1;
 		}
-		messageClient(fcn(Conan), '', "\c4Attempt to join by \c3" @ %netName);
+		echo("\c4Attempt to join by \c3" @ %netName);
 		return parent::onConnectRequest(%client, %netAddress, %LANname, %netName, %clanPrefix, %clanSuffix, %clientNonce);
 	}
 
@@ -202,7 +202,7 @@ package Donators
 
 			if (%isDonator || %isVIP)
 			{
-				messageClient(fcn(Conan), '', "\c4    Attempt to join succeeded");
+				echo("\c4    Attempt to join succeeded");
 				echo("    VIP/donator status confirmed. Upping player limit...");
 				%ret = parent::onLine(%this, %line);
 				updateServerPlayerCount();
@@ -213,7 +213,7 @@ package Donators
 
 			if ($Pref::Server::maxPlayers > $Farming::MaxPlayers) 
 			{
-				messageClient(fcn(Conan), '', "\c4    Attempt to join failed");
+				echo("\c4    Attempt to join failed");
 				%cl.isBanReject = 1;
 				%cl.schedule(10, delete, "The server is full!");
 				schedule(10, 0, eval, "$Pref::Server::maxPlayers--;");

@@ -61,7 +61,7 @@ package PlantSimSetCollector
 			%brick.plantSimSetAddCount++;
 			if (%brick.plantSimSetAddCount > 10)
 			{
-				messageClient(fcn(Conan), '', %brick @ " addCount: " @ %brick.plantSimSetAddCount);
+				echo(%brick @ " addCount: " @ %brick.plantSimSetAddCount);
 			}
 		}
 		return %ret;
@@ -77,7 +77,7 @@ package PlantSimSetCollector
 			%brick.plantSimSetAddCount++;
 			if (%brick.plantSimSetAddCount > 10)
 			{
-				messageClient(fcn(Conan), '', %brick @ " addCount: " @ %brick.plantSimSetAddCount);
+				echo(%brick @ " addCount: " @ %brick.plantSimSetAddCount);
 			}
 		}
 		return %ret;
@@ -93,7 +93,7 @@ package PlantSimSetCollector
 			%brick.plantSimSetAddCount++;
 			if (%brick.plantSimSetAddCount > 10)
 			{
-				messageClient(fcn(Conan), '', %brick @ " addCount: " @ %brick.plantSimSetAddCount);
+				echo(%brick @ " addCount: " @ %brick.plantSimSetAddCount);
 			}
 		}
 		return %ret;
@@ -195,7 +195,7 @@ function fxDTSBrick::runGrowthTick(%brick)
 		%brick.removePlantSimSetAddCount++;
 		if (%brick.removePlantSimSetAddCount > 10)
 		{
-			messageClient(fcn(Conan), '', %brick @ " removeAddCount: " @ %brick.removePlantSimSetAddCount);
+			echo(%brick @ " removeAddCount: " @ %brick.removePlantSimSetAddCount);
 		}
 		return 0;
 	}
@@ -230,7 +230,7 @@ function fxDTSBrick::runGrowthTick(%brick)
 	{
 		return 0;
 	}
-	
+
 	%brickNutrients = %brick.getNutrients();
 
 	%brick.greenhouseBonus = %greenhouse;
@@ -242,7 +242,7 @@ function fxDTSBrick::runGrowthTick(%brick)
 		%brick.removePlantSimSetAddCount++;
 		if (%brick.removePlantSimSetAddCount > 10)
 		{
-			messageClient(fcn(Conan), '', %brick @ " removeAddCount: " @ %brick.removePlantSimSetAddCount);
+			echo(%brick @ " removeAddCount: " @ %brick.removePlantSimSetAddCount);
 		}
 		return 0;
 	}
