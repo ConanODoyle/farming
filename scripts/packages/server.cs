@@ -160,21 +160,21 @@ function openPackage(%packageID, %player)
     for (%i = 0; %i < %count; %i++) {
         %reward = getDataIDArrayValue(%packageID, %i);
         %item = getWord(%reward, 0);
-        %count = getWord(%reward, 1);
+        %itemCount = getWord(%reward, 1);
 
         if (isStackType(%item) || (isObject(%item) && %item.isStackable)) {
-            %player.farmingAddStackableItem(%item, %count);
+            %player.farmingAddStackableItem(%item, %itemCount);
         } else {
             if (%item.hasDataID) //dataid item
             {
-                for (%j = 0; %j < %count; %j++)
+                for (%j = 0; %j < %itemCount; %j++)
                 {
                     %player.farmingAddItem(%item);
                 }
             }
             else //possibly multiple normal items
             {
-                for (%j = 0; %j < %count; %j++) { 
+                for (%j = 0; %j < %itemCount; %j++) { 
                     %player.farmingAddItem(%item);
                 }
             }
