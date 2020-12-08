@@ -55,7 +55,8 @@ function farmingSaveWriteBrick(%file, %brick)
 		%printTexture = "";
 	}
 
-	%line = %uiName @ "\"" SPC %pos SPC %brick.getAngleID() SPC %brick.isBasePlate() SPC %brick.getColorID() SPC %printTexture SPC %brick.getColorFxID() SPC %brick.getShapeFxID() SPC %brick.isRayCasting() SPC %brick.isColliding() SPC %brick.isRendering();
+	%isLot = %brickData.isLot || %brickData.isShopLot;
+	%line = %uiName @ "\"" SPC %pos SPC %brick.getAngleID() SPC %isLot SPC %brick.getColorID() SPC %printTexture SPC %brick.getColorFxID() SPC %brick.getShapeFxID() SPC %brick.isRayCasting() SPC %brick.isColliding() SPC %brick.isRendering();
 	%file.writeLine(%line);
 
 	if (%brick.getGroup().bl_id != %file.savingBL_ID)

@@ -227,8 +227,8 @@ function farmingLoadEnd(%loadFile, %type, %dataObj, %brickGroup)
 			if((!%brick.hasPathToGround() && %brick.getNumDownBricks() == 0) || %brick.getDataBlock().isLot || %brick.getDataBlock().isShopLot)
 			{
 				%brick.isBaseplate = true;
-				%brick.willCauseChainKill(); // recompute - thanks new duplicator
 				%brick.onToolBreak(); // fix strange bug
+				%brick.willCauseChainKill(); // recompute - thanks new duplicator
 			}
 		}
 		%dataObj.brickSet.delete();
@@ -566,7 +566,7 @@ function farmingLoadTick(%loadFile, %type, %dataObj, %offset, %center, %rotation
 		%line = getSubStr(%line, %quotePos + 2, 9999);
 		%pos = getWords(%line, 0, 2);
 		%angId = getWord(%line, 3);
-		%isBaseplate = getWord(%line, 4);
+		%isBaseplate = getWord(%line, 4) || %db.isLot || %db.isShopLot;
 		%colorId = %loadFile.colorTranslation[mFloor(getWord(%line, 5))];
 		%printName = getWord(%line, 6);
 		if (strpos(%printName, "/") != -1)
@@ -623,6 +623,8 @@ function farmingLoadTick(%loadFile, %type, %dataObj, %offset, %center, %rotation
 				dataBlock = %db;
 				angleID = %angId;
 				isBasePlate = %isBaseplate;
+				isFloatingBrick = %isBaseplate;
+				forceBaseplate = %isBaseplate;
 				colorID = %colorId;
 				printID = %printId;
 				colorFxID = %colorFX;

@@ -100,6 +100,9 @@ function restoreLotBricks(%dataObj)
 			rotation = "1 0 0 0";
 			isPlanted = 1;
 			colorID = 0;
+			isFloatingBrick = 1;
+			forceBaseplate = 1;
+			isBaseplate = 1;
 		};
 		%err = %b.plant();
 		if (%err != 2 && %err != 0)
