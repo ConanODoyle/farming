@@ -72,7 +72,7 @@ function getNumPublicLots(%set)
 	{
 		%b = %set.getObject(%i);
 		%bDB = %b.getDatablock();
-		if (%b.getGroup().bl_id == 888888 && %bDB.isSingle)
+		if (%b.getGroup().bl_id == 888888 && %bDB.isSingle || %bDB.isShopLot)
 		{
 			%freeLots++;
 		}
