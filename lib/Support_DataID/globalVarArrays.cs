@@ -15,6 +15,8 @@ function loadDataIDArray(%aid, %force)
 		return;
 	}
 
+	pruneDataIDArrays();
+
 	%aid = getSafeDataIDArrayName(%aid);
 	if (!$executedDataID[%aid] || %force)
 	{
@@ -35,8 +37,6 @@ function loadDataIDArray(%aid, %force)
 		}
 	}
 	$executedDataID[%aid] = 1;
-
-	pruneDataIDArrays();
 
 	return %aid;
 }
