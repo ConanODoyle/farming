@@ -51,7 +51,7 @@ function findAllBusStops(%idx)
         }
     }
 
-    if (%i > Brickgroup_888888.getCount())
+    if (%i >= Brickgroup_888888.getCount())
     {
         return;
     }
@@ -148,12 +148,21 @@ function goToBusStop(%cl, %menu, %option)
 {
     %brick = %menu.menuBrick[%option];
     %pl = %cl.player;
+    %cost = 0.5;
+    if ($busStopGoToCost[%menu.stopName[%option]] !$= "")
+    {
+        %cost = $busStopGoToCost[%menu.stopName[%option]];
+    }
+    if ($busStopTravelFromCost[%menu.currentStopName] !$= "")
+    {
+        %cost = $busStopTravelFromCost[%menu.stopName[%option]];   
+    }
 
     if (!isObject(%pl) || !isObject(%brick))
     {
         return;
     }
-    else if (%cl.score < 0.5)
+    else if (%cl.score < %cost)
     {
         messageClient(%cl, '', "You cannot afford to take the bus! You need $0.50 to ride.");
         return;
@@ -170,15 +179,6 @@ function goToBusStop(%cl, %menu, %option)
         }
     }
 
-    %cost = 0.5;
-    if ($busStopGoToCost[%menu.stopName[%option]] !$= "")
-    {
-        %cost = $busStopGoToCost[%menu.stopName[%option]];
-    }
-    if ($busStopTravelFromCost[%menu.currentStopName] !$= "")
-    {
-        %cost = $busStopTravelFromCost[%menu.stopName[%option]];   
-    }
     %cl.setScore(%cl.score - %cost);
     %target.setTransform(%brick.getTransform());
 
