@@ -396,7 +396,7 @@ function fxDTSBrick::updateShopDisplay(%brick)
 	}
 
 	%rotation = getWords(%brick.getTransform(), 3, 6); // TODO: everything below this point assumes a brick. make it not assume a brick.
-
+	%rotation = getWords(%rotation, 0, 2) SPC (getWord(%rotation, 3) + $pi);
 	for (%i = 0; %i < %count; %i++)
 	{
 		%currPos = %brick.getDatablock().itemPos[%i];
