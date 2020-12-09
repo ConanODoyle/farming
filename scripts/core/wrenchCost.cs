@@ -17,7 +17,7 @@ function purchaseVehicle(%cl, %vehicle)
 	if (isObject(%cl.wrenchBrick) && isObject(%cl.wrenchBrick.vehicle))
 	{
 		%brickVehi = %cl.wrenchBrick.vehicle.getDatablock();
-		if (%brickVehi.getID() != %vehicle.getID())
+		if (%brickVehi.getID() != %vehicle.getID() && %vehicle.cost > 0)
 		{
 			sellObject(%cl.wrenchBrick.vehicle);
 		}
