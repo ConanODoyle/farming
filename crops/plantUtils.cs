@@ -398,17 +398,24 @@ function fxDTSBrick::extractNutrients(%brick, %nutrients)
 	%desiredNitrogen = %maxNitrogen - %brickNitrogen;
 	%desiredPhosphate = %maxPhosphate - %brickPhosphate;
 
+	%extractedNitrogen = 0;
+	%extractedPhosphate = 0;
+
 	if (%desiredNitrogen > 0 && %availableNitrogen > 0)
 	{
 		%remainingNitrogen = getMax(%availableNitrogen - %desiredNitrogen, 0);
+		%extractedNitrogen = %availableNitrogen - %desiredNitrogen;
 		%nutrients = setWord(%nutrients, 0, %remainingNitrogen);
 	}
 
 	if (%desiredPhosphate > 0 && %availablePhosphate > 0)
 	{
 		%remainingPhosphate = getMax(%availablePhosphate - %desiredPhosphate, 0);
+		%extractedPhosphate = %availablePhosphate - %desiredPhosphate;
 		%nutrients = setWord(%nutrients, 1, %remainingPhosphate);
 	}
+
+	%brick.setNutrients(%brickNitrogen + %extractedNitrogen, %brickPhosphate + %extractedPhosphate);
 
 	return %nutrients;
 }
