@@ -381,19 +381,35 @@ function fxDTSBrick::extractNutrients(%brick, %nutrients)
 		return %nutrients;
 	}
 
+	%availableNitrogen = getWord(%nutrients, 0);
+	%availablePhosphate = getWord(%nutrients, 1);
+
 	%maxNutrients = getPlantData(%type, %stage, "maxNutrients") $= "" ?
 		getPlantData(%type, "maxNutrients") : getPlantData(%type, %stage, "maxNutrients");
-	%brickNutrients = %brick.getNutrients();
-	%space = getWords(vectorSub(%maxNutrients, %brickNutrients), 0, 1);
-	if (%space !$= "0 0" && strPos(%space, "-") < 0)
-	{
-		%nit = getMin(getWord(%nutrients, 0), getWord(%space, 0));
-		%pho = getMin(getWord(%nutrients, 1), getWord(%space, 1));
-		%harvestCount = getWord(%brickNutrients, 2);
 
-		%brick.setNutrients(getWord(%brickNutrients, 0) + %nit, getWord(%brickNutrients, 1) + %pho);
-		%nutrients = vectorSub(%nutrients, %nit SPC %pho SPC 0);
+	%maxNitrogen = getWord(%maxNutrients, 0) | 0;
+	%maxPhosphate = getWord(%maxNutrients, 1) | 0;
+
+	%brickNutrients = %brick.getNutrients();
+
+	%brickNitrogen = getWord(%brickNutrients, 0) | 0;
+	%brickPhosphate = getWord(%brickNutrients, 1) | 0;
+
+	%desiredNitrogen = %maxNitrogen - %brickNitrogen;
+	%desiredPhosphate = %maxPhosphate - %brickPhosphate;
+
+	if (%desiredNitrogen > 0 && %availableNitrogen > 0)
+	{
+		%remainingNitrogen = getMax(%availableNitrogen - %desiredNitrogen, 0);
+		%nutrients = setWord(%nutrients, 0, %remainingNitrogen);
 	}
+
+	if (%desiredPhosphate > 0 && %availablePhosphate > 0)
+	{
+		%remainingPhosphate = getMax(%availablePhosphate - %desiredPhosphate, 0);
+		%nutrients = setWord(%nutrients, 1, %remainingPhosphate);
+	}
+
 	return %nutrients;
 }
 
