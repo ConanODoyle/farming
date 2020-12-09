@@ -1,13 +1,12 @@
 Export Properties:
   Scale: 1
   Floating point precision: 0.0001
-Exporting multiple bricks.
-
-Exporting group 'basementLot'.
+Exporting selected objects to BLB.
+  Found 17 objects.
 Processing definition objects.
   Defined brick size: 32 wide 32 deep and 9 bricks tall
   Processed 5 of 5 brick grid definitions.
-  Processed 8 of 8 collision definitions.
+  Processed 10 of 10 collision definitions.
 Processing meshes.
   Exporting object: Cube.007
     [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
@@ -34,6 +33,14 @@ Processing meshes.
     [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
     [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
     [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
-  Brick quads: 49
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+    [WARNING:IOBLBW009] Face has UV coordinates but no brick texture was set in the material name, using SIDE by default.
+  Brick quads: 57
 Writing to file.
-  Output file: C:\Users\Samuel\Downloads\BL\Add-Ons\Server_Farming\scripts\core\resources\basementLot.blb
+  Output file: C:\Users\irrel\Documents\Blockland\Add-Ons\Server_Farming\scripts\core\resources\basementLot.blb
