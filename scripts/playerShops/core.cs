@@ -411,7 +411,7 @@ function fxDTSBrick::updateShopDisplay(%brick)
 		// %p = createBoxAt(%currPos, "0 0 1 1", 0.1);
 		// %p.schedule(1000, delete);
 		%dataBlock = getField(%data[%i], 0);
-		%count = getField(%data[%i], 2);
+		%itemCount = getField(%data[%i], 2);
 		%dataID = getField(%data[%i], 3);
 
 		if (isObject(%dataBlock))
