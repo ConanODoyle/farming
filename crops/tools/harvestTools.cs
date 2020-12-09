@@ -1,4 +1,4 @@
-
+$statTrakBonusModifier = 300;
 //harvest tools
 
 datablock ItemData(TrowelItem : HammerItem)
@@ -316,7 +316,9 @@ function toolHarvest(%img, %obj, %slot)
 			%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!", 1);
 			return;
 		}
-		%toolHarvestType = getDataIDArrayTagValue(%obj.toolDataID[%obj.currTool], "statTrakType");
+		%dataID = %obj.toolDataID[%obj.currTool];
+		%toolHarvestType = getDataIDArrayTagValue(%dataID, "statTrakType");
+		%statTrakBonus = mFloor((getDataIDArrayTagValue(%dataID, %toolHarvestType) + 0 | 0) / $statTrakBonusModifier);
 	}
 
 
@@ -328,7 +330,16 @@ function toolHarvest(%img, %obj, %slot)
 			if (%next.getDatablock().isPlant)
 			{
 				%type = %next.getDatablock().cropType;
-				%err = harvestBrick(%next, %item, %obj);
+				
+				if (%type $= %toolHarvestType)
+				{
+					%err = harvestBrick(%next, %item, %obj, %statTrakBonus);
+				}
+				else
+				{
+					%err = harvestBrick(%next, %item, %obj);
+				}
+
 				if (%err)
 				{
 					%hasHarvested = 1;
@@ -347,7 +358,16 @@ function toolHarvest(%img, %obj, %slot)
 		if (isObject(%hit) && %hit.getDatablock().isPlant)
 		{
 			%type = %hit.getDatablock().cropType;
-			%err = harvestBrick(%hit, %item, %obj);
+			
+			if (%type $= %toolHarvestType)
+			{
+				%err = harvestBrick(%next, %item, %obj, %statTrakBonus);
+			}
+			else
+			{
+				%err = harvestBrick(%next, %item, %obj);
+			}
+
 			if (%err)
 			{
 				%hasHarvested = 1;
