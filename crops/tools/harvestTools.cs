@@ -241,10 +241,9 @@ datablock ShapeBaseImageData(TreeClipperImage : TrowelImage)
 	item = TreeClipperItem;
 	doColorShift = false;
 
-	areaHarvest = 2;
 	stateTimeoutValue[2] = 0.4;
 
-	toolTip = "Area harvest above ground crops";
+	toolTip = "+1-5 harvest and prune trees";
 };
 
 function TreeClipperImage::onFire(%this, %obj, %slot)
