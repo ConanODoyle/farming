@@ -21,6 +21,10 @@ function purchaseVehicle(%cl, %vehicle)
 		{
 			sellObject(%cl.wrenchBrick.vehicle);
 		}
+		else if (%vehicle.cost <= 0)
+		{
+			return 0;
+		}
 		else
 		{
 			return 1;
