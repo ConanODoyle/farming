@@ -6,6 +6,7 @@ datablock ItemData(TrowelItem : HammerItem)
 	iconName = "Add-ons/Server_Farming/icons/Trowel";
 	shapeFile = "./redtools/trowel.dts";
 	uiName = "Trowel";
+	canPickupMultiple = 1
 
 	hasDataID = 1;
 	isDataIDTool = 1;
@@ -80,6 +81,7 @@ datablock ItemData(ClipperItem : HammerItem)
 	iconName = "Add-ons/Server_Farming/icons/Clipper";
 	shapeFile = "./redtools/Clipper.dts";
 	uiName = "Clipper";
+	canPickupMultiple = 1
 
 	hasDataID = 1;
 	isDataIDTool = 1;
@@ -124,6 +126,7 @@ datablock ItemData(HoeItem : HammerItem)
 	iconName = "Add-ons/Server_Farming/icons/Hoe";
 	shapeFile = "./redtools/Hoe.dts";
 	uiName = "Hoe";
+	canPickupMultiple = 1
 
 	hasDataID = 1;
 	isDataIDTool = 1;
@@ -169,6 +172,7 @@ datablock ItemData(SickleItem : HammerItem)
 	iconName = "Add-ons/Server_Farming/icons/Sickle";
 	shapeFile = "./redtools/Sickle.dts";
 	uiName = "Sickle";
+	canPickupMultiple = 1
 
 	hasDataID = 1;
 	isDataIDTool = 1;
@@ -214,6 +218,7 @@ datablock ItemData(TreeClipperItem : HammerItem)
 	iconName = "Add-ons/Server_Farming/icons/TreeClipper";
 	shapeFile = "./redtools/TreeClipper.dts";
 	uiName = "Tree Clipper";
+	canPickupMultiple = 1
 
 	hasDataID = 1;
 	isDataIDTool = 1;
