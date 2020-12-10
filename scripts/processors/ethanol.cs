@@ -53,7 +53,7 @@ datablock fxDTSBrickData(brickEthanolRefineryData)
 	isEthanolRefinery = 1;
 	isRecipeProcessor = 1;
 
-	isStorageBrick = 1; //purely for the gui, don't enable storage
+	isStorageBrick = 1;
 	storageSlotCount = 2;
 	itemStackCount = 0;
 	storageMultiplier = 10;
@@ -61,6 +61,9 @@ datablock fxDTSBrickData(brickEthanolRefineryData)
 	musicRange = 50;
 	musicDescription = "AudioMusicLooping3d";
 };
+
+
+
 
 
 
@@ -117,6 +120,103 @@ function EthanolGeneratorBrickImage::onFire(%this, %obj, %slot)
 }
 
 
+
+
+
+////////////////
+//Ethanol Item//
+////////////////
+
+$Stackable_Ethanol_StackedItem0 = "EthanolItem 50";
+$Stackable_Ethanol_StackedItemTotal = 1;
+
+datablock ItemData(EthanolItem : HammerItem)
+{
+	shapeFile = "./resources/tank.dts";
+	uiName = "Ethanol";
+	image = EthanolImage;
+	doColorShift = true;
+	colorShiftColor = "0.9 0.8 0 1";
+
+	isStackable = 1;
+	stackType = "Ethanol";
+};
+
+datablock ShapeBaseImageData(EthanolImage)
+{
+	shapeFile = "./resources/tank.dts";
+	emap = true;
+
+	doColorShift = true;
+	colorShiftColor = EthanolItem.colorShiftColor;
+
+	item = EthanolItem;
+	
+	armReady = 1;
+
+	offset = "-0.56 0 -0.3";
+
+	stateName[0] = "Activate";
+	stateTransitionOnTimeout[0] = "LoopA";
+	stateTimeoutValue[0] = 0.1;
+
+	stateName[1] = "LoopA";
+	stateScript[1] = "onLoop";
+	stateTransitionOnTriggerDown[1] = "Fire";
+	stateTimeoutValue[1] = 0.1;
+	stateTransitionOnTimeout[1] = "LoopB";
+
+	stateName[2] = "LoopB";
+	stateScript[2] = "onLoop";
+	stateTransitionOnTriggerDown[2] = "Fire";
+	stateTimeoutValue[2] = 0.1;
+	stateTransitionOnTimeout[2] = "LoopA";
+
+	stateName[3] = "Fire";
+	stateScript[3] = "onFire";
+	stateTransitionOnTriggerUp[3] = "LoopA";
+	stateTimeoutValue[3] = 0.1;
+	stateWaitForTimeout[3] = true;
+};
+
+function EthanolImage::onFire(%this, %obj, %slot)
+{
+
+}
+
+function EthanolImage::onMount(%this, %obj, %slot)
+{
+	%obj.playThread(1, "armReadyBoth");
+}
+
+function EthanolImage::onUnmount(%this, %obj, %slot)
+{
+
+}
+
+function EthanolImage::onLoop(%this, %obj, %slot)
+{
+	ethanolLoop(%this, %obj);
+}
+
+function ethanolLoop(%image, %obj)
+{
+	%item = %image.item;
+	%type = %item.stackType;
+	%cl = %obj.client;
+	%count = %obj.toolStackCount[%obj.currTool];
+
+	if (isObject(%cl))
+	{
+		%cl.centerprint("<just:right>\c3-Ethanol " @ %obj.currTool + 1 @ "- <br>" @ %type @ "\c6: " @ %count @ " ", 1);
+	}
+}
+
+
+
+/////////////////
+//Refinery Code//
+/////////////////
 
 datablock ItemData(EthanolRefineryItem : brickPlacerItem)
 {
@@ -268,9 +368,10 @@ function addEthanolIngredients(%brick, %cl, %slot)
 			return;
 		}
 		
+		//check for space for ingredients - only insert that much
 		%dataID = %brick.eventOutputParameter[0, 1];
 		%max = %brick.getStorageMax(%item);
-		%slot0 = validateStorageValue(getDataIDArrayValue(%dataID, 0));
+		%slot0 = validateStorageValue(getDataIDArrayValue(%dataID, 1));
 		%itemCount = getField(%slot0, 2);
 		%space = getMin(%pl.toolStackCount[%slot], %max - %itemCount);
 
@@ -283,7 +384,7 @@ function addEthanolIngredients(%brick, %cl, %slot)
 		%success = %brick.insertIntoStorage(%dataID, 
 										%item, 
 										%space, 
-										%pl.toolDataID[%slot]);
+										"");
 		%brick.isAcceptingIngredients = 0;
 		if (%success == 0) //complete insertion
 		{
@@ -291,6 +392,7 @@ function addEthanolIngredients(%brick, %cl, %slot)
 			if (%pl.toolStackCount[%slot] <= 0)
 			{
 				%pl.tool[%slot] = 0;
+				%pl.toolStackCount[%slot] = 0;
 				messageClient(%cl, 'MsgItemPickup', "", %slot, 0);
 				if (%pl.currTool == %slot)
 				{
@@ -319,22 +421,8 @@ function addEthanolIngredients(%brick, %cl, %slot)
 	}
 }
 
-function decreasePumpRate(%cl, %menu, %option)
-{
-	%brick = %menu.brick;
-	if (!isObject(%brick))
-	{
-		return;
-	}
-	%dataID = %brick.eventOutputParameter0_1;
-	%rate = getMax(getDataIDArrayTagValue(%dataID, "rate") - 1, 0);
-	setDataIDArrayTagValue(%dataID, "rate", %rate);
-	serverPlay3D(ToggleStopSound, %brick.getPosition());
-	%brick.updateStorageMenu(%brick.eventOutputParameter0_1);
-
-	reopenCenterprintMenu(%cl, %menu, %option);
-	return %rate;
-}
+$Ethanol::InputAmount = 5;
+$Ethanol::OutputAmount = 2;
 
 function canCreateEthanol(%brick)
 {
@@ -346,7 +434,7 @@ function canCreateEthanol(%brick)
 	%outputCount = getField(%output, 2);
 	%outputSpace = getMin(%pl.toolStackCount[%slot], %maxOutput - %outputCount);
 
-	if (%inputCount < 1 || %outputSpace < 2)
+	if (%inputCount < $Ethanol::InputAmount || %outputSpace < $Ethanol::OutputAmount)
 	{
 		return false;
 	}
@@ -361,8 +449,8 @@ function createEthanol(%brick)
 	%inputCount = getField(%input, 2);
 	%outputCount = getField(%output, 2);
 
-	%newInput = getStorageValue("Corn", %inputCount - 1);
-	%newOutput = getStorageValue("Ethanol", %outputCount + 2);
+	%newInput = getStorageValue("Corn", %inputCount - $Ethanol::InputAmount);
+	%newOutput = getStorageValue("Ethanol", %outputCount + $Ethanol::OutputAmount);
 	setDataIDArrayValue(%dataID, 0, %newInput);
 	setDataIDArrayValue(%dataID, 1, %newOutput);
 }
@@ -371,10 +459,10 @@ function refineEthanol(%brick, %powerRatio)
 {
     %db = %brick.getDatablock();
     %dataID = %brick.eventOutputParameter0_1;
-    %rate = mFloor(%powerRatio * %db.refineRate);
+    %rate = mFloatLength(%powerRatio * %db.refineRate, 1);
     %brick.devicePower = %powerRatio;
 
-    if (%brick.deviceProgress == 100)
+    if (canCreateEthanol(%brick) && %brick.deviceProgress >= 100)
     {
     	createEthanol(%brick);
     	%brick.deviceProgress = 0;
@@ -385,6 +473,6 @@ function refineEthanol(%brick, %powerRatio)
     }
     else
     {
-    	%brick.deviceProgress = 0;
+    	%brick.deviceProgress = getMax(%brick.deviceProgress - 10, 0);
     }
 }
