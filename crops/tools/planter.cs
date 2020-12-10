@@ -155,7 +155,6 @@ function PlanterImage::onLoop(%this, %obj, %slot)
 function PlanterImage::onFire(%this, %obj, %slot)
 {
 	%obj.playThread(0, plant);
-
 	if (getDurability(%this, %obj, %slot) == 0)
 	{
 		if (isObject(%cl = %obj.client))
@@ -251,6 +250,7 @@ function PlanterImage::onFire(%this, %obj, %slot)
 						%obj.currTool = %originalCurrTool;
 						return;
 					}
+					%obj.currTool = %originalCurrTool;
 					useDurability(%this, %obj, %slot);
 					%plantCount++;
 					if (getDurability(%this, %obj, %slot) == 0)
@@ -263,6 +263,7 @@ function PlanterImage::onFire(%this, %obj, %slot)
 						}
 						return;
 					}
+					%obj.currTool = %currSlot;
 					// %shape = createBoxAt(%hitloc, "1 0 0 1", 0.1);
 					// %shape.schedule(2000, delete);
 				}
@@ -282,15 +283,15 @@ function PlanterImage::onFire(%this, %obj, %slot)
 		// %obj.currTool = %idx;
 		// for (%i = 0; %i < getMin(%min, %stackCount); %i++)
 		// {
-		// 	%p = vectorAdd(%hitloc, vectorScale(%plantingSpace, %i));
-		// 	%valid = plantCrop(%item.image, %obj, "", %p);
-		// 	if (!%valid)
-		// 	{
-		// 		%obj.currTool = %currTool;
-		// 		return;
-		// 	}
-		// 	// %shape = createBoxAt(%p, "1 0 0 1", 0.1);
-		// 	// %shape.schedule(2000, delete);
+		//  %p = vectorAdd(%hitloc, vectorScale(%plantingSpace, %i));
+		//  %valid = plantCrop(%item.image, %obj, "", %p);
+		//  if (!%valid)
+		//  {
+		//      %obj.currTool = %currTool;
+		//      return;
+		//  }
+		//  // %shape = createBoxAt(%p, "1 0 0 1", 0.1);
+		//  // %shape.schedule(2000, delete);
 		// }
 		// %obj.currTool = %currTool;
 	}
