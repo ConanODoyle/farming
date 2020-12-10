@@ -222,7 +222,7 @@ function fxDTSBrick::runGrowthTick(%brick)
 	%lightInfo = getPlantLightLevel(%brick);
 	%light = getWord(%lightInfo, 0);
 	%greenhouse = getWord(%lightInfo, 1);
-	%weather = ($isHeatWave + 0) SPC ($isRaining + 0);
+	%weather = ($isRaining + 0) SPC ($isHeatWave + 0);
 
 	%leftover = %brick.extractNutrients(%dirtNutrients);
 	%dirt.setNutrients(getWord(%leftover, 0), getWord(%leftover, 1), getWord(%leftover, 2));
