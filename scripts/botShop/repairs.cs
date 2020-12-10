@@ -123,6 +123,14 @@ function dialogue_RepairProduct(%dataObj)
 	return 0;
 }
 
+function getRepairPrice(%itemDB, %durabilityLevel, %durabilityMax)
+{	
+	%basePrice = getBuyPrice(%itemDB);
+	%flatFee = %basePrice / 100; //$10 for $1000 item
+	%variableFee = mFloor(50 * ((%durabilityMax - %durabilityLevel) / %durabilityMax));
+	%price = mFloor(%flatFee + %variableFee);
+}
+
 function RepairResponseParser(%dataObj, %msg)
 {
 	%pl = %dataObj.player;
@@ -159,21 +167,15 @@ function RepairResponseParser(%dataObj, %msg)
 		return "CannotRepair";
 	}
 
-	%basePrice = getBuyPrice(%tool);
-	%flatFee = %basePrice / 100;
-	%variableFee = %basePrice / 5000;
-	%maxDurability = %originalDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
-	if (%maxDurability > 10000)
-	{
-		%maxDurability = %maxDurability /= 1000;
-	}
-	%price = mFloor(%flatFee + %variableFee * %maxDurability);
+	%durabilty = getDataIDArrayTagValue(%toolDataID, "durability");
+	%maxDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
+	%price = getRepairPrice(%tool, %durability, %originalDurability);
 
 	%dataObj.var_tool = %tool;
 	%dataObj.var_toolDataID = %toolDataID;
 	%dataObj.var_toolName = %tool.uiName;
 	%dataObj.var_repairPrice = %price;
-	%dataObj.var_maxDurability = %originalDurability;
+	%dataObj.var_maxDurability = %maxDurability;
 
 	if (%tool $= "")
 	{
