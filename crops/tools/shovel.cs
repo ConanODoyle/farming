@@ -98,7 +98,9 @@ function ShovelImage::onFire(%this, %obj, %slot)
 				|| %pho >= PhosphateBag0Image.fertilizerPhosphate + 1)
 			{
 				useDurability(%this, %obj, %slot);
-				if (%nit >= CompostBag0Image.fertilizerNitrogen + 1)
+
+				%count = 0;
+				while (%nit >= CompostBag0Image.fertilizerNitrogen + 1 && %count++ < 5)
 				{
 					%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
 					%nit -= CompostBag0Image.fertilizerNitrogen + 1;
@@ -112,7 +114,9 @@ function ShovelImage::onFire(%this, %obj, %slot)
 					%item.setVelocity(%vel);
 					%item.schedulePop();
 				}
-				if (%pho >= PhosphateBag0Image.fertilizerPhosphate + 1)
+
+				%count = 0;
+				while (%pho >= PhosphateBag0Image.fertilizerPhosphate + 1 && %count++ < 5)
 				{
 					%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
 					%pho -= PhosphateBag0Image.fertilizerPhosphate + 1;
@@ -131,7 +135,6 @@ function ShovelImage::onFire(%this, %obj, %slot)
 		}
 	}
 	%obj.playThread(0, shiftDown);
-
 }
 
 function fxDTSBrick::onShovelHit(%this, %pl)
