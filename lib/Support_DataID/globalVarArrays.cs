@@ -22,6 +22,7 @@ function loadDataIDArray(%aid, %force)
 	{
 		if ($DataIDDebug) talk("loadDataIDArray");
 		deleteVariables("$DataID_" @ %aid @ "*");
+		$executedDataID[%aid] = 0;
 		deleteVariables("$executedDataID" @ %aid);
 		if (isFile("config/server/DataIDs/" @ %aid @ ".cs"))
 		{
@@ -59,6 +60,7 @@ function unloadDataIDArray(%aid)
 	}
 	saveDataIDArray(%aid);
 	deleteVariables("$DataID_" @ %aid @ "*");
+	$executedDataID[%aid] = 0;
 	deleteVariables("$executedDataID" @ %aid);
 }
 
@@ -67,6 +69,7 @@ function deleteDataIDArray(%aid)
 	if ($DataIDDebug) talk("deleteDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
 	deleteVariables("$DataID_" @ %aid @ "*");
+	$executedDataID[%aid] = 0;
 	deleteVariables("$executedDataID" @ %aid);
 	fileDelete("config/server/DataIDs/" @ %aid @ ".cs");
 	return %aid;
@@ -329,6 +332,7 @@ function clearDataIDArray(%aid)
 	if ($DataIDDebug) talk("clearDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
 	deleteVariables("$DataID_" @ %aid @ "*");
+	$executedDataID[%aid] = 0;
 	deleteVariables("$executedDataID" @ %aid);
 
 	if (isFile("config/server/DataIDs/" @ %aid @ ".cs"))

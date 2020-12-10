@@ -242,10 +242,6 @@ function PlanterImage::onFire(%this, %obj, %slot)
 						if (%inGreenhouse != (isObject(%greenhouseCheck) && %greenhouseCheck.getDatablock().isGreenhouse))
 						{
 							%obj.currTool = %originalCurrTool;
-							if (%plantCount > 0)
-							{
-								useDurability(%this, %obj, %slot);
-							}
 							return;
 						}
 					}
@@ -253,13 +249,20 @@ function PlanterImage::onFire(%this, %obj, %slot)
 					if (!%valid) //could not plant, immediately exit
 					{
 						%obj.currTool = %originalCurrTool;
-						if (%plantCount > 0)
+						return;
+					}
+					useDurability(%this, %obj, %slot);
+					%plantCount++;
+					if (getDurability(%this, %obj, %slot) == 0)
+					{
+						if (isObject(%cl = %obj.client))
 						{
-							useDurability(%this, %obj, %slot);
+							%durability = getDurability(%this, %obj, %slot);
+							%durabilityString = "<color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!";
+							%cl.centerprint("<just:right>\c3-Row " @ %this.item.uiname @"- \n" @ %durabilityString, 1);
 						}
 						return;
 					}
-					%plantCount++;
 					// %shape = createBoxAt(%hitloc, "1 0 0 1", 0.1);
 					// %shape.schedule(2000, delete);
 				}
@@ -268,19 +271,10 @@ function PlanterImage::onFire(%this, %obj, %slot)
 			else //plantcount >= plantMax,  we maxed out
 			{
 				%obj.currTool = %originalCurrTool;
-				if (%plantCount > 0)
-				{
-					useDurability(%this, %obj, %slot);
-				}
 				return;
 			}
 		}
 		%obj.currTool = %originalCurrTool; //just in case
-		
-		if (%plantCount > 0)
-		{
-			useDurability(%this, %obj, %slot);
-		}
 		// %brickDB = %item.image.cropBrick;
 
 		// %min = %this.min;
