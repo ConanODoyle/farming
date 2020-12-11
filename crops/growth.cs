@@ -222,6 +222,20 @@ function fxDTSBrick::runGrowthTick(%brick)
 	%lightInfo = getPlantLightLevel(%brick);
 	%light = getWord(%lightInfo, 0);
 	%greenhouse = getWord(%lightInfo, 1);
+	if (%db.isTree && %greenhouse)
+	{
+		if (%db.stage > 0)
+		{
+			if (%db.cropType !$= "Cactus")
+			{
+				%brick.setDatablock("brick" @ %db.croptype @ "Tree0CropData");
+			}
+			else
+			{
+				%brick.setDatablock("brick" @ %db.cropType @ "0CropData");
+			}
+		}
+	}
 	%weather = ($isRaining + 0) SPC ($isHeatWave + 0);
 
 	%leftover = %brick.extractNutrients(%dirtNutrients);

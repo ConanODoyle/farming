@@ -133,7 +133,11 @@ function getPlantLightLevel(%brick)
 		%hitDB = %hit.getDatablock();
 		if (%hitDB.isGreenhouse) //ignore greenhouses
 		{
-			%greenhouseFound = 1;
+			%z = getWord(%hit.getPosition(), 2) - %hitDB.brickSizeZ * 0.1;
+			if (getWord(%brick.getPosition(), 2) + 0.1 > %z)
+			{
+				%greenhouseFound = 1;
+			}
 			%start = getWords(%ray, 1, 3);
 			%ray = containerRaycast(%start, %end, %masks, %hit);
 			continue;
@@ -177,7 +181,8 @@ function fxDTSBrick::getLightLevel(%brick, %lightLevel)
 
 function fxDTSBrick::canLightPassThrough(%brick)
 {
-	if (%brick.getDatablock().isTree)
+	%db = %brick.getDatablock();
+	if (%db.isTree || %db.isSprinkler || %db.isGreenhouse)
 	{
 		return 1;
 	}

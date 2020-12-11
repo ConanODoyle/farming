@@ -180,19 +180,37 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	if (!%potFound)
 	{
 		//check if this is in a greenhouse or not
-		%greenhouseCheck = getWord(containerRaycast(%base, vectorAdd(%base, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType), 0);
-		if (isObject(%greenhouseCheck) && %greenhouseCheck.getDatablock().isGreenhouse)
+		%end = vectorAdd(%base, "0 0 300");
+		%greenhouseCheck = containerRaycast(%base, %end, $TypeMasks::fxBrickAlwaysObjectType);
+		%greenhouseHit = getWord(%greenhouseCheck, 0);
+		%greenhouseDB = %greenhouseHit.getDatablock();
+
+		while (%greenhouseDB.isIndoorLight || %greenhouseDB.isSprinkler)
 		{
-			%inGreenhouse = 1;
+			%greenhouseCheck = containerRaycast(getWords(%greenhouseCheck, 1, 3), %end, $TypeMasks::fxBrickAlwaysObjectType, %greenhouseHit);
+			%greenhouseHit = getWord(%greenhouseCheck, 0);
+			%greenhouseDB = %greenhouseHit.getDatablock();
+		}
+
+		if (isObject(%greenhouseHit) && %greenhouseHit.getDatablock().isGreenhouse)
+		{
+			%greenhouseInside = getWord(%greenhouseHit.getPosition(), 2) - %greenhouseDB.brickSizeZ * 0.1;
+			if (getWord(%base, 2) + 0.1 > %greenhouseInside)
+			{
+				%inGreenhouse = 1;
+			}
+
 			if (%isTree)
 			{
-				%obj.client.centerprint("You cannot plant tall plants in greenhouses!", 1);
+				%obj.client.centerprint("You cannot plant tall plants under a greenhouse!", 1);
 				return 0;
 			}
 		}
 
 		//planting radius checks
 		%plantRad = (%radius - (%planterFound + %inGreenhouse)) * 0.5 - 0.01 + 0.5;
+		// talk("inGreenhouse: " @ %inGreenhouse);
+		// talk("PlantRad: " @ %plantRad);
 
 		//check around the brick for any other plants and make sure we dont violate their radius requirement
 		//but exclude flowerpots since those root systems dont intersect with each other
@@ -229,12 +247,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 
 				if (!%next.greenhouseBonus)
 				{
-					%nextGreenhouseCheck = getWord(containerRaycast(%nextPos, vectorAdd(%nextPos, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType), 0);
-					if (isObject(%nextGreenhouseCheck) && %nextGreenhouseCheck.getDatablock().isGreenhouse)
-					{
-						%next.greenhouseBonus = 1;
-						%nextInGreenhouse = 1;
-					}
+					%nextInGreenhouse = 0;
 				}
 				else
 				{
@@ -293,6 +306,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 		dataBlock = %brickDB;
 		rotation = getRandomBrickOrthoRot();
 		plantedTime = $Sim::Time;
+		greenhouseBonus = %inGreenhouse;
 	};
 	%error = %b.plant();
 	if (%error > 0 || %error $= "")
