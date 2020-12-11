@@ -35,7 +35,7 @@ datablock fxDTSBrickData(brickEthanolRefineryData)
 {
 	uiName = "Ethanol Refinery";
 
-	brickFile = "./resources/waterRefinery/medTankRefinery.blb";
+	brickFile = "./resources/refinery/refinery.blb";
 
 	iconName = "Add-Ons/Server_Farming/icons/EthanolTankRefinery";
 
