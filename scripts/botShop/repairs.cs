@@ -124,10 +124,18 @@ function dialogue_RepairProduct(%dataObj)
 }
 
 function getRepairPrice(%itemDB, %durabilityLevel, %durabilityMax)
-{   
+{
 	%basePrice = getBuyPrice(%itemDB);
+	if (%basePrice >= 1000)
+	{
+		%variableFactor = 50;
+	}
+	else
+	{
+		%variableFactor = %basePrice / 20;
+	}
 	%flatFee = %basePrice / 100; //$10 for $1000 item
-	%variableFee = mFloor(50 * ((%durabilityMax - %durabilityLevel) / %durabilityMax));
+	%variableFee = mFloor(%variableFactor * ((%durabilityMax - %durabilityLevel) / %durabilityMax));
 	%price = mFloor(%flatFee + %variableFee);
 	return %price;
 }
