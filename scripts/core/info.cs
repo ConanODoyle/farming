@@ -87,6 +87,10 @@ function bottomprintInfo(%cl)
 	{
 		%db = %pl.tempbrick.getDatablock();
 		%pre = "\c2" @ %db.uiname SPC %db.description @ " Cost: $" @ %db.cost;
+		if (%db.isSprinkler)
+		{
+			%pre = %pre @ ", Water/Sec: " @ %db.waterPerSecond;
+		}
 	}
 	else if (%client.infoPrefix $= "")
 	{
