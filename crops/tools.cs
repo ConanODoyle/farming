@@ -5,6 +5,8 @@ exec("./tools/reclaimer.cs");
 exec("./tools/shovel.cs");
 exec("./tools/weedcutter.cs");
 exec("./tools/waterTools.cs");
+exec("./tools/repairTool.cs");
+exec("./tools/upgradeTool.cs");
 
 
 function repairDurability(%dataID, %amount)
@@ -20,14 +22,28 @@ function repairDurability(%dataID, %amount)
 	setDataIDArrayTagValue(%dataID, "durability", %final);
 }
 
-function getDurability(%this, %obj, %slot)
+function getDataIDMaxDurability(%dataID)
 {
-	%dataID = %obj.toolDataID[%obj.currTool];
+	if (%dataID $= "")
+	{
+		return 0;
+	}
+	return getDataIDArrayTagValue(%dataID, "maxDurability");
+}
+
+function getDataIDDurability(%dataID)
+{
 	if (%dataID $= "")
 	{
 		return 0;
 	}
 	return getDataIDArrayTagValue(%dataID, "durability");
+}
+
+function getDurability(%this, %obj, %slot)
+{
+	%dataID = %obj.toolDataID[%obj.currTool];
+	return getDataIDDurability(%dataID);
 }
 
 function useDurability(%this, %obj, %slot)
@@ -50,9 +66,17 @@ function incDurability(%dataID, %amt)
 	%max = getDataIDArrayTagValue(%dataID, "maxDurability");
 	%curr = getDataIDArrayTagValue(%dataID, "durability");
 	%final = getMin(getMax(%curr + %amt, 0), %max);
-	setDataIDArrayTagValue(%dataID, "maxDurability", %final);
-	
+	setDataIDArrayTagValue(%dataID, "durability", %final);
+
 	return %final - %curr;
+}
+
+function incMaxDurability(%dataID, %amt)
+{
+	%curr = getDataIDArrayTagValue(%dataID, "maxDurability");
+	setDataIDArrayTagValue(%dataID, "maxDurability", %curr + %amt);
+
+	return %amt;
 }
 
 function generateToolDataID(%item)

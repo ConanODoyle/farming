@@ -1,4 +1,24 @@
 // item should have the ID of the desired item
+function Player::farmingRemoveItem(%player, %slot) {
+    if (%player.getDatablock().maxTools <= %slot || %slot == -1) {
+        return 0;
+    }
+
+    %player.tool[%slot] = "";
+    %player.toolDataID[%slot] = "";
+
+    if (isObject(%client = %player.client)) {
+        messageClient(%client, 'MsgItemPickup', "", %slot, "");
+
+        if (!isObject(%player.tool[%player.currTool]) || %player.currTool == -1) {
+            serverCmdUnUseTool(%client);
+        } else {
+            serverCmdUseTool(%client, %player.currTool);
+        }
+    }
+    return 1;
+}
+
 function Player::farmingSetItem(%player, %datablock, %slot, %dataID) {
     if (%player.getDatablock().maxTools <= %slot || %slot == -1) {
         return 0;
