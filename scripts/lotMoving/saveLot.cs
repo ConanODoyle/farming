@@ -679,7 +679,7 @@ function farmingSaveWriteSave(%collection)
 		return;
 	}
 
-	%file = farmingSaveInitFile(%collection.bl_id)
+	%file = farmingSaveInitFile(%collection.bl_id);
 }
 
 function recursiveFarmingWriteSave(%collection)
