@@ -403,9 +403,9 @@ function createFertilizer(%brick)
     %curr = validateStorageValue(getDataIDArrayValue(%dataID, 1));
     %db = getStackTypeDatablock("Compost", 1);
     %max = %brick.getStorageMax(%db);
-    if (getWord(%curr, 1) < %max)
+    if (getWord(%curr, 2) < %max)
     {
-        %addAmt = getMin(%max - getWord(%curr, 1), %amt);
+        %addAmt = getMin(%max - getWord(%curr, 2), %amt);
         %amt -= %addAmt;
         setDataIDArrayValue(%dataID, 1, getStorageValue(%db, getWord(%curr, 2) + %addAmt, ""));
     }
