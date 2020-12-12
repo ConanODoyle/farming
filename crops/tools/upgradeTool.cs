@@ -81,7 +81,7 @@ function UpgradeToolImage::onFire(%this, %obj, %slot)
 
 	%raycastResult = containerRayCast(%start, %end, %mask, %exempt);
 	%hit = getWord(%raycastResult, 0);
-	if (!isObject(%hit))
+	if (!isObject(%hit) || %hit.getClassName() !$= "Item")
 	{
 		if (isObject(%cl = %obj.client))
 		{
@@ -96,7 +96,7 @@ function UpgradeToolImage::onFire(%this, %obj, %slot)
 	{
 		if (isObject(%cl = %obj.client))
 		{
-			%cl.centerprint("That tool doesn't have durability!", 1);
+			%cl.centerprint("That item doesn't have durability!", 1);
 		}
 		return;
 	}
