@@ -10,6 +10,7 @@ function purchaseVehicle(%cl, %vehicle)
 		if (isObject(%cl.wrenchBrick) && isObject(%cl.wrenchBrick.vehicle) && getSellPrice(%cl.wrenchBrick.vehicle.getDatablock()) > 0)
 		{
 			sellObject(%cl.wrenchBrick.vehicle);
+			%cl.wrenchBrick.vehicle.delete();
 		}
 		return 1;
 	}
@@ -20,6 +21,7 @@ function purchaseVehicle(%cl, %vehicle)
 		if (%brickVehi.getID() != %vehicle.getID() && %vehicle.cost > 0)
 		{
 			sellObject(%cl.wrenchBrick.vehicle);
+			%cl.wrenchBrick.vehicle.delete();
 		}
 		else if (%vehicle.cost <= 0)
 		{
