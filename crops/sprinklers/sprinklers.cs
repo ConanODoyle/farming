@@ -432,9 +432,13 @@ function canLinkWaterObjects(%downFlowObj, %upFlowObj)
 		return -3;
 	}
 	else if ((%downFlowUFID $= %upFlowID || strPos(" " @ %upFlowObj.branches @ " ", " " @ %downFlowID @ " ") >= 0)
-		&& %downFlowUFID !$= "")
+		&& %downFlowUFID !$= "") //already connected
 	{
 		return -4;
+	}
+	else if (vectorDist(%downFlowObj.getPosition(), %upFlowObj.getPosition()) >= $SprinklerMaxDistance) //too far
+	{
+		return -6;
 	}
 
 	%branches = %upFlowObj.branches;
