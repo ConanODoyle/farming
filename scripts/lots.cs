@@ -721,6 +721,12 @@ function serverCmdSellLot(%cl, %force)
 		%hit.setDatablock(brick32x32LotRaisedData);
 		%cl.player.addVelocity("0 0 15");
 	}
+	else //sold single lot, remove saved lot
+	{
+		$Pref::Farming::LastLotAutosave[%cl.bl_id] = "";
+		messageClient(%cl, '', "Your saved lot has been removed");
+		exportServerPrefs();
+	}
 	clearLotRecursive(%hit, %cl);
 	fixLotColor(%hit);
 	// %cl.refundRatio = 0;
