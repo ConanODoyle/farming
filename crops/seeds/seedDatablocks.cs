@@ -168,6 +168,10 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 		return 0;
 	}
 
+	if (!isObject(%hit))
+	{
+		return 0;
+	}
 
 	%hitDB = %hit.getDatablock();
 	if ((%potFound || %planterFound) && (%plantingBoxDisabled || %isTree))

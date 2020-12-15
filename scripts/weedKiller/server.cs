@@ -10,7 +10,7 @@ function addWeedKiller(%img, %obj, %slot)
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
 	%brick = getWord(%ray, 0);
 
-	if (%brick.getDatablock().isPlant)
+	if (isObject(%brick) && %brick.getDatablock().isPlant)
 	{
 		%brick = %brick.getDownBrick(0);
 	}
