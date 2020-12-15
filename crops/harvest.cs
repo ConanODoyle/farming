@@ -117,7 +117,9 @@ function harvestBrick(%brick, %tool, %harvester, %fixedBonus)
 		%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
 		if (%brick.isColliding())
 		{
-			%vel = vectorAdd(%vel, vectorScale(vectorNormalize(getWords(%vel, 0, 1)), 3));
+			%dir = vectorNormalize(getWords(%vel, 0, 1));
+			%vel = vectorAdd(%vel, vectorScale(%dir, 3));
+			%offset = vectorScale(%dir, 0.75);
 		}
 
 		if (getRandom() < 0.005 && isObject(%itemDB.alt))
@@ -133,7 +135,7 @@ function harvestBrick(%brick, %tool, %harvester, %fixedBonus)
 		};
 		MissionCleanup.add(%item);
 		%item.schedule(60 * 1000, schedulePop);
-		%item.setTransform(%pos SPC getRandomRotation());
+		%item.setTransform(vectorAdd(%pos, %offset) SPC getRandomRotation());
 		%item.setVelocity(%vel);
 	}
 
