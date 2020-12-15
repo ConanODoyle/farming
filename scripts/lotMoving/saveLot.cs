@@ -158,6 +158,7 @@ function farmingSaveEnd(%file, %type, %delete)
 	deleteVariables("$Farming::Temp::BrickQueue" @ %file);
 
 	$Pref::Farming::Last[%type @ "Autosave" @ %file.savingBL_ID] = %file.path;
+	exportServerPrefs();
 
 	%file.savingGroup.isSaveClearingLot = false;
 
