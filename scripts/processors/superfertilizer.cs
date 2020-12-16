@@ -13,7 +13,7 @@
 // 	processorFunction = "processIntoSuperFertilizer";
 // 	activateFunction = "SuperFertilizerMachineInfo";
 // 	placerItem = "SuperFertilizerMachineItem";
-// 	keepActivate = 1;
+// 	callOnActivate = 1;
 
 // 	tickTime = 20;
 // 	tickAmt = 1;

@@ -17,7 +17,7 @@ datablock fxDTSBrickData(brickIndoorLightData)
 	// processorFunction = "grindProduce";
 	// activateFunction = "IndoorLightInfo";
 	placerItem = "IndoorLightItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 	isPoweredProcessor = 1;
 	energyUse = 2;
 	powerFunction = "powerLight";

@@ -16,7 +16,7 @@ datablock fxDTSBrickData(brickEthanolGeneratorData)
 	processorFunction = "addFuel";
 	// activateFunction = "EthanolGeneratorInfo";
 	placerItem = "EthanolGeneratorItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 	isGenerator = 1;
 	burnRate = 0.01;
 	generation = 30;
@@ -44,8 +44,9 @@ datablock fxDTSBrickData(brickEthanolRefineryData)
 	processorFunction = "addEthanolIngredients";
 	// activateFunction = "EthanolRefineryInfo";
 	placerItem = "EthanolRefineryItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 	isPoweredProcessor = 1;
+	hasCustomMenu = 1;
 	energyUse = 5;
 	refineRate = 5;
 	powerFunction = "refineEthanol";

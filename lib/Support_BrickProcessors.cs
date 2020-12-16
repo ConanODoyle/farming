@@ -40,7 +40,7 @@ package Processors
 				{
 					call(%func, %hit, %obj);
 					if (isObject(%hit) && %hit.getType() & $Typemasks::fxBrickAlwaysObjectType 
-						&& !%hit.getDatablock().keepActivate)
+						&& !%hit.getDatablock().callOnActivate)
 					{
 						return;
 					}

@@ -161,7 +161,7 @@ package PowerSystems
 			%brick.centerprintMenu.menuFunction[0] = "reopenCenterprintMenu";
 			%brick.centerprintMenu.menuFunction[1] = "togglePower";
 		}
-		else if (%db.isPoweredProcessor)
+		else if (%db.isPoweredProcessor && !%db.hasCustomMenu)
 		{
 			%brick.centerprintMenu.menuOption[0] = "Power: " @ (%brick.isPoweredOn() ? "\c2On" : "\c0Off");
 			%brick.centerprintMenu.menuFunction[0] = "togglePower";
@@ -1410,7 +1410,7 @@ datablock fxDTSBrickData(brickCoalGeneratorData)
 	processorFunction = "addFuel";
 	// activateFunction = "CoalGeneratorInfo";
 	placerItem = "CoalGeneratorItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 	isGenerator = 1;
 	burnRate = 0.01;
 	generation = 10;
@@ -1438,7 +1438,7 @@ datablock fxDTSBrickData(brickPowerControlBoxData)
 	// processorFunction = "grindProduce";
 	// activateFunction = "CoalGeneratorInfo";
 	placerItem = "PowerControlBoxItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 	isPowerControlBox = 1;
 	maxGenerators = 4;
 	maxProcessors = 16;
@@ -1469,7 +1469,7 @@ datablock fxDTSBrickData(brickBatteryData)
 	// processorFunction = "grindProduce";
 	// activateFunction = "CoalGeneratorInfo";
 	placerItem = "BatteryItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 	isBattery = 1;
 	dischargeRate = 40;
 	capacity = 100000;

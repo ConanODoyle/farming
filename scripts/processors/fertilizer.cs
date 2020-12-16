@@ -510,7 +510,7 @@ datablock fxDTSBrickData(brickCompostBinData)
 	processorFunction = "processIntoFertilizer";
 	activateFunction = "compostBinInfo";
 	placerItem = "CompostBinItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 
 	tickTime = 10;
 	tickAmt = 1;
@@ -536,7 +536,7 @@ datablock fxDTSBrickData(brickLargeCompostBinData)
 	processorFunction = "processIntoFertilizer";
 	activateFunction = "compostBinInfo";
 	placerItem = "LargeCompostBinItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 
 	tickTime = 8;
 	tickAmt = 2;

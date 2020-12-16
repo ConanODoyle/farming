@@ -17,7 +17,7 @@ datablock fxDTSBrickData(brickMediumPumpData)
 	// processorFunction = "grindProduce";
 	// activateFunction = "MediumPumpInfo";
 	placerItem = "MediumPumpItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 	isPoweredProcessor = 1;
 	energyUse = 2;
 	pumpPowerMod = 2;
@@ -51,7 +51,7 @@ datablock fxDTSBrickData(brickLargePumpData)
 	// processorFunction = "grindProduce";
 	// activateFunction = "LargePumpInfo";
 	placerItem = "LargePumpItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 	isPoweredProcessor = 1;
 	energyUse = 3;
 	pumpPowerMod = 2;

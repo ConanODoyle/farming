@@ -19,7 +19,7 @@ datablock fxDTSBrickData(brickGrinderData)
 	// processorFunction = "grindProduce";
 	// activateFunction = "grinderInfo";
 	placerItem = "GrinderItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 
 	tickTime = 10;
 	tickAmt = 1;
@@ -38,7 +38,7 @@ datablock fxDTSBrickData(brickLiquifierData)
 	// processorFunction = "liquifyContents";
 	// activateFunction = "liquifierInfo";
 	placerItem = "LiquifierItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 
 	tickTime = 10;
 	tickAmt = 1;
@@ -57,7 +57,7 @@ datablock fxDTSBrickData(brickBaguetteMachineData)
 	// processorFunction = "makeBread";
 	// activateFunction = "BaguetteMachineInfo";
 	placerItem = "BaguetteMachineItem";
-	keepActivate = 1;
+	callOnActivate = 1;
 
 	tickTime = 10;
 	tickAmt = 1;

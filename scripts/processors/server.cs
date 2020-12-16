@@ -118,3 +118,4 @@ exec("./planterBox.cs");
 exec("./power.cs");
 exec("./lights.cs");
 exec("./waterpump.cs");
+exec("./ethanol.cs");
