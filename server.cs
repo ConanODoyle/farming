@@ -98,7 +98,6 @@ exec("./scripts/core/startup.cs");
 exec("./scripts/core/info.cs");
 exec("./scripts/core/buildCost.cs");
 exec("./scripts/core/wrenchCost.cs");
-exec("./scripts/core/botBuy.cs");
 exec("./scripts/core/eventStorageV2.cs");
 exec("./scripts/core/tutorial.cs");
 exec("./scripts/core/spawn.cs");

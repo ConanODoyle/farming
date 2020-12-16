@@ -50,3 +50,28 @@ function getSellPrice(%name, %count) //price to sell items to bots
 
 	return %basePrice * %count;
 }
+
+function fxDTSBrick::listProducePrices(%brick, %cl)
+{
+	if (!isObject(%brick.centerprintMenu))
+	{
+		%brick.centerprintMenu = new ScriptObject(ProduceMenus)
+		{
+			isCenterprintMenu = 1;
+			menuName = "Sell Produce Prices";
+		};
+
+		for (%i = 0; %i < getFieldCount($SellProduceList); %i++)
+		{
+			%produce = getField($SellProduceList, %i);
+			%cost = getSellPrice(%produce);
+			%brick.centerprintMenu.menuOption[%i] = %produce @ " - $" @ mFloatLength(%cost, 2);
+		}
+		%brick.centerprintMenu.menuOptionCount = %i;
+		MissionCleanup.add(%brick.centerprintMenu);
+	}
+
+	%cl.startCenterprintMenu(%brick.centerprintMenu);
+}
+
+registerOutputEvent("fxDTSBrick", "listProducePrices", "", 1);

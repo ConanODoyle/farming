@@ -4,7 +4,6 @@ echo("--Loading farm modules");
 
 exec("./infoBubbles/server.cs");
 exec("./travel/server.cs");
-exec("./botDeals/server.cs");
 exec("./botDialogues/server.cs");
 exec("./botShop/server.cs");
 exec("./packages/server.cs");
