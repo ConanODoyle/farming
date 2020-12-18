@@ -230,14 +230,9 @@ function addLotToBrickgroup(%bg, %lot)
 function fxDTSBrick::updateGroupLotCount(%brick, %amt)
 {
 	%bg = getBrickgroupFromObject(%brick);
-	%bg.lotCount += %amt;
 
-	if (%amt > 0)
-	{
-		%bg.lotList = trim(%bg.lotList SPC %brick);
-	}
-
-	%bg.schedule(100, refreshLotList);
+	cancel(%bg.refreshLotListSched);
+	%bg.refreshLotListSched = %bg.schedule(100, refreshLotList);
 
 	if (%bg.getName() $= "BrickGroup_888888")
 	{
