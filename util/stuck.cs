@@ -25,7 +25,10 @@ function serverCmdStuck(%cl)
 function checkStuck(%pl, %bot)
 {
 	%cl = %pl.client;
-	messageClient(%cl, '', %bot.getVelocity());
+	if (%cl.isAdmin)
+	{
+		messageClient(%cl, '', %bot.getVelocity());
+	}
 	if (vectorLen(%bot.getVelocity()) < 0.1)
 	{
 		%bot.delete();
