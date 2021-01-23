@@ -637,6 +637,7 @@ function farmingSaveCollectBricks(%group, %lotlist)
 	%group.refreshLotList();
 
 	%collection.bl_id = %group.bl_id;
+	%collection.lots
 	%queue.lotList = %lotList;
 
 	farmingSaveRecursiveCollectBricks(%collection, %queue, %visited);
@@ -660,12 +661,9 @@ function farmingSaveRecursiveCollectBricks(%collection, %queue, %visited)
 	%lot = getWord(%queue.lotList, 0);
 	%queue.lotList = getWords(%queue.lotList, 1, 20);
 
-	if (isObject(%lot))
+	if (isObject(%lot) && !%visited.isMember(%lot)) //if %lot is in %visited, its been checked already
 	{
-		if (!%queue.isMember(%lot))
-		{
-			%queue.add(%lot);
-		}
+		%queue.add(%lot);
 		recursiveGatherBricks(%collection, %queue, %visited, "farmingSaveRecursiveCollectBricks");
 	}
 	else
@@ -688,9 +686,13 @@ function farmingSaveWriteSave(%collection)
 	}
 
 	%file = farmingSaveInitFile(%collection.bl_id);
-	for (%i = 0; %i < %collection.getCount(); %i++)
-	{
+	//write lots first
 
+	while (%collection.getCount() > 0)
+	{
+		%brick = %collection.getObject(0);
+		%collection.remove(%brick);
+		farmingSaveWriteBrick(%file, %brick);
 	}
 }
 
@@ -714,14 +716,14 @@ function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBr
 {
 	if (!isObject(%rootBrick) && %queue.getCount() <= 0) //base case, exit
 	{
+		%queue.clear(); //just to be safe, purge the add/remove history of queue
 		if (isFunction(%callback))
 		{
 			call(%callback, %collection, %queue, %visited);
 		}
 		return;
 	}
-
-	if (!isObject(%rootBrick)) //need a new brick to start searching on
+	else if (!isObject(%rootBrick)) //need a new brick to start searching on
 	{
 		%rootBrick = %queue.getObject(0);
 		%queue.remove(%rootBrick);
@@ -732,7 +734,7 @@ function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBr
 	}
 
 	//search for bricks
-	%index = %index + 0; //ensure values are not empty string
+	%index = %index + 0; //ensure value is not empty string
 	%searchDown = %searchDown + 0;
 
 	//i hate complex for loops cause the more complex the logic is the harder it is to be sure the logic is perfectly sound
