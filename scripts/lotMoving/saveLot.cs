@@ -463,17 +463,42 @@ function farmingSaveLot(%bl_id, %delete)
 
 
 
-$Pref::Farming::SaveLot::MaxBricksPerTick = 128;
+$Pref::Farming::SaveLot::MaxBricksPerTick = 256;
 
 
 // setup:
 //	farmingSaveLot(%bl_id, %delete) - does basic checks/init, starts search for bricks
 //	=> farmingSaveCollectBricks(%brickgroup) - starts recursive brick search loop
 //	==> farmingSaveRecursiveCollectBricks(%col, %q, %vis) - runs loop until all bricks found
-//	=> farmingSaveWriteSave(%col) - writes save given collection object
-//	==> farmingSaveInitFile(%bl_id, %type) - initialized file with necessary data
+//	===> farmingSaveWriteSave(%col) - writes save given collection object
+//	====> farmingSaveInitFile(%bl_id, %type) - initialized file with necessary data
+//	====> clearCollection(%collection)
 
+function postSaveClearLot(%collection)
+{
+	//ensure players dont get refunded for removed bricks
+	%collection.deleteAll();
+}
 
+function farmingSaveLot(%bl_id, %delete)
+{
+	%bg = "Brickgroup_" @ %bl_id;
+	if (!isObject(%bg))
+	{
+		error("ERROR: farmingSaveLot - brickgroup doesn't exist! " @ %bg);
+		return 0;
+	}
+	%collection = new SimSet();
+	if (%delete)
+	{
+		%collection.callbackOnComplete = "postSaveClearLot";
+	}
+	%collection.bl_id = %bg.bl_id;
+	%collection.brickgroup = %bg;
+
+	%bg.refreshLotList();
+	farmingSaveCollectBricks(%bg, %collection, %bg.lotList);
+}
 
 function farmingSaveInitFile(%bl_id, %type)
 {
@@ -623,21 +648,16 @@ function farmingSaveWriteBrick(%file, %brick)
 	}
 }
 
-function farmingSaveCollectBricks(%group, %lotlist)
+function farmingSaveCollectBricks(%group, %collection, %lotList)
 {
 	if (!isObject(%group))
 	{
 		return;
 	}
 
-	%collection = new SimSet();
 	%queue = new SimSet();
 	%visited = new SimSet();
 
-	%group.refreshLotList();
-
-	%collection.bl_id = %group.bl_id;
-	%collection.lots
 	%queue.lotList = %lotList;
 
 	farmingSaveRecursiveCollectBricks(%collection, %queue, %visited);
@@ -675,10 +695,18 @@ function farmingSaveRecursiveCollectBricks(%collection, %queue, %visited)
 function farmingSaveWriteSave(%collection)
 {
 	%center = %collection.singleLots;
-	if (getWordCount(%center) > 1)
+	if (getWordCount(%center) > 1 || !isObject(%center))
 	{
-		talk("ERROR: farmingSaveWriteSave - multiple single lots found! " @ %center);
-		error("ERROR: farmingSaveWriteSave - multiple single lots found! " @ %center);
+		if (!isObject(%center))
+		{
+			talk("ERROR: farmingSaveWriteSave - no single lots found! " @ %center);
+			error("ERROR: farmingSaveWriteSave - no single lots found! " @ %center);
+		}
+		else
+		{
+			talk("ERROR: farmingSaveWriteSave - multiple single lots found! " @ %center);
+			error("ERROR: farmingSaveWriteSave - multiple single lots found! " @ %center);
+		}
 
 		%collection.clear();
 		%collection.delete();
@@ -686,13 +714,41 @@ function farmingSaveWriteSave(%collection)
 	}
 
 	%file = farmingSaveInitFile(%collection.bl_id);
-	//write lots first
-
-	while (%collection.getCount() > 0)
+	%file.lotOrigin = %center.getPosition();
+	
+	//write single lot and normal lots first
+	farmingSaveWriteBrick(%file, %center);
+	%wrote[%center.getID()] = 1;
+	for (%i = 0; %i < getWordCount(%collection.lots); %i++)
 	{
-		%brick = %collection.getObject(0);
-		%collection.remove(%brick);
+		%lot = getWord(%collection.lots, %i);
+		farmingSaveWriteBrick(%file, %lot);
+		%wrote[%lot.getID()] = 1;
+	}
+
+	//write rest of the bricks
+	%count = %collection.getCount();
+	for (%i = 0; %i < %count; %i++)
+	{
+		%brick = %collection.getObject(%i);
+		if (%wrote[%brick] == 1)
+		{
+			continue;
+		}
 		farmingSaveWriteBrick(%file, %brick);
+	}
+
+	%file.close();
+	%file.delete();
+
+	if (isFunction(%collection.callbackOnComplete))
+	{
+		call(%collection.callbackOnComplete, %collection); //assume cleanup is handled in callback
+	}
+	else
+	{
+		%collection.clear();
+		%collection.delete();
 	}
 }
 
@@ -760,8 +816,9 @@ function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBr
 		}
 		%next = call(%rootBrick, %func, %index);
 
-		//skip checking/adding public non-lot bricks
-		if (%next.getGroup().bl_id == 888888 && !(%next.getDatablock().isLot || %next.getDatablock().isShopLot))
+		//skip checking/adding public bricks, and lots not owned by the brickgroup owner
+		if (%next.getGroup().bl_id == 888888
+			|| (%next.getDatablock().isLot && %next.getGroup().bl_id != %collection.bl_id))
 		{
 			continue;
 		}
@@ -769,9 +826,13 @@ function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBr
 		if (!%collection.isMember(%next)) //add all bricks, including public if for some reason player bricks are above public ones
 		{
 			%collection.add(%next);
-			if (%next.getDatablock().isSingle)
+			if (%next.getDatablock().isSingle) //record single lots for offsets + first brick saved
 			{
 				%collection.singleLots = trim(%collection.singleLots SPC %next);
+			}
+			else if (%next.getDatablock().isLot)
+			{
+				%collection.lots = trim(%collection.lots SPC %next);
 			}
 		}
 		if (!%visited.isMember(%next) && !%queue.isMember(%next)) //add non-visited, non-present bricks to queue
