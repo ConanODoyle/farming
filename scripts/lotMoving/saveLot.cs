@@ -9,7 +9,7 @@ function farmingSaveInitFile(%bl_id, %type)
 	%path = $Pref::Server::AS_["Directory"] @ %type @ "s/" @ %bl_id @ "/" @ %type @ " Autosave (" @ %bl_id @ ") - " @ %save_date @ " at " @ %save_time @ ".bls";
 	%file = new FileObject();
 	%file.savingBL_ID = %bl_id;
-	%file.savingGroup = "BrickGroup_" @ %bl_id;
+	%file.savingGroup = "brickGroup_" @ %bl_id;
 	%file.path = %path;
 
 	%file.openForWrite(%path);
@@ -199,8 +199,8 @@ function farmingSaveWriteRecursive(%file, %type, %delete, %brickIndex)
 		{
 			if (%type $= "Lot" && %brick.getDatablock().isLot)
 			{
-				BrickGroup_888888.add(%brick);
-				BrickGroup_888888.lotList = BrickGroup_888888.lotList SPC %brick;
+				brickGroup_888888.add(%brick);
+				brickGroup_888888.lotList = brickGroup_888888.lotList SPC %brick;
 
 				%numLots = getWordCount(%file.savingGroup.lotList);
 				for (%i = 0; %i < %numLots; %i++)
@@ -224,7 +224,7 @@ function farmingSaveWriteRecursive(%file, %type, %delete, %brickIndex)
 			else if (%type $= "Shop" && %brick.getDataBlock().isShopLot)
 			{
 				%brick.getGroup().shopLot = "";
-				BrickGroup_888888.add(%brick);
+				brickGroup_888888.add(%brick);
 
 				fixShopLotColor(%brick);
 			}
@@ -307,7 +307,7 @@ function farmingSaveGatherBricksRecursive(%file, %type, %lots, %delete, %index, 
 			%brick = %rootBrick.getUpBrick(%iterPos++)
 		)
 		{
-			if (%brick.getGroup() == BrickGroup_888888.getID()) continue;
+			if (%brick.getGroup() == brickGroup_888888.getID()) continue;
 			$Farming::Temp::BrickQueue[%file].add(%brick);
 			%brickCount++;
 		}
@@ -331,7 +331,7 @@ function farmingSaveGatherBricksRecursive(%file, %type, %lots, %delete, %index, 
 		%brick = %rootBrick.getDownBrick(%iterPos++)
 	)
 	{
-		if (%brick.getGroup() == BrickGroup_888888.getID()) continue;
+		if (%brick.getGroup() == brickGroup_888888.getID()) continue;
 		$Farming::Temp::BrickQueue[%file].add(%brick);
 		%brickCount++;
 	}
@@ -401,12 +401,12 @@ function farmingSaveGatherBricks(%file, %type, %lots, %delete, %index)
 
 function farmingSaveLot(%bl_id, %delete)
 {
-	%brickGroup = "BrickGroup_" @ %bl_id;
+	%brickGroup = "brickGroup_" @ %bl_id;
 
 	if (!isObject(%brickGroup))
 	{
-		error("ERROR: farmingSaveLot - Client has no brickgroup! " @ %client);
-		echo("ERROR: farmingSaveLot - Client has no brickgroup! " @ %client);
+		error("ERROR: farmingSaveLot - Client has no brickGroup! " @ %client);
+		echo("ERROR: farmingSaveLot - Client has no brickGroup! " @ %client);
 		return -1;
 	}
 
@@ -417,8 +417,8 @@ function farmingSaveLot(%bl_id, %delete)
 
 	if (%numLots <= 0)
 	{
-		error("ERROR: farmingSaveLot - Client's brickgroup has no lots!");
-		echo("ERROR: farmingSaveLot - Client's brickgroup has no lots!");
+		error("ERROR: farmingSaveLot - Client's brickGroup has no lots!");
+		echo("ERROR: farmingSaveLot - Client's brickGroup has no lots!");
 		return -1;
 	}
 
@@ -434,8 +434,8 @@ function farmingSaveLot(%bl_id, %delete)
 
 	if (!isObject(%singleLot))
 	{
-		error("ERROR: farmingSaveLot - Client's brickgroup doesn't have a center lot!");
-		echo("ERROR: farmingSaveLot - Client's brickgroup doesn't have a center lot!");
+		error("ERROR: farmingSaveLot - Client's brickGroup doesn't have a center lot!");
+		echo("ERROR: farmingSaveLot - Client's brickGroup doesn't have a center lot!");
 		return -1;
 	}
 
@@ -468,36 +468,56 @@ $Pref::Farming::SaveLot::MaxBricksPerTick = 256;
 
 // setup:
 //	farmingSaveLot(%bl_id, %delete) - does basic checks/init, starts search for bricks
-//	=> farmingSaveCollectBricks(%brickgroup) - starts recursive brick search loop
-//	==> farmingSaveRecursiveCollectBricks(%col, %q, %vis) - runs loop until all bricks found
-//	===> farmingSaveWriteSave(%col) - writes save given collection object
-//	====> farmingSaveInitFile(%bl_id, %type) - initialized file with necessary data
-//	====> clearCollection(%collection)
+//	=> farmingSaveRecursiveCollectBricks(%col, %q, %vis) - runs loop until all bricks found
+//	==> farmingSaveWriteSave(%col) - writes save given collection object
+//	===> farmingSaveInitFile(%bl_id, %type) - initialized file with necessary data
+//	===> postSaveClearLot(%collection) - (if delete on) clears all found bricks except the lot bricks
 
 function postSaveClearLot(%collection)
 {
 	//ensure players dont get refunded for removed bricks
+	//do not delete lots
+	%lots = %collection.foundLots;
+	%group = %collection.brickGroup;
+	for (%i = 0; %i < getWordCount(%lots); %i++)
+	{
+		%lotBrick = getWord(%lots, %i);
+
+		brickGroup_888888.add(%lotBrick);
+		%lotBrick.fixLotColor();
+		%collection.remove(%lotBrick);
+	}
+
+	%group.isSaveClearingLot = 1;
 	%collection.deleteAll();
+	%group.isSaveClearingLot = 0;
+	%group.refreshLotList();
 }
 
 function farmingSaveLot(%bl_id, %delete)
 {
-	%bg = "Brickgroup_" @ %bl_id;
+	%bg = "brickGroup_" @ %bl_id;
 	if (!isObject(%bg))
 	{
-		error("ERROR: farmingSaveLot - brickgroup doesn't exist! " @ %bg);
+		error("ERROR: farmingSaveLot - brickGroup doesn't exist! " @ %bg);
 		return 0;
 	}
 	%collection = new SimSet();
+	%queue = new SimSet();
+	%visited = new SimSet();
 	if (%delete)
 	{
 		%collection.callbackOnComplete = "postSaveClearLot";
 	}
-	%collection.bl_id = %bg.bl_id;
-	%collection.brickgroup = %bg;
 
 	%bg.refreshLotList();
-	farmingSaveCollectBricks(%bg, %collection, %bg.lotList);
+
+	%collection.bl_id = %bg.bl_id;
+	%collection.brickGroup = %bg;
+	%collection.lotList = %bg.lotList;
+	%queue.lotList = %bg.lotList;
+
+	farmingSaveRecursiveCollectBricks(%collection, %queue, %visited);
 }
 
 function farmingSaveInitFile(%bl_id, %type)
@@ -509,7 +529,7 @@ function farmingSaveInitFile(%bl_id, %type)
 	%path = $Pref::Server::AS_["Directory"] @ %type @ "s/" @ %bl_id @ "/" @ %type @ " Autosave (" @ %bl_id @ ") - " @ %save_date @ " at " @ %save_time @ ".bls";
 	%file = new FileObject();
 	%file.savingBL_ID = %bl_id;
-	%file.savingGroup = "BrickGroup_" @ %bl_id;
+	%file.savingGroup = "brickGroup_" @ %bl_id;
 	%file.path = %path;
 
 	if (!isObject(%file.savingGroup))
@@ -648,21 +668,6 @@ function farmingSaveWriteBrick(%file, %brick)
 	}
 }
 
-function farmingSaveCollectBricks(%group, %collection, %lotList)
-{
-	if (!isObject(%group))
-	{
-		return;
-	}
-
-	%queue = new SimSet();
-	%visited = new SimSet();
-
-	%queue.lotList = %lotList;
-
-	farmingSaveRecursiveCollectBricks(%collection, %queue, %visited);
-}
-
 // need this subcall to guarantee all lots are iterated over and collected
 // each call to this function pops the first word off the lotlist and iterates over that
 function farmingSaveRecursiveCollectBricks(%collection, %queue, %visited)
@@ -674,7 +679,15 @@ function farmingSaveRecursiveCollectBricks(%collection, %queue, %visited)
 		%queue.delete();
 		%visited.delete();
 
-		farmingSaveWriteSave(%collection);
+		%validated = validateLotLists(%collection.lotList, %collection.foundLots);
+		if (%validated)
+		{
+			farmingSaveWriteSave(%collection);
+		}
+		else
+		{
+			echo("Cannot complete farming save, found lots were not the same as initial lot list!");
+		}
 		return;
 	}
 
@@ -719,9 +732,9 @@ function farmingSaveWriteSave(%collection)
 	//write single lot and normal lots first
 	farmingSaveWriteBrick(%file, %center);
 	%wrote[%center.getID()] = 1;
-	for (%i = 0; %i < getWordCount(%collection.lots); %i++)
+	for (%i = 0; %i < getWordCount(%collection.foundLots); %i++)
 	{
-		%lot = getWord(%collection.lots, %i);
+		%lot = getWord(%collection.foundLots, %i);
 		farmingSaveWriteBrick(%file, %lot);
 		%wrote[%lot.getID()] = 1;
 	}
@@ -750,6 +763,42 @@ function farmingSaveWriteSave(%collection)
 		%collection.clear();
 		%collection.delete();
 	}
+}
+
+function validateLotLists(%list1, %list2)
+{
+	%origList2 = %list2;
+	for (%i1 = 0; %i1 < getWordCount(%list1); %i1++)
+	{
+		%lot1 = getWord(%list1, %i1);
+		%foundLot = 0;
+		for (%i2 = 0; %i2 < getWordCount(%list2); %i2++)
+		{
+			%lot2 = getWord(%list2, %i2);
+			if (%lot1 == %lot2)
+			{
+				%list2 = removeWord(%list2, %i2);
+				%foundLot = 1;
+				break;
+			}
+		}
+		if (!%foundLot)
+		{
+			talk("Cannot find " @ %lot1 @ "!");
+			talk("list1: [" @ %list1 @ "]");
+			talk("list2: [" @ %list2 @ "]");
+			talk("origlist2: [" @ %origList2 @ "]");
+			echo("Cannot find " @ %lot1 @ "!");
+			echo("list1: [" @ %list1 @ "]");
+			echo("list2: [" @ %list2 @ "]");
+			echo("origlist2: [" @ %origList2 @ "]");
+			return 0;
+		}
+	}
+	talk("Validated lot lists as being same!");
+	echo("Validated lot lists as being same!");
+	return 0; //for testing purposes
+	return 1;
 }
 
 
@@ -815,10 +864,12 @@ function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBr
 			break;
 		}
 		%next = call(%rootBrick, %func, %index);
+		%nextGroup = %next.getGroup();
+		%nextDB = %next.getDatablock();
 
-		//skip checking/adding public bricks, and lots not owned by the brickgroup owner
-		if (%next.getGroup().bl_id == 888888
-			|| (%next.getDatablock().isLot && %next.getGroup().bl_id != %collection.bl_id))
+		//skip checking/adding public bricks, and lots not owned by the brickGroup owner
+		if (%nextGroup.bl_id == 888888
+			|| (%nextDB.isLot && %nextGroup.bl_id != %collection.bl_id))
 		{
 			continue;
 		}
@@ -826,16 +877,16 @@ function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBr
 		if (!%collection.isMember(%next)) //add all bricks, including public if for some reason player bricks are above public ones
 		{
 			%collection.add(%next);
-			if (%next.getDatablock().isSingle) //record single lots for offsets + first brick saved
+			if (%nextDB.isSingle) //record single lots for offsets + first brick saved
 			{
 				%collection.singleLots = trim(%collection.singleLots SPC %next);
 			}
-			else if (%next.getDatablock().isLot)
+			else if (%nextDB.isLot)
 			{
-				%collection.lots = trim(%collection.lots SPC %next);
+				%collection.foundLots = trim(%collection.foundLots SPC %next);
 			}
 		}
-		if (!%visited.isMember(%next) && !%queue.isMember(%next)) //add non-visited, non-present bricks to queue
+		if (!%nextDB.isPlant && !%visited.isMember(%next) && !%queue.isMember(%next)) //add non-visited, non-present, non-plant bricks to queue
 		{
 			%queue.add(%next);
 		}
