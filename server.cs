@@ -26,6 +26,7 @@ exec("./lib/Support_ShapeLines/server.cs");
 // exec("./lib/Support_GasMod/server.cs");
 // exec("./lib/swolset.cs");
 exec("./lib/automodSettings.cs");
+exec("./lib/stringUtils.cs");
 exec("./lib/zoneBrick1x4x5Fix.cs");
 exec("./lib/onDupCut.cs");
 
@@ -58,7 +59,6 @@ exec("./util/setAllWaterLevelsFull.cs");
 exec("./util/setWhiteout.cs");
 exec("./util/shortcuts.cs");
 exec("./util/stackTypeCheck.cs");
-exec("./util/strLastPos.cs");
 exec("./util/stuck.cs");
 exec("./util/world.cs");
 exec("./util/vehicleRecovery.cs");
@@ -67,7 +67,7 @@ echo("");
 echo("");
 echo("\c4    --Loading Farming Assets");
 
-// Generic libraries this depends on
+// Config files
 exec("./config/general.cs");
 exec("./config/crops.cs");
 exec("./config/prices.cs");
