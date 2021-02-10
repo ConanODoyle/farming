@@ -515,6 +515,7 @@ function farmingSaveLot(%bl_id, %delete)
 	%collection.bl_id = %bg.bl_id;
 	%collection.brickGroup = %bg;
 	%collection.lotList = %bg.lotList;
+	%collection.type = "Lot"; //required for farmingSaveWriteSave/farmingSaveInitFile
 	%queue.lotList = %bg.lotList;
 
 	farmingSaveRecursiveCollectBricks(%collection, %queue, %visited);
@@ -726,7 +727,7 @@ function farmingSaveWriteSave(%collection)
 		return;
 	}
 
-	%file = farmingSaveInitFile(%collection.bl_id);
+	%file = farmingSaveInitFile(%collection.bl_id, %collection.type);
 	%file.lotOrigin = %center.getPosition();
 	
 	//write single lot and normal lots first
@@ -771,18 +772,13 @@ function validateLotLists(%list1, %list2)
 	for (%i1 = 0; %i1 < getWordCount(%list1); %i1++)
 	{
 		%lot1 = getWord(%list1, %i1);
-		%foundLot = 0;
-		for (%i2 = 0; %i2 < getWordCount(%list2); %i2++)
+		%foundLot = containsWord(%list2, %lot1);
+		%index = getWord(%foundLot, 1);
+		if (%foundLot)
 		{
-			%lot2 = getWord(%list2, %i2);
-			if (%lot1 == %lot2)
-			{
-				%list2 = removeWord(%list2, %i2);
-				%foundLot = 1;
-				break;
-			}
+			%list2 = removeWord(%list2, %index);
 		}
-		if (!%foundLot)
+		else
 		{
 			talk("Cannot find " @ %lot1 @ "!");
 			talk("list1: [" @ %list1 @ "]");
@@ -867,9 +863,10 @@ function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBr
 		%nextGroup = %next.getGroup();
 		%nextDB = %next.getDatablock();
 
-		//skip checking/adding public bricks, and lots not owned by the brickGroup owner
+		//skip checking/adding public bricks, and lots not owned by the brickGroup owner, AND lots not in the lotlist in %collection.lotList
+		//last condition necessary for specifying what lots are valid to save
 		if (%nextGroup.bl_id == 888888
-			|| (%nextDB.isLot && %nextGroup.bl_id != %collection.bl_id))
+			|| (%nextDB.isLot && %nextGroup.bl_id != %collection.bl_id && !containsWord(%collection.lotList, %next)))
 		{
 			continue;
 		}
