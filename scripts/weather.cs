@@ -270,7 +270,7 @@ function createRain(%drops)
 
 	if (isObject(Rain))
 	{
-		Rain.schedule(100, delete);
+		Rain.delete();
 	}
 	if (isFile($Rain::DropTexture) && %drops > 0)
 	{
