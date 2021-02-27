@@ -685,7 +685,7 @@ function serverCmdSellLot(%cl, %force)
 
 		if (!%force)
 		{
-			messageClient(%cl, '', "\c5Are you sure you want to sell this lot? Any bricks above it will be removed with 75% refund. Repeat this command to confirm.");
+			messageClient(%cl, '', "\c5Are you sure you want to sell this lot? Any bricks above it will be removed with full refund. Repeat this command to confirm.");
 			getSellPriceSingleWrapper(%hit, %cl, %costExp);
 		}
 		else
@@ -771,13 +771,14 @@ function serverCmdSellAllLots(%cl)
 
 			%countCopy--;
 		}
+		%cl.sellPrice = %totalCostRefund;
 
 		for (%i = 0; %i < getWordCount(%list); %i++)
 		{
 			%lot = getWord(%list, %i);
 		}
 
-		messageClient(%cl, '', "\c5Are you sure you want to sell ALL your lots? Any bricks above them will be removed with 75% refund.");
+		messageClient(%cl, '', "\c5Are you sure you want to sell ALL your lots? Any bricks above them will be removed with full refund.");
 		getSellPriceMultiWrapper(%cl, 0, %totalExpRefund);
 		%cl.repeatSellAllLots = 1;
 		cancel(%cl.clearRepeatSellAllLotsSched);
@@ -942,7 +943,6 @@ function clearLotRecursive(%lotBrick, %client)
 		if (!isObject(%next = containerSearchNext()))
 		{
 			//we're done
-			%client.refundRatio = 0;
 			return;
 		}
 		else if (%next.dataBlock.isLot || %next.dataBlock.isShopLot || %next == %lotBrick)
@@ -1002,7 +1002,7 @@ function getSellPriceSingleRecursive(%lotBrick, %cl, %exp)
 		{
 			if (%next.getDatablock().cost > 0)
 			{
-				%cl.sellPrice += %next.getDatablock().cost * 0.75;
+				%cl.sellPrice += %next.getDatablock().cost;
 			}
 		}
 	}
@@ -1061,7 +1061,7 @@ function getSellPriceMultiRecursive(%cl, %num, %exp)
 		{
 			if (%next.getDatablock().cost > 0)
 			{
-				%cl.sellPrice += %next.getDatablock().cost * 0.75;
+				%cl.sellPrice += %next.getDatablock().cost;
 			}
 		}
 	}
