@@ -86,6 +86,14 @@ datablock AudioProfile(AmbientRiverSound)
 	uiName = "Ambient - River";
 };
 
+datablock AudioProfile(AmbientChrysalisSound)
+{
+	filename = "./Chrysalis_Ambient.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Ambient - Crysalis";
+};
+
 // datablock AudioProfile(AmbientGentleBreezeSound)
 // {
 // 	filename = "./Ambient_-_Gentle_Breeze.wav";
