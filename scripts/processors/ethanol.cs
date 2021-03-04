@@ -242,8 +242,8 @@ datablock ShapeBaseImageData(EthanolRefineryBrickImage : BrickPlacerImage)
 	doColorshift = true;
 	colorShiftColor = EthanolRefineryItem.colorShiftColor;
 
-	toolTip = "Places a Ethanol Tank water Refinery";
-	loopTip = "When powered, Refinerys water into a Ethanol Tank";
+	toolTip = "Places a Ethanol Refinery";
+	loopTip = "When powered, refines corn into Ethanol";
 	placeBrick = "brickEthanolRefineryData";
 };
 
@@ -318,7 +318,7 @@ package EthanolRefinery
 			else if (%power < 100) %color = "\c3";
 			else %color = "\c2";
 			
-			%brick.centerprintMenu.menuOptionCount = 3; //add on/off toggle
+			%brick.centerprintMenu.menuOptionCount = 5; //add on/off toggle
 			%brick.centerprintMenu.menuOption[0] = %brick.centerprintMenu.menuOption[0] SPC "(Input)";
 			%brick.centerprintMenu.menuFunction[0] = "reopenCenterprintMenu";
 			%brick.centerprintMenu.menuOption[1] = %brick.centerprintMenu.menuOption[1] SPC "(Output)";
@@ -337,9 +337,10 @@ package EthanolRefinery
 			%db = %brick.getDatablock();
 			%dataID = %brick.eventOutputParameter0_1;
 
+			// check if it can process recipe - if not, draw no power
 			// %brick.recipeProcessor
 
-			%power = %db.energyUse + getDataIDArrayTagValue(%dataID, "rate") * %db.pumpPowerMod;
+			%power = %db.energyUse;
             %brick.updateStorageMenu(%dataID);
 			return %power;
 		}
