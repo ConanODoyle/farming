@@ -187,7 +187,8 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 		%end = vectorAdd(%base, "0 0 300");
 		%greenhouseCheck = containerRaycast(%base, %end, $TypeMasks::fxBrickAlwaysObjectType);
 		%greenhouseHit = getWord(%greenhouseCheck, 0);
-		%greenhouseDB = %greenhouseHit.getDatablock();
+		if (isObject(%greenhouseHit))
+			%greenhouseDB = %greenhouseHit.getDatablock();
 
 		while (%greenhouseDB.isIndoorLight || %greenhouseDB.isSprinkler)
 		{
@@ -196,7 +197,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 			%greenhouseDB = %greenhouseHit.getDatablock();
 		}
 
-		if (isObject(%greenhouseHit) && %greenhouseHit.getDatablock().isGreenhouse)
+		if (isObject(%greenhouseHit) && %greenhouseDB.isGreenhouse)
 		{
 			%greenhouseInside = getWord(%greenhouseHit.getPosition(), 2) - %greenhouseDB.brickSizeZ * 0.1;
 			if (getWord(%base, 2) + 0.1 > %greenhouseInside)
