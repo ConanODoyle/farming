@@ -484,8 +484,17 @@ function postSaveClearLot(%collection)
 		%lotBrick = getWord(%lots, %i);
 
 		brickGroup_888888.add(%lotBrick);
-		%lotBrick.fixLotColor();
 		%collection.remove(%lotBrick);
+
+		fixLotColor(%lotBrick);
+		if(%lotBrick.getDatablock().isSingle)
+		{
+			
+		}
+		else if(%lotBrick.getDatablock().isLot)
+		{
+			%lotBrick.setDatablock(brick32x32LotRaisedData);
+		}
 	}
 
 	%group.isSaveClearingLot = 1;
@@ -673,8 +682,10 @@ function farmingSaveWriteBrick(%file, %brick)
 // each call to this function pops the first word off the lotlist and iterates over that
 function farmingSaveRecursiveCollectBricks(%collection, %queue, %visited)
 {
+	talk("Starting Queue");
 	if (getWordCount(%queue.lotList) <= 0)
 	{
+		talk("Queue Finished");
 		%queue.clear();
 		%visited.clear();
 		%queue.delete();
@@ -694,11 +705,26 @@ function farmingSaveRecursiveCollectBricks(%collection, %queue, %visited)
 
 	%lot = getWord(%queue.lotList, 0);
 	%queue.lotList = getWords(%queue.lotList, 1, 20);
-
+	talk("Next Lot:" SPC %lot);
+	talk("Remaining Lots:" SPC %queue.lotList);
 	if (isObject(%lot) && !%visited.isMember(%lot)) //if %lot is in %visited, its been checked already
 	{
 		%queue.add(%lot);
 		recursiveGatherBricks(%collection, %queue, %visited, "farmingSaveRecursiveCollectBricks");
+		
+		if (!%collection.isMember(%lot)) //add all bricks, including public if for some reason player bricks are above public ones
+		{
+			%lotDb = %lot.getDataBlock();
+			%collection.add(%lot);
+			if (%lotDb.isSingle) //record single lots for offsets + first brick saved
+			{
+				%collection.singleLots = trim(%collection.singleLots SPC %lot);
+			}
+			else if (%lotDb.isLot)
+			{
+				%collection.foundLots = trim(%collection.foundLots SPC %lot);
+			}
+		}
 	}
 	else
 	{
@@ -754,6 +780,8 @@ function farmingSaveWriteSave(%collection)
 
 	%file.close();
 	%file.delete();
+
+	$Pref::Farming::Last["lot" @ "Autosave" @ %collection.bl_id] = %file.path;
 
 	if (isFunction(%collection.callbackOnComplete))
 	{
@@ -814,7 +842,6 @@ function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBr
 {
 	if (!isObject(%rootBrick) && %queue.getCount() <= 0) //base case, exit
 	{
-		%queue.clear(); //just to be safe, purge the add/remove history of queue
 		if (isFunction(%callback))
 		{
 			call(%callback, %collection, %queue, %visited);
@@ -865,6 +892,7 @@ function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBr
 		if (%nextGroup.bl_id == 888888
 			|| (%nextDB.isLot && %nextGroup.bl_id != %collection.bl_id && !containsWord(%collection.lotList, %next)))
 		{
+			%index++;
 			continue;
 		}
 
