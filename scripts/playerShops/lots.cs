@@ -219,7 +219,7 @@ function serverCmdBuyShop(%cl, %rotation)
 
 	if (%cl.repeatBuyShopLot != %hit)
 	{
-		if (hasSavedLot(%cl.bl_id) && !hasLoadedLot(%cl.bl_id))
+		if (hasSavedShop(%cl.bl_id) && !hasLoadedShop(%cl.bl_id))
 		{
 			messageClient(%cl, '', "\c5Are you sure you want to load your shop here? Repeat /loadShop to confirm.");
 			if (%rotation $= "")
@@ -237,9 +237,9 @@ function serverCmdBuyShop(%cl, %rotation)
 		return;
 	}
 
-	if (hasSavedLot(%cl.bl_id) && !hasLoadedLot(%cl.bl_id))
+	if (hasSavedShop(%cl.bl_id) && !hasLoadedShop(%cl.bl_id))
 	{
-		loadLot(%cl.bl_id, %hit, %rotation);
+		loadShop(%cl.bl_id, %hit, %rotation);
 		%cl.repeatBuyShopLot = 0;
 		cancel(%cl.clearRepeatBuyShopLotSched);
 		return;
@@ -305,19 +305,19 @@ function serverCmdRotateShop(%cl, %rotation)
 	else
 	{
 		%lot = getLoadedShop(%cl.bl_id);
-		$Farming::Reload[%cl.bl_id] = %lot SPC %rotation;
+		$Farming::ReloadShop[%cl.bl_id] = %lot SPC %rotation;
 		%unloadResult = unloadShop(%cl.bl_id);
 
 		if (%unloadResult == -1)
 		{
 			messageClient(%cl, '', "Please wait for a few moments. Either the autosaver is currently running or another player is unloading their shop.");
-			$Farming::Reload[%cl.bl_id] = "";
+			deleteVariables("Farming::ReloadShop" @ %cl.bl_id);
 			return;
 		}
 		else if (%unloadResult == -2)
 		{
 			messageClient(%cl, '', "Something went wrong. Your shop lot brick no longer exists. Please inform an admin.");
-			$Farming::Reload[%cl.bl_id] = "";
+			deleteVariables("Farming::ReloadShop" @ %cl.bl_id);
 			return;
 		}
 
