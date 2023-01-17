@@ -1,40 +1,50 @@
 package CustomBrickRadius
 {
-	function fxDTSBrick::onAdd(%this)
+	function fxDTSBrick::plant(%this)
 	{
-		%ret = parent::onAdd(%this);
-		if (%this.isPlanted && %this.getDatablock().customRadius !$= "")
+		%ret = parent::plant(%this);
+
+		if (%ret == 0 && %this.getDatablock().customRadius !$= "")
 		{
-			%db = %this.getDatablock();
-			%customRadius = %db.customRadius;
-			%width = %db.brickSizeX * 0.5;
-			%length = %db.brickSizeY * 0.5;
-			%height = %db.brickSizeZ * 0.2;
-
-			if (%this.angleID % 2 == 1)
+			%close = getCustomRadiusClosestBrick(%this);
+			if (isObject(%close))
 			{
-				%temp = %width;
-				%width = %height;
-				%height = %temp;
-			}
-
-			%box = %width + %customRadius SPC %length + %customRadius SPC %height;
-
-			initContainerBoxSearch(%this.getPosition(), %box, $Typemasks::fxBrickAlwaysObjectType);
-			while (isObject(%next = containerSearchNext()))
-			{
-				if (%next.getDatablock() == %db && %next != %this)
-				{
-					schedule(0, 0, fixRemoveBrick, %this);
-					%this.schedule(0, delete);
-					return %ret;
-				}
+				return 1;
 			}
 		}
 		return %ret;
 	}
 };
 activatePackage(CustomBrickRadius);
+
+function getCustomRadiusClosestBrick(%brick)
+{
+	%db = %brick.getDatablock();
+	%customRadius = %db.customRadius;
+	%customRadiusHeightCheck = %db.customRadiusHeightCheck;
+	%width = %db.brickSizeX * 0.5;
+	%length = %db.brickSizeY * 0.5;
+	%height = (%customRadiusHeightCheck <= 0 ? (%db.brickSizeZ * 0.2) : %customRadiusHeightCheck);
+
+	if (%brick.angleID % 2 == 1)
+	{
+		%temp = %width;
+		%width = %length;
+		%length = %temp;
+	}
+
+	%box = (%width + %customRadius) SPC (%length + %customRadius) SPC %height;
+
+	initContainerBoxSearch(%brick.getPosition(), %box, $Typemasks::fxBrickAlwaysObjectType);
+	while (isObject(%next = containerSearchNext()))
+	{
+		if (%next.getDatablock() == %db && %next != %brick)
+		{
+			return %next;
+		}
+	}
+	return 0;
+}
 
 function fixRemoveBrick(%b)
 {

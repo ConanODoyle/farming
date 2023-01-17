@@ -19,6 +19,7 @@ datablock fxDTSBrickData(brickFlowerPotData : brick1x1Data)
 	maxWeedkiller = 80;
 	isPot = 1;
 	customRadius = -1.05;
+	customRadiusHeightCheck = 0.39;
 	placerItem = "FlowerPotItem";
 	isProcessor = 1;
 };
