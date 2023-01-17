@@ -1,7 +1,7 @@
 function exportServerPrefs()
 {
 	echo("Exporting server prefs...");
-	export("$Pref::Server::*", "config/server/prefs.cs");
+	export("$Pref::Server*", "config/server/prefs.cs");
 	export("$Pref::Net::PacketRateToClient", "config/server/prefs.cs", true);
 	export("$Pref::Net::PacketRateToServer", "config/server/prefs.cs", true);
 	export("$Pref::Net::PacketSize", "config/server/prefs.cs", true);
