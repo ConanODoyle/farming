@@ -42,3 +42,8 @@ function strLastPos(%str, %search, %offset) {
 	}
 	return %lastPos;
 }
+
+function capitalizeFirstChar(%string) 
+{
+	return strUpr(getSubStr(%string, 0, 1)) @ strLwr(getSubStr(%string, 1, -1));
+}
