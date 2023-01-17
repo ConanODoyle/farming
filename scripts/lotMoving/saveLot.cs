@@ -692,10 +692,8 @@ function farmingSaveWriteBrick(%file, %brick)
 // each call to this function pops the first word off the lotlist and iterates over that
 function farmingSaveRecursiveCollectBricks(%collection, %queue, %visited)
 {
-	talk("Starting Queue");
 	if (getWordCount(%queue.lotList) <= 0)
 	{
-		talk("Queue Finished");
 		%queue.clear();
 		%visited.clear();
 		%queue.delete();
@@ -715,8 +713,6 @@ function farmingSaveRecursiveCollectBricks(%collection, %queue, %visited)
 
 	%lot = getWord(%queue.lotList, 0);
 	%queue.lotList = getWords(%queue.lotList, 1, 20);
-	talk("Next Lot:" SPC %lot);
-	talk("Remaining Lots:" SPC %queue.lotList);
 	if (isObject(%lot) && !%visited.isMember(%lot)) //if %lot is in %visited, its been checked already
 	{
 		%queue.add(%lot);
