@@ -9,7 +9,7 @@ function serverCmdGitPull(%cl)
 	{
 		$gitPullTCP.delete();
 	}
-	$gitPullTCP = connectToURL("155.138.204.83/pullfarming", "GET", "", "TCPGitPullObj", "");
+	$gitPullTCP = TCPClient("GET", "155.138.204.83", "28011", "/pullfarming", %query);
 }
 
 function TCPGitPullObj::onLine(%this, %line)
