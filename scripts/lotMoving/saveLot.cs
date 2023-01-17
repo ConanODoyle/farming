@@ -501,6 +501,16 @@ function postSaveClearLot(%collection)
 	%collection.deleteAll();
 	%group.isSaveClearingLot = 0;
 	%group.refreshLotList();
+
+	if ($Farming::Reload[%collection.type @ %collection.bl_id] !$= "")
+	{
+		%lot = getWord($Farming::Reload[%collection.type @ %collection.bl_id], 0);
+		%rotation = getWord($Farming::Reload[%collection.type @ %collection.bl_id], 1);
+		deleteVariables("Farming::Reload" @ %collection.type @ %collection.bl_id);
+		call("load" @ %collection.type, %collection.bl_id, %lot, %rotation);
+	}
+
+	%collection.delete();
 }
 
 function farmingSaveLot(%bl_id, %delete, %rotate)

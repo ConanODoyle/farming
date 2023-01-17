@@ -624,13 +624,13 @@ function serverCmdRotateLot(%cl, %rotation)
 		if (%unloadResult == -1)
 		{
 			messageClient(%cl, '', "Please wait for a few moments. Either the autosaver is currently running or another player is unloading their lot.");
-			$Farming::ReloadLot[%cl.bl_id] = "";
+			deleteVariables("Farming::ReloadLot" @ %cl.bl_id);
 			return;
 		}
 		else if (%unloadResult == -2)
 		{
 			messageClient(%cl, '', "Something went wrong. Your lot brick no longer exists. Please inform an admin.");
-			$Farming::ReloadLot[%cl.bl_id] = "";
+			deleteVariables("Farming::ReloadLot" @ %cl.bl_id);
 			return;
 		}
 
