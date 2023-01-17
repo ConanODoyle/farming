@@ -11,7 +11,7 @@ function getLoadedShop(%bl_id)
 {
 	%bg = "Brickgroup_" @ %bl_id;
 
-	if (isObject(%bg) && isObject(%bg.shopLot))
+	if (isObject(%bg) && isObject(%bg.shopLot) && %bg.isMember(%bg.shopLot))
 	{
 		return %bg.shopLot;
 	}
@@ -43,7 +43,7 @@ function unloadShop(%bl_id)
 		talk("ERROR: unloadShop - BLID " @ %bl_id @ " does not have a lot loaded!");
 		error("ERROR: unloadShop - BLID " @ %bl_id @ " does not have a lot loaded!");
 		return -2;
-	}
+	}	
 
 	%bg = "Brickgroup_" @ %bl_id;
 	if (!isObject(%bg))

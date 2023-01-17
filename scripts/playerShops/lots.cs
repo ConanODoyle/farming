@@ -211,7 +211,7 @@ function serverCmdBuyShop(%cl, %rotation)
 		return;
 	}
 
-	if (isObject(%cl.brickGroup) && isObject(%cl.brickGroup.shopLot))
+	if (hasLoadedShop(%cl.bl_id))
 	{
 		messageClient(%cl, '', "You cannot buy more than one shop lot!");
 		return;

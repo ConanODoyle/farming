@@ -497,6 +497,11 @@ function postSaveClearLot(%collection)
 		}
 	}
 
+	if (%collection.type $= "Shop")
+	{
+		%collection.brickGroup.shopLot = "";
+	}
+
 	%group.isSaveClearingLot = 1;
 	%collection.deleteAll();
 	%group.isSaveClearingLot = 0;
@@ -761,7 +766,7 @@ function farmingSaveWriteSave(%collection)
 
 	%file = farmingSaveInitFile(%collection.bl_id, %collection.type);
 	%file.lotOrigin = %center.getPosition();
-	
+
 	//write single lot and normal lots first
 	farmingSaveWriteBrick(%file, %center);
 	%wrote[%center.getID()] = 1;
@@ -784,7 +789,7 @@ function farmingSaveWriteSave(%collection)
 		farmingSaveWriteBrick(%file, %brick);
 	}
 
-	$Pref::Farming::Last["lot" @ "Autosave" @ %collection.bl_id] = %file.path;
+	$Pref::Farming::Last[%collection.type @ "Autosave" @ %collection.bl_id] = %file.path;
 	%collection.fileName = %file.path;
 
 	%file.close();

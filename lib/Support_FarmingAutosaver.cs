@@ -56,7 +56,7 @@ function farmingLoadLastAutosave(%bl_id, %type, %dataObj, %rotation)
 		// talk("Loading lot " @ %bl_id @ " at " @ %dataObj.pos[0] @ "...");
 		return;
 	}
-	echo("[" @ getDateTime() @ "] farmingLoadLastAutosave: No last lot found for BLID " @ %bl_id @ "!");
+	echo("[" @ getDateTime() @ "] farmingLoadLastAutosave: No last " @ strLwr(%type) @ " found for BLID " @ %bl_id @ "!");
 }
 
 package FarmingAutosaverLoader
