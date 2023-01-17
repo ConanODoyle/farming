@@ -272,18 +272,12 @@ function messageSale(%cl, %money, %count, %type)
 	%cl.totalMoney[%type] = 0;
 	%cl.totalCount[%type] = 0;
 
-	%plural = %count > 1 ? "s" : "";
-	if (%plural !$= "")
+	if(%count > 1)
 	{
-		switch$ (%type)
-		{
-			case "Tomato": %plural = "es";
-			case "Potato": %plural = "es";
-			case "Corn": %plural = " Cobs";
-		}
+		%type = getPluralWord(%type);
 	}
 
-	messageClient(%cl, '', "\c6You received \c2$" @ mFloatLength(%money, 2) @ "\c6 for selling \c3" @ %count SPC %type @ %plural @ "\c6!");
+	messageClient(%cl, '', "\c6You received \c2$" @ mFloatLength(%money, 2) @ "\c6 for selling \c3" @ %count SPC %type @ "\c6!");
 }
 
 package BotBuyer
