@@ -477,7 +477,7 @@ function postSaveClearLot(%collection)
 {
 	//ensure players dont get refunded for removed bricks
 	//do not delete lots
-	%lots = %collection.foundLots;
+	%lots = trim(%collection.foundLots SPC %collection.singleLots);
 	%group = %collection.brickGroup;
 	for (%i = 0; %i < getWordCount(%lots); %i++)
 	{
@@ -680,7 +680,7 @@ function farmingSaveRecursiveCollectBricks(%collection, %queue, %visited)
 		%queue.delete();
 		%visited.delete();
 
-		%validated = validateLotLists(%collection.lotList, %collection.foundLots);
+		%validated = validateLotLists(%collection.lotList, trim(%collection.foundLots SPC %collection.singleLots));
 		if (%validated)
 		{
 			farmingSaveWriteSave(%collection);
@@ -791,9 +791,6 @@ function validateLotLists(%list1, %list2)
 			return 0;
 		}
 	}
-	talk("Validated lot lists as being same!");
-	echo("Validated lot lists as being same!");
-	return 0; //for testing purposes
 	return 1;
 }
 
@@ -859,7 +856,7 @@ function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBr
 			%searchDown++;
 			break;
 		}
-		%next = call(%rootBrick, %func, %index);
+		%next = eval("return " @ %rootbrick @ "." @ %func @ "(%index);");
 		%nextGroup = %next.getGroup();
 		%nextDB = %next.getDatablock();
 
