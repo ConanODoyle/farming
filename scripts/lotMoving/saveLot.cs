@@ -726,7 +726,7 @@ function farmingSaveRecursiveCollectBricks(%collection, %queue, %visited)
 			{
 				%collection.singleLots = trim(%collection.singleLots SPC %lot);
 			}
-			else if (%lotDb.isLot)
+			else if (%lotDb.isLot || %lotDb.isShopLot)
 			{
 				%collection.foundLots = trim(%collection.foundLots SPC %lot);
 			}
