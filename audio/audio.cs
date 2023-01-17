@@ -282,6 +282,14 @@ datablock AudioProfile(RatsBirthdayMusic)
 	uiName = "YMCA Rats";
 };
 
+datablock AudioProfile(BassProShopMusic)
+{
+	filename = "./Music/Bass_Pro_Shop.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Bass Pro Shop";
+};
+
 
 
 
