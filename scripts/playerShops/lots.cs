@@ -80,6 +80,11 @@ package shopLotBuild
 	{
 		if (%this.isPlanted && %this.getDatablock().isShopLot)
 		{
+			if (%this.getGroup() != BrickGroup_888888)
+			{
+				%this.getGroup().shopLot = %this;
+			}
+
 			%this.schedule(100, updateShopSet, 0);
 		}
 
@@ -90,6 +95,11 @@ package shopLotBuild
 	{
 		if (%this.isPlanted && %this.getDatablock().isShopLot)
 		{
+			if (%this.getGroup() != BrickGroup_888888)
+			{
+				%this.getGroup().shopLot = "";
+			}
+
 			%this.updateShopSet(%this, 1);
 		}
 		return parent::onRemove(%this);
