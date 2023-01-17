@@ -14,7 +14,7 @@ function createDiscordMessageListener()
 
 function DiscordMessageListenerClass::onConnectRequest(%this, %ip, %id)
 {
-	if (getSubStr(%ip, 0, strPos(%ip, ":")) !$= "155.138.204.83") //ignoring connection attempts from other servers
+	if (getSubStr(%ip, 0, strPos(%ip, ":")) !$= "127.0.0.1") //ignoring connection attempts from other servers
 	{
 		return;
 	}
@@ -33,7 +33,7 @@ function discordListenClient::onLine(%this, %line)
 {
 	if ($debugDiscordListener)
 	{
-		talk("[" @ %line @ "]");
+		talk("[" @ strReplace(%line, "\t", "|") @ "]");
 	}
 	else if (getFieldCount(%line) > 2)
 	{
