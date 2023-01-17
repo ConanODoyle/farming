@@ -82,5 +82,90 @@ function fxDTSBrick::onPickaxeHit(%this, %pl)
 	$InputTarget_["MiniGame"] = getMiniGameFromObject(%this);
 
 	%this.processInputEvent("onPickaxeHit", %cl);
+
+	if (%this.isMineable)
+	{
+		processMiningHit(%this, %pl);
+	}
 }
 registerInputEvent("fxDTSBrick", "onPickaxeHit", "Self fxDTSBrick" TAB "Player Player" TAB "Client GameConnection" TAB "MiniGame MiniGame");
+
+function fxDTSBrick::setMineable(%this, %isMineable, %coalChance, %phosphateChance)
+{
+	%this.isMineable = %isMineable;
+	%this.coalChance = %coalChance;
+	%this.phosphateChance = %phosphateChance;
+}
+registerOutputEvent("fxDTSBrick", "setMineable", "bool 0" TAB "string 100 100" TAB "string 100 100");
+
+$SapphireChance = 0.0012;
+$EmeraldChance = 0.0008;
+$RubyChance = 0.0004;
+$DiamondChance = 0.0002;
+
+function processMiningHit(%this, %pl)
+{
+	%this.hitcount++;
+
+	switch (%this.hitcount)
+	{
+		case 0: return;
+		case 1: return;
+		case 2: %coalCheck = 1; %phosphateCheck = 1;
+		case 3: %coalCheck = 1; %phosphateCheck = 1; %gemCheck = 1; //no fall through :pensive:
+		default: %coalCheck = 1; %phosphateCheck = 1; %gemCheck = 1;
+	}
+
+	if (%phosphateCheck && getRandom() < %this.phosphateChance)
+	{
+		for (%i = 0; %i < getRandom(1, 2); %i++)
+		{
+			%this.spawnItem("0 0 5", "PhosphateItem");
+		}
+		serverPlay3D("FarmingHarvestBelowGroundPlantSound", %this.position);
+		%this.hitcount = 0;
+		%this.disappear(60);
+		return;
+	}
+	if (%coalCheck)
+	{
+		if (getRandom() < %this.coalChance)
+		{
+			for (%i = 0; %i < getRandom(1, 2); %i++)
+			{
+				%this.spawnItem("0 0 5", "CoalItem");
+			}
+			serverPlay3D("FarmingHarvestBelowGroundPlantSound", %this.position);
+			%this.hitcount = 0;
+			%this.disappear(90);
+			return;
+		}
+	}
+	if (%gemCheck)
+	{
+		%rand = getRandom();
+		if (%rand < $DiamondChance)
+		{
+			%this.spawnItem("0 0 5", "DiamondItem");
+		}
+		else if (%rand < $RubyChance)
+		{
+			%this.spawnItem("0 0 5", "RubyItem");
+		}
+		else if (%rand < $EmeraldChance)
+		{
+			%this.spawnItem("0 0 5", "EmeraldItem");
+		}
+		else if (%rand < $SapphireChance)
+		{
+			%this.spawnItem("0 0 5", "SapphireItem");
+		}
+		else
+		{
+			return;
+		}
+		serverPlay3D("FarmingHarvestBelowGroundPlantSound", %this.position);
+		%this.hitcount = 0;
+		%this.disappear(90);
+	}
+}
