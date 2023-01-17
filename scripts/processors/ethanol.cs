@@ -19,7 +19,7 @@ datablock fxDTSBrickData(brickEthanolGeneratorData)
 	callOnActivate = 1;
 	isGenerator = 1;
 	burnRate = 0.01;
-	generation = 30;
+	generation = 50;
 	fuelType = "Ethanol";
 
 	isStorageBrick = 1;
@@ -96,7 +96,7 @@ datablock ShapeBaseImageData(EthanolGeneratorBrickImage : BrickPlacerImage)
 	colorShiftColor = EthanolGeneratorItem.colorShiftColor;
 
 	toolTip = "Places a Ethanol Generator";
-	loopTip = "Converts fuel into power";
+	loopTip = "Converts ethanol into " @ brickEthanolGeneratorData.generation @ " power (" @ brickEthanolGeneratorData.burnRate @ "/tick)";
 	placeBrick = "brickEthanolGeneratorData";
 };
 
@@ -429,12 +429,12 @@ $Ethanol::OutputAmount = 2;
 function canCreateEthanol(%brick)
 {
 	%dataID = %brick.eventOutputParameter[0, 1];
-	%input = validateStorageValue(getDataIDArrayValue(%dataID, 0));
-	%output = validateStorageValue(getDataIDArrayValue(%dataID, 1));
+	%input = validateStorageValue(getDataIDArrayValue(%dataID, 1));
+	%output = validateStorageValue(getDataIDArrayValue(%dataID, 2));
 	%maxOutput = %brick.getStorageMax(getStackTypeDatablock("ethanol", 1));
 	%inputCount = getField(%input, 2);
 	%outputCount = getField(%output, 2);
-	%outputSpace = getMin(%pl.toolStackCount[%slot], %maxOutput - %outputCount);
+	%outputSpace = %maxOutput - %outputCount;
 
 	if (%inputCount < $Ethanol::InputAmount || %outputSpace < $Ethanol::OutputAmount)
 	{
@@ -446,15 +446,15 @@ function canCreateEthanol(%brick)
 function createEthanol(%brick)
 {
 	%dataID = %brick.eventOutputParameter[0, 1];
-	%input = validateStorageValue(getDataIDArrayValue(%dataID, 0));
-	%output = validateStorageValue(getDataIDArrayValue(%dataID, 1));
+	%input = validateStorageValue(getDataIDArrayValue(%dataID, 1));
+	%output = validateStorageValue(getDataIDArrayValue(%dataID, 2));
 	%inputCount = getField(%input, 2);
 	%outputCount = getField(%output, 2);
 
 	%newInput = getStorageValue("Corn", %inputCount - $Ethanol::InputAmount);
 	%newOutput = getStorageValue("Ethanol", %outputCount + $Ethanol::OutputAmount);
-	setDataIDArrayValue(%dataID, 0, %newInput);
-	setDataIDArrayValue(%dataID, 1, %newOutput);
+	setDataIDArrayValue(%dataID, 1, %newInput);
+	setDataIDArrayValue(%dataID, 2, %newOutput);
 }
 
 function refineEthanol(%brick, %powerRatio)

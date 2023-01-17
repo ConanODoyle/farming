@@ -1508,7 +1508,7 @@ datablock ShapeBaseImageData(CoalGeneratorBrickImage : BrickPlacerImage)
 	colorShiftColor = CoalGeneratorItem.colorShiftColor;
 
 	toolTip = "Places a Coal Generator";
-	loopTip = "Converts fuel into power";
+	loopTip = "Converts coal fuel into " @ brickCoalGeneratorData.generation @ " power (" @ brickCoalGeneratorData.burnRate @ "/tick)";
 	placeBrick = "brickCoalGeneratorData";
 };
 
