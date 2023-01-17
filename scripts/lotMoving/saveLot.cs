@@ -722,7 +722,7 @@ function farmingSaveRecursiveCollectBricks(%collection, %queue, %visited)
 		{
 			%lotDb = %lot.getDataBlock();
 			%collection.add(%lot);
-			if (%lotDb.isSingle) //record single lots for offsets + first brick saved
+			if (%lotDb.isSingle || %lotDb.isShopLot) //record single lots for offsets + first brick saved
 			{
 				%collection.singleLots = trim(%collection.singleLots SPC %lot);
 			}
