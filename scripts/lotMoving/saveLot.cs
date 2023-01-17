@@ -897,7 +897,7 @@ function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBr
 		//skip checking/adding public bricks, and lots not owned by the brickGroup owner, AND lots not in the lotlist in %collection.lotList
 		//last condition necessary for specifying what lots are valid to save
 		if (%nextGroup.bl_id == 888888
-			|| (%nextDB.isLot && %nextGroup.bl_id != %collection.bl_id && !containsWord(%collection.lotList, %next)))
+			|| ((%nextDB.isLot || %nextDB.isShopLot) && %nextGroup.bl_id != %collection.bl_id && !containsWord(%collection.lotList, %next)))
 		{
 			%index++;
 			continue;
