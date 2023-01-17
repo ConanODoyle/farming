@@ -513,7 +513,7 @@ function postSaveClearLot(%collection)
 	%collection.delete();
 }
 
-function farmingSaveLot(%bl_id, %delete, %rotate)
+function farmingSaveLot(%bl_id, %delete)
 {
 	%bg = "brickGroup_" @ %bl_id;
 	if (!isObject(%bg))
