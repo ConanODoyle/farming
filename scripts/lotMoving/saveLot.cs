@@ -503,7 +503,7 @@ function postSaveClearLot(%collection)
 	%group.refreshLotList();
 }
 
-function farmingSaveLot(%bl_id, %delete)
+function farmingSaveLot(%bl_id, %delete, %rotate)
 {
 	%bg = "brickGroup_" @ %bl_id;
 	if (!isObject(%bg))
@@ -778,10 +778,11 @@ function farmingSaveWriteSave(%collection)
 		farmingSaveWriteBrick(%file, %brick);
 	}
 
+	$Pref::Farming::Last["lot" @ "Autosave" @ %collection.bl_id] = %file.path;
+	%collection.fileName = %file.path;
+
 	%file.close();
 	%file.delete();
-
-	$Pref::Farming::Last["lot" @ "Autosave" @ %collection.bl_id] = %file.path;
 
 	if (isFunction(%collection.callbackOnComplete))
 	{
