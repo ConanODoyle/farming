@@ -906,11 +906,11 @@ function recursiveGatherBricks(%collection, %queue, %visited, %callback, %rootBr
 		if (!%collection.isMember(%next)) //add all bricks, including public if for some reason player bricks are above public ones
 		{
 			%collection.add(%next);
-			if (%nextDB.isSingle) //record single lots for offsets + first brick saved
+			if (%nextDB.isSingle || %nextDB.isShopLot) //record single lots for offsets + first brick saved
 			{
 				%collection.singleLots = trim(%collection.singleLots SPC %next);
 			}
-			else if (%nextDB.isLot)
+			else if (%nextDB.isLot || %nextDB.isShopLot)
 			{
 				%collection.foundLots = trim(%collection.foundLots SPC %next);
 			}
