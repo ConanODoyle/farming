@@ -440,9 +440,6 @@ function serverCmdLoadLot(%cl, %rotation)
 	%load = hasLoadedLot(%cl.bl_id);
 	if (%load $= "noSavedLot")
 	{
-		%loc = "saves/Autosaver/Lots/" @ %cl.bl_id @ "/*.bls";
-		%first = findFirstFile(%loc);
-		$Pref::Farming::lastLotAutosave[%cl.bl_id] = %first;
 		%load = hasLoadedLot(%cl.bl_id);
 		if (%load $= "noSavedLot")
 		{
@@ -451,13 +448,13 @@ function serverCmdLoadLot(%cl, %rotation)
 		}
 		else if (%load == 1)
 		{
-			messageClient(%cl, '', "Your lot is already loaded! You can unload your lot in town.");
+			messageClient(%cl, '', "Your lot is already loaded! You can unload your lot in town hall.");
 			return;
 		}
 	}
 	else if (%load == 1)
 	{
-		messageClient(%cl, '', "Your lot is already loaded! You can unload your lot in town.");
+		messageClient(%cl, '', "Your lot is already loaded! You can unload your lot in town hall.");
 		return;
 	}
 	serverCmdBuyLot(%cl, %rotation);
@@ -471,12 +468,6 @@ function serverCmdBuyLot(%cl, %rotation)
 		return;
 	}
 	%load = hasLoadedLot(%cl.bl_id);
-	if (%load $= "noSavedLot")
-	{
-		%loc = "saves/Autosaver/Lots/" @ %cl.bl_id @ "/*.bls";
-		%first = findFirstFile(%loc);
-		$Pref::Farming::lastLotAutosave[%cl.bl_id] = %first;
-	}
 
 	%rotation = %rotation | 0;
 
@@ -719,6 +710,7 @@ function serverCmdSellLot(%cl, %force)
 	else //sold single lot, remove saved lot
 	{
 		$Pref::Farming::LastLotAutosave[%cl.bl_id] = "";
+		$Pref::Farming::LastSoldLot[%cl.bl_id] = getDateTime();
 		messageClient(%cl, '', "Your saved lot has been removed");
 		exportServerPrefs();
 	}
