@@ -14,13 +14,11 @@ function farmingSaveShop(%bl_id, %delete)
 		%collection.callbackOnComplete = "postSaveClearLot";
 	}
 
-	%bg.refreshLotList();
-
 	%collection.bl_id = %bg.bl_id;
 	%collection.brickGroup = %bg;
-	%collection.lotList = %bg.lotList;
+	%collection.lotList = %bg.shopLot;
 	%collection.type = "Shop"; //required for farmingSaveWriteSave/farmingSaveInitFile
-	%queue.lotList = %bg.lotList;
+	%queue.lotList = %bg.shopLot;
 
 	farmingSaveRecursiveCollectBricks(%collection, %queue, %visited);
 }
