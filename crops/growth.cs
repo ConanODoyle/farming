@@ -22,6 +22,16 @@ package NoPlantBuild
 		return parent::ndTrustCheckSelect(%brick, %group, %bl_id, %admin);
 	}
 
+	function serverCmdPlantBrick(%cl)
+	{
+		if (isObject(%cl.player.tempBrick) && %cl.player.tempBrick.dataBlock.isPlant)
+		{
+			%cl.player.tempBrick.delete();
+			messageClient(%cl, '', "You are not allowed to place plant bricks directly!");
+		}
+		parent::serverCmdPlantBrick(%cl);
+	}
+
 	function fxDTSBrick::onAdd(%obj)
 	{
 		%db = %obj.getDatablock();

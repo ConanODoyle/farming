@@ -16,7 +16,7 @@ package BuildCost
 	function fxDTSBrick::onDeath(%obj)
 	{
 		%db = %obj.getDatablock();
-		if (%obj.isPlanted && %db.cost > 0 && !isEventPending(%obj.buySchedule))
+		if (%obj.isPlanted && %db.cost > 0 && !isEventPending(%obj.buySchedule) && !%obj.skipSell)
 		{
 			sellObject(%obj);
 		}
@@ -77,6 +77,7 @@ function buyBrick(%b)
 		messageClient(%cl, '', "You cannot place this brick!");
 		return;
 	}
+	%b.skipSell = 0;
 	%b.createdTimeout = $Sim::Time + $createdTimeout;
 }
 
