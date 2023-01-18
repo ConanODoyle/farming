@@ -51,6 +51,11 @@ function fxDTSBrick::getNutrients(%brick)
 	return decodeNutrientName(%brick.getName());
 }
 
+function fxDTSBrick::getHarvestCount(%brick)
+{
+	return getWord(decodeNutrientName(%brick.getName()), 2);
+}
+
 //parses a brick name for nutrients - returns nitrogen SPC phospahte SPC weedkilelr
 function decodeNutrientName(%string)
 {
