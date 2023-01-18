@@ -361,11 +361,11 @@ function toolHarvest(%img, %obj, %slot)
 			
 			if (%type $= %toolHarvestType)
 			{
-				%err = harvestBrick(%next, %item, %obj, %statTrakBonus);
+				%err = harvestBrick(%hit, %item, %obj, %statTrakBonus);
 			}
 			else
 			{
-				%err = harvestBrick(%next, %item, %obj);
+				%err = harvestBrick(%hit, %item, %obj);
 			}
 
 			if (%err)
