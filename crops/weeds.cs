@@ -39,6 +39,11 @@ function weedTick(%index)
 	$masterWeedSchedule = schedule(66, 0, weedTick, %index - %i);
 }
 
+//weed mechanics:
+//	spawn more often on dirt with fertilizer applied to it (successful attempts reduce the modifier significantly)
+//	spawn more often during rain
+//	spawn less often during heat waves
+//	don't spawn on dry bricks
 function generateWeed(%brick)
 {
 	//check if we create a weed
@@ -49,6 +54,12 @@ function generateWeed(%brick)
 	%rand = getRandom();
 	%chance = $WeedBaseChance + ($WeedFertModifier * %brick.fertilizerWeedModifier);
 
+	if (%brick.waterLevel / %brick.dataBlock.maxWater < 0.15)
+	{
+		return;
+	}
+
+	//weather effects
 	if ($rainTicksLeft > 0)
 	{
 		%chance *= $WeedWeatherFactor;
@@ -58,10 +69,10 @@ function generateWeed(%brick)
 		%chance /= $WeedWeatherFactor;
 	}
 
+	//fertilizer usage modifier on chance
 	if (%rand > %chance)
 	{
-		%brick.fertilizerWeedModifier -= 0.05;
-		%brick.fertilizerWeedModifier = getMax(%brick.fertilizerWeedModifier, 0);
+		%brick.fertilizerWeedModifier = getMax(%brick.fertilizerWeedModifier - 0.05, 0);
 		return "";
 	}
 
