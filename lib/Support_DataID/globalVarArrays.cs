@@ -21,7 +21,7 @@ function loadDataIDArray(%aid, %force)
 	if (!$executedDataID[%aid] || %force)
 	{
 		if ($DataIDDebug) talk("loadDataIDArray");
-		deleteVariables("$DataID_" @ %aid @ "*");
+		deleteVariables("$DataID_" @ %aid @ "_*");
 		$executedDataID[%aid] = 0;
 		deleteVariables("$executedDataID" @ %aid);
 		if (isFile("config/server/DataIDs/" @ %aid @ ".cs"))
@@ -59,7 +59,7 @@ function unloadDataIDArray(%aid)
 		return;
 	}
 	saveDataIDArray(%aid);
-	deleteVariables("$DataID_" @ %aid @ "*");
+	deleteVariables("$DataID_" @ %aid @ "_*");
 	$executedDataID[%aid] = 0;
 	deleteVariables("$executedDataID" @ %aid);
 }
@@ -68,7 +68,7 @@ function deleteDataIDArray(%aid)
 {
 	if ($DataIDDebug) talk("deleteDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
-	deleteVariables("$DataID_" @ %aid @ "*");
+	deleteVariables("$DataID_" @ %aid @ "_*");
 	$executedDataID[%aid] = 0;
 	deleteVariables("$executedDataID" @ %aid);
 	fileDelete("config/server/DataIDs/" @ %aid @ ".cs");
@@ -86,7 +86,7 @@ function pruneDataIDArrays()
 	while (getWordCount($loadedDataIDs) > 80)
 	{
 		%curr = getWord($loadedDataIDs, 0);
-		$loadedDataIDs = getWords($loadedDataIDs, 1, 100);
+		$loadedDataIDs = getWords($loadedDataIDs, 1, 999999);
 		unloadDataIDArray(%curr);
 		%count++;
 	}
@@ -331,7 +331,7 @@ function clearDataIDArray(%aid)
 {
 	if ($DataIDDebug) talk("clearDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
-	deleteVariables("$DataID_" @ %aid @ "*");
+	deleteVariables("$DataID_" @ %aid @ "_*");
 	$executedDataID[%aid] = 0;
 	deleteVariables("$executedDataID" @ %aid);
 
