@@ -4,6 +4,7 @@ datablock ItemData(BassProSign1Item)
 	uiName = "Bass Pro Shop";
 	doColorShift = false;
 	colorShiftColor = "1 1 1 1";
+	isProp = 1;
 };
 
 datablock ItemData(BassProSign2Item)
@@ -12,4 +13,5 @@ datablock ItemData(BassProSign2Item)
 	uiName = "Bass Pro Shop Colorless";
 	doColorShift = false;
 	colorShiftColor = "1 1 1 1";
+	isProp = 1;
 };
