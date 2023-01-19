@@ -77,6 +77,9 @@ $BuyCost_["Indoor_Light_DASH_2x6"] = 200;
 $BuyCost_["Medium_Tank_Pump"] = 2000;
 $BuyCost_["Large_Tank_Pump"] = 3500;
 
+$BuyCost_["Ethanol_Tank_Refinery"] = 3000;
+$BuyCost_["Ethanol_Generator"] = 3000;
+
 
 
 
