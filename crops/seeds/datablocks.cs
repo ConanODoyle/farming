@@ -10,22 +10,53 @@ function SeedImage::onLoop(%this, %obj, %slot)
 
 function DataString_SeedItem(%uiname,%safeName,%itemName,%imageName,%shape,%color)
 {
-	return "datablock ItemData(" @ %itemName @ "){category = \"Tools\";className = \"Weapon\";"
-	@"shapeFile = \"" @ %shape @ "\";mass = 1;density = 0.2;elasticity = 0.2;friction = 0.6;emap = 1;"
-	@"uiName = \"" @ %uiName @ "\";image = \"" @ %imageName @ "\";doColorShift = true;"
-	@"colorShiftColor = \"" @ %color @ "\";canDrop = 1;isStackable = 1;stackType = \"" @ %safeName @ "\";};";
+	return "" 
+	@"datablock ItemData(" @ %itemName @ ")"
+	@"{"
+		@"category = \"Tools\";"
+		@"className = \"Weapon\";"
+		@"shapeFile = \"" @ %shape @ "\";"
+		@"mass = 1;density = 0.2;"
+		@"elasticity = 0.2;"
+		@"friction = 0.6;"
+		@"emap = 1;"
+		@"uiName = \"" @ %uiName @ "\";"
+		@"image = \"" @ %imageName @ "\";"
+		@"doColorShift = true;"
+		@"colorShiftColor = \"" @ %color @ "\";"
+		@"canDrop = 1;"
+		@"isStackable = 1;"
+		@"stackType = \"" @ %safeName @ "\";"
+	@"};";
 }
 
 function DataString_SeedImage(%uiname,%imageName,%itemName,%shape,%color,%cropBrick,%cropType)
 {
-	return "datablock ShapeBaseImageData(" @ %imageName @ "){className = \"SeedImage\";"
-	@"shapeFile = \"" @ %shape @ "\";emap = true;doColorShift = true;colorShiftColor = \"" @ %color @ "\";"
-	@"item = \"" @ %itemName @ "\";armReady = 1;cropBrick = \"" @ %cropBrick @ "\";"
-	@"cropType = \"" @ %cropType @ "\";stateName[0] = \"Activate\";stateTransitionOnTimeout[0] = \"Loop\";"
-	@"stateTimeoutValue[0] = 0.1;stateName[1] = \"Loop\";stateScript[1] = \"onLoop\";"
-	@"stateTransitionOnTriggerDown[1] = \"Fire\";stateTimeoutValue[1] = 0.1;"
-	@"stateTransitionOnTimeout[1] = \"Loop\";stateWaitForTimeout[1] = false;stateName[3] = \"Fire\";"
-	@"stateScript[3] = \"onFire\";stateTransitionOnTriggerUp[3] = \"Loop\";stateTimeoutValue[2] = 0.1;};";
+	return "datablock ShapeBaseImageData(" @ %imageName @ ")"
+	@"{"
+		@"className = \"SeedImage\";"
+		@"shapeFile = \"" @ %shape @ "\";"
+		@"emap = true;"
+		@"doColorShift = true;"
+		@"colorShiftColor = \"" @ %color @ "\";"
+		@"item = \"" @ %itemName @ "\";"
+		@"armReady = 1;"
+		@"cropBrick = \"" @ %cropBrick @ "\";"
+		@"cropType = \"" @ %cropType @ "\";"
+		@"stateName[0] = \"Activate\";"
+		@"stateTransitionOnTimeout[0] = \"Loop\";"
+		@"stateTimeoutValue[0] = 0.1;"
+		@"stateName[1] = \"Loop\";"
+		@"stateScript[1] = \"onLoop\";"
+		@"stateTransitionOnTriggerDown[1] = \"Fire\";"
+		@"stateTimeoutValue[1] = 0.1;"
+		@"stateTransitionOnTimeout[1] = \"Loop\";"
+		@"stateWaitForTimeout[1] = false;"
+		@"stateName[3] = \"Fire\";"
+		@"stateScript[3] = \"onFire\";"
+		@"stateTransitionOnTriggerUp[3] = \"Loop\";"
+		@"stateTimeoutValue[2] = 0.1;"
+	@"};";
 }
 
 function SeedDatablocks(%name,%singleColor,%singleShape,%packColor,%tree,%stackMul)
@@ -34,7 +65,7 @@ function SeedDatablocks(%name,%singleColor,%singleShape,%packColor,%tree,%stackM
 	%safeName = getSafeVariableName(%name @ "Seed");
 	%itemName = %safeName @ "Item";
 	%imageName = %safeName @ "0Image";
-	%singleShape = expandFileName("./" @ %singleShape @ ".dts");
+	%singleShape = "./" @ %singleShape @ ".dts";
 	eval(DataString_SeedItem(%displayName,%safeName,%itemName,%imageName,%singleShape,%singleColor));
 
 	%cropBrick = "brick" @ %name @ "0CropData";
@@ -50,11 +81,11 @@ function SeedDatablocks(%name,%singleColor,%singleShape,%packColor,%tree,%stackM
 		%uiName = %displayName @ %i;
 		%itemName = %safeName @ %i @ "Item";
 		%imageName = %safeName @ %i @ "Image";
-		%shape = expandFileName("./seed" @ %i @ ".dts");
+		%shape = "./seed" @ (%i + 1) @ ".dts";
 
 		$Stackable_[%safeName @ "_StackedItem" @ %i] = %itemName SPC (%stackMul * (%i + 1));
 		eval(DataString_SeedItem(%uiname,%safeName,%itemName,%imageName,%shape,%packColor));
-		eval(DataString_SeedImage(%uiname,%safeName,%imageName,%itemName,%shape,%packColor,%cropBrick,%name));
+		eval(DataString_SeedImage(%uiname,%imageName,%itemName,%shape,%packColor,%cropBrick,%name));
 	}
 }
 
