@@ -83,51 +83,6 @@ $BuyCost_["Ethanol_Generator"] = 3000;
 
 
 
-//Produce
-$BuyCost_["Potato"] = 0.50;
-$BuyCost_["Carrot"] = 1.30;
-$BuyCost_["Tomato"] = 0.50;
-$BuyCost_["Corn"] = 1.30;
-$BuyCost_["Cabbage"] = 4.00;
-$BuyCost_["Onion"] = 1.20;
-$BuyCost_["Blueberry"] = 1.90;
-$BuyCost_["Turnip"] = 8.00;
-$BuyCost_["Apple"] = 5.00;
-$BuyCost_["Mango"] = 12.00;
-
-$BuyCost_["Chili"] = 2.50;
-$BuyCost_["Cactus"] = 2.50;
-$BuyCost_["Watermelon"] = 8.00;
-$BuyCost_["Date"] = 18.00;
-$BuyCost_["Peach"] = 12.40;
-
-
-
-
-//Seeds
-$BuyCost_["PotatoSeed"] = 1.00;
-$BuyCost_["CarrotSeed"] = 1.00;
-$BuyCost_["TomatoSeed"] = 6.00;
-$BuyCost_["CornSeed"] = 1.50;
-$BuyCost_["CabbageSeed"] = 1.00;
-$BuyCost_["OnionSeed"] = 1.00;
-$BuyCost_["BlueberrySeed"] = 2.00;
-$BuyCost_["TurnipSeed"] = 2.00;
-$BuyCost_["AppleSeed"] = 600.00;
-$BuyCost_["MangoSeed"] = 800.00;
-
-$BuyCost_["ChiliSeed"] = 4.00;
-$BuyCost_["CactusSeed"] = 35.00;
-$BuyCost_["WatermelonSeed"] = 45.00;
-$BuyCost_["DateSeed"] = 700.00;
-$BuyCost_["PeachSeed"] = 900.00;
-
-$BuyCost_["DaisySeed"] = 1.00;
-$BuyCost_["LilySeed"] = 1.00;
-$BuyCost_["RoseSeed"] = 1.00;
-
-
-
 
 
 $Farming::LotRotatePrice = 20;
