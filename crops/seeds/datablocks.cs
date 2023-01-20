@@ -34,7 +34,7 @@ function SeedDatablocks(%name,%singleColor,%singleShape,%packColor,%tree,%stackM
 	%safeName = getSafeVariableName(%name @ "Seed");
 	%itemName = %safeName @ "Item";
 	%imageName = %safeName @ "0Image";
-	%singleShape = "./" @ %singleShape @ ".dts";
+	%singleShape = expandFileName("./" @ %singleShape @ ".dts");
 	eval(DataString_SeedItem(%displayName,%safeName,%itemName,%imageName,%singleShape,%singleColor));
 
 	%cropBrick = "brick" @ %name @ "0CropData";
@@ -50,7 +50,7 @@ function SeedDatablocks(%name,%singleColor,%singleShape,%packColor,%tree,%stackM
 		%uiName = %displayName @ %i;
 		%itemName = %safeName @ %i @ "Item";
 		%imageName = %safeName @ %i @ "Image";
-		%shape = "./seed" @ %i @ ".dts";
+		%shape = expandFileName("./seed" @ %i @ ".dts");
 
 		$Stackable_[%safeName @ "_StackedItem" @ %i] = %itemName SPC (%stackMul * (%i + 1));
 		eval(DataString_SeedItem(%uiname,%safeName,%itemName,%imageName,%shape,%packColor));
