@@ -1,9 +1,20 @@
 //gameplay:
-//	cast line into a fishing zone over a pool of water
+//	cast line into a fishing spot over a pool of water
 //	bobber spawns, plays animations
 //	bobber will indicate a hook soon with bob, then dunk to indicate its time to pull
 //	quality of catch will be determined by timing of click after pull is animated
-//	bob will locate nearest "fishing zone" brick to determine catch chances and fish depletion
+//	fishing spot determines catch chances and fish depletion
+
+//rods have the following qualities:
+//	quality of hook
+//	avg time to bite
+//	cast distance
+//	reel timing forgiveness
+//	durability
+
+//bait?
+//	quality, class
+//	affects the quality, class of fish fished
 
 // datablock ParticleEmitterNodeData (GenericEmitterNode)
 // datablock ParticleEmitterNodeData (HalfEmitterNode)
@@ -12,9 +23,8 @@
 // datablock ParticleEmitterNodeData (TwentiethEmitterNode)
 // datablock ParticleEmitterNodeData (FourtiethEmitterNode)
 
-$Fishing::ZoneEmitter = "PlayerFoamDropletsEmitter";
-$Fishing::ZoneRestTime = 30;
-$Fishing::MaxZoneFishCount = 5;
+$Fishing::SpotEmitter = "PlayerFoamDropletsEmitter";
+$Fishing::SpotResetTime = "180 360";
 
 if (!isObject(FishingSimSet))
 {
@@ -22,12 +32,18 @@ if (!isObject(FishingSimSet))
 	$RemoveFishingSimSet = new SimSet(RemoveFishingSimSet) { };
 }
 
+datablock StaticShapeData(BobberShape)
+{
+	shapeFile = "./fishingpole/bobber.dts";
+};
+
 datablock fxDTSBrickData(brickFishingSpotData : brick8x8fData)
 {
 	category = "Farming";
 	subCategory = "Fishing";
 	uiName = "Fishing Spot";
 	isIllegal = 1;
+	isFishingSpot = 1;
 };
 
 function brickFishingSpotData::onAdd(%this, %obj)
@@ -53,7 +69,15 @@ function fishingTick(%idx)
 		}
 		else
 		{
-			fishingCheck(FishingSimSet.getObject(%curr));
+			%obj = FishingSimSet.getObject(%curr);
+			if (%obj.isBobber)
+			{
+				bobberCheck(%obj);
+			}
+			else
+			{
+				fishingSpotCheck(%obj);
+			}
 		}
 	}
 	
@@ -69,10 +93,10 @@ function fishingTick(%idx)
 		%idx = 0;
 	}
 	
-	$masterFishingSchedule = schedule(100, 0, fishingTick, %idx);
+	$masterFishingSchedule = schedule(80, 0, fishingTick, %idx);
 }
 
-function fishingCheck(%brick)
+function fishingSpotCheck(%brick)
 {
 	if (%brick.getGroup().bl_id != 888888)
 	{
@@ -81,36 +105,70 @@ function fishingCheck(%brick)
 	}
 
 	//restock fish based on number of fish left and time since last fished
-	if ($Sim::Time - %brick.lastFished < $Fishing::ZoneRestTime)
+	if (%brick.nextRestockTime > $Sim::Time)
 	{
 		return;
 	}
 
-	if (%brick.fish < $Fishing::MaxZoneFishCount)
-	{
-		%brick.fish++;
-		%brick.lastFished = $Sim::Time;
-	}
+	%brick.fish = getRandom();
+	%brick.nextRestockTime = $Sim::Time + getRandom(getWord($Fishing::SpotResetTime, 0),, getWord($Fishing::SpotResetTime, 1));
 
-	//adjust visual effect of zone based on fishcount
-	if (%brick.fish <= 0)
-	{
-		if (isObject(%brick.emitter))
-		{
-			%brick.setEmitter(0);
-		}
-		return;
-	}
-
+	//adjust visual effect of Spot based on fishcount
 	if (!isObject(%brick.emitter))
 	{
-		%brick.setEmitter($Fishing::ZoneEmitter);
+		%brick.setEmitter($Fishing::SpotEmitter);
 	}
 
-	%ratio = %brick.fish / $Fishing::MaxZoneFishCount;
+	%ratio = %brick.fish;
 
-	if (%ratio > 0.75) { %brick.emitter.setDatablock(HalfEmitterNode); }
-	else if (%ratio > 0.5) { %brick.emitter.setDatablock(FifthEmitterNode); }
-	else if (%ratio > 0.25) { %brick.emitter.setDatablock(TenthEmitterNode); }
-	else { %brick.emitter.setDatablock(TwentiethEmitterNode); }
+	if (%ratio > 0.75) { %brick.emitter.setDatablock(GenericEmitterNode); }
+	else if (%ratio > 0.5) { %brick.emitter.setDatablock(HalfEmitterNode); }
+	else if (%ratio > 0.25) { %brick.emitter.setDatablock(FifthEmitterNode); }
+	else { %brick.emitter.setDatablock(TenthEmitterNode); }
+}
+
+
+
+
+
+
+package FishingPackage
+{
+	function Armor::onRemove(%this, %obj)
+	{
+		if (isObject(%obj.bobber))
+		{
+			if (isObject(%obj.bobber.bait))
+			{
+				%obj.bobber.bait.delete();
+			}
+			%obj.bobber.delete();
+		}
+	}
+};
+activatePackage(FishingPackage);
+
+function createBobber(%pos, %rotation)
+{
+	%shape = new StaticShape(Bobber)
+	{
+		dataBlock = BobberShape;
+		isBobber = 1;
+	};
+	%shape.setTransform(%pos SPC %rotation);
+	%shape.playThread(0, idle);
+	return %shape;
+}
+
+function startFish(%player, %brick, %hitPos)
+{
+	if (isObject(%player.bobber) || !%brick.dataBlock.isFishingSpot)
+	{
+		return 0;
+	}
+
+	%bobberPos = setWord(%hitPos, 2, getWord(%brick.position, 2) - %brick.dataBlock.brickSizeZ * 0.1);
+
+	%player.bobber = createBobber(%bobberPos, getWords(%player.getTransform(), 3, 6));
+	$FishingSimSet.add(%player.bobber);
 }
