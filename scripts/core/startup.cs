@@ -4,6 +4,7 @@ function startLoops()
 	sprinklerTick(0);
 	compostTick(0);
 	weedTick(0);
+	fishingTick(0);
 	$disableWeather = 0;
 	//fishingTick(0);
 }

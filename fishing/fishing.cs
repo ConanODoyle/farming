@@ -37,6 +37,11 @@ datablock StaticShapeData(BobberShape)
 	shapeFile = "./fishingpole/bobber.dts";
 };
 
+datablock StaticShapeData(FishingLineShape)
+{
+	shapeFile = "./fishingpole/line.dts";
+};
+
 datablock fxDTSBrickData(brickFishingSpotData : brick8x8fData)
 {
 	category = "Farming";
@@ -48,6 +53,7 @@ datablock fxDTSBrickData(brickFishingSpotData : brick8x8fData)
 
 function brickFishingSpotData::onAdd(%this, %obj)
 {
+	talk("Adding " @ %obj);
 	$FishingSimSet.add(%obj);
 }
 
@@ -93,7 +99,7 @@ function fishingTick(%idx)
 		%idx = 0;
 	}
 	
-	$masterFishingSchedule = schedule(80, 0, fishingTick, %idx);
+	$masterFishingSchedule = schedule(33, 0, fishingTick, %idx);
 }
 
 function fishingSpotCheck(%brick)
@@ -138,12 +144,9 @@ package FishingPackage
 	{
 		if (isObject(%obj.bobber))
 		{
-			if (isObject(%obj.bobber.bait))
-			{
-				%obj.bobber.bait.delete();
-			}
-			%obj.bobber.delete();
+			cleanupBobber(%obj.bobber);
 		}
+		parent::onRemove(%this, %obj);
 	}
 };
 activatePackage(FishingPackage);
@@ -160,15 +163,39 @@ function createBobber(%pos, %rotation)
 	return %shape;
 }
 
+function cleanupBobber(%bobber)
+{
+	if (isObject(%bobber.bait)) { %bobber.bait.delete(); }
+	if (isObject(%bobber.line)) { %bobber.line.delete(); }
+	%bobber.delete();
+}
+
+function bobberCheck(%bobber)
+{
+	if (!isObject(%bobber.line))
+	{
+		%bobber.line = new StaticShape(FishingLine){ dataBlock = FishingLineShape; };
+	}
+	%bobber.line.drawLine(%bobber.getSlotTransform(2), %bobber.player.getMuzzlePoint(0), "0 0 0 1", 1);
+	return;
+}
+
 function startFish(%player, %brick, %hitPos)
 {
 	if (isObject(%player.bobber) || !%brick.dataBlock.isFishingSpot)
 	{
+		if (isObject(%player.bobber))
+		{
+			cleanupBobber(%bobber);
+		}
 		return 0;
 	}
 
 	%bobberPos = setWord(%hitPos, 2, getWord(%brick.position, 2) - %brick.dataBlock.brickSizeZ * 0.1);
 
-	%player.bobber = createBobber(%bobberPos, getWords(%player.getTransform(), 3, 6));
+	%player.bobber = %bobber = createBobber(%bobberPos, getWords(%player.getTransform(), 3, 6));
+	%bobber.setNodeColor("bobberTop", setWord(getColorIDTable(%player.client.currentColor), 3, 1));
+	%bobber.sourcePlayer = %player;
+	%bobber.maxDistance = vectorDist(%player.position, %bobber.position) + 20;
 	$FishingSimSet.add(%player.bobber);
 }
