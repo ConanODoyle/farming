@@ -1,25 +1,4 @@
-exec("./potato.cs");
-exec("./carrot.cs");
-exec("./tomato.cs");
-exec("./corn.cs");
-exec("./wheat.cs");
-exec("./cabbage.cs");
-exec("./onion.cs");
-exec("./blueberry.cs");
-exec("./turnip.cs");
-exec("./portobello.cs");
-exec("./appleTree.cs");
-exec("./mangoTree.cs");
-
-exec("./chili.cs");
-exec("./cactus.cs");
-exec("./watermelon.cs");
-exec("./dateTree.cs");
-exec("./peachTree.cs");
-
-exec("./daisy.cs");
-exec("./lily.cs");
-exec("./rose.cs");
+exec("./datablocks.cs");
 
 	// case 0: return 0;
 	// case 1: return "overlap";
