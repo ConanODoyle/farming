@@ -63,6 +63,7 @@ package ScoreGrant
 	{
 		%ret = parent::spawnPlayer(%cl);
 		bottomprintInfo(%cl);
+		bottomprintInfoLoop();
 		return %ret;
 	}
 };
