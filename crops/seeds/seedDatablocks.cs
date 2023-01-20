@@ -225,11 +225,11 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 		if ($debugPlanting)
 		{
 			talk(%zOffset);
-			createBoxAt(%pos, "1 0 0 1", "0.1 0.1 0.1");
-			createBoxAt(%base, "1 0 0 1", "0.1 0.1 0.1");
+			createBoxMarker(%pos, "1 0 0 1", "0.1 0.1 0.1");
+			createBoxMarker(%base, "1 0 0 1", "0.1 0.1 0.1");
 
-			createBoxAt(%searchPos, "1 1 0 1", "0.1 0.1 0.1");
-			createBoxAt(%searchPos, "1 0 0 0.1", vectorScale(%box, 0.5));
+			createBoxMarker(%searchPos, "1 1 0 1", "0.1 0.1 0.1");
+			createBoxMarker(%searchPos, "1 0 0 0.1", vectorScale(%box, 0.5));
 		}
 		initContainerBoxSearch(%searchPos, %box, $Typemasks::fxBrickObjectType);
 		while (isObject(%next = containerSearchNext()))
