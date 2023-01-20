@@ -14,6 +14,7 @@ exec("./experienceContent/server.cs");
 exec("./weedKiller/server.cs");
 exec("./quests/server.cs");
 exec("./mining/server.cs");
+exec("./fishing/server.cs");
 
 // exec("./chatFilter.cs");
 exec("./chestScore.cs");
