@@ -294,7 +294,7 @@ function yesNoPriceResponseParser(%dataObj, %msg)
 		%word = " " @ getField(%yes, %i) @ " ";
 		if (strPos(%lwr, %word) >= 0)
 		{
-			if (%cl.score < %price)
+			if (!%cl.checkMoney(%price))
 			{
 				return "InsufficientMoney";
 			}
@@ -320,7 +320,7 @@ function playerUnloadLot(%dataObj)
 	%pl = %dataObj.player;
 	%cl = %pl.client;
 
-	%cl.score -= %dataObj.var_price;
+	%cl.subMoney(%dataObj.var_price);
 
 	unloadLot(%cl.BL_ID);
 }

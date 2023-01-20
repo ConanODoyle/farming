@@ -38,10 +38,10 @@ function purchaseVehicle(%cl, %vehicle)
 	{
 		return 0;
 	}
-	if (%cl.score >= %cost)
+	if (%cl.checkMoney(%cost))
 	{
-		%cl.setScore(%cl.score - %cost);
-		%cl.centerPrint("<color:ff0000>$" @ %cost @ "<color:ffffff> - " @ %vehicle.uiName, 1);
+		%cl.subMoney(%cost);
+		%cl.centerPrint("\c0$" @ %cost @ "\c6 - " @ %vehicle.uiName, 1);
 		%cl.schedule(50, centerPrint, "<color:cc0000>$" @ %cost @ "<color:cccccc> - " @ %vehicle.uiName, 2);
 		messageClient(%cl, '', "\c6You purchased the \c3" @ %vehicle.uiName @ "\c6 for \c2$" @ %cost);
 		return 1;

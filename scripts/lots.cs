@@ -496,7 +496,7 @@ function serverCmdBuyLot(%cl, %rotation)
 		messageClient(%cl, '', "This lot is claimed by " @ %hit.getGroup().name @ "!");
 		return;
 	}
-	else if (%cl.score < %costMoney || %cl.farmingExperience < %costExp)
+	else if (!%cl.checkMoney(%costMoney) || %cl.farmingExperience < %costExp)
 	{
 		messageClient(%cl, '', "You cannot afford this lot! (Cost: " @ %costString @ ")");
 
@@ -550,7 +550,7 @@ function serverCmdBuyLot(%cl, %rotation)
 		return;
 	}
 
-	%cl.setScore(%cl.score - %costMoney);
+	%cl.subMoney(%costMoney);
 	%cl.addExperience(-1 * %costExp);
 	clearLotRecursive(%hit, %cl);
 	%cl.brickGroup.add(%hit);
@@ -573,6 +573,11 @@ function serverCmdRotateLot(%cl, %rotation)
 		return;
 	}
 
+	if (!%cl.checkMoney($Farming::LotRotatePrice))
+	{
+		messageClient(%cl, '', "You can't afford to rotate your lot! It costs $" @ $Farming::LotRotatePrice);
+		return;
+	}
 	if (%rotation == 0)
 	{
 		messageClient(%cl, '', "Please provide a number to rotate your lot.");
@@ -588,7 +593,6 @@ function serverCmdRotateLot(%cl, %rotation)
 			messageClient(%cl, '', "\c5This will cost \c3$" @ $Farming::LotRotatePrice @ "\c5. Type /rotateLot " @ %rotation @ " again to confirm.");
 			%cl.repeatRotateLot = %rotation;
 			%cl.clearRepeatRotateLotSched = schedule(5000, %cl, eval, %cl @ ".repeatRotateLot = \"\";");
-			return;
 		}
 		else
 		{
@@ -603,34 +607,32 @@ function serverCmdRotateLot(%cl, %rotation)
 				messageClient(%cl, '', "You can buy an unclaimed red lot with /buyLot.");
 				messageClient(%cl, '', "Once you've claimed a lot, you can use this function to rotate your lot by 90 degree counterclockwise increments.");
 			}
-			return;
 		}
-	}
-	else
-	{
-		%lot = getLoadedLot(%cl.bl_id);
-		$Farming::ReloadLot[%cl.bl_id] = %lot SPC %rotation;
-		%unloadResult = unloadLot(%cl.bl_id);
-
-		if (%unloadResult == -1)
-		{
-			messageClient(%cl, '', "Please wait for a few moments. Either the autosaver is currently running or another player is unloading their lot.");
-			deleteVariables("Farming::ReloadLot" @ %cl.bl_id);
-			return;
-		}
-		else if (%unloadResult == -2)
-		{
-			messageClient(%cl, '', "Something went wrong. Your lot brick no longer exists. Please inform an admin.");
-			deleteVariables("Farming::ReloadLot" @ %cl.bl_id);
-			return;
-		}
-
-		messageClient(%cl, '', "\c5You have rotated your lot for \c0$" @ $Farming::LotRotatePrice @ "\c5. Please wait while your lot reloads.");
-		%cl.score -= $Farming::LotRotatePrice;
-		%cl.repeatRotateLot = "";
-		cancel(%cl.clearRepeatRotateLotSched);
 		return;
 	}
+
+	%lot = getLoadedLot(%cl.bl_id);
+	$Farming::ReloadLot[%cl.bl_id] = %lot SPC %rotation;
+	%unloadResult = unloadLot(%cl.bl_id);
+
+	if (%unloadResult == -1)
+	{
+		messageClient(%cl, '', "Please wait for a few moments. Either the autosaver is currently running or another player is unloading their lot.");
+		deleteVariables("Farming::ReloadLot" @ %cl.bl_id);
+		return;
+	}
+	else if (%unloadResult == -2)
+	{
+		messageClient(%cl, '', "Something went wrong. Your lot brick no longer exists. Please inform an admin.");
+		deleteVariables("Farming::ReloadLot" @ %cl.bl_id);
+		return;
+	}
+
+	messageClient(%cl, '', "\c5You have rotated your lot for \c0$" @ $Farming::LotRotatePrice @ "\c5. Please wait while your lot reloads.");
+	%cl.subMoney($Farming::LotRotatePrice);
+	%cl.repeatRotateLot = "";
+	cancel(%cl.clearRepeatRotateLotSched);
+	return;
 }
 
 function serverCmdSellLot(%cl, %force)
@@ -696,7 +698,7 @@ function serverCmdSellLot(%cl, %force)
 
 	if (!%force)
 	{
-		%cl.setScore(%cl.score + %costMoney);
+		%cl.addMoney(%costMoney);
 		%cl.addExperience(%costExp);
 	}
 
@@ -799,7 +801,7 @@ function serverCmdSellAllLots(%cl)
 		%countCopy--;
 	}
 
-	%cl.setScore(%cl.score + %totalRefund);
+	%cl.addMoney(%totalRefund);
 
 	for (%i = 0; %i < getWordCount(%list); %i++)
 	{

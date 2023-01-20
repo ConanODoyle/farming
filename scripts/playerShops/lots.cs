@@ -215,7 +215,7 @@ function serverCmdBuyShop(%cl, %rotation)
 		return;
 	}
 
-	if (%cl.score < %costMoney || %cl.farmingExperience < %costExp)
+	if (!%cl.checkMoney(%costMoney) || %cl.farmingExperience < %costExp)
 	{
 		messageClient(%cl, '', "You cannot afford a shop lot! (Cost: " @ %costString @ ")");
 		return;
@@ -255,7 +255,7 @@ function serverCmdBuyShop(%cl, %rotation)
 		return;
 	}
 
-	%cl.setScore(%cl.score - %costMoney);
+	%cl.subMoney(%costMoney);
 	%cl.addExperience(-1 * %costExp);
 	clearLotRecursive(%hit, %cl);
 	%cl.brickGroup.add(%hit);
@@ -332,7 +332,7 @@ function serverCmdRotateShop(%cl, %rotation)
 		}
 
 		messageClient(%cl, '', "\c5You have rotated your shop for \c0$" @ $Farming::LotRotatePrice @ "\c5. Please wait while your shop reloads.");
-		%cl.score -= $Farming::LotRotatePrice;
+		%cl.subMoney($Farming::LotRotatePrice);
 		%cl.repeatRotateShopLot = "";
 		cancel(%cl.clearRepeatRotateShopLotSched);
 		return;
@@ -400,7 +400,7 @@ function serverCmdSellShop(%cl, %force)
 
 	if (!%force)
 	{
-		%cl.setScore(%cl.score + %costMoney);
+		%cl.addMoney(%costMoney);
 		%cl.addExperience(%costExp);
 	}
 

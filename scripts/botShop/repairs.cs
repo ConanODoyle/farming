@@ -114,9 +114,9 @@ function dialogue_RepairProduct(%dataObj)
 	%pl = %dataObj.player;
 	%cl = %pl.client;
 
-	if (%cl.score >= %dataObj.var_total)
+	if (%cl.checkMoney(%dataObj.var_total))
 	{
-		%cl.setScore(%cl.score - %dataObj.var_repairPrice);
+		%cl.subMoney(%dataObj.var_repairPrice);
 		%toolDataID = %dataObj.var_toolDataID;
 		setDataIDArrayTagValue(%toolDataID, "durability", %dataObj.var_maxDurability | 0);
 	}
@@ -194,11 +194,11 @@ function RepairResponseParser(%dataObj, %msg)
 	{
 		return "FullDurability";
 	}
-	else if (%pl.client.score < %price)
+	else if (!%pl.client.checkMoney(%price))
 	{
 		return "InsufficientMoney";
 	}
-	else if (%pl.client.score >= %price)
+	else if (%pl.client.checkMoney(%price))
 	{
 		return "CanRepair";
 	}

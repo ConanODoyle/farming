@@ -310,7 +310,7 @@ function pickupDeliveryPackage(%pl, %item, %slot)
 		if (isObject(%sourceClient) && %sourceClient != %targetClient)
 		{
 			messageClient(%sourceClient, '', "\c6Package delivered! You received \c2$" @ $DeliveryFee @ "\c6 from the post office!");
-			%sourceClient.setScore(%sourceClient.score + $DeliveryFee);
+			%sourceClient.addMoney($DeliveryFee);
 
 			%pl.deliveryPackageInfo = "Delivered" SPC %pl.deliveryPackageInfo;
 		}
@@ -425,14 +425,14 @@ function Item::schedulePackagePop(%item)
 	}
 	else
 	{
-		%dropper.setScore(%dropper.score - %cost * 2);
+		%dropper.subMoney(%cost * 2);
 		%bg = %dropper.brickGroup;
 		messageClient(%dropper, '', "\c6You were charged \c0$" @ getMax(%cost * 2, 50) @ "\c6 for losing a package!");
 	}
 
 	if (isObject(%recipientBG.client))
 	{
-		%recipientBG.client.setScore(%recipientBG.client.score + %cost);
+		%recipientBG.client.addMoney(%cost);
 		messageClient(%recipientBG.client, '', "\c6You were refunded \c2$" @ %cost @ "\c6 due to \c3" @ %bg.name @ "\c6 losing your package.");
 	}
 	else
@@ -589,10 +589,10 @@ function orderSeeds(%cl, %menu, %option)
 		return;
 	}
 
-	if (%cl.score >= %cost * %total)
+	if (%cl.checkMoney(%cost * %total))
 	{
 		placeOrder(%seed, %total, %cl, %cost * %total);
-		%cl.setScore(%cl.score - %cost * %total);
+		%cl.subMoney(%cost * %total);
 		messageClient(%cl, '', "\c6You have been deducted \c0$" @ mFloatLength(%cost * %total, 2) @ "\c6 for \c3" @ 
 			%total SPC %menu.seedType @ " seeds\c6.");
 	}

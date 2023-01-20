@@ -4,7 +4,7 @@ package TreasureChestReward
   {
     %ret = parent::openTreasureChest(%brick, %pl);
     %cl = %pl.client;
-    %cl.setScore(%cl.score + 100);
+    %cl.addMoney(100);
     messageClient(%cl, '', "\c6You got \c2$100\c6 for finding the chest!");
     return %ret;
   }

@@ -34,7 +34,7 @@ function serverCmdGiveMoney(%cl, %amount, %t1, %t2, %t3, %t4)
 		messageClient(%cl, '', "You must wait a few seconds before giving money again!");
 		return;
 	}
-	else if ((%amt = mFloor(%amount * 10) / 10) > %cl.score)
+	else if (!%cl.checkMoney(%amt = mFloor(%amount * 10) / 10))
 	{
 		if (%amt < 1)
 		{
@@ -49,12 +49,8 @@ function serverCmdGiveMoney(%cl, %amount, %t1, %t2, %t3, %t4)
 		return;
 	}
 
-	%target.setScore(%target.score + %amt);
-	if (%cl.score >= 10000)
-	{
-		%cl.setScore(%cl.score - 50);
-	}
-	%cl.setScore(%cl.score - %amt);
+	%target.addMoney(%amt);
+	%cl.subMoney(%amt);
 	messageClient(%cl, 'MsgUploadEnd', "\c6You gave \c3" @ %target.name @ "\c2 $" @ %amt);
 	messageClient(%target, 'MsgUploadEnd', "\c3" @ %cl.name @ "\c6 gave you\c2 $" @ %amt);
 
@@ -212,11 +208,11 @@ function bottomprintInfo(%cl)
 
 	if (%cl.isBuilder)
 	{
-		%amount = "<just:right>\c5Builder Mode \c4$" @ mFloatLength(%cl.score, 2);
+		%amount = "<just:right>\c5Builder Mode \c4$" @ %cl.getMoney();
 	}
 	else
 	{
-		%amount = "<just:right>\c3Money: $" @ mFloatLength(%cl.score, 2);
+		%amount = "<just:right>\c3Money: $" @ %cl.getMoney();
 	}
 
 	%cl.bottomprint(%pre @ %amount @ " ", 2, 0);

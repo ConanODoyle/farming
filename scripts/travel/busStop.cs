@@ -162,9 +162,9 @@ function goToBusStop(%cl, %menu, %option)
     {
         return;
     }
-    else if (%cl.score < %cost)
+    else if (!%cl.checkMoney(%cost))
     {
-        messageClient(%cl, '', "You cannot afford to take the bus! You need $0.50 to ride.");
+        messageClient(%cl, '', "You cannot afford to take the bus! You need $" @ %cost @ " to ride.");
         return;
     }
 
@@ -179,7 +179,7 @@ function goToBusStop(%cl, %menu, %option)
         }
     }
 
-    %cl.setScore(%cl.score - %cost);
+    %cl.subMoney(%cost);
     %target.setTransform(%brick.getTransform());
 
     %pl.setWhiteout(1);
