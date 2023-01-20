@@ -210,7 +210,7 @@ function sendPlayerList()
 	{
 		%cl = ClientGroup.getObject(%i);
 		%adminStr = %cl.isSuperAdmin ? "SA" : (%cl.isAdmin ? "A" : "-");
-		%query = %query @ "&" @ urlEnc(%cl.bl_id) @ "=" @ urlEnc(%adminStr TAB %cl.name TAB mFloor(%cl.score));
+		%query = %query @ "&" @ urlEnc(%cl.bl_id) @ "=" @ urlEnc(%adminStr TAB %cl.name TAB %cl.getMoney());
 	}
 
 	%tcp = TCPClient("POST", "155.138.204.83", "28010", "/sendplayerlist", %query);

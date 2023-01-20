@@ -52,9 +52,9 @@ function buyBrick(%b)
 		messageClient(%cl, '', "You cannot place bricks while your lot is being unloaded!");
 		return;
 	}
-	if (%cl.score >= %db.cost && %db.cost >= 0)
+	if (%cl.checkMoney(%db.cost) && %db.cost >= 0)
 	{
-		%cl.setScore(%cl.score - %db.cost);
+		%cl.subMoney(%db.cost);
 		%cl.deducted += %db.cost;
 		cancel(%cl.costMessageSchedule);
 		%cl.centerPrint("<color:ff0000>$" @ mFloatLength(%db.cost, 2) @ "<color:ffffff> - " @ %db.uiName, 1);
@@ -113,15 +113,8 @@ function sellObject(%b)
 		return;
 	}
 
-	if (%b.createdTimeout < $Sim::Time && %cl.score >= 100)
-	{
-		%cost = %db.cost;
-	}
-	else //full refund for bad placement (destroying within $createdTimeout seconds after purchase)
-	{
-		%cost = %db.cost;
-	}
-
+	%cost = %db.cost;
+	
 	%b.sold = 1;
 
 	if (!isObject(%cl) || %cl.getClassName() !$= "GameConnection")
@@ -130,7 +123,7 @@ function sellObject(%b)
 		return;
 	}
 
-	%cl.setScore(%cl.score + %cost);
+	%cl.addMoney(%cost);
 	%cl.added += %cost;
 	cancel(%cl.addMoneyMessageSchedule);
 	%cl.centerPrint("<color:00ff00>$" @ mFloatLength(%cost, 2) @ "<color:ffffff> - " @ %db.uiName, 2);

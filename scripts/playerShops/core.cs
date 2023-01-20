@@ -555,7 +555,7 @@ function buyUnit(%cl, %menu, %option)
 		%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
 	}
 
-	if (%cl.score < %price)
+	if (%cl.subMoney(%price))
 	{
 		messageClient(%cl, '', "You can't afford this!", 1);
 

@@ -236,7 +236,7 @@ function AIPlayer::attemptBuy(%bot, %item)
 
 	if (isObject(%cl = findClientByBL_ID(%blid)))
 	{
-		%cl.setScore(%cl.score + %amount);
+		%cl.addMoney(%amount);
 		%amount = mFloatLength(%amount, 2);
 		%bot.setAimObject(%cl.player);
 		%bot.playThread(0, plant);

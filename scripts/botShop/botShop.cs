@@ -132,9 +132,9 @@ function dialogue_purchaseProduct(%dataObj)
 	%pl = %dataObj.player;
 	%cl = %pl.client;
 
-	if (%cl.score >= %dataObj.var_total)
+	if (%cl.checkMoney(%dataObj.var_total))
 	{
-		%cl.setScore(%cl.score - %dataObj.var_total);
+		%cl.subMoney(%dataObj.var_total);
 		%item = %dataObj.sellItem;
 		if (!%item.isStackable)
 		{
@@ -194,7 +194,7 @@ function purchaseResponseParser(%dataObj, %msg)
 
 	%dataObj.var_amount = %num;
 	%dataObj.var_total = mFloatLength(%price, 2);
-	%dataObj.var_maxAmount = mFloor(%pl.client.score / %dataObj.var_price);
+	%dataObj.var_maxAmount = mFloor(%pl.client.getMoney() / %dataObj.var_price);
 	%dataObj.var_maxTotal = mFloatLength(getBuyPrice(%dataObj.sellItem) * %dataObj.var_maxAmount, 2);
 
 	if (%num $= "")
@@ -206,7 +206,7 @@ function purchaseResponseParser(%dataObj, %msg)
 		%num = %num + 0;
 		return "InvalidAmount";
 	}
-	else if (%pl.client.score < %price)
+	else if (!%pl.client.checkMoney(%price))
 	{
 		if (%num == 1)
 		{
@@ -214,7 +214,7 @@ function purchaseResponseParser(%dataObj, %msg)
 		}
 		return "InsufficientMoney";
 	}
-	else if (%pl.client.score >= %price)
+	else if (%pl.client.checkMoney(%price))
 	{
 		if (%num == 1)
 		{

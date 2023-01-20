@@ -20,40 +20,32 @@ package FarmingSpawn
 			%pl.setTransform(getRandomGlobalSpawn().getTransform());
 		}
 
-		if (!%cl.grantCheck)
+		if (%cl.grantCheck)
 		{
-			%cl.grantCheck = 1;
-			%doGrantCheck = 1;
+			return %ret;
 		}
 		
-		if (%doGrantCheck)
+		%cl.grantCheck = 1;
+		if ($Farming::ScoreGrant[%cl.bl_id] < 0 && !%cl.checkMoney($startingAmount))
 		{
-			if ($Farming::ScoreGrant[%cl.bl_id] > 0)
-			{
-				// I've disabled this because the message just confuses people.
-				// messageClient(%cl, '', "\c6You already have received a starting money grant!");
-			}
-			else if (%cl.score < $startingAmount)
-			{
-				$Farming::ScoreGrant[%cl.bl_id] = 1 TAB %cl.name;
-				messageClient(%cl, '', "\c6You received \c2$" @ $startingAmount @ "\c6 to start off with!");
-				schedule(3000, %cl, serverCmdTutorial, %cl, "");
-				%cl.setScore($startingAmount);
+			$Farming::ScoreGrant[%cl.bl_id] = 1 TAB %cl.name;
+			messageClient(%cl, '', "\c6You received \c2$" @ $startingAmount @ "\c6 to start off with!");
+			schedule(3000, %cl, serverCmdTutorial, %cl, "");
+			%cl.addMoney($startingAmount);
 
-				if (%cl.isBetaTester)
-				{
-					messageClient(%cl, '', "\c2You received a bonus of $" @ $betaBonus @ " for being a beta tester!");
-					%cl.setScore(%cl.score + $betaBonus);
-				}
-				export("$Farming::ScoreGrant*", "config/Farming/scoreGrant.cs");
-			}
-			else if (%cl.score >= $startingAmount)
+			if (%cl.isBetaTester)
 			{
-				$Farming::ScoreGrant[%cl.bl_id] = 1 TAB %cl.name;
-				messageClient(%cl, '', "\c6You already have more than \c2$" @ $startingAmount @ "!");
-				%cl.setScore($startingAmount);
-				export("$Farming::ScoreGrant*", "config/Farming/scoreGrant.cs");
+				messageClient(%cl, '', "\c2You received a bonus of $" @ $betaBonus @ " for being a beta tester!");
+				%cl.addMoney($betaBonus);
 			}
+			export("$Farming::ScoreGrant*", "config/Farming/scoreGrant.cs");
+		}
+		else if (%cl.checkMoney($startingAmount))
+		{
+			$Farming::ScoreGrant[%cl.bl_id] = 1 TAB %cl.name;
+			messageClient(%cl, '', "\c6You already have more than \c2$" @ $startingAmount @ "!");
+			%cl.addMoney($startingAmount);
+			export("$Farming::ScoreGrant*", "config/Farming/scoreGrant.cs");
 		}
 
 		return %ret;
@@ -65,7 +57,7 @@ package FarmingSpawn
 
 		if (%client.brickgroup.delayedScoreAdjustment != 0)
 		{
-			%client.setScore(%client.score + %client.brickgroup.delayedScoreAdjustment);
+			%client.addMoney(%client.brickgroup.delayedScoreAdjustment);
 			%amt = %client.brickgroup.delayedScoreAdjustment;
 			%client.brickgroup.delayedScoreAdjustment = 0;
 
