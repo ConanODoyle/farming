@@ -327,6 +327,42 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 	%client.centerPrint(trim(%displayString));
 }
 
+function QuestRequestValue(%questID)
+{
+	%price = 0;
+	%numRewards = getDataIDArrayTagValue(%questID, "numRewards"); // needed for offset
+	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
+	for (%i = 0; %i < %numRequests; %i++) {
+		%request = getDataIDArrayValue(%questID, %numRewards + %i);
+		%item = getWord(%request, 0);
+		%count = getWord(%request, 1);
+		%price += getSellPrice(%item,%count);
+	}
+	return %price;
+}
+
+function QuestRewardValue(%questID)
+{
+	%price = 0;
+	%numRewards = getDataIDArrayTagValue(%questID, "numRewards"); // needed for offset
+	for (%i = 0; %i < %numRewards; %i++) {
+		%reward = getDataIDArrayValue(%questID, %i); // offset by number of requests into array
+		%item = getWord(%reward, 0);
+		%count = getWord(%reward, 1);
+		%price += getBuyPrice(%item,%count);
+	}
+	return %price + getDataIDArrayTagValue(%questID, "cashReward");
+}
+
+function QuestProfitValue(%questID)
+{
+	if (!getDataIDArrayTagValue(%questID, "isQuest"))
+	{
+		return;
+	}
+	return QuestRewardValue(%questID) - QuestRequestValue(%questID);
+}
+
 function getQuestString(%questID, %showDelivered) {
 	%string = "Requests:\n";
 	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
@@ -353,10 +389,18 @@ function getQuestString(%questID, %showDelivered) {
 		%string = %string @ %itemName @ ": " @ %count @ "\n";
 	}
 
-	%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
+	%cashReward =  getDataIDArrayTagValue(%questID, "cashReward");
 	if (%cashReward > 0) {
-		%string = %string @ "Money\c6: $" @ mFloatLength(%cashReward, 2);
+		%string = %string @ "Money\c6: $" @ mFloatLength(%cashReward, 2) @ "\n";
 	}
+
+	%profit = mFloatLength(QuestProfitValue(%questID),2);
+	%profitString = "$" @ %profit;
+	if(%profit <= 0)
+	{
+		%profitString = "priceless";
+	}
+	%string = %string @ "\nTotal Profit: " @ %profitString;
 
 	return trim(%string);
 }
