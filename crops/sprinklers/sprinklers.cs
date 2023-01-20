@@ -633,7 +633,7 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 	{
 		if (getTrustLevel(%obj, %hit) < 2)
 		{
-			%view = "\c0[Need trust with " @ %hit.getGroup().name @ "\c0!]";
+			%view = "\c0[Need trust with " @ %hit.getGroup().name @ "\c0!";
 		}
 		else if (%obj.waterLinkObj == %hit)
 		{
@@ -804,11 +804,11 @@ function drawWaterNetwork(%focusObj, %simSet)
 		{
 			if (!isObject(%line[%currLine]))
 			{
-				%line[%currLine] = drawLine(%focusObjPos, %downFlowObj.getPosition(), "1 1 1 1", 0.05);
+				%line[%currLine] = drawArrow2(%focusObjPos, %downFlowObj.getPosition(), "1 1 1 1", 0.5);
 			}
 			else
 			{
-				%line[%currLine].drawLine(%focusObjPos, %downFlowObj.getPosition(), "1 1 1 1", 0.05);
+				%line[%currLine].drawLine(%focusObjPos, %downFlowObj.getPosition(), "1 1 1 1", 0.5);
 			}
 			%currLine++;
 		}
@@ -818,11 +818,11 @@ function drawWaterNetwork(%focusObj, %simSet)
 	{
 		if (!isObject(%line[%currLine]))
 		{
-			%line[%currLine] = drawLine(%focusObjPos, %upFlowObj.getPosition(), "1 1 1 1", 0.05);
+			%line[%currLine] = drawArrow2(%upFlowObj.getPosition(), %focusObjPos, "1 1 1 1", 0.5);
 		}
 		else
 		{
-			%line[%currLine].drawLine(%focusObjPos, %upFlowObj.getPosition(), "1 1 1 1", 0.05);
+			%line[%currLine].drawLine(%upFlowObj.getPosition(), %focusObjPos, "1 1 1 1", 0.5);
 		}
 		%currLine++;
 	}

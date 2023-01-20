@@ -22,7 +22,7 @@ exec("./lib/Support_DiscordListener.cs");
 exec("./lib/Support_DialogueSystem.cs");
 
 exec("./lib/Support_DataID/server.cs");
-exec("./lib/Support_ShapeLines/server.cs");
+exec("./lib/Support_ShapeLinesV2/server.cs");
 // exec("./lib/Support_GasMod/server.cs");
 // exec("./lib/swolset.cs");
 // exec("./lib/automodSettings.cs");

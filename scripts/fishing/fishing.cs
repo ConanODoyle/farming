@@ -176,7 +176,9 @@ function bobberCheck(%bobber)
 	{
 		%bobber.line = new StaticShape(FishingLine){ dataBlock = FishingLineShape; };
 	}
-	%bobber.line.drawLine(%bobber.getSlotTransform(2), %bobber.player.getMuzzlePoint(0), "0 0 0 1", 1);
+	%bobber.line.drawLine(%bobber.getSlotTransform(2), %bobber.player.getMuzzlePoint(0), "0 0 0 1", 0.5);
+	%dist = vectorDist(%bobber.position, %bobber.player.position);
+	%bobber.line.setScale(setWord(%bobber.line.scale, 2, %dist / 200));
 	return;
 }
 
@@ -186,7 +188,7 @@ function startFish(%player, %brick, %hitPos)
 	{
 		if (isObject(%player.bobber))
 		{
-			cleanupBobber(%bobber);
+			cleanupBobber(%player.bobber);
 		}
 		return 0;
 	}
@@ -194,6 +196,7 @@ function startFish(%player, %brick, %hitPos)
 	%bobberPos = setWord(%hitPos, 2, getWord(%brick.position, 2) - %brick.dataBlock.brickSizeZ * 0.1);
 
 	%player.bobber = %bobber = createBobber(%bobberPos, getWords(%player.getTransform(), 3, 6));
+	%bobber.player = %player;
 	%bobber.setNodeColor("bobberTop", setWord(getColorIDTable(%player.client.currentColor), 3, 1));
 	%bobber.sourcePlayer = %player;
 	%bobber.maxDistance = vectorDist(%player.position, %bobber.position) + 20;
