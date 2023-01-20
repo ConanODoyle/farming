@@ -111,7 +111,7 @@ function fishingSpotCheck(%brick)
 	}
 
 	%brick.fish = getRandom();
-	%brick.nextRestockTime = $Sim::Time + getRandom(getWord($Fishing::SpotResetTime, 0),, getWord($Fishing::SpotResetTime, 1));
+	%brick.nextRestockTime = $Sim::Time + getRandom(getWord($Fishing::SpotResetTime, 0), getWord($Fishing::SpotResetTime, 1));
 
 	//adjust visual effect of Spot based on fishcount
 	if (!isObject(%brick.emitter))
