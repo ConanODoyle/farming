@@ -169,7 +169,7 @@ datablock ShapeBaseImageData(WeedKiller0Image)
 
 	toolTip = "Kill weeds, prevent them for a set time";
 
-	fertilizerWeedkiller = 5; // seconds
+	fertilizerWeedkiller = 20; // number of weeds blocked per application
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";

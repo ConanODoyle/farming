@@ -12,7 +12,7 @@ datablock fxDTSBrickData(brick4x4DirtData : brick4x4Data)
 	isDirt = 1;
 	maxWater = 150;
 	maxNutrients = 80;
-	maxWeedkiller = 20;
+	maxWeedkiller = 200;
 };
 
 datablock fxDTSBrickData(brick8x8DirtData : brick8x8Data)
@@ -25,7 +25,7 @@ datablock fxDTSBrickData(brick8x8DirtData : brick8x8Data)
 	isDirt = 1;
 	maxWater = 1200;
 	maxNutrients = 350;
-	maxWeedkiller = 80;
+	maxWeedkiller = 800;
 };
 
 
