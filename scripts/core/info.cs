@@ -66,7 +66,7 @@ package ScoreGrant
 	function GameConnection::spawnPlayer(%cl)
 	{
 		%ret = parent::spawnPlayer(%cl);
-		bottomprintInfoLoop(%cl);
+		bottomprintInfo(%cl);
 		return %ret;
 	}
 };
@@ -270,7 +270,7 @@ function GameConnection::addExperience(%cl, %exp)
 		%cl.recentEXP += %exp;
 		%cl.farmingExperience += %exp;
 		%cl.latestExp = (%cl.recentEXP < 0 ? "\c0" @ %cl.recentEXP + 0 @ "\c2" : "+" @ %cl.recentEXP + 0);
-		bottomprintInfoLoop(%cl); //force update bottomprint
+		bottomprintInfo(%cl); //force update bottomprint
 		%cl.resetRecentExpSched = schedule(4000, %cl, eval, %cl @ ".recentEXP = 0; " @ %cl @ ".latestExp = \"\";");
 	}
 }
