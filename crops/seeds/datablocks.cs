@@ -102,7 +102,7 @@ SeedDatablocks("Potato","0.9 0.68 0.12 1","seeds","0.568 0.329 0 1",false,3);
 SeedDatablocks("Turnip","0.08 0.08 0.08 1","seedsRound","0.9 0.9 0.9 1",false,6);
 
 //aboveground
-SeedDatablocks("Blueberry","0.71 0.4 0 1","seedsround","1 0 0 1",false,3);
+SeedDatablocks("Blueberry","0.71 0.4 0 1","seedsround","0.24 0.12 0.487 1",false,3);
 SeedDatablocks("Cabbage","0.2 0.1 0 1","seedsShort","0 0.4 0.2 1",false,3);
 SeedDatablocks("Cactus","0.08 0.08 0.08 1","seedsFlat","0.329 0.419 0.184 1",false,2);
 SeedDatablocks("Chili","0.95 0.85 0 1","seedsShort","0.9 0 0 1",false,4);
