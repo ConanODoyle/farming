@@ -1,6 +1,6 @@
 	
 //Weed chance
-$WeedBaseChance = 0.003;
+$WeedBaseChance = 0.001;
 $WeedFertModifier = 0.00005;
 $WeedSpawnTickTime = 5;
 $WeedSearchRadius = 1;
