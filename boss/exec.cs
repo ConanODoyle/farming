@@ -1,0 +1,1 @@
+exec("./npc/dialogue.cs");
