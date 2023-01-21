@@ -133,7 +133,7 @@ $obj = new ScriptObject(NutrientDialogue)
 	messageTimeout[0] = 2;
 	message[1] = "If you got yourself an Organic Analyzer, you can use it to see what they need. They draw nutrients from the soil they're on.";
 	messageTimeout[1] = 2;
-	message[2] = "Nitrogen comes from compost, which you can buy right here, while phosphate can be mined from the phosphate mines.";
+	message[2] = "Nitrogen comes from compost, which you can buy upstairs, while phosphate can be mined from the phosphate mines.";
 	messageTimeout[2] = 2;
 	message[3] = "In addition, flowers add nutrients to the soil they're growing on. Make sure to pick them before they wilt though!";
 	messageTimeout[3] = 2;
@@ -142,11 +142,13 @@ $BasicDialogueSet.add($obj);
 
 $obj = new ScriptObject(ShovelDialogue)
 {
-	messageCount = 2;
+	messageCount = 3;
 	message[0] = "With shovels, you can retrieve nutrients from soil. Some of it will be lost though!";
 	messageTimeout[0] = 2;
 	message[1] = "You can use an organic analyzer to detect what nutrients, and how much, are in the soil.";
 	messageTimeout[1] = 2;
+	message[2] = "You can buy shovels at the tool store!";
+	messageTimeout[2] = 2;
 };
 $BasicDialogueSet.add($obj);
 
