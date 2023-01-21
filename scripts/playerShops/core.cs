@@ -144,7 +144,8 @@ package PlayerShops
 
 	function serverCmdSuperShiftBrick(%cl, %x, %y, %z)
 	{
-		if (%cl.isInCenterprintMenu && %cl.centerprintMenu.brick.storageObj.getDatablock().isShop && %cl.centerprintMenu == %cl.centerprintMenu.brick.shopStorageMenu && %z != 0) {
+		if (%cl.isInCenterprintMenu && isObject(%cl.centerprintMenu.brick.storageObj) && %cl.centerprintMenu.brick.storageObj.getDatablock().isShop 
+			&& %cl.centerprintMenu == %cl.centerprintMenu.brick.shopStorageMenu && %z != 0) {
 			%delta = ((%z > 0) ? 1 : -1) * 10;
 			%storageField = %cl.currOption + 1;
 			%brick = %cl.centerprintMenu.brick;
