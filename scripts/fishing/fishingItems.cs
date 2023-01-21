@@ -1,3 +1,10 @@
+//rods have the following qualities:
+//	quality of hook
+//	avg time to bite
+//	cast distance
+//	reel timing forgiveness
+//	durability
+
 datablock ItemData(FishingPole1Item : HammerItem)
 {
 	iconName = "";
@@ -24,10 +31,14 @@ datablock ShapeBaseImageData(FishingPole1Image : TrowelImage)
 	emap = true;
 	armReady = true;
 
+	className = "FishingPoleImage";
+
 	item = FishingPole1Item;
 	doColorShift = true;
 	colorShiftColor = FishingPole1Item.colorShiftColor;
 	rotation = eulerToMatrix("-50 0 0");
+
+	fishingRange = 30;
 
 	areaHarvest = 2;
 	stateTimeoutValue[2] = 0.4;
@@ -35,23 +46,69 @@ datablock ShapeBaseImageData(FishingPole1Image : TrowelImage)
 	toolTip = "Fish in designated fishing zones";
 };
 
-function FishingPole1Image::onReady(%this, %obj, %slot)
+function FishingPoleImage::onReady(%this, %obj, %slot)
 {
 	if (isObject(%cl = %obj.client))
 	{
 		%durability = getDurability(%img, %obj, %slot);
 
-		%statTrak = %obj.getToolStatTrak();
-		if (%statTrak !$= "")
-		{
-			%string = "\c4" @ %statTrak @ " ";
-		}
-
-		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n" @ %string, 1);
+		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " ", 1);
 	}
 }
 
-function FishingPole1Image::onFire(%this, %obj, %slot)
+function FishingPoleImage::onMount(%this, %obj, %slot)
 {
-	%obj.playThread(0, plant);
+	if (isObject(%obj.bobber))
+	{
+		cleanupBobber(%obj.bobber);
+	}
+}
+
+function FishingPoleImage::onUnmount(%this, %obj, %slot)
+{
+	if (isObject(%obj.bobber))
+	{
+		cleanupBobber(%obj.bobber);
+	}
+}
+
+function FishingPoleImage::onFire(%this, %obj, %slot)
+{
+	if (!isObject(%obj.bobber))
+	{
+		castFishingLine(%this, %obj, %slot);
+	}
+	else
+	{
+		reelFishingLine(%this, %obj, %slot);
+	}
+}
+
+function reelFishingLine(%this, %obj, %slot)
+{
+	if (!isObject(%obj.bobber))
+	{
+		return;
+	}
+	%obj.playThread(2, shiftUp);
+
+	reelBobber(%obj.bobber);
+}
+
+function castFishingLine(%this, %obj, %slot)
+{
+	if (isObject(%obj.bobber))
+	{
+		return;
+	}
+
+	%dist = vectorScale(%obj.getEyeVector(), %this.fishingRange);
+	%start = %obj.getEyeTransform();
+	%end = vectorAdd(%start, %dist);
+	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickAlwaysObjectType);
+	if (isObject(%hit = getWord(%ray, 0)) && %hit.dataBlock.isFishingSpot)
+	{
+		startFish(%obj, %hit, getWords(%ray, 1, 3), %this.fishingRange);
+	}
+	%obj.playThread(2, shiftUp);
 }

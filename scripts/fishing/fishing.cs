@@ -53,7 +53,6 @@ datablock fxDTSBrickData(brickFishingSpotData : brick8x8fData)
 
 function brickFishingSpotData::onAdd(%this, %obj)
 {
-	talk("Adding " @ %obj);
 	$FishingSimSet.add(%obj);
 }
 
@@ -176,13 +175,49 @@ function bobberCheck(%bobber)
 	{
 		%bobber.line = new StaticShape(FishingLine){ dataBlock = FishingLineShape; };
 	}
-	%bobber.line.drawLine(%bobber.getSlotTransform(2), %bobber.player.getMuzzlePoint(0), "0 0 0 1", 0.5);
+	if (isObject(%bobber.getMountedObject(0)))
+	{
+		%pos = %bobber.getMountedObject(0).getTransform();
+	}
+	else
+	{
+		%pos = %bobber.getSlotTransform(2);
+	}
+	%bobber.line.drawLine(%pos, %bobber.player.getMuzzlePoint(0), "0 0 0 1", 0.8);
 	%dist = vectorDist(%bobber.position, %bobber.player.position);
-	%bobber.line.setScale(setWord(%bobber.line.scale, 2, %dist / 200));
+	// %bobber.line.setScale(setWord(%bobber.line.scale, 2, %dist / 200));
+
+	%start = %bobber.position;
+	%end = %bobber.player.getMuzzlePoint(0);
+	%hit = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
+	if (isObject(%hit))
+	{
+		%bobber.LOSBlockedCount++;
+	}
+	else
+	{
+		%bobber.LOSBlockedCount = 0;
+	}
+
+	if (%bobber.LOSBlockedCount > 100)
+	{
+		messageClient(%bobber.player.client, '', "Fishing line broken - make sure your fishing line isn't blocked by bricks!");
+		cleanupBobber(%bobber);
+	}
+	if (%dist > %bobber.maxDistance)
+	{
+		messageClient(%bobber.player.client, '', "Fishing line broken - you walked too far away!");
+		cleanupBobber(%bobber);
+	}
+}
+
+function reelBobber(%bobber)
+{
+	cleanupBobber(%bobber);
 	return;
 }
 
-function startFish(%player, %brick, %hitPos)
+function startFish(%player, %brick, %hitPos, %lineDist)
 {
 	if (isObject(%player.bobber) || !%brick.dataBlock.isFishingSpot)
 	{
@@ -195,10 +230,11 @@ function startFish(%player, %brick, %hitPos)
 
 	%bobberPos = setWord(%hitPos, 2, getWord(%brick.position, 2) - %brick.dataBlock.brickSizeZ * 0.1);
 
-	%player.bobber = %bobber = createBobber(%bobberPos, getWords(%player.getTransform(), 3, 6));
+	%player.bobber = %player.boober = %bobber = createBobber(%bobberPos, getWords(%player.getTransform(), 3, 6));
 	%bobber.player = %player;
+	%bobber.fishingSpot = %brick;
 	%bobber.setNodeColor("bobberTop", setWord(getColorIDTable(%player.client.currentColor), 3, 1));
 	%bobber.sourcePlayer = %player;
-	%bobber.maxDistance = vectorDist(%player.position, %bobber.position) + 20;
+	%bobber.maxDistance = %lineDist + 20;
 	$FishingSimSet.add(%player.bobber);
 }
