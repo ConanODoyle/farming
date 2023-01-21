@@ -38,6 +38,7 @@ datablock ShapeBaseImageData(PlanterImage)
 	stateScript[1] = "onLoop";
 	stateTransitionOnTriggerDown[1] = "Fire";
 	stateTimeoutValue[1] = 0.1;
+	stateWaitForTimeout[1] = 0;
 	stateTransitionOnTimeout[1] = "LoopB";
 	stateWaitForTimeout[1] = false;
 
@@ -45,6 +46,7 @@ datablock ShapeBaseImageData(PlanterImage)
 	stateScript[2] = "onLoop";
 	stateTransitionOnTriggerDown[2] = "Fire";
 	stateTimeoutValue[2] = 0.1;
+	stateWaitForTimeout[2] = 0;
 	stateTransitionOnTimeout[2] = "LoopA";
 
 	stateName[3] = "Fire";
@@ -95,12 +97,14 @@ datablock ShapeBaseImageData(PlanterV2Image)
 	stateScript[1] = "onLoop";
 	stateTransitionOnTriggerDown[1] = "Fire";
 	stateTimeoutValue[1] = 0.1;
+	stateWaitForTimeout[1] = 0;
 	stateTransitionOnTimeout[1] = "LoopB";
 
 	stateName[2] = "LoopB";
 	stateScript[2] = "onLoop";
 	stateTransitionOnTriggerDown[2] = "Fire";
 	stateTimeoutValue[2] = 0.1;
+	stateWaitForTimeout[2] = 0;
 	stateTransitionOnTimeout[2] = "LoopA";
 
 	stateName[3] = "Fire";

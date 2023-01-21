@@ -40,6 +40,7 @@ datablock ShapeBaseImageData(ReclaimerImage)
 	stateName[1] = "Ready";
 	stateTransitionOnTimeout[1] = "Ready2";
 	stateTimeoutValue[1] = 0.2;
+	stateWaitForTimeout[1] = 0;
 	stateScript[1] = "onReady";
 	stateTransitionOnTriggerDown[1] = "Fire";
 	
@@ -52,6 +53,7 @@ datablock ShapeBaseImageData(ReclaimerImage)
 	stateName[3] = "Ready2";
 	stateTransitionOnTimeout[3] = "Ready";
 	stateTimeoutValue[3] = 0.2;
+	stateWaitForTimeout[3] = 0;
 	stateScript[3] = "onReady";
 	stateTransitionOnTriggerDown[3] = "Fire";
 };

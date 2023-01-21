@@ -40,6 +40,7 @@ datablock ShapeBaseImageData(WateringCanImage)
 	stateName[1] = "Ready";
 	stateTransitionOnTimeout[1] = "Ready2";
 	stateTimeoutValue[1] = 0.2;
+	stateWaitForTimeout[1] = 0;
 	stateScript[1] = "onReady";
 	stateTransitionOnTriggerDown[1] = "Fire";
 	stateWaitForTimeout[1] = false;
@@ -59,6 +60,7 @@ datablock ShapeBaseImageData(WateringCanImage)
 	stateName[4] = "Ready2";
 	stateTransitionOnTimeout[4] = "Ready";
 	stateTimeoutValue[4] = 0.2;
+	stateWaitForTimeout[4] = 0;
 	stateScript[4] = "onReady";
 	stateTransitionOnTriggerDown[4] = "Fire";
 	stateWaitForTimeout[4] = false;

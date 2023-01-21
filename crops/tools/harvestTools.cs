@@ -41,6 +41,7 @@ datablock ShapeBaseImageData(TrowelImage)
 
 	stateName[1] = "Ready";
 	stateTransitionOnTimeout[1] = "Ready2";
+	stateWaitForTimeout[1] = 0;
 	stateTimeoutValue[1] = 0.2;
 	stateScript[1] = "onReady";
 	stateTransitionOnTriggerDown[1] = "Fire";
@@ -59,6 +60,7 @@ datablock ShapeBaseImageData(TrowelImage)
 
 	stateName[4] = "Ready2";
 	stateTransitionOnTimeout[4] = "Ready";
+	stateWaitForTimeout[4] = 0;
 	stateTimeoutValue[4] = 0.2;
 	stateScript[4] = "onReady";
 	stateTransitionOnTriggerDown[4] = "Fire";
