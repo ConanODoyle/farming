@@ -62,6 +62,7 @@ exec("./util/stackTypeCheck.cs");
 exec("./util/stuck.cs");
 exec("./util/world.cs");
 exec("./util/vehicleRecovery.cs");
+exec("./util/hasItem.cs");
 
 echo("");
 echo("");
