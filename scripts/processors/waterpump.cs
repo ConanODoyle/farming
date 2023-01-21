@@ -21,7 +21,7 @@ datablock fxDTSBrickData(brickMediumPumpData)
 	isPoweredProcessor = 1;
 	energyUse = 2;
 	pumpPowerMod = 2;
-	baseRate = 100;
+	baseRate = 150;
 	pumpRate = 50;
 	maxRate = 4;
 	powerFunction = "pumpWater";
@@ -53,9 +53,9 @@ datablock fxDTSBrickData(brickLargePumpData)
 	placerItem = "LargePumpItem";
 	callOnActivate = 1;
 	isPoweredProcessor = 1;
-	energyUse = 3;
+	energyUse = 4;
 	pumpPowerMod = 2;
-	baseRate = 150;
+	baseRate = 200;
 	pumpRate = 100;
 	maxRate = 6;
 	powerFunction = "pumpWater";
