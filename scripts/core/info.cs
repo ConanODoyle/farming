@@ -19,9 +19,9 @@ function serverCmdGiveMoney(%cl, %amount, %t1, %t2, %t3, %t4)
 		messageClient(%cl, '', "Cannot find recipient! They need to be alive and nearby.");
 		return;
 	}
-	else if (mFloor(%amount * 10) < 1)
+	else if (mFloor(%amount * 100) < 1)
 	{
-		messageClient(%cl, '', "You cannot give less than $0.10!");
+		messageClient(%cl, '', "You cannot give less than $0.01!");
 		return;
 	}
 	else if (mFloor(%amount * 10) / 10 > 10000)

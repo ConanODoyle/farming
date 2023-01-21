@@ -183,7 +183,7 @@ function bobberCheck(%bobber)
 	{
 		%pos = %bobber.getSlotTransform(2);
 	}
-	%bobber.line.drawLine(%pos, %bobber.player.getMuzzlePoint(0), "0 0 0 1", 0.8);
+	%bobber.line.drawLine(%pos, %bobber.player.getMuzzlePoint(0), "1 1 1 1", 0.8);
 	%dist = vectorDist(%bobber.position, %bobber.player.position);
 	// %bobber.line.setScale(setWord(%bobber.line.scale, 2, %dist / 200));
 
