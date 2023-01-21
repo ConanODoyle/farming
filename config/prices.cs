@@ -71,9 +71,9 @@ $BuyCost_["Planter_Box"] = 300;
 //Electrical
 $BuyCost_["Coal_Generator"] = 600;
 $BuyCost_["Power_Control_Box"] = 400;
+
 $BuyCost_["Battery"] = 300;
 $BuyCost_["Indoor_Light_DASH_2x6"] = 200;
-
 $BuyCost_["Medium_Tank_Pump"] = 2000;
 $BuyCost_["Large_Tank_Pump"] = 3500;
 

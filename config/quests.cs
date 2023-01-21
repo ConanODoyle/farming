@@ -389,7 +389,7 @@ new ScriptObject(BasicElectricQuestType) {
 	class = "QuestType";
 	questWeight = 20;
 
-	maxBudget = 2000;
+	maxBudget = 3000;
 
 	rewardsItems = true;
 	rewardTable = BasicElectricQuestRewards;
@@ -400,7 +400,7 @@ new ScriptObject(BasicElectricQuestType) {
 
 	requestTable = RareRequests;
 	budgetPerRequestItem = 250;
-	maxRequestItems = 5;
+	maxRequestItems = 3;
 };
 
 new ScriptObject(AdvancedElectricQuestType) {
