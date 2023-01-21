@@ -286,11 +286,6 @@ function DialogueData::enterDialogue(%dataObj, %dialogueObject)
 		cancel(%dataObj.timeoutSched);
 		%dataObj.timeoutSched = %dataObj.schedule(%talkTime * 1000, enterDialogue, %dialogueObject.dialogueTransitionOnTimeout);
 	}
-	else if (!%dialogueObject.waitForResponse) //no responses, no transition on timeout - final state. exit.
-	{
-		//schedule the delete so messages can be canceled
-		%dataObj.schedule(%talkTime * 1000, delete);
-	}
 }
 
 function DialogueData::getResponseObject(%dataObj, %responseKey)
