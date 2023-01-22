@@ -198,6 +198,11 @@ function GameConnection::buyLicense(%cl, %type)
 function getLicenseCost(%type)
 {
 	%type = strLwr(trim(%type));
+	if (strLen(%type) < 5)
+	{
+		return 0;
+	}
+
 	if (getSubStr(%type, strLen(%type) - 4, 4) $= "seed")
 	{
 		%type = getSubStr(%type, 0, strLen(%type) - 4);

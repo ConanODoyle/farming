@@ -946,7 +946,7 @@ function disconnectFromControlBox(%brick, %controlBox)
 	{
 		error("ERROR: disconnectFromControlBox - parameters incorrect! (" @ %brick SPC %controlBox @ ")");
 		talk("ERROR: disconnectFromControlBox - parameters incorrect! (" @ %brick SPC %controlBox @ ")");
-		return -1;	
+		return -1;
 	}
 
 	if (%brick.getName() $= "" || %controlBox.getName() $= "")
@@ -995,6 +995,10 @@ function drawControlNetwork(%PowerDataID, %simSet, %focusObj)
 	}
 
 	%controlBox = getDataIDArrayTagValue(%PowerDataID, "powerControlBox");
+	if (!isObject(%controlBox))
+	{
+		return;
+	}
 	%controlBoxPos = vectorAdd("0 0 " @ (%controlBox.getDatablock().brickSizeZ * 0.1), %controlBox.getPosition());
 
 	if (isObject(%focusPower) && isObject(%controlBox))
