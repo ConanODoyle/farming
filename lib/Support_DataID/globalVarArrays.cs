@@ -68,6 +68,14 @@ function deleteDataIDArray(%aid)
 {
 	if ($DataIDDebug) talk("deleteDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
+
+	if(%aid $= "")
+	{
+		talk("DATAID ERROR: deleteDataIDArray has empty %aid, check backtrace");
+		backTrace();
+		return;
+	}
+	
 	deleteVariables("$DataID_" @ %aid @ "_*");
 	$executedDataID[%aid] = 0;
 	deleteVariables("$executedDataID" @ %aid);
@@ -331,6 +339,14 @@ function clearDataIDArray(%aid)
 {
 	if ($DataIDDebug) talk("clearDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
+
+	if(%aid $= "")
+	{
+		talk("DATAID ERROR: clearDataIDArray has empty %aid, check backtrace");
+		backTrace();
+		return;
+	}
+
 	deleteVariables("$DataID_" @ %aid @ "_*");
 	$executedDataID[%aid] = 0;
 	deleteVariables("$executedDataID" @ %aid);
