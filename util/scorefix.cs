@@ -21,5 +21,20 @@ function GameConnection::checkMoney(%cl, %money)
 function GameConnection::getMoney(%cl)
 {
 	%money = %cl.score;
-	return getSubStr(%money, 0, strLen(%money) - 2) @ "." @ getSubStr(%money, strLen(%money) - 2, 2);
+	%len = strLen(%money);
+	%dollar = "0";
+	%cent = %money;
+	if(%len == 1)
+	{
+		%cent = "0" @ %money;
+	}
+	if(%len >= 2)
+	{
+		%cent = getSubStr(%money, %len - 2, 2);
+	}
+	if(%len > 2)
+	{
+		%dollar = getSubStr(%money, 0, %len - 2);
+	}
+	return %dollar @ "." @ %cent;
 }
