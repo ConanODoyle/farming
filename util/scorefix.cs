@@ -14,6 +14,7 @@ function GameConnection::subMoney(%cl, %money)
 //returns 1 if has enough, 0 if not. $5.50 == 5.5
 function GameConnection::checkMoney(%cl, %money)
 {
+	%money = (%money * 100) | 0;
 	return aGreaterThanOrEqualTob(%cl.score, %money);
 }
 
