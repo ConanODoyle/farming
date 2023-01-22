@@ -6,9 +6,9 @@ if (!isObject(RainFillSimSet))
 	$RainFillSimSet = new SimSet(RainFillSimSet){ };
 }
 
-$rainChance = 0.0012;
+$rainChance = 0.0017;
 $noRainModifier = 0.0001;
-$heatWaveChance = 0.0025;
+$heatWaveChance = 0.0032;
 $heatWaveRainReduction = 0.0005;
 
 function rainCheckLoop()
