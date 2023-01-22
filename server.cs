@@ -90,6 +90,8 @@ exec("./audio/audio.cs");
 exec("./growParticles.cs");
 exec("./harvestParticles.cs");
 
+// The Harvester
+exec("./boss/exec.cs");
 
 echo("");
 echo("");
