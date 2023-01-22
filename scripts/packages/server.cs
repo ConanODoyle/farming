@@ -182,7 +182,7 @@ function openPackage(%packageID, %player)
     }
 
     %cashReward = getDataIDArrayTagValue(%packageID, "cashReward");
-    %client.incScore(%cashReward);
+    %client.addMoney(%cashReward);
     deleteDataIDArray(%packageID);
 }
 

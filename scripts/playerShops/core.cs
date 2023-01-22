@@ -483,7 +483,7 @@ function removeMoney(%cl, %menu, %option)
 
 	setDataIDArrayTagValue(%dataID, "moneyStored", 0);
 
-	%cl.incScore(%moneyStored);
+	%cl.addMoney(%moneyStored);
 	setDataIDArrayTagValue(%dataID, "lastWithdrawer", %cl.name SPC "(BL_ID " @ %cl.bl_id @ ")");
 
 	%brick.updateShopMenus();

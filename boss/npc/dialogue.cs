@@ -178,7 +178,8 @@ function wandererRepairResponseParser(%dataObj, %message)
 		%word = " " @ getField(%yes, %i) @ " ";
 		if (strPos(%lwr, %word) >= 0)
 		{
-			if(%player.client.score < %dataObj.var_keyRepairPrice || %player.client.farmingExperience < %dataObj.var_keyRepairEXPPrice)
+			%client = %player.client;
+			if(!%client.checkMoney(%dataObj.var_keyRepairPrice) || %client.farmingExperience < %dataObj.var_keyRepairEXPPrice)
 			{
 				return "RequirementsNotMet";
 			}
