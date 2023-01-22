@@ -172,9 +172,10 @@ function GameConnection::buyLicense(%cl, %type)
 	{
 		return 1;
 	}
-	if (getSubStr(%type, strLen(%type) - 4, 4) $= "seed")
+	
+	if (getWord(%type,1) $= "seed")
 	{
-		%type = getSubStr(%type, strLen(%type) - 4);
+		%type = getWord(%type,0);
 	}
 
 	%price = getPlantData(%type, 0, "licenseCost");
@@ -198,16 +199,11 @@ function GameConnection::buyLicense(%cl, %type)
 function getLicenseCost(%type)
 {
 	%type = strLwr(trim(%type));
-	if (strLen(%type) < 5)
+	if (getWord(%type,1) $= "seed")
 	{
-		return 0;
-	}
-
-	if (getSubStr(%type, strLen(%type) - 4, 4) $= "seed")
-	{
-		%type = getSubStr(%type, 0, strLen(%type) - 4);
+		%type = getWord(%type,0);
 	}
 	
-	%price = getPlantData(%type, "licenseCost");
+	%price = getPlantData(%type, 0, "licenseCost");
 	return %price + 0;
 }
