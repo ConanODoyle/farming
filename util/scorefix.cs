@@ -21,17 +21,23 @@ function GameConnection::checkMoney(%cl, %money)
 function GameConnection::getMoney(%cl)
 {
 	%money = %cl.score;
+	if(%money $= "")
+	{
+		return "0.00";
+	}
+
 	%len = strLen(%money);
-	%dollar = "0";
-	%cent = %money;
 	if(%len == 1)
 	{
-		%cent = "0" @ %money;
+		return "0.0" @ %money;
 	}
-	if(%len >= 2)
+
+	if(%len > 1)
 	{
 		%cent = getSubStr(%money, %len - 2, 2);
 	}
+
+	%dollar = "0";
 	if(%len > 2)
 	{
 		%dollar = getSubStr(%money, 0, %len - 2);
