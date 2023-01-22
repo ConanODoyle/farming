@@ -320,7 +320,9 @@ function fertilizeDirt(%img, %obj, %slot)
 	if (%brickDB.isDirt)
 	{
 		%nutrients = %brick.getNutrients();
-		if (getWord(%nutrients, 0) + getWord(%nutrients, 1) >= %brickDB.maxNutrients)
+		%canAddNit = (%img.fertilizerNitrogen + 0) != 0 && getWord(%nutrients, 0) < %brickDB.maxNutrients;
+		%canAddPho = (%img.fertilizerPhosphate + 0) != 0 && getWord(%nutrients, 1) < %brickDB.maxNutrients;
+		if (!%canAddNit && !%canAddPho)
 		{
 			messageClient(%cl, '', "Nutrients are maxed out! Use a shovel to remove and recover some nutrients.");
 			return;

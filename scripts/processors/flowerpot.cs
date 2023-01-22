@@ -15,7 +15,7 @@ datablock fxDTSBrickData(brickFlowerPotData : brick1x1Data)
 	cost = 0;
 	isDirt = 1;
 	maxWater = 30;
-	maxNutrients = 100;
+	maxNutrients = 50;
 	maxWeedkiller = 80;
 	isPot = 1;
 	customRadius = -1.05;
