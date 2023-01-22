@@ -549,14 +549,14 @@ function buyUnit(%cl, %menu, %option)
 	%storageCount = getField(%entry, 2);
 	if (%dataBlock.isStackable)
 	{
-		%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.stackType @ "Price");
+		%price = getDataIDArrayTagValue(%dataID, %dataBlock.stackType @ "Price");
 	}
 	else
 	{
-		%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
+		%price = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
 	}
 
-	if (%cl.subMoney(%price))
+	if (!%cl.checkMoney(%price))
 	{
 		messageClient(%cl, '', "You can't afford this!", 1);
 
@@ -566,7 +566,7 @@ function buyUnit(%cl, %menu, %option)
 		return;
 	}
 
-	%cl.incScore(-%price);
+	%cl.subMoney(%price);
 	purchasedMessageSchedule(%cl, %dataBlock, %displayName, 1, %price);
 	%brick.storeMoney(%price);
 
