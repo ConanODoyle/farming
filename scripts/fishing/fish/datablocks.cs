@@ -28,6 +28,7 @@ function DataString_FishImage(%uiname,%imageName,%itemName,%shape)
 		@"className = \"FishImage\";"
 		@"shapeFile = \"" @ %shape @ "\";"
 		@"emap = true;"
+		@"offset = \"-0.53 0.2 0\";"
 		@"doColorShift = false;"
 		@"colorShiftColor = \"1 1 1 1\";"
 		@"item = \"" @ %itemName @ "\";"
@@ -71,6 +72,11 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 		eval(DataString_FishItem(%uiname,%safeName,%itemName,%imageName,%shape));
 		eval(DataString_FishImage(%uiname,%imageName,%itemName,%shape));
 	}
+}
+
+function FishImage::onMount(%this, %obj, %slot)
+{
+	%obj.playThread(1, armReadyBoth);
 }
 
 FishDatablocks("Sardine","Sardine",4);
