@@ -160,16 +160,17 @@ package FishingPackage
 };
 activatePackage(FishingPackage);
 
-function createBobber(%pos, %rotation)
+function createBobber(%transform, %velocity)
 {
-	%shape = new StaticShape(Bobber)
+	%item = new Item(Bobber)
 	{
-		dataBlock = BobberShape;
+		dataBlock = BobberItem;
 		isBobber = 1;
 	};
-	%shape.setTransform(%pos SPC %rotation);
-	%shape.playThread(0, idle);
-	return %shape;
+	%item.setTransform(%transform);
+	%item.playThread(0, idle);
+	%item.setVelocity(%velocity);
+	return %item;
 }
 
 function cleanupBobber(%bobber)
@@ -195,16 +196,20 @@ function bobberCheck(%bobber)
 	}
 	%start = %bobber.player.getMuzzlePoint(0);
 	%end = %pos;
+	%color = setWord(getColorIDTable(%bobber.player.client.currentColor), 3, 1);
 	%bobber.line.drawLine(%pos, %bobber.player.getMuzzlePoint(0), "1 1 1 1", 0.8);
+	%bobber.setNodeColor("bobberTop", %color);
 
 	%dir = vectorNormalize(vectorSub(%end, %start));
 	%right = vectorNormalize(vectorCross(%dir, "0 0 -1"));
 	%up = vectorCross(%dir, %right);
 	%rot = relativeVectorToRotation(%right, %up);
 	%bobber.line.setTransform(%bobber.line.position SPC %rot);
-	%dist = vectorDist(%bobber.position, %bobber.player.position);
 	// %bobber.line.setScale(setWord(%bobber.line.scale, 2, %dist / 200));
 
+	%bobber.setVelocity(vectorAdd(%bobber.getVelocity(), "0 0 0.01"));
+
+	%dist = vectorDist(%bobber.position, %bobber.player.position);
 	%start = %bobber.position;
 	%end = %bobber.player.getMuzzlePoint(0);
 	%hit = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
@@ -237,7 +242,7 @@ function reelBobber(%bobber)
 
 function startFish(%player, %brick, %hitPos, %lineDist)
 {
-	if (isObject(%player.bobber) || !%brick.dataBlock.isFishingSpot)
+	if (isObject(%player.bobber))
 	{
 		if (isObject(%player.bobber))
 		{
@@ -247,8 +252,11 @@ function startFish(%player, %brick, %hitPos, %lineDist)
 	}
 
 	%bobberPos = setWord(%hitPos, 2, getWord(%brick.position, 2) - %brick.dataBlock.brickSizeZ * 0.1);
+	%bobberPos = %player.getMuzzlePoint(0) SPC getWords(%player.getTransform(), 3, 6);
+	%velocity = vectorScale(%player.getEyeVector(), 15);
+	%velocity = vectorAdd(%velocity, vectorScale(%player.getVelocity(), 0.5));
 
-	%player.bobber = %player.boober = %bobber = createBobber(%bobberPos, getWords(%player.getTransform(), 3, 6));
+	%player.bobber = %player.boober = %bobber = createBobber(%bobberPos, %velocity);
 	%bobber.player = %player;
 	%bobber.fishingSpot = %brick;
 	%bobber.setNodeColor("bobberTop", setWord(getColorIDTable(%player.client.currentColor), 3, 1));

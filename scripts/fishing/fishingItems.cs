@@ -101,14 +101,6 @@ function castFishingLine(%this, %obj, %slot)
 	{
 		return;
 	}
-
-	%dist = vectorScale(%obj.getEyeVector(), %this.fishingRange);
-	%start = %obj.getEyeTransform();
-	%end = vectorAdd(%start, %dist);
-	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickAlwaysObjectType);
-	if (isObject(%hit = getWord(%ray, 0)) && %hit.dataBlock.isFishingSpot)
-	{
-		startFish(%obj, %hit, getWords(%ray, 1, 3), %this.fishingRange);
-	}
+	startFish(%obj, %hit, getWords(%ray, 1, 3), %this.fishingRange);
 	%obj.playThread(2, shiftDown);
 }
