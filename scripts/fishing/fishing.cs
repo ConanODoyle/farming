@@ -34,7 +34,7 @@ if (!isObject(FishingSimSet))
 
 datablock ItemData(BobberItem : HammerItem)
 {
-	shapeFile = "./fishingpole/bobber.dts");
+	shapeFile = "./fishingpole/bobber.dts";
 	uiName = "";
 	colorShiftColor = "1 1 1 1";
 	doColorShift = 0;
