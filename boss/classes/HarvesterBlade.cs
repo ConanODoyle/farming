@@ -255,9 +255,9 @@ datablock ParticleEmitterData(HarvesterBladeEnergyEmitter)
 	phiVariance = 360.0;
 };
 
-//------------------------//
-// Blade Equip Explosion: //
-//------------------------//
+//--------------//
+// Blade Equip: //
+//--------------//
 
 datablock ExplosionData(HarvesterBladeEquipExplosion)
 {
@@ -285,6 +285,36 @@ datablock ProjectileData(HarvesterBladeEquipProjectile)
 	//------------//
 	
 	explosion = HarvesterBladeEquipExplosion;
+
+	explodeOnDeath = true;
+};
+
+//---------------//
+// Blade Recoil: //
+//---------------//
+
+datablock ExplosionData(HarvesterBladeRecoilExplosion)
+{	
+	//-------------//
+	// Properties: //
+	//-------------//
+
+	lifeTimeMS = 150;
+	
+	shakeCamera = true;
+	camShakeFreq = "1.0 1.0 1.0";
+	camShakeAmp = "2.0 4.2 2.0";
+	camShakeDuration = 0.7;
+	camShakeRadius = 11.0;
+};
+
+datablock ProjectileData(HarvesterBladeRecoilProjectile)
+{
+	//------------//
+	// Explosion: //
+	//------------//
+	
+	explosion = HarvesterBladeRecoilExplosion;
 
 	explodeOnDeath = true;
 };
@@ -391,7 +421,7 @@ function HarvesterFoldedBladeImage::onActivate(%this, %player, %slot)
 		%effect = new Projectile()
 		{
 			dataBlock = HarvesterBladeEquipProjectile;
-			initialVelocity = "0.0 0.0 1.0";
+			initialVelocity = %player.getMuzzleVector(%slot);
 			initialPosition = %player.getMuzzlePoint(%slot);
 			sourceObject = %player;
 			sourceSlot = %slot;
@@ -546,7 +576,7 @@ function HarvesterBladeImage::onPreReady(%this, %player, %slot)
 		%effect = new Projectile()
 		{
 			dataBlock = HarvesterBladeEquipProjectile;
-			initialVelocity = "0.0 0.0 1.0";
+			initialVelocity = %player.getMuzzleVector(%slot);
 			initialPosition = %player.getMuzzlePoint(%slot);
 			sourceObject = %player;
 			sourceSlot = %slot;
@@ -592,6 +622,43 @@ function HarvesterBladeImage::onFire(%this, %player, %slot)
 {
 	if(%player.getDamagePercent() < 1.0)
 	{
+		%shape = new StaticShape()
+		{
+			dataBlock = HarvesterBladeTrailShape;
+			scale = "12.0 12.0 1.0";
+		};
+
+		if(isObject(%shape))
+		{
+			MissionCleanup.add(%shape);
+
+			%rotation = relativeVectorToRotation(%player.getForwardVector(), %player.getUpVector());
+			
+			%local = %player.getHackPosition() SPC %rotation;
+			%offset = "0.0 1.0 0.4" SPC eulerToQuat("-4.0 180.0 0.0");
+			%actual = matrixMultiply(%local, %offset);
+
+			%shape.setTransform(%actual);
+			%shape.playThread(0, "rotate");
+			%shape.schedule(1000, delete);
+		}
+	
+		%effect = new Projectile()
+		{
+			dataBlock = HarvesterBladeRecoilProjectile;
+			initialVelocity = %player.getMuzzleVector(%slot);
+			initialPosition = %player.getMuzzlePoint(%slot);
+			sourceObject = %player;
+			sourceSlot = %slot;
+			client = %player.client;
+		};
+
+		if(isObject(%effect))
+		{
+			MissionCleanup.add(%effect);
+			%effect.explode();
+		}
+		
 		%player.playThread(0, "sweepAttack");
 		%player.playAudio(1, "HarvesterYellSound" @ getRandom(1, 2));
 		serverPlay3d("HarvesterBladeAttackSound" @ getRandom(1, 2), %player.getMuzzlePoint(%slot));
