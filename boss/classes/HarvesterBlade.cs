@@ -16,6 +16,20 @@ datablock AudioProfile(HarvesterBladeAttackSound2)
 	preload = true;
 };
 
+datablock AudioProfile(HarvesterBladeHitSound1)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/fx/bladeHit1.wav";
+	description = AudioDefault3d;
+	preload = true;
+};
+
+datablock AudioProfile(HarvesterBladeHitSound2)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/fx/bladeHit2.wav";
+	description = AudioDefault3d;
+	preload = true;
+};
+
 //---------------//
 // Blade Trail: //
 //---------------//
@@ -255,6 +269,231 @@ datablock ParticleEmitterData(HarvesterBladeEnergyEmitter)
 	phiVariance = 360.0;
 };
 
+//------------------//
+// Blade Hit Spark: //
+//------------------//
+
+datablock ParticleData(HarvesterBladeHitSparkParticle)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	textureName = $Harvester::Root @ "/resources/particles/hitSpark";
+	
+	useInvAlpha = false;
+	
+	colors[0]	= "1.0 1.0 1.0 1.0";
+	colors[1]	= "1.0 1.0 1.0 1.0";
+
+	sizes[0]	= 1.0;
+	sizes[1]	= 1.75;
+	
+	times[0]	= 0.0;
+	times[1]	= 1.0;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	dragCoefficient = 1.0;
+	gravityCoefficient = 0.0;
+
+	inheritedVelFactor = 0.0;
+	constantAcceleration = 0.0;
+
+	lifetimeMS = 150;
+	lifetimeVarianceMS = 25;
+
+	spinSpeed = 0.0;
+	spinRandomMin = 0.0;
+	spinRandomMax = 0.0;
+};
+datablock ParticleEmitterData(HarvesterBladeHitSparkEmitter)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	particles = "HarvesterBladeHitSparkParticle";
+	
+	overrideAdvance = false;
+	useEmitterColors = false;
+	
+	orientParticles = true;
+	orientOnVelocity = true;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	ejectionPeriodMS = 14;
+	periodVarianceMS = 0;
+	
+	ejectionVelocity = 30.0;
+	velocityVariance = 4.0;
+	
+	ejectionOffset = 0.2;
+	
+	thetaMin = 0.0;
+	thetaMax = 45.0;
+	
+	phiReferenceVel = 0.0;
+	phiVariance = 360.0;
+};
+
+//-------------------//
+// Blade Hit Sparks: //
+//-------------------//
+
+datablock ParticleData(HarvesterBladeHitSparksParticle)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	textureName = $Harvester::Root @ "/resources/particles/pSpark";
+	
+	useInvAlpha = false;
+	
+	colors[0]	= "1.0 0.9 0.8 1.0";
+	colors[1]	= "1.0 0.4 0.3 1.0";
+	colors[2]	= "1.0 0.1 0.1 1.0";
+	colors[3]	= "1.0 0.1 0.0 1.0";
+
+	sizes[0]	= 0.0;
+	sizes[1]	= 1.3;
+	sizes[2]	= 0.8;
+	sizes[3]	= 0.0;
+	
+	times[0]	= 0.0;
+	times[1]	= 0.1;
+	times[2]	= 0.8;
+	times[3]	= 1.0;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	dragCoefficient = 1.0;
+	gravityCoefficient = 2.0;
+
+	inheritedVelFactor = 0.0;
+	constantAcceleration = 0.0;
+
+	lifetimeMS = 1000;
+	lifetimeVarianceMS = 450;
+
+	spinSpeed = 0.0;
+	spinRandomMin = 0.0;
+	spinRandomMax = 0.0;
+};
+datablock ParticleEmitterData(HarvesterBladeHitSparksEmitter)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	particles = "HarvesterBladeHitSparksParticle";
+	
+	overrideAdvance = false;
+	useEmitterColors = false;
+	
+	orientParticles = true;
+	orientOnVelocity = true;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	ejectionPeriodMS = 9;
+	periodVarianceMS = 3;
+	
+	ejectionVelocity = 22.0;
+	velocityVariance = 7.0;
+	
+	ejectionOffset = 0.7;
+	
+	thetaMin = 0.0;
+	thetaMax = 35.0;
+	
+	phiReferenceVel = 0.0;
+	phiVariance = 360.0;
+};
+
+//------------------//
+// Blade Hit Spark: //
+//------------------//
+
+datablock ParticleData(HarvesterBladeHitShockParticle)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	textureName = $Harvester::Root @ "/resources/particles/shock";
+	
+	useInvAlpha = false;
+	
+	colors[0]	= "1.0 0.4 0.3 1.0";
+	colors[1]	= "1.0 0.1 0.0 0.0";
+
+	sizes[0]	= 5.0;
+	sizes[1]	= 4.0;
+	
+	times[0]	= 0.0;
+	times[1]	= 1.0;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	dragCoefficient = 3.0;
+	gravityCoefficient = 0.0;
+
+	inheritedVelFactor = 0.0;
+	constantAcceleration = 0.0;
+
+	lifetimeMS = 500;
+	lifetimeVarianceMS = 250;
+
+	spinSpeed = 0.0;
+	spinRandomMin = 0.0;
+	spinRandomMax = 0.0;
+};
+datablock ParticleEmitterData(HarvesterBladeHitShockEmitter)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	particles = "HarvesterBladeHitShockParticle";
+	
+	overrideAdvance = false;
+	useEmitterColors = false;
+	
+	orientParticles = true;
+	orientOnVelocity = true;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	ejectionPeriodMS = 14;
+	periodVarianceMS = 0;
+	
+	ejectionVelocity = 16.0;
+	velocityVariance = 6.0;
+	
+	ejectionOffset = 0.3;
+	
+	thetaMin = 0.0;
+	thetaMax = 90.0;
+	
+	phiReferenceVel = 0.0;
+	phiVariance = 360.0;
+};
+
 //--------------//
 // Blade Equip: //
 //--------------//
@@ -288,6 +527,54 @@ datablock ProjectileData(HarvesterBladeEquipProjectile)
 
 	explodeOnDeath = true;
 };
+
+//------------//
+// Blade Hit: //
+//------------//
+
+datablock ExplosionData(HarvesterBladeHitExplosion)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	emitter[0] = HarvesterBladeHitSparkEmitter;
+	emitter[1] = HarvesterBladeHitSparksEmitter;
+	emitter[2] = HarvesterBladeHitShockEmitter;
+	
+	//-------------//
+	// Properties: //
+	//-------------//
+
+	lifeTimeMS = 150;
+	
+	shakeCamera = true;
+	camShakeFreq = "6.0 6.5 6.0";
+	camShakeAmp = "2.0 4.0 2.0";
+	camShakeDuration = 0.25;
+	camShakeRadius = 6;
+};
+
+datablock ProjectileData(HarvesterBladeHitProjectile)
+{
+	//------------//
+	// Explosion: //
+	//------------//
+	
+	explosion = HarvesterBladeHitExplosion;
+
+	explodeOnDeath = true;
+};
+
+/// @param	this		projectile datablock
+/// @param	projectile	projectile
+/// @param	position	3-element position
+/// @param	fade		number
+function HarvesterBladeHitProjectile::onExplode(%this, %projectile, %position, %fade)
+{
+	Parent::onExplode(%this, %projectile, %position, %fade);
+	serverPlay3d("HarvesterBladeHitSound" @ getRandom(1, 2), %position);
+}
 
 //---------------//
 // Blade Recoil: //
@@ -490,8 +777,66 @@ datablock ShapeBaseImageData(HarvesterBladeImage)
 	// Hitboxes: //
 	//-----------//
 	
-	hitboxCount[0] = 2;
-	hitboxMultiLockout[0] = false;
+	hitboxCount[0] = 4;
+	hitboxMultiLockout[0] = true;
+	hitboxIgnorePitch[0] = true;
+	hitboxIgnoreMuzzlePoint[0] = true;
+	hitboxLimitHits[0] = false;
+	
+	hitboxOffset[0, 0] = "0.0 2.0 1.33";
+	hitboxRadius[0, 0] = 2.0;
+	hitboxIgnoreOcclusion[0, 0] = true;
+	hitboxDamage[0, 0] = $Harvester::Blade::Damage;
+	hitboxDamageType[0, 0] = $DamageType::Direct;
+	hitboxProjectile[0, 0] = HarvesterBladeHitProjectile;
+	hitboxProjectileOnTarget[0, 0] = true;	
+	hitboxVelocity[0, 0] = "0.0 18.0 8.5";
+	hitboxUseMass[0, 0] = true;
+	hitboxCancelVelocity[0, 0] = false;
+	hitboxColor[0, 0] = "0.90 0.10 0.29";
+	hitboxSpawnTime[0, 0] = 0;
+	
+	hitboxOffset[0, 1] = "0.0 4.75 1.22";
+	hitboxRadius[0, 1] = 1.25;
+	hitboxIgnoreOcclusion[0, 1] = true;
+	hitboxDamage[0, 1] = $Harvester::Blade::Damage * 0.75;
+	hitboxDamageType[0, 1] = $DamageType::Direct;
+	hitboxProjectile[0, 1] = HarvesterBladeHitProjectile;
+	hitboxProjectileScale[0, 1] = "0.8 0.8 0.8";
+	hitboxProjectileOnTarget[0, 1] = true;	
+	hitboxVelocity[0, 1] = "0.0 10.0 10.0";
+	hitboxUseMass[0, 1] = true;
+	hitboxCancelVelocity[0, 1] = false;
+	hitboxColor[0, 1] = "0.90 0.10 0.29";
+	hitboxSpawnTime[0, 1] = 0;
+	
+	hitboxOffset[0, 2] = "-2.25 0.5 1.33";
+	hitboxRadius[0, 2] = 1.5;
+	hitboxIgnoreOcclusion[0, 2] = true;
+	hitboxDamage[0, 2] = $Harvester::Blade::Damage * 0.65;
+	hitboxDamageType[0, 2] = $DamageType::Direct;
+	hitboxProjectile[0, 2] = HarvesterBladeHitProjectile;
+	hitboxProjectileScale[0, 2] = "0.7 0.7 0.7";
+	hitboxProjectileOnTarget[0, 2] = true;	
+	hitboxVelocity[0, 2] = "12.0 6.0 10.0";
+	hitboxUseMass[0, 2] = true;
+	hitboxCancelVelocity[0, 2] = false;
+	hitboxColor[0, 2] = "0.90 0.10 0.29";
+	hitboxSpawnTime[0, 2] = 0;
+	
+	hitboxOffset[0, 3] = "2.25 0.5 1.33";
+	hitboxRadius[0, 3] = 1.5;
+	hitboxIgnoreOcclusion[0, 3] = true;
+	hitboxDamage[0, 3] = $Harvester::Blade::Damage * 0.65;
+	hitboxDamageType[0, 3] = $DamageType::Direct;
+	hitboxProjectile[0, 3] = HarvesterBladeHitProjectile;
+	hitboxProjectileScale[0, 3] = "0.7 0.7 0.7";
+	hitboxProjectileOnTarget[0, 3] = true;	
+	hitboxVelocity[0, 3] = "6.0 -8.0 11.0";
+	hitboxUseMass[0, 3] = true;
+	hitboxCancelVelocity[0, 3] = false;
+	hitboxColor[0, 3] = "0.90 0.10 0.29";
+	hitboxSpawnTime[0, 3] = 0;
 	
 	//---------//
 	// States: //
@@ -622,6 +967,8 @@ function HarvesterBladeImage::onFire(%this, %player, %slot)
 {
 	if(%player.getDamagePercent() < 1.0)
 	{
+		%this.spawnHitboxGroup(%player, 0, 0);
+		
 		%shape = new StaticShape()
 		{
 			dataBlock = HarvesterBladeTrailShape;

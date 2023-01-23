@@ -105,7 +105,7 @@ datablock ParticleData(HarvesterSpikeSparkParticle)
 	// Rendering: //
 	//------------//
 	
-	textureName = $Harvester::Root @ "/resources/particles/hitspark";
+	textureName = $Harvester::Root @ "/resources/particles/hitSpark";
 	
 	useInvAlpha = false;
 

@@ -15,7 +15,7 @@ $Harvester::Armor::Avatar::CapeColor = "0.6 0.3 0.2 1.0";
 // Blade: //
 //--------//
 
-$Harvester::Blade::Damage = 50.0;
+$Harvester::Blade::Damage = 70.0;
 
 //-------------//
 // Beam Rifle: //
