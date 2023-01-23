@@ -80,7 +80,7 @@ package shopLotBuild
 	{
 		if (%this.isPlanted && %this.getDatablock().isShopLot)
 		{
-			if (%this.getGroup() != BrickGroup_888888)
+			if (%this.getGroup() != BrickGroup_888888.getid())
 			{
 				%this.getGroup().shopLot = %this;
 			}
@@ -95,7 +95,7 @@ package shopLotBuild
 	{
 		if (%this.isPlanted && %this.getDatablock().isShopLot)
 		{
-			if (%this.getGroup() != BrickGroup_888888)
+			if (%this.getGroup() != BrickGroup_888888.getid())
 			{
 				%this.getGroup().shopLot = "";
 			}
