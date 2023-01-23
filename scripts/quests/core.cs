@@ -491,9 +491,11 @@ package FarmingQuests { // TODO: wow this is dense, let's break this up a little
 						cancel(%hit.closeSchedule);
 						%hit.closeSchedule = %hit.schedule(1000, "setDatablock", %hit.getDatablock());
 						%hit.setDatablock(%hit.getDatablock().openDatablock);
+						serverPlay3D(brickChangeSound, %hit.position);
 					} else if (isObject(%hit.getDatablock().closedDatablock)) {
 						cancel(%hit.closeSchedule);
 						%hit.closeSchedule = %hit.schedule(1000, "setDatablock", %hit.getDatablock().closedDatablock);
+						serverPlay3D(brickChangeSound, %hit.position);
 					}
 				}
 				return;
