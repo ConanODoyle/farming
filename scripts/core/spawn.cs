@@ -26,7 +26,7 @@ package FarmingSpawn
 		}
 		
 		%cl.grantCheck = 1;
-		if ($Farming::ScoreGrant[%cl.bl_id] < 0 && !%cl.checkMoney($startingAmount))
+		if ($Farming::ScoreGrant[%cl.bl_id] <= 0 && !%cl.checkMoney($startingAmount))
 		{
 			$Farming::ScoreGrant[%cl.bl_id] = 1 TAB %cl.name;
 			messageClient(%cl, '', "\c6You received \c2$" @ $startingAmount @ "\c6 to start off with!");
