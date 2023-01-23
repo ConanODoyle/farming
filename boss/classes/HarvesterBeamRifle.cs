@@ -95,6 +95,268 @@ datablock ParticleEmitterData(HarvesterBeamRifleSpinChargeEmitter)
 	phiVariance = 360.0;
 };
 
+//-----------------------------//
+// Beam Rifle Explosion Flare: //
+//-----------------------------//
+
+datablock ParticleData(HarvesterBeamRifleExplosionFlareParticle : HarvesterBombExplosionFlareParticle)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	textureName =  $Harvester::Root @ "/resources/particles/sparkle";
+	
+	colors[0]	= "1.0 0.9 0.9 0.6";
+	colors[1]	= "1.0 0.2 0.2 0.4";
+	colors[2]	= "1.0 0.0 0.0 0.0";
+	
+	sizes[0]	= 18;
+	sizes[1]	= 33;
+};
+datablock ParticleEmitterData(HarvesterBeamRifleExplosionFlareEmitter : HarvesterBombExplosionFlareEmitter)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	particles = "HarvesterBeamRifleExplosionFlareParticle";
+};
+
+//-----------------------//
+// Beam Rifle Explosion: //
+//-----------------------//
+
+datablock ParticleData(HarvesterBeamRifleExplosionParticle : HarvesterBombExplosionParticle)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	colors[0]	= "1.0 1.0 1.0 0.3";
+	colors[1]	= "1.0 0.2 0.2 0.6";
+	colors[2]	= "0.1 0.05 0.025 0.1";
+	colors[3]	= "0.1 0.05 0.025 0.0";
+};
+datablock ParticleEmitterData(HarvesterBeamRifleExplosionEmitter : HarvesterBombExplosionEmitter)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	particles = "HarvesterBeamRifleExplosionParticle";
+};
+
+//-----------------------------//
+// Beam Rifle Explosion Smoke: //
+//-----------------------------//
+
+datablock ParticleData(HarvesterBeamRifleExplosionSmokeParticle : HarvesterBombExplosionSmokeParticle)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	colors[0]	= "0.98 0.9 0.8 0.8";
+	colors[1]	= "0.1 0.045 0.02 0.6";
+	colors[2]	= "0.1 0.05 0.025 0.0";
+};
+datablock ParticleEmitterData(HarvesterBeamRifleExplosionSmokeEmitter : HarvesterBombExplosionSmokeEmitter)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	particles = "HarvesterBeamRifleExplosionSmokeParticle";
+};
+
+//------------------------------------//
+// Beam Rifle Explosion Debris Trail: //
+//------------------------------------//
+
+datablock ParticleData(HarvesterBeamRifleExplosionDebrisTrailParticle)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	textureName = "base/data/particles/chunk";
+	
+	useInvAlpha = false;
+
+	colors[0]	= "1.0 0.4 0.4 0.07";
+	colors[1]	= "1.0 0.2 0.2 0.07";
+	colors[2]	= "0.3 0.3 0.3 0.0";
+
+	sizes[0]	= 1.15;
+	sizes[1]	= 0.7;
+	sizes[2]	= 0.5;
+	
+	times[0]	= 0.0;
+	times[1]	= 0.1;
+	times[2]	= 1.0;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	dragCoefficient = 3.0;
+	gravityCoefficient = -0.2;
+
+	inheritedVelFactor = 1.0;
+	constantAcceleration = 0.0;
+
+	lifetimeMS = 1000;
+	lifetimeVarianceMS = 500;
+
+	spinSpeed = 0.0;
+	spinRandomMin = -2000.0;
+	spinRandomMax = 2000.0;
+};
+datablock ParticleEmitterData(HarvesterBeamRifleExplosionDebrisTrailEmitter)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	particles = "HarvesterBeamRifleExplosionDebrisTrailParticle";
+	
+	overrideAdvance = false;
+	useEmitterColors = false;
+	
+	orientParticles = true;
+	orientOnVelocity = true;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	ejectionPeriodMS = 2;
+	periodVarianceMS = 0;
+	
+	ejectionVelocity = 0.0;
+	velocityVariance = 0.0;
+	
+	ejectionOffset = 0.0;
+	
+	thetaMin = 0.0;
+	thetaMax = 90.0;
+	
+	phiReferenceVel = 0.0;
+	phiVariance = 360.0;
+};
+
+//------------------------------//
+// Beam Rifle Explosion Debris: //
+//------------------------------//
+
+datablock DebrisData(HarvesterBeamRifleExplosionDebris)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	shapeFile = "base/data/shapes/empty.dts";
+	
+	emitters = "HarvesterBeamRifleExplosionDebrisTrailEmitter";
+	
+	staticOnMaxBounce = false;
+	snapOnMaxBounce = false;
+	explodeOnMaxBounce = true;
+	
+	fade = true;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	lifetime = 2.0;
+
+	minSpinSpeed = 0.0;
+	maxSpinSpeed = 0.0;
+	
+	//----------//
+	// Physics: //
+	//----------//
+	
+	gravModifier = 2.0;
+	numBounces = 2;
+	elasticity = 0.999;
+	friction = 0.0;
+};
+
+//-----------------------//
+// Beam Rifle Explosion: //
+//-----------------------//
+
+datablock ExplosionData(HarvesterBeamRifleExplosion)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	explosionShape = "Add-Ons/Weapon_Rocket_Launcher/explosionSphere1.dts";
+	
+	particleEmitter = HarvesterBombExplosionBlastEmitter;
+	particleDensity = 4;
+	particleRadius = 3.5;
+	
+	emitter[0] = HarvesterBeamRifleExplosionFlareEmitter;
+	emitter[1] = HarvesterBeamRifleExplosionEmitter;
+	emitter[2] = HarvesterBeamRifleExplosionSmokeEmitter;
+	
+	//---------//
+	// Debris: //
+	//---------//
+	
+	debris = HarvesterBeamRifleExplosionDebris;
+	
+	debrisNum = 4;
+	debrisNumVariance = 2;
+	
+	debrisVelocity = 12;
+	debrisVelocityVariance = 6;
+	
+	debrisThetaMin = 70;
+	debrisThetaMax = 180;
+	
+	debrisPhiMin = 0;
+	debrisPhiMax = 360;
+	
+	//-------------//
+	// Properties: //
+	//-------------//
+
+	lifeTimeMS = 150;
+	
+	shakeCamera = true;
+	camShakeFreq = "2.0 4.0 2.0";
+	camShakeAmp = "2.5 6.5 2.5";
+	camShakeDuration = 1.0;
+	camShakeRadius = 15.0;
+};
+
+datablock ProjectileData(HarvesterBeamRifleProjectile)
+{
+	//------------//
+	// Explosion: //
+	//------------//
+	
+	explosion = HarvesterBeamRifleExplosion;
+
+	explodeOnDeath = true;
+};
+
+/// @param	this		projectile datablock
+/// @param	projectile	projectile
+/// @param	position	3-element position
+/// @param	fade		number
+function HarvesterBeamRifleProjectile::onExplode(%this, %projectile, %position, %fade)
+{
+	Parent::onExplode(%this, %projectile, %position, %fade);
+	serverPlay3d("HarvesterBombExplosionSound" @ getRandom(1, 2), %position);
+}
+
 //------------------//
 // Beam Rifle Item: //
 //------------------//
@@ -234,6 +496,34 @@ datablock ShapeBaseImageData(HarvesterBeamRifleImage)
 	//---------------//
 
 	className = "WeaponImage";
+	
+	//----------//
+	// Hitscan: //
+	//----------//
+	
+	hitscanRange = 64;
+	hitscanTypes = $TypeMasks::PlayerObjectType | $TypeMasks::StaticObjectType | $TypeMasks::TerrainObjectType | $TypeMasks::VehicleObjectType | $TypeMasks::FXBrickObjectType;
+	
+	hitscanDamage = 70;
+	hitscanDamageType = $DamageType::Direct;
+	hitscanDamageFalloff = 0.9;
+	
+	hitscanProjectile = HarvesterBeamRifleProjectile;
+	
+	hitscanTracerStaticShape = HarvesterBeamShape;
+	hitscanTracerStaticLifetime = 100;
+	
+	hitscanSpread = 0.0;
+	hitscanShotCount = 1;
+	
+	hitscanPenetrate = false;
+	
+	hitscanFromMuzzle = true;
+	
+	hitscanImpactImpulse = 24;
+	hitscanVerticalImpulse = 11;
+	
+	hitscanExplodeOnMiss = true;
 	
 	//---------//
 	// States: //

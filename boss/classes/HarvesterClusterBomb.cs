@@ -2,14 +2,14 @@
 // Cluster Bomb Sounds: //
 //----------------------//
 
-datablock AudioProfile(HarvesterBombExplodeSound1)
+datablock AudioProfile(HarvesterBombExplosionSound1)
 {
 	fileName = $Harvester::Root @ "/resources/sounds/fx/clusterBombExplode1.wav";
 	description = AudioDefault3d;
 	preload = true;
 };
 
-datablock AudioProfile(HarvesterBombExplodeSound2)
+datablock AudioProfile(HarvesterBombExplosionSound2)
 {
 	fileName = $Harvester::Root @ "/resources/sounds/fx/clusterBombExplode2.wav";
 	description = AudioDefault3d;
@@ -383,11 +383,11 @@ datablock ExplosionData(HarvesterBombExplosion)
 
 	lifeTimeMS = 150;
 	
-	damageRadius = 7.0;
+	damageRadius = 5.0;
 	radiusDamage = 50.0;
 
-	impulseRadius = 7.0;
-	impulseForce = 2000.0;
+	impulseRadius = 5.5;
+	impulseForce = 1700.0;
 	
 	shakeCamera = true;
 	camShakeFreq = "2.0 4.0 2.0";
@@ -462,7 +462,7 @@ datablock ProjectileData(HarvesterBombProjectile)
 function HarvesterBombProjectile::onExplode(%this, %projectile, %position, %fade)
 {
 	Parent::onExplode(%this, %projectile, %position, %fade);
-	serverPlay3d("HarvesterBombExplodeSound" @ getRandom(1, 2), %position);
+	serverPlay3d("HarvesterBombExplosionSound" @ getRandom(1, 2), %position);
 }
 
 //---------------//
@@ -500,22 +500,7 @@ datablock ProjectileData(HarvesterClusterBombProjectile : HarvesterBombProjectil
 function HarvesterClusterBombProjectile::onExplode(%this, %projectile, %position, %fade)
 {
 	Parent::onExplode(%this, %projectile, %position, %fade);
-	serverPlay3d("HarvesterBombExplodeSound" @ getRandom(1, 2), %position);
-}
-
-/// @param	alpha	number (in degrees)
-/// @param	beta	number (in degrees)
-/// @return	normalized 3-element vector
-function unitVectorFromAngles(%alpha, %beta)
-{
-	%alpha = mDegToRad(%alpha);
-	%beta = mDegToRad(%beta);
-	
-	%x = mSin(%alpha) * mCos(%beta);
-	%y = mCos(%alpha) * mCos(%beta);
-	%z = mSin(%beta);
-	
-	return %x SPC %y SPC %z;
+	serverPlay3d("HarvesterBombExplosionSound" @ getRandom(1, 2), %position);
 }
 
 /// @param	this		projectile datablock
@@ -607,7 +592,7 @@ datablock ProjectileData(HarvesterBigClusterBombProjectile : HarvesterClusterBom
 function HarvesterBigClusterBombProjectile::onExplode(%this, %projectile, %position, %fade)
 {
 	Parent::onExplode(%this, %projectile, %position, %fade);
-	serverPlay3d("HarvesterBombExplodeSound" @ getRandom(1, 2), %position);
+	serverPlay3d("HarvesterBombExplosionSound" @ getRandom(1, 2), %position);
 }
 
 /// @param	this		projectile datablock
@@ -781,7 +766,6 @@ datablock ShapeBaseImageData(HarvesterClusterBombImage)
 	stateTransitionOnTimeout[3] = "Done";
 	stateWaitForTimeout[3] = true;
 	stateAllowImageChange[3] = false;
-	stateSound[3] = HarvesterClusterBombFireSound;
 	stateScript[3] = "onFire";
 	stateFire[3] = true;
 	
