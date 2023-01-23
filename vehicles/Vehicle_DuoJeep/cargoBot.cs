@@ -186,7 +186,7 @@ package duoJeepCargoPackage
         }
         else
         {
-            %obj.stopThread(1);
+            %obj.playThread(1, root);
         }
     }
 };
