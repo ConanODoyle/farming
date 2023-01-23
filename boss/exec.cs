@@ -1,16 +1,35 @@
 $Harvester::Root = filePath($Con::File);
 
-exec("./npc/dialogue.cs");
+if(forceRequiredAddOn("Support_Hitboxes") == $Error::AddOn_NotFound)
+{
+	error("ERROR:" SPC fileName($Harvester::Root) SPC "- required add-on Support_Hitboxes not found");
+	return;
+}
+else if(forceRequiredAddOn("Support_Hitscan") == $Error::AddOn_NotFound)
+{
+	error("ERROR:" SPC fileName($Harvester::Root) SPC "- required add-on Support_Hitscan not found");
+	return;
+}
+else
+{
+	exec($Harvester::Root @ "/plugins/unitVectorFromAngles.cs");
+	
+	exec($Harvester::Root @ "/prefs.cs");
+	
+	exec($Harvester::Root @ "/classes/environment.cs");
+	
+	exec($Harvester::Root @ "/classes/HarvesterArmor.cs");
+	exec($Harvester::Root @ "/classes/HarvesterBlade.cs");
+	exec($Harvester::Root @ "/classes/HarvesterClusterBomb.cs");
+	exec($Harvester::Root @ "/classes/HarvesterBeamRifle.cs");
+	exec($Harvester::Root @ "/classes/HarvesterSpike.cs");
+	
+	exec($Harvester::Root @ "/classes/MasterKey.cs");
+	exec($Harvester::Root @ "/classes/VoidKey.cs");
 
-exec("./classes/environment.cs");
-exec("./classes/HarvesterArmor.cs");
-exec("./classes/HarvesterBlade.cs");
-exec("./classes/HarvesterClusterBomb.cs");
-exec("./classes/HarvesterBeamRifle.cs");
-exec("./classes/HarvesterSpike.cs");
-exec("./classes/MasterKey.cs");
-exec("./classes/VoidKey.cs");
+	exec($Harvester::Root @ "/scripts/ai.cs");
+	exec($Harvester::Root @ "/scripts/cutscene.cs");
+	exec($Harvester::Root @ "/scripts/fight.cs");
 
-exec("./scripts/ai.cs");
-exec("./scripts/cutscene.cs");
-exec("./scripts/fight.cs");
+	exec($Harvester::Root @ "/npc/dialogue.cs");
+}
