@@ -41,7 +41,7 @@ $obj = new ScriptObject(PurchaseConfirmation)
 {
 	response["Yes"] = "PurchaseProduct";
 	response["No"] = "PurchaseDialogueCore";
-	response["Quit"] = "PurchaseDialogueCore";
+	response["Quit"] = "ExitResponse";
 	response["Error"] = "PurchaseDialogueCore";
 
 	messageCount = 1;
