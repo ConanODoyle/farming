@@ -40,6 +40,15 @@ $Harvester::Bomb::MaxSplitTimeMS = 1250;
 
 $Harvester::Spike::Radius = 3.0;
 $Harvester::Spike::RadiusDamage = 30.0;
-$Harvester::Spike::IterationTimeMS = 140;
-$Harvester::Spike::IterationLength = 4.0;
-$Harvester::Spike::MaxIterations = 12;
+$Harvester::Spike::Iteration::StepTimeMS = 140;
+$Harvester::Spike::Iteration::StepLength = 4.0;
+$Harvester::Spike::Iteration::MaxSteps = 12;
+
+//-------------//
+// Master Key: //
+//-------------//
+
+$Harvester::MasterKey::ConcDamage = 45.0;
+$Harvester::MasterKey::ProjectileDamage = 20.0;
+$Harvester::MasterKey::Melee::Damage = 45.0;
+$Harvester::MasterKey::Melee::CooldownMS = 1000;

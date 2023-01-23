@@ -967,7 +967,7 @@ function HarvesterBladeImage::onFire(%this, %player, %slot)
 {
 	if(%player.getDamagePercent() < 1.0)
 	{
-		%this.spawnHitboxGroup(%player, 0, 0);
+		%this.spawnHitboxGroup(%player, %slot, 0);
 		
 		%shape = new StaticShape()
 		{

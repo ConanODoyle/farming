@@ -531,7 +531,7 @@ function HarvesterSpikeImage::iterate(%this, %player, %slot, %position, %directi
 			%effect.explode();
 		}
 		
-		%this.schedule($Harvester::Spike::IterationTimeMS, iterate, %player, %slot, %forward, %direction, %iteration + 1, %max);
+		%this.schedule($Harvester::Spike::Iteration::StepTimeMS, iterate, %player, %slot, %forward, %direction, %iteration + 1, %max);
 	}
 }
 
@@ -567,10 +567,10 @@ function HarvesterSpikeImage::onFire(%this, %player, %slot)
 {
 	if(%player.getDamagePercent() < 1.0)
 	{
-		%direction = vectorScale(%player.getForwardVector(), $Harvester::Spike::IterationLength);
+		%direction = vectorScale(%player.getForwardVector(), $Harvester::Spike::Iteration::StepLength);
 		%position = vectorAdd(vectorAdd(%player.position, "0.0 0.0 0.4"), %direction);
 		
-		%this.schedule($Harvester::Spike::IterationTimeMS, iterate, %player, %slot, %position, %direction, 0, $Harvester::Spike::MaxIterations);
+		%this.schedule($Harvester::Spike::Iteration::StepTimeMS, iterate, %player, %slot, %position, %direction, 0, $Harvester::Spike::Iteration::MaxSteps);
 		
 		%effect = new Projectile()
 		{
