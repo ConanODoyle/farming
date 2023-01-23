@@ -54,7 +54,7 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 	%safeName = getSafeVariableName(%name @ "Fish");
 	%itemName = %safeName @ "Item";
 	%imageName = %safeName @ "Image";
-	%shapeName = expandFileName("./" @ %shapeName @ "/" @ %shapeName @ ".dts");
+	%shapeName = expandFileName("./resources/" @ %shapeName @ "/" @ %shapeName @ ".dts");
 	eval(DataString_FishItem(%displayName,%safeName,%itemName,%imageName,%shapeName));
 	eval(DataString_FishImage(%uiname,%imageName,%itemName,%shapeName));
 
@@ -65,7 +65,7 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 		%uiName = %displayName @ %i;
 		%itemName = %safeName @ %i @ "Item";
 		%imageName = %safeName @ %i @ "Image";
-		%shape = expandFileName("./" @ %shapeName @ "/" @ %shapeName @ (%i + 1) @ ".dts");
+		%shape = expandFileName("./resources/" @ %shapeName @ "/" @ %shapeName @ (%i + 1) @ ".dts");
 
 		$Stackable_[%safeName @ "_StackedItem" @ %i] = %itemName SPC (%i + 1);
 		eval(DataString_FishItem(%uiname,%safeName,%itemName,%imageName,%shape));
@@ -73,9 +73,9 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 	}
 }
 
-FishDatablocks("Sardine","Sardine",1);
-FishDatablocks("Bass","Bass",1);
-FishDatablocks("Catfish","Catfish",1);
-FishDatablocks("Minnow","Minnow",1);
-FishDatablocks("Anchovy","Anchovy",1);
-FishDatablocks("Arowana","Arowana",1);
+FishDatablocks("Sardine","Sardine",4);
+FishDatablocks("Bass","Bass",3);
+FishDatablocks("Catfish","Catfish",3);
+FishDatablocks("Minnow","Minnow",3);
+FishDatablocks("Anchovy","Anchovy",4);
+FishDatablocks("Arowana","Arowana",3);
