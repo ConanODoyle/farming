@@ -79,7 +79,7 @@ function FishImage::onMount(%this, %obj, %slot)
 	%obj.playThread(1, armReadyBoth);
 }
 
-FishDatablocks("Sardine","Sardine",4);
+FishDatablocks("Sardine","Sardine",5);
 FishDatablocks("Bass","Bass",3);
 FishDatablocks("Catfish","Catfish",3);
 FishDatablocks("Minnow","Minnow",3);
