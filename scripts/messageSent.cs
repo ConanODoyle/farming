@@ -88,6 +88,13 @@ function servercmdMessageSent(%client,%msg)
 		}
 	}
 
+	%player = %client.player;
+	if(isObject(%player))
+	{
+		%player.playThread(3, "talk");
+		%player.schedule(strlen(%msg) * 50, "playThread", 3, "root");
+	}
+
 	//URLs
 	%msg = strReplace(%msg,"https://","http://");
 
