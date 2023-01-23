@@ -78,7 +78,7 @@ datablock PlayerData(HarvesterArmor : PlayerStandardArmor)
 	// Gameplay: //
 	//-----------//
 
-	maxDamage = 45000;
+	maxDamage = $Harvester::Armor::MaxDamage;
 
 	useCustomPainEffects = true;
 
@@ -110,31 +110,24 @@ datablock PlayerData(HarvesterArmor : PlayerStandardArmor)
 /// @param	player	player
 function HarvesterArmor::applyAvatar(%this, %player)
 {
-	%bodyColor = "0.3 0.3 0.3 1";
-	%clothesColor = "0.15 0.15 0.15 1";	
-	%skinColor = "0.05 0.05 0.05 1";
-	%armorColor = "0.5 0.5 0.5 1";
-	%plateColor = "0.5 0.2 0.2 1";
-	%capeColor = "0.6 0.3 0.2 1";
+	%player.setNodeColor("ALL", $Harvester::Armor::Avatar::BodyColor);
 
-	%player.setNodeColor("ALL", %bodyColor);
+	%player.setNodeColor("pants", $Harvester::Armor::Avatar::ClothesColor);
+	%player.setNodeColor("RShoe", $Harvester::Armor::Avatar::ClothesColor);
+	%player.setNodeColor("LShoe", $Harvester::Armor::Avatar::ClothesColor);
+	%player.setNodeColor("ShoulderPads", $Harvester::Armor::Avatar::ClothesColor);
 
-	%player.setNodeColor("pants", %clothesColor);
-	%player.setNodeColor("RShoe", %clothesColor);
-	%player.setNodeColor("LShoe", %clothesColor);
-	%player.setNodeColor("ShoulderPads", %clothesColor);
+	%player.setNodeColor("RHand", $Harvester::Armor::Avatar::SkinColor);
+	%player.setNodeColor("LHand", $Harvester::Armor::Avatar::SkinColor);
+	%player.setNodeColor("HeadSkin", $Harvester::Armor::Avatar::SkinColor);
 
-	%player.setNodeColor("RHand", %skinColor);
-	%player.setNodeColor("LHand", %skinColor);
-	%player.setNodeColor("HeadSkin", %skinColor);
+	%player.setNodeColor("ArmorMount", $Harvester::Armor::Avatar::ArmorColor);
+	%player.setNodeColor("ShoulderBars", $Harvester::Armor::Avatar::ArmorColor);
+	%player.setNodeColor("TorsoBars", $Harvester::Armor::Avatar::ArmorColor);
 
-	%player.setNodeColor("ArmorMount", %armorColor);
-	%player.setNodeColor("ShoulderBars", %armorColor);
-	%player.setNodeColor("TorsoBars", %armorColor);
+	%player.setNodeColor("Helmet", $Harvester::Armor::Avatar::PlateColor);
+	%player.setNodeColor("ShoulderArmor", $Harvester::Armor::Avatar::PlateColor);
+	%player.setNodeColor("TorsoArmor", $Harvester::Armor::Avatar::PlateColor);
 
-	%player.setNodeColor("Helmet", %plateColor);
-	%player.setNodeColor("ShoulderArmor", %plateColor);
-	%player.setNodeColor("TorsoArmor", %plateColor);
-
-	%player.setNodeColor("cloak", %capeColor);
+	%player.setNodeColor("cloak", $Harvester::Armor::Avatar::CapeColor);
 }

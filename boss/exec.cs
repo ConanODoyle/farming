@@ -14,7 +14,7 @@ else
 {
 	exec($Harvester::Root @ "/plugins/unitVectorFromAngles.cs");
 	
-	exec($Harvester::Root @ "/prefs.cs");
+	exec($Harvester::Root @ "/properties.cs");
 	
 	exec($Harvester::Root @ "/classes/environment.cs");
 	

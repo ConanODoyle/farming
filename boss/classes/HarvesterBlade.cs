@@ -35,7 +35,7 @@ datablock ParticleData(HarvesterBladeEquipRingParticle)
 	// Rendering: //
 	//------------//
 	
-	textureName =  $Harvester::Root @ "/resources/particles/fadeRing";
+	textureName = $Harvester::Root @ "/resources/particles/fadeRing";
 	
 	useInvAlpha = false;
 	
@@ -101,11 +101,11 @@ datablock ParticleEmitterData(HarvesterBladeEquipRingEmitter)
 
 datablock ParticleData(HarvesterBladeEquipSparkleFrame1Particle)
 {
-	textureName =  $Harvester::Root @ "/resources/particles/dot/bigDot";
+	textureName = $Harvester::Root @ "/resources/particles/dot/bigDot";
 };
 datablock ParticleData(HarvesterBladeEquipSparkleFrame2Particle)
 {
-	textureName =  $Harvester::Root @ "/resources/particles/dot/smallDot";
+	textureName = $Harvester::Root @ "/resources/particles/dot/smallDot";
 };
 datablock ParticleData(HarvesterBladeEquipSparkleParticle)
 {
@@ -113,10 +113,10 @@ datablock ParticleData(HarvesterBladeEquipSparkleParticle)
 	// Rendering: //
 	//------------//
 	
-	textureName =  $Harvester::Root @ "/resources/particles/dot/bigDot";
+	textureName = $Harvester::Root @ "/resources/particles/dot/bigDot";
 
-	animTexName[0]	=  $Harvester::Root @ "/resources/particles/dot/bigDot";
-	animTexName[1]	=  $Harvester::Root @ "/resources/particles/dot/smallDot";
+	animTexName[0]	= $Harvester::Root @ "/resources/particles/dot/bigDot";
+	animTexName[1]	= $Harvester::Root @ "/resources/particles/dot/smallDot";
 	
 	animateTexture = true;
 	framesPerSec = 15;
@@ -192,7 +192,7 @@ datablock ParticleData(HarvesterBladeEnergyParticle)
 	// Rendering: //
 	//------------//
 	
-	textureName =  $Harvester::Root @ "/resources/particles/shock";
+	textureName = $Harvester::Root @ "/resources/particles/shock";
 	
 	useInvAlpha = false;
 	

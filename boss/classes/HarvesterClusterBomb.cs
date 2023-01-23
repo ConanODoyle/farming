@@ -92,18 +92,18 @@ datablock ParticleData(HarvesterBombExplosionBlastParticle)
 	// Properties: //
 	//-------------//
 	
-	dragCoefficient = 1;
-	gravityCoefficient = 0;
+	dragCoefficient = 1.0;
+	gravityCoefficient = 0.0;
 
-	inheritedVelFactor = 0;
-	constantAcceleration = 0;
+	inheritedVelFactor = 0.0;
+	constantAcceleration = 0.0;
 
 	lifetimeMS = 300;
 	lifetimeVarianceMS = 0;
 
-	spinSpeed = 0;
-	spinRandomMin = 0;
-	spinRandomMax = 0;
+	spinSpeed = 0.0;
+	spinRandomMin = 0.0;
+	spinRandomMax = 0.0;
 };
 datablock ParticleEmitterData(HarvesterBombExplosionBlastEmitter)
 {
@@ -123,16 +123,16 @@ datablock ParticleEmitterData(HarvesterBombExplosionBlastEmitter)
 	ejectionPeriodMS = HarvesterBombExplosionBlastParticle.lifetimeMS;
 	periodVarianceMS = 0;
 	
-	ejectionVelocity = 0;
-	velocityVariance = 0;
+	ejectionVelocity = 0.0;
+	velocityVariance = 0.0;
 	
-	ejectionOffset = 0;
+	ejectionOffset = 0.0;
 	
-	thetaMin = 89;
-	thetaMax = 90;
+	thetaMin = 89.0;
+	thetaMax = 90.0;
 	
-	phiReferenceVel = 0;
-	phiVariance = 360;
+	phiReferenceVel = 0.0;
+	phiVariance = 360.0;
 };
 
 //-------------//
@@ -145,7 +145,7 @@ datablock ParticleData(HarvesterBombExplosionFlareParticle)
 	// Rendering: //
 	//------------//
 	
-	textureName =  $Harvester::Root @ "/resources/particles/blastFlare";
+	textureName = $Harvester::Root @ "/resources/particles/blastFlare";
 	
 	useInvAlpha = false;
 	
@@ -153,9 +153,9 @@ datablock ParticleData(HarvesterBombExplosionFlareParticle)
 	colors[1]	= "1.0 0.5 0.2 0.4";
 	colors[2]	= "1.0 0.4 0.1 0.0";
 	
-	sizes[0]	= 15;
-	sizes[1]	= 30;
-	sizes[2]	= 10;
+	sizes[0]	= 15.0;
+	sizes[1]	= 30.0;
+	sizes[2]	= 10.0;
 
 	times[0]	= 0.0;
 	times[1]	= 0.02;
@@ -383,10 +383,10 @@ datablock ExplosionData(HarvesterBombExplosion)
 
 	lifeTimeMS = 150;
 	
-	damageRadius = 5.0;
-	radiusDamage = 50.0;
+	damageRadius = $Harvester::Bomb::Radius;
+	radiusDamage = $Harvester::Bomb::RadiusDamage;
 
-	impulseRadius = 5.5;
+	impulseRadius = $Harvester::Bomb::Radius + 1;
 	impulseForce = 1700.0;
 	
 	shakeCamera = true;
@@ -439,7 +439,7 @@ datablock ProjectileData(HarvesterBombProjectile)
 
 	explosion = HarvesterBombExplosion;
 	
-	explodeOnPlayerImpact = false;
+	explodeOnPlayerImpact = true;
 	explodeOnDeath = true;
 	
 	brickExplosionRadius = 0.0;
@@ -481,7 +481,16 @@ datablock ProjectileData(HarvesterClusterBombProjectile : HarvesterBombProjectil
 	// Physics: //
 	//----------//
 	
+	armingDelay = $Harvester::Bomb::MaxSplitTimeMS + 1000;
+	lifetime = $Harvester::Bomb::MaxSplitTimeMS + 1000;
+	
 	ballRadius = 0.4;
+	
+	//------------//
+	// Explosion: //
+	//------------//
+
+	explodeOnPlayerImpact = false;
 	
 	//---------------//
 	// Miscellanous: //
@@ -931,7 +940,7 @@ package HarvesterClusterBombSplitting
 		
 		if(%datablock == HarvesterClusterBombProjectile.getID() || %datablock == HarvesterBigClusterBombProjectile.getID())
 		{
-			%datablock.scheduleNoQuota(getRandom(750, 1250), split, %this);
+			%datablock.scheduleNoQuota(getRandom($Harvester::Bomb::MinSplitTimeMS, $Harvester::Bomb::MaxSplitTimeMS), split, %this);
 		}
 	}
 };

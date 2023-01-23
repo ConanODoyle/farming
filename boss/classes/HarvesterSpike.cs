@@ -35,7 +35,7 @@ datablock ParticleData(HarvesterSpikeRingParticle)
 	// Rendering: //
 	//------------//
 	
-	textureName =  $Harvester::Root @ "/resources/particles/fadeRing";
+	textureName = $Harvester::Root @ "/resources/particles/fadeRing";
 	
 	useInvAlpha = true;
 	
@@ -261,11 +261,11 @@ datablock ExplosionData(HarvesterSpikeExplosion)
 
 	lifeTimeMS = 150;
 	
-	damageRadius = 4.0;
-	radiusDamage = 50.0;
+	damageRadius = $Harvester::Spike::Radius;
+	radiusDamage = $Harvester::Spike::RadiusDamage;
 
-	impulseRadius = 4.0;
-	impulseForce = 2000.0;
+	impulseRadius = $Harvester::Spike::Radius;
+	impulseForce = 1000.0;
 	
 	shakeCamera = true;
 	camShakeFreq = "5.0 6.0 5.0";
@@ -531,7 +531,7 @@ function HarvesterSpikeImage::iterate(%this, %player, %slot, %position, %directi
 			%effect.explode();
 		}
 		
-		%this.schedule(140, iterate, %player, %slot, %forward, %direction, %iteration + 1, %max);
+		%this.schedule($Harvester::Spike::IterationTimeMS, iterate, %player, %slot, %forward, %direction, %iteration + 1, %max);
 	}
 }
 
@@ -567,11 +567,10 @@ function HarvesterSpikeImage::onFire(%this, %player, %slot)
 {
 	if(%player.getDamagePercent() < 1.0)
 	{
-		%direction = vectorScale(%player.getForwardVector(), 4.0);
+		%direction = vectorScale(%player.getForwardVector(), $Harvester::Spike::IterationLength);
 		%position = vectorAdd(vectorAdd(%player.position, "0.0 0.0 0.4"), %direction);
 		
-		// %this.iterate(%player, %slot, %position, %direction, 0, 12);
-		%this.schedule(140, iterate, %player, %slot, %position, %direction, 0, 12);
+		%this.schedule($Harvester::Spike::IterationTimeMS, iterate, %player, %slot, %position, %direction, 0, $Harvester::Spike::MaxIterations);
 		
 		%effect = new Projectile()
 		{

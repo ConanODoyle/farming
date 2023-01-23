@@ -35,7 +35,7 @@ datablock ParticleData(HarvesterBeamRifleSpinChargeParticle)
 	// Rendering: //
 	//------------//
 	
-	textureName =  $Harvester::Root @ "/resources/particles/charge";
+	textureName = $Harvester::Root @ "/resources/particles/charge";
 	
 	useInvAlpha = false;
 	
@@ -105,7 +105,7 @@ datablock ParticleData(HarvesterBeamRifleExplosionFlareParticle : HarvesterBombE
 	// Rendering: //
 	//------------//
 	
-	textureName =  $Harvester::Root @ "/resources/particles/sparkle";
+	textureName = $Harvester::Root @ "/resources/particles/sparkle";
 	
 	colors[0]	= "1.0 0.9 0.9 0.6";
 	colors[1]	= "1.0 0.2 0.2 0.4";
@@ -314,14 +314,14 @@ datablock ExplosionData(HarvesterBeamRifleExplosion)
 	debrisNum = 4;
 	debrisNumVariance = 2;
 	
-	debrisVelocity = 12;
-	debrisVelocityVariance = 6;
+	debrisVelocity = 12.0;
+	debrisVelocityVariance = 6.0;
 	
-	debrisThetaMin = 70;
-	debrisThetaMax = 180;
+	debrisThetaMin = 70.0;
+	debrisThetaMax = 180.0;
 	
-	debrisPhiMin = 0;
-	debrisPhiMax = 360;
+	debrisPhiMin = 0.0;
+	debrisPhiMax = 360.0;
 	
 	//-------------//
 	// Properties: //
@@ -501,12 +501,12 @@ datablock ShapeBaseImageData(HarvesterBeamRifleImage)
 	// Hitscan: //
 	//----------//
 	
-	hitscanRange = 64;
+	hitscanRange = $Harvester::BeamRifle::Range;
 	hitscanTypes = $TypeMasks::PlayerObjectType | $TypeMasks::StaticObjectType | $TypeMasks::TerrainObjectType | $TypeMasks::VehicleObjectType | $TypeMasks::FXBrickObjectType;
 	
-	hitscanDamage = 70;
+	hitscanDamage = $Harvester::BeamRifle::Damage;
 	hitscanDamageType = $DamageType::Direct;
-	hitscanDamageFalloff = 0.9;
+	hitscanDamageFalloff = $Harvester::BeamRifle::DamageFalloff;
 	
 	hitscanProjectile = HarvesterBeamRifleProjectile;
 	
@@ -520,8 +520,8 @@ datablock ShapeBaseImageData(HarvesterBeamRifleImage)
 	
 	hitscanFromMuzzle = true;
 	
-	hitscanImpactImpulse = 24;
-	hitscanVerticalImpulse = 11;
+	hitscanImpactImpulse = 23.0;
+	hitscanVerticalImpulse = 10.0;
 	
 	hitscanExplodeOnMiss = true;
 	
@@ -640,6 +640,22 @@ function HarvesterBeamRifleImage::onFire(%this, %player, %slot)
 	if(%player.getDamagePercent() < 1.0)
 	{
 		Parent::onFire(%this, %player, %slot);
+		
+		%effect = new Projectile()
+		{
+			dataBlock = HarvesterBladeRecoilProjectile;
+			initialVelocity = %player.getMuzzleVector(%slot);
+			initialPosition = %player.getMuzzlePoint(%slot);
+			sourceObject = %player;
+			sourceSlot = %slot;
+			client = %player.client;
+		};
+
+		if(isObject(%effect))
+		{
+			MissionCleanup.add(%effect);
+			%effect.explode();
+		}
 		
 		%player.playThread(0, "gunRecoil");
 	}
