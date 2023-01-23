@@ -54,9 +54,9 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 	%safeName = getSafeVariableName(%name @ "Fish");
 	%itemName = %safeName @ "Item";
 	%imageName = %safeName @ "Image";
-	%shapeName = expandFileName("./resources/" @ %shapeName @ "/" @ %shapeName @ ".dts");
-	eval(DataString_FishItem(%displayName,%safeName,%itemName,%imageName,%shapeName));
-	eval(DataString_FishImage(%uiname,%imageName,%itemName,%shapeName));
+	%shape = expandFileName("./resources/" @ %shapeName @ "/" @ %shapeName @ ".dts");
+	eval(DataString_FishItem(%displayName,%safeName,%itemName,%imageName,%shape));
+	eval(DataString_FishImage(%uiname,%imageName,%itemName,%shape));
 
 	%count = %stackMax;
 	$Stackable_[%safeName @ "_StackedItemTotal"] = %count;
