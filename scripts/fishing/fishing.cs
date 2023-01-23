@@ -32,11 +32,6 @@ if (!isObject(FishingSimSet))
 	$RemoveFishingSimSet = new SimSet(RemoveFishingSimSet) { };
 }
 
-datablock StaticShapeData(BobberShape)
-{
-	shapeFile = "./fishingpole/bobber.dts";
-};
-
 datablock ItemData(BobberItem : HammerItem)
 {
 	shapeFile = "./fishingpole/bobber.dts");
