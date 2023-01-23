@@ -110,5 +110,5 @@ function castFishingLine(%this, %obj, %slot)
 	{
 		startFish(%obj, %hit, getWords(%ray, 1, 3), %this.fishingRange);
 	}
-	%obj.playThread(2, shiftUp);
+	%obj.playThread(2, shiftDown);
 }

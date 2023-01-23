@@ -37,6 +37,16 @@ datablock StaticShapeData(BobberShape)
 	shapeFile = "./fishingpole/bobber.dts";
 };
 
+datablock ItemData(BobberItem : HammerItem)
+{
+	shapeFile = "./fishingpole/bobber.dts");
+	uiName = "";
+	colorShiftColor = "1 1 1 1";
+	doColorShift = 0;
+	image = "";
+	isProp = 1;
+};
+
 datablock StaticShapeData(FishingLineShape)
 {
 	shapeFile = "./fishingpole/line.dts";
@@ -183,7 +193,15 @@ function bobberCheck(%bobber)
 	{
 		%pos = %bobber.getSlotTransform(2);
 	}
+	%start = %bobber.player.getMuzzlePoint(0);
+	%end = %pos;
 	%bobber.line.drawLine(%pos, %bobber.player.getMuzzlePoint(0), "1 1 1 1", 0.8);
+
+	%dir = vectorNormalize(vectorSub(%end, %start));
+	%right = vectorNormalize(vectorCross(%dir, "0 0 -1"));
+	%up = vectorCross(%dir, %right);
+	%rot = relativeVectorToRotation(%right, %up);
+	%bobber.line.setTransform(%bobber.line.position SPC %rot);
 	%dist = vectorDist(%bobber.position, %bobber.player.position);
 	// %bobber.line.setScale(setWord(%bobber.line.scale, 2, %dist / 200));
 
