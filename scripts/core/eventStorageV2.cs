@@ -122,6 +122,10 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 		};
 		MissionCleanup.add(%brick.centerprintMenu);
 	}
+	else if (%max != %brick.centerprintMenu.menuOptionCount)
+	{
+		%brick.centerprintMenu.menuOptionCount = %max;
+	}
 
 	for (%i = 0; %i < %count; %i++)
 	{
