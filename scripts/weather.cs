@@ -367,42 +367,51 @@ function rainLoop(%index)
 			%brick.nextRain = $Sim::Time;
 		}
 
-		%db = %brick.getDatablock();
-		%pos = %brick.getPosition();
-		if (%brick.nextRain < $Sim::Time && !%brick.inGreenhouse && %brick.waterLevel < %db.maxWater)
-		{
-			%numTimes = mFloor(($Sim::Time - %brick.nextRain) / 2) + 1;
-
-			%x = (getRandom() - 0.5) * %db.brickSizeX;
-			%y = (getRandom() - 0.5) * %db.brickSizeX;
-			%pos = vectorAdd(%pos, %x SPC %y SPC 0);
-			%ray = containerRaycast(%pos, vectorAdd(%pos, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
-			%hit = getWord(%ray, 0);
-			while (isObject(%hit) && %hit.getDatablock().isPlant)
-			{
-				%pos = getWords(%ray, 1, 3);
-				%ray = containerRaycast(%pos, vectorAdd(%pos, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %hit);
-				%hit = getWord(%ray, 0);
-			}
-
-			if (!isObject(%hit) || %hit.getGroup().bl_id == 888888)
-			{
-				if (%db.isDirt)
-				{
-					%brick.setWaterLevel(%brick.waterLevel + 40 * %numTimes);
-				}
-				else if (%db.isWaterTank)
-				{
-					%brick.setWaterLevel(%brick.waterLevel + 30 * %numTimes); //%db.maxWater * %numTimes / 500);
-				}
-			}
-			%brick.nextRain = $Sim::Time + 2;
-		}
+		attemptRainFillBrick(%brick);
 		
 		%totalBricksProcessed++;
 	}
 
 	$masterRainLoop = schedule(33, 0, rainLoop, %index - %totalBricksProcessed);
+}
+
+function attemptRainFillBrick(%brick)
+{
+	%db = %brick.getDatablock();
+	%pos = %brick.getPosition();
+	if (%brick.nextRain < $Sim::Time && !%brick.inGreenhouse && %brick.waterLevel < %db.maxWater)
+	{
+		%numTimes = mFloor(($Sim::Time - %brick.nextRain) / 2) + 1;
+
+		%x = (getRandom() - 0.5) * (%db.brickSizeX * 0.5);
+		%y = (getRandom() - 0.5) * (%db.brickSizeY * 0.5);
+		%pos = vectorAdd(%pos, %x SPC %y SPC 0);
+		%ray = containerRaycast(%pos, vectorAdd(%pos, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
+		%hit = getWord(%ray, 0);
+		while (isObject(%hit) && %hit.getDatablock().isPlant)
+		{
+			%pos = getWords(%ray, 1, 3);
+			%ray = containerRaycast(%pos, vectorAdd(%pos, "0 0 100"), $TypeMasks::fxBrickAlwaysObjectType, %hit);
+			%hit = getWord(%ray, 0);
+		}
+		if (%brick.debugRainFillBrick)
+		{
+			talk("Final hit: " @ %hit);
+		}
+
+		if (!isObject(%hit) || %hit.getGroup().bl_id == 888888)
+		{
+			if (%db.isDirt)
+			{
+				%brick.setWaterLevel(%brick.waterLevel + 40 * %numTimes);
+			}
+			else if (%db.isWaterTank)
+			{
+				%brick.setWaterLevel(%brick.waterLevel + 30 * %numTimes); //%db.maxWater * %numTimes / 500);
+			}
+		}
+		%brick.nextRain = $Sim::Time + 2;
+	}
 }
 
 function heatLoop(%index)
