@@ -303,7 +303,7 @@ function reelBobber(%bobber)
 		messageClient(%bobber.player.client, '', "\c2You got a fish!");
 		messageClient(%bobber.player.client, '', "\c3Reel Delay: \c6" @ %delta @ "ms");
 	}
-	else
+	else if (%bobber.fishPending == 1)
 	{
 		messageClient(%bobber.player.client, '', "\c0You didn't catch anything...");
 	}
