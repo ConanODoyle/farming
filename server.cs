@@ -35,6 +35,7 @@ exec("./lib/onDupCut.cs");
 exec("./util/exportPrefs.cs");
 exec("./util/authNameReplacement.cs");
 exec("./util/botNameOverride.cs");
+exec("./util/botPerformanceOverrides.cs");
 exec("./util/clearScripts.cs");
 exec("./util/convTime.cs");
 exec("./util/chanceSpawnItem.cs");
