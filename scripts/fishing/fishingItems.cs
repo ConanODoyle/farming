@@ -1,5 +1,6 @@
 //rods have the following qualities:
 //	quality of hook
+//	throw force
 //	avg time to bite
 //	cast distance
 //	reel timing forgiveness
@@ -38,7 +39,8 @@ datablock ShapeBaseImageData(FishingPole1Image : TrowelImage)
 	colorShiftColor = FishingPole1Item.colorShiftColor;
 	rotation = eulerToMatrix("-50 0 0");
 
-	fishingRange = 30;
+	fishingRange = 64;
+	fishingForce = 20;
 
 	areaHarvest = 2;
 	stateTimeoutValue[2] = 0.4;
@@ -101,6 +103,6 @@ function castFishingLine(%this, %obj, %slot)
 	{
 		return;
 	}
-	startFish(%obj, %hit, getWords(%ray, 1, 3), %this.fishingRange);
+	startFish(%obj, %this.fishingRange, %this.fishingForce);
 	%obj.playThread(2, shiftDown);
 }

@@ -177,33 +177,33 @@ function cleanupBobber(%bobber)
 
 function bobberCheck(%bobber)
 {
+	//string to bobber
 	if (!isObject(%bobber.line))
 	{
 		%bobber.line = new StaticShape(FishingLine){ dataBlock = FishingLineShape; };
 	}
-	if (isObject(%bobber.getMountedObject(0)))
-	{
-		%pos = %bobber.getMountedObject(0).getTransform();
-	}
-	else
-	{
-		%pos = %bobber.getSlotTransform(2);
-	}
-	%start = %bobber.player.getMuzzlePoint(0);
-	%end = %pos;
+
+	%pos = %bobber.getSlotTransform(0);
 	%color = setWord(getColorIDTable(%bobber.player.client.currentColor), 3, 1);
 	%bobber.line.drawLine(%pos, %bobber.player.getMuzzlePoint(0), "1 1 1 1", 0.8);
 	%bobber.setNodeColor("bobberTop", %color);
 
+	%start = %bobber.player.getMuzzlePoint(0);
+	%end = %pos;
 	%dir = vectorNormalize(vectorSub(%end, %start));
 	%right = vectorNormalize(vectorCross(%dir, "0 0 -1"));
 	%up = vectorCross(%dir, %right);
 	%rot = relativeVectorToRotation(%right, %up);
 	%bobber.line.setTransform(%bobber.line.position SPC %rot);
-	// %bobber.line.setScale(setWord(%bobber.line.scale, 2, %dist / 200));
 
-	%bobber.setVelocity(vectorAdd(%bobber.getVelocity(), "0 0 0.01"));
+	//velocity to force network updates on the bobber's position
+	%bobber.locUpdate = ((%bobber.locUpdate + 1) % 10);
+	if (%bobber.locUpdate == 0)
+	{
+		%bobber.setVelocity(vectorAdd(%bobber.getVelocity(), "0 0 0.001"));
+	}
 
+	//line of sight/distance checks
 	%dist = vectorDist(%bobber.position, %bobber.player.position);
 	%start = %bobber.position;
 	%end = %bobber.player.getMuzzlePoint(0);
@@ -217,25 +217,101 @@ function bobberCheck(%bobber)
 		%bobber.LOSBlockedCount = 0;
 	}
 
-	if (%bobber.LOSBlockedCount > 100)
+	if (%bobber.LOSBlockedCount > 80)
 	{
 		messageClient(%bobber.player.client, '', "Fishing line broken - make sure your fishing line isn't blocked by bricks!");
 		cleanupBobber(%bobber);
+		return;
 	}
 	if (%dist > %bobber.maxDistance)
 	{
-		messageClient(%bobber.player.client, '', "Fishing line broken - you walked too far away!");
+		messageClient(%bobber.player.client, '', "Fishing line broken - bobber too far away!");
 		cleanupBobber(%bobber);
+		return;
+	}
+
+	//fish hook checks
+	bobberFishCheck(%bobber);
+}
+
+function bobberFishCheck(%bobber)
+{
+	if (!%bobber.fishPending)
+	{
+		//reset fish check timing
+		if (%bobber.nextFishCheck > $Sim::Time)
+		{
+			return;
+		}
+		%bobber.nextFishCheck = $Sim::Time + 3 | 0;
+		// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Next fish check " @ %bobber.nextFishCheck);
+
+		//ensure we're on water
+		initContainerRadiusSearch(vectorAdd(%bobber.position, "0 0 -0.2"), 0.15, $Typemasks::PhysicalZoneObjectType);
+		while (isObject(%next = containerSearchNext()))
+		{
+			if (%next.isWater)
+			{
+				%found = 1;
+				break;
+			}
+		}
+
+		if (!%found)
+		{
+			return;
+		}
+
+		%bobber.fishChance = 0.8 + %bobber.nearestFishingSpot.fish * 0.5;
+		// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Fish check - found water, chance: " @ %bobber.fishChance);
+
+		if (getRandom() < %bobber.fishChance)
+		{
+			%bobber.fishPending = 1;
+			%bobber.nextDunkTime = $Sim::Time + getRandom(10) + 8;
+			// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Fish now pending, dunk time " @ %bobber.nextDunkTime);
+		}
+	}
+	else
+	{	
+		//times up, dunk!
+		if (%bobber.nextDunkTime < $Sim::Time)
+		{
+			%bobber.dunkTime = getSimTime();
+			%bobber.setVelocity("0 0 -" @ (getRandom(80, 150)));
+			%bobber.fishPending = 0;
+			%bobber.nextFishCheck = $Sim::Time + 8 | 0;
+			// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Fish dunking!!!!");
+			return;
+		}
+
+		//do a bob?
+		if (%bobber.nextBobTime < $Sim::Time && getRandom() < 0.1)
+		{
+			%bobber.nextBobTime = $Sim::Time + 2;
+			%bobber.setVelocity("0 0 -" @ getRandom(30, 50));
+			// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Fish bobbing");
+		}
 	}
 }
 
 function reelBobber(%bobber)
 {
+	%delta = getSimTime() - %bobber.dunkTime;
+	if (%delta <= 4000)
+	{
+		messageClient(%bobber.player.client, '', "\c2You got a fish!");
+		messageClient(%bobber.player.client, '', "\c3Reel Delay: \c6" @ %delta @ "ms");
+	}
+	else
+	{
+		messageClient(%bobber.player.client, '', "\c0You didn't catch anything...");
+	}
 	cleanupBobber(%bobber);
 	return;
 }
 
-function startFish(%player, %brick, %hitPos, %lineDist)
+function startFish(%player, %lineDist, %lineVel)
 {
 	if (isObject(%player.bobber))
 	{
@@ -248,7 +324,7 @@ function startFish(%player, %brick, %hitPos, %lineDist)
 
 	%bobberPos = setWord(%hitPos, 2, getWord(%brick.position, 2) - %brick.dataBlock.brickSizeZ * 0.1);
 	%bobberPos = %player.getMuzzlePoint(0) SPC getWords(%player.getTransform(), 3, 6);
-	%velocity = vectorScale(%player.getEyeVector(), 15);
+	%velocity = vectorScale(%player.getMuzzleVector(0), %lineVel);
 	%velocity = vectorAdd(%velocity, vectorScale(%player.getVelocity(), 0.5));
 
 	%player.bobber = %player.boober = %bobber = createBobber(%bobberPos, %velocity);
@@ -256,6 +332,6 @@ function startFish(%player, %brick, %hitPos, %lineDist)
 	%bobber.fishingSpot = %brick;
 	%bobber.setNodeColor("bobberTop", setWord(getColorIDTable(%player.client.currentColor), 3, 1));
 	%bobber.sourcePlayer = %player;
-	%bobber.maxDistance = %lineDist + 20;
+	%bobber.maxDistance = %lineDist;
 	$FishingSimSet.add(%player.bobber);
 }
