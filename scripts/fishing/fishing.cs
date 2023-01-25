@@ -355,7 +355,7 @@ function reelBobber(%bobber)
 
 function calculateQuality(%delta, %base, %subtract, %divide)
 {
-	return getMax(mFloatLength(%base - (getMax(%delta - %subtract, 0) / %divide), 1), 0)
+	return getMax(mFloatLength(%base - (getMax(%delta - %subtract, 0) / %divide), 1), 0);
 }
 
 function calculatePercent(%delta, %subtract, %divide)
