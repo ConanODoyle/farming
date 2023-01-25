@@ -97,7 +97,7 @@ function fishingTick(%idx)
 	}
 	RemoveFishingSimSet.clear();
 	
-	%idx = %idx + %i + 1;
+	%idx = %idx + %i;
 	if (%idx >= FishingSimSet.getCount())
 	{
 		%idx = 0;
@@ -236,6 +236,7 @@ function bobberCheck(%bobber)
 
 function bobberFishCheck(%bobber)
 {
+
 	if (!%bobber.fishPending)
 	{
 		//reset fish check timing
@@ -243,8 +244,23 @@ function bobberFishCheck(%bobber)
 		{
 			return;
 		}
-		%bobber.nextFishCheck = $Sim::Time + 3 | 0;
+		%bobber.nextFishCheck = $Sim::Time + 2 | 0;
 		// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Next fish check " @ %bobber.nextFishCheck);
+		
+		//if we don't already have a fishing spot found, try to find one
+		//put under the periodic fishing check to avoid spamming radius searches
+		if (!isObject(%bobber.nearestFishingSpot))
+		{
+			initContainerRadiusSearch(%bobber.position, 3, $Typemasks::fxBrickAlwaysObjectType);
+			while (isObject(%next = containerSearchNext()))
+			{
+				if (%next.dataBlock.isFishingSpot)
+				{
+					%bobber.nearestFishingSpot = %next;
+					break;
+				}
+			}
+		}
 
 		//ensure we're on water
 		initContainerRadiusSearch(vectorAdd(%bobber.position, "0 0 -0.2"), 0.15, $Typemasks::PhysicalZoneObjectType);
@@ -262,12 +278,15 @@ function bobberFishCheck(%bobber)
 			return;
 		}
 
-		%bobber.fishChance = 0.8 + %bobber.nearestFishingSpot.fish * 0.5;
+		%bonusChanceModifier = %bobber.nearestFishingSpot.fish;
+		%bonusChance = (%bonusChanceModifier * 0.6) + mCeil(%bonusChanceModifier) * 0.2;
+		%bobber.fishChance = 0.1 + %bonusChance + ($isRaining * 0.5);
 		// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Fish check - found water, chance: " @ %bobber.fishChance);
 
 		if (getRandom() < %bobber.fishChance)
 		{
 			%bobber.fishPending = 1;
+			%bobber.fishQuality = %bobber.nearestFishingSpot.fish;
 			%bobber.nextDunkTime = $Sim::Time + getRandom(10) + 8;
 			// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Fish now pending, dunk time " @ %bobber.nextDunkTime);
 		}
@@ -278,7 +297,7 @@ function bobberFishCheck(%bobber)
 		if (%bobber.nextDunkTime < $Sim::Time)
 		{
 			%bobber.dunkTime = getSimTime();
-			%bobber.setVelocity("0 0 -" @ (getRandom(80, 150)));
+			%bobber.setVelocity("0 0 -" @ (getRandom(80, 120)));
 			%bobber.fishPending = 0;
 			%bobber.nextFishCheck = $Sim::Time + 8 | 0;
 			// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Fish dunking!!!!");
@@ -289,7 +308,7 @@ function bobberFishCheck(%bobber)
 		if (%bobber.nextBobTime < $Sim::Time && getRandom() < 0.1)
 		{
 			%bobber.nextBobTime = $Sim::Time + 2;
-			%bobber.setVelocity("0 0 -" @ getRandom(30, 50));
+			%bobber.setVelocity("0 0 -" @ getRandom(25, 40));
 			// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Fish bobbing");
 		}
 	}
@@ -297,18 +316,68 @@ function bobberFishCheck(%bobber)
 
 function reelBobber(%bobber)
 {
-	%delta = getSimTime() - %bobber.dunkTime;
-	if (%delta <= 4000)
+	%client = %bobber.player.client;
+	if (!isObject(%client))
 	{
-		messageClient(%bobber.player.client, '', "\c2You got a fish!");
-		messageClient(%bobber.player.client, '', "\c3Reel Delay: \c6" @ %delta @ "ms");
+		return;
+	}
+
+	//consider ping when calculating rewards
+	%delta = getSimTime() - %bobber.dunkTime - (%client.getPing() * 2);
+	if (%delta <= 5000)
+	{
+		%quality = mFloor(calculateQuality(%delta, 3.5, 350, 400));
+		%percent = calculatePercent(%delta, 500, 1000);
+		if (%quality < 0)
+		{
+			messageClient(%client, '', "\c0You reeled in too late...");
+		}
+		else
+		{
+			messageClient(%bobber.player.client, '', "\c2You got a fish!");
+			if (%stats = %bobber.player.showReelStats())
+			{
+				switch (%stats)
+				{
+					case 1: messageClient(%bobber.player.client, '', "\c3Reel Timing: \c6" @ %delta @ "ms (ping " @ %client.getPing() @ ")");
+					case 2: messageClient(%bobber.player.client, '', "\c3Reel Quality: \c6" @ %quality @ " \c3Reel Percent: \c6" @ %percent);
+				}
+			}
+			// pickFromTable(FishingLootTable, %quality)
+		}
 	}
 	else if (%bobber.fishPending == 1)
 	{
-		messageClient(%bobber.player.client, '', "\c0You didn't catch anything...");
+		messageClient(%bobber.player.client, '', "\c0You reeled in too early...");
 	}
 	cleanupBobber(%bobber);
-	return;
+}
+
+function calculateQuality(%delta, %base, %subtract, %divide)
+{
+	return getMax(mFloatLength(%base - (getMax(%delta - %subtract, 0) / %divide), 1), 0)
+}
+
+function calculatePercent(%delta, %subtract, %divide)
+{
+	return mFloatLength(getMin(getMax(%delta - %sub, 0) / %divide, 1), 2);
+}
+
+function Player::showReelStats(%pl)
+{
+	if (%pl.fishingTest)
+	{
+		return 1;
+	}
+
+	for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
+	{
+		if (%pl.tool[%i].showFishingStats)
+		{
+			return %pl.tool[%i].showFishingStats;
+		}
+	}
+	return 0;
 }
 
 function startFish(%player, %lineDist, %lineVel)

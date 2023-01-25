@@ -106,3 +106,121 @@ function castFishingLine(%this, %obj, %slot)
 	startFish(%obj, %this.fishingRange, %this.fishingForce);
 	%obj.playThread(2, shiftDown);
 }
+
+
+
+
+
+
+
+
+datablock ItemData(TackleBoxItem : HammerItem)
+{
+	shapeFile = "./fishingPole/tacklebox.dts";
+
+	uiName = "Tackle Box";
+	image = "TackleBoxImage";
+	doColorShift = false;
+	colorShiftColor = "1 1 1 1";
+
+	showFishingStats = 1;
+
+	description = "\c6Allows you to see how quickly you reeled a fish in";
+};
+
+datablock ShapeBaseImageData(TackleBoxImage)
+{
+	shapeFile = "./fishingPole/tacklebox.dts";
+	emap = true;
+
+	doColorShift = false;
+	colorShiftColor = "1 1 1 1";
+
+	item = "TackleBoxItem";
+	
+	armReady = 1;
+
+	offset = "-0.5017 0.04 -0.17389";
+
+	stateName[0] = "Activate";
+	stateTransitionOnTimeout[0] = "LoopA";
+	stateTimeoutValue[0] = 0.1;
+
+	stateName[1] = "LoopA";
+	stateScript[1] = "onLoop";
+	stateTimeoutValue[1] = 0.1;
+	stateTransitionOnTimeout[1] = "LoopB";
+
+	stateName[2] = "LoopB";
+	stateScript[2] = "onLoop";
+	stateTimeoutValue[2] = 0.1;
+	stateTransitionOnTimeout[2] = "LoopA";
+};
+
+function TackleBoxImage::onLoop(%this, %obj, %slot)
+{
+	%item = %image.item;
+	%description = %item.description;
+	%cl = %obj.client;
+
+	if (isObject(%cl))
+	{
+		%cl.centerprint("<just:right>\c3-" @ %item.uiName @ "- \n" @ %description @ " ", 1);
+	}
+}
+
+datablock ItemData(FishFinderItem : HammerItem)
+{
+	shapeFile = "./fishingPole/FishFinder.dts";
+
+	uiName = "Fish Finder";
+	image = "FishFinderImage";
+	doColorShift = false;
+	colorShiftColor = "1 1 1 1";
+
+	showFishingStats = 1;
+
+	description = "\c6Allows you to see the quality tier of your pull";
+};
+
+datablock ShapeBaseImageData(FishFinderImage)
+{
+	shapeFile = "./fishingPole/FishFinder.dts";
+	emap = true;
+
+	doColorShift = false;
+	colorShiftColor = "1 1 1 1";
+
+	item = "FishFinderItem";
+	
+	armReady = 1;
+
+	offset = "-0.56 0 0";
+	rotation = eulerToMatrix("-20 0 0");
+
+	stateName[0] = "Activate";
+	stateTransitionOnTimeout[0] = "LoopA";
+	stateTimeoutValue[0] = 0.1;
+
+	stateName[1] = "LoopA";
+	stateScript[1] = "onLoop";
+	stateTimeoutValue[1] = 0.1;
+	stateTransitionOnTimeout[1] = "LoopB";
+
+	stateName[2] = "LoopB";
+	stateScript[2] = "onLoop";
+	stateTimeoutValue[2] = 0.1;
+	stateTransitionOnTimeout[2] = "LoopA";
+};
+
+function FishFinderImage::onLoop(%this, %obj, %slot)
+{
+	%item = %image.item;
+	%description = %item.description;
+	%cl = %obj.client;
+
+	if (isObject(%cl))
+	{
+		%cl.centerprint("<just:right>\c3-" @ %item.uiName @ "- \n" @ %description @ " ", 1);
+	}
+}
