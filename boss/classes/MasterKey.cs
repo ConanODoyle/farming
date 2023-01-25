@@ -121,6 +121,23 @@ datablock ProjectileData(MasterKeyConcProjectile : gunProjectile)
 	fadeDelay = 0;
 };
 
+/// @param	this		projectile datablock
+/// @param	projectile	projectile
+/// @param	collision	object
+/// @param	fade		number
+/// @param	position	3-element position
+/// @param	normal		3-element vector
+function MasterKeyConcProjectile::damage(%this, %projectile, %collision, %fade, %position, %normal)
+{
+	// Prevent senseless violence against innocent townsfolk.
+	if(%collision.getDataBlock() == HarvesterArmor.getID())
+	{
+		return Parent::damage(%this, %projectile, %collision, %fade, %position, %normal);
+	}
+	
+	return;
+}
+
 //---------//
 // Bullet: //
 //---------//
@@ -150,6 +167,23 @@ datablock ProjectileData(MasterKeyProjectile : gunProjectile)
 	lifetime = 2000;
 	fadeDelay = 0;
 };
+
+/// @param	this		projectile datablock
+/// @param	projectile	projectile
+/// @param	collision	object
+/// @param	fade		number
+/// @param	position	3-element position
+/// @param	normal		3-element vector
+function MasterKeyProjectile::damage(%this, %projectile, %collision, %fade, %position, %normal)
+{
+	// Prevent senseless violence against innocent townsfolk.
+	if(%collision.getDataBlock() == HarvesterArmor.getID())
+	{
+		return Parent::damage(%this, %projectile, %collision, %fade, %position, %normal);
+	}
+	
+	return;
+}
 
 //------------------//
 // Master Key Item: //
@@ -372,6 +406,26 @@ function MasterKeyImage::onFire(%this, %player, %slot)
 		%player.playThread(0, "activate");
 		%player.playThread(2, "jump");
 	}
+}
+
+/// @param	this		projectile datablock
+/// @param	player		player
+/// @param	slot		number
+/// @param	position	3-element position
+/// @param	damage		number
+/// @param	damageType	number
+/// @param	velocity	3-element vector
+/// @param	group		number
+/// @param	index		number
+function MasterKeyImage::onHitboxDamage(%this, %player, %slot, %collision, %position, %damage, %damageType, %velocity, %group, %index)
+{
+	// Prevent senseless violence against innocent townsfolk.
+	if(%collision.getDataBlock() == HarvesterArmor.getID())
+	{
+		return Parent::onHitboxDamage(%this, %player, %slot, %collision, %position, %damage, %damageType, %velocity, %group, %index);
+	}
+	
+	return;
 }
 
 /// @param	this	weapon image
