@@ -334,21 +334,20 @@ function reelBobber(%bobber)
 		}
 		else
 		{
-			messageClient(%bobber.player.client, '', "\c2You got a fish!");
+			messageClient(%client, '', "\c2You got a fish!");
 			if (%stats = %bobber.player.showReelStats())
 			{
-				switch (%stats)
-				{
-					case 1: messageClient(%bobber.player.client, '', "\c3Reel Timing: \c6" @ %delta @ "ms (ping " @ %client.getPing() @ ")");
-					case 2: messageClient(%bobber.player.client, '', "\c3Reel Quality: \c6" @ %quality @ " \c3Reel Percent: \c6" @ %percent);
-				}
+				if (%stats > 0)
+					messageClient(%client, '', "\c3Reel Timing: \c6" @ %delta @ "ms (ping " @ %client.getPing() @ ")");
+				if (%stats > 1)
+					messageClient(%client, '', "\c3Reel Quality: \c6" @ %quality @ " \c3Reel Percent: \c6" @ %percent);
 			}
 			// pickFromTable(FishingLootTable, %quality)
 		}
 	}
 	else if (%bobber.fishPending == 1)
 	{
-		messageClient(%bobber.player.client, '', "\c0You reeled in too early...");
+		messageClient(%client, '', "\c0You reeled in too early...");
 	}
 	cleanupBobber(%bobber);
 }
@@ -374,10 +373,10 @@ function Player::showReelStats(%pl)
 	{
 		if (%pl.tool[%i].showFishingStats)
 		{
-			return %pl.tool[%i].showFishingStats;
+			%max = getMax(%max, %pl.tool[%i].showFishingStats);
 		}
 	}
-	return 0;
+	return %max + 0;
 }
 
 function startFish(%player, %lineDist, %lineVel)

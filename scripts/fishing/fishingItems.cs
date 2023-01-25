@@ -118,6 +118,7 @@ datablock ItemData(TackleBoxItem : HammerItem)
 {
 	shapeFile = "./fishingPole/tacklebox.dts";
 
+	iconName = "";
 	uiName = "Tackle Box";
 	image = "TackleBoxImage";
 	doColorShift = false;
@@ -137,8 +138,6 @@ datablock ShapeBaseImageData(TackleBoxImage)
 	colorShiftColor = "1 1 1 1";
 
 	item = "TackleBoxItem";
-	
-	armReady = 1;
 
 	offset = "-0.5017 0.04 -0.17389";
 
@@ -157,9 +156,19 @@ datablock ShapeBaseImageData(TackleBoxImage)
 	stateTransitionOnTimeout[2] = "LoopA";
 };
 
+function TackleBoxImage::onMount(%this, %obj, %slot)
+{
+	%obj.playThread(1, armReadyBoth);
+}
+
+function TackleBoxImage::onUnmount(%this, %obj, %slot)
+{
+	%obj.playThread(1, armReadyRight);
+}
+
 function TackleBoxImage::onLoop(%this, %obj, %slot)
 {
-	%item = %image.item;
+	%item = %this.item;
 	%description = %item.description;
 	%cl = %obj.client;
 
@@ -173,12 +182,13 @@ datablock ItemData(FishFinderItem : HammerItem)
 {
 	shapeFile = "./fishingPole/FishFinder.dts";
 
+	iconName = "";
 	uiName = "Fish Finder";
 	image = "FishFinderImage";
 	doColorShift = false;
 	colorShiftColor = "1 1 1 1";
 
-	showFishingStats = 1;
+	showFishingStats = 2;
 
 	description = "\c6Allows you to see the quality tier of your pull";
 };
@@ -192,8 +202,6 @@ datablock ShapeBaseImageData(FishFinderImage)
 	colorShiftColor = "1 1 1 1";
 
 	item = "FishFinderItem";
-	
-	armReady = 1;
 
 	offset = "-0.56 0 0";
 	rotation = eulerToMatrix("-20 0 0");
@@ -213,9 +221,19 @@ datablock ShapeBaseImageData(FishFinderImage)
 	stateTransitionOnTimeout[2] = "LoopA";
 };
 
+function FishFinderImage::onMount(%this, %obj, %slot)
+{
+	%obj.playThread(1, armReadyBoth);
+}
+
+function FishFinderImage::onUnmount(%this, %obj, %slot)
+{
+	%obj.playThread(1, armReadyRight);
+}
+
 function FishFinderImage::onLoop(%this, %obj, %slot)
 {
-	%item = %image.item;
+	%item = %this.item;
 	%description = %item.description;
 	%cl = %obj.client;
 
