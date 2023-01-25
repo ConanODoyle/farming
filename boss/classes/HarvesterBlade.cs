@@ -590,9 +590,9 @@ datablock ExplosionData(HarvesterBladeRecoilExplosion)
 	
 	shakeCamera = true;
 	camShakeFreq = "1.0 1.0 1.0";
-	camShakeAmp = "2.0 4.2 2.0";
+	camShakeAmp = "3.0 5.2 3.0";
 	camShakeDuration = 0.7;
-	camShakeRadius = 11.0;
+	camShakeRadius = 22.0;
 };
 
 datablock ProjectileData(HarvesterBladeRecoilProjectile)
