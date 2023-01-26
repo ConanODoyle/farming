@@ -1,15 +1,19 @@
 // brapps
 
-function centerString(%string, %width) {
-	if (strLen(%string) % 2 != strLen(%width) % 2) {
+function centerString(%string, %width)
+{
+	if ((strLen(%string) % 2) != (%width % 2))
+	{
 		%string = %string @ " ";
 	}
 
-	if (strLen(%string) > %width) {
+	if (strLen(%string) > %width)
+	{
 		%string = getSubStr(%string, 0, %width);
 	}
 
-	while (strLen(%string) < %width) {
+	while (strLen(%string) < %width)
+	{
 		%string = " " @ %string @ " ";
 	}
 
@@ -18,7 +22,8 @@ function centerString(%string, %width) {
 
 function alphaNumericToPrintID(%char) {
 
-	switch$ (%char) {
+	switch$ (%char)
+	{
 		case "&": %char = "-and";
 		case "'": %char = "-apostrophe";
 		case "*": %char = "-asterisk";
@@ -42,9 +47,11 @@ function alphaNumericToPrintID(%char) {
 	return $printNameTable[%name];
 }
 
-function setBappsMatText(%string) {
+function setBappsMatText(%string)
+{
 	%string = centerString(%string, 6);
-	for (%i = 0; %i < 6; %i++) {
+	for (%i = 0; %i < 6; %i++)
+	{
 		%brick = "_BappsWelcomeMat" @ %i;
 		if (!isObject(%brick))
 		{
@@ -55,26 +62,32 @@ function setBappsMatText(%string) {
 	}
 }
 
-function addBappsMatString(%string) {
+function addBappsMatString(%string)
+{
 	$Farming::BappsMatStrings = trim($Farming::BappsMatStrings TAB getSubStr(%string, 0, 6));
 }
 
-function removeBappsMatString(%index) {
-	if (%index $= "last") {
+function removeBappsMatString(%index)
+{
+	if (%index $= "last")
+	{
 		%index = getFieldCount($Farming::BappsMatStrings) - 1;
 	}
 
-	if (%index < 0 || %index > getFieldCount($Farming::BappsMatStrings) || %index $= "") {
+	if (%index < 0 || %index > getFieldCount($Farming::BappsMatStrings) || %index $= "")
+	{
 		return;
 	}
 
 	$Farming::BappsMatStrings = removeField($Farming::BappsMatStrings, %index);
 }
 
-function setRandomBappsMatString() {
+function setRandomBappsMatString()
+{
 	%index = getRandom(1, getFieldCount($Farming::BappsMatStrings)) - 1;
 	%sentinel = 0;
-	while ((%string = getField($Farming::BappsMatStrings, %index)) $= $Farming::LastBappsMatString) {
+	while ((%string = getField($Farming::BappsMatStrings, %index)) $= $Farming::LastBappsMatString)
+	{
 		if (%sentinel > 100) break;
 
 		%index = getRandom(1, getFieldCount($Farming::BappsMatStrings)) - 1;
@@ -82,9 +95,11 @@ function setRandomBappsMatString() {
 	}
 
 	setBappsMatText(%string);
+	$Farming::LastBappsMatString = %string;
 }
 
-function randomBappsMatLoop() {
+function randomBappsMatLoop()
+{
 	cancel($BappsMatSchedule);
 
 	setRandomBappsMatString();
