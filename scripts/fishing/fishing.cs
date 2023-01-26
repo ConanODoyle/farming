@@ -404,10 +404,10 @@ function startFish(%player, %image)
 	%lineDist = %image.fishingRange;
 	%lineVel = %image.fishingForce;
 	%baseQuality = %image.fishingBaseQuality;
-	%qSub = %image.fishingQualitySub;
-	%qDiv = %image.fishingQualityDiv;
-	%pSub = %image.fishingPercentSub;
-	%pDiv = %image.fishingPercentDiv;
+	%qSub = %image.fishingQSub;
+	%qDiv = %image.fishingQDiv;
+	%pSub = %image.fishingPSub;
+	%pDiv = %image.fishingPDiv;
 
 	%bobberPos = setWord(%hitPos, 2, getWord(%brick.position, 2) - %brick.dataBlock.brickSizeZ * 0.1);
 	%bobberPos = %player.getMuzzlePoint(0) SPC getWords(%player.getTransform(), 3, 6);

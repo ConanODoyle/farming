@@ -121,9 +121,16 @@ function FishingPoleImage::onReady(%this, %obj, %slot)
 {
 	if (isObject(%cl = %obj.client))
 	{
-		%durability = getDurability(%img, %obj, %slot);
+		%durability = getDurability(%this, %obj, %slot);
 
-		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " ", 1);
+		if (%durability == 0 && isObject(%cl = %obj.client))
+		{
+			%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!", 1);
+		}
+		else
+		{
+			%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " ", 1);
+		}
 	}
 }
 
@@ -147,6 +154,16 @@ function FishingPoleImage::onFire(%this, %obj, %slot)
 {
 	if (!isObject(%obj.bobber))
 	{
+		if (%item.hasDataID)
+		{
+			%durability = getDurability(%this, %obj, %slot);
+			if (%durability == 0 && isObject(%cl = %obj.client))
+			{
+				%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!", 1);
+				return;
+			}
+		}
+		useDurability(%img, %obj, %slot);
 		castFishingLine(%this, %obj, %slot);
 	}
 	else
