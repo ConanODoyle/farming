@@ -190,7 +190,7 @@ datablock ItemData(FishFinderItem : HammerItem)
 
 	showFishingStats = 2;
 
-	description = "\c6Allows you to see the quality tier of your pull";
+	description = "\c6Allows you to see the quality of your \n\c6pull & activity level of a fishing spot";
 };
 
 datablock ShapeBaseImageData(FishFinderImage)
@@ -236,6 +236,14 @@ function FishFinderImage::onLoop(%this, %obj, %slot)
 	%item = %this.item;
 	%description = %item.description;
 	%cl = %obj.client;
+
+	%start = %obj.getEyePoint();
+	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 100));
+	%ray = containerRaycast(%start, %end, $Typemasks::FxBrickAlwaysObjectType);
+	if (isObject(%hit = getWord(%ray, 0)) && %hit.dataBlock.isFishingSpot)
+	{
+		%description = "\c3Fishing Spot Activity: \c6" @ mFloor(%hit.fish * 100) @ "%";
+	}
 
 	if (isObject(%cl))
 	{

@@ -236,7 +236,6 @@ function bobberCheck(%bobber)
 
 function bobberFishCheck(%bobber)
 {
-
 	if (!%bobber.fishPending)
 	{
 		//reset fish check timing
@@ -327,7 +326,7 @@ function reelBobber(%bobber)
 	if (%delta <= 5000)
 	{
 		%quality = mFloor(calculateQuality(%delta, 3.5, 350, 400));
-		%percent = calculatePercent(%delta, 500, 1000);
+		%percent = calculatePercent(%delta, 400, 1000);
 		if (%quality < 0)
 		{
 			messageClient(%client, '', "\c0You reeled in too late...");
@@ -342,7 +341,19 @@ function reelBobber(%bobber)
 				if (%stats > 1)
 					messageClient(%client, '', "\c3Reel Quality: \c6" @ %quality @ " \c3Reel Percent: \c6" @ %percent);
 			}
-			// pickFromTable(FishingLootTable, %quality)
+			%itemDB = getFishingReward(%percent, %quality);
+			if (isObject(%itemDB))
+			{
+				%item = new Item(Fish)
+				{
+					dataBlock = %itemDB;
+					harvestedBG = %client.brickGroup;
+				};
+				MissionCleanup.add(%item);
+				%item.schedule(60 * 1000, schedulePop);
+				%pos = (isObject(%bobber.player) ? %bobber.player.position : %bobber.position);
+				%item.setTransform(%client.player.position SPC getRandomRotation());
+			}
 		}
 	}
 	else if (%bobber.fishPending == 1)
@@ -359,7 +370,7 @@ function calculateQuality(%delta, %base, %subtract, %divide)
 
 function calculatePercent(%delta, %subtract, %divide)
 {
-	return mFloatLength(getMin(getMax(%delta - %sub, 0) / %divide, 1), 2);
+	return mFloatLength(getMin(getMax(%delta - %subtract, 0) / %divide, 1), 2);
 }
 
 function Player::showReelStats(%pl)

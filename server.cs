@@ -79,6 +79,7 @@ exec("./config/prices.cs");
 exec("./config/storage.cs");
 exec("./config/botShop.cs");
 exec("./config/quests.cs");
+exec("./config/fishing.cs");
 
 // Crop code
 exec("./crops/exec.cs");
