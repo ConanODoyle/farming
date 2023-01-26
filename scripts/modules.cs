@@ -19,6 +19,7 @@ exec("./fishing/server.cs");
 // exec("./chatFilter.cs");
 exec("./chestScore.cs");
 exec("./bappsMat.cs");
+exec("./postOfficeSigns.cs");
 exec("./donator.cs");
 exec("./lights.cs");
 exec("./lots.cs");
