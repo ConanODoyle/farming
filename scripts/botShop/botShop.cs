@@ -316,6 +316,26 @@ function setupStorePurchase(%dataObj)
 	%dataObj.var_productList = %list;
 }
 
+function searchForItem(%dataObj, %itemName)
+{
+	for (%i = 0; %i < %dataObj.sellItemCount; %i++)
+	{
+		%item = %dataObj.sellItem[%i];
+		//exact match
+		if (%item.uiName $= %itemName)
+		{
+			%selectedItem = %item;
+			break;
+		}
+		//partial match
+		if (strPos(strLwr(%item.uiName), %itemName) >= 0)
+		{
+			%selectedItem = %item;
+		}
+	}
+	return %selectedItem;
+}
+
 function storeSelectionParser(%dataObj, %msg)
 {
 	%pl = %dataObj.player;
@@ -326,13 +346,21 @@ function storeSelectionParser(%dataObj, %msg)
 		return "Quit";
 	}
 
-	for (%i = 0; %i < %dataObj.sellItemCount; %i++)
+	%selectedItem = searchForItem(%dataObj, %msg);
+
+	//try again, with partial phrase match
+	if (!isObject(%selectedItem))
 	{
-		%item = %dataObj.sellItem[%i];
-		if (strPos(strLwr(%item.uiName), %msg) >= 0)
+		for (%j = 0; %j < getWordCount(%msg); %j++)
 		{
-			%selectedItem = %item;
-			break;
+			%word = getWord(%msg, %j);
+
+			%selectedItem = searchForItem(%dataObj, %word);
+
+			if (isObject(%selectedItem))
+			{
+				break;
+			}
 		}
 	}
 

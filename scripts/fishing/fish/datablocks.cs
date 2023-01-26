@@ -58,6 +58,7 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 	%shape = expandFileName("./resources/" @ %shapeName @ "/" @ %shapeName @ ".dts");
 	eval(DataString_FishItem(%displayName,%safeName,%itemName,%imageName,%shape));
 	eval(DataString_FishImage(%uiname,%imageName,%itemName,%shape));
+	%imageName.rotation = eulerToMatrix("0 0 90");
 
 	%count = %stackMax;
 	$Stackable_[%safeName @ "_StackedItemTotal"] = %count;
