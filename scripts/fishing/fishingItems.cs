@@ -40,7 +40,7 @@ datablock ShapeBaseImageData(FishingPole1Image : TrowelImage)
 	rotation = eulerToMatrix("-50 0 0");
 
 	fishingRange = 64;
-	fishingForce = 20;
+	fishingForce = 25;
 	fishingPSub = 400;
 	fishingPDiv = 800;
 	fishingBaseQuality = 3.5;
@@ -72,7 +72,7 @@ datablock ShapeBaseImageData(FishingPole2Image : FishingPole1Image)
 	rotation = eulerToMatrix("-50 0 0");
 
 	fishingRange = 64;
-	fishingForce = 30;
+	fishingForce = 25;
 	fishingPSub = 400;
 	fishingPDiv = 1800;
 	fishingBaseQuality = 3.0;
@@ -104,7 +104,7 @@ datablock ShapeBaseImageData(FishingPole3Image : FishingPole1Image)
 	rotation = eulerToMatrix("-50 0 0");
 
 	fishingRange = 64;
-	fishingForce = 40;
+	fishingForce = 20;
 	fishingPSub = 300;
 	fishingPDiv = 2000;
 	fishingBaseQuality = 2.6;
