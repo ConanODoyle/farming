@@ -286,7 +286,7 @@ function bobberFishCheck(%bobber)
 		{
 			%bobber.fishPending = 1;
 			%bobber.fishQuality = %bobber.nearestFishingSpot.fish;
-			%bobber.nextDunkTime = $Sim::Time + getRandom(10) + 8;
+			%bobber.nextDunkTime = $Sim::Time + getRandom(12) + 4;
 			// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Fish now pending, dunk time " @ %bobber.nextDunkTime);
 		}
 	}
@@ -325,23 +325,23 @@ function reelBobber(%bobber)
 	%delta = getSimTime() - %bobber.dunkTime - (%client.getPing() * 2);
 	if (%delta <= 5000)
 	{
-		%quality = mFloor(calculateQuality(%delta, 3.5, 350, 400));
-		%percent = calculatePercent(%delta, 400, 1000);
+		%percent = calculatePercent(%delta, %bobber.pSub, %bobber.pDiv);
+		%quality = mFloatLength(calculateQuality(%delta, %bobber.baseQuality, %bobber.qSub, %bobber.qDiv), 2);
 		if (%quality < 0)
 		{
 			messageClient(%client, '', "\c0You reeled in too late...");
 		}
 		else
 		{
-			messageClient(%client, '', "\c2You got a fish!");
-			if (%stats = %bobber.player.showReelStats())
-			{
-				if (%stats > 0)
-					messageClient(%client, '', "\c3Reel Timing: \c6" @ %delta @ "ms (ping " @ %client.getPing() @ ")");
-				if (%stats > 1)
-					messageClient(%client, '', "\c3Reel Quality: \c6" @ %quality @ " \c3Reel Percent: \c6" @ %percent);
-			}
 			%itemDB = getFishingReward(%percent, %quality);
+			messageClient(%client, '', "\c2You fished one " @ %itemDB.uiName @ "!");
+			if (%stats = %bobber.player.checkReelStatsDisplay())
+			{
+				if (getWord(%stats, 1))
+					messageClient(%client, '', "\c3Reel Timing: \c6" @ %delta @ "ms (ping " @ %client.getPing() @ ")");
+				if (getWord(%stats, 2))
+					messageClient(%client, '', "\c3Reel Quality: \c6" @ %quality @ " \c3Fish weight modifier: \c6" @ mFloor((1 - %percent) * 100) @ "%");
+			}
 			if (isObject(%itemDB))
 			{
 				%item = new Item(Fish)
@@ -365,7 +365,7 @@ function reelBobber(%bobber)
 
 function calculateQuality(%delta, %base, %subtract, %divide)
 {
-	return getMax(mFloatLength(%base - (getMax(%delta - %subtract, 0) / %divide), 1), 0);
+	return getMax(mFloatLength(%base - (getMax(%delta - %subtract, 0) / %divide), 2), 0);
 }
 
 function calculatePercent(%delta, %subtract, %divide)
@@ -373,7 +373,7 @@ function calculatePercent(%delta, %subtract, %divide)
 	return mFloatLength(getMin(getMax(%delta - %subtract, 0) / %divide, 1), 2);
 }
 
-function Player::showReelStats(%pl)
+function Player::checkReelStatsDisplay(%pl)
 {
 	if (%pl.fishingTest)
 	{
@@ -384,13 +384,13 @@ function Player::showReelStats(%pl)
 	{
 		if (%pl.tool[%i].showFishingStats)
 		{
-			%max = getMax(%max, %pl.tool[%i].showFishingStats);
+			%stats = setWord(%stats, %pl.tool[%i].showFishingStats, 1);
 		}
 	}
-	return %max + 0;
+	return %stats;
 }
 
-function startFish(%player, %lineDist, %lineVel)
+function startFish(%player, %image)
 {
 	if (isObject(%player.bobber))
 	{
@@ -400,6 +400,14 @@ function startFish(%player, %lineDist, %lineVel)
 		}
 		return 0;
 	}
+
+	%lineDist = %image.fishingRange;
+	%lineVel = %image.fishingForce;
+	%baseQuality = %image.fishingBaseQuality;
+	%qSub = %image.fishingQualitySub;
+	%qDiv = %image.fishingQualityDiv;
+	%pSub = %image.fishingPercentSub;
+	%pDiv = %image.fishingPercentDiv;
 
 	%bobberPos = setWord(%hitPos, 2, getWord(%brick.position, 2) - %brick.dataBlock.brickSizeZ * 0.1);
 	%bobberPos = %player.getMuzzlePoint(0) SPC getWords(%player.getTransform(), 3, 6);
@@ -411,6 +419,15 @@ function startFish(%player, %lineDist, %lineVel)
 	%bobber.fishingSpot = %brick;
 	%bobber.setNodeColor("bobberTop", setWord(getColorIDTable(%player.client.currentColor), 3, 1));
 	%bobber.sourcePlayer = %player;
+
 	%bobber.maxDistance = %lineDist;
+	%bobber.baseQuality = %baseQuality;
+	%bobber.qSub = %qSub;
+	%bobber.qDiv = %qDiv;
+	%bobber.pSub = %pSub;
+	%bobber.pDiv = %pDiv;
+	
 	$FishingSimSet.add(%player.bobber);
+
+	return %bobber;
 }

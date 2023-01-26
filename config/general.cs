@@ -236,7 +236,7 @@ function addPostOfficeStrings()
 	addPostOfficeString("direct" TAB "mail");
 	addPostOfficeString(".ship." TAB "me");
 	addPostOfficeString("zipped" TAB "file");
-	addPostOfficeString(".send." TAB "boober");
+	addPostOfficeString(".send." TAB "bobber");
 	addPostOfficeString(". go ." TAB "phish!");
 	addPostOfficeString(".sgep." TAB "office");
 	addPostOfficeString("ownser" TAB "forog?");

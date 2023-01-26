@@ -17,36 +17,37 @@ new ScriptObject(FishingLootTable) { class = "LootTableObject"; };
 
 $fishWeight = 2;
 
-// FishingLootTable.addFishingLootDrop("Old Boot", 0, 50, 0);
-// FishingLootTable.addFishingLootDrop("Empty Can", 0, 50, 0);
-FishingLootTable.addFishingLootDrop("Wrench", 0, 50, 0);
-FishingLootTable.addFishingLootDrop("Hammer", 0, 50, 0);
-FishingLootTable.addFishingLootDrop("PrintGun", 0, 50, 0);
-FishingLootTable.addFishingLootDrop("PickaxeItem", 0, 50, 0);
-FishingLootTable.addFishingLootDrop("PotatoSeedItem", 0, 50, 0);
-FishingLootTable.addFishingLootDrop("CarrotSeedItem", 0, 50, 0);
-FishingLootTable.addFishingLootDrop("OnionSeedItem", 0, 50, 0);
+// FishingLootTable.addFishingLootDrop("Old Boot", 0, 30, 0);
+// FishingLootTable.addFishingLootDrop("Empty Can", 0, 30, 0);
+FishingLootTable.addFishingLootDrop("Wrench", 0, 30, 0);
+FishingLootTable.addFishingLootDrop("Hammer", 0, 30, 0);
+FishingLootTable.addFishingLootDrop("Printer", 0, 30, 0);
+FishingLootTable.addFishingLootDrop("Pickaxe", 0, 30, 0);
+FishingLootTable.addFishingLootDrop("Potato Seed", 0, 50, 0.5);
+FishingLootTable.addFishingLootDrop("Carrot Seed", 0, 50, 0.5);
+FishingLootTable.addFishingLootDrop("Onion Seed", 0, 50, 0.5);
 
 FishingLootTable.addFishingLootDrop("Sardine Fish", 100 * $fishWeight, 100 * $fishWeight, 1);
 FishingLootTable.addFishingLootDrop("Anchovy Fish", 100 * $fishWeight, 60 * $fishWeight, 1);
-FishingLootTable.addFishingLootDrop("CornSeedItem", 0, 50, 1);
-FishingLootTable.addFishingLootDrop("WheatSeedItem", 0, 50, 1);
-FishingLootTable.addFishingLootDrop("CabbageSeedItem", 0, 50, 1);
+FishingLootTable.addFishingLootDrop("Corn Seed", 0, 30, 1);
+FishingLootTable.addFishingLootDrop("Wheat Seed", 0, 30, 1);
+FishingLootTable.addFishingLootDrop("Cabbage Seed", 0, 30, 1);
 
-FishingLootTable.addFishingLootDrop("Minnow Fish", 60 * $fishWeight, 20 * $fishWeight, 2);
-FishingLootTable.addFishingLootDrop("Catfish Fish", 40 * $fishWeight, 10 * $fishWeight, 2);
-FishingLootTable.addFishingLootDrop("TurnipSeedItem", 0, 50, 2);
-FishingLootTable.addFishingLootDrop("PortobelloSeedItem", 0, 50, 2);
-FishingLootTable.addFishingLootDrop("BlueberrySeedItem", 0, 50, 2);
+FishingLootTable.addFishingLootDrop("Minnow Fish", 60 * $fishWeight, 30 * $fishWeight, 2);
+FishingLootTable.addFishingLootDrop("Catfish Fish", 40 * $fishWeight, 20 * $fishWeight, 2);
+FishingLootTable.addFishingLootDrop("Turnip Seed", 0, 30, 2.2);
+FishingLootTable.addFishingLootDrop("Portobello Seed", 0, 30, 2.2);
+FishingLootTable.addFishingLootDrop("Blueberry Seed", 0, 30, 2.2);
 
-FishingLootTable.addFishingLootDrop("Bass Fish", 20 * $fishWeight, -20 * $fishWeight, 3);
-FishingLootTable.addFishingLootDrop("Arowana Fish", 20 * $fishWeight, -20 * $fishWeight, 3);
-FishingLootTable.addFishingLootDrop("RoseSeedItem", 0, 50, 3);
-FishingLootTable.addFishingLootDrop("LilySeedItem", 0, 50, 3);
-FishingLootTable.addFishingLootDrop("DaisySeedItem", 0, 50, 3);
-FishingLootTable.addFishingLootDrop("Clipper", 5, -20, 3);
-FishingLootTable.addFishingLootDrop("Clipper", 5, -20, 3);
-FishingLootTable.addFishingLootDrop("Trowel", 5, -20, 3);
-FishingLootTable.addFishingLootDrop("Hoe", 5, -20, 3);
-FishingLootTable.addFishingLootDrop("Sickle", 5, -20, 3);
-// FishingLootTable.addFishingLootDrop("CropTrak", 2, -20, 3);
+FishingLootTable.addFishingLootDrop("Bass Fish", 25 * $fishWeight, -15 * $fishWeight, 2.5);
+FishingLootTable.addFishingLootDrop("Arowana Fish", 25 * $fishWeight, -15 * $fishWeight, 2.5);
+
+FishingLootTable.addFishingLootDrop("Rose Seed", 0, 30, 3);
+FishingLootTable.addFishingLootDrop("Lily Seed", 0, 30, 3);
+FishingLootTable.addFishingLootDrop("Daisy Seed", 0, 30, 3);
+
+FishingLootTable.addFishingLootDrop("Clipper", 4, -20, 3.2);
+FishingLootTable.addFishingLootDrop("Trowel", 4, -20, 3.2);
+FishingLootTable.addFishingLootDrop("Hoe", 2, -30, 3.4);
+FishingLootTable.addFishingLootDrop("Sickle", 2, -30, 3.4);
+// FishingLootTable.addFishingLootDrop("CropTrak", 1, -20, 3);

@@ -29,7 +29,7 @@ function pickFromTable(%table, %percent, %maxTier)
 	%currWeight = 0;
 	for (%i = 0; %i < %table.count; %i++)
 	{
-		%extraWeight = lerp(%table.aWeight[%i], %table.bWeight[%i]);
+		%extraWeight = lerp(%table.aWeight[%i], %table.bWeight[%i], %percent);
 		if (%extraWeight < 0 || %table.tier[%i] > %maxTier)
 		{
 			continue;
@@ -45,6 +45,7 @@ function pickFromTable(%table, %percent, %maxTier)
 	if (%pick $= "")
 	{
 		talk("ERROR: pickFromTable failed to find a pick! Params: " @ %table SPC %percent SPC %maxTier);
+		talk("Weight: " @ %weight @ " pick: " @ %pickWeight @ " currWeight: " @ %currWeight);
 		return 0;
 	}
 	else
@@ -56,5 +57,9 @@ function pickFromTable(%table, %percent, %maxTier)
 function getFishingReward(%percent, %maxTier)
 {
 	%uiName = pickFromTable(FishingLootTable, %percent, %maxTier);
+	if (!isObject($UINameTable_Items[%uiName]))
+	{
+		talk("No item found for " @ %uiName);
+	}
 	return $UINameTable_Items[%uiName];
 }

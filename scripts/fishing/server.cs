@@ -3,4 +3,5 @@ exec("./fishing.cs");
 exec("./fishingItems.cs");
 exec("./fishingTables.cs");
 exec("./fish/datablocks.cs");
-// exec("./fishItems.cs");
+
+exec("./testing.cs");

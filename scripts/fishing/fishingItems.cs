@@ -10,7 +10,7 @@ datablock ItemData(FishingPole1Item : HammerItem)
 {
 	iconName = "";
 	shapeFile = "./fishingPole/pole.dts";
-	uiName = "Fishing Pole";
+	uiName = "Fishing Pole 3";
 
 	image = "FishingPole1Image";
 	doColorShift = true;
@@ -41,11 +41,80 @@ datablock ShapeBaseImageData(FishingPole1Image : TrowelImage)
 
 	fishingRange = 64;
 	fishingForce = 20;
+	fishingPSub = 400;
+	fishingPDiv = 800;
+	fishingBaseQuality = 3.5;
+	fishingQSub = 300;
+	fishingQDiv = 400;
 
 	areaHarvest = 2;
 	stateTimeoutValue[2] = 0.4;
 
-	toolTip = "Fish in designated fishing zones";
+	toolTip = "Fish in any pond";
+};
+
+datablock ItemData(FishingPole2Item : FishingPole1Item)
+{
+	shapeFile = "./fishingPole/pole2.dts";
+	doColorShift = true;
+	colorShiftColor = "0.59 0.40 0.18 1";
+	image = FishingPole2Image;
+	uiName = "Fishing Pole 2";
+};
+
+datablock ShapeBaseImageData(FishingPole2Image : FishingPole1Image)
+{
+	shapeFile = "./fishingPole/pole2.dts";
+
+	item = FishingPole2Item;
+	doColorShift = true;
+	colorShiftColor = FishingPole2Item.colorShiftColor;
+	rotation = eulerToMatrix("-50 0 0");
+
+	fishingRange = 64;
+	fishingForce = 30;
+	fishingPSub = 400;
+	fishingPDiv = 1800;
+	fishingBaseQuality = 3.0;
+	fishingQSub = 300;
+	fishingQDiv = 600;
+
+	areaHarvest = 2;
+	stateTimeoutValue[2] = 0.4;
+
+	toolTip = "Fish in any pond";
+};
+
+datablock ItemData(FishingPole3Item : FishingPole1Item)
+{
+	shapeFile = "./fishingPole/pole3.dts";
+	doColorShift = true;
+	colorShiftColor = "0.72 0.56 0.36 1";
+	image = FishingPole3Image;
+	uiName = "Fishing Pole";
+};
+
+datablock ShapeBaseImageData(FishingPole3Image : FishingPole1Image)
+{
+	shapeFile = "./fishingPole/pole3.dts";
+
+	item = FishingPole3Item;
+	doColorShift = true;
+	colorShiftColor = FishingPole3Item.colorShiftColor;
+	rotation = eulerToMatrix("-50 0 0");
+
+	fishingRange = 64;
+	fishingForce = 40;
+	fishingPSub = 300;
+	fishingPDiv = 2000;
+	fishingBaseQuality = 2.6;
+	fishingQSub = 500;
+	fishingQDiv = 500;
+
+	areaHarvest = 2;
+	stateTimeoutValue[2] = 0.4;
+
+	toolTip = "Fish in any pond";
 };
 
 function FishingPoleImage::onReady(%this, %obj, %slot)
@@ -103,7 +172,7 @@ function castFishingLine(%this, %obj, %slot)
 	{
 		return;
 	}
-	startFish(%obj, %this.fishingRange, %this.fishingForce);
+	startFish(%obj, %this);
 	%obj.playThread(2, shiftDown);
 }
 
