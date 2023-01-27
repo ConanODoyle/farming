@@ -105,3 +105,27 @@ function BrickStasisMachineData::onColorChange(%this, %brick)
 		%brick.stasisMachine.setNodeColor("ALL", getColorIDTable(%brick.getColorID()));
 	}
 }
+
+/// @param	this	brick
+function fxDTSBrick::deactivateStasisMachine(%this)
+{
+	if(isObject(%this.stasisMachine))
+	{
+		%this.stasisMachine.playThread(0, "ready");
+		%this.stasisMachine.schedule(625, playThread, 0, "unlock");
+		%this.stasisMachine.schedule(2042, playThread, 0, "deactivate");
+		// Spawn item at 2,667 MS.
+	}
+}
+
+/// @param	this	brick
+function fxDTSBrick::resetStasisMachine(%this)
+{
+	if(isObject(%this.stasisMachine))
+	{
+		%this.stasisMachine.playThread(0, "rotate");
+	}
+}
+
+registerOutputEvent(fxDTSBrick, deactivateStasisMachine);
+registerOutputEvent(fxDTSBrick, resetStasisMachine);
