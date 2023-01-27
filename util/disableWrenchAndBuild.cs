@@ -183,11 +183,22 @@ package disableWrenchData
 		{
 			return;
 		}
+		if (%col.cannotPickup || %col.spawnBrick.cannotPickup)
+		{
+			return;
+		}
 
 		return parent::onCollision(%this, %obj, %col, %vec, %speed);
 	}
 };
 schedule(1000, 0, activatePackage, disableWrenchData);
+
+function fxDTSBrick::setItemPickupable(%brick, %bool)
+{
+	%brick.cannotPickup = !%bool;
+	%brick.item.cannotPickup = !%bool;
+}
+registerOutputEvent("fxDTSBrick", "setItemPickupable", "bool 1");
 
 function checkItemAllowed(%itemDB)
 {
