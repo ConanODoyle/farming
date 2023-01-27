@@ -13,6 +13,7 @@ else if(forceRequiredAddOn("Support_Hitscan") == $Error::AddOn_NotFound)
 else
 {
 	exec($Harvester::Root @ "/plugins/unitVectorFromAngles.cs");
+	exec($Harvester::Root @ "/plugins/checkInZone.cs");
 	
 	exec($Harvester::Root @ "/properties.cs");
 	
