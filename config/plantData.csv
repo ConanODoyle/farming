@@ -169,6 +169,6 @@ Date6,80,brickDateTree7CropData,brickDateTree7CropData,20,40,60,,,,,,,30 30 0,30
 Date7,60,brickDateTree8CropData,brickDateTree8CropData,4,80,10,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Date8,50,brickDateTree9CropData,brickDateTree9CropData,4,80,20,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Date9,50,brickDateTree10CropData,brickDateTree10CropData,4,80,20,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Date10,,,,,,,,,,,,,,,,6 7 8 9 10 11 12,DateItem,100,Tree_Clipper,1 2 3 4 5,,brickDateTree7CropData,,,,,,,,,,,,,,,,,,,,
+Date10,,,,,,,,,,,,,,,,6 7 8 9 10 11 12,DateItem,100,Tree_Clipper,1 2 3 4 5,,brickDateTree6CropData,,,,,,,,,,,,,,,,,,,,
 ,07:16:40,,,3910,0.149236641221374,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,03:33:20,,,960,0.075,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
