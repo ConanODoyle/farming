@@ -1,5 +1,5 @@
 
-function DataString_FishItem(%uiname,%safeName,%itemName,%imageName,%shape)
+function DataString_FishItem(%uiname,%safeName,%itemName,%imageName,%shape,%notStackable)
 {
 	return "" 
 	@"datablock ItemData(" @ %itemName @ ")"
@@ -16,7 +16,7 @@ function DataString_FishItem(%uiname,%safeName,%itemName,%imageName,%shape)
 		@"doColorShift = false;"
 		@"colorShiftColor = \"1 1 1 1\";"
 		@"canDrop = 1;"
-		@"isStackable = 1;"
+		@"isStackable = " @ (!%notstackable) @ ";"
 		@"stackType = \"" @ %safeName @ "\";"
 	@"};";
 }
@@ -51,20 +51,29 @@ function DataString_FishImage(%uiname,%imageName,%itemName,%shape)
 
 function FishDatablocks(%name,%shapeName,%stackMax)
 {
-	%displayName = %name SPC "Fish";
-	%safeName = getSafeVariableName(%name @ "Fish");
+	%displayName = %name;
+	%safeName = getSafeVariableName(%name);
 	%itemName = %safeName @ "Item";
 	%imageName = %safeName @ "Image";
 	%shape = expandFileName("./resources/" @ %shapeName @ "/" @ %shapeName @ ".dts");
-	eval(DataString_FishItem(%displayName,%safeName,%itemName,%imageName,%shape));
+	eval(DataString_FishItem(%displayName,%safeName,%itemName,%imageName,%shape,(%stackMax <= 1)));
 	eval(DataString_FishImage(%uiname,%imageName,%itemName,%shape));
 	%imageName.rotation = eulerToMatrix("0 0 90");
+
+	//storageMax
+	$StorageMax_[%safeName] = %stackMax * 3;
+
+	if (%stackMax <= 1) //cant be stacked
+	{
+		$Stackable_[%safeName, "StackedItem0"] = %itemName SPC 1;
+		return;
+	}
 
 	%count = %stackMax;
 	$Stackable_[%safeName @ "_StackedItemTotal"] = %count;
 	for(%i = 0; %i < %count; %i++)
 	{
-		%uiName = %displayName @ %i;
+		%uiName = %displayName @ "(" @ %i @ ")";
 		%itemName = %safeName @ %i @ "Item";
 		%imageName = %safeName @ %i @ "Image";
 		%shape = expandFileName("./resources/" @ %shapeName @ "/" @ %shapeName @ (%i + 1) @ ".dts");
@@ -86,3 +95,7 @@ FishDatablocks("Catfish","Catfish",3);
 FishDatablocks("Minnow","Minnow",3);
 FishDatablocks("Anchovy","Anchovy",4);
 FishDatablocks("Arowana","Arowana",3);
+
+FishDatablocks("Old Boot","Old Boot",3);
+FishDatablocks("Glass Bottle","Glass Bottle",7);
+FishDatablocks("Bucket","Bucket",3);
