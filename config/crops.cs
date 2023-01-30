@@ -50,3 +50,24 @@ $AbovegroundCropsList = "Tomato\tCorn\tWheat\tCabbage\tBlueberry\tChili\tWaterme
 $TreeCropsList = "Apple\tMango\tCactus\tPeach\tDate";
 $ProduceList = $UndergroundCropsList TAB $AbovegroundCropsList TAB $TreeCropsList TAB "Rose\tLily\tDaisy\tLilies\tDaisies";
 $SellProduceList = $UndergroundCropsList TAB $AbovegroundCropsList TAB $TreeCropsList;
+
+function getCropClass(%cropName)
+{
+	%under = "\t" @ $UndergroundCropsList @ "\t";
+	%over = "\t" @ $AbovegroundCropsList @ "\t";
+	%tree = "\t" @ $TreeCropsList @ "\t";
+	%cropName = "\t" @ trim(%cropName) @ "\t";
+
+	if (stripos(%under, %cropName) >= 0)
+	{
+		return "Underground";
+	}
+	if (stripos(%over, %cropName) >= 0)
+	{
+		return "Aboveground";
+	}
+	if (stripos(%tree, %cropName) >= 0)
+	{
+		return "Tree";
+	}
+}
