@@ -16,7 +16,7 @@ function DataString_FishItem(%uiname,%safeName,%itemName,%imageName,%shape,%notS
 		@"doColorShift = false;"
 		@"colorShiftColor = \"1 1 1 1\";"
 		@"canDrop = 1;"
-		@"isStackable = " @ (!%notstackable) @ ";"
+		@"isStackable = " @ (!%notStackable) @ ";"
 		@"stackType = \"" @ %safeName @ "\";"
 	@"};";
 }
@@ -56,7 +56,7 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 	%itemName = %safeName @ "Item";
 	%imageName = %safeName @ "Image";
 	%shape = expandFileName("./resources/" @ %shapeName @ "/" @ %shapeName @ ".dts");
-	eval(DataString_FishItem(%displayName,%safeName,%itemName,%imageName,%shape,(%stackMax <= 1)));
+	eval(DataString_FishItem(%displayName,%safeName,%itemName,%imageName,%shape));
 	eval(DataString_FishImage(%uiname,%imageName,%itemName,%shape));
 	%imageName.rotation = eulerToMatrix("0 0 90");
 
