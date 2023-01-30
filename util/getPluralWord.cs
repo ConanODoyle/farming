@@ -2,7 +2,7 @@ function getPluralWord(%word)
 {
     %lastChar = getSubStr(%word, getMax(0, strLen(%word) - 1), 1);
     %lastWord = getWord(%word, getWordCount(%word) - 1);
-    %noPluralAppend = "wheat corn coal phosphate sticks";
+    %noPluralAppend = "wheat corn coal phosphate sticks weed killer";
     %esAppend = "tomato potato peach";
     %sAppend = "gameboy";
 
