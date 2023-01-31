@@ -65,3 +65,7 @@ $StorageTypeToolsIsBlacklist = false;
 $StorageTypeQuestsExists = true;
 $StorageTypeQuestsList = "QuestItem";
 $StorageTypeQuestsIsBlacklist = false;
+
+$StorageTypeFishExists = true;
+//auto generated in scripts/fishing/fish/datablocks.cs: $StorageTypeFishList
+$StorageTypeFishIsBlacklist = false;

@@ -60,8 +60,10 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 	eval(DataString_FishImage(%uiname,%imageName,%itemName,%shape));
 	%imageName.rotation = eulerToMatrix("0 0 90");
 
-	//storageMax
+	//storageMax and storage lists
+	//list uses stacktype
 	$StorageMax_[%safeName] = %stackMax * 3;
+	$StorageTypeFishList = trim($StorageTypeFishList) TAB %safeName;
 
 	if (%stackMax <= 1) //cant be stacked
 	{

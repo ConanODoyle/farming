@@ -57,6 +57,21 @@ $BuyCost_["Watering_Snake"] = 2500;
 
 
 
+//Fishing tools
+$BuyCost_["Fishing_Pole"] = 150;
+$BuyCost_["Fishing_Pole_2"] = 600;
+$BuyCost_["Fishing_Pole_3"] = 1200;
+$BuyCost_["Fish_Finder"] = 800;
+$BuyCost_["Tackle_Box"] = 600;
+
+
+
+//Other tools
+$BuyCost_["CropTrak\x99_Upgrade_Kit"] = 6000;
+$BuyCost_["Upgrade_Tool"] = 800;
+$BuyCost_["Repair_Tool"] = 1200;
+
+
 
 //Processors
 $BuyCost_["Compost_Bin"] = 600;
