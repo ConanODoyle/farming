@@ -360,7 +360,10 @@ package Support_StackableItems
 
 	function ItemData::onAdd(%this, %obj)
 	{
-		schedule(1000, %obj, checkGroupStackable, %obj, 0);
+		if (!%obj.static)
+		{
+			schedule(1000, %obj, checkGroupStackable, %obj, 0);
+		}
 		return Parent::onAdd(%this, %obj);
 	}
 };

@@ -67,6 +67,7 @@ function harvestBrick(%brick, %tool, %harvester, %fixedBonus)
 	spawnHarvestFX(%brick);
 
 	//change on harvest
+	%brick.onPlantHarvested();
 
 	if (%pickedTotal <= 0)
 	{
@@ -213,7 +214,7 @@ function spawnCrops(%brick, %count, %harvester)
 	%pos = %brick.getPosition();
 	%bg = getBrickgroupFromObject(%harvester);
 	%itemDB = getPlantData(%type, %stage, "item");
-	for (%i = 0; %i < %pickedTotal; %i++)
+	for (%i = 0; %i < %count; %i++)
 	{
 		%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
 		//jank tree check - trees/tree-like crops are colliding while normal crops arent
@@ -347,7 +348,7 @@ function fxDTSBrick::onPlantHarvested(%brick)
 	{
 		%brick.delete();
 	}
-	
+
 	%brick.setDatablock(%changeOnHarvest);	
 
 	%brick.growTicks = 0;
