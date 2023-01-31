@@ -20,6 +20,10 @@ datablock ShapeBaseImageData(CropTrakKitImage)
 	doColorShift = false;
 	colorShiftColor = CropTrakKitItem.colorShiftColor;
 
+	offset = "-0.54 0 -0.1";
+	eyeoffset = "0.58 1.5 -0.6";
+	eyeRotation = eulerToMatrix("20 0 -30");
+
 	item = "CropTrakKitItem";
 
 	armReady = 1;
@@ -56,13 +60,23 @@ datablock ShapeBaseImageData(CropTrakKitImage)
 	stateWaitForTimeout[3] = false;
 };
 
+function CropTrakKitImage::onMount(%this, %obj, %slot)
+{
+	%obj.playThread(1, "armReadyBoth");
+}
+
+function CropTrakKitImage::onUnmount(%this, %obj, %slot)
+{
+	%obj.playThread(1, "armReadyRight");
+}
+
 // functions
 function CropTrakKitImage::onReady(%this, %obj, %slot)
 {
 	if (isObject(%cl = %obj.client))
 	{
 		%durability = getDurability(%this, %obj, %slot);
-		%cl.centerprint("\n<just:right>\c6Apply to a dropped tool to give it a new \c4CropTrak\x99\c6 counter!", 1);
+		%cl.centerprint("\c6Apply to a dropped tool to give it a new \c4CropTrak\x99\c6 counter!", 1);
 	}
 }
 
