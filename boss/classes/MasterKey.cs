@@ -119,6 +119,16 @@ datablock ProjectileData(MasterKeyConcProjectile : gunProjectile)
 	armingDelay = 0;
 	lifetime = 90;
 	fadeDelay = 0;
+	
+	//------------//
+	// Explosion: //
+	//------------//
+	
+	brickExplosionRadius = 0.0;
+	brickExplosionImpact = false;
+	brickExplosionForce = 0.0;
+	brickExplosionMaxVolume = 0;
+	brickExplosionMaxVolumeFloating = 0;
 };
 
 /// @param	this		projectile datablock
@@ -166,6 +176,16 @@ datablock ProjectileData(MasterKeyProjectile : gunProjectile)
 	armingDelay = 0;
 	lifetime = 2000;
 	fadeDelay = 0;
+	
+	//------------//
+	// Explosion: //
+	//------------//
+	
+	brickExplosionRadius = 0.0;
+	brickExplosionImpact = false;
+	brickExplosionForce = 0.0;
+	brickExplosionMaxVolume = 0;
+	brickExplosionMaxVolumeFloating = 0;
 };
 
 /// @param	this		projectile datablock
