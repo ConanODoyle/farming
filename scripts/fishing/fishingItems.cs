@@ -154,7 +154,7 @@ function FishingPoleImage::onFire(%this, %obj, %slot)
 {
 	if (!isObject(%obj.bobber))
 	{
-		if (%item.hasDataID)
+		if (%this.item.hasDataID)
 		{
 			%durability = getDurability(%this, %obj, %slot);
 			if (%durability == 0 && isObject(%cl = %obj.client))

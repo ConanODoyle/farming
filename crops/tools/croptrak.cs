@@ -95,13 +95,14 @@ function CropTrakKitImage::onFire(%this, %obj, %slot)
 		%exempt = %obj;
 	}
 
+	%cl = %obj.client;
 	%raycastResult = containerRayCast(%start, %end, %mask, %exempt);
 	%hit = getWord(%raycastResult, 0);
 	if (!isObject(%hit) || %hit.getClassName() !$= "Item")
 	{
-		if (isObject(%cl = %obj.client))
+		if (isObject(%cl))
 		{
-			%cl.centerprint("You must use this on a dropped harvesting tool!", 1);
+			%cl.centerprint("You must use this on a dropped harvesting tool!", 8);
 		}
 		return;
 	}
@@ -111,7 +112,7 @@ function CropTrakKitImage::onFire(%this, %obj, %slot)
 	%success = addStatTrak(%hit.dataBlock, %otherID);
 	if (!%success)
 	{
-		%cl.centerprint("That item does not support \c4CropTrak\x99\c0!");
+		%cl.centerprint("That item does not support \c4CropTrak\x99\c0!", 8);
 		return;
 	}
 

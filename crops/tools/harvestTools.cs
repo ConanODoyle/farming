@@ -293,7 +293,6 @@ function HarvestToolImage::onFire(%this, %obj, %slot)
 			if (%harvestCount[%plantDB] <= 0)
 			{
 				%harvestList[%harvestListCount++ - 1] = %plantDB;
-				talk("Detected " @ %plantDB.uiName);
 			}
 			%harvestCount[%plantDB]++;
 			%harvestYieldCount[%plantDB] += getWord(%success, 1);
@@ -309,7 +308,7 @@ function HarvestToolImage::onFire(%this, %obj, %slot)
 		incrementHarvestCount(%dataID, %plantDB.cropType @ "_yieldTotal", %harvestYieldCount[%plantDB]);
 	}
 
-	if (%item.hasDataID)
+	if (%item.hasDataID && %harvestListCount > 0)
 	{
 		useDurability(%this, %obj, %slot);
 	}

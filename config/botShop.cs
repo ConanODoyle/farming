@@ -181,6 +181,15 @@ function generateInstrumentShop()
 				%keytarFound = 1;
 				%keytarIDX = %instrumentCount - 1;
 			}
+
+			if (%fixedName $= "Maxwell_the_playable_cat")
+			{
+				BS_Instruments.option[%instrumentCount - 1] = %db TAB 5;
+				$SellCost_[%fixedName] = 4000;
+				$BuyCost_[%fixedName] = 5000;
+				%maxwellFound = 1;
+				%maxwellIDX = %instrumentCount - 1;
+			}
 		}
 	}
 	BS_Instruments.count = %instrumentCount;
@@ -189,6 +198,10 @@ function generateInstrumentShop()
 	if (%keytarFound)
 	{
 		echo("    Keytar found");
+	}
+	if (%maxwellFound)
+	{
+		echo("    Maxwell found");
 	}
 }
 

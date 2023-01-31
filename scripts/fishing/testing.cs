@@ -1,6 +1,10 @@
-function generateLootResults(%percent, %maxTier)
+function generateLootResults(%percent, %maxTier, %num)
 {
-	for (%i = 0; %i < 1000; %i++)
+	if (%num $= "")
+	{
+		%num = 1000;
+	}
+	for (%i = 0; %i < %num; %i++)
 	{
 		%result = pickFromTable(FishingLootTable, %percent, %maxTier);
 		if (%count_[%result] <= 0)
@@ -13,6 +17,7 @@ function generateLootResults(%percent, %maxTier)
 	%file = new FileObject();
 	%file.openForWrite("config/Tests/FishingLootResults.cs");
 
+	echo("Out of " @ %num @ " reels:");
 	for (%i = 0; %i < %listCount; %i++)
 	{
 		%file.writeLine(%list_[%i] @ ": " @ %count_[%list_[%i]]);
@@ -31,4 +36,16 @@ function generateReelModifiers(%base, %pSub, %pDiv, %qSub, %qDiv)
 		%quality = calculateQuality(%i, %base, %qSub, %qDiv);
 		echo(%i @ "ms - p: " @ mFloatLength(%percent, 2) @ " q: " @ mFloatLength(%quality, 2));
 	}
+}
+
+function getPoleReelModifier(%pole, %delay)
+{
+	%percent = calculatePercent(%i, %pole.fishingPSub, %pole.fishingPDiv);
+	%quality = calculateQuality(%i, %pole.fishingBaseQuality, %pole.fishingQSub, %pole.fishingQDiv);
+	return %percent SPC %quality;
+}
+
+function generatePoleReelModifiers(%pole)
+{
+	generateReelModifiers(%pole.fishingBaseQuality, %pole.fishingPSub, %pole.fishingPDiv, %pole.fishingQSub, %pole.fishingQDiv);
 }
