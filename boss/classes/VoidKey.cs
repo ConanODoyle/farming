@@ -249,6 +249,11 @@ function VoidSeedItem::voidLoop(%this, %item)
 		cancel(%item.voidSchedule);
 	}
 	
+	if(!isObject(%item))
+	{
+		return; // Prevent effects spawning when item is spawned and picked up on the same tick.
+	}
+	
 	if(vectorLen(%item.getVelocity()) == 0)
 	{
 		%this.spawnVoid(%item);
@@ -263,6 +268,11 @@ function VoidSeedItem::voidLoop(%this, %item)
 /// @param	item	item
 function VoidSeedItem::spawnVoid(%this, %item)
 {
+	if(!isObject(%item))
+	{
+		return; // Prevent effects spawning when item is spawned and picked up on the same tick.
+	}
+	
 	%item.voidRing = new particleEmitterNode()
 	{
 		dataBlock = GenericEmitterNode;
