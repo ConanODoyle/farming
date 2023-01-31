@@ -73,7 +73,7 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 	$Stackable_[%safeName @ "_StackedItemTotal"] = %count;
 	for(%i = 0; %i < %count; %i++)
 	{
-		%uiName = %displayName @ "(" @ %i @ ")";
+		%uiName = %displayName @ " (" @ (%i + 1) @ ")";
 		%itemName = %safeName @ %i @ "Item";
 		%imageName = %safeName @ %i @ "Image";
 		%shape = expandFileName("./resources/" @ %shapeName @ "/" @ %shapeName @ (%i + 1) @ ".dts");
