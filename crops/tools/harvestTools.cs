@@ -214,7 +214,7 @@ datablock ShapeBaseImageData(TreeClipperImage : TrowelImage)
 
 function HarvestToolImage::onFire(%this, %obj, %slot)
 {
-	%item = %img.item;
+	%item = %this.item;
 
 	%obj.playThread(0, shiftDown);
 
@@ -228,7 +228,7 @@ function HarvestToolImage::onFire(%this, %obj, %slot)
 	{
 		if (!%hit.dataBlock.isPlant)
 		{
-			%db = isObject(%img.projectile) ? %img.projectile : swordProjectile;
+			%db = isObject(%this.projectile) ? %this.projectile : swordProjectile;
 
 			if (isObject(%db))
 			{
@@ -252,7 +252,7 @@ function HarvestToolImage::onFire(%this, %obj, %slot)
 	//calculate stattrak bonus yield
 	if (%item.hasDataID)
 	{
-		%durability = getDurability(%img, %obj, %slot);
+		%durability = getDurability(%this, %obj, %slot);
 		if (%durability == 0 && isObject(%cl = %obj.client))
 		{
 			%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!", 1);
@@ -262,10 +262,10 @@ function HarvestToolImage::onFire(%this, %obj, %slot)
 	%dataID = %obj.toolDataID[%obj.currTool];
 
 	//harvest
-	if (%img.areaHarvest > 0)
+	if (%this.areaHarvest > 0)
 	{
 		//collect all targeted bricks first, otherwise explosion effects can re-run searches
-		initContainerRadiusSearch(%hitLoc, %img.areaHarvest, $Typemasks::fxBrickObjectType);
+		initContainerRadiusSearch(%hitLoc, %this.areaHarvest, $Typemasks::fxBrickObjectType);
 		while (isObject(%next = containerSearchNext()))
 		{
 			if (%next.dataBlock.isPlant && (%harvestCheck[%next.dataBlock] || canToolHarvest(%item, %next)))
@@ -286,15 +286,17 @@ function HarvestToolImage::onFire(%this, %obj, %slot)
 	for (%i = 0; %i < %plantCount; %i++)
 	{
 		%plant = %plant[%i];
-		%success = harvestBrick(%plant, %item, %obj, %statTrakBonus);
+		%plantDB = %plant.dataBlock;
+		%success = harvestBrick(%plant, %item, %obj);
 		if (%success)
 		{
-			if (%harvestCount[%plant.dataBlock] <= 0)
+			if (%harvestCount[%plantDB] <= 0)
 			{
-				%harvestList[%harvestListCount++ - 1] = %plant.dataBlock;
+				%harvestList[%harvestListCount++ - 1] = %plantDB;
+				talk("Detected " @ %plantDB.uiName);
 			}
-			%harvestCount[%plant.dataBlock]++;
-			%harvestYieldCount[%plant.dataBlock] += getWord(%success, 1);
+			%harvestCount[%plantDB]++;
+			%harvestYieldCount[%plantDB] += getWord(%success, 1);
 		}
 	}
 
@@ -309,7 +311,7 @@ function HarvestToolImage::onFire(%this, %obj, %slot)
 
 	if (%item.hasDataID)
 	{
-		useDurability(%img, %obj, %slot);
+		useDurability(%this, %obj, %slot);
 	}
 }
 
@@ -327,11 +329,6 @@ function HarvestToolImage::onReady(%this, %obj, %slot)
 
 		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n" @ %string, 1);
 	}
-}
-
-function toolHarvest(%img, %obj, %slot)
-{
-	%err = harvestBrick(%hit, %item, %obj);
 }
 
 function getStatTrakBonusYield(%dataID, %type)
@@ -378,13 +375,14 @@ function addStatTrak(%item, %dataID)
 		case "Clipper": %list = $AbovegroundCropsList;
 		case "Sickle": %list = $AbovegroundCropsList;
 		case "Tree Clipper": %list = $TreeCropsList;
-		default: return "";
+		default: return 0;
 	}
 	%crop = getField(%list, getRandom(getFieldCount(%list) - 1));
 	%displayAsKills = getRandom() < 0.1;
 
 	setDataIDArrayTagValue(%dataID, "statTrakType", %crop);
 	setDataIDArrayTagValue(%dataID, "displayAsKills", %displayAsKills);
+	return 1 TAB "Crop: " @ %crop;
 }
 
 

@@ -586,6 +586,11 @@ function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
 	if (isObject(%brick.vehicle.storageBot))
 	{
 		%storageObj = %brick.vehicle.storageBot;
+		if (isObject(%pl = %cl.player) && isObject(%mount = %pl.getObjectMount())
+			&& %mount == %storageObj.getObjectMount())
+		{
+			return;
+		}
 	}
 	else if (isObject(%brick.vehicle) && %brick.vehicle.getDatablock().isStorageVehicle)
 	{
