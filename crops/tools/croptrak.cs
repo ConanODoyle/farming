@@ -117,7 +117,7 @@ function CropTrakKitImage::onFire(%this, %obj, %slot)
 
 	if (isObject(%cl = %obj.client))
 	{
-		%cl.centerprint("\c6Added \c4CropTrak\x99\c6! " @ getField(%success, 1) @ " !", 1);
+		%cl.centerprint("\c6Added \c4CropTrak\x99\c6! " @ getField(%success, 1), 8);
 	}
 	%obj.farmingRemoveItem(%obj.currTool);
 }
