@@ -40,8 +40,8 @@ FishingLootTable.addFishingLootDrop("Turnip Seed", 0, 30, 2.2);
 FishingLootTable.addFishingLootDrop("Portobello Seed", 0, 30, 2.2);
 FishingLootTable.addFishingLootDrop("Blueberry Seed", 0, 30, 2.2);
 
-FishingLootTable.addFishingLootDrop("Bass Fish", 25 * $fishWeight, -15 * $fishWeight, 2.5);
-FishingLootTable.addFishingLootDrop("Arowana", 25 * $fishWeight, -15 * $fishWeight, 2.5);
+FishingLootTable.addFishingLootDrop("Bass Fish", 25 * $fishWeight, -15 * $fishWeight, 2.85);
+FishingLootTable.addFishingLootDrop("Arowana", 25 * $fishWeight, -5 * $fishWeight, 2.85);
 
 FishingLootTable.addFishingLootDrop("Rose Seed", 0, 30, 3);
 FishingLootTable.addFishingLootDrop("Lily Seed", 0, 30, 3);

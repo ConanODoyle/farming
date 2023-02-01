@@ -57,12 +57,22 @@ $BuyCost_["Watering_Snake"] = 2500;
 
 
 
-//Fishing tools
+//Fishing
 $BuyCost_["Fishing_Pole"] = 150;
 $BuyCost_["Fishing_Pole_2"] = 600;
 $BuyCost_["Fishing_Pole_3"] = 1200;
 $BuyCost_["Fish_Finder"] = 800;
 $BuyCost_["Tackle_Box"] = 600;
+
+$SellCost_["Bucket"] = 1;
+$SellCost_["Old_Boot"] = 0.40;
+$SellCost_["Glass_Bottle"] = 0.10;
+$SellCost_["Sardine"] = 1.20;
+$SellCost_["Anchovy"] = 1.70;
+$SellCost_["Minnow"] = 2.50;
+$SellCost_["Catfish"] = 3.50;
+$SellCost_["Arowana"] = 12.00;
+$SellCost_["Bass Fish"] = 16.00;
 
 
 

@@ -74,10 +74,10 @@ datablock ShapeBaseImageData(FishingPole2Image : FishingPole1Image)
 	fishingRange = 64;
 	fishingForce = 25;
 	fishingPSub = 400;
-	fishingPDiv = 1800;
-	fishingBaseQuality = 3.0;
+	fishingPDiv = 1600;
+	fishingBaseQuality = 3.1;
 	fishingQSub = 300;
-	fishingQDiv = 600;
+	fishingQDiv = 700;
 
 	areaHarvest = 2;
 	stateTimeoutValue[2] = 0.4;
@@ -107,9 +107,9 @@ datablock ShapeBaseImageData(FishingPole3Image : FishingPole1Image)
 	fishingForce = 20;
 	fishingPSub = 300;
 	fishingPDiv = 2000;
-	fishingBaseQuality = 2.6;
-	fishingQSub = 500;
-	fishingQDiv = 500;
+	fishingBaseQuality = 2;
+	fishingQSub = 300;
+	fishingQDiv = 900;
 
 	areaHarvest = 2;
 	stateTimeoutValue[2] = 0.4;

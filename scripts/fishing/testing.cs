@@ -20,9 +20,12 @@ function generateLootResults(%percent, %maxTier, %num)
 	echo("Out of " @ %num @ " reels:");
 	for (%i = 0; %i < %listCount; %i++)
 	{
-		%file.writeLine(%list_[%i] @ ": " @ %count_[%list_[%i]]);
-		echo(%list_[%i] @ ": " @ %count_[%list_[%i]]);
+		%income = getSellPrice($uiNameTable_Items[%list_[%i]], %count_[%list_[%i]]);
+		%file.writeLine(%list_[%i] @ ": " @ %count_[%list_[%i]] @ " $" @ %income);
+		echo(%list_[%i] @ ": " @ %count_[%list_[%i]] @ " $" @ %income);
+		%total += %income;
 	}
+	echo("Total income: " @ %total);
 
 	%file.close();
 	%file.delete();
