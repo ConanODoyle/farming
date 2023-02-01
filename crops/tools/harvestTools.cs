@@ -1,4 +1,5 @@
-$statTrakBonusModifier = 300;
+$statTrakBonusModifier = 200;
+$statTrakBonusReductionMultiplier = 1.5;
 //harvest tools
 
 datablock ItemData(TrowelItem : HammerItem)
@@ -282,12 +283,22 @@ function HarvestToolImage::onFire(%this, %obj, %slot)
 		%plantCount = 1;
 	}
 
+	%cropTrakType = getDataIDArrayTagValue(%dataID, "statTrakType");
+	%bonus = getStatTrakBonusYield(%dataID, %cropTrakType);
 	//actually harvest the plants
 	for (%i = 0; %i < %plantCount; %i++)
 	{
 		%plant = %plant[%i];
 		%plantDB = %plant.dataBlock;
-		%success = harvestBrick(%plant, %item, %obj);
+		if (%type $= %cropTrakType)
+		{
+			%success = harvestBrick(%plant, %item, %obj, %bonus);
+		}
+		else
+		{
+			%success = harvestBrick(%plant, %item, %obj);
+		}
+
 		if (%success)
 		{
 			if (%harvestCount[%plantDB] <= 0)
@@ -321,9 +332,12 @@ function HarvestToolImage::onReady(%this, %obj, %slot)
 		%durability = getDurability(%img, %obj, %slot);
 
 		%statTrak = %obj.getToolStatTrak();
+		%dataID = %obj.toolDataID[%obj.currTool];
+		%cropTrakType = getDataIDArrayTagValue(%dataID, "statTrakType");
 		if (%statTrak !$= "")
 		{
 			%string = "\c4" @ %statTrak @ " ";
+			%string = %string NL "\c2Bonus yield: " @ (getStatTrakBonusYield(%dataID, %cropTrakType) + 0) @ " ";
 		}
 
 		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n" @ %string, 1);
@@ -332,7 +346,20 @@ function HarvestToolImage::onReady(%this, %obj, %slot)
 
 function getStatTrakBonusYield(%dataID, %type)
 {
-	return mFloor((getDataIDArrayTagValue(%dataID, %type) + 0) / $statTrakBonusModifier);
+	%price = getSellPrice(%type);
+	//increase bonus threshold based on crop price and harvest count
+	%totalHarvested = getDataIDArrayTagValue(%dataID, %type);
+	%threshold = mFloor($statTrakBaseBonusModifier * mSqrt(%price));
+	while (%totalHarvested > 0 && %safety++ < 10)
+	{
+		%totalHarvested -= %threshold;
+		if (%totalHarvested > 0)
+		{
+			%bonus++;
+		}
+		%threshold = mFloor(%threshold * $statTrakBonusReductionMultiplier);
+	}
+	return %bonus;
 }
 
 function incrementHarvestCount(%dataID, %type, %amount)
