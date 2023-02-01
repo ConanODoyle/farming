@@ -60,7 +60,7 @@ function setupBuyDialogue(%dataObj)
 	}
 	else if (%buyer.buyType !$= "")
 	{
-		%dataObj.var_purchase = %buyer.buyType;
+		%dataObj.var_purchase = strReplace(%buyer.buyType, " ", " and ");
 	}
 
 	if (%buyer.buyPriceMod != 1)
@@ -153,15 +153,15 @@ function AIPlayer::canBuy(%bot, %item)
 			return 1;
 		}
 
-		%list = "\t" @ $StorageType[%bot.buyType @ "List"] @ "\t";
-		%type = %itemDB.stackType $= "" ? %itemDB.getName() : %itemDB.stackType;
-		if (strPos(%list, "\t" @ %type @ "\t") >= 0)
+		for (%i = 0; %i < getWordCount(%bot.buyType); %i++)
 		{
-			return 1;
-		}
-		else
-		{
-			return 0;
+			%type = getWord(%bot.buyType, %i);
+			%list = "\t" @ $StorageType[%type @ "List"] @ "\t";
+			%type = %itemDB.stackType $= "" ? %itemDB.getName() : %itemDB.stackType;
+			if (strPos(%list, "\t" @ %type @ "\t") >= 0)
+			{
+				return 1;
+			}
 		}
 	}
 
