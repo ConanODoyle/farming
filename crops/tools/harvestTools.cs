@@ -323,25 +323,34 @@ function HarvestToolImage::onFire(%this, %obj, %slot)
 	{
 		useDurability(%this, %obj, %slot);
 	}
+	if (isObject(%cl = %obj.client))
+	{
+		centerprintHarvestToolInfo(%cl, %this, %obj, %slot);
+	}
 }
 
 function HarvestToolImage::onReady(%this, %obj, %slot)
 {
 	if (isObject(%cl = %obj.client))
 	{
-		%durability = getDurability(%img, %obj, %slot);
-
-		%statTrak = %obj.getToolStatTrak();
-		%dataID = %obj.toolDataID[%obj.currTool];
-		%cropTrakType = getDataIDArrayTagValue(%dataID, "statTrakType");
-		if (%statTrak !$= "")
-		{
-			%string = "\c4" @ %statTrak @ " ";
-			%string = %string NL "\c2Bonus yield: " @ (getStatTrakBonusYield(%dataID, %cropTrakType) + 0) @ " ";
-		}
-
-		%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n" @ %string, 1);
+		centerprintHarvestToolInfo(%cl, %this, %obj, %slot);
 	}
+}
+
+function centerprintHarvestToolInfo(%cl, %this, %obj, %slot)
+{
+	%durability = getDurability(%img, %obj, %slot);
+
+	%statTrak = %obj.getToolStatTrak();
+	%dataID = %obj.toolDataID[%obj.currTool];
+	%cropTrakType = getDataIDArrayTagValue(%dataID, "statTrakType");
+	if (%statTrak !$= "")
+	{
+		%string = "\c4" @ %statTrak @ " ";
+		%string = %string NL "\c2Bonus yield: " @ (getStatTrakBonusYield(%dataID, %cropTrakType) + 0) @ " ";
+	}
+
+	%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n" @ %string, 1);
 }
 
 function getStatTrakBonusYield(%dataID, %type)
