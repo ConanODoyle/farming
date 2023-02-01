@@ -92,7 +92,7 @@ function FishImage::onMount(%this, %obj, %slot)
 }
 
 FishDatablocks("Sardine","Sardine",5);
-FishDatablocks("Bass","Bass",3);
+FishDatablocks("Bass Fish","Bass",3);
 FishDatablocks("Catfish","Catfish",3);
 FishDatablocks("Minnow","Minnow",3);
 FishDatablocks("Anchovy","Anchovy",4);
