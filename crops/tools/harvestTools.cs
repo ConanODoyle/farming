@@ -290,6 +290,7 @@ function HarvestToolImage::onFire(%this, %obj, %slot)
 	{
 		%plant = %plant[%i];
 		%plantDB = %plant.dataBlock;
+		%type = %plantDB.cropType;
 		if (%type $= %cropTrakType)
 		{
 			%success = harvestBrick(%plant, %item, %obj, %bonus);

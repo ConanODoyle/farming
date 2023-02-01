@@ -55,7 +55,7 @@ function harvestBrick(%brick, %tool, %harvester, %fixedBonus)
 
 	//shiny plant and general extra yield checks
 	%bonusYield += getBonusYield(%brick);
-	%bonusYield += fixedBonus;
+	%bonusYield += %fixedBonus;
 
 	//spawn harvest + seeds
 	%pickedTotal = getTotalYield(%brick, %bonusYield);
