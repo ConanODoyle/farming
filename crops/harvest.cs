@@ -253,6 +253,7 @@ function spawnSeeds(%brick, %harvester)
 	%seedDB = %type @ "SeedItem";
 	%bg = getBrickgroupFromObject(%harvester);
 	%seedDropChance = getPlantData(%type, %stage, "dropSeed");
+	%pos = %brick.position;
 	if (getRandom() < %seedDropChance)
 	{
 		%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;

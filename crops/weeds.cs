@@ -56,7 +56,7 @@ function generateWeed(%brick)
 
 	if (%brick.waterLevel / %brick.dataBlock.maxWater < 0.15)
 	{
-		return;
+		return "";
 	}
 
 	//weather effects
