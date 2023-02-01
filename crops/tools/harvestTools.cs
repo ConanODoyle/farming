@@ -1,4 +1,4 @@
-$statTrakBonusModifier = 200;
+$statTrakBaseBonusModifier = 200;
 $statTrakBonusReductionMultiplier = 1.5;
 //harvest tools
 
