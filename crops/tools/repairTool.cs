@@ -13,9 +13,9 @@ datablock ItemData(RepairToolItem : HammerItem)
 	isRepairTool = 1;
 
 	durabilityFunction = "generateHarvestToolDurability";
-	baseDurability = 10;
+	baseDurability = 20;
 	chanceDurability = 0.8;
-	bonusDurability = 1;
+	bonusDurability = 4;
 
 	iconName = "Add-ons/Server_Farming/icons/RepairTool";
 };
@@ -70,7 +70,7 @@ function RepairToolImage::onReady(%this, %obj, %slot)
 	if (isObject(%cl = %obj.client))
 	{
 		%durability = getDurability(%this, %obj, %slot);
-		%cl.centerprint("\n<just:right><color:cccccc>Repairs left: " @ %durability @ " ", 1);
+		%cl.centerprint("\n<just:right><color:cccccc>Repairs left: " @ %durability @ " \nRepairs 25% of max durability per use ", 1);
 	}
 }
 
@@ -144,7 +144,7 @@ function RepairToolImage::onFire(%this, %obj, %slot)
 	{
 		if (isObject(%cl = %obj.client))
 		{
-			%cl.centerprint("<color:ffffff>Repaired <color:00ff00>" @ %repairAmount @ " durability<color:ffffff>, <color:ff0000>but your repair tool broke!", 1);
+			%cl.centerprint("\c6Repaired \c2" @ %repairAmount @ " durability\c6, \c0but your repair tool broke!", 1);
 		}
 		%obj.farmingRemoveItem(%obj.currTool);
 	}
@@ -152,7 +152,7 @@ function RepairToolImage::onFire(%this, %obj, %slot)
 	{
 		if (isObject(%cl = %obj.client))
 		{
-			%cl.centerprint("<color:ffffff>Repaired <color:00ff00>" @ %repairAmount @ " durability<color:ffffff>!", 1);
+			%cl.centerprint("\c6Repaired \c2" @ %repairAmount @ " durability\c6!", 1);
 		}
 	}
 }

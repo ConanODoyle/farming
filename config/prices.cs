@@ -79,7 +79,7 @@ $SellCost_["Bass Fish"] = 18.00;
 //Other tools
 $BuyCost_["CropTrak\x99_Upgrade_Kit"] = 6000;
 $BuyCost_["Upgrade_Tool"] = 800;
-$BuyCost_["Repair_Tool"] = 1200;
+$BuyCost_["Repair_Tool"] = 120;
 
 
 
