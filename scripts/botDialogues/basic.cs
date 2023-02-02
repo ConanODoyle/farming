@@ -69,10 +69,12 @@ $BasicDialogueSet.add($obj);
 $obj = new ScriptObject(ToolDialogue2)
 {
 	messageCount = 2;
-	message[0] = "We've been occasionally getting tools that inexplicably have microchips embedded in them.";
+	message[0] = "We've been occasionally getting tools that inexplicably have trackers\x99 embedded in them.";
 	messageTimeout[0] = 2;
-	message[1] = "They seem to keep track of something... Our crops, maybe? If I were you, I'd wrap all my tools in tinfoil.";
+	message[1] = "These CropTrak\x99 tools track how much of a specific crop you've harvested, and give bonuses if you rack up a bunch!";
 	messageTimeout[1] = 2;
+	message[2] = "Wish I had one of those, it would make getting rich easy!";
+	messageTimeout[2] = 2;
 };
 $BasicDialogueSet.add($obj);
 
