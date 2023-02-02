@@ -129,7 +129,7 @@ function fertilizeCrop(%img, %obj, %slot)
 
 			if (getTrustLevel(%crop, %obj) < 1)
 			{
-				%obj.client.centerprint(%crop.getGroup().name @ "<color:ff0000> does not trust you enough to do that!", 1);
+				%obj.client.centerprint(%crop.getGroup().name @ "\c0 does not trust you enough to do that!", 1);
 				continue;
 			}
 			else if (getPlantData(%type, %stage, "tickTime") <= 1)
@@ -200,7 +200,7 @@ function fertilizeCrop(%img, %obj, %slot)
 
 		if (getTrustLevel(%crop, %obj) < 1)
 		{
-			%obj.client.centerprint(%crop.getGroup().name @ "<color:ff0000> does not trust you enough to do that!", 1);
+			%obj.client.centerprint(%crop.getGroup().name @ "\c0 does not trust you enough to do that!", 1);
 			return;
 		}
 		else if (getPlantData(%type, %stage, "tickTime") <= 1)
@@ -423,7 +423,7 @@ function processIntoFertilizer(%brick, %cl, %slot)
 	if (getTrustLevel(%brick, %cl) < 1)
 	{
 		serverCmdUnuseTool(%cl);
-		%cl.centerprint(getBrickgroupFromObject(%brick).name @ "<color:ff0000> does not trust you enough to do that!", 1);
+		%cl.centerprint(getBrickgroupFromObject(%brick).name @ "\c0 does not trust you enough to do that!", 1);
 		return;
 	}
 
