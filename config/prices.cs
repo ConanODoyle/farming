@@ -67,12 +67,12 @@ $BuyCost_["Tackle_Box"] = 600;
 $SellCost_["Bucket"] = 1;
 $SellCost_["Old_Boot"] = 0.40;
 $SellCost_["Glass_Bottle"] = 0.10;
-$SellCost_["Sardine"] = 1.20;
-$SellCost_["Anchovy"] = 1.70;
-$SellCost_["Minnow"] = 2.50;
-$SellCost_["Catfish"] = 3.50;
-$SellCost_["Arowana"] = 12.00;
-$SellCost_["Bass Fish"] = 16.00;
+$SellCost_["Sardine"] = 1.30;
+$SellCost_["Anchovy"] = 1.80;
+$SellCost_["Minnow"] = 2.70;
+$SellCost_["Catfish"] = 3.80;
+$SellCost_["Arowana"] = 14.00;
+$SellCost_["Bass Fish"] = 18.00;
 
 
 

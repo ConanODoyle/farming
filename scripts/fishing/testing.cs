@@ -1,4 +1,4 @@
-function generateLootResults(%percent, %maxTier, %num)
+function generateLootResults(%percent, %quality, %num)
 {
 	if (%num $= "")
 	{
@@ -6,7 +6,7 @@ function generateLootResults(%percent, %maxTier, %num)
 	}
 	for (%i = 0; %i < %num; %i++)
 	{
-		%result = pickFromTable(FishingLootTable, %percent, %maxTier);
+		%result = pickFromTable(FishingLootTable, %percent, %quality);
 		if (%count_[%result] <= 0)
 		{
 			%list_[%listCount++ - 1] = %result;
@@ -17,7 +17,7 @@ function generateLootResults(%percent, %maxTier, %num)
 	%file = new FileObject();
 	%file.openForWrite("config/Tests/FishingLootResults.cs");
 
-	echo("Out of " @ %num @ " reels:");
+	echo("Out of " @ %num @ " reels, with p=" @ %percent @ " and q=" @ %quality @ ":");
 	for (%i = 0; %i < %listCount; %i++)
 	{
 		%income = getSellPrice($uiNameTable_Items[%list_[%i]], %count_[%list_[%i]]);
@@ -31,8 +31,15 @@ function generateLootResults(%percent, %maxTier, %num)
 	%file.delete();
 }
 
-function generateReelModifiers(%base, %pSub, %pDiv, %qSub, %qDiv)
+function generateReelModifiers(%base, %pSub, %pDiv, %qSub, %qDiv, %time)
 {
+	if (%time > 0)
+	{
+		%percent = calculatePercent(%time, %pSub, %pDiv);
+		%quality = calculateQuality(%time, %base, %qSub, %qDiv);
+		return %percent SPC %quality;
+	}
+
 	for (%i = 100; %i < 2000; %i+= 100)
 	{
 		%percent = calculatePercent(%i, %pSub, %pDiv);
@@ -51,4 +58,12 @@ function getPoleReelModifier(%pole, %delay)
 function generatePoleReelModifiers(%pole)
 {
 	generateReelModifiers(%pole.fishingBaseQuality, %pole.fishingPSub, %pole.fishingPDiv, %pole.fishingQSub, %pole.fishingQDiv);
+}
+
+function generatePoleLootResults(%pole, %time)
+{
+	%mods = generateReelModifiers(%pole.fishingBaseQuality, %pole.fishingPSub, %pole.fishingPDiv, %pole.fishingQSub, %pole.fishingQDiv, %time);
+	%percent = getWord(%mods, 0);
+	%quality = getWord(%mods, 1);
+	generateLootResults(%percent, %quality, 5000);
 }
