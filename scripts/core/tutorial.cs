@@ -68,7 +68,7 @@ function serverCmdContinueTutorial(%client)
 			%head = "Tutorial - Basics";
 			%text = $header @ "- More Info -\n\n" 
 			@ $body @ "That's it for the basics!\nDo /tutorial if you wish to view this again.\n\n"
-			@ "If you would like to know more, do /tutorial [topic] for specific information.\nOptions: basic (for this tutorial), tools, storage, water, shop, money, planting/harvest";
+			@ "If you would like to know more, do /tutorial [topic] for specific information.\nOptions: basic (for this tutorial), tools, storage, water, shop, money, planting/harvest, fishing";
 			%client.messageBoxOKLong(%head, %text);
 			%client.hasReadBasicTutorial = 1;
 			return;
@@ -202,6 +202,36 @@ function serverCmdContinueToolsTutorial(%client)
 	%client.tutorialPosition++;
 }
 
+function serverCmdContinueFishingTutorial(%client)
+{
+	switch(%client.tutorialPosition)
+	{
+		case 0:
+			%head = "Tutorial - Fishing";
+			%text = $header @ "- Fishing -\n\n" 
+				@ $body @ "Fishing poles cast out a line and bobber, and can fish from any pool of water.\n\n"
+				@ "The bobber will dip once a fish starts nibbling, then get pulled down strongly when the fish bites.\n\n"
+				@ "Reel only when the fish bites on! The quicker you do it, the better quality loot you will get!";
+		case 1:
+			%head = "Tutorial - Fishing";
+			%text = $header @ "- Items -\n\n" 
+				@ $body @ "Buy fishing poles and accessories at the Bass Pro Shop, out in the desert!\n\n"
+				@ "Each higher tier of fishing pole increases the overall quality of the loot.\n\n";
+				@ "Tackle Boxes and Fish Finders give you more information about your fishing and how well you do.\n\n";
+		case 2:
+			%head = "Tutorial - Fishing";
+			%text = $header @ "- Fish -\n\n" 
+				@ $body @ "There are a large variety of fish, and the better you fish the better rewards you get.\n\n"
+				@ "Most rewards from fishing can be sold. You can even sometimes get seeds for farming!\n\n"
+				@ "Sell fishing loot at Supermarket Buyers, found at the barn and at Bapps.";
+		default:
+			commandToClient(%client, 'messageBoxOK', "Tutorial - End", "This is the end of the Fishing tutorial. \n\nDo /tutorial Fishing if you wish to view this again.");
+			return;
+	}
+	%client.messageBoxYesNoLong(%head, %text, 'continueFishingTutorial');
+	%client.tutorialPosition++;
+}
+
 function serverCmdContinueMoneyTutorial(%client)
 {
 	switch(%client.tutorialPosition)
@@ -329,7 +359,7 @@ function serverCmdTutorial(%client, %type, %t1, %t2, %t3)
 		%head = "Tutorial List";
 		%text = $header @ "- More Info -\n\n" 
 			@ $body @ "That's it for the basics!\nDo /tutorial if you wish to view this again.\n\n"
-			@ "If you would like to know more, do /tutorial [topic] for specific information.\nOptions: basic, tools, storage, water, shop, money, planting/harvest";
+			@ "If you would like to know more, do /tutorial [topic] for specific information.\nOptions: basic, tools, storage, water, shop, money, planting/harvest, fishing";
 		%client.messageBoxOKLong(%head, %text);
 	}
 }
