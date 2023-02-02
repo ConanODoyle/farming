@@ -96,16 +96,16 @@ function ShovelImage::onFire(%this, %obj, %slot)
 			%nutrients = %hit.getNutrients();
 			%nit = getWord(%nutrients, 0);
 			%pho = getWord(%nutrients, 1);
-			if (%nit >= CompostBag0Image.fertilizerNitrogen + 1 
-				|| %pho >= PhosphateBag0Image.fertilizerPhosphate + 1)
+			if (%nit >= CompostBag0Image.fertilizerNitrogen 
+				|| %pho >= PhosphateBag0Image.fertilizerPhosphate)
 			{
 				useDurability(%this, %obj, %slot);
 
 				%count = 0;
-				while (%nit >= CompostBag0Image.fertilizerNitrogen + 1 && %count++ < 5)
+				while (%nit >= CompostBag0Image.fertilizerNitrogen && %count++ < 5)
 				{
 					%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
-					%nit -= CompostBag0Image.fertilizerNitrogen + 1;
+					%nit -= CompostBag0Image.fertilizerNitrogen;
 					%item = new Item()
 					{
 						dataBlock = CompostBag0Item;
@@ -118,10 +118,10 @@ function ShovelImage::onFire(%this, %obj, %slot)
 				}
 
 				%count = 0;
-				while (%pho >= PhosphateBag0Image.fertilizerPhosphate + 1 && %count++ < 5)
+				while (%pho >= PhosphateBag0Image.fertilizerPhosphate && %count++ < 5)
 				{
 					%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
-					%pho -= PhosphateBag0Image.fertilizerPhosphate + 1;
+					%pho -= PhosphateBag0Image.fertilizerPhosphate;
 					%item = new Item()
 					{
 						dataBlock = PhosphateBag0Item;
