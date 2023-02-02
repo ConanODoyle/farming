@@ -291,7 +291,7 @@ function fertilizeCrop(%img, %obj, %slot)
 
 	if (isObject(%cl))
 	{
-		%cl.centerprint("<just:right><color:ffff00>-Fertilizer Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<just:right>\c3-Fertilizer Bag " @ %obj.currTool @ "- \nAmount\c6: " @ %count @ " ", 1);
 	}
 }
 
@@ -324,7 +324,11 @@ function fertilizeDirt(%img, %obj, %slot)
 		%canAddPho = (%img.fertilizerPhosphate + 0) != 0 && getWord(%nutrients, 1) < %brickDB.maxNutrients;
 		if (!%canAddNit && !%canAddPho)
 		{
-			messageClient(%cl, '', "Nutrients are maxed out! Use a shovel to remove and recover some nutrients.");
+			if (%cl.lastMessagedNutrientsMaxedOut != %brick)
+			{
+				messageClient(%cl, '', "Nutrients are maxed out! Use a shovel to remove and recover some nutrients.");
+				%cl.lastMessagedNutrientsMaxedOut = %brick;
+			}
 			return;
 		}
 		%nitAdd = %img.fertilizerNitrogen + 0;
@@ -332,19 +336,10 @@ function fertilizeDirt(%img, %obj, %slot)
 		%weedAdd = %img.fertilizerWeedkiller + 0;
 
 		%finalNutrients = vectorAdd(%nutrients, %nitAdd SPC %phoAdd SPC %weedAdd);
-		%finalNit = getWord(%finalNutrients, 0);
-		%finalPho = getWord(%finalNutrients, 1);
-		%finalWeedkiller = getWord(%finalNutrients, 2);
-		if (%finalNit + %finalPho > %brickDB.maxNutrients)
-		{
-			%modFactor = %brickDB.maxNutrients / (%finalNit + %finalPho);
-			%finalNit = mFloor((%finalNit * %modFactor) + 0.5);
-			%finalPho = mFloor((%finalPho * %modFactor) + 0.5);
-		}
-		if (%finalWeedkiller > %brickDB.maxWeedkiller)
-		{
-			%finalWeedkiller = %brickDB.maxWeedkiller;
-		}
+		%finalNit = getMin(getWord(%finalNutrients, 0), %brickDB.maxNutrients);
+		%finalPho = getMin(getWord(%finalNutrients, 1), %brickDB.maxNutrients);
+		%finalWeedkiller = getMin(getWord(%finalNutrients, 2), %brickDB.maxWeedkiller);
+		
 		%finalNutrients = %finalNit SPC %finalPho SPC %finalWeedkiller;
 		%brick.setNutrients(%finalNit, %finalPho, %finalWeedkiller);
 
@@ -356,7 +351,7 @@ function fertilizeDirt(%img, %obj, %slot)
 
 	%count = %obj.toolStackCount[%obj.currTool]--;
 	%slot = %obj.currTool;
-	%type = %obj.tool[%slot].stackType; //earlier it was set to the croptype of the brick
+	%type = %obj.tool[%slot].stackType;
 	if (%count <= 0) //no more seeds left, clear the item slot
 	{
 		messageClient(%cl, 'MsgItemPickup', '', %slot, 0);
@@ -374,7 +369,7 @@ function fertilizeDirt(%img, %obj, %slot)
 
 	if (isObject(%cl))
 	{
-		%cl.centerprint("<just:right><color:ffff00>-" @ %type @ " Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<just:right>\c3-" @ %type @ " Bag " @ %obj.currTool @ "- \nAmount\c6: " @ %count @ " ", 1);
 	}
 }
 
@@ -466,8 +461,8 @@ function processIntoFertilizer(%brick, %cl, %slot)
 		initializeStorage(%brick, %dataID);
 		setDataIDArrayTagValue(%dataID, "compostQueue", getDataIDArrayTagValue(%dataID, "compostQueue") + %rand);
 
-		%cl.centerprint("<color:ffffff>You started making <color:ffff00>" @ %rand @ "<color:ffffff> compost out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
-		%cl.schedule(100, centerprint, "<color:cccccc>You started making <color:ffff00>" @ %rand @ "<color:cccccc> compost out of <color:ffff00>" @ %cropType @ "<color:ffffff>!", 3);
+		%cl.centerprint("\c6You started making \c3" @ %rand @ "\c6 compost out of \c3" @ %cropType @ "\c6!", 3);
+		%cl.schedule(100, centerprint, "<color:cccccc>You started making \c3" @ %rand @ "<color:cccccc> compost out of \c3" @ %cropType @ "\c6!", 3);
 		return;
 	}
 	else
@@ -791,7 +786,7 @@ function fertilizerLoop(%image, %obj)
 
 	if (isObject(%cl))
 	{
-		%cl.centerprint("<just:right><color:ffff00>-Fertilizer Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<just:right>\c3-Fertilizer Bag " @ %obj.currTool @ "- \nAmount\c6: " @ %count @ " ", 1);
 	}
 }
 
@@ -939,7 +934,7 @@ function CompostLoop(%image, %obj)
 
 	if (isObject(%cl))
 	{
-		%cl.centerprint("<just:right><color:ffff00>-Compost Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<just:right>\c3-Compost Bag " @ %obj.currTool @ "- \nAmount\c6: " @ %count @ " ", 1);
 	}
 }
 
@@ -1087,6 +1082,6 @@ function PhosphateLoop(%image, %obj)
 
 	if (isObject(%cl))
 	{
-		%cl.centerprint("<just:right><color:ffff00>-Phosphate Bag " @ %obj.currTool @ "- <br>Amount<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<just:right>\c3-Phosphate Bag " @ %obj.currTool @ "- \nAmount\c6: " @ %count @ " ", 1);
 	}
 }
