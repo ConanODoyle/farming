@@ -172,21 +172,21 @@ function setupCropInfo(%dataObj)
 			%s2 = "They can be harvested up to 15 times, giving 3-5 experience per harvest. They cost 60 experience to plant.";
 			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Apple":
-			%s1 = "Apples have the smallest plant radius and hardly shade any plants under it. Like all trees, it needs nutrients to grow.";
+			%s1 = "Apples have the smallest plant radius and cast little shade on plants under it. Like all trees, it needs nutrients to grow.";
 			%s2 = "They can be harvested up to 70 times for 8-14 apples, and can be pruned during its flower or pre-flower stage for around 4 more apples.";
-			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 4 nitrogen, 10 phosphate to start growing + per harvest]";
+			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 8 nitrogen, 20 phosphate to fully grow, and 4n + 5p per harvest]";
 		case "Mango":
-			%s1 = "Mangoes cover a wide area and cast significant shade on crops underneath, which can reduce plants' growth time.";
+			%s1 = "Mangoes cover a wide area and cast significant shade on crops underneath, which can significantly increase the growth time of plants underneath.";
 			%s2 = "They can be harvested up to 70 times, dropping 11-16 per harvest.";
-			%s3 = "[Required spacing: 16 - 2x2 crop, required nutrients: 10 nitrogen, 10 phosphate to start growing + per harvest]";
+			%s3 = "[Required spacing: 16 - 2x2 crop, required nutrients: 15 nitrogen, 15 phosphate to fully grow, and 10n + 10p per harvest]";
 		case "Peach":
 			%s1 = "Peach trees require less water than other trees, but need 3x more nutrients to reach its harvesting stage.";
 			%s2 = "They can be harvested up to 100 times, dropping 6-12 per harvest.";
-			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 30 nitrogen, 30 phosphate to start growing + per harvest]";
+			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 10 nitrogen, 10 phosphate to fully grow, and 30n + 30p per harvest]";
 		case "Date":
 			%s1 = "Date trees require no water to grow, and in fact grow significantly slower if water is present. They have the same nutrient requirement as peaches.";
 			%s2 = "Just like peaches, they can be harvested up to 100 times, dropping 6-12 per harvest.";
-			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 30 nitrogen, 30 phosphate to start growing + per harvest]";
+			%s3 = "[Required spacing: 8 - 2x2 crop, required nutrients: 10 nitrogen, 10 phosphate to fully grow, and 30n + 30p per harvest]";
 
 		case "Lily":
 			%s1 = "Lilies are flowers that add 2 nitrogen to soil every 30 seconds, in their final flowering stage.";
