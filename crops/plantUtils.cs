@@ -307,7 +307,7 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 	}
 
 	//adjust water level based on weather and greenhouse presence
-	if (%brick.greenhouseBonus)
+	if (%brick.inGreenhouse)
 	{
 		%waterReq = mCeil(%waterReq / 2);
 	}
@@ -330,11 +330,7 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 		%brick.wetTicks = getMax(%brick.wetTicks - 1, 0);
 		if (%dryNutriAdd && %dirtNutrients !$= "")
 		{
-			%dirtNutrients = vectorAdd(%dirtNutrients, %nutrientAdd);
-			if (getWord(%dirtNutrients, 0) + getWord(%dirtNutrients, 1) <= %dirt.getDatablock().maxNutrients)
-			{
-				%dirt.setNutrients(getWord(%dirtNutrients, 0), getWord(%dirtNutrients, 1), getWord(%dirtNutrients, 2));
-			}
+			%dirt.addNutrients(getWord(%nutrientAdd, 0), getWord(%nutrientAdd, 1), getWord(%nutrientAdd, 2));
 		}
 
 		%nutrientDiff = vectorSub(%plantNutrients, %levelUpRequirement);
@@ -361,11 +357,7 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 		%dirt.setWaterLevel(%dirt.waterLevel - %waterReq);
 		if (%wetNutriAdd && %dirtNutrients !$= "")
 		{
-			%dirtNutrients = vectorAdd(%dirtNutrients, %nutrientAdd);
-			if (getWord(%dirtNutrients, 0) + getWord(%dirtNutrients, 1) <= %dirt.getDatablock().maxNutrients)
-			{
-				%dirt.setNutrients(getWord(%dirtNutrients, 0), getWord(%dirtNutrients, 1), getWord(%dirtNutrients, 2));
-			}
+			%dirt.addNutrients(getWord(%nutrientAdd, 0), getWord(%nutrientAdd, 1), getWord(%nutrientAdd, 2));
 		}
 		
 		%nutrientDiff = vectorSub(%plantNutrients, %levelUpRequirement);
@@ -387,22 +379,6 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 	}
 
 	//effects
-	if (%growth)
-	{
-		// Growth particles
-		%p = new Projectile()
-		{
-			dataBlock = "FarmingPlantGrowthProjectile";
-			initialVelocity = "0 0 1";
-			initialPosition = %brick.position;
-		};
-
-		if (isObject(%p))
-		{
-			%p.explode();
-		}
-	}
-
 	if (%death)
 	{
 		// Growth particles
@@ -414,17 +390,27 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 			initialPosition = %brick.position;
 		};
 
-		if (isObject(%p))
-		{
-			%p.explode();
-		}
-
 		%brick.delete();
+	}
+	else if (%growth)
+	{
+		// Growth particles
+		%p = new Projectile()
+		{
+			dataBlock = "FarmingPlantGrowthProjectile";
+			initialVelocity = "0 0 1";
+			initialPosition = %brick.position;
+		};
+	}
+
+	if (isObject(%p))
+	{
+		%p.explode();
 	}
 	return 0;
 }
 
-//indicates if this brick can potentially grow
+//indicates if this brick can potentially change when growing
 function fxDTSBrick::canGrow(%brick)
 {
 	%db = %brick.getDatablock();
@@ -460,12 +446,18 @@ function getTotalDirtNutrients(%dirtList)
 }
 
 //returns 0 for fail, 1 for success
+//removes %removeTotal amount of nutrients approximately evenly across all the dirt in %dirtList
 function removeTotalDirtNutrients(%dirtList, %removeTotal)
 {
+	if (vectorLen(%removeTotal) <= 0.1)
+	{
+		return 1;
+	}
+	
 	for (%i = 0; %i < getWordCount(%dirtList); %i++)
 	{
 		%dirt[%i] = getWord(%dirtList, %i);
-		%nutrients = vectorAdd(%nutrients, %dirt.getNutrients());
+		%nutrients = vectorAdd(%nutrients, %dirt[%i].getNutrients());
 	}
 	if (getWord(%nutrients, 0) < getWord(%removeTotal, 0)
 		|| getWord(%nutrients, 1) < getWord(%removeTotal, 1))
@@ -515,6 +507,7 @@ function removeTotalDirtNutrients(%dirtList, %removeTotal)
 	return 1;
 }
 
+//adds nutrients to the specified brick, taking from %nutrients. intended for plant bricks, not dirt.
 //returns leftover nutrients - only withdraws up to %nutrients provided amount
 function fxDTSBrick::extractNutrients(%brick, %nutrients)
 {
@@ -571,6 +564,10 @@ function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light, %weather)
 	%type = %db.cropType;
 	%stage = %db.stage;
 
+	if (%nutrients $= "") %nutrients = %brick.getNutrients();
+	if (%light $= "") %light = getPlantLightLevel(%brick);
+	if (%weather $= "") %weather = ($isRaining + 0) SPC ($isHeatWave + 0);
+
 	%tickTime = getPlantData(%type, %stage, "tickTime");
 	%nutrientTimeModifier = getPlantData(%type, %stage, "nutrientTimeModifier");
 	%rainTimeMod = getPlantData(%type, "rainTimeModifier");
@@ -612,9 +609,6 @@ function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light, %weather)
 		%multi = %multi * %heatTimeMod;
 	}
 
-	//weed growth factor
-	%weedTimeModifier = getWeedTimeModifier(%brick);
-
 	//lowest value is 1 second to prevent infinite recursion/fast plant checks
 	return getMax(1, (%tickTime + %lightModifier + %nutrientModifier + %weedTimeModifier) * %multi);
 }
@@ -632,9 +626,10 @@ package DirtStatus
 			%start = %obj.getEyeTransform();
 			%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
-			if (isObject(%hit) && ((%db = %hit.getDatablock()).isDirt || %db.isWaterTank))
+			%db = %hit.dataBlock;
+			if (isObject(%hit) && (%db.isDirt || %db.isWaterTank))
 			{
-				%waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
+				%waterLevel = %hit.waterLevel + 0 @ "/" @ %db.maxWater;
 				%string = "Water Level: " @ %waterLevel @ " ";
 				if (%db.isDirt)
 				{
@@ -649,7 +644,7 @@ package DirtStatus
 					}
 				}
 
-				%cl.centerprint("<just:right><color:ffffff>" @ %string, 1);
+				%cl.centerprint("<just:right>\c6" @ %string, 1);
 				%cl.schedule(50, centerprint, "<just:right><color:cccccc>" @ %string, 2);
 			}
 		}

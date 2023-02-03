@@ -229,7 +229,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 					continue;
 				}
 
-				if (!%next.greenhouseBonus)
+				if (!%next.inGreenhouse)
 				{
 					%nextInGreenhouse = 0;
 				}
@@ -290,7 +290,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 		dataBlock = %brickDB;
 		rotation = getRandomBrickOrthoRot();
 		plantedTime = $Sim::Time;
-		greenhouseBonus = %inGreenhouse;
+		inGreenhouse = %inGreenhouse;
 	};
 	%error = %b.plant();
 	if (%error > 0 || %error $= "")

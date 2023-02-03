@@ -137,7 +137,7 @@ function weedVictimSearch(%brick)
 		{
 			continue;
 		}
-		if (!%next.getDatablock().isPlant || %next.getDatablock().isWeed || %next.greenhouseBonus)
+		if (!%next.getDatablock().isPlant || %next.getDatablock().isWeed || %next.inGreenhouse)
 		{
 			continue;
 		}
@@ -233,6 +233,11 @@ package WeedSearch
 			%brick.nextWeedVictimSearch = $Sim::Time + 10;
 		}
 		return parent::runGrowthTick(%brick);
+	}
+
+	function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light, %weather)
+	{
+		return parent::getNextTickTime(%brick, %nutrients, %light, %weather) + getWeedTimeModifier(%brick);
 	}
 };
 activatePackage(WeedSearch);

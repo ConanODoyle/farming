@@ -179,7 +179,7 @@ function getBonusYield(%brick)
 			%brick.setEmitter(0);
 		}
 
-		if (%brick.greenhouseBonus)
+		if (%brick.inGreenhouse)
 		{
 			%extraYield = vectorAdd(%extraYield, 0 SPC mFloor((getWord(%yield, 1) / 2)));
 		}

@@ -256,7 +256,7 @@ function fxDTSBrick::runGrowthTick(%plant)
 	removeTotalDirtNutrients(%dirtList, vectorSub(%dirtNutrients, %leftover));
 
 	%plantNutrients = %plant.getNutrients();
-	%plant.greenhouseBonus = %greenhouse;
+	%plant.inGreenhouse = %greenhouse;
 
 	//check if can potentially grow at all
 	//placed here so that fully grown plant bricks on load will get their greenhouse bonus once the growth tick starts
