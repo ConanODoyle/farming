@@ -222,3 +222,17 @@ function pickWeed(%brick, %pl)
 }
 
 
+package WeedSearch
+{
+	function fxDTSBrick::runGrowthTick(%brick)
+	{
+		%db = %brick.dataBlock;
+		if (%db.isWeed && %brick.nextWeedVictimSearch < $Sim::Time)
+		{
+			weedVictimSearch(%brick);
+			%brick.nextWeedVictimSearch = $Sim::Time + 10;
+		}
+		return parent::runGrowthTick(%brick);
+	}
+};
+activatePackage(WeedSearch);

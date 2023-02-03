@@ -194,94 +194,99 @@ function growTick(%index)
 //4) Attempt growth - subtract resources and level up as necessary
 //		Growth can fail if conditions not met
 //5) Get tick time, given level, light, weather, greenhouse and resources
-function fxDTSBrick::runGrowthTick(%brick)
+function fxDTSBrick::runGrowthTick(%plant)
 {
-	%db = %brick.getDatablock();
+	%db = %plant.dataBlock;
 
-	//check if a crop
-	if (%db.cropType $= "" || !isObject(%brick) || %brick.getGroup().bl_id == 888888)
+	//remove if not a crop
+	if (!%db.isPlant || !isObject(%plant) || %plant.getGroup().bl_id == 888888)
 	{
-		RemovePlantSimSet.add(%brick);
-		%brick.removePlantSimSetAddCount++;
-		if (%brick.removePlantSimSetAddCount > 10)
+		if (!RemovePlantSimSet.isMember(%plant))
 		{
-			echo(%brick @ " removeAddCount: " @ %brick.removePlantSimSetAddCount);
+			RemovePlantSimSet.add(%plant);
 		}
 		return 0;
 	}
 
-	//wait for timeout
-	if (%brick.nextGrowTime > $Sim::Time)
+	if (%plant.nextGrowTime > $Sim::Time)
 	{
 		return 0;
 	}
-	else if (%db.isWeed && %brick.nextWeedVictimSearch < $Sim::Time)
+
+	//list of dirt under brick
+	%dirtList = %plant.getDirtList();
+	if (%dirtList $= "")
 	{
-		weedVictimSearch(%brick);
-		%brick.nextWeedVictimSearch = $Sim::Time + 10;
+		%plant.nextGrowTime = $Sim::Time + 10;
+		return 0;
 	}
 
-	%dirtList = %brick.getDirtWater();
 	%dirt = getWord(%dirtList, 0);
 	if (!isObject(%dirt))
 	{
-		%brick.nextGrowTime = $Sim::Time + 10;
+		%plant.nextGrowTime = $Sim::Time + 10;
 		return 0;
 	}
-	%dirtNutrients = %dirt.getNutrients();
-	%lightInfo = getPlantLightLevel(%brick);
+
+	%dirtNutrients = getTotalDirtNutrients(%dirtList);
+	%lightInfo = getPlantLightLevel(%plant);
 	%light = getWord(%lightInfo, 0);
 	%greenhouse = getWord(%lightInfo, 1);
+	
+	//do not grow if it is a tree and in a greenhouse
+	//revert into seedling state
 	if (%db.isTree && %greenhouse)
 	{
 		if (%db.stage > 0)
 		{
 			if (%db.cropType !$= "Cactus")
 			{
-				%brick.setDatablock("brick" @ %db.croptype @ "Tree0CropData");
+				%plant.setDatablock("brick" @ %db.croptype @ "Tree0CropData");
 			}
 			else
 			{
-				%brick.setDatablock("brick" @ %db.cropType @ "0CropData");
+				%plant.setDatablock("brick" @ %db.cropType @ "0CropData");
 			}
 		}
+		return 0;
 	}
 	%weather = ($isRaining + 0) SPC ($isHeatWave + 0);
 
-	%leftover = %brick.extractNutrients(%dirtNutrients);
-	%dirt.setNutrients(getWord(%leftover, 0), getWord(%leftover, 1), getWord(%leftover, 2));
-	if (!isObject(%brick))
-	{
-		return 0;
-	}
+	%leftover = %plant.extractNutrients(%dirtNutrients);
+	removeTotalDirtNutrients(%dirtList, vectorSub(%dirtNutrients, %leftover));
 
-	%brickNutrients = %brick.getNutrients();
+	%plantNutrients = %plant.getNutrients();
+	%plant.greenhouseBonus = %greenhouse;
 
-	%brick.greenhouseBonus = %greenhouse;
 	//check if can potentially grow at all
-	//placed here so that fully grown plant bricks on load will get their greenhouse bonus
-	if (!%brick.canGrow())
+	//placed here so that fully grown plant bricks on load will get their greenhouse bonus once the growth tick starts
+	if (!%plant.canGrow())
 	{
-		RemovePlantSimSet.add(%brick);
-		%brick.removePlantSimSetAddCount++;
-		if (%brick.removePlantSimSetAddCount > 10)
+		if (!RemovePlantSimSet.isMember(%plant))
 		{
-			echo(%brick @ " removeAddCount: " @ %brick.removePlantSimSetAddCount);
+			RemovePlantSimSet.add(%plant);
 		}
 		return 0;
 	}
 
-	%brick.attemptGrowth(%dirt, %brickNutrients, %light, %weather);
+	%plant.attemptGrowth(%dirt, %plantNutrients, %light, %weather);
 
-	%brickNutrients = %brick.getNutrients();
-	%nextTickTime = %brick.getNextTickTime(%brickNutrients, %light, %weather);
+	%plantNutrients = %plant.getNutrients();
+	%nextTickTime = %plant.getNextTickTime(%plantNutrients, %light, %weather);
 
-	%brick.nextGrowTime = $Sim::Time + %nextTickTime;
+	if (%plant.nextGrowTime $= "" || %plant.nextGrowTime < $Sim::Time - 100)
+	{
+		%plant.nextGrowTime = $Sim::Time + %nextTickTime;
+	}
+	else
+	{
+		%plant.nextGrowTime = %plant.nextGrowTime + %nextTickTime;
+	}
 
 	//if things have been significantly delayed, keep going till it is ready
-	if (%brick.nextGrowTime < $Sim::Time)
+	if (%plant.nextGrowTime < $Sim::Time)
 	{
-		return 1 + %brick.runGrowthTick();
+		return 1 + %plant.runGrowthTick();
 	}
 	else
 	{

@@ -10,7 +10,7 @@
 // Resource functions
 //returns dirt bricks under plant, in order of highest water
 //bricks with same water level are slightly randomized
-function fxDTSBrick::getDirtWater(%brick)
+function fxDTSBrick::getDirtList(%brick)
 {
 	for (%i = 0; %i < %brick.getNumDownBricks(); %i++)
 	{
@@ -107,9 +107,50 @@ function fxDTSBrick::setNutrients(%brick, %nit, %pho, %weedKiller)
 		encodeNutrientName(
 			(%nit $= "" ? %currNit : %nit),
 			(%pho $= "" ? %currPho : %pho),
-			(%weedKiller $= "" ? %currWeedKiller: %weedKiller)
+			(%weedKiller $= "" ? %currWeedKiller : %weedKiller)
 			)
 		);
+}
+
+function fxDTSBrick::addNutrients(%brick, %nit, %pho, %weedKiller)
+{
+	%db = %brick.dataBlock;
+	if (!%db.isDirt && !%db.isPlant)
+	{
+		return;
+	}
+
+	if (%nit $= "" || %pho $= "" || %weedKiller $= "")
+	{
+		%nutrients = decodeNutrientName(%brick.getName());
+		%currNit = getWord(%nutrients, 0);
+		%currPho = getWord(%nutrients, 1);
+		%currWeedKiller = getWord(%nutrients, 2);
+	}
+	%newNit = %currNit + %nit;
+	%newPho = %currPho + %pho;
+	%newWeedkiller = %currWeedKiller + %weedKiller;
+
+	if (%newNit > %db.maxNutrients || %newNit < 0)
+	{
+		%excessNit = %newNit > %db.maxNutrients ? %newNit - %db.maxNutrients : %newNit;
+		%newNit = getMin(getMax(%newNit, 0), %db.maxNutrients);
+	}
+
+	if (%newPho > %db.maxNutrients || %newPho < 0)
+	{
+		%excessPho = %newPho > %db.maxNutrients ? %newPho - %db.maxNutrients : %newPho;
+		%newPho = getMin(getMax(%newPho, 0), %db.maxNutrients);
+	}
+
+	if (%newWeedkiller > %db.maxWeedkiller || %newWeedkiller < 0)
+	{
+		%excessWeedkiller = %newWeedkiller > %db.maxWeedkiller ? %newWeedkiller - %db.maxWeedkiller : %newWeedkiller;
+		%newWeedkiller = getMin(getMax(%newWeedkiller, 0), %db.maxWeedkiller);
+	}
+
+	%brick.setName(encodeNutrientName(%newNit, %newPho, %newWeedkiller));
+	return (%excessNit + 0) SPC (%excessPho + 0);
 }
 
 
@@ -122,12 +163,47 @@ function getPlantLightLevel(%brick)
 {
 	//start is at half a plate above the bottom of the brick
 	%start = vectorAdd(%brick.getPosition(), "0 0 -" @ ((%brick.getDatablock().brickSizeZ * 0.1) - 0.1));
+
+	//inner center of the brick
+	//1x1 or 2x2 above the brick, based on the brick dimensions
+	%db = %brick.dataBlock;
+	%side = %db.brickSizeX;
+	%pos = vectorAdd(%brick.getPosition(), "0 0 -" @ (%db.brickSizeZ * 0.1 - 0.1));
+	if (%side % 2 == 1)
+	{
+		%pos0 = %pos;
+		%count = 1;
+	}
+	else
+	{
+		%pos0 = vectorAdd(%pos, "0.25 0.25 0");
+		%pos1 = vectorAdd(%pos, "0.25 -0.25 0");
+		%pos2 = vectorAdd(%pos, "-0.25 0.25 0");
+		%pos3 = vectorAdd(%pos, "-0.25 -0.25 0");
+		%count = 4;
+	}
+
+	for (%i = 0; %i < %count; %i++)
+	{
+		%pointLevel = lightRaycastCheck(%pos[%i], %brick);
+		%light += getWord(%pointLevel, 0);
+		%greenhouseFound += getWord(%pointLevel, 1);
+	}
+	%light = %light / %count;
+
+	return %light SPC %greenhouseFound;
+}
+
+function lightRaycastCheck(%pos, %brick)
+{
+	%start = %pos;
 	%end = vectorAdd(%start, "0 0 100");
 	%masks = $Typemasks::fxBrickAlwaysObjectType;
 
 	%ray = containerRaycast(%start, %end, %masks, %brick);
 	%light = 1;
-	while (%safety++ < 20)
+	%greenhouseFound = 0;
+	while (%safety++ < 5)
 	{
 		%hit = getWord(%ray, 0);
 		if (!isObject(%hit) || %hit.getGroup().bl_id == 888888)
@@ -135,44 +211,36 @@ function getPlantLightLevel(%brick)
 			break;
 		}
 
-		%hitDB = %hit.getDatablock();
-		if (%hitDB.isGreenhouse) //ignore greenhouses
+		if (!%hit.canLightPassThrough())
 		{
+			%light = 0;
+			break;
+		}
+
+		%hitDB = %hit.dataBlock;
+		if (%hitDB.isGreenhouse)
+		{
+			//are we (the plant) in the greenhouse? or is it way above us?
 			%z = getWord(%hit.getPosition(), 2) - %hitDB.brickSizeZ * 0.1;
-			if (getWord(%brick.getPosition(), 2) + 0.1 > %z)
+			if (getWord(%pos, 2) >= %z)
 			{
 				%greenhouseFound = 1;
 			}
-			%start = getWords(%ray, 1, 3);
-			%ray = containerRaycast(%start, %end, %masks, %hit);
-			continue;
 		}
-		else //hit a player brick
+		else
 		{
 			%light = %hit.getLightLevel(%light);
 			if (%light == 0)
 			{
 				break;
 			}
-			else if (%hit.canLightPassThrough())
-			{
-				%start = getWords(%ray, 1, 3);
-				%ray = containerRaycast(%start, %end, %masks, %hit);
-				continue;
-			}
-			else
-			{
-				break;
-			}
 		}
-	}
 
-	if (%safety >= 20)
-	{
-		talk("Light level safety hit for " @ %brick @ "!");
+		%start = getWords(%ray, 1, 3);
+		%ray = containerRaycast(%start, %end, %masks, %brick, %hit);
+		continue;
 	}
-
-	return %light SPC (%greenhouseFound + 0);
+	return %light SPC %greenhouseFound;
 }
 
 function fxDTSBrick::getLightLevel(%brick, %lightLevel)
@@ -356,7 +424,7 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 	return 0;
 }
 
-//indicates if this brick can potentially grow. if false, brick will be removed from the plant growth simset
+//indicates if this brick can potentially grow
 function fxDTSBrick::canGrow(%brick)
 {
 	%db = %brick.getDatablock();
@@ -381,6 +449,73 @@ function fxDTSBrick::canGrow(%brick)
 	}
 }
 
+function getTotalDirtNutrients(%dirtList)
+{
+	for (%i = 0; %i < getWordCount(%dirtList); %i++)
+	{
+		%dirt = getWord(%dirtList, %i);
+		%nutrients = vectorAdd(%nutrients, %dirt.getNutrients());
+	}
+	return %nutrients;
+}
+
+//returns 0 for fail, 1 for success
+function removeTotalDirtNutrients(%dirtList, %removeTotal)
+{
+	for (%i = 0; %i < getWordCount(%dirtList); %i++)
+	{
+		%dirt[%i] = getWord(%dirtList, %i);
+		%nutrients = vectorAdd(%nutrients, %dirt.getNutrients());
+	}
+	if (getWord(%nutrients, 0) < getWord(%removeTotal, 0)
+		|| getWord(%nutrients, 1) < getWord(%removeTotal, 1))
+	{
+		error("ERROR: cannot remove " @ %removeTotal @ " from dirt; total nutrients under required amount!");
+		error("    dirtList: " @ %dirtList @ " nutrients: " @ %nutrients);
+		return 0;
+	}
+
+	%removeTotal = getWords(%removeTotal, 0, 1);
+
+	//two loops
+	//first loop - remove proportional amount of nutrients from each brick
+	//second loop - remove as much possible to clear the remainder
+	//not perfectly balanced, but easier to debug/less processing required.
+	%removedNit = 0;
+	%removedPho = 0;
+	%avg = vectorScale(%removeTotal, 1 / getWordCount(%dirtList));
+	%avgNit = mFloor(getWord(%avg, 0));
+	%avgPho = mFloor(getWord(%avg, 1));
+	for (%i = 0; %i < getWordCount(%dirtList); %i++)
+	{
+		//announce("Dirt: " @ %dirt[%i].getNutrients() @ " Removing: " @ %avgNit SPC %avgPho);
+		%remainder = %dirt[%i].addNutrients(-1 * %avgNit, -1 * %avgPho);
+		%removeTotal = vectorSub(%removeTotal, %remainder);
+		%removeTotal = vectorSub(%removeTotal, %avgNit SPC %avgPho);
+		//announce("   Remainder: " @ %remainder @ " Dirt: " @ %dirt[%i].getNutrients() @ " removeTotal: " @ %removeTotal);
+	}
+
+	for (%i = 0; %i < getWordCount(%dirtList); %i++)
+	{
+		//announce("Dirt: " @ %dirt[%i].getNutrients() @ " Removing: " @ %removeTotal);
+		%remainder = %dirt[%i].addNutrients(-1 * getWord(%removeTotal, 0),  -1 * getWord(%removeTotal, 1));
+		%removeTotal = vectorSub(vectorSub(%removeTotal, %remainder), %removeTotal);
+		//announce("   Remainder: " @ %remainder @ " Dirt: " @ %dirt[%i].getNutrients() @ " removeTotal: " @ %removeTotal);
+		if (vectorLen(%removeTotal) <= 0.01)
+		{
+			return 1;
+		}
+	}
+
+	if (vectorLen(%removeTotal) > 0)
+	{
+		talk("ERROR: Remaining nutrients after removing: " @ %removeTotal);
+		return 0;
+	}
+	return 1;
+}
+
+//returns leftover nutrients - only withdraws up to %nutrients provided amount
 function fxDTSBrick::extractNutrients(%brick, %nutrients)
 {
 	%db = %brick.getDatablock();
