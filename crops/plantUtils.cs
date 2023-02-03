@@ -425,7 +425,10 @@ function fxDTSBrick::canGrow(%brick)
 	%wetGrow = getPlantData(%type, %stage, "wetNextStage");
 	%killOnDryGrow = getPlantData(%type, %stage, "killOnDryGrow");
 	%killOnWetGrow = getPlantData(%type, %stage, "killOnWetGrow");
-	if (isObject(%dryGrow) || isObject(%wetGrow) || %killOnDryGrow || %killOnWetGrow)
+	%numWetTicks = getPlantData(%type, %stage, "numWetTicks");
+	%numDryTicks = getPlantData(%type, %stage, "numDryTicks");
+	if (isObject(%dryGrow) || isObject(%wetGrow) || %killOnDryGrow || %killOnWetGrow
+		|| %numWetTicks > %brick.wetTicks || %numDryTicks > %brick.dryTicks)
 	{
 		return 1;
 	}
@@ -453,7 +456,7 @@ function removeTotalDirtNutrients(%dirtList, %removeTotal)
 	{
 		return 1;
 	}
-	
+
 	for (%i = 0; %i < getWordCount(%dirtList); %i++)
 	{
 		%dirt[%i] = getWord(%dirtList, %i);
@@ -644,7 +647,7 @@ package DirtStatus
 					}
 				}
 
-				%cl.centerprint("<just:right>\c6" @ %string, 1);
+				%cl.centerprint("<just:right><color:ffffff>" @ %string, 1);
 				%cl.schedule(50, centerprint, "<just:right><color:cccccc>" @ %string, 2);
 			}
 		}

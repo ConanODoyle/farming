@@ -123,6 +123,7 @@ function updatePlantStatus(%brick)
 		%brick.requiresNutrients = "";
 	}
 	%brick.canGrow = %brick.canGrow();
+	%brick.waterNeeded = getPlantData(%cropType, %db.stage, "waterPerTick");
 	%brick.nutrients = %nutrients;
 	%brick.nextUpdateInfo = $Sim::Time + 1;
 }
@@ -132,13 +133,15 @@ function displayPlantStatus(%brick, %cl)
 	%db = %brick.dataBlock;
 	%string = "\c2" @ %db.cropType @ " \n";
 	%string = %string @ "\c6Light Level: " @ mFloor(%brick.lightLevel * 100) @ "% \n";
+	
 	if (%brick.canGrow)
 	{
-		%string = %string @ "\c6Time per growth tick: " @ %brick.nextTickTime @ "s \n";
+		%string = %string @ "\c6Water per tick: " @ %brick.waterNeeded @ " \n";
+		%string = %string @ "\c6Tick time: " @ %brick.nextTickTime @ "s \n";
 	}
 	else
 	{
-		%string = %string @ "\c6Crop is fully grown! \n";
+		%string = %string @ "\c6Crop is done growing! \n";
 	}
 
 	if (%brick.requiresNutrients !$= "")
