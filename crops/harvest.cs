@@ -117,6 +117,7 @@ function prunePlant(%brick, %harvester)
 
 function canHarvest(%harvester, %brick)
 {
+	%db = %brick.dataBlock;
 	if (%brick.getGroup().bl_id == 888888)
 	{
 		return 0;
