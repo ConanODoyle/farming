@@ -216,7 +216,7 @@ function serverCmdContinueFishingTutorial(%client)
 			%head = "Tutorial - Fishing";
 			%text = $header @ "- Items -\n\n" 
 				@ $body @ "Buy fishing poles and accessories at the Bass Pro Shop, out in the desert!\n\n"
-				@ "Each higher tier of fishing pole increases the overall quality of the loot.\n\n";
+				@ "Each higher tier of fishing pole increases the overall quality of the loot.\n\n"
 				@ "Tackle Boxes and Fish Finders give you more information about your fishing and how well you do.\n\n";
 		case 2:
 			%head = "Tutorial - Fishing";
