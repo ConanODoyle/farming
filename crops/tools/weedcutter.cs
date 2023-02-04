@@ -32,4 +32,6 @@ datablock ShapeBaseImageData(WeedCutterImage : TrowelImage)
 	stateTimeoutValue[2] = 0.4;
 
 	toolTip = "Area remove weeds";
+
+	harvestEffect = "Underground";
 };

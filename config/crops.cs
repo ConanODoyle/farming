@@ -53,6 +53,12 @@ $SellProduceList = $UndergroundCropsList TAB $AbovegroundCropsList TAB $TreeCrop
 
 function getCropClass(%cropName)
 {
+	//special cases
+	if (%cropName $= "Weed")
+	{
+		return "Underground";
+	}
+	
 	%under = "\t" @ $UndergroundCropsList @ "\t";
 	%over = "\t" @ $AbovegroundCropsList @ "\t";
 	%tree = "\t" @ $TreeCropsList @ "\t";
@@ -70,4 +76,5 @@ function getCropClass(%cropName)
 	{
 		return "Tree";
 	}
+	return "error";
 }

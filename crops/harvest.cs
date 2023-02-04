@@ -64,7 +64,7 @@ function harvestBrick(%brick, %tool, %harvester, %fixedBonus)
 	spawnSeeds(%brick, %harvester);
 
 	//harvest fx
-	spawnHarvestFX(%brick);
+	spawnHarvestFX(%brick, %tool);
 
 	//change on harvest
 	%brick.onPlantHarvested();
@@ -284,7 +284,7 @@ function spawnSeeds(%brick, %harvester)
 	}
 }
 
-function spawnHarvestFX(%brick)
+function spawnHarvestFX(%brick, %tool)
 {
 	%db = %brick.dataBlock;
 	%stage = %db.stage;
@@ -308,6 +308,11 @@ function spawnHarvestFX(%brick)
 		default: 
 			%db = "FarmingHarvestAboveGroundPlantProjectile";
 			%pos = VectorSub(%brick.getPosition(), "0 0" SPC %brick.getDataBlock().brickSizeZ * 0.1);
+	}
+
+	if (isObject(%tool.image.harvestEffect))
+	{
+		%db = %tool.image.harvestEffect;
 	}
 
 	%p = new Projectile()

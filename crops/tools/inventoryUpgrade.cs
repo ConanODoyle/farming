@@ -18,7 +18,8 @@ datablock ShapeBaseImageData(InventoryUpgradeImage)
 	colorShiftColor = RepairItem.colorShiftColor;
 
 	offset = "-0.54 0 -0.1";
-	eyerotation = eulerToMatrix("0 0 180");
+	eyeOffset = "0 1.4 -0.4";
+	eyeRotation = eulerToMatrix("0 0 180");
 
 	item = "InventoryUpgradeItem";
 
