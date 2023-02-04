@@ -16,6 +16,16 @@ $obj = new ScriptObject(BusInfoDialogue)
 };
 $BasicDialogueSet.add($obj);
 
+$obj = new ScriptObject(InventoryUpgradeInfoDialogue)
+{
+	messageCount = 3;
+	message[0] = "I've always had trouble carrying around everything I need... but then I got myself this satchel!";
+	messageTimeout[0] = 3;
+	message[1] = "But I can't seem to open it, it says I need more experience...";
+	messageTimeout[1] = 2;
+};
+$BasicDialogueSet.add($obj);
+
 $obj = new ScriptObject(LotMovingDialogue)
 {
 	messageCount = 2;

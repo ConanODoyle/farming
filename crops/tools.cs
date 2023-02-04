@@ -8,6 +8,7 @@ exec("./tools/waterTools.cs");
 exec("./tools/repairTool.cs");
 exec("./tools/upgradeTool.cs");
 exec("./tools/croptrak.cs");
+exec("./tools/inventoryUpgrade.cs");
 
 
 function repairDurability(%dataID, %amount)

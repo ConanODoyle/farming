@@ -49,7 +49,7 @@ datablock PlayerData(Player6SlotArmor : PlayerNoJet)
 	maxTools = 6;
 	maxWeapons = 6;
 
-	expCost = 7000;
+	expCost = 6000;
 };
 
 datablock PlayerData(Player7SlotArmor : PlayerNoJet)
@@ -69,10 +69,10 @@ datablock PlayerData(Player8SlotArmor : PlayerNoJet)
 	maxTools = 8;
 	maxWeapons = 8;
 
-	expCost = 9000;
+	expCost = 10000;
 };
 
-function serverCmdUpgradeInventory(%cl)
+function GameConnection::upgradeInventory(%cl, %passkey)
 {
 	if (!isObject(%cl.playerDatablock) || %cl.playerDatablock.maxTools < 6)
 	{
@@ -91,19 +91,19 @@ function serverCmdUpgradeInventory(%cl)
 	if (!isObject(%next))
 	{
 		messageClient(%cl, '', "You already have the biggest inventory upgrade available!");
-		return;
+		return 0;
 	}
 	else if (%cl.farmingExperience < %next.expCost)
 	{
 		messageClient(%cl, '', "You don't have enough exp to upgrade your inventory! (Cost: " @ %next.expCost @ ")");
-		return;
+		return 0;
 	}
 
 	if (%cl.farmingExperience >= %next.expCost && %cl.upgradeInventoryTimeout < $Sim::Time)
 	{
 		messageClient(%cl, '', "\c6The \c3" @ %next.maxTools @ "-Slot\c6 inventory upgrade will cost \c3" @ %next.expCost @ "\c6 EXP. Repeat command to confirm");
 		%cl.upgradeInventoryTimeout = $Sim::Time + 5;
-		return;
+		return 0;
 	}
 	else
 	{
@@ -115,5 +115,6 @@ function serverCmdUpgradeInventory(%cl)
 		}
 		messageClient(%cl, '', "\c6Your inventory has been upgraded to \c3" @ %next.maxTools @ "\c6 slots!");
 		%cl.upgradeInventoryTimeout = 0;
+		return 1;
 	}
 }

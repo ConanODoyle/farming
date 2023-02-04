@@ -31,7 +31,7 @@ datablock ShapeBaseImageData(CropTrakKitImage)
 	upgradePercent = 0.25;
 	minUpgradeAmount = 20;
 
-	toolTip = "Upgrades other tools' durability";
+	toolTip = "Gives CropTrak\x99 to a tool";
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "Ready";
@@ -75,7 +75,6 @@ function CropTrakKitImage::onReady(%this, %obj, %slot)
 {
 	if (isObject(%cl = %obj.client))
 	{
-		%durability = getDurability(%this, %obj, %slot);
 		%cl.centerprint("\c6Apply to a dropped tool to give it a new \c4CropTrak\x99\c6 counter!", 1);
 	}
 }
