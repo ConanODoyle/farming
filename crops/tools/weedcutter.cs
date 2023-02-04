@@ -33,14 +33,3 @@ datablock ShapeBaseImageData(WeedCutterImage : TrowelImage)
 
 	toolTip = "Area remove weeds";
 };
-
-function WeedCutterImage::onReady(%this, %obj, %slot)
-{
-	harvestToolReady(%this, %obj, %slot);
-}
-
-function WeedCutterImage::onFire(%this, %obj, %slot)
-{
-	toolHarvest(%this, %obj, %slot);
-	%obj.playThread(0, plant);
-}
