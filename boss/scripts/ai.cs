@@ -252,6 +252,7 @@ function AIPlayer::harvesterStagger(%this, %time)
 	{
 		%this.stop();
 		%this.clearAim();
+		%this.unMountImage(0);
 		
 		%this.playThread(0, "stun");
 		
