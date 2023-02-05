@@ -66,7 +66,7 @@ package HarvesterFight
 		{
 			if(%client.getDataBlock() == HarvesterArmor.getID())
 			{
-				if(%client == %victim)
+				if(%client.getID() == %victim.getID())
 				{
 					return false;
 				}
