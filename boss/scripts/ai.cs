@@ -11,6 +11,7 @@ function spawnHarvester()
 	{
 		dataBlock = HarvesterArmor;
 		position = "0 0 0";
+		name = "The Harvester";
 		isBot = true;
 		
 		// Max health is scaled by the number of players in the fight.
@@ -26,7 +27,7 @@ function spawnHarvester()
 	};
 	
 	// Harvester.setMoveSpeed(0.7);
-	Harvester.setMoveTolerance(4); // 3?
+	Harvester.setMoveTolerance(3);
 	
 	HarvesterArmor.applyAvatar(Harvester);
 	Harvester.mountImage(HarvesterFoldedBladeImage, 1);
@@ -355,7 +356,10 @@ function AIPlayer::harvesterBladeAttack(%this)
 		%this.schedule(0, setImageTrigger, 0, true);
 		%this.schedule(%equipTime + %chargeTime, setImageTrigger, 0, false);
 		
-		%this.thinkLoop = %this.schedule(%equipTime + %chargeTime + %minimumTime, harvesterLoop);
+		%time = %equipTime + %chargeTime + %minimumTime;
+		
+		%this.thinkLoop = %this.schedule(%time, harvesterLoop);
+		%this.lastBladeAttackTime = getSimTime() + %time;
 	}
 }
 
@@ -420,7 +424,10 @@ function AIPlayer::harvesterBeamAttack(%this)
 		%this.schedule(0, setImageTrigger, 0, true);
 		%this.schedule(%equipTime + %triggerReleaseTime, setImageTrigger, 0, false);
 		
-		%this.thinkLoop = %this.schedule(%equipTime + %minimumTime + %secondShotTime, harvesterLoop);
+		%time = %equipTime + %minimumTime + %secondShotTime;
+		
+		%this.thinkLoop = %this.schedule(%time, harvesterLoop);
+		%this.lastBeamAttackTime = getSimTime() + %time;
 	}
 }
 
@@ -477,7 +484,10 @@ function AIPlayer::harvesterClusterBombAttack(%this)
 		%this.schedule(0, setImageTrigger, 0, true);
 		%this.schedule(%equipTime + %chargeTime, setImageTrigger, 0, false);
 		
-		%this.thinkLoop = %this.schedule(%equipTime + %chargeTime + %minimumTime, harvesterLoop);
+		%time = %equipTime + %chargeTime + %minimumTime;
+		
+		%this.thinkLoop = %this.schedule(%time, harvesterLoop);
+		%this.lastClusterBombAttackTime = getSimTime() + %time;
 	}
 }
 
@@ -542,7 +552,10 @@ function AIPlayer::harvesterSpikeAttack(%this)
 		%this.schedule(0, setImageTrigger, 0, true);
 		%this.schedule(%equipTime + %triggerReleaseTime, setImageTrigger, 0, false);
 		
-		%this.thinkLoop = %this.schedule(%equipTime + %minimumTime + %secondShotTime, harvesterLoop);
+		%time = %equipTime + %minimumTime + %secondShotTime;
+		
+		%this.thinkLoop = %this.schedule(%time, harvesterLoop);
+		%this.lastSpikeAttackTime = getSimTime() + %time;
 	}
 }
 
@@ -565,9 +578,14 @@ function AIPlayer::harvesterSelectAttack(%this)
 				{
 					%this.harvesterBladeAttack();
 				}
-				else
+				else if(%this.lastClusterBombAttackTime + 3000 < getSimTime())
 				{
 					%this.harvesterClusterBombAttack();
+				}
+				else
+				{
+					// Reached the end of move select due to no moves being available, go back to start.
+					%this.thinkLoop = %this.schedule(1000, harvesterLoop);
 				}
 			
 			case 2:
@@ -575,19 +593,24 @@ function AIPlayer::harvesterSelectAttack(%this)
 				{
 					%this.harvesterBladeAttack();
 				}
-				else if(%distance < 14)
+				else if(%distance < 14 && %this.lastSpikeAttackTime + 3000 < getSimTime())
 				{
 					%this.harvesterSpikeAttack();
 				}
 				else
 				{
-					if(getRandom() > 0.5)
+					if(getRandom() > 0.5 && %this.lastBeamAttackTime + 5000 < getSimTime())
 					{
 						%this.harvesterBeamAttack();
 					}
-					else
+					else if(%this.lastClusterBombAttackTime + 3000 < getSimTime())
 					{
 						%this.harvesterClusterBombAttack();
+					}
+					else
+					{
+						// Reached the end of move select due to no moves being available, go back to start.
+						%this.thinkLoop = %this.schedule(1000, harvesterLoop);
 					}
 				}
 			
@@ -596,19 +619,24 @@ function AIPlayer::harvesterSelectAttack(%this)
 				{
 					%this.harvesterBladeAttack();
 				}
-				else if(%distance < 14)
+				else if(%distance < 14 && %this.lastSpikeAttackTime + 3000 < getSimTime())
 				{
 					%this.harvesterSpikeAttack();
 				}
 				else
 				{
-					if(getRandom() > 0.5)
+					if(getRandom() > 0.5 && %this.lastBeamAttackTime + 3000 < getSimTime())
 					{
 						%this.harvesterBeamAttack();
 					}
-					else
+					else if(%this.lastClusterBombAttackTime + 3000 < getSimTime())
 					{
 						%this.harvesterClusterBombAttack();
+					}
+					else
+					{
+						// Reached the end of move select due to no moves being available, go back to start.
+						%this.thinkLoop = %this.schedule(1000, harvesterLoop);
 					}
 				}
 				
