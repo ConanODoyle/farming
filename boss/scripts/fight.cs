@@ -64,7 +64,9 @@ package HarvesterFight
 		// Harvester v. players:
 		if(%client.isBot)
 		{
-			if(%client.getDataBlock() == HarvesterArmor.getID())
+			%dataBlock = %client.getDataBlock();
+
+			if(%dataBlock == HarvesterArmor.getID() || %dataBlock == AncientWarriorArmor.getID())
 			{
 				if(%client.getID() == %victim.getID())
 				{
@@ -81,7 +83,9 @@ package HarvesterFight
 		}
 		
 		// Players v. Harvester:
-		if(%victim.getDataBlock() == HarvesterArmor.getID())
+		%dataBlock = %victim.getDataBlock();
+		
+		if(%dataBlock == HarvesterArmor.getID() || %dataBlock == AncientWarriorArmor.getID())
 		{
 			%player = %client.player;
 			

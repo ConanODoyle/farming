@@ -139,8 +139,10 @@ datablock ProjectileData(MasterKeyConcProjectile : gunProjectile)
 /// @param	normal		3-element vector
 function MasterKeyConcProjectile::damage(%this, %projectile, %collision, %fade, %position, %normal)
 {
-	// Prevent senseless violence against innocent townsfolk.
-	if(%collision.getDataBlock() == HarvesterArmor.getID())
+	// Prevent senseless violence against innocent townsfolk.	
+	%dataBlock = %collision.getDataBlock();
+
+	if(%dataBlock == HarvesterArmor.getID() || %dataBlock == AncientWarriorArmor.getID())
 	{
 		return Parent::damage(%this, %projectile, %collision, %fade, %position, %normal);
 	}
@@ -196,8 +198,10 @@ datablock ProjectileData(MasterKeyProjectile : gunProjectile)
 /// @param	normal		3-element vector
 function MasterKeyProjectile::damage(%this, %projectile, %collision, %fade, %position, %normal)
 {
-	// Prevent senseless violence against innocent townsfolk.
-	if(%collision.getDataBlock() == HarvesterArmor.getID())
+	// Prevent senseless violence against innocent townsfolk.	
+	%dataBlock = %collision.getDataBlock();
+
+	if(%dataBlock == HarvesterArmor.getID() || %dataBlock == AncientWarriorArmor.getID())
 	{
 		return Parent::damage(%this, %projectile, %collision, %fade, %position, %normal);
 	}
@@ -439,8 +443,10 @@ function MasterKeyImage::onFire(%this, %player, %slot)
 /// @param	index		number
 function MasterKeyImage::onHitboxDamage(%this, %player, %slot, %collision, %position, %damage, %damageType, %velocity, %group, %index)
 {
-	// Prevent senseless violence against innocent townsfolk.
-	if(%collision.getDataBlock() == HarvesterArmor.getID())
+	// Prevent senseless violence against innocent townsfolk.	
+	%dataBlock = %collision.getDataBlock();
+
+	if(%dataBlock == HarvesterArmor.getID() || %dataBlock == AncientWarriorArmor.getID())
 	{
 		return Parent::onHitboxDamage(%this, %player, %slot, %collision, %position, %damage, %damageType, %velocity, %group, %index);
 	}
