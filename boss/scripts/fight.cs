@@ -83,7 +83,19 @@ package HarvesterFight
 		// Players v. Harvester:
 		if(%victim.getDataBlock() == HarvesterArmor.getID())
 		{
-			return true;
+			%player = %client.player;
+			
+			if((%client.getType() & $TypeMasks::PlayerObjectType) || (%client.getType() & $TypeMasks::CorpseObjectType))
+			{
+				%player = %client;
+			}
+			
+			if(HarvesterFightSet.isMember(%player))
+			{
+				return true;
+			}
+			
+			return false;
 		}
 			
 		return Parent::minigameCanDamage(%client, %victim);
