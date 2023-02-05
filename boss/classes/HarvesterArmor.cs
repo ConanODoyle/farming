@@ -139,29 +139,3 @@ function HarvesterArmor::applyAvatar(%this, %player)
 
 	%player.setNodeColor("cloak", $Harvester::Armor::Avatar::CapeColor);
 }
-
-/// @param	this		playertype
-/// @param	player		player
-/// @param	source		damage source
-/// @param	position	3-element position
-/// @param	damage		number
-/// @param	type		number
-function HarvesterArmor::damage(%this, %player, %source, %position, %damage, %type)
-{
-	%sourceObject = %source.sourceObject;
-
-	if(isObject(%sourceObject))
-	{
-		%player.damageReceived[%sourceObject] += %damage;
-	}
-	
-	if(%player.resistance !$= "" && %player.resistance > 0)
-	{
-		%damage /= %player.resistance;
-	}
-	
-	talk("::damage - after resistance:" SPC %damage);
-	talk("::damage - damageReceived[" @ %sourceObject @ "]:" SPC %player.damageReceived[%sourceObject]);
-	
-	return Parent::damage(%this, %player, %source, %position, %damage, %type);
-}
