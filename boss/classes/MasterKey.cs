@@ -456,7 +456,7 @@ function MasterKeyImage::onEject(%this, %player, %slot)
 	if(%player.getDamagePercent() < 1.0)
 	{
 		%player.playThread(0, "shiftLeft");
-		%player.playThread(0, "plant");
+		%player.playThread(2, "plant");
 	}
 }
 

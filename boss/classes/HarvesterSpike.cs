@@ -445,7 +445,7 @@ datablock ShapeBaseImageData(HarvesterSpikeImage)
 	stateScript[5] = "onCheckFire";
 	
 	stateName[6] = "Done";
-	stateTimeoutValue[6] = 0.15;
+	stateTimeoutValue[6] = 0.35;
 	stateTransitionOnTimeout[6] = "Ready";
 	stateWaitForTimeout[6] = true;
 	stateAllowImageChange[6] = false;
