@@ -23,6 +23,73 @@ datablock AudioProfile(SecretPlatformFlameSound)
 	preload = true;
 };
 
+//---------------//
+// Music Sounds: //
+//---------------//
+
+datablock AudioProfile(HarvesterIntroMusic)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/music/cybergrindIntro.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+};
+
+datablock AudioProfile(HarvesterPhase1Music)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/music/cybergrindPhase1.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+};
+
+datablock AudioProfile(HarvesterChange1Music)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/music/cybergrindChange1.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+};
+
+datablock AudioProfile(HarvesterPhase2Music)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/music/cybergrindPhase2.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+};
+
+datablock AudioProfile(HarvesterChange2Music)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/music/cybergrindChange2.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+};
+
+datablock AudioProfile(HarvesterPhase3Music)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/music/cybergrindPhase3.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+};
+
+datablock AudioProfile(HarvesterChange3Music)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/music/cybergrindChange3.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+};
+
+datablock AudioProfile(HarvesterPhase4Music)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/music/cybergrindPhase4.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+};
+
+datablock AudioProfile(HarvesterSiriusBMusic)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/music/siriusB.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+};
+
 //-----------------------//
 // Environmental Embers: //
 //-----------------------//
