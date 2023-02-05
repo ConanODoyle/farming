@@ -20,7 +20,9 @@ else
 	exec($Harvester::Root @ "/classes/environment.cs");
 	
 	exec($Harvester::Root @ "/classes/HarvesterArmor.cs");
+	exec($Harvester::Root @ "/classes/AncientWarrior.cs");
 	exec($Harvester::Root @ "/classes/HarvesterBlade.cs");
+	exec($Harvester::Root @ "/classes/AncientBlade.cs");
 	exec($Harvester::Root @ "/classes/HarvesterClusterBomb.cs");
 	exec($Harvester::Root @ "/classes/HarvesterBeamRifle.cs");
 	exec($Harvester::Root @ "/classes/HarvesterSpike.cs");

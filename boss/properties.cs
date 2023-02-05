@@ -12,6 +12,10 @@ $Harvester::Armor::Avatar::ArmorColor = "0.5 0.5 0.5 1.0";
 $Harvester::Armor::Avatar::PlateColor = "0.5 0.2 0.2 1.0";
 $Harvester::Armor::Avatar::CapeColor = "0.6 0.3 0.2 1.0";
 
+$Harvester::AncientWarrior::Armor::BaseHealth = 80.0;
+
+$Harvester::AncientWarrior::Armor::Avatar::Color = "0.5 0.7 1.0 0.6";
+
 //--------//
 // Blade: //
 //--------//
