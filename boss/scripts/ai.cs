@@ -44,7 +44,7 @@ function AIPlayer::harvesterTeleport(%this, %level)
 	if(%this.getDamagePercent() < 1.0)
 	{
 		%searchAll = false;
-		%name = "_teleportRing" @ %level;
+		%name = "_harvesterTeleportRing" @ %level;
 		
 		if(%level $= "")
 		{
@@ -59,7 +59,7 @@ function AIPlayer::harvesterTeleport(%this, %level)
 			if(%searchAll)
 			{
 				// If searching all rings, clobber the name variable with each loop.
-				%name = "_teleportRing" @ %i;
+				%name = "_harvesterTeleportRing" @ %i;
 			}
 			
 			for(%j = 0; %j < BrickGroup_888888.NTObjectCount[%name]; %j++)
@@ -302,13 +302,6 @@ function AIPlayer::harvesterSetPhase(%this, %phase)
 				%this.harvesterStagger(2200);
 		}
 	}
-}
-
-/// @param	this	ai player
-function AIPlayer::harvesterTimingTest(%this)
-{
-	announce("::harvesterTimingTest()");
-	%this.timingTest = getSimTime();
 }
 
 /// @param	this	ai player
@@ -737,10 +730,7 @@ function HarvesterArmor::damage(%this, %player, %source, %position, %damage, %ty
 	{
 		%damage /= %player.resistance;
 	}
-	
-	talk("::damage - after resistance:" SPC %damage);
-	talk("::damage - damageReceived[" @ %sourceObject @ "]:" SPC %player.damageReceived[%sourceObject]);
-	
+
 	if(%player.isBoss)
 	{
 		if(%player.getDamagePercent() > 0.95 && !%player.saidFinalMessage)
