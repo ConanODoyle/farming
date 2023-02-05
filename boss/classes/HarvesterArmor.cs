@@ -55,6 +55,13 @@ datablock AudioProfile(HarvesterDamageSound)
 	preload = true;
 };
 
+datablock AudioProfile(HarvesterStaggerSound)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/fx/bigDamage.wav";
+	description = AudioDefault3d;
+	preload = true;
+};
+
 datablock AudioProfile(HarvesterDeathSound1)
 {
 	fileName = $Harvester::Root @ "/resources/sounds/voice/death1.wav";
@@ -78,10 +85,11 @@ datablock PlayerData(HarvesterArmor : PlayerStandardArmor)
 	// Gameplay: //
 	//-----------//
 
-	maxDamage = $Harvester::Armor::MaxDamage;
+	maxDamage = 100;
 
 	useCustomPainEffects = true;
-
+	painThreshold = 0; // Plays pain sound from /any/ damage (fixes pain sound not playing due to health scaling).
+	
 	painSound = HarvesterWakeUpSound;
 	deathSound = HarvesterDeathSound1;
 
@@ -130,4 +138,30 @@ function HarvesterArmor::applyAvatar(%this, %player)
 	%player.setNodeColor("TorsoArmor", $Harvester::Armor::Avatar::PlateColor);
 
 	%player.setNodeColor("cloak", $Harvester::Armor::Avatar::CapeColor);
+}
+
+/// @param	this		playertype
+/// @param	player		player
+/// @param	source		damage source
+/// @param	position	3-element position
+/// @param	damage		number
+/// @param	type		number
+function HarvesterArmor::damage(%this, %player, %source, %position, %damage, %type)
+{
+	%sourceObject = %source.sourceObject;
+
+	if(isObject(%sourceObject))
+	{
+		%player.damageReceived[%sourceObject] += %damage;
+	}
+	
+	if(%player.resistance !$= "" && %player.resistance > 0)
+	{
+		%damage /= %player.resistance;
+	}
+	
+	talk("::damage - after resistance:" SPC %damage);
+	talk("::damage - damageReceived[" @ %sourceObject @ "]:" SPC %player.damageReceived[%sourceObject]);
+	
+	return Parent::damage(%this, %player, %source, %position, %damage, %type);
 }

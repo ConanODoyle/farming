@@ -2,7 +2,8 @@
 // Armor: //
 //--------//
 
-$Harvester::Armor::MaxDamage = 45000.0;
+$Harvester::Armor::BaseHealth = 1000.0;
+$Harvester::Armor::ExtraHealthPerFighter = 1000.0;
 
 $Harvester::Armor::Avatar::BodyColor = "0.3 0.3 0.3 1.0";
 $Harvester::Armor::Avatar::ClothesColor = "0.15 0.15 0.15 1.0";	
@@ -52,3 +53,9 @@ $Harvester::MasterKey::ConcDamage = 45.0;
 $Harvester::MasterKey::ProjectileDamage = 20.0;
 $Harvester::MasterKey::Melee::Damage = 45.0;
 $Harvester::MasterKey::Melee::CooldownMS = 1000;
+
+//-----//
+// AI: //
+//-----//
+
+$Harvester::AI::ArenaRadius = 64.0;
