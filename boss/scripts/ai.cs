@@ -283,11 +283,20 @@ function AIPlayer::harvesterSetPhase(%this, %phase)
 			case 2:
 				%this.harvesterStagger(2200);
 				
+				setHarvesterFightMusic(HarvesterChange1Music);
+				schedule(5052, 0, setHarvesterFightMusic, HarvesterPhase2Music);
+				
 			case 3:
 				%this.harvesterStagger(2000);
+				
+				setHarvesterFightMusic(HarvesterChange2Music);
+				schedule(10105, 0, setHarvesterFightMusic, HarvesterPhase3Music);
 			
 			case 4:
 				%this.harvesterStagger(3700);
+				
+				setHarvesterFightMusic(HarvesterChange3Music);
+				schedule(7579, 0, setHarvesterFightMusic, HarvesterPhase4Music);
 				
 			default:
 				%this.harvesterStagger(2200);
