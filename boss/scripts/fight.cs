@@ -42,7 +42,7 @@ function setHarvesterFightMusic(%profile)
 	};
 
 	for(%i = 0; %i < HarvesterFightSet.getCount(); %i++)
-	{	
+	{
 		%player = HarvesterFightSet.getObject(%i);
 		%client = %player.client;
 		
@@ -52,6 +52,73 @@ function setHarvesterFightMusic(%profile)
 		}
 		
 		HarvesterMusic.scopeToClient(%client);
+	}
+}
+
+function clearHarvesterFightMusic()
+{
+	setHarvesterFightMusic();
+}
+
+/// @param	position	3-element position
+/// @param	rotation	4-element axis-angle rotation
+function setHarvesterFightCamera(%position, %rotation)
+{	
+	for(%i = 0; %i < HarvesterFightSet.getCount(); %i++)
+	{
+		%player = HarvesterFightSet.getObject(%i);
+		%client = %player.client;
+		
+		if(!isObject(%client))
+		{
+			continue;
+		}
+
+		%camera = %client.camera;
+
+		if(!isObject(%camera))
+		{
+			continue;
+		}
+		
+		// Release camera from player.
+		%camera.setFlyMode();
+		%camera.setMode("Observer");
+		
+		// Client controls camera.
+		%client.setControlObject(%camera);
+		
+		// Camera controls dummy camera. Apparently a default thing?
+		%camera.setControlObject(%client.dummyCamera);
+		
+		%camera.setTransform(%position SPC %rotation);
+	}
+}
+
+function clearHarvesterFightCamera()
+{
+	for(%i = 0; %i < HarvesterFightSet.getCount(); %i++)
+	{
+		%player = HarvesterFightSet.getObject(%i);
+		%client = %player.client;
+		
+		if(!isObject(%client))
+		{
+			continue;
+		}
+		
+		%camera = %client.camera;
+
+		if(!isObject(%camera))
+		{
+			continue;
+		}
+
+		// Client controls player.
+		%client.setControlObject(%player);
+
+		// Camera controls nothing.
+		%camera.setControlObject("");
 	}
 }
 
