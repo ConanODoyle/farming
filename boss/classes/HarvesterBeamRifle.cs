@@ -25,9 +25,9 @@ datablock StaticShapeData(HarvesterBeamShape)
 	shapeFile = $Harvester::Root @ "/resources/shapes/beam.dts";
 };
 
-//-------------------//
-// Blade Equip Ring: //
-//-------------------//
+//--------------//
+// Spin Charge: //
+//--------------//
 
 datablock ParticleData(HarvesterBeamRifleSpinChargeParticle)
 {
