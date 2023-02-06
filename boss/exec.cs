@@ -26,6 +26,7 @@ else
 	exec($Harvester::Root @ "/classes/HarvesterClusterBomb.cs");
 	exec($Harvester::Root @ "/classes/HarvesterBeamRifle.cs");
 	exec($Harvester::Root @ "/classes/HarvesterSpike.cs");
+	exec($Harvester::Root @ "/classes/HarvesterSpiritSummon.cs");
 	
 	exec($Harvester::Root @ "/classes/MasterKey.cs");
 	exec($Harvester::Root @ "/classes/StasisMachine.cs");

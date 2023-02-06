@@ -1,3 +1,8 @@
+if(!isObject(AncientWarriorCleanup))
+{
+	new SimSet(AncientWarriorCleanup);
+}
+
 function spawnHarvester()
 {
 	if(isObject(Harvester))
@@ -26,15 +31,59 @@ function spawnHarvester()
 		saidFinalMessage = false;
 	};
 	
-	// Harvester.setMoveSpeed(0.7);
-	Harvester.setMoveTolerance(3);
+	if(isObject(Harvester))
+	{
+		MissionCleanup.add(Harvester);
+		
+		// Harvester.setMoveSpeed(0.7);
+		Harvester.setMoveTolerance(3);
+
+		HarvesterArmor.applyAvatar(Harvester);
+		Harvester.mountImage(HarvesterFoldedBladeImage, 1);
+		Harvester.mountImage(HarvesterBeamRifleBackImage, 2);
+
+		Harvester.harvesterTeleport(0);
+		Harvester.harvesterLoop();
+	}
+}
+
+/// @param	position	3-element position
+function spawnAncientWarrior(%position)
+{
+	%bot = new AIPlayer()
+	{
+		dataBlock = AncientWarriorArmor;
+		position = %position;
+		name = "Ancient Warrior";
+		isBot = true;
+		
+		// Fight values.
+		isAncientWarrior = true;
+	};
 	
-	HarvesterArmor.applyAvatar(Harvester);
-	Harvester.mountImage(HarvesterFoldedBladeImage, 1);
-	Harvester.mountImage(HarvesterBeamRifleBackImage, 2);
+	if(isObject(%bot))
+	{
+		MissionCleanup.add(%bot);
+		AncientWarriorCleanup.add(%bot);
+		
+		AncientWarriorArmor.applyAvatar(%bot);
+		%bot.mountImage(AncientBladeImage, 0);
+		%bot.ancientWarriorLoop();
+	}
 	
-	Harvester.harvesterTeleport(0);
-	Harvester.harvesterLoop();
+	%effect = new Projectile()
+	{
+		dataBlock = GhostLilyProjectile;
+		initialVelocity = %bot.getForwardVector();
+		initialPosition = %bot.getHackPosition();
+		sourceObject = %bot;
+	};
+
+	if(isObject(%effect))
+	{
+		MissionCleanup.add(%effect);
+		%effect.explode();
+	}
 }
 
 /// @param	this	ai player
@@ -93,14 +142,14 @@ function AIPlayer::harvesterTeleport(%this, %level)
 			return;
 		}
 		
+		%prePosition = %this.getHackPosition();
+		
 		%preEffect = new Projectile()
 		{
-			// TODO: Bespoke teleport particles.
-			dataBlock = HarvesterBladeEquipProjectile;
+			dataBlock = HarvesterTeleportProjectile;
 			initialVelocity = %this.getForwardVector();
-			initialPosition = %this.getHackPosition();
+			initialPosition = %prePosition;
 			sourceObject = %this;
-			sourceSlot = %slot;
 			client = %this.client;
 		};
 
@@ -110,17 +159,17 @@ function AIPlayer::harvesterTeleport(%this, %level)
 			%preEffect.explode();
 		}
 		
-		%this.setTransform(%closest.position SPC getWords(%this.getTransform(), 3, 6));
+		%this.setTransform(vectorSub(%closest.position, "0 0" SPC %closest.getDataBlock().brickSizeZ / 10) SPC getWords(%this.getTransform(), 3, 6));
 		%this.setVelocity("0.0 0.0 0.0");
+		
+		%postPosition = %this.getHackPosition();
 		
 		%postEffect = new Projectile()
 		{
-			// TODO: Bespoke teleport particles.
-			dataBlock = HarvesterBladeEquipProjectile;
+			dataBlock = HarvesterAppearProjectile;
 			initialVelocity = %this.getForwardVector();
-			initialPosition = %this.getHackPosition();
+			initialPosition = %postPosition;
 			sourceObject = %this;
-			sourceSlot = %slot;
 			client = %this.client;
 		};
 
@@ -128,6 +177,21 @@ function AIPlayer::harvesterTeleport(%this, %level)
 		{
 			MissionCleanup.add(%postEffect);
 			%postEffect.explode();
+		}
+		
+		%trailEffect = new Projectile()
+		{
+			dataBlock = HarvesterTeleportTrailProjectile;
+			initialVelocity = vectorSub(%postPosition, %prePosition);
+			initialPosition = vectorScale(vectorAdd(%prePosition, %postPosition), 0.5);
+			sourceObject = %this;
+			client = %this.client;
+		};
+
+		if(isObject(%trailEffect))
+		{
+			MissionCleanup.add(%trailEffect);
+			%trailEffect.explode();
 		}
 	}
 }
@@ -199,18 +263,22 @@ function AIPlayer::harvesterBreakStagger(%this)
 		{			
 			case 2:
 				%message = "Your efforts will bear no fruit.";
+				%profile = HarvesterPhaseChangeVoiceSound1;
 				
 			case 3:
 				%message = "I will not wither away!";
+				%profile = HarvesterPhaseChangeVoiceSound2;
 				
 			case 4:
 				%message = "Your blood will nourish the soil!";
+				%profile = HarvesterPhaseChangeVoiceSound3;
 				
 			default:
 				%message = "...";
 		}
 		
 		%this.harvesterChat("The Harvester", %message);
+		%this.playAudio(2, %profile);
 		
 		%effect = new Projectile()
 		{
@@ -233,7 +301,7 @@ function AIPlayer::harvesterBreakStagger(%this)
 		%this.schedule(500, playThread, 0, "sweepDone");
 		%this.schedule(1000, playThread, 0, "root");
 		
-		%this.playAudio(1, HarvesterYellSound1);
+		// %this.playAudio(1, HarvesterYellSound1);
 
 		%this.thinkLoop = %this.schedule(1000, harvesterLoop);
 	}
@@ -301,6 +369,8 @@ function AIPlayer::harvesterSetPhase(%this, %phase)
 			default:
 				%this.harvesterStagger(2200);
 		}
+		
+		%this.lastPhaseChangeTime = getSimTime();
 	}
 }
 
@@ -520,10 +590,7 @@ function AIPlayer::harvesterSpikeAttack(%this)
 		
 		switch(%this.phase)
 		{
-			case 1:
-				%triggerReleaseTime = 1250;
-
-			case 2:
+			case 1 or 2:
 				%triggerReleaseTime = 1250;
 
 			case 3:
@@ -559,6 +626,60 @@ function AIPlayer::harvesterSpikeAttack(%this)
 		
 		%this.thinkLoop = %this.schedule(%time, harvesterLoop);
 		%this.lastSpikeAttackTime = getSimTime() + %time;
+	}
+}
+
+/// @param	this	ai player
+function AIPlayer::harvesterSummonAncientWarriors(%this)
+{
+	if(%this.getDamagePercent() < 1.0)
+	{
+		switch(%this.phase)
+		{			
+			case 4:
+				for(%i = 0; %i < 4; %i++)
+				{
+					spawnAncientWarrior(BrickGroup_888888.NTObject["_ancientWarriorCornerSpawn", %i].position);
+				}
+				
+			default:
+				for(%i = 0; %i < 2; %i++)
+				{
+					spawnAncientWarrior(BrickGroup_888888.NTObject["_ancientWarriorSideSpawn", %i].position);
+				}
+		}
+	}
+}
+
+/// @param	this	ai player
+function AIPlayer::harvesterSpiritSummonAttack(%this)
+{
+	if(isEventPending(%this.thinkLoop))
+	{
+		cancel(%this.thinkLoop);
+	}
+	
+	if(%this.getDamagePercent() < 1.0)
+	{
+		%this.stop();
+		
+		%minimumTime = 1450 + 96;
+		%triggerReleaseTime = 1200;
+		%equipTime = 0;
+		
+		if(!%this.isImageMounted(HarvesterSpiritSummonImage))
+		{
+			%this.mountImage(HarvesterSpiritSummonImage, 0);
+			%equipTime = 150; // +150 if not equipped.
+		}
+
+		%this.schedule(0, setImageTrigger, 0, true);
+		%this.schedule(%equipTime + %triggerReleaseTime, setImageTrigger, 0, false);
+		
+		%time = %equipTime + %minimumTime + %secondShotTime;
+		
+		%this.thinkLoop = %this.schedule(%time, harvesterLoop);
+		%this.lastSpiritSummonTime = getSimTime() + %time;
 	}
 }
 
@@ -622,6 +743,10 @@ function AIPlayer::harvesterSelectAttack(%this)
 				{
 					%this.harvesterBladeAttack();
 				}
+				else if(%this.lastSpiritSummonTime + 12000 < getSimTime() && %this.lastPhaseChangeTime + 30000 < getSimTime())
+				{
+					%this.harvesterSpiritSummonAttack();
+				}
 				else if(%distance < 14 && %this.lastSpikeAttackTime + 3000 < getSimTime())
 				{
 					%this.harvesterSpikeAttack();
@@ -644,24 +769,31 @@ function AIPlayer::harvesterSelectAttack(%this)
 				}
 				
 			case 4:
-				// Just go fuckin' /wild/.
-				%move = getRandom(0, 3);
-				switch(%move)
+				if(%this.lastSpiritSummonTime + 10000 < getSimTime() && %this.lastPhaseChangeTime + 30000 < getSimTime())
 				{
-					case 0:
-						%this.harvesterBladeAttack();
-						
-					case 1:
-						%this.harvesterBeamAttack();
-						
-					case 2:
-						%this.harvesterClusterBombAttack();
-						
-					case 3:
-						%this.harvesterSpikeAttack();
-						
-					default:
-						%this.harvesterBladeAttack();
+					%this.harvesterSpiritSummonAttack();
+				}
+				else
+				{
+					// Just go fuckin' /wild/.
+					%move = getRandom(0, 3);
+					switch(%move)
+					{
+						case 0:
+							%this.harvesterBladeAttack();
+							
+						case 1:
+							%this.harvesterBeamAttack();
+							
+						case 2:
+							%this.harvesterClusterBombAttack();
+							
+						case 3:
+							%this.harvesterSpikeAttack();
+							
+						default:
+							%this.harvesterBladeAttack();
+					}
 				}
 		}
 	}
@@ -711,6 +843,122 @@ function AIPlayer::harvesterLoop(%this)
 	}
 }
 
+/// @param	this	ai player
+function AIPlayer::ancientWarriorFindTarget(%this)
+{
+	%lastDistance = inf;
+	
+	echo("::ancientWarriorFindTarget(" @ %this @ "):");
+	
+	for(%i = 0; %i < HarvesterFightSet.getCount(); %i++)
+	{	
+		%player = HarvesterFightSet.getObject(%i);
+		
+		if(%player.getID() == %this.getID() || %player.getState() $= "Dead")
+		{
+			continue;
+		}
+
+		%distance = vectorDist(%this.position, %player.position);
+
+		if(%distance < %lastDistance)
+		{
+			%lastDistance = %distance;
+			%closestTarget = %player;
+		}
+	}
+	
+	if(!isObject(%closestTarget))
+	{
+		return false;
+	}
+	
+	echo("  %closestTarget is" SPC %closestTarget);
+	
+	%this.target = %closestTarget;
+	return %this.target;
+}
+
+/// @param	this	ai player
+function AIPlayer::ancientWarriorBladeAttack(%this)
+{
+	if(isEventPending(%this.thinkLoop))
+	{
+		cancel(%this.thinkLoop);
+	}
+	
+	if(%this.getDamagePercent() < 1.0)
+	{
+		%this.stop();
+		// %this.clearAim();
+		
+		%minimumTime = 700 + 96;
+		%chargeTime = 500;
+		%equipTime = 0;
+		
+		if(!%this.isImageMounted(AncientBladeImage))
+		{
+			%this.mountImage(AncientBladeImage, 0);
+			%equipTime = 400; // +400 if not equipped.
+		}
+		
+		%this.schedule(0, setImageTrigger, 0, true);
+		%this.schedule(%equipTime + %chargeTime, setImageTrigger, 0, false);
+		
+		%time = %equipTime + %chargeTime + %minimumTime;
+		
+		%this.thinkLoop = %this.schedule(%time, kill);
+	}
+}
+
+/// @param	this	ai player
+function AIPlayer::ancientWarriorSelectAttack(%this)
+{
+	if(isEventPending(%this.thinkLoop))
+	{
+		cancel(%this.thinkLoop);
+	}
+	
+	if(%this.getDamagePercent() < 1.0)
+	{	
+		%distance = vectorDist(%this.position, %this.target.position);
+		
+		if(%distance < 7)
+		{
+			%this.ancientWarriorBladeAttack();
+		}
+		else
+		{
+			// Reached the end of move select due to no moves being available, go back to start.
+			%this.thinkLoop = %this.schedule(1000, ancientWarriorLoop);
+		}
+	}
+}
+
+/// @param	this	ai player
+function AIPlayer::ancientWarriorLoop(%this)
+{
+	if(isEventPending(%this.thinkLoop))
+	{
+		cancel(%this.thinkLoop);
+	}
+	
+	if(%this.getDamagePercent() < 1.0)
+	{
+		if(%this.ancientWarriorFindTarget())
+		{
+			%this.setMoveObject(%this.target);
+			%this.setAimObject(%this.target);
+			
+			%this.thinkLoop = %this.schedule(500, ancientWarriorSelectAttack);
+		}
+		else
+		{
+			%this.kill();
+		}
+	}
+}
+
 /// @param	this		playertype
 /// @param	player		player
 /// @param	source		damage source
@@ -737,6 +985,7 @@ function HarvesterArmor::damage(%this, %player, %source, %position, %damage, %ty
 		{
 			%player.saidFinalMessage = true;
 			%player.harvesterChat("The Harvester", "Shorn one by one and cast to the winds, I gave to them my all...");
+			%player.playAudio(2, HarvesterDyingVoiceSound);
 		}
 		else if(%player.getDamagePercent() > 0.78 && %player.phase < 4)
 		{
