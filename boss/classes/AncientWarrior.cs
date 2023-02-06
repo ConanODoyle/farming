@@ -9,19 +9,90 @@ datablock AudioProfile(GhostLilyExplosionSound)
 	preload = true;
 };
 
-//-------------------//
-// Ghost Lily Bloom: //
-//-------------------//
+//------------------------//
+// Ancient Warrior Trail: //
+//------------------------//
 
-datablock ParticleData(GhostLilyBloomParticle)
+datablock ParticleData(AncientWarriorTrailParticle)
 {
 	//------------//
 	// Rendering: //
 	//------------//
 	
-	textureName = $Harvester::Root @ "/resources/particles/lilyPetal";
+	textureName = $Harvester::Root @ "/resources/particles/blockhead";
 	
 	useInvAlpha = false;
+	
+	colors[0]	= "0.5 0.7 1.0 0.0";
+	colors[1]	= "0.5 0.7 1.0 0.15";
+	colors[2]	= "0.3 0.3 1.0 0.0";
+
+	sizes[0]	= 3.15;
+	sizes[1]	= 3.15;
+	sizes[2]	= 2.50;
+
+	times[0]	= 0.0;
+	times[1]	= 0.2;
+	times[2]	= 1.0;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	dragCoefficient = 3.0;
+	gravityCoefficient = 0.0;
+
+	inheritedVelFactor = 0.0;
+	constantAcceleration = 0.0;
+
+	lifetimeMS = 1000;
+	lifetimeVarianceMS = 0;
+
+	spinSpeed = 0.0;
+	spinRandomMin = 0.0;
+	spinRandomMax = 0.0;
+};
+datablock ParticleEmitterData(AncientWarriorTrailEmitter)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	particles = "AncientWarriorTrailParticle";
+	
+	overrideAdvance = false;
+	useEmitterColors = false;
+	
+	orientParticles = true;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	ejectionPeriodMS = 22;
+	periodVarianceMS = 0;
+	
+	ejectionVelocity = 0.08;
+	velocityVariance = 0.0;
+	
+	ejectionOffset = 0.0;
+	
+	thetaMin = 89.0;
+	thetaMax = 90.0;
+	
+	phiReferenceVel = 0.0;
+	phiVariance = 0.0;
+};
+
+//-------------------//
+// Ghost Lily Bloom: //
+//-------------------//
+
+datablock ParticleData(GhostLilyBloomParticle : BloodLilyBloomParticle)
+{
+	//------------//
+	// Rendering: //
+	//------------//
 	
 	colors[0]	= "0.4 0.6 1.0 0.0";
 	colors[1]	= "0.5 0.7 1.0 1.0";
@@ -33,11 +104,6 @@ datablock ParticleData(GhostLilyBloomParticle)
 	sizes[2]	= 3.5;
 	sizes[3]	= 1.0;
 
-	times[0]	= 0.0;
-	times[1]	= 0.1;
-	times[2]	= 0.4;
-	times[3]	= 1.0;
-
 	//-------------//
 	// Properties: //
 	//-------------//
@@ -45,17 +111,12 @@ datablock ParticleData(GhostLilyBloomParticle)
 	dragCoefficient = 0.0;
 	gravityCoefficient = -0.01;
 
-	inheritedVelFactor = 0.0;
 	constantAcceleration = 4.0;
 
 	lifetimeMS = 1500;
 	lifetimeVarianceMS = 200;
-
-	spinSpeed = 0.0;
-	spinRandomMin = 0.0;
-	spinRandomMax = 0.0;
 };
-datablock ParticleEmitterData(GhostLilyBloomEmitter)
+datablock ParticleEmitterData(GhostLilyBloomEmitter : BloodLilyBloomEmitter)
 {
 	//------------//
 	// Rendering: //
@@ -63,44 +124,24 @@ datablock ParticleEmitterData(GhostLilyBloomEmitter)
 	
 	particles = "GhostLilyBloomParticle";
 	
-	overrideAdvance = false;
-	useEmitterColors = false;
-	
-	orientParticles = true;
-	orientOnVelocity = true;
-	
 	//-------------//
 	// Properties: //
 	//-------------//
 	
-	ejectionPeriodMS = 100;
-	periodVarianceMS = 0;
-	
 	ejectionVelocity = 0.2;
-	velocityVariance = 0.1;
 	
 	ejectionOffset = 1.6;
-	
-	thetaMin = 20.0;
-	thetaMax = 130.0;
-	
-	phiReferenceVel = 0.0;
-	phiVariance = 360.0;
 };
 
 //--------------------//
 // Ghost Lily Petals: //
 //--------------------//
 
-datablock ParticleData(GhostLilyPetalParticle)
+datablock ParticleData(GhostLilyPetalParticle : BloodLilyPetalParticle)
 {
 	//------------//
 	// Rendering: //
 	//------------//
-	
-	textureName = $Harvester::Root @ "/resources/particles/smallPetal";
-	
-	useInvAlpha = false;
 	
 	colors[0]	= "0.5 0.7 1.0 0.0";
 	colors[1]	= "0.5 0.7 1.0 1.0";
@@ -111,22 +152,13 @@ datablock ParticleData(GhostLilyPetalParticle)
 	sizes[1]	= 1.0;
 	sizes[2]	= 1.0;
 	sizes[3]	= 1.0;
-	
-	times[0]	= 0.05;
-	times[1]	= 0.1;
-	times[2]	= 0.95;
-	times[3]	= 1.0;
-	
+
 	//-------------//
 	// Properties: //
 	//-------------//
 	
 	dragCoefficient = 3.5;
-	windCoefficient = 5.0;
 	gravityCoefficient = -0.01;
-
-	inheritedVelFactor = 0.0;
-	constantAcceleration = 0.0;
 
 	lifetimeMS = 3072;
 	lifetimeVarianceMS = 0;
@@ -135,7 +167,7 @@ datablock ParticleData(GhostLilyPetalParticle)
 	spinRandomMin = -180.0;
 	spinRandomMax = 270.0;
 };
-datablock ParticleEmitterData(GhostLilyPetalEmitter)
+datablock ParticleEmitterData(GhostLilyPetalEmitter : BloodLilyPetalEmitter)
 {
 	//------------//
 	// Rendering: //
@@ -143,62 +175,91 @@ datablock ParticleEmitterData(GhostLilyPetalEmitter)
 	
 	particles = "GhostLilyPetalParticle";
 	
-	overrideAdvance = false;
-	useEmitterColors = false;
-	
 	//-------------//
 	// Properties: //
 	//-------------//
 	
 	ejectionPeriodMS = 6;
-	periodVarianceMS = 0;
 	
 	ejectionVelocity = 15.0;
-	velocityVariance = 5.5;
 	
 	ejectionOffset = 0.2;
-	
-	thetaMin = 20.0;
-	thetaMax = 130.0;
-	
-	phiReferenceVel = 0.0;
-	phiVariance = 360.0;
 };
 
 //-------------//
 // Ghost Lily: //
 //-------------//
 
-datablock ExplosionData(GhostLilyExplosion)
+datablock ExplosionData(GhostLilyExplosion : BloodLilyExplosion)
 {
 	//------------//
 	// Rendering: //
 	//------------//
 
-	particleEmitter = "GhostLilyBloomEmitter";
+	particleEmitter = GhostLilyBloomEmitter;
 	particleDensity = 15;
 	particleRadius = 0.1;
 
-	emitter[0] = "GhostLilyPetalEmitter";
+	emitter[0] = GhostLilyPetalEmitter;
 	
 	//-------------//
 	// Properties: //
 	//-------------//
 	
-	soundProfile = "GhostLilyExplosionSound";
+	soundProfile = GhostLilyExplosionSound;
 	
 	lifeTimeMS = 100;
 };
 
-datablock ProjectileData(GhostLilyProjectile)
+datablock ProjectileData(GhostLilyProjectile : BloodLilyProjectile)
 {
 	//------------//
 	// Explosion: //
 	//------------//
 	
-	explosion = "GhostLilyExplosion";
+	explosion = GhostLilyExplosion;
+};
+
+//------------------------------//
+// Ancient Warrior Trail Image: //
+//------------------------------//
+
+datablock ShapeBaseImageData(AncientWarriorTrailImage)
+{
+	//------------//
+	// Rendering: //
+	//------------//
 	
-	explodeOnDeath = true;
+	shapeFile = "base/data/shapes/empty.dts";
+
+	emap = false;
+	
+	doColorShift = false;
+
+	//-----------//
+	// Mounting: //
+	//-----------//
+	
+	offset = "0.0 0.0 -0.5";
+	eyeOffset = "0.0 0.0 0.0";
+
+	rotation = "0.0 0.0 0.0 0.0";
+	eyeRotation = "0.0 0.0 0.0 0.0";
+	
+	mountPoint = $BackSlot;
+
+	//---------//
+	// States: //
+	//---------//
+	
+	stateName[0] = "Activate";
+	stateTimeoutValue[0] = inf;
+	stateTransitionOnTimeout[0] = "Activate";
+	stateEmitter[0] = AncientWarriorTrailEmitter;
+	stateEmitterTime[0] = inf;
+	stateEmitterNode[0] = "muzzlePoint";
+	stateWaitForTimeout[0] = true;
+	stateAllowImageChange[0] = true;
 };
 
 //-------------//
