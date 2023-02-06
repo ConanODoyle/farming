@@ -101,7 +101,7 @@ datablock ProjectileData(MasterKeyConcProjectile : gunProjectile)
 
 	projectileShapeName = "Add-Ons/Vehicle_Tank/tankbullet.dts";
 	
-	particleEmitter = "MasterKeyTrailEmitter";
+	particleEmitter = MasterKeyTrailEmitter;
 	
 	//-------------//
 	// Properties: //
@@ -160,7 +160,7 @@ datablock ProjectileData(MasterKeyProjectile : gunProjectile)
 	// Rendering: //
 	//------------//
 
-	particleEmitter = "MasterKeyTrailEmitter";
+	particleEmitter = MasterKeyTrailEmitter;
 	
 	//-------------//
 	// Properties: //
