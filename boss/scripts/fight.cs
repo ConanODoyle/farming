@@ -38,7 +38,7 @@ function setHarvesterFightMusic(%profile)
 		profile = %profile;
 		position = "-99999999.0 -99999999.0 -99999999.0"; // Allows for per-client music by scoping audio emitter to specific clients.
 		maxDistance = inf;
-		volume = 1.0;
+		volume = 0.9;
 	};
 
 	for(%i = 0; %i < HarvesterFightSet.getCount(); %i++)
