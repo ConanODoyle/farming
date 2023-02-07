@@ -90,6 +90,24 @@ datablock AudioProfile(HarvesterSiriusBMusic)
 	preload = true;
 };
 
+//---------//
+// Vortex: //
+//---------//
+
+datablock StaticShapeData(HarvesterVortexShape)
+{
+	shapeFile = $Harvester::Root @ "/resources/shapes/vortex.dts";
+};
+
+//-------//
+// Riser: //
+//-------//
+
+datablock StaticShapeData(HarvesterRiserShape)
+{
+	shapeFile = $Harvester::Root @ "/resources/shapes/riser.dts";
+};
+
 //-----------------------//
 // Environmental Embers: //
 //-----------------------//
