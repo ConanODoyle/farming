@@ -15,7 +15,7 @@ function spawnHarvester()
 	new AIPlayer(Harvester)
 	{
 		dataBlock = HarvesterArmor;
-		position = "0 0 0";
+		position = _harvesterTeleportRing0.position;
 		name = "The Harvester";
 		isBot = true;
 		
@@ -34,6 +34,8 @@ function spawnHarvester()
 	if(isObject(Harvester))
 	{
 		MissionCleanup.add(Harvester);
+		
+		Harvester.setTransform(Harvester.position SPC eulerToQuat("0.0 0.0 -90.0"));
 		
 		// Harvester.setMoveSpeed(0.7);
 		Harvester.setMoveTolerance(3);
