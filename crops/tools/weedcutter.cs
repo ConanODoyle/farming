@@ -33,5 +33,5 @@ datablock ShapeBaseImageData(WeedCutterImage : TrowelImage)
 
 	toolTip = "Area remove weeds";
 
-	harvestEffect = "Underground";
+	harvestEffect = "FarmingHarvestAboveGroundPlantProjectile";
 };

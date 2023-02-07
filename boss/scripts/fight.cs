@@ -90,6 +90,7 @@ function setHarvesterFightCamera(%position, %rotation)
 		
 		// Camera controls dummy camera. Apparently a default thing?
 		%camera.setControlObject(%client.dummyCamera);
+		%client.dummyCamera.setTransform(%camera.getTransform());
 		
 		%camera.setTransform(%position SPC %rotation);
 	}
