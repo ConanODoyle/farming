@@ -1,3 +1,21 @@
+//------------------//
+// Cutscene Sounds: //
+//------------------//
+
+datablock AudioProfile(HarvesterLeapSound)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/fx/metalLeap.wav";
+	description = AudioDefault3d;
+	preload = true;
+};
+
+datablock AudioProfile(HarvesterLandSound)
+{
+	fileName = $Harvester::Root @ "/resources/sounds/fx/metalLand.wav";
+	description = AudioDefault3d;
+	preload = true;
+};
+
 //----------------//
 // Attack Sounds: //
 //----------------//

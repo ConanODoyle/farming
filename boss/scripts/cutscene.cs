@@ -1,6 +1,5 @@
 function harvesterIntroCutscene(%stage)
 {
-	talk("harvesterIntroCutscene(" @ %stage @ ")");
 	switch(%stage)
 	{
 		case 0:
@@ -52,8 +51,13 @@ function harvesterIntroCutscene(%stage)
 			
 			serverPlay3d(HarvesterLeapSound, CutsceneHarvester.position);
 			
+			CutsceneHarvester.harvesterChat("???", "Who dares trespass? Why have you come?");
+			
+			CutsceneHarvester.playAudio(2, HarvesterIntroVoiceSound1);
+			CutsceneHarvester.schedule(2200, playAudio, 2, HarvesterIntroVoiceSound2);
+			
 		case 2:
-			%nextStageTime = 3000;
+			%nextStageTime = 2400;
 			
 			// Land sound (synced with landing from jump).
 			serverPlay3d(HarvesterLandSound, CutsceneHarvester.position);
@@ -61,7 +65,7 @@ function harvesterIntroCutscene(%stage)
 			setHarvesterFightCamera(_harvesterCamera1.position, eulerToQuat("-60 0 180"));
 			
 		case 3:
-			%nextStageTime = 3000;
+			%nextStageTime = 2200;
 			
 			CutsceneHarvester.mountImage(HarvesterBladeImage, 0);
 			CutsceneHarvester.setHeadAngle($piOver2);
@@ -69,14 +73,20 @@ function harvesterIntroCutscene(%stage)
 			
 			setHarvesterFightCamera(_harvesterCamera2.position, eulerToQuat("15 0 115"));
 			
-		case 4:
-			%nextStageTime = 3000;
+			CutsceneHarvester.harvesterChat("???", "No matter...");
+			CutsceneHarvester.playAudio(2, HarvesterIntroVoiceSound3);
 			
-			CutsceneHarvester.setTransform($harvesterDummy.position SPC "-1 0 0 3.14159");
+		case 4:
+			%nextStageTime = 3300;
+			
+			CutsceneHarvester.setTransform(CutsceneHarvester.position SPC "-1 0 0 3.14159");
 			CutsceneHarvester.setHeadAngle(0);
 			CutsceneHarvester.playThread(0, "sweepReady");
 			
 			setHarvesterFightCamera(_harvesterCamera3.position, eulerToQuat("30 0 -37.5"));
+			
+			CutsceneHarvester.harvesterChat("???", "The tallest stalk is cut down first, farmer.");
+			CutsceneHarvester.playAudio(2, HarvesterIntroVoiceSound4);
 			
 		case 5:
 			%nextStageTime = 250;
@@ -106,6 +116,9 @@ function harvesterIntroCutscene(%stage)
 			CutsceneHarvester.mountImage(HarvesterVisorLightImage, 3);
 			
 			serverPlay3d(HarvesterBeamRifleChargeSound, CutsceneHarvester.position);
+			
+			CutsceneHarvester.harvesterChat("The Harvester", "for I am the Harvester.");
+			CutsceneHarvester.playAudio(2, HarvesterIntroVoiceSound5);
 		
 		case 7:
 			%nextStageTime = 1250;
@@ -129,6 +142,7 @@ function harvesterIntroCutscene(%stage)
 		
 		case 8:
 			clearHarvesterFightCamera();
+			schedule(1000, 0, spawnHarvester);
 			
 		default:
 			%nextStageTime = 3000;
