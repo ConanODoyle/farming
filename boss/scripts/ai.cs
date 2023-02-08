@@ -67,7 +67,7 @@ function AIPlayer::harvesterTeleport(%this, %level)
 
 		%lastDistance = inf;
 		
-		for(%i = 0; %i < 5; %i++)
+		for(%i = 0; %i < 6; %i++)
 		{
 			if(%searchAll)
 			{
@@ -336,6 +336,8 @@ function AIPlayer::harvesterSetPhase(%this, %phase)
 				%this.harvesterStagger(2200);
 		}
 		
+		clearAncientWarriors();
+		
 		%this.lastPhaseChangeTime = getSimTime();
 	}
 }
@@ -368,7 +370,7 @@ function AIPlayer::harvesterBladeAttack(%this)
 				%chargeTime = 1000;
 				
 			case 2:
-				%chargeTime = 500;
+				%chargeTime = 700;
 				
 				if(getRandom() > 0.67)
 				{
@@ -376,7 +378,7 @@ function AIPlayer::harvesterBladeAttack(%this)
 				}
 				
 			case 3:
-				%chargeTime = 250;
+				%chargeTime = 500;
 				
 				if(getRandom() > 0.5)
 				{
@@ -384,7 +386,7 @@ function AIPlayer::harvesterBladeAttack(%this)
 				}
 				
 			case 4:
-				%chargeTime = 96;
+				%chargeTime = 500;
 				
 				%this.harvesterTeleport();
 				
@@ -810,6 +812,19 @@ function AIPlayer::harvesterLoop(%this)
 			%this.stop();
 			
 			%this.thinkLoop = %this.schedule(3000, harvesterLoop);
+		}
+	}
+}
+
+function clearAncientWarriors()
+{
+	for(%i = 0; %i < AncientWarriorCleanup.getCount(); %i++)
+	{
+		%warrior = AncientWarriorCleanup.getObject(%i);
+		
+		if(isObject(%warrior))
+		{
+			%warrior.schedule(0, kill);
 		}
 	}
 }

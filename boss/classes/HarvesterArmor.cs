@@ -1157,6 +1157,10 @@ function HarvesterArmor::onDisabled(%this, %player, %state)
 {
 	if(%player.isBoss)
 	{
+		schedule(1000, 0, harvesterOutroCutscene, 0);
+		
+		clearAncientWarriors();
+		
 		%effect = new Projectile()
 		{
 			dataBlock = BloodLilyProjectile;
