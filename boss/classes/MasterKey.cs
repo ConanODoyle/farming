@@ -422,7 +422,7 @@ function MasterKeyImage::onFire(%this, %player, %slot)
 			}
 		}
 		
-		if(getWord(%player.getLookVector(), 2) < -0.66)
+		if(getWord(%player.getLookVector(), 2) < -0.261799)
 		{
 			%player.addVelocity(vectorScale(%player.getLookVector(), -4.0));
 		}
