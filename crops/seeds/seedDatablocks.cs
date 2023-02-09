@@ -6,7 +6,7 @@ exec("./datablocks.cs");
 	// case 3: return "stuck";
 	// case 4: return "unstable";
 	// case 5: return "buried";
-	// default: return "forbidden";x
+	// default: return "forbidden";
 
 function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 {
@@ -47,268 +47,97 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	}
 
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
+	%hit = getWord(%ray, 0);
+	//check that we did hit a brick and confirm its normal
 	if (!isObject(getWord(%ray, 0)) || vectorDist(getWords(%ray, 4, 6), "0 0 1") > 0.01)
 	{
 		return 0;
 	}
 	%hitLoc = getWords(%ray, 1, 3);
 
-	//re-run raycast to check the actual planting location rather than just where the eye vector hit
-	%planterFound = 0;
-	%potFound = 0;
-	if (%brickDB.brickSizeX % 2 == 1)
-	{
-		%base = roundToStudCenter(%hitLoc);
-		%start = vectorAdd(%base, "0 0 0.1");
-		%end = vectorAdd(%start, "0 0 -0.2");
-		%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
-		if (!isObject(%hit = getWord(%ray, 0)))
-		{
-			%obj.client.centerprint("Invalid position!", 1);
-			%failure = 1;
-		}
-		else if (!%hit.getDatablock().isDirt)
-		{
-			%obj.client.centerprint("You can only plant on dirt!", 1);
-			%failure = 1;
-		}
-		else if (getTrustLevel(%hit, %obj) < 2)
-		{
-			%obj.client.centerprint(%hit.getGroup().name @ " does not trust you enough to do that.", 1);
-			%failure = 1;
-		}
+	//run raycasts to check the actual planting location, rather than just rely on the eye vector hit location
+	%error = checkPlantLocationError(%hitLoc, %brickDB, %obj);
 
-		if (%hit.getDatablock().isPlanter)
-		{
-			%planterFound = 1;
-		}
-		if (%hit.getDatablock().isPot)
-		{
-			%potFound = 1;
-		}
+	switch (%error)
+	{
+		case 1: %errMsg = "Invalid position!";
+		case 2: %errMsg = "You can only plant on dirt!";
+		case 3: %errMsg = getField(%error, 1);
+		case 4: %errMsg = getWord(%error, 1).getGroup().name @ " does not trust you enough to do that.";
 	}
-	else
+
+	if (%errMsg !$= "" && isObject(%cl = %obj.client))
 	{
-		%base = roundToStudCenter(%hitLoc, 1);
-
-		//second check for dirt under the center 2x2 of the plant
-		%xDiff = 0.25 SPC 0.25 SPC -0.25 SPC -0.25;
-		%yDiff = 0.25 SPC -0.25 SPC 0.25 SPC -0.25;
-		for (%i = 0; %i < 4; %i++)
-		{
-			%offset = getWord(%xDiff, %i) SPC getWord(%yDiff, %i) SPC 0.1;
-			%start = vectorAdd(%base, %offset);
-			%end = vectorAdd(%start, "0 0 -0.2");
-			%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
-
-			if (!isObject(%hit = getWord(%ray, 0)) || !%hit.getDatablock().isDirt)
-			{
-				%obj.client.centerprint("You can only plant on dirt!", 1);
-				%failure = 1;
-				break;
-			}
-
-			if (%hit.getDatablock().isPot)
-			{
-				%potFound = 1;
-			}
-			else if (!%hit.getDatablock().isPot && %potFound)
-			{
-				%obj.client.centerprint("You cannot plant across a pot and a different brick!");
-				%failure = 1;
-				break;
-			}
-
-			if (%hit.getDatablock().isPlanter)
-			{
-				%planterFound = 1;
-			}
-			else if (!%hit.getDatablock().isPlanter && %planterFound)
-			{
-				%obj.client.centerprint("You cannot plant across a planter and a different brick!");
-				%failure = 1;
-				break;
-			}
-		}
-	}
-	%pos = vectorAdd(%base, "0 0 " @ %zOffset);
-	if (%failure)
-	{
-		%b = new fxDTSBrick()
-		{
-			seedPlant = 1;
-			colorID = 0;
-			position = %pos;
-			dataBlock = %brickDB;
-			rotation = getRandomBrickOrthoRot();
-		};
-		%b.schedule(1000, delete);
-
+		%cl.centerprint(%errMsg, 1);
+		failPlantSeed(getBrickPlantPosition(%hitLoc, %brickDB), %brickDB);
 		return 0;
 	}
+	%potFound = getWord(%error, 1);
+	%planterFound = getWord(%error, 2);
 
-	if (!isObject(%hit))
+	//get all the down bricks to calculate if its overlapping multiple lots
+	%downBricks = getPlantDownBricks(%hitloc, %brickDB, %obj);
+	for (%i = 0; %i < getWordCount(%downBricks); %i++)
 	{
-		return 0;
+		%dirt = getWord(%downBricks, %i);
+		%dirtLots = %dirt.getLotsUnderBrick();
+
+		if (%currLotBLID $= "")
+		{
+			%currLotBLID = %dirtLots.getGroup().bl_id;
+			continue;
+		}
+
+		if (%dirtLots $= "" || %dirtLots.getGroup().bl_id != %currLotBLID)
+		{
+			%cl.centerprint("You cannot plant across lot boundaries!", 1);
+			return failPlantSeed(getBrickPlantPosition(%hitLoc, %brickDB), %brickDB);
+		}
 	}
 
-	%hitDB = %hit.getDatablock();
-	if ((%potFound || %planterFound) && (%plantingBoxDisabled || %isTree))
+
+	//everything passed, time to make the brick
+	//the plant error check and trust check is checked in getPlantDownBricks and checkPlantLocationError
+	%pos = getBrickPlantPosition(%hitLoc, %brickDB);
+
+	//check if this is in a greenhouse or not
+	%light = lightRaycastCheck(roundToStudCenter(%hitLoc), %hit);
+	%greenhouseFound = getWord(%light, 1);
+
+	if (%greenhouseFound && %isTree)
 	{
-		%obj.client.centerprint("You cannot plant trees in pots/planters!", 1);
-		return 0;
+		if (isObject(%cl = %obj.client))
+		{
+			%cl.centerprint("You cannot plant tall plants under a greenhouse!", 1);
+		}
+		return failPlantSeed(%pos, %brickDB);
 	}
 
-
+	//only do radius checks if not planting into a pot
 	if (!%potFound)
 	{
-		//check if this is in a greenhouse or not
-		%end = vectorAdd(%base, "0 0 300");
-		%greenhouseCheck = containerRaycast(%base, %end, $TypeMasks::fxBrickAlwaysObjectType);
-		%greenhouseHit = getWord(%greenhouseCheck, 0);
-		if (isObject(%greenhouseHit))
-			%greenhouseDB = %greenhouseHit.getDatablock();
-
-		while (%greenhouseDB.isIndoorLight || %greenhouseDB.isSprinkler)
+		%error = checkPlantRadiusError(%pos, %brickDB, %planterFound, %greenhouseFound);
+		if (%error)
 		{
-			%greenhouseCheck = containerRaycast(getWords(%greenhouseCheck, 1, 3), %end, $TypeMasks::fxBrickAlwaysObjectType, %greenhouseHit);
-			%greenhouseHit = getWord(%greenhouseCheck, 0);
-			%greenhouseDB = %greenhouseHit.getDatablock();
-		}
-
-		if (isObject(%greenhouseHit) && %greenhouseDB.isGreenhouse)
-		{
-			%greenhouseInside = getWord(%greenhouseHit.getPosition(), 2) - %greenhouseDB.brickSizeZ * 0.1;
-			if (getWord(%base, 2) + 0.1 > %greenhouseInside)
+			if (isObject(%cl = %obj.client))
 			{
-				%inGreenhouse = 1;
+				%cl.centerprint(getField(%error, 1), 1);
 			}
-
-			if (%isTree)
-			{
-				%obj.client.centerprint("You cannot plant tall plants under a greenhouse!", 1);
-				return 0;
-			}
-		}
-
-		//planting radius checks
-		%plantRad = (%radius - (%planterFound + %inGreenhouse)) * 0.5 - 0.01 + 0.5;
-		// talk("inGreenhouse: " @ %inGreenhouse);
-		// talk("PlantRad: " @ %plantRad);
-
-		//check around the brick for any other plants and make sure we dont violate their radius requirement
-		//but exclude flowerpots since those root systems dont intersect with each other
-		//fixed size to ensure we capture larger bricks that have longer-distance root systems compared to the current plant
-		%box = "16 16" SPC (%zOffset + 1.2);
-		%searchPos = vectorScale(vectorAdd(%pos, %base), 0.5);
-		if ($debugPlanting)
-		{
-			talk(%zOffset);
-			createBoxMarker(%pos, "1 0 0 1", "0.1 0.1 0.1");
-			createBoxMarker(%base, "1 0 0 1", "0.1 0.1 0.1");
-
-			createBoxMarker(%searchPos, "1 1 0 1", "0.1 0.1 0.1");
-			createBoxMarker(%searchPos, "1 0 0 0.1", vectorScale(%box, 0.5));
-		}
-		initContainerBoxSearch(%searchPos, %box, $Typemasks::fxBrickObjectType);
-		while (isObject(%next = containerSearchNext()))
-		{
-			if (%next.getDatablock().isPlant && !%next.getDatablock().isWeed)
-			{
-				%nextType = %next.getDatablock().cropType;
-				%nextRadius = getPlantData(%nextType, "plantSpace");
-				%nextPos = %next.getPosition();
-				%nextDirt = %next.getDownBrick(0);
-
-				if (%plantingLayer != getPlantData(%nextType, "plantingLayer")) //if they aren't both on the same layer, they don't interfere
-				{
-					continue;
-				}
-				else if (%nextDirt.getDatablock().isPot) //ignore all pots
-				{
-					continue;
-				}
-
-				if (!%next.inGreenhouse)
-				{
-					%nextInGreenhouse = 0;
-				}
-				else
-				{
-					%nextInGreenhouse = 1;
-				}
-
-				if (%inGreenhouse != %nextInGreenhouse) //ignore greenhouse plants vs outside plants, and vice versa
-				{
-					continue;
-				}
-				else if (%nextDirt.getDatablock().isPlanter == !%planterFound) //planters ignore non-planters and vice versa
-				{
-					continue;
-				}
-
-				%xDiff = mAbs(getWord(%nextPos, 0) - getWord(%pos, 0));
-				%yDiff = mAbs(getWord(%nextPos, 1) - getWord(%pos, 1));
-
-				//calculate next plant's radius
-				%nextPlantRad = (%nextRadius - (%nextInGreenhouse + %nextDirt.getDatablock().isPlanter)) * 0.5 - 0.01 + 0.5;
-				if ((%xDiff < %nextPlantRad && %yDiff < %nextPlantRad)
-					|| (%xDiff < %plantRad && %yDiff < %plantRad)) //too close to another plant in the area
-				{
-					%obj.client.centerprint("Too close to a nearby " @ %nextType @ "!", 1);
-					%b = new fxDTSBrick()
-					{
-						seedPlant = 1;
-						colorID = 0;
-						position = %pos;
-						dataBlock = %brickDB;
-						rotation = getRandomBrickOrthoRot();
-					};
-					%b.schedule(1000, delete);
-
-					%b2 = new fxDTSBrick()
-					{
-						seedPlant = 1;
-						colorID = 0;
-						position = %next.getPosition();
-						dataBlock = %next.getDatablock();
-						rotation = %next.rotation;
-					};
-					%b2.schedule(1000, delete);
-					return 0;
-				}
-			}
+			return failPlantSeed(%pos, %brickDB);
 		}
 	}
 
-	%b = new fxDTSBrick()
-	{
-		seedPlant = 1;
-		colorID = %brickDB.defaultColor + 0;
-		position = %pos;
-		isPlanted = 1;
-		dataBlock = %brickDB;
-		rotation = getRandomBrickOrthoRot();
-		plantedTime = $Sim::Time;
-		inGreenhouse = %inGreenhouse;
-	};
+	//plant successful, make plant brick
+	%b = createPlantBrick(%pos, %brickDB, 1, "", %brickDB.defaultColor + 0);
+	%b.plantedTime = $Sim::Time;
+	%b.inGreenhouse = %inGreenhouse;
+
 	%error = %b.plant();
 	if (%error > 0 || %error $= "")
 	{
 		%b.delete();
 
-		%b = new fxDTSBrick()
-		{
-			seedPlant = 1;
-			colorID = 0;
-			position = %pos;
-			dataBlock = %brickDB;
-			rotation = getRandomBrickOrthoRot();
-		};
-		%b.schedule(1000, delete);
-
-		// messageClient(%obj.client, '', "Cannot plant there!");
-		return 0;
+		return failPlantSeed(%pos, %brickDB);
 	}
 
 	%b.setTrusted(1);
@@ -320,25 +149,36 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	{
 		%b.setColliding(1);
 	}
-	%bg = %obj.client.brickGroup;
-
+	%bg = getBrickgroupFromObject(%obj);
 	%bg.add(%b);
 
+	//update inventory item
+	updateSeedCount(%this, %obj, %slot);
 
-	//plant successful, update item
+	return %b;
+}
+
+function updateSeedCount(%this, %obj, %slot)
+{
+	if (!isObject(%cl = %obj.client))
+	{
+		return;
+	}
+
+	%cropType = %image.cropType;
 	%expReward = getPlantData(%cropType, "plantingExperience");
-	%obj.client.addExperience(%expReward);
+	%cl.addExperience(%expReward);
 
 	%expCost = getPlantData(%cropType, "experienceCost");
-	%obj.client.addExperience(-1 * %expCost);
+	%cl.addExperience(-1 * %expCost);
 
 	%toolStackCount = %obj.toolStackCount[%obj.currTool]--;
-	%slot = %obj.currTool;
+	%currTool = %obj.currTool;
 
 	if (%toolStackCount <= 0) //no more seeds left, clear the item slot
 	{
-		messageClient(%obj.client, 'MsgItemPickup', '', %slot, 0);
-		%obj.tool[%slot] = "";
+		messageClient(%cl, 'MsgItemPickup', '', %currTool, 0);
+		%obj.tool[%currTool] = "";
 		if (%imageSlot !$= "")
 		{
 			%obj.unmountImage(%imageSlot);
@@ -347,11 +187,220 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	else //some seeds are left, update item if needed
 	{
 		%bestItem = getStackTypeDatablock(%type, %toolStackCount);
-		messageClient(%obj.client, 'MsgItemPickup', '', %slot, %bestItem.getID());
-		%obj.tool[%slot] = %bestItem.getID();
-		%obj.mountImage(%imageSlot, %bestItem.image);
+		if (%bestItem.getID() != %obj.tool[%currTool].getID())
+		{
+			messageClient(%cl, 'MsgItemPickup', '', %currTool, %bestItem.getID());
+			%obj.tool[%currTool] = %bestItem.getID();
+			%obj.mountImage(%imageSlot, %bestItem.image);
+		}
 	}
-	return %b;
+}
+
+//0 for no issue
+function checkPlantRadiusError(%pos, %db, %planterFound, %inGreenhouse)
+{
+	%plantRadius = getPlantRadius(%db, %planterFound, %inGreenhouse);
+	%plantingLayer = getPlantData(%db.cropType, "plantingLayer");
+
+	//check around the brick for any other plants and make sure we dont violate their radius requirement
+	//but exclude flowerpots since those root systems dont intersect with each other
+	//fixed size to ensure we capture larger bricks that have longer-distance root systems compared to the current plant
+	%box = "16 16" SPC (%db.brickSizeZ * 0.1);
+	%base = vectorSub(%pos, "0 0 " @ %db.brickSizeZ * 0.1);
+	%searchPos = vectorScale(vectorAdd(%pos, %base), 0.5);
+	if ($debugPlanting)
+	{
+		createBoxMarker(%pos, "1 0 0 1", "0.1 0.1 0.1");
+		createBoxMarker(%base, "1 0 0 1", "0.1 0.1 0.1");
+
+		createBoxMarker(%searchPos, "1 1 0 1", "0.1 0.1 0.1");
+		createBoxMarker(%searchPos, "1 0 0 0.1", vectorScale(%box, 0.5));
+	}
+	initContainerBoxSearch(%searchPos, %box, $Typemasks::fxBrickObjectType);
+	while (isObject(%next = containerSearchNext()))
+	{
+		%nextDB = %next.dataBlock;
+		if (!%nextDB.isPlant || %nextDB.isWeed)
+		{
+			continue;
+		}
+
+		%nextType = %next.dataBlock.cropType;
+		if (%plantingLayer != getPlantData(%nextType, "plantingLayer")) //if they aren't both on the same layer, they don't interfere
+		{
+			continue;
+		}
+
+		%nextDirt = %next.getDownBrick(0); //we can assume it is only planted on one kind of dirt brick
+		%nextDirtDB = %nextDirt.dataBlock;
+		//ignore all pots
+		if (%nextDirtDB.isPot)
+		{
+			continue;
+		}
+
+		//do not check overlap between planters and non planters
+		if ((%nextDirtDB.isPlanter && !%planterFound) || (!%nextDirtDB.isPlanter && %planterFound))
+		{
+			continue;
+		}
+
+		//do not check overlap between plants inside/outside of a greenhouse
+		if ((%next.inGreenhouse && !%inGreenhouse) || (!%next.inGreenhouse && %inGreenhouse))
+		{
+			continue;
+		}
+
+		//radius check
+		%nextRadius = getPlantData(%nextType, "plantSpace");
+		%nextPos = %next.getPosition();
+		%xDiff = mAbs(getWord(%nextPos, 0) - getWord(%pos, 0));
+		%yDiff = mAbs(getWord(%nextPos, 1) - getWord(%pos, 1));
+
+		%nextPlantRadius = getPlantRadius(%nextDB, %nextDirtDB.isPlanter, %next.inGreenhouse);
+		if ((%xDiff < %nextPlantRadius && %yDiff < %nextPlantRadius)
+			|| (%xDiff < %plantRadius && %yDiff < %plantRadius)) //too close to another plant in the area
+		{
+			createPlantBrick(%nextPos, %nextDB, 0, %next.rotation).schedule(1000, delete); //show which plant its too close to
+			return 1 TAB "Too close to a nearby " @ %nextType @ "!";
+		}
+	}
+	return 0;
+}
+
+function getPlantRadius(%db, %planterFound, %inGreenhouse)
+{
+	%studRadius = getPlantData(%db.cropType, "plantSpace");
+	return getMax((%studRadius - (%planterFound + %inGreenhouse)) * 0.5 + 0.49, 0.49);
+}
+
+//0 for no issue, any other number for a certain kind of issue
+//%potFound in return word slot 1 and %planterFound in word slot 2
+function checkPlantLocationError(%hitLoc, %db, %obj)
+{
+	%cropType = %db.cropType;
+	%isTree = %db.isTree;
+	%plantingBoxDisabled = getPlantData(%cropType, "plantingBoxDisabled");
+	if (%db.brickSizeX % 2 == 1)
+	{
+		%base = roundToStudCenter(%hitLoc);
+		%xDiff = 0;
+		%yDiff = 0;
+	}
+	else
+	{
+		%base = roundToStudCenter(%hitLoc, 1);
+		%xDiff = 0.25 SPC 0.25 SPC -0.25 SPC -0.25;
+		%yDiff = 0.25 SPC -0.25 SPC 0.25 SPC -0.25;
+	}
+
+	for (%i = 0; %i < getWordCount(%xDiff); %i++)
+	{
+		%offset = getWord(%xDiff, %i) SPC getWord(%yDiff, %i) SPC 0.1;
+		%start = vectorAdd(%base, %offset);
+		%end = vectorAdd(%start, "0 0 -0.2");
+		%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
+
+		if (!isObject(%hit = getWord(%ray, 0)))
+		{
+			return 1;
+		}
+		else if (!%hit.dataBlock.isDirt)
+		{
+			return 2;
+		}
+		else if (getTrustLevel(%hit, %obj) < 2)
+		{
+			return 4 SPC %hit;
+		}
+
+		if (%hit.dataBlock.isPot)
+		{
+			%potFound = 1;
+		}
+		else if (%hit.dataBlock.isPlanter)
+		{
+			%planterFound = 1;
+		}
+		else
+		{
+			%dirtFound = 1;
+		}
+	}
+
+	if (%dirtFound && (%potFound || %planterFound))
+	{
+		return 3 TAB "You cannot plant across dirt and a different brick at the same time!";
+	}
+	else if (%potFound && %planterFound)
+	{
+		return 3 TAB "You cannot plant across planters and pots!";
+	}
+	else if ((%plantingBoxDisabled || %isTree) && (%potFound || %planterFound))
+	{
+		return 3 TAB "You cannot plant trees in pots/planters!";
+	}
+
+	return 0 SPC %potFound SPC %planterFound;
+}
+
+//gets list of down bricks for the plant
+//returns "" if any down bricks aren't dirt
+function getPlantDownBricks(%hitLoc, %db, %obj)
+{
+	%pos = getBrickPlantPosition(%hitLoc, %db);
+	%b = createPlantBrick(%pos, %db);
+	%error = %b.plant();
+	if (%error)
+	{
+		return "";
+	}
+
+	%list = "";
+	for (%i = 0; %i < %b.getNumDownBricks(); %i++)
+	{
+		%down = %b.getDownBrick(%i);
+		if (!%down.dataBlock.isDirt || getTrustLevel(%down, %obj) < 2)
+		{
+			return "";
+		}
+		%list = %list SPC %down;
+	}
+	%b.delete();
+	return trim(%list);
+}
+
+function getBrickPlantPosition(%hitloc, %db)
+{
+	if (%db.brickSizeX % 2)
+	{
+		%pos = roundToStudCenter(%hitLoc);
+	}
+	else
+	{
+		%pos = roundToStudCenter(%hitLoc, 1);
+	}
+	return vectorAdd(%pos, "0 0 " @ (%db.brickSizeZ * 0.1));
+}
+
+function failPlantSeed(%pos, %db)
+{
+	createPlantBrick(%pos, %db, 0).schedule(1000, delete);
+	return 0;
+}
+
+//creates and returns a new brick
+//isPlanted, rotation, colorID is optional
+function createPlantBrick(%pos, %db, %isPlanted, %rotation, %colorID)
+{
+	return new fxDTSBrick() {
+		isPlanted = %isPlanted;
+		seedPlant = 1;
+		colorID = 0;
+		position = %pos;
+		dataBlock = %db;
+		rotation = (%rotation $= "" ? getRandomBrickOrthoRot() : %rotation);
+	};
 }
 
 function seedLoop(%image, %obj)
@@ -364,6 +413,6 @@ function seedLoop(%image, %obj)
 	if (isObject(%cl))
 	{
 		%seedName = strReplace(getSubStr(%type, 0, strLen(%type) - 4), "_", " ");
-		%cl.centerprint("<just:right><color:ffff00>-Seeds " @ %obj.currTool @ "- <br>" @ %seedName @ "<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<just:right><color:ffff00>-Seeds " @ %obj.currTool @ "- \n" @ %seedName @ "<color:ffffff>: " @ %count @ " ", 1);
 	}
 }

@@ -47,27 +47,32 @@ function GameConnection::getTempBrickBounds(%cl)
 	return getBrickBounds(%temp);
 }
 
+//zextra increases bounds height
 function getBrickBounds(%temp, %zExtra)
 {
-	%db = %temp.getDatablock();
+	// %db = %temp.getDatablock();
 
-	%pos = %temp.getPosition();
-	%rot = %temp.angleID;
-	%xMod = %db.brickSizeX * 0.25;
-	%yMod = %db.brickSizeY * 0.25;
-	if (%rot % 2 == 1)
-	{
-		%t = %xMod;
-		%xMod = %yMod;
-		%yMod = %t;
-	}
-	%zMod = %db.brickSizeZ * 0.1;
+	// %pos = %temp.getPosition();
+	// %rot = %temp.angleID;
+	// %xMod = %db.brickSizeX * 0.25;
+	// %yMod = %db.brickSizeY * 0.25;
+	// if (%rot % 2 == 1)
+	// {
+	// 	%t = %xMod;
+	// 	%xMod = %yMod;
+	// 	%yMod = %t;
+	// }
+	// %zMod = %db.brickSizeZ * 0.1;
 
-	%mod = %xMod SPC %yMod SPC %zMod;
-	%c1 = vectorAdd(vectorAdd(%pos, %mod), "0 0 " @ %zExtra);
-	%c2 = vectorSub(%pos, %mod);
+	// %mod = %xMod SPC %yMod SPC %zMod;
+	// %c1 = vectorAdd(vectorAdd(%pos, %mod), "0 0 " @ %zExtra);
+	// %c2 = vectorSub(%pos, %mod);
 
-	return %c1 TAB %c2;
+	%box = %temp.getWorldBox();
+	%large = vectorAdd(getWords(%temp, 3, 6), "0 0 " @ %zExtra);
+	%small = getWords(%temp, 0, 2);
+
+	return %large TAB %small;
 }
 
 //assumes %bounds in format of lrgVec TAB smlVec
@@ -127,52 +132,35 @@ function lotCheckPlant(%cl)
 		%tempBounds = getBrickBounds(%temp);
 	}
 
-	%z = getWord(getField(%tempBounds, 1), 2);
-
-	%tempPos = vectorScale(vectorAdd(getField(%tempBounds, 0), getField(%tempBounds, 1)), 0.5);
-	%xP = getWord(%tempPos, 0);
-	%yP = getWord(%tempPos, 1);
-	%zP = %z / 2;
-	%tempSize = vectorSub(getField(%tempBounds, 0), getField(%tempBounds, 1));
-	%xS = getWord(%tempSize, 0) - 0.01;
-	%yS = getWord(%tempSize, 1) - 0.01;
-	%zS = %z - 0.01;
-
-	%bSearchPos = %xP SPC %yP SPC %zP;
-	%bSearchSize = %xS SPC %yS SPC %zS;
-
-	%xyLarge = getWords(getField(%tempBounds, 0), 0, 1);
-	%xySmall = getWords(getField(%tempBounds, 1), 0, 1);
-
-	initContainerBoxSearch(%bSearchPos, %bSearchSize, $TypeMasks::fxBrickObjectType);
+	//run a box search for lot bricks, starting from the floor up to the top of the tempbrick bounds
+	%lots = getLotsUnderBounds(%tempBounds);
 	%count = 0;
-	while (isObject(%next = containerSearchNext()))
+	for (%i = 0; %i < getWordCount(%lots); %i++)
 	{
-		if (%next.isPlanted && (%next.getDatablock().isLot || %next.getDatablock().isShopLot))
+		%lot = getWord(%lots, %i);
+		if (getTrustLevel(%cl, %lot) < 1)
 		{
-			if (getTrustLevel(%cl, %next) < 1)
+			continue;
+		}
+		else
+		{
+			%groupBLID = %lot.getGroup().bl_id;
+			if (%ownership !$= "" && %groupBLID != %ownership)
 			{
-				continue;
+				return 0; //needs to be within the same lotgroup - multiple lots found == crossing two lots
 			}
-			else
+			%ownership = %groupBLID;
+
+			if (%lot.getDatablock().isShopLot)
 			{
-				%groupBLID = %next.getGroup().bl_id;
-				if (%ownership !$= "" && %groupBLID != %ownership)
-				{
-					return 0; //needs to be within own lot
-				}
-				%ownership = %groupBLID;
-
-				if (%next.getDatablock().isShopLot)
-				{
-					%rejectDirt = 1;
-				}
-
-				%lots[%count++ - 1] = getBrickBounds(%next);
+				%rejectDirt = 1;
 			}
+
+			%lots[%count++ - 1] = getBrickBounds(%lot);
 		}
 	}
 
+	//calculate area captured by the lot bricks
 	%totalArea = 0;
 	%tLx = getWord(%xyLarge, 0);
 	%tLy = getWord(%xyLarge, 1);
@@ -202,19 +190,53 @@ function lotCheckPlant(%cl)
 
 	%zDiff = %z - %lowestZ;
 
-	if (mAbs(%targetArea - %totalArea) < 0.05 && %zDiff < $maxLotBuildHeight && %zDiff > 0)
-	{
-		if (%temp.getDatablock().isDirt && %rejectDirt)
-		{
-			return 0 TAB "You cannot plant dirt on a shop lot!";
-		}
-
-		return 1;
-	}
-	else
+	if (!(mAbs(%targetArea - %totalArea) < 0.05 && %zDiff < $maxLotBuildHeight && %zDiff > 0))
 	{
 		return 0;
 	}
+	else if (%temp.getDatablock().isDirt && %rejectDirt)
+	{
+		return 0 TAB "You cannot plant dirt on a shop lot!";
+	}
+
+	return 1;
+}
+
+function fxDTSBrick::getLotsUnderBrick(%brick)
+{
+	return getLotsUnderBounds(getBrickBounds(%brick));
+}
+
+//assumes bounds are given in max, min corner order
+function getLotsUnderBounds(%bounds)
+{
+	%zMax = getWord(getField(%bounds, 1), 2);
+
+	%pos = vectorScale(vectorAdd(getField(%bounds, 0), getField(%bounds, 1)), 0.5);
+	%xP = getWord(%pos, 0);
+	%yP = getWord(%pos, 1);
+	%zP = %zMax / 2;
+	%size = vectorSub(getField(%bounds, 0), getField(%bounds, 1));
+	%xS = getWord(%size, 0) - 0.01;
+	%yS = getWord(%size, 1) - 0.01;
+	%zS = %zMax - 0.01;
+
+	%boxSearchPos = %xP SPC %yP SPC %zP;
+	%boxSearchSize = %xS SPC %yS SPC %zS;
+
+	%xyLarge = getWords(getField(%bounds, 0), 0, 1);
+	%xySmall = getWords(getField(%bounds, 1), 0, 1);
+
+	initContainerBoxSearch(%boxSearchPos, %boxSearchSize, $TypeMasks::fxBrickObjectType);
+	%count = 0;
+	while (isObject(%next = containerSearchNext()))
+	{
+		if (%next.isPlanted && (%next.getDatablock().isLot || %next.getDatablock().isShopLot))
+		{
+			%list = %list SPC %next;
+		}
+	}
+	return trim(%list);
 }
 
 function addLotToBrickgroup(%bg, %lot)
