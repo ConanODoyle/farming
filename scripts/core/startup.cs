@@ -8,3 +8,8 @@ function startLoops()
 	$disableWeather = 0;
 	//fishingTick(0);
 }
+
+function stopLoops()
+{
+	cancel($masterGrowSchedule);
+}

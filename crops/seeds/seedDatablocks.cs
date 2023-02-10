@@ -26,7 +26,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 
 	if (%obj.client.farmingExperience < %expCost)
 	{
-		%obj.client.centerprint("You don't have enough experience to plant this crop!", 3);
+		pushSeedError(%obj, "You don't have enough experience to plant this crop!", 3);
 		return 0;
 	}
 
@@ -66,9 +66,9 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 		case 4: %errMsg = getWord(%error, 1).getGroup().name @ " does not trust you enough to do that.";
 	}
 
-	if (%errMsg !$= "" && isObject(%cl = %obj.client))
+	if (%errMsg !$= "")
 	{
-		%cl.centerprint(%errMsg, 1);
+		pushSeedError(%obj, %errMsg, 1);
 		failPlantSeed(getBrickPlantPosition(%hitLoc, %brickDB), %brickDB);
 		return 0;
 	}
@@ -90,7 +90,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 
 		if (%dirtLots $= "" || %dirtLots.getGroup().bl_id != %currLotBLID)
 		{
-			%cl.centerprint("You cannot plant across lot boundaries!", 1);
+			pushSeedError(%obj, "You cannot plant across lot boundaries!", 1);
 			return failPlantSeed(getBrickPlantPosition(%hitLoc, %brickDB), %brickDB);
 		}
 	}
@@ -108,7 +108,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	{
 		if (isObject(%cl = %obj.client))
 		{
-			%cl.centerprint("You cannot plant tall plants under a greenhouse!", 1);
+			pushSeedError(%obj, "You cannot plant tall plants under a greenhouse!", 1);
 		}
 		return failPlantSeed(%pos, %brickDB);
 	}
@@ -119,10 +119,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 		%error = checkPlantRadiusError(%pos, %brickDB, %planterFound, %greenhouseFound);
 		if (%error)
 		{
-			if (isObject(%cl = %obj.client))
-			{
-				%cl.centerprint(getField(%error, 1), 1);
-			}
+			pushSeedError(%obj, getField(%error, 1), 1);
 			return failPlantSeed(%pos, %brickDB);
 		}
 	}
@@ -153,12 +150,12 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	%bg.add(%b);
 
 	//update inventory item
-	updateSeedCount(%this, %obj, %slot);
+	updateSeedCount(%this, %obj, %imageslot);
 
 	return %b;
 }
 
-function updateSeedCount(%this, %obj, %slot)
+function updateSeedCount(%this, %obj, %imageslot)
 {
 	if (!isObject(%cl = %obj.client))
 	{
@@ -413,6 +410,17 @@ function seedLoop(%image, %obj)
 	if (isObject(%cl))
 	{
 		%seedName = strReplace(getSubStr(%type, 0, strLen(%type) - 4), "_", " ");
-		%cl.centerprint("<just:right><color:ffff00>-Seeds " @ %obj.currTool @ "- \n" @ %seedName @ "<color:ffffff>: " @ %count @ " ", 1);
+		%cl.centerprint("<just:right><color:ffff00>-Seeds " @ %obj.currTool @ "- \n" @ %seedName @ "<color:ffffff>: " @ %count @ " \n\c0" @ %obj.seedError, 1);
 	}
+
+	if (%obj.seedErrorTimeout < $Sim::Time)
+	{
+		%obj.seedError = "";
+	}
+}
+
+function pushSeedError(%obj, %msg, %time)
+{
+	%obj.seedError = %msg @ " ";
+	%obj.seedErrorTimeout = $Sim::Time + %time;
 }

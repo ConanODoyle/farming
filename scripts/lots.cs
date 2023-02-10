@@ -69,8 +69,8 @@ function getBrickBounds(%temp, %zExtra)
 	// %c2 = vectorSub(%pos, %mod);
 
 	%box = %temp.getWorldBox();
-	%large = vectorAdd(getWords(%temp, 3, 6), "0 0 " @ %zExtra);
-	%small = getWords(%temp, 0, 2);
+	%large = vectorAdd(getWords(%box, 3, 6), "0 0 " @ %zExtra);
+	%small = getWords(%box, 0, 2);
 
 	return %large TAB %small;
 }
@@ -110,6 +110,10 @@ function lotCheckPlant(%cl)
 {
 	%pl = %cl.player;
 	%temp = %pl.tempBrick;
+	if (!isObject(%pl) || !isObject(%temp))
+	{
+		return 1;
+	}
 
 	if (%cl.ndMode $= "NDM_PlantCopy")
 	{
@@ -122,11 +126,6 @@ function lotCheckPlant(%cl)
 	}
 	else
 	{
-		if (!isObject(%pl) || !isObject(%temp) || %temp.getDatablock().isLot || %temp.getDatablock().isShopLot)
-		{
-			return 1;
-		}
-
 		%start = getWords(%temp.getPosition(), 0, 1) SPC -1;
 		%end = %temp.getPosition();
 		%tempBounds = getBrickBounds(%temp);
@@ -147,7 +146,7 @@ function lotCheckPlant(%cl)
 			%groupBLID = %lot.getGroup().bl_id;
 			if (%ownership !$= "" && %groupBLID != %ownership)
 			{
-				return 0; //needs to be within the same lotgroup - multiple lots found == crossing two lots
+				return 0 TAB "You cannot build across two different lots!"; //needs to be within the same lotgroup - multiple lots found == crossing two lots
 			}
 			%ownership = %groupBLID;
 
@@ -161,6 +160,8 @@ function lotCheckPlant(%cl)
 	}
 
 	//calculate area captured by the lot bricks
+	%xyLarge = getWords(getField(%tempBounds, 0), 0, 1);
+	%xySmall = getWords(getField(%tempBounds, 1), 0, 1);
 	%totalArea = 0;
 	%tLx = getWord(%xyLarge, 0);
 	%tLy = getWord(%xyLarge, 1);
@@ -188,10 +189,14 @@ function lotCheckPlant(%cl)
 		%totalArea += (%bLx - %bSx) * (%bLy - %bSy);
 	}
 
-	%zDiff = %z - %lowestZ;
+	%zDiff = getWord(%tempBounds, 2) - %lowestZ;
 
-	if (!(mAbs(%targetArea - %totalArea) < 0.05 && %zDiff < $maxLotBuildHeight && %zDiff > 0))
+	if (mAbs(%targetArea - %totalArea) > 0.05 || %zDiff >= $maxLotBuildHeight || %zDiff < 0)
 	{
+		if (%zDiff >= $maxLotBuildHeight || %zDiff < 0)
+		{
+			return 0 TAB "You cannot build more than " @ ($maxLotBuildHeight / 0.6) @ " bricks above your lot!";
+		}
 		return 0;
 	}
 	else if (%temp.getDatablock().isDirt && %rejectDirt)
@@ -224,14 +229,10 @@ function getLotsUnderBounds(%bounds)
 	%boxSearchPos = %xP SPC %yP SPC %zP;
 	%boxSearchSize = %xS SPC %yS SPC %zS;
 
-	%xyLarge = getWords(getField(%bounds, 0), 0, 1);
-	%xySmall = getWords(getField(%bounds, 1), 0, 1);
-
 	initContainerBoxSearch(%boxSearchPos, %boxSearchSize, $TypeMasks::fxBrickObjectType);
-	%count = 0;
 	while (isObject(%next = containerSearchNext()))
 	{
-		if (%next.isPlanted && (%next.getDatablock().isLot || %next.getDatablock().isShopLot))
+		if (%next.isPlanted && (%next.dataBlock.isLot || %next.dataBlock.isShopLot))
 		{
 			%list = %list SPC %next;
 		}
