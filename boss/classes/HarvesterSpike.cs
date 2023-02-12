@@ -315,7 +315,7 @@ datablock ItemData(HarvesterSpikeItem)
 	emap = false;
 	
 	doColorShift = true;
-	colorShiftColor = "0.3 0.3 0.3 1.0";
+	colorShiftColor = "0.1 0.1 0.1 1.0";
 	
 	//----------//
 	// Physics: //

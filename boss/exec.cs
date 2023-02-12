@@ -31,6 +31,10 @@ else
 	exec($Harvester::Root @ "/classes/MasterKey.cs");
 	exec($Harvester::Root @ "/classes/StasisMachine.cs");
 	exec($Harvester::Root @ "/classes/VoidKey.cs");
+	
+	exec($Harvester::Root @ "/classes/L0Remorse.cs");
+	exec($Harvester::Root @ "/classes/L3LastWord.cs");
+	exec($Harvester::Root @ "/classes/L4Silence.cs");
 
 	exec($Harvester::Root @ "/scripts/ai.cs");
 	exec($Harvester::Root @ "/scripts/cutscene.cs");

@@ -435,6 +435,7 @@ function MasterKeyImage::onFire(%this, %player, %slot)
 /// @param	this		projectile datablock
 /// @param	player		player
 /// @param	slot		number
+/// @param	collision	object
 /// @param	position	3-element position
 /// @param	damage		number
 /// @param	damageType	number
