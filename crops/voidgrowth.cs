@@ -8,6 +8,22 @@ package VoidGrowth
 			%brick.wetTicks = 0;
 			%brick.setNutrients(0, 0);
 			%brick.voidKeyPlant.queueGrowTicks++;
+
+			if (%brick.dataBlock.stage > 0)
+			{
+				//apple trees have a split at 10/20 so can't decrement backwards directly
+				%brickDB = %brick.dataBlock.getName();
+				%lastStage = getMin(9, %brickDB.stage - 1);
+				while (!isObject(%lastDB) && %safety++ < 15)
+				{
+					%lastDB = strReplace(%brickDB, %brickDB.stage, %lastStage);
+					%lastStage--;
+				}
+				if (isObject(%lastStage))
+				{
+					%brick.setDatablock(%lastStage);
+				}
+			}
 			return;
 		}
 		return parent::grow(%brick, %growDB);
@@ -55,11 +71,12 @@ function voidAttemptGrowth(%brick)
 
 function applyVoidKeyPlant(%pos, %brick)
 {
-	%radius = 8;
+	%radius = 4;
 	initContainerRadiusSearch(%pos, %radius, $Typemasks::fxBrickObjectType);
 	while (isObject(%next = containerSearchNext()))
 	{
-		if (!%next.dataBlock.isPlant || %next == %brick)
+		if (!%next.dataBlock.isPlant || %next.dataBlock.stackType $= "Void"
+			|| vectorDist(%next.position, %pos) > %radius)
 		{
 			continue;
 		}
