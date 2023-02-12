@@ -23,4 +23,6 @@ exec("./harvest.cs");
 exec("./shinyPlants.cs");
 exec("./weeds.cs");
 
+exec("./voidgrowth.cs");
+
 exec("./tools.cs");

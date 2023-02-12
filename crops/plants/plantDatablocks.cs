@@ -545,6 +545,58 @@ datablock fxDTSBrickData(brickRose3CropData : brickRose0CropData)
 };
 
 
+//TECHNICALLY not a flower but void key plant
+datablock fxDTSBrickData(brickVoid0CropData)
+{
+	uiName = "Void0";
+
+	brickFile = "./bricks/Void0.blb";
+	cropType = "Void";
+	stage = 0;
+	isPlant = 1;
+};
+
+datablock fxDTSBrickData(brickVoid1CropData : brickVoid0CropData)
+{
+	uiName = "Void1";
+
+	brickFile = "./bricks/Void1.blb";
+	stage = 1;
+};
+
+datablock fxDTSBrickData(brickVoid2CropData : brickVoid0CropData)
+{
+	uiName = "Void2";
+
+	brickFile = "./bricks/Void2.blb";
+	stage = 2;
+};
+
+datablock fxDTSBrickData(brickVoid3CropData : brickVoid0CropData)
+{
+	uiName = "Void3";
+
+	brickFile = "./bricks/Void3.blb";
+	stage = 3;
+};
+
+datablock fxDTSBrickData(brickVoid4CropData : brickVoid0CropData)
+{
+	uiName = "Void4";
+
+	brickFile = "./bricks/Void4.blb";
+	stage = 4;
+};
+
+datablock fxDTSBrickData(brickVoid5CropData : brickVoid0CropData)
+{
+	uiName = "Void5";
+
+	brickFile = "./bricks/Void5.blb";
+	stage = 5;
+};
+
+
 
 
 

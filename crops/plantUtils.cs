@@ -211,7 +211,7 @@ function lightRaycastCheck(%pos, %brick)
 			break;
 		}
 
-		if (!%hit.canLightPassThrough())
+		if (!%hit.canLightPassThrough()) //TODO: fix handling indoor lights
 		{
 			%light = 0;
 			break;
@@ -270,7 +270,7 @@ function fxDTSBrick::canLightPassThrough(%brick)
 //returns 0 for growth success, nonzero for failure
 function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weather)
 {
-	%db = %brick.getDatablock();
+	%db = %brick.dataBlock;
 	%type = %db.cropType;
 	%stage = %db.stage;
 	if (!%db.isPlant)
@@ -338,15 +338,11 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 		{
 			if (isObject(%dryGrow) && strPos(%nutrientDiff, "-") < 0) //nutrients available >= %nutrientUse
 			{
-				%brick.setDatablock(%dryGrow);
-				%brick.dryTicks = 0;
-				%brick.wetTicks = 0;
-				%brick.setNutrients(0, 0);
-				%growth = 1;
+				%brick.grow(%dryGrow);
 			}
 			else if (%killOnDryGrow)
 			{
-				%death = 1;
+				%brick.killPlant();
 			}
 		}
 	}
@@ -365,48 +361,15 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 		{
 			if (isObject(%wetGrow) && strPos(%nutrientDiff, "-") < 0)
 			{
-				%brick.setDatablock(%wetGrow);
-				%brick.dryTicks = 0;
-				%brick.wetTicks = 0;
-				%brick.setNutrients(0, 0);
-				%growth = 1;
+				%brick.grow(%wetGrow);
 			}
 			else if (%killOnWetGrow)
 			{
-				%death = 1;
+				%brick.killPlant();
 			}
 		}
 	}
 
-	//effects
-	if (%death)
-	{
-		// Growth particles
-		%p = new Projectile()
-		{
-			dataBlock = "deathProjectile";
-			scale = "0.2 0.2 0.2";
-			initialVelocity = "0 0 -10";
-			initialPosition = %brick.position;
-		};
-
-		%brick.delete();
-	}
-	else if (%growth)
-	{
-		// Growth particles
-		%p = new Projectile()
-		{
-			dataBlock = "FarmingPlantGrowthProjectile";
-			initialVelocity = "0 0 1";
-			initialPosition = %brick.position;
-		};
-	}
-
-	if (isObject(%p))
-	{
-		%p.explode();
-	}
 	return 0;
 }
 
@@ -616,6 +579,40 @@ function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light, %weather)
 	return getMax(1, (%tickTime + %lightModifier + %nutrientModifier + %weedTimeModifier) * %multi);
 }
 
+function fxDTSBrick::grow(%brick, %growDB)
+{
+	%brick.setDatablock(%growDB);
+	%brick.dryTicks = 0;
+	%brick.wetTicks = 0;
+	%brick.setNutrients(0, 0);
+
+	// Growth particles
+	%p = new Projectile()
+	{
+		dataBlock = "FarmingPlantGrowthProjectile";
+		initialVelocity = "0 0 1";
+		initialPosition = %brick.position;
+	};
+
+	if (isObject(%p))
+	{
+		%p.explode();
+	}
+}
+
+function fxDTSBrick::killPlant(%brick)
+{
+	// Growth particles
+	%p = new Projectile()
+	{
+		dataBlock = "deathProjectile";
+		scale = "0.2 0.2 0.2";
+		initialVelocity = "0 0 -10";
+		initialPosition = %brick.position;
+	};
+
+	%brick.schedule(33, delete);
+}
 
 
 

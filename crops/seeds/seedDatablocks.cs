@@ -335,7 +335,7 @@ function checkPlantLocationError(%hitLoc, %db, %obj)
 	}
 	else if ((%plantingBoxDisabled || %isTree) && (%potFound || %planterFound))
 	{
-		return 3 TAB "You cannot plant trees in pots/planters!";
+		return 3 TAB "You cannot plant this in pots/planters!";
 	}
 
 	return 0 SPC %potFound SPC %planterFound;
