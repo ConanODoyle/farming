@@ -4,6 +4,9 @@ package VoidGrowth
 	{
 		if (isObject(%brick.voidKeyPlant))
 		{
+			%brick.dryTicks = 0;
+			%brick.wetTicks = 0;
+			%brick.setNutrients(0, 0);
 			%brick.voidKeyPlant.queueGrowTicks++;
 			return;
 		}
@@ -30,10 +33,10 @@ function voidAttemptGrowth(%brick)
 	%wetGrow = getPlantData(%type, %stage, "wetNextStage");
 	%maxWetTicks = getPlantData(%type, %stage, "numWetTicks");
 
-	if (%brick.queueGrowTick >= 10)
+	if (%brick.queueGrowTicks >= 30)
 	{
 		%brick.wetTicks++;
-		%brick.queueGrowTick -= 10;
+		%brick.queueGrowTicks -= 30;
 	}
 
 	if (%brick.wetTicks > %maxWetTicks && %maxWetTicks != -1)

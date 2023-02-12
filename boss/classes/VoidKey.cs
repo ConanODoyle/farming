@@ -193,6 +193,8 @@ datablock ParticleEmitterData(VoidDropletsEmitter)
 // Void Seed Item: //
 //-----------------//
 
+$Stackable_Blueberry_StackedItem0 = "VoidSeedItem 1";
+$Stackable_Blueberry_StackedItemTotal = 1;
 datablock ItemData(VoidSeedItem)
 {
 	//------------//
@@ -228,6 +230,9 @@ datablock ItemData(VoidSeedItem)
 
 	category = "Weapon";
 	className = "Weapon";
+
+	isStackable = 1;
+	stackType = "VoidSeed";
 };
 
 /// @param	this	item datablock
@@ -379,9 +384,26 @@ datablock ShapeBaseImageData(VoidSeedImage)
 	// Miscellanous: //
 	//---------------//
 
-	className = "WeaponImage";
+	className = "SeedImage";
 	
 	//---------//
 	// States: //
 	//---------//
+	cropBrick = "brickVoid0CropData";
+	cropType = "Void";
+	stateName[0] = "Activate";
+	stateTransitionOnTimeout[0] = "Loop";
+	stateTimeoutValue[0] = 0.1;
+
+	stateName[1] = "Loop";
+	stateScript[1] = "onLoop";
+	stateTransitionOnTriggerDown[1] = "Fire";
+	stateTimeoutValue[1] = 0.1;
+	stateTransitionOnTimeout[1] = "Loop";
+	stateWaitForTimeout[1] = false;
+
+	stateName[3] = "Fire";
+	stateScript[3] = "onFire";
+	stateTransitionOnTriggerUp[3] = "Loop";
+	stateTimeoutValue[2] = 0.1;
 };

@@ -150,12 +150,12 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	%bg.add(%b);
 
 	//update inventory item
-	updateSeedCount(%this, %obj, %imageslot);
+	updateSeedCount(%image, %obj, %imageslot);
 
 	return %b;
 }
 
-function updateSeedCount(%this, %obj, %imageslot)
+function updateSeedCount(%image, %obj, %imageslot)
 {
 	if (!isObject(%cl = %obj.client))
 	{
@@ -183,7 +183,7 @@ function updateSeedCount(%this, %obj, %imageslot)
 	}
 	else //some seeds are left, update item if needed
 	{
-		%bestItem = getStackTypeDatablock(%type, %toolStackCount);
+		%bestItem = getStackTypeDatablock(%image.item.stackType, %toolStackCount);
 		if (%bestItem.getID() != %obj.tool[%currTool].getID())
 		{
 			messageClient(%cl, 'MsgItemPickup', '', %currTool, %bestItem.getID());
