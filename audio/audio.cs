@@ -290,6 +290,14 @@ datablock AudioProfile(BassProShopMusic)
 	uiName = "Bass Pro Shop";
 };
 
+datablock AudioProfile(EverywhereAndNowhereMusic)
+{
+	filename = "./Music/Everywhere_and_Nowhere.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Everywhere and Nowhere";
+};
+
 
 
 
