@@ -193,8 +193,8 @@ datablock ParticleEmitterData(VoidDropletsEmitter)
 // Void Seed Item: //
 //-----------------//
 
-$Stackable_Blueberry_StackedItem0 = "VoidSeedItem 1";
-$Stackable_Blueberry_StackedItemTotal = 1;
+$Stackable_VoidSeed_StackedItem0 = "VoidSeedItem 1";
+$Stackable_VoidSeed_StackedItemTotal = 1;
 datablock ItemData(VoidSeedItem)
 {
 	//------------//
