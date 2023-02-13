@@ -42,6 +42,24 @@ package Void
 		}
 		return parent::plantCrop(%image, %obj, %imageSlot, %remotePlacement);
 	}
+
+	function fxDTSBrick::grow(%brick, %growDB)
+	{
+		if (%growDB.cropType $= "Void")
+		{
+			if (%growDB.stage == 4)
+			{
+				%brick.setItem("VoidEncasedKeySeedlingItem");
+				%brick.item.canPickup = 0;
+			}
+			if (%growDB.stage == 5)
+			{
+				%brick.setItem("VoidEncasedKeyItem");
+				%brick.item.canPickup = 0;
+			}
+		}
+		return parent::grow(%brick, %growDB);
+	}
 };
 activatePackage(Void);
 
@@ -399,3 +417,21 @@ datablock ShapeBaseImageData(VoidKeyImage)
 	stateTransitionOnTriggerUp[3] = "Loop";
 	stateTimeoutValue[2] = 0.1;
 };
+
+function VoidEncasedKeySeedlingItem::onAdd(%this, %item)
+{
+	parent::onAdd(%this, %item);
+	%item.rotate = 1;
+}
+
+function VoidEncasedKeyItem::onAdd(%this, %item)
+{
+	parent::onAdd(%this, %item);
+	%item.rotate = 1;
+}
+
+function VoidKeyItem::onAdd(%this, %item)
+{
+	parent::onAdd(%this, %item);
+	%item.rotate = 1;
+}

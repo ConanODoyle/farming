@@ -120,6 +120,21 @@ $obj = new ScriptObject(WandererRepairRequirementsNotMet)
 };
 $WandererDialogueSet.add($obj);
 
+//--------------------------------//
+// Key Missing Dialogue: //
+//--------------------------------//
+
+$obj = new ScriptObject(WandererKeyMissingDialogue)
+{
+	messageCount = 1;
+	
+	message[0] = "Hmm... where did your key go?";
+	messageTimeout[0] = 1;
+	
+	botTalkAnim = true;
+};
+$WandererDialogueSet.add($obj);
+
 //--------------------------//
 // Initial Response Parser: //
 //--------------------------//
@@ -139,9 +154,8 @@ function wandererInitialResponseParser(%dataObj, %message)
 		%word = " " @ getField(%yes, %i) @ " ";
 		if (strPos(%lwr, %word) >= 0)
 		{
-			%price = 100; // TEMP VALUE
-			%dataObj.var_keyRepairPrice = %price;
-			%dataObj.var_keyRepairEXPPrice = %price;
+			%dataObj.var_keyRepairPrice = 500;
+			%dataObj.var_keyRepairEXPPrice = 1000;
 			
 			return "Yes";
 		}
@@ -206,7 +220,7 @@ function wandererRepairResponseParser(%dataObj, %message)
 
 function dialogue_WandererKeyCheckRedirect(%dataObj)
 {
-	if(%dataObj.player.hasItem(HammerItem))
+	if (%dataObj.player.hasItem(VoidEncasedKeyItem))
 	{
 		%dataObj.enterDialogue("WandererRedirectDialogue");
 	}
@@ -218,5 +232,28 @@ function dialogue_WandererKeyCheckRedirect(%dataObj)
 
 function dialogue_WandererRepairKey(%dataObj)
 {
-	messageDebuggers("Give repaired void key to" SPC %dataObj.player);
+	if (%dataObj.player.hasItem(VoidEncasedKeyItem))
+	{
+		%pl = %dataObj.player;
+
+		for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
+		{
+			if (%pl.tool[%i].getID() == VoidEncasedKeyItem.getID())
+			{
+				%slot = %i;
+				break;
+			}
+		}
+
+		%pl.tool[%slot] = VoidKeyItem.getID();
+		messageClient(%pl.client, 'MsgItemPickup', "", %slot, VoidKeyItem.getID());
+		serverCmdUseTool(%cl, %slot);
+
+		%cl.subMoney(%dataObj.var_keyRepairPrice);
+		%cl.addExperience(%dataObj.var_keyRepairEXPPrice * -1);
+	}
+	else
+	{
+		%dataObj.enterDialogue("WandererKeyMissingDialogue");
+	}
 }
