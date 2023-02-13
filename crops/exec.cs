@@ -24,5 +24,6 @@ exec("./shinyPlants.cs");
 exec("./weeds.cs");
 
 exec("./voidgrowth.cs");
+exec("./voidsecret.cs");
 
 exec("./tools.cs");

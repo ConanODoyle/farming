@@ -49,7 +49,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
 	%hit = getWord(%ray, 0);
 	//check that we did hit a brick and confirm its normal
-	if (!isObject(getWord(%ray, 0)) || vectorDist(getWords(%ray, 4, 6), "0 0 1") > 0.01)
+	if (!isObject(%hit) || vectorDist(getWords(%ray, 4, 6), "0 0 1") > 0.01)
 	{
 		return 0;
 	}
