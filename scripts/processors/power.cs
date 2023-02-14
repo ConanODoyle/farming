@@ -970,6 +970,11 @@ function drawControlNetwork(%PowerDataID, %simSet, %focusObj)
 		%simSet = new SimSet(PowerNetworkShapes);
 	}
 
+	if (%powerDataID $= "")
+	{
+		return %simSet;
+	}
+
 	for (%i = 0; %i < %simSet.getCount(); %i++)
 	{
 		%line[%i] = %simSet.getObject(%i);
@@ -994,10 +999,11 @@ function drawControlNetwork(%PowerDataID, %simSet, %focusObj)
 		}
 	}
 
-	%controlBox = getDataIDArrayTagValue(%PowerDataID, "powerControlBox");
+	%controlBox = getDataIDArrayTagValue(%powerDataID, "powerControlBox");
 	if (!isObject(%controlBox))
 	{
-		return;
+		talk("ERROR: No power control box found! DataID: " @ %powerDataID);
+		return %simSet;
 	}
 	%controlBoxPos = vectorAdd("0 0 " @ (%controlBox.getDatablock().brickSizeZ * 0.1), %controlBox.getPosition());
 
@@ -1278,13 +1284,13 @@ function ElectricalCableImage::onReady(%this, %obj, %slot)
 			%obj.responseString = "";
 		}
 
-		%cpstr = "<just:right>\c3-Electrical Cable- <br>";
+		%cpstr = "<just:right>\c3-Electrical Cable- \n";
 		%currDevice = (isObject(%obj.poweredBrick) ? %obj.poweredBrick.getDatablock().uiName : "\c0None");
 		%currPowerBrick = (isObject(%obj.powerControlBrick) ? %obj.powerControlBrick.getPosition() : "\c0None");
-		%cpstr = %cpstr @ "\c6Current Device: \c3" @ %currDevice @ " <br>";
-		%cpstr = %cpstr @ "\c6Current Box: \c3" @ %currPowerBrick @ " <br>";
-		%cpstr = %cpstr @ "\c4" @ %obj.brickInfo @ " <br>";
-		%cpstr = %cpstr @ %obj.responseString @ " <br>";
+		%cpstr = %cpstr @ "\c6Current Device: \c3" @ %currDevice @ " \n";
+		%cpstr = %cpstr @ "\c6Current Box: \c3" @ %currPowerBrick @ " \n";
+		%cpstr = %cpstr @ "\c4" @ %obj.brickInfo @ " \n";
+		%cpstr = %cpstr @ %obj.responseString @ " \n";
 		%cpstr = %cpstr @ %obj.errorString;
 
 		%cl.centerprint(%cpstr, 2);
