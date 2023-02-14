@@ -211,7 +211,7 @@ function lightRaycastCheck(%pos, %brick)
 			break;
 		}
 
-		if (!%hit.canLightPassThrough()) //TODO: fix handling indoor lights
+		if (!%hit.canLightPassThrough() && %hit.getLightLevel(1) <= 0)
 		{
 			%light = 0;
 			break;

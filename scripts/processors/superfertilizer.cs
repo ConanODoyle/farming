@@ -24,7 +24,7 @@ function processIntoSuperFertilizer(%brick, %cl, %slot)
 	if (getTrustLevel(%brick, %cl) < 1)
 	{
 		serverCmdUnuseTool(%cl);
-		%cl.centerprint(getBrickgroupFromObject(%brick).name @ "<color:ff0000> does not trust you enough to do that!", 1);
+		%cl.centerprint(getBrickgroupFromObject(%brick).name @ "\c0 does not trust you enough to do that!", 1);
 		return;
 	}
 
@@ -52,7 +52,7 @@ function processIntoSuperFertilizer(%brick, %cl, %slot)
 		%superFert = %fertCount / 10;
 		%count = getSubStr(%brick.getName(), 1, 100);
 		%brick.setName("_" @ (%count + %superFert));
-		%cl.centerprint("<color:ffffff>You queued <color:ffff00>" @ %superFert @ "<color:ffffff> super fertilizer for production!", 3);
+		%cl.centerprint("\c6You queued \c2" @ %superFert @ "\c6 super fertilizer for production!", 3);
 		return;
 	}
 }

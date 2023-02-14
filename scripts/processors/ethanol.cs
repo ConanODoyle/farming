@@ -138,6 +138,7 @@ datablock ItemData(EthanolItem : HammerItem)
 	image = EthanolImage;
 	doColorShift = true;
 	colorShiftColor = "0.9 0.8 0 1";
+	iconName = "";
 
 	isStackable = 1;
 	stackType = "Ethanol";
@@ -290,7 +291,8 @@ package EthanolRefinery
 {
 	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
 	{
-		if (%storageObj.getDatablock().isRecipeProcessor && !%storageObj.isAcceptingIngredients)
+		//reject inserting if we've already determined we can't accept more
+		if (%storageObj.dataBlock.isRecipeProcessor && !%storageObj.isAcceptingIngredients)
 		{
 			return 3;
 		}
@@ -300,7 +302,7 @@ package EthanolRefinery
 	function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 	{
 		%ret = parent::updateStorageMenu(%brick, %dataID); //call parent since poweredProcessor has its own package
-		%db = %brick.getDatablock();
+		%db = %brick.dataBlock;
 		if (%db.isEthanolRefinery)
 		{
 			if (%brick.isPoweredOn())
@@ -338,7 +340,10 @@ package EthanolRefinery
 			%dataID = %brick.eventOutputParameter0_1;
 
 			// check if it can process recipe - if not, draw no power
-			// %brick.recipeProcessor
+			if (!canCreateEthanol(%brick))
+			{
+				return 0;
+			}
 
 			%power = %db.energyUse;
             %brick.updateStorageMenu(%dataID);
@@ -355,7 +360,7 @@ function addEthanolIngredients(%brick, %cl, %slot)
 	if (getTrustLevel(%brick, %cl) < 1)
 	{
 		serverCmdUnuseTool(%cl);
-		%cl.centerprint(getBrickgroupFromObject(%brick).name @ "<color:ff0000> does not trust you enough to do that!", 1);
+		%cl.centerprint(getBrickgroupFromObject(%brick).name @ "\c0 does not trust you enough to do that!", 1);
 		return;
 	}
 

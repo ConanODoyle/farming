@@ -175,7 +175,7 @@ function AIPlayer::insertIntoStorage(%bot, %dataID, %storeItemDB, %insertCount, 
 
 //input: storage object, brick being stored on, dataID, item db, count of objects inserted, item data id
 //output: error code (0 if no error/complete store, 1 SPC %excess if partial store, 2 if no store)
-function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
+function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot)
 {
 	if (%insertCount <= 0 || !isObject(%storeItemDB))
 	{
@@ -205,6 +205,18 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 	if (%storageMax <= 0 || !storageTypeAccepts(%brickStorageType, %storeItemDB)) //cannot store any at all
 	{
 		return 2;
+	}
+
+	%searchStart = 0;
+	%searchEnd = %count;
+	if (%specificSlot !$= "")
+	{
+		if (%count <= %specificSlot)
+		{
+			return 2;
+		}
+		%searchStart = %specificSlot;
+		%searchEnd = %specificSlot + 1;
 	}
 
 	for (%i = 0; %i < %count; %i++)

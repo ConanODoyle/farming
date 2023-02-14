@@ -75,7 +75,7 @@ function compostTick(%index)
 
 		if (%brick.nextCompostTime < $Sim::Time)
 		{
-			createFertilizer(%brick);
+			createCompost(%brick);
 		}
 		%index++;
 	}
@@ -373,7 +373,7 @@ function fertilizeDirt(%img, %obj, %slot)
 	}
 }
 
-function createFertilizer(%brick)
+function createCompost(%brick)
 {
     %dataID = %brick.eventOutputParameter0_1;
     %count = getDataIDArrayTagValue(%dataID, "compostQueue");
@@ -418,7 +418,7 @@ function createFertilizer(%brick)
     %brick.updateStorageMenu(%dataID);
 }
 
-function processIntoFertilizer(%brick, %cl, %slot)
+function processIntoCompost(%brick, %cl, %slot)
 {
 	if (getTrustLevel(%brick, %cl) < 1)
 	{
@@ -504,7 +504,7 @@ datablock fxDTSBrickData(brickCompostBinData)
 	storageSlotCount = 1;
 	itemStackCount = 0;
 	storageMultiplier = 4;
-	processorFunction = "processIntoFertilizer";
+	processorFunction = "processIntoCompost";
 	activateFunction = "compostBinInfo";
 	placerItem = "CompostBinItem";
 	callOnActivate = 1;
@@ -530,13 +530,47 @@ datablock fxDTSBrickData(brickLargeCompostBinData)
 	storageSlotCount = 1;
 	itemStackCount = 0;
 	storageMultiplier = 12;
-	processorFunction = "processIntoFertilizer";
+	processorFunction = "processIntoCompost";
 	activateFunction = "compostBinInfo";
 	placerItem = "LargeCompostBinItem";
 	callOnActivate = 1;
 
 	tickTime = 8;
 	tickAmt = 2;
+};
+
+datablock fxDTSBrickData(brickFertilizerMixerData)
+{
+	// category = "Farming";
+	// subCategory = "Extra";
+	uiName = "Fertilizer Mixer";
+
+	brickFile = "./resources/fertilizer/Mixer.blb";
+
+	iconName = "";
+
+	cost = 0;
+	isProcessor = 1;
+	processorFunction = "addFertilizerIngredients";
+	placerItem = "FertilizerMixerItem";
+	callOnActivate = 1;
+
+	isPoweredProcessor = 1;
+	hasCustomMenu = 1;
+	energyUse = 5;
+	refineRate = 5;
+	powerFunction = "processIntoFertilizer";
+
+	isRecipeProcessor = 1;
+	isFertilizerMixer = 1;
+
+	isStorageBrick = 1;
+	storageSlotCount = 1;
+	itemStackCount = 0;
+	storageMultiplier = 12;
+
+	musicRange = 50;
+	musicDescription = "AudioMusicLooping3d";
 };
 
 
@@ -639,6 +673,56 @@ function LargeCompostBinBrickImage::onLoop(%this, %obj, %slot)
 }
 
 function LargeCompostBinBrickImage::onFire(%this, %obj, %slot)
+{
+	brickPlacerItemFire(%this, %obj, %slot);
+}
+
+
+
+datablock ItemData(FertilizerMixerItem : brickPlacerItem)
+{
+	shapeFile = "./resources/toolbox.dts";
+	uiName = "Fertilizer Mixer";
+	image = "FertilizerMixerBrickImage";
+	colorShiftColor = "0.5 0 0 1";
+
+	iconName = "";
+};
+
+datablock ShapeBaseImageData(FertilizerMixerBrickImage : BrickPlacerImage)
+{
+	shapeFile = "./resources/toolbox.dts";
+	
+	offset = "-0.56 0 0";
+	eyeOffset = "0 0 0";
+	rotation = eulerToMatrix("0 0 90");
+
+	item = FertilizerMixerItem;
+	
+	doColorshift = true;
+	colorShiftColor = FertilizerMixerItem.colorShiftColor;
+
+	toolTip = "Places a Fertilizer Mixer";
+	loopTip = "Converts phosphate and compost into fertilizer";
+	placeBrick = "brickFertilizerMixerData";
+};
+
+function FertilizerMixerBrickImage::onMount(%this, %obj, %slot)
+{
+	brickPlacerItem_onMount(%this, %obj, %slot);
+}
+
+function FertilizerMixerBrickImage::onUnmount(%this, %obj, %slot)
+{
+	brickPlacerItem_onUnmount(%this, %obj, %slot);
+}
+
+function FertilizerMixerBrickImage::onLoop(%this, %obj, %slot)
+{
+	brickPlacerItemLoop(%this, %obj, %slot);
+}
+
+function FertilizerMixerBrickImage::onFire(%this, %obj, %slot)
 {
 	brickPlacerItemFire(%this, %obj, %slot);
 }
@@ -1084,4 +1168,236 @@ function PhosphateLoop(%image, %obj)
 	{
 		%cl.centerprint("<just:right>\c3-Phosphate Bag " @ %obj.currTool @ "- \nAmount\c6: " @ %count @ " ", 1);
 	}
+}
+
+
+
+
+
+
+
+
+package FertilizerMixer
+{
+	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
+	{
+		//reject inserting if we've already determined we can't accept more
+		if (%storageObj.dataBlock.isRecipeProcessor && !%storageObj.isAcceptingIngredients)
+		{
+			return 3;
+		}
+		return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+	}
+
+	function fxDTSBrick::updateStorageMenu(%brick, %dataID)
+	{
+		%ret = parent::updateStorageMenu(%brick, %dataID); //call parent since poweredProcessor has its own package
+		%db = %brick.dataBlock;
+		if (%db.isFertilizerMixer)
+		{
+			if (%brick.isPoweredOn())
+			{
+				%energyUse = %db.energyUse;
+			}
+			else
+			{
+				%energyUse = 0;
+				%db.devicePower = 0;
+			}
+
+			%power = mFloor(%brick.devicePower * 100);
+			if (%power < 50) %color = "\c0";
+			else if (%power < 100) %color = "\c3";
+			else %color = "\c2";
+			
+			%brick.centerprintMenu.menuOptionCount = 6; //add on/off toggle
+			%brick.centerprintMenu.menuOption[0] = %brick.centerprintMenu.menuOption[0] SPC "(Input)";
+			%brick.centerprintMenu.menuFunction[0] = "reopenCenterprintMenu";
+			%brick.centerprintMenu.menuOption[1] = %brick.centerprintMenu.menuOption[1] SPC "(Input)";
+			%brick.centerprintMenu.menuFunction[1] = "reopenCenterprintMenu";
+			%brick.centerprintMenu.menuOption[2] = %brick.centerprintMenu.menuOption[2] SPC "(Output)";
+			%brick.centerprintMenu.menuOption[3] = "Power: " @ (%brick.isPoweredOn() ? "\c2On" : "\c0Off");
+			%brick.centerprintMenu.menuFunction[3] = "togglePower";
+			%brick.centerprintMenu.menuOption[4] = "Progress: " @ %brick.deviceProgress @ "% | Current Power: " @ %color @ mFloor(%brick.devicePower * 100) @ "%";
+			%brick.centerprintMenu.menuOption[5] = "Uses " @ %energyUse @ " power per tick";
+		}
+		return %ret;
+	}
+
+	function fxDTSBrick::getEnergyUse(%brick)
+	{
+		if (%brick.getDatablock().isRecipeProcessor)
+		{
+			%db = %brick.getDatablock();
+			%dataID = %brick.eventOutputParameter0_1;
+
+			// check if it can process recipe - if not, draw no power
+			if (!canCreateFertilizer(%brick))
+			{
+				return 0;
+			}
+
+			%power = %db.energyUse;
+            %brick.updateStorageMenu(%dataID);
+			return %power;
+		}
+		return parent::getEnergyUse(%brick);
+	}
+};
+activatePackage(FertilizerMixer);
+
+function addFertilizerIngredients(%brick, %cl, %slot)
+{
+	if (getTrustLevel(%brick, %cl) < 1)
+	{
+		serverCmdUnuseTool(%cl);
+		%cl.centerprint(getBrickgroupFromObject(%brick).name @ "\c0 does not trust you enough to do that!", 1);
+		return;
+	}
+
+	%pl = %cl.player;
+	%item = %pl.tool[%slot];
+	//phosphate in slot 0, compost in slot 1
+	if (%item.isStackable && %item.stackType !$= "")
+	{
+		switch$ (%item.stackType)
+		{
+			case "Compost": %compost = 1;
+			case "Phosphate": %phosphate = 1;
+			default:
+				serverCmdUnuseTool(%cl);
+				%cl.centerprint("This fertilizer mixer only accepts compost and phosphate!", 1);
+				return;
+		}
+		
+		//check for space for ingredients - only insert that much
+		%dataID = %brick.eventOutputParameter[0, 1];
+		%max = %brick.getStorageMax(%item);
+		%slot0 = validateStorageValue(getDataIDArrayValue(%dataID, 1));
+		%slot1 = validateStorageValue(getDataIDArrayValue(%dataID, 2));
+		%itemCount0 = getField(%slot0, 2);
+		%itemCount1 = getField(%slot1, 2);
+		%space0 = getMin(%pl.toolStackCount[%slot], %max - %itemCount);
+		%space1 = getMin(%pl.toolStackCount[%slot], %max - %itemCount);
+
+		if (%compost)
+		{
+			if (%space0 <= 0)
+			{
+				return;
+			}
+			%pickedSlot = 0;
+			%space = %space0;
+		}
+
+		if (%phosphate)
+		{
+			if (%space1 <= 0)
+			{
+				return;
+			}
+			%pickedSlot = 1;
+			%space = %space1;
+		}
+		
+		%brick.isAcceptingIngredients = 1;
+		%success = %brick.insertIntoStorage(%dataID, 
+										%item, 
+										%space, 
+										"",
+										%pickedSlot);
+		%brick.isAcceptingIngredients = 0;
+		if (%success == 0) //complete insertion
+		{
+			%pl.toolStackCount[%slot] -= %space;
+			if (%pl.toolStackCount[%slot] <= 0)
+			{
+				%pl.tool[%slot] = 0;
+				%pl.toolStackCount[%slot] = 0;
+				messageClient(%cl, 'MsgItemPickup', "", %slot, 0);
+				if (%pl.currTool == %slot)
+				{
+					%pl.unmountImage(0);
+				}
+			}
+			return;
+		}
+		else if (%success == 1) //partial insertion
+		{
+			%pl.toolStackCount[%slot] = getWord(%success, 1);
+			%db = getStackTypeDatablock(%pl.tool[%slot].stackType, getWord(%success, 1)).getID();
+			messageClient(%cl, 'MsgItemPickup', "", %slot, %db);
+			%pl.tool[%slot] = %db;
+			if (%pl.currTool == %slot)
+			{
+				%pl.mountImage(%db.image, 0);
+			}
+			return;
+		}
+	}
+	else
+	{
+		%cl.centerprint("You cannot process this into fertilizer!", 1);
+		return;
+	}
+}
+
+$Fertilizer::InputCompostAmount = 5;
+$Fertilizer::InputPhosphateAmount = 5;
+$Fertilizer::OutputAmount = 1;
+
+function canCreateFertilizer(%brick)
+{
+	%dataID = %brick.eventOutputParameter[0, 1];
+	%inputCompost = getField(validateStorageValue(getDataIDArrayValue(%dataID, 1)), 2);
+	%inputPhosphate = getField(validateStorageValue(getDataIDArrayValue(%dataID, 2)), 2);
+	%output = validateStorageValue(getDataIDArrayValue(%dataID, 3));
+	%maxOutput = %brick.getStorageMax(getStackTypeDatablock("Fertilizer", 1));
+	%outputCount = getField(%output, 2);
+	%outputSpace = %maxOutput - %outputCount;
+
+	if (%inputCompost < $Fertilizer::InputCompostAmount || %inputPhosphate < $Fertilizer::InputPhosphateAmount
+		|| %outputSpace < $Fertilizer::OutputAmount)
+	{
+		return false;
+	}
+	return true;
+}
+
+function createFertilizer(%brick)
+{
+	%dataID = %brick.eventOutputParameter[0, 1];
+	%inputCompost = getField(validateStorageValue(getDataIDArrayValue(%dataID, 1)), 2);
+	%inputPhosphate = getField(validateStorageValue(getDataIDArrayValue(%dataID, 2)), 2);
+	%output = validateStorageValue(getDataIDArrayValue(%dataID, 3));
+	%outputCount = getField(%output, 2);
+
+	%newInputC = getStorageValue("Compost", %inputCompost - $Fertilizer::InputCompostAmount);
+	%newInputP = getStorageValue("Phosphate", %inputPhosphate - $Fertilizer::InputPhosphateAmount);
+	%newOutput = getStorageValue("Fertilizer", %outputCount + $Fertilizer::OutputAmount);
+	setDataIDArrayValue(%dataID, 1, %newInputC);
+	setDataIDArrayValue(%dataID, 2, %newInputP);
+	setDataIDArrayValue(%dataID, 3, %newOutput);
+}
+
+function processIntoFertilizer(%brick, %powerRatio)
+{
+    %db = %brick.getDatablock();
+    %dataID = %brick.eventOutputParameter0_1;
+    %rate = mFloatLength(%powerRatio * %db.refineRate, 1);
+    %brick.devicePower = %powerRatio;
+
+    if (canCreateFertilizer(%brick) && %brick.deviceProgress >= 100)
+    {
+    	createFertilizer(%brick);
+    	%brick.deviceProgress = 0;
+    }
+    else if (canCreateFertilizer(%brick))
+    {
+    	%brick.deviceProgress = getMin(100, %brick.deviceProgress + %rate);
+    }
+    else
+    {
+    	%brick.deviceProgress = getMax(%brick.deviceProgress - 10, 0);
+    }
 }
