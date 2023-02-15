@@ -6,6 +6,48 @@ $VoidFlowerPlanter = "Planter Box";
 $Wanderer = "_sequenceBot";
 $BlackColor = 53;
 
+// by Pah1023
+$hex = "0123456789ABCDEF";
+function byteToHex(%n)
+{
+    return getSubStr($hex, mFloor(%n / 16), 1) @ getSubStr($hex, %n & 15, 1);
+}
+
+function getRandomValidAsciiChar()
+{
+	// This block excludes value 127, the DEL character
+	%rand = 0;
+	if(getRandom() > 0.425339367) // Ratio of the first block being chosen over the 2nd block.
+	{
+		%rand = getRandom(128, 255);
+	}
+	else
+	{
+		%rand = getRandom(33, 126);
+	}
+	
+	return collapseEscape("\\x" @ byteToHex(%rand));
+}
+
+function getVoidNoisedWord(%word, %noise)
+{
+	%result = "";
+	
+	for(%i = 0; %i < strLen(%word); %i++)
+	{
+		if(getRandom() > 1 - mAbs(%noise))
+		{
+			%char = getRandomValidAsciiChar();
+		}
+		else
+		{
+			%char = getSubStr(%word, %i, 1);
+		}
+		
+		%result = %result @ %char;
+	}
+}
+
 package Void
 {
 	function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
@@ -59,6 +101,25 @@ package Void
 			}
 		}
 		return parent::grow(%brick, %growDB);
+	}
+	
+	function displayPlantStatus(%brick, %cl)
+	{
+		%db = %brick.dataBlock;
+		%cropType = %db.cropType;
+		
+		if(%cropType !$= "Void")
+		{
+			return Parent::displayPlantStatus(%brick, %cl);
+		}
+		
+		%string = "I MUST CONSUME ALL";
+		
+		// Schedules make the text update faster than the item loop for more glitchy effectiveness.
+		%cl.schedule(0, centerprint, "<just:right><color:FF0000>" @ getVoidNoisedWord(%string, mSin($Sim::Time / 2)), 1);
+		%cl.schedule(25, centerprint, "<just:right><color:FF0000>" @ getVoidNoisedWord(%string, mSin($Sim::Time / 2)), 1);
+		%cl.schedule(50, centerprint, "<just:right><color:FF0000>" @ getVoidNoisedWord(%string, mSin($Sim::Time / 2)), 1);
+		%cl.schedule(75, centerprint, "<just:right><color:FF0000>" @ getVoidNoisedWord(%string, mSin($Sim::Time / 2)), 1);
 	}
 };
 activatePackage(Void);
