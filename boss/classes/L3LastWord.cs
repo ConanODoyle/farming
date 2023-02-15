@@ -41,7 +41,7 @@ datablock ItemData(L3LastWordItem)
 	// Farming: //
 	//----------//
 	
-	durability = 100000;
+	durability = 10000;
 
 	hasDataID = 1;
 	isDataIDTool = 1;

@@ -142,7 +142,7 @@ function canToolHarvest(%tool, %brick)
 	%toolType = getField(%toolTypes, 0);
 	%areaToolType = getField(%toolTypes, 1);
 
-	switch$ (%tool.uiName)
+	switch$ (%tool.toolType)
 	{
 		case %toolType: return 2;
 		case %areaToolType: return 1;

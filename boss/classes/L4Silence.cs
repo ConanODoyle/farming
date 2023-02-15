@@ -77,12 +77,13 @@ datablock ItemData(L4SilenceItem)
 	// Farming: //
 	//----------//
 	
-	durability = 100000;
+	durability = 1000;
 	
 	canPickupMultiple = 1;
 
 	hasDataID = 1;
 	isDataIDTool = 1;
+	toolType = "Hoe";
 };
 
 //-----------------------//
@@ -161,7 +162,7 @@ datablock ShapeBaseImageData(L4SilenceImage)
 	stateScript[1] = "onReady";
 	
 	stateName[2] = "Charge";
-	stateTimeoutValue[2] = 0.65;
+	stateTimeoutValue[2] = 0.75;
 	stateTransitionOnTimeout[2] = "Fire";
 	stateWaitForTimeout[2] = true;
 	stateEmitter[2] = HarvesterBeamRifleSpinChargeEmitter;
@@ -184,7 +185,7 @@ datablock ShapeBaseImageData(L4SilenceImage)
 	stateFire[3] = true;
 	
 	stateName[4] = "Wait";
-	stateTimeoutValue[4] = 0.5;
+	stateTimeoutValue[4] = 0.75;
 	stateTransitionOnTimeout[4] = "CheckFire";
 	stateWaitForTimeout[4] = true;
 	stateAllowImageChange[4] = false;
@@ -309,5 +310,7 @@ function L4SilenceImage::onFire(%this, %player, %slot)
 		
 		%player.playThread(0, "plant");
 		%player.playThread(2, "spearThrow");
+
+		HarvestToolImage::onFire(%this, %obj, %slot, %player.position);
 	}
 }

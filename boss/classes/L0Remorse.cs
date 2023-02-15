@@ -41,12 +41,13 @@ datablock ItemData(L0RemorseItem)
 	// Farming: //
 	//----------//
 	
-	durability = 100000;
+	durability = 1000;
 	
 	canPickupMultiple = 1;
 
 	hasDataID = 1;
 	isDataIDTool = 1;
+	toolType = "Sickle";
 };
 
 //-----------------------//
@@ -228,5 +229,7 @@ function L0RemorseImage::onFire(%this, %player, %slot)
 		%player.playThread(3, "shiftTo");
 
 		serverPlay3d("HarvesterBladeAttackSound" @ getRandom(1, 2), %player.getHackPosition());
+
+		HarvestToolImage::onFire(%this, %player, %slot);
 	}
 }

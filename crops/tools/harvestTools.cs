@@ -11,6 +11,7 @@ datablock ItemData(TrowelItem : HammerItem)
 
 	hasDataID = 1;
 	isDataIDTool = 1;
+	toolType = "Trowel";
 
 	durabilityFunction = "generateHarvestToolDurability";
 	modifiersFunction = "generateHarvestToolModifiers";
@@ -80,6 +81,7 @@ datablock ItemData(ClipperItem : HammerItem)
 
 	hasDataID = 1;
 	isDataIDTool = 1;
+	toolType = "Clipper";
 
 	durabilityFunction = "generateHarvestToolDurability";
 	modifiersFunction = "generateHarvestToolModifiers";
@@ -115,6 +117,7 @@ datablock ItemData(HoeItem : HammerItem)
 
 	hasDataID = 1;
 	isDataIDTool = 1;
+	toolType = "Hoe";
 
 	durabilityFunction = "generateHarvestToolDurability";
 	modifiersFunction = "generateHarvestToolModifiers";
@@ -151,6 +154,7 @@ datablock ItemData(SickleItem : HammerItem)
 
 	hasDataID = 1;
 	isDataIDTool = 1;
+	toolType = "Sickle";
 
 	durabilityFunction = "generateHarvestToolDurability";
 	modifiersFunction = "generateHarvestToolModifiers";
@@ -187,6 +191,7 @@ datablock ItemData(TreeClipperItem : HammerItem)
 
 	hasDataID = 1;
 	isDataIDTool = 1;
+	toolType = "Tree Clipper";
 
 	durabilityFunction = "generateHarvestToolDurability";
 	modifiersFunction = "generateHarvestToolModifiers";
@@ -213,21 +218,21 @@ datablock ShapeBaseImageData(TreeClipperImage : TrowelImage)
 
 ////
 
-function HarvestToolImage::onFire(%this, %obj, %slot)
+function HarvestToolImage::onFire(%this, %obj, %slot, %hitLoc)
 {
 	%item = %this.item;
 
-	%obj.playThread(0, shiftDown);
-
-	%start = %obj.getEyePoint();
-	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
-	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType | $Typemasks::PlayerObjectType, %obj);
-	%hitLoc = getWords(%ray, 1, 3);
-
-	//harvest tool hit effect
-	if (isObject(%hit = getWord(%ray, 0)))
+	if (%hitLoc $= "")
 	{
-		if (!%hit.dataBlock.isPlant)
+		%obj.playThread(0, shiftDown);
+
+		%start = %obj.getEyePoint();
+		%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
+		%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType | $Typemasks::PlayerObjectType, %obj);
+		%hitLoc = getWords(%ray, 1, 3);
+
+		//harvest tool hit effect
+		if (isObject(%hit = getWord(%ray, 0)) && !%hit.dataBlock.isPlant))
 		{
 			%db = isObject(%this.projectile) ? %this.projectile : swordProjectile;
 
@@ -243,10 +248,10 @@ function HarvestToolImage::onFire(%this, %obj, %slot)
 				%p.explode();
 			}
 		}
-	}
-	else //dont do anything, we didnt hit any brick so we dont have a point to work off of
-	{
-		return;
+		else //dont do anything, we didnt hit any brick so we dont have a point to work off of
+		{
+			return;
+		}
 	}
 
 	//check durability
@@ -356,6 +361,11 @@ function centerprintHarvestToolInfo(%cl, %this, %obj, %slot)
 
 function getStatTrakBonusYield(%dataID, %type)
 {
+	if (%type $= "")
+	{
+		return 0;
+	}
+	
 	%price = getSellPrice(%type);
 	//increase bonus threshold based on crop price and harvest count
 	%totalHarvested = getDataIDArrayTagValue(%dataID, %type);

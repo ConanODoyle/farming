@@ -10,6 +10,7 @@ datablock ItemData(WeedCutterItem : HammerItem)
 
 	hasDataID = 1;
 	isDataIDTool = 1;
+	toolType = "Weed Cutter";
 	
 	durabilityFunction = "generateHarvestToolDurability";
 	baseDurability = 20;
