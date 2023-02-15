@@ -75,7 +75,7 @@ function applyVoidKeyPlant(%pos, %brick)
 	initContainerRadiusSearch(%pos, %radius, $Typemasks::fxBrickObjectType);
 	while (isObject(%next = containerSearchNext()))
 	{
-		if (!%next.dataBlock.isPlant || %next.dataBlock.stackType $= "Void"
+		if (!%next.dataBlock.isPlant || %next.dataBlock.cropType $= "Void"
 			|| vectorDist(%next.position, %pos) > %radius)
 		{
 			continue;

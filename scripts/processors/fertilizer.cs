@@ -567,7 +567,7 @@ datablock fxDTSBrickData(brickFertilizerMixerData)
 	isStorageBrick = 1;
 	storageSlotCount = 3;
 	itemStackCount = 0;
-	storageMultiplier = 12;
+	storageMultiplier = 2;
 
 	musicRange = 50;
 	musicDescription = "AudioMusicLooping3d";
