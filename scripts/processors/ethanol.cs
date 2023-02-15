@@ -334,7 +334,7 @@ package EthanolRefinery
 
 	function fxDTSBrick::getEnergyUse(%brick)
 	{
-		if (%brick.getDatablock().isRecipeProcessor)
+		if (%brick.getDatablock().isEthanolRefinery)
 		{
 			%db = %brick.getDatablock();
 			%dataID = %brick.eventOutputParameter0_1;
@@ -345,9 +345,7 @@ package EthanolRefinery
 				return 0;
 			}
 
-			%power = %db.energyUse;
 			%brick.updateStorageMenu(%dataID);
-			return %power;
 		}
 		return parent::getEnergyUse(%brick);
 	}

@@ -464,7 +464,7 @@ function fxDTSBrick::autoAddPowerControlSystem(%brick)
 
 function fxDTSBrick::getEnergyUse(%brick)
 {
-	return %brick.getDatablock().energyUse;
+	return %brick.dataBlock.energyUse;
 }
 
 function togglePower(%cl, %menu, %option)

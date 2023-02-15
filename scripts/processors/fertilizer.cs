@@ -1226,7 +1226,7 @@ package FertilizerMixer
 
 	function fxDTSBrick::getEnergyUse(%brick)
 	{
-		if (%brick.getDatablock().isRecipeProcessor)
+		if (%brick.getDatablock().isFertilizerMixer)
 		{
 			%db = %brick.getDatablock();
 			%dataID = %brick.eventOutputParameter0_1;
@@ -1237,9 +1237,7 @@ package FertilizerMixer
 				return 0;
 			}
 
-			%power = %db.energyUse;
 			%brick.updateStorageMenu(%dataID);
-			return %power;
 		}
 		return parent::getEnergyUse(%brick);
 	}
