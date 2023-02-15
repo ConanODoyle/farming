@@ -346,7 +346,7 @@ package EthanolRefinery
 			}
 
 			%power = %db.energyUse;
-            %brick.updateStorageMenu(%dataID);
+			%brick.updateStorageMenu(%dataID);
 			return %power;
 		}
 		return parent::getEnergyUse(%brick);
@@ -460,26 +460,27 @@ function createEthanol(%brick)
 	%newOutput = getStorageValue("Ethanol", %outputCount + $Ethanol::OutputAmount);
 	setDataIDArrayValue(%dataID, 1, %newInput);
 	setDataIDArrayValue(%dataID, 2, %newOutput);
+	%brick.updateStorageMenu(%dataID);
 }
 
 function refineEthanol(%brick, %powerRatio)
 {
-    %db = %brick.getDatablock();
-    %dataID = %brick.eventOutputParameter0_1;
-    %rate = mFloatLength(%powerRatio * %db.refineRate, 1);
-    %brick.devicePower = %powerRatio;
+	%db = %brick.getDatablock();
+	%dataID = %brick.eventOutputParameter0_1;
+	%rate = mFloatLength(%powerRatio * %db.refineRate, 1);
+	%brick.devicePower = %powerRatio;
 
-    if (canCreateEthanol(%brick) && %brick.deviceProgress >= 100)
-    {
-    	createEthanol(%brick);
-    	%brick.deviceProgress = 0;
-    }
-    else if (canCreateEthanol(%brick))
-    {
-    	%brick.deviceProgress = getMin(100, %brick.deviceProgress + %rate);
-    }
-    else
-    {
-    	%brick.deviceProgress = getMax(%brick.deviceProgress - 10, 0);
-    }
+	if (canCreateEthanol(%brick) && %brick.deviceProgress >= 100)
+	{
+		createEthanol(%brick);
+		%brick.deviceProgress = 0;
+	}
+	else if (canCreateEthanol(%brick))
+	{
+		%brick.deviceProgress = getMin(100, %brick.deviceProgress + %rate);
+	}
+	else
+	{
+		%brick.deviceProgress = getMax(%brick.deviceProgress - 10, 0);
+	}
 }

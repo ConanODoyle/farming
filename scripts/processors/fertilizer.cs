@@ -375,47 +375,47 @@ function fertilizeDirt(%img, %obj, %slot)
 
 function createCompost(%brick)
 {
-    %dataID = %brick.eventOutputParameter0_1;
-    %count = getDataIDArrayTagValue(%dataID, "compostQueue");
+	%dataID = %brick.eventOutputParameter0_1;
+	%count = getDataIDArrayTagValue(%dataID, "compostQueue");
 
-    if (%brick.nextCompostTime $= "")
-    {
-        %brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
-        return;
-    }
+	if (%brick.nextCompostTime $= "")
+	{
+		%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
+		return;
+	}
 
-    %maxCount = %brick.getDatablock().tickAmt;
-    if (%count > 0)
-    {
-        %amt = getMin(%maxCount, %count);
-        %origAmt = %amt;
-    }
-    else
-    {
-        %brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime / 10;
-        return;
-    }
+	%maxCount = %brick.getDatablock().tickAmt;
+	if (%count > 0)
+	{
+		%amt = getMin(%maxCount, %count);
+		%origAmt = %amt;
+	}
+	else
+	{
+		%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime / 10;
+		return;
+	}
 
-    //check if there's space for new fertilizer, if yes, add
-    %curr = validateStorageValue(getDataIDArrayValue(%dataID, 1));
-    %db = getStackTypeDatablock("Compost", 1);
-    %max = %brick.getStorageMax(%db);
-    if (getWord(%curr, 2) < %max)
-    {
-        %addAmt = getMin(%max - getWord(%curr, 2), %amt);
-        %amt -= %addAmt;
-        setDataIDArrayValue(%dataID, 1, getStorageValue(%db, getWord(%curr, 2) + %addAmt, ""));
-    }
+	//check if there's space for new fertilizer, if yes, add
+	%curr = validateStorageValue(getDataIDArrayValue(%dataID, 1));
+	%db = getStackTypeDatablock("Compost", 1);
+	%max = %brick.getStorageMax(%db);
+	if (getWord(%curr, 2) < %max)
+	{
+		%addAmt = getMin(%max - getWord(%curr, 2), %amt);
+		%amt -= %addAmt;
+		setDataIDArrayValue(%dataID, 1, getStorageValue(%db, getWord(%curr, 2) + %addAmt, ""));
+	}
 
-    %amtAdded = %origAmt - %amt;
-    if (%amtAdded > 0)
-    {
-        %count = %count - %amtAdded;
-        setDataIDArrayTagValue(%dataID, "compostQueue", %count);
-    }
-    %brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
+	%amtAdded = %origAmt - %amt;
+	if (%amtAdded > 0)
+	{
+		%count = %count - %amtAdded;
+		setDataIDArrayTagValue(%dataID, "compostQueue", %count);
+	}
+	%brick.nextCompostTime = $Sim::Time + %brick.getDatablock().tickTime;
 
-    %brick.updateStorageMenu(%dataID);
+	%brick.updateStorageMenu(%dataID);
 }
 
 function processIntoCompost(%brick, %cl, %slot)
@@ -557,7 +557,7 @@ datablock fxDTSBrickData(brickFertilizerMixerData)
 
 	isPoweredProcessor = 1;
 	hasCustomMenu = 1;
-	energyUse = 5;
+	energyUse = 50;
 	refineRate = 5;
 	powerFunction = "processIntoFertilizer";
 
@@ -565,7 +565,7 @@ datablock fxDTSBrickData(brickFertilizerMixerData)
 	isFertilizerMixer = 1;
 
 	isStorageBrick = 1;
-	storageSlotCount = 1;
+	storageSlotCount = 3;
 	itemStackCount = 0;
 	storageMultiplier = 12;
 
@@ -1238,7 +1238,7 @@ package FertilizerMixer
 			}
 
 			%power = %db.energyUse;
-            %brick.updateStorageMenu(%dataID);
+			%brick.updateStorageMenu(%dataID);
 			return %power;
 		}
 		return parent::getEnergyUse(%brick);
@@ -1378,26 +1378,27 @@ function createFertilizer(%brick)
 	setDataIDArrayValue(%dataID, 1, %newInputC);
 	setDataIDArrayValue(%dataID, 2, %newInputP);
 	setDataIDArrayValue(%dataID, 3, %newOutput);
+	%brick.updateStorageMenu(%dataID);
 }
 
 function processIntoFertilizer(%brick, %powerRatio)
 {
-    %db = %brick.getDatablock();
-    %dataID = %brick.eventOutputParameter0_1;
-    %rate = mFloatLength(%powerRatio * %db.refineRate, 1);
-    %brick.devicePower = %powerRatio;
+	%db = %brick.getDatablock();
+	%dataID = %brick.eventOutputParameter0_1;
+	%rate = mFloatLength(%powerRatio * %db.refineRate, 1);
+	%brick.devicePower = %powerRatio;
 
-    if (canCreateFertilizer(%brick) && %brick.deviceProgress >= 100)
-    {
-    	createFertilizer(%brick);
-    	%brick.deviceProgress = 0;
-    }
-    else if (canCreateFertilizer(%brick))
-    {
-    	%brick.deviceProgress = getMin(100, %brick.deviceProgress + %rate);
-    }
-    else
-    {
-    	%brick.deviceProgress = getMax(%brick.deviceProgress - 10, 0);
-    }
+	if (canCreateFertilizer(%brick) && %brick.deviceProgress >= 100)
+	{
+		createFertilizer(%brick);
+		%brick.deviceProgress = 0;
+	}
+	else if (canCreateFertilizer(%brick))
+	{
+		%brick.deviceProgress = getMin(100, %brick.deviceProgress + %rate);
+	}
+	else
+	{
+		%brick.deviceProgress = getMax(%brick.deviceProgress - 10, 0);
+	}
 }
