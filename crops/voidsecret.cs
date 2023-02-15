@@ -46,6 +46,8 @@ function getVoidNoisedWord(%word, %noise)
 		
 		%result = %result @ %char;
 	}
+	
+	return trim(%result);
 }
 
 package Void
