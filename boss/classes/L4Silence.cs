@@ -311,6 +311,6 @@ function L4SilenceImage::onFire(%this, %player, %slot)
 		%player.playThread(0, "plant");
 		%player.playThread(2, "spearThrow");
 
-		HarvestToolImage::onFire(%this, %obj, %slot, %player.position);
+		HarvestToolImage::onFire(%this, %player, %slot, %player.position);
 	}
 }

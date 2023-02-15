@@ -91,13 +91,11 @@ function sprinklerTick(%index)
 		}
 
 		//flow water to water tanks
-		if (%brick.getDatablock().isWaterTank && %brick.nextDrawWater < $Sim::Time)
+		if (%brick.dataBlock.isWaterTank && %brick.nextDrawWater < $Sim::Time)
 		{
-			%amt = drawWater(%brick, 100);
-			%brick.setWaterLevel(%brick.waterLevel + %amt);
-			%brick.nextDrawWater = $Sim::Time + 1;
+			doWaterTankDraw(%brick);
 		}
-		else if (%brick.getDatablock().isSprinkler)
+		else if (%brick.dataBlock.isSprinkler)
 		{
 			//run sprinklers
 			if (!%brick.isDead)
@@ -127,7 +125,7 @@ function doSprinklerWater(%sprinkler)
 
 	%list = %sprinkler.dirtList;
 	%count = getWordCount(%list);
-	%total = %sprinkler.getDatablock().waterPerSecond * ($SprinklerWaterTime / 1000);
+	%total = %sprinkler.dataBlock.waterPerSecond * ($SprinklerWaterTime / 1000);
 
 	%thirstyDirtCount = 0;
 	%totalThirst = 0;
@@ -136,7 +134,7 @@ function doSprinklerWater(%sprinkler)
 		%dirt = getWord(%list, %i);
 		if (isObject(%dirt))
 		{
-			%diff = %dirt.getDatablock().maxWater - %dirt.waterLevel;
+			%diff = %dirt.dataBlock.maxWater - %dirt.waterLevel;
 			%totalThirst += %diff;
 			if (%diff > 0)
 			{
@@ -245,9 +243,20 @@ function doSprinklerSearch(%sprinkler)
 	return "count: " @ %count;
 }
 
+function doWaterTankDraw(%brick)
+{
+	%max = %brick.dataBlock.maxWater;
+	%curr = %brick.waterLevel;
+	%draw = getMin(%max - %curr, 100);
+
+	%amt = drawWater(%brick, %draw);
+	%brick.setWaterLevel(%brick.waterLevel + %amt);
+	%brick.nextDrawWater = $Sim::Time + 1;
+}
+
 function drawWater(%waterObj, %targetAmt)
 {
-	%waterObjDB = %waterObj.getDatablock();
+	%waterObjDB = %waterObj.dataBlock;
 	%name = parseWaterDeviceName(%waterObj);
 	%ufid = getField(%name, 1);
 	%tank = WaterSystemNameTable.obj_[%ufid];
@@ -263,7 +272,7 @@ function drawWater(%waterObj, %targetAmt)
 		return 0;
 	}
 
-	%tankDB = %tank.getDatablock();
+	%tankDB = %tank.dataBlock;
 	%maxGive = getMin(%tank.waterLevel, %targetAmt);
 	%tank.setWaterLevel(%tank.waterLevel - %maxGive);
 
