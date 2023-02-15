@@ -523,10 +523,11 @@ package MasterKeyAltFire
 		{
 			MissionCleanup.add(%shape);
 
-			%rotation = relativeVectorToRotation(%player.getForwardVector(), %player.getUpVector());
+			%rotation = relativeVectorToRotation(%player.getLookVector(), %player.getUpVector());
+			%clamped = mClampF(firstWord(%rotation), -89.9, 89.9) SPC restWords(%rotation);
 			
-			%local = %player.getHackPosition() SPC %rotation;
-			%offset = "0.2 0.0 0.2" SPC eulerToQuat("0.0 157.5 0.0");
+			%local = %player.getHackPosition() SPC %clamped;
+			%offset = "0.3 1.4 0.7" SPC eulerToQuat("0.0 67.0 0.0");
 			%actual = matrixMultiply(%local, %offset);
 
 			%shape.setTransform(%actual);
