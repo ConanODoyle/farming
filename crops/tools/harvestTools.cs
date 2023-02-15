@@ -232,7 +232,7 @@ function HarvestToolImage::onFire(%this, %obj, %slot, %hitLoc)
 		%hitLoc = getWords(%ray, 1, 3);
 
 		//harvest tool hit effect
-		if (isObject(%hit = getWord(%ray, 0)) && !%hit.dataBlock.isPlant))
+		if (isObject(%hit = getWord(%ray, 0)) && !%hit.dataBlock.isPlant)
 		{
 			%db = isObject(%this.projectile) ? %this.projectile : swordProjectile;
 
