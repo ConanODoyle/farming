@@ -16,6 +16,15 @@ datablock AudioProfile(MasterKeyReloadSound)
 	preload = true;
 };
 
+//--------------//
+// Melee Trail: //
+//--------------//
+
+datablock StaticShapeData(MasterKeyMeleeTrailShape)
+{
+	shapeFile = $Harvester::Root @ "/resources/shapes/smallSlice.dts";
+};
+
 //--------//
 // Trail: //
 //--------//
@@ -503,6 +512,27 @@ package MasterKeyAltFire
 		
 		%player.cancelPendingHitboxes();
 		MasterKeyImage.spawnHitboxGroup(%player, 0, 0);
+		
+		%shape = new StaticShape()
+		{
+			dataBlock = MasterKeyMeleeTrailShape;
+			scale = "4.0 4.0 2.0";
+		};
+
+		if(isObject(%shape))
+		{
+			MissionCleanup.add(%shape);
+
+			%rotation = relativeVectorToRotation(%player.getForwardVector(), %player.getUpVector());
+			
+			%local = %player.getHackPosition() SPC %rotation;
+			%offset = "0.2 0.0 0.2" SPC eulerToQuat("0.0 157.5 0.0");
+			%actual = matrixMultiply(%local, %offset);
+
+			%shape.setTransform(%actual);
+			%shape.playThread(0, "rotate");
+			%shape.schedule(1000, delete);
+		}
 		
 		%player.playThread(0, "activate");
 		%player.playThread(2, "jump");
