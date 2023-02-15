@@ -79,6 +79,11 @@ function rainCheckLoop()
 
 function startRain()
 {
+	if (!isObject($DefaultEnvironment))
+	{
+		return;
+	}
+	$DefaultEnvironment.startEdit();
 	Sky.materialList = "Add-ons/Sky_Skylands_Clouds/Skylands_Clouds.dml";
 	$Sky::cloudHeight0 = 100;
 	$Sky::cloudHeight1 = 0.5;
@@ -107,6 +112,7 @@ function startRain()
 	$origShadow = Sun.shadowColor;
 
 	gradualEnvColorshift(0.6, 0.6, 0.5, 10000);
+	schedule (15000, 0, eval, "$DefaultEnvironment.stopEdit();");
 	fadeInRain();
 	startRainSound();
 	schedule(5000, 0, rainLoop, 0);
@@ -114,6 +120,11 @@ function startRain()
 
 function stopRain()
 {
+	if (!isObject($DefaultEnvironment))
+	{
+		return;
+	}
+	$DefaultEnvironment.startEdit();
 	$isRaining = 0;
 	$RainTicksLeft = 0;
 	$lastRained = $Sim::Time;
@@ -122,6 +133,7 @@ function stopRain()
 	//delete precipitation
 
 	gradualEnvColorshift(1.666666, 1.666666, 2, 10000);
+	schedule (15000, 0, eval, "$DefaultEnvironment.stopEdit();");
 	for (%i = 0; %i < RainFillSimSet.getCount(); %i++)
 	{
 		RainFillSimSet.getObject(%i).nextRain = "";
@@ -134,8 +146,14 @@ function stopRain()
 
 function startHeatWave()
 {
+	if (!isObject($DefaultEnvironment))
+	{
+		return;
+	}
+	$DefaultEnvironment.startEdit();
 	%targetVigColor = "0.439 0.341 0.215";
 	gradualVignetteColorshift(getWord(%targetVigColor, 0), getWord(%targetVigColor, 1), getWord(%targetVigColor, 2), 10000);
+	schedule (15000, 0, eval, "$DefaultEnvironment.stopEdit();");
 	$isHeatWave = 1;
 
 	%HeatWaveTicks = 0;
@@ -153,8 +171,14 @@ function startHeatWave()
 
 function stopHeatWave()
 {
+	if (!isObject($DefaultEnvironment))
+	{
+		return;
+	}
+	$DefaultEnvironment.startEdit();
 	%targetVigColor = "0 0 0";
 	gradualVignetteColorshift(getWord(%targetVigColor, 0), getWord(%targetVigColor, 1), getWord(%targetVigColor, 2), 10000);
+	schedule (15000, 0, eval, "$DefaultEnvironment.stopEdit();");
 
 	cancel($masterHeatLoop);
 
@@ -247,7 +271,7 @@ function setWeatherVignetteColor(%color, %multiply)
 }
 
 function createRain(%drops)
-{	
+{
 	//values taken from default slate storm
 	$Rain::dropTexture = "Add-Ons/Sky_Slate_Storm/rain.png";
 	$Rain::splashTexture = "Add-Ons/Sky_Slate_Storm/water_splash.png";
@@ -270,11 +294,12 @@ function createRain(%drops)
 
 	if (isObject(Rain))
 	{
+		Rain.setScopeAlways();
 		Rain.delete();
 	}
 	if (isFile($Rain::DropTexture) && %drops > 0)
 	{
-		new Precipitation(Rain){
+		%rain = new Precipitation(Rain){
 			dataBlock = DataBlockGroup.getObject(0);
 			dropTexture = $Rain::DropTexture;
 			splashTexture = $Rain::SplashTexture;
@@ -296,8 +321,8 @@ function createRain(%drops)
 			doCollision = $Rain::doCollision;
 		};
 		MissionGroup.add(Rain);
+		$DefaultEnvironment.postEditCheck();
 	}
-
 }
 
 function fadeInRain()
@@ -482,6 +507,15 @@ function heatLoop(%index)
 
 package rainPackage
 {
+	function GameConnection::onDrop(%cl)
+	{
+		if (isObject(%cl.clientMusic))
+		{
+			%cl.clientMusic.delete();
+		}
+		parent::onDrop(%cl);
+	}
+
 	function fxDTSBrick::onAdd(%obj)
 	{
 		%db = %obj.getDatablock();
@@ -504,23 +538,64 @@ function createRainSound(%vol, %db)
 	
 	if (!isObject(%db))
 	{
-		%db = AmbientRainSound;
+		%environment = $DefaultEnvironment;
+		%environment.music = "";
+		for (%i = 0; %i < ClientGroup.getCount(); %i++)
+		{
+			%cl = ClientGroup.getObject(%i);
+			if (%cl.currentEnvironment == %environment)
+			{
+				%cl.setMusic(%db, 0.9);
+			}
+		}
+		return;
 	}
 
-	%m = new AudioEmitter(ambientRain)
+	%environment = $DefaultEnvironment;
+	%environment.music = %db;
+	for (%i = 0; %i < ClientGroup.getCount(); %i++)
+	{
+		%cl = ClientGroup.getObject(%i);
+		if (%cl.currentEnvironment == %environment)
+		{
+			%cl.setMusic(%db, 0.9);
+		}
+	}
+}
+
+function GameConnection::setMusic(%cl, %musicDatablock, %volume)
+{
+	if (isObject(%cl.clientMusic))
+	{
+		%cl.clientMusic.delete();
+	}
+
+	if (!isObject(%musicDatablock))
+	{
+		return;
+	}
+
+	%cl.clientMusic = %m = new AudioEmitter(ClientMusic)
 	{
 		position = "0 0 10000";
-		profile = %db;
+		profile = %musicDatablock;
 		useProfileDescription = false;
 		description = "";
 		type = "0";
-		volume = %vol;
+		volume = %volume;
 		outsideAmbient = "1";
 		ReferenceDistance = "100000";
 		maxDistance = 100000;
 		isLooping = 1;
 	};
-	%m.setScopeAlways();
+
+	if (GhostAlwaysSet.isMember(%m))
+	{
+		%m.clearScopeAlways();
+	}
+
+	%m.setNetFlag(6, true);
+	%m.scopeToClient(%cl);
 }
 
 function startRainSound()
@@ -531,7 +606,7 @@ function startRainSound()
 
 function stopRainSound()
 {
-	schedule(3000, ambientRain, createRainSound, 1, AmbientRainFadeOutSound);
-	schedule(7800, 0, eval, "if (isObject(ambientRain)) ambientRain.delete();");
+	schedule(3000, 0, createRainSound, 1, AmbientRainFadeOutSound);
+	schedule(7800, 0, createRainSound, 1, "");
 }
 
