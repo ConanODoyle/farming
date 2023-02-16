@@ -76,5 +76,5 @@ function getCropClass(%cropName)
 	{
 		return "Tree";
 	}
-	return "error";
+	return "";
 }
