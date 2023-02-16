@@ -83,6 +83,7 @@ function startRain()
 	{
 		return;
 	}
+	$DefaultEnvironment.setCurrent();
 	Sky.materialList = "Add-ons/Sky_Skylands_Clouds/Skylands_Clouds.dml";
 	$Sky::cloudHeight0 = 100;
 	$Sky::cloudHeight1 = 0.5;
@@ -91,6 +92,7 @@ function startRain()
 	Sky.cloudHeight[1] = $Sky::cloudHeight1;
 	// Sky.cloudHeight[2] = $sky::cloudHeight2;
 	// Sky.sendUpdate();
+	$DefaultEnvironment.postEditCheck();
 
 	%rainTicks = 0;
 	%rand = getRandom();
