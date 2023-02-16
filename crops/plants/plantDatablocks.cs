@@ -597,6 +597,35 @@ datablock fxDTSBrickData(brickVoid5CropData : brickVoid0CropData)
 };
 
 
+//ancient
+datablock fxDTSBrickData(brickAncientFlower0CropData)
+{
+	uiName = "AncientFlower0";
+
+	brickFile = "./bricks/AncientFlower0.blb";
+	cropType = "AncientFlower";
+	stage = 0;
+	isPlant = 1;
+	defaultColor = 22;
+};
+
+datablock fxDTSBrickData(brickAncientFlower1CropData : brickAncientFlower0CropData)
+{
+	uiName = "AncientFlower1";
+
+	brickFile = "./bricks/AncientFlower1.blb";
+	stage = 1;
+};
+
+datablock fxDTSBrickData(brickAncientFlower2CropData : brickAncientFlower0CropData)
+{
+	uiName = "AncientFlower2";
+
+	brickFile = "./bricks/AncientFlower2.blb";
+	stage = 2;
+};
+
+
 
 
 

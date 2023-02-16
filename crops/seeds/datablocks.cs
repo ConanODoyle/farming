@@ -115,3 +115,4 @@ SeedDatablocks("Strawberry","0.71 0.8 0 1","seedsShort","1 0 0 1",false,3);
 SeedDatablocks("Tomato","0.8 0.66 0.48 1","seedsFlat","1 0 0 1",false,3);
 SeedDatablocks("Watermelon","0.08 0.08 0.08 1","seedsShort","0.094 0.2 0.149 1",false,2);
 SeedDatablocks("Wheat","0.854 0.647 0.122 1","seedsShort","1 0.96 0.74 1",false,6);
+SeedDatablocks("AncientFlower","1 0.69 0.90 1","seedsRound","1 0.69 0.90 1",false,1);
