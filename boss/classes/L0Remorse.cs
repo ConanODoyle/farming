@@ -130,8 +130,19 @@ datablock ShapeBaseImageData(L0RemorseImage)
 	
 	stateName[2] = "Ready";
 	stateTransitionOnTriggerDown[2] = "PreFire";
+	stateWaitForTimeout[2] = false;
+	stateTimeoutValue[2] = 0.1;
+	stateTransitionOnTimeout[2] = "Ready2";
 	stateAllowImageChange[2] = true;
 	stateScript[2] = "onReady";
+	
+	stateName[6] = "Ready2";
+	stateTransitionOnTriggerDown[6] = "PreFire";
+	stateWaitForTimeout[6] = false;
+	stateTimeoutValue[6] = 0.1;
+	stateTransitionOnTimeout[6] = "Ready";
+	stateAllowImageChange[6] = true;
+	stateScript[6] = "onReady";
 	
 	stateName[3] = "PreFire";
 	stateTimeoutValue[3] = 0.25;
@@ -182,6 +193,14 @@ function L0RemorseImage::onPreReady(%this, %player, %slot)
 			%effect.explode();
 		}
 	}
+}
+
+/// @param	this	weapon image
+/// @param	player	player
+/// @param	slot	number
+function L0RemorseImage::onReady(%this, %player, %slot)
+{
+	HarvestToolImage::onReady(%this, %player, %slot);
 }
 
 /// @param	this	weapon image

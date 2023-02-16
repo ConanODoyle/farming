@@ -149,8 +149,19 @@ datablock ShapeBaseImageData(L3LastWordImage)
 	
 	stateName[1] = "Ready";
 	stateTransitionOnTriggerDown[1] = "Charge";
+	stateWaitForTimeout[1] = false;
+	stateTimeoutValue[1] = 0.1;
+	stateTransitionOnTimeout[1] = "Ready2";
 	stateAllowImageChange[1] = true;
 	stateScript[1] = "onReady";
+
+	stateName[7] = "Ready2";
+	stateTransitionOnTriggerDown[7] = "Charge";
+	stateWaitForTimeout[7] = false;
+	stateTimeoutValue[7] = 0.1;
+	stateTransitionOnTimeout[7] = "Ready";
+	stateAllowImageChange[7] = true;
+	stateScript[7] = "onReady";
 	
 	stateName[2] = "Charge";
 	stateTimeoutValue[2] = 1.75;
