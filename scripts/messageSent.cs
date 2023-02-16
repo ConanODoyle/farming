@@ -264,7 +264,11 @@ function servercmdMessageSent(%client,%msg)
 			%pingTarget[%highest] = true;
 			%pingUser = %pingUser SPC %highest.getID();
 
-			%newMsg = getSubStr(%newMsg, 0, %i + %ping) @ "\c4@" @ %highest.name @ "\c6" @ getSubStr(%newMsg, %highestEndPos, %msgLength);
+			if (getSubStr(%newMsg, %highestEndPos - 1, 1) $= " ")
+			{
+				%extraSpace = " ";
+			}
+			%newMsg = getSubStr(%newMsg, 0, %i + %ping) @ "\c4@" @ %highest.name @ "\c6" @ %extraSpace @ getSubStr(%newMsg, %highestEndPos, %msgLength);
 			%msgLength = strLen(%newMsg);
 			%i += %ping + strLen(%highest.name) + 2;
 		}
