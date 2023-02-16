@@ -255,7 +255,7 @@ function postSaveClearLot(%collection)
 	{
 		%lot = getWord($Farming::Reload[%collection.type @ %collection.bl_id], 0);
 		%rotation = getWord($Farming::Reload[%collection.type @ %collection.bl_id], 1);
-		deleteVariables("Farming::Reload" @ %collection.type @ %collection.bl_id);
+		deleteVariables("$Farming::Reload" @ %collection.type @ %collection.bl_id);
 		call("load" @ %collection.type, %collection.bl_id, %lot, %rotation);
 	}
 

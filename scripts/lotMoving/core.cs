@@ -119,6 +119,15 @@ function restoreLotBricks(%dataObj)
 
 		%b.setTrusted(1);
 		Brickgroup_888888.add(%b);
+		%box = %b.getWorldBox();
+		%zTop = getWord(%box, 5);
+		%pos = %b.position;
+		%box = vectorSub(getWords(%box, 3, 6), getWords(%box, 0, 2));
+		initContainerBoxSearch(%pos, %box, $Typemasks::PlayerObjectType);
+		while (isObject(%next = containerSearchNext()))
+		{
+			%next.position = setWord(%next.position, 2, %zTop + 0.1);
+		}
 	}
 	%dataObj.delete();
 }

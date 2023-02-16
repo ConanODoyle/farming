@@ -248,8 +248,9 @@ function HarvestToolImage::onFire(%this, %obj, %slot, %hitLoc)
 				%p.explode();
 			}
 		}
-		else //dont do anything, we didnt hit any brick so we dont have a point to work off of
+		else if (!isObject(%hit = getWord(%ray, 0)))
 		{
+			 //dont do anything, we didnt hit any brick so we dont have a point to work off of
 			return;
 		}
 	}

@@ -631,6 +631,7 @@ function farmingLoadTick(%loadFile, %type, %dataObj, %offset, %center, %rotation
 				shapeFxID = %shapeFX;
 				isPlanted = 1;
 				skipBuy = 1;
+				seedPlant = %db.isPlant;
 			};
 			if (isObject(%brickGroup))
 			{
