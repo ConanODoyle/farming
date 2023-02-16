@@ -83,7 +83,6 @@ function startRain()
 	{
 		return;
 	}
-	$DefaultEnvironment.startEdit();
 	Sky.materialList = "Add-ons/Sky_Skylands_Clouds/Skylands_Clouds.dml";
 	$Sky::cloudHeight0 = 100;
 	$Sky::cloudHeight1 = 0.5;
@@ -112,7 +111,6 @@ function startRain()
 	$origShadow = Sun.shadowColor;
 
 	gradualEnvColorshift(0.6, 0.6, 0.5, 10000);
-	schedule (15000, 0, eval, "$DefaultEnvironment.stopEdit();");
 	fadeInRain();
 	startRainSound();
 	schedule(5000, 0, rainLoop, 0);
@@ -124,7 +122,6 @@ function stopRain()
 	{
 		return;
 	}
-	$DefaultEnvironment.startEdit();
 	$isRaining = 0;
 	$RainTicksLeft = 0;
 	$lastRained = $Sim::Time;
@@ -133,7 +130,6 @@ function stopRain()
 	//delete precipitation
 
 	gradualEnvColorshift(1.666666, 1.666666, 2, 10000);
-	schedule (15000, 0, eval, "$DefaultEnvironment.stopEdit();");
 	for (%i = 0; %i < RainFillSimSet.getCount(); %i++)
 	{
 		RainFillSimSet.getObject(%i).nextRain = "";
@@ -150,10 +146,8 @@ function startHeatWave()
 	{
 		return;
 	}
-	$DefaultEnvironment.startEdit();
 	%targetVigColor = "0.439 0.341 0.215";
 	gradualVignetteColorshift(getWord(%targetVigColor, 0), getWord(%targetVigColor, 1), getWord(%targetVigColor, 2), 10000);
-	schedule (15000, 0, eval, "$DefaultEnvironment.stopEdit();");
 	$isHeatWave = 1;
 
 	%HeatWaveTicks = 0;
@@ -175,10 +169,8 @@ function stopHeatWave()
 	{
 		return;
 	}
-	$DefaultEnvironment.startEdit();
 	%targetVigColor = "0 0 0";
 	gradualVignetteColorshift(getWord(%targetVigColor, 0), getWord(%targetVigColor, 1), getWord(%targetVigColor, 2), 10000);
-	schedule (15000, 0, eval, "$DefaultEnvironment.stopEdit();");
 
 	cancel($masterHeatLoop);
 
@@ -217,6 +209,7 @@ function gradualVignetteColorshift(%x, %y, %z, %time)
 
 function gradualEnvColorshift(%xF, %yF, %zF, %time)
 {
+	$DefaultEnvironment.setCurrent();
 	%xF = %xF - 1; %yF = %yF - 1; %zF = %zF - 1;
 
 	%ticks = mFloor(%time / 200);
@@ -246,13 +239,14 @@ function gradualEnvColorshift(%xF, %yF, %zF, %time)
 			roundToDecPoint(getWord(%sky, 1) * %yF * (1.0 + %i), 5) SPC 
 			roundToDecPoint(getWord(%sky, 2) * %zF * (1.0 + %i), 5)) SPC %skyA;
 
-		schedule(%time, Sun, setEnvColors, %newAmb, %newCol, %newSha, %newFog, %newSky);
+		schedule(%time, 0, setEnvColors, %newAmb, %newCol, %newSha, %newFog, %newSky);
 	}
 	// talk("factor: " @ %xf * %ticks + 1 @ " sky: " @ %newSky);
 }
 
 function setEnvColors(%amb, %col, %sha, %fog, %sky)
 {
+	$DefaultEnvironment.setCurrent();
 	Sun.ambient = %amb;
 	Sun.color = %col;
 	Sun.shadowColor = %sha;
@@ -261,13 +255,16 @@ function setEnvColors(%amb, %col, %sha, %fog, %sky)
 
 	Sun.sendUpdate();
 	Sky.sendUpdate();
+	$DefaultEnvironment.postEditCheck();
 }
 
 function setWeatherVignetteColor(%color, %multiply)
 {
+	$DefaultEnvironment.setCurrent();
 	$EnvGuiServer::VignetteColor = %color;
 	$EnvGuiServer::VignetteMultiply = %multiply;
 	EnvGuiServer::SendVignetteAll();
+	$DefaultEnvironment.postEditCheck();
 }
 
 function createRain(%drops)
@@ -292,6 +289,7 @@ function createRain(%drops)
 	$Rain::boxHeight = 60;//50;
 	$Rain::doCollision = 1;
 
+	$DefaultEnvironment.setCurrent();
 	if (isObject(Rain))
 	{
 		Rain.setScopeAlways();
@@ -321,8 +319,8 @@ function createRain(%drops)
 			doCollision = $Rain::doCollision;
 		};
 		MissionGroup.add(Rain);
-		$DefaultEnvironment.postEditCheck();
 	}
+	$DefaultEnvironment.postEditCheck();
 }
 
 function fadeInRain()
@@ -337,8 +335,8 @@ function fadeInRain()
 	for (%i = 0; %i < 100; %i++)
 	{
 		schedule((%i + 1) * 100, 0, eval,
+			"$DefaultEnvironment.setCurrent();" @
 			"Sky.cloudSpeed[1] = 0.003 / 10 * " @ ((%i + 1) / 10) @ ";" @
-			// "Sky.cloudHeight[1] = 0.1 + 0.7 / 10 * " @ (10 - (%i + 1) / 30) @ ";" @
 			"Sky.sendUpdate();");
 	}
 }
@@ -357,8 +355,8 @@ function clearRain()
 	for (%i = 0; %i < 100; %i++)
 	{
 		schedule((%i + 1) * 100, 0, eval,
+			"$DefaultEnvironment.setCurrent();" @
 			"Sky.cloudSpeed[1] = 0.003 / 10 * " @ (10 - (%i + 1) / 10) @ ";" @
-			// "Sky.cloudHeight[1] = 0.1 + 0.7 / 10 * " @ ((%i + 1) / 30) @ ";" @
 			"Sky.sendUpdate();");
 	}
 }
@@ -530,15 +528,10 @@ package rainPackage
 activatePackage(rainPackage);
 
 function createRainSound(%vol, %db)
-{
-	if (isObject(ambientRain))
-	{
-		ambientRain.delete();
-	}
-	
+{	
+	%environment = $DefaultEnvironment;
 	if (!isObject(%db))
 	{
-		%environment = $DefaultEnvironment;
 		%environment.music = "";
 		for (%i = 0; %i < ClientGroup.getCount(); %i++)
 		{
@@ -551,7 +544,6 @@ function createRainSound(%vol, %db)
 		return;
 	}
 
-	%environment = $DefaultEnvironment;
 	%environment.music = %db;
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
