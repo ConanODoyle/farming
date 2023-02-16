@@ -58,7 +58,7 @@ function voidAttemptGrowth(%brick)
 	if (%brick.wetTicks > %maxWetTicks && %maxWetTicks != -1)
 	{
 		%brick.grow(%wetGrow);
-		if (%wetGrow.stage == 6)
+		if (%wetGrow.stage == 5)
 		{
 			applyVoidKeyPlant(%brick.position, 0);
 			return 0;

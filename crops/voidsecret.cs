@@ -489,16 +489,28 @@ function VoidEncasedKeySeedlingItem::onAdd(%this, %item)
 {
 	parent::onAdd(%this, %item);
 	%item.rotate = 1;
+	if (isObject(%item.spawnBrick))
+	{
+		%item.canPickup = 0;
+	}
 }
 
 function VoidEncasedKeyItem::onAdd(%this, %item)
 {
 	parent::onAdd(%this, %item);
 	%item.rotate = 1;
+	if (isObject(%item.spawnBrick))
+	{
+		%item.canPickup = 0;
+	}
 }
 
 function VoidKeyItem::onAdd(%this, %item)
 {
 	parent::onAdd(%this, %item);
 	%item.rotate = 1;
+	if (isObject(%item.spawnBrick))
+	{
+		%item.canPickup = 0;
+	}
 }
