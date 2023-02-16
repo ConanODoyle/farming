@@ -148,7 +148,7 @@ function startHeatWave()
 	{
 		return;
 	}
-	%targetVigColor = "0.439 0.341 0.215";
+	%targetVigColor = "0.50 0.36 0.00";
 	gradualVignetteColorshift(getWord(%targetVigColor, 0), getWord(%targetVigColor, 1), getWord(%targetVigColor, 2), 10000);
 	$isHeatWave = 1;
 
@@ -194,6 +194,7 @@ function roundToDecPoint(%num, %numDec)
 
 function gradualVignetteColorshift(%x, %y, %z, %time)
 {
+	$DefaultEnvironment.setCurrent();
 	%ticks = mFloor(%time / 200);
 	%vig = $EnvGuiServer::VignetteColor; %vigA = getWord(%vig, 3);
 	%x = (%x - getWord(%vig, 0)) / %ticks;
