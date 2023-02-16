@@ -489,28 +489,43 @@ function VoidEncasedKeySeedlingItem::onAdd(%this, %item)
 {
 	parent::onAdd(%this, %item);
 	%item.rotate = 1;
-	if (isObject(%item.spawnBrick))
-	{
-		%item.canPickup = 0;
-	}
 }
 
 function VoidEncasedKeyItem::onAdd(%this, %item)
 {
 	parent::onAdd(%this, %item);
 	%item.rotate = 1;
-	if (isObject(%item.spawnBrick))
-	{
-		%item.canPickup = 0;
-	}
 }
 
 function VoidKeyItem::onAdd(%this, %item)
 {
 	parent::onAdd(%this, %item);
 	%item.rotate = 1;
-	if (isObject(%item.spawnBrick))
+}
+
+function VoidEncasedKeySeedlingItem::onPickUp(%this, %obj, %col, %amount)
+{
+	if (isObject(%obj.spawnBrick))
 	{
-		%item.canPickup = 0;
+		%obj.canPickup = 0;
 	}
+	return ItemData::onPickUp(%this, %obj, %col, %amount);
+}
+
+function VoidEncasedKeyItem::onPickUp(%this, %obj, %col, %amount)
+{
+	if (isObject(%obj.spawnBrick))
+	{
+		%obj.canPickup = 0;
+	}
+	return ItemData::onPickUp(%this, %obj, %col, %amount);
+}
+
+function VoidKeyItem::onPickUp(%this, %obj, %col, %amount)
+{
+	if (isObject(%obj.spawnBrick))
+	{
+		%obj.canPickup = 0;
+	}
+	return ItemData::onPickUp(%this, %obj, %col, %amount);
 }
