@@ -127,7 +127,7 @@ schedule(15000, 0, "webcom_postServer();");
 RegisterPersistenceVar("farmingExperience", false, "");
 
 // Glass loading screen image
-registerloadingscreen("https://i.imgur.com/06fAw4h.png", "png", "", 1);
+registerloadingscreen("https://leopard.hosting.pecon.us/dl/zpkgn/Conans_Farming_2.png", "png", "", 1);
 
 schedule(1000, 0, powerTick, 0);
 schedule(1000, 0, sprinklerTick, 0);
