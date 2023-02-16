@@ -93,6 +93,9 @@ $StorageTypeToolsList = $StorageTypeToolsList TAB "FishingPole3Item";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "FishFinderItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "TackleBoxItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "CropTrakKitItem";
+$StorageTypeToolsList = $StorageTypeToolsList TAB "L0RemorseItem";
+$StorageTypeToolsList = $StorageTypeToolsList TAB "L3LastWordItem";
+$StorageTypeToolsList = $StorageTypeToolsList TAB "L4SilenceItem";
 $StorageTypeToolsIsBlacklist = false;
 
 $StorageTypeQuestsExists = true;
