@@ -13,8 +13,8 @@ datablock ItemData(WeedCutterItem : HammerItem)
 	toolType = "Weed Cutter";
 	
 	durabilityFunction = "generateHarvestToolDurability";
-	baseDurability = 20;
-	chanceDurability = 0.7;
+	baseDurability = 30;
+	chanceDurability = 0.85;
 	bonusDurability = 10;
 };
 
