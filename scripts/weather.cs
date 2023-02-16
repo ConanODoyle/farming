@@ -559,6 +559,11 @@ function createRainSound(%vol, %db)
 
 function GameConnection::setMusic(%cl, %musicDatablock, %volume)
 {
+	if (%musicDatablock.getID() == %cl.clientMusic.profile.getID())
+	{
+		return;
+	}
+
 	if (isObject(%cl.clientMusic))
 	{
 		%cl.clientMusic.delete();
