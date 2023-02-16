@@ -350,6 +350,7 @@ function getPlantDownBricks(%hitLoc, %db, %obj)
 	%error = %b.plant();
 	if (%error)
 	{
+		%b.delete();
 		return "";
 	}
 
@@ -382,7 +383,8 @@ function getBrickPlantPosition(%hitloc, %db)
 
 function failPlantSeed(%pos, %db)
 {
-	createPlantBrick(%pos, %db, 0).schedule(1000, delete);
+	%b = createPlantBrick(%pos, %db, 0);
+	%b.schedule(1000, delete);
 	return 0;
 }
 
