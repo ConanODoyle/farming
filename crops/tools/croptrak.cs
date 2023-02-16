@@ -9,7 +9,7 @@ datablock ItemData(CropTrakKitItem : HammerItem)
 
 	isCropTrakKit = 1;
 
-	iconName = "Add-ons/Server_Farming/icons/CropTrakKit";
+	iconName = "Add-ons/Server_Farming/icons/croptrak";
 };
 
 datablock ShapeBaseImageData(CropTrakKitImage)

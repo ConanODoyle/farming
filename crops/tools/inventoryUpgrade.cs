@@ -6,7 +6,7 @@ datablock ItemData(InventoryUpgradeItem : HammerItem)
 	colorShiftColor = "0.4 0 0 1";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/icons/Repair";
+	iconName = "Add-ons/Server_Farming/icons/satchel";
 };
 
 datablock ShapeBaseImageData(InventoryUpgradeImage)

@@ -138,7 +138,7 @@ datablock ItemData(EthanolItem : HammerItem)
 	image = EthanolImage;
 	doColorShift = true;
 	colorShiftColor = "0.9 0.8 0 1";
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/icons/ethanol";
 
 	isStackable = 1;
 	stackType = "Ethanol";

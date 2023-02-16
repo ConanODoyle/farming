@@ -18,6 +18,7 @@ function DataString_FishItem(%uiname,%safeName,%itemName,%imageName,%shape,%notS
 		@"canDrop = 1;"
 		@"isStackable = " @ (!%notStackable) @ ";"
 		@"stackType = \"" @ %safeName @ "\";"
+		@"iconName = \"Add-ons/Server_Farming/icons/" @ (getSubStr(%itemName, 0, strLen(%itemName) - 4)) @ "\";"
 	@"};";
 }
 

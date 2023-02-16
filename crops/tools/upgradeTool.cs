@@ -9,7 +9,7 @@ datablock ItemData(UpgradeToolItem : HammerItem)
 
 	isRepairTool = 1;
 
-	iconName = "Add-ons/Server_Farming/icons/RepairTool";
+	iconName = "Add-ons/Server_Farming/icons/upgradetool";
 };
 
 datablock ShapeBaseImageData(UpgradeToolImage)

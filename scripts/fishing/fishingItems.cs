@@ -8,7 +8,7 @@
 
 datablock ItemData(FishingPole1Item : HammerItem)
 {
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/icons/fishingRod1";
 	shapeFile = "./fishingPole/pole.dts";
 	uiName = "Fishing Pole 3";
 
@@ -60,6 +60,7 @@ datablock ItemData(FishingPole2Item : FishingPole1Item)
 	colorShiftColor = "0.59 0.40 0.18 1";
 	image = FishingPole2Image;
 	uiName = "Fishing Pole 2";
+	iconName = "Add-ons/Server_Farming/icons/fishingRod2";
 };
 
 datablock ShapeBaseImageData(FishingPole2Image : FishingPole1Image)
@@ -92,6 +93,7 @@ datablock ItemData(FishingPole3Item : FishingPole1Item)
 	colorShiftColor = "0.72 0.56 0.36 1";
 	image = FishingPole3Image;
 	uiName = "Fishing Pole";
+	iconName = "Add-ons/Server_Farming/icons/fishingRod3";
 };
 
 datablock ShapeBaseImageData(FishingPole3Image : FishingPole1Image)
@@ -204,7 +206,7 @@ datablock ItemData(TackleBoxItem : HammerItem)
 {
 	shapeFile = "./fishingPole/tacklebox.dts";
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/icons/tacklebox";
 	uiName = "Tackle Box";
 	image = "TackleBoxImage";
 	doColorShift = false;
@@ -268,7 +270,7 @@ datablock ItemData(FishFinderItem : HammerItem)
 {
 	shapeFile = "./fishingPole/FishFinder.dts";
 
-	iconName = "";
+	iconName = "Add-ons/Server_Farming/icons/fishfinder";
 	uiName = "Fish Finder";
 	image = "FishFinderImage";
 	doColorShift = false;

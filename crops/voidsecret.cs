@@ -380,6 +380,8 @@ datablock ItemData(VoidEncasedKeyItem)
 	shapeFile = "./crops/encasedKey.dts";
 	emap = false;
 
+	iconName = "Add-ons/Server_Farming/icons/voidcapsule";
+
 	colorShiftColor = "0 0 0 1";
 	doColorShift = false;
 
@@ -432,6 +434,8 @@ datablock ItemData(VoidKeyItem)
 {
 	shapeFile = "./crops/key.dts";
 	emap = false;
+
+	iconName = "Add-ons/Server_Farming/icons/voidkey";
 
 	colorShiftColor = "0 0 0 1";
 	doColorShift = false;

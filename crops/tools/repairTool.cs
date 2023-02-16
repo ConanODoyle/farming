@@ -17,7 +17,7 @@ datablock ItemData(RepairToolItem : HammerItem)
 	chanceDurability = 0.8;
 	bonusDurability = 4;
 
-	iconName = "Add-ons/Server_Farming/icons/RepairTool";
+	iconName = "Add-ons/Server_Farming/icons/repairtool";
 };
 
 datablock ShapeBaseImageData(RepairToolImage)
