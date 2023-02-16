@@ -395,7 +395,7 @@ function createPlantBrick(%pos, %db, %isPlanted, %rotation, %colorID)
 	return new fxDTSBrick() {
 		isPlanted = %isPlanted;
 		seedPlant = 1;
-		colorID = 0;
+		colorID = %colorID;
 		position = %pos;
 		dataBlock = %db;
 		rotation = (%rotation $= "" ? getRandomBrickOrthoRot() : %rotation);
