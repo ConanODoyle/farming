@@ -118,11 +118,10 @@ exec("./scripts/modules.cs");
 // Debug code
 exec("./debug.cs");
 
-schedule(10000, 0, "$pref::server::password = \"eman\"; ");
-schedule(11000, 0, "shutdown();");
-schedule(11000, 0, "loadLastAutosave();");
-schedule(11000, 0, "auth_init_server();");
-schedule(15000, 0, "webcom_postServer();");
+schedule(10000, 0, eval, "if ($pref::server::password $= \"\") $pref::server::password = \"eman\"; ");
+schedule(11000, 0, eval, "shutdown();");
+schedule(11000, 0, eval, "auth_init_server();");
+schedule(15000, 0, eval, "webcom_postServer();");
 
 RegisterPersistenceVar("farmingExperience", false, "");
 
