@@ -273,7 +273,7 @@ function getPlantRadius(%db, %planterFound, %inGreenhouse)
 
 //0 for no issue, any other number for a certain kind of issue
 //%potFound in return word slot 1 and %planterFound in word slot 2
-function checkPlantLocationError(%hitLoc, %db, %obj)
+function checkPlantLocationError(%hitLoc, %db, %obj, %requiredTrustLevel)
 {
 	%cropType = %db.cropType;
 	%isTree = %db.isTree;
@@ -289,6 +289,10 @@ function checkPlantLocationError(%hitLoc, %db, %obj)
 		%base = roundToStudCenter(%hitLoc, 1);
 		%xDiff = 0.25 SPC 0.25 SPC -0.25 SPC -0.25;
 		%yDiff = 0.25 SPC -0.25 SPC 0.25 SPC -0.25;
+	}
+	if (%requiredTrustLevel $= "")
+	{
+		%requiredTrustLevel = 2;
 	}
 
 	for (%i = 0; %i < getWordCount(%xDiff); %i++)
@@ -306,7 +310,7 @@ function checkPlantLocationError(%hitLoc, %db, %obj)
 		{
 			return 2;
 		}
-		else if (getTrustLevel(%hit, %obj) < 2)
+		else if (getTrustLevel(%hit, %obj) < %requiredTrustLevel)
 		{
 			return 4 SPC %hit;
 		}

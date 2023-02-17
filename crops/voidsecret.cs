@@ -55,7 +55,7 @@ package Void
 	function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	{
 		%cropType = %image.cropType;
-		if (%cropType !$= "Lily" && %cropType !$= "Rose" && $cropType !$= "Daisy")
+		if (%cropType !$= "Lily" && %cropType !$= "Rose" && %cropType !$= "Daisy")
 		{
 			return parent::plantCrop(%image, %obj, %imageSlot, %remotePlacement);
 		}
@@ -162,7 +162,7 @@ function voidPlantCrop(%image, %obj, %imageSlot, %remotePlacement, %ray)
 	%hitLoc = getWords(%ray, 1, 3);
 
 	//run raycasts to check the actual planting location, rather than just rely on the eye vector hit location
-	%error = checkPlantLocationError(%hitLoc, %brickDB, %obj);
+	%error = checkPlantLocationError(%hitLoc, %brickDB, %obj, 0);
 
 	switch (%error)
 	{
@@ -171,8 +171,6 @@ function voidPlantCrop(%image, %obj, %imageSlot, %remotePlacement, %ray)
 		case 3: %errMsg = getField(%error, 1);
 		case 4: //Trust error. We only get here if its a public brick, so its time to cook :)
 			//...can just Not Do Anything, but can also play a sound :0
-
-		default: %errMsg = "Unable to plant here.";
 	}
 
 	if (%errMsg !$= "")
@@ -200,7 +198,7 @@ function voidPlantCrop(%image, %obj, %imageSlot, %remotePlacement, %ray)
 
 	%b.setTrusted(1);
 	%b.setColliding(0);
-	%bg = "BrickGroup_888888";
+	%bg = "BrickGroup_999999";
 	%bg.add(%b);
 
 	//update inventory item
@@ -249,6 +247,11 @@ function findVoidPlanters()
 function voidCheckPlants()
 {
 	cancel($VoidCheckPlantSchedule);
+	if (isEventPending($VoidEndConfirmSchedule))
+	{
+		return;
+	}
+
 	if (!isObject($LilyPlanter) || !isObject($RosePlanter) || !isObject($DaisyPlanter))
 	{
 		findVoidPlanters();
@@ -260,18 +263,21 @@ function voidCheckPlants()
 	}
 
 	%lilyUp = $LilyPlanter.getUpBrick(0);
+	%lilyUp.bypassShapeFx = 1;
 	if (%lilyUp.dataBlock.uiName $= "Lily2")
 	{
 		%lilyFound = 1;
 	}
 
 	%roseUp = $RosePlanter.getUpBrick(0);
+	%roseUp.bypassShapeFx = 1;
 	if (%roseUp.dataBlock.uiName $= "Rose2")
 	{
 		%roseFound = 1;
 	}
 
 	%daisyUp = $DaisyPlanter.getUpBrick(0);
+	%daisyUp.bypassShapeFx = 1;
 	if (%daisyUp.dataBlock.uiName $= "Daisy2")
 	{
 		%daisyFound = 1;
@@ -298,16 +304,17 @@ function voidCheckPlants()
 	}
 	$Wanderer.setHSpawnClose(1, 0);
 
-	$VoidCheckPlantSchedule = schedule(32000, 0, voidCheckPlants);
+	$VoidCheckPlantSchedule = schedule(2000, 0, voidCheckPlants);
 }
 
 
 
 
 
-//needs to restart voidCheckPlants
+//doesnt need to restart voidcheckplants
 function voidConfirmPlants(%b0, %b1, %b2)
 {
+	cancel($VoidEndConfirmSchedule);
 	//blacken plants, spawn bot, then later delete plants and despawn bot
 	$Wanderer.setHSpawnClose(1, 2000);
 	for (%i = 0; %i < 3; %i++)
@@ -327,13 +334,18 @@ function voidConfirmPlants(%b0, %b1, %b2)
 		}
 	}
 
-	schedule(20 * 60000, 0, voidEndConfirmPlants, %b0, %b1, %b2);
+	$VoidEndConfirmSchedule = schedule(1200000, 0, voidEndConfirmPlants, %b0, %b1, %b2);
 }
 
 function voidEndConfirmPlants(%b0, %b1, %b2)
 {
+	cancel($VoidEndConfirmSchedule);
 	$Wanderer.setHSpawnClose(1, 0);
-	schedule(1000, 0, voidCheckPlants);
+
+	%lilyUp = $LilyPlanter.getUpBrick(0);
+	%roseUp = $RosePlanter.getUpBrick(0);
+	%daisyUp = $DaisyPlanter.getUpBrick(0);
+	voidDeletePlants(%lilyUp, %roseUp, %daisyUp);
 }
 
 
