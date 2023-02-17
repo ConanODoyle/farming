@@ -290,10 +290,15 @@ function SimGroup::refreshLotList(%bg)
 		{
 			%str = %str SPC %b;
 		}
+		if (%b.getDatablock().isShopLot)
+		{
+			%shop = %b;
+		}
 	}
 
 	%bg.lotList = trim(%str);
 	%bg.lotCount = getWordCount(%bg.lotList);
+	%bg.shopLot = %shop;
 }
 
 function fixLotColor(%brick)
