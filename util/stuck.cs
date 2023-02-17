@@ -12,6 +12,7 @@ function serverCmdStuck(%cl)
 			%bot.setScale(%pl.getScale());
 			%bot.setTransform(%pl.getTransform());
 			%bot.schedule(20, setJumping, 1);
+			%bot.schedule(1000, delete);
 			cancel(%pl.checkSchedule);
 			%pl.checkSchedule = schedule(33, %pl, checkStuck, %pl, %bot);
 		}

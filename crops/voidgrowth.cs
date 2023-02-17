@@ -76,7 +76,7 @@ function applyVoidKeyPlant(%pos, %brick)
 	while (isObject(%next = containerSearchNext()))
 	{
 		if (!%next.dataBlock.isPlant || %next.dataBlock.cropType $= "Void"
-			|| vectorDist(%next.position, %pos) > %radius)
+			|| vectorDist(%next.position, %pos) > %radius || getTrustLevel(%next, %brick) < 2)
 		{
 			continue;
 		}
