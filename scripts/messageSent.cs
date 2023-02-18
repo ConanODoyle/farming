@@ -278,6 +278,13 @@ function servercmdMessageSent(%client,%msg)
 	// End discord ping stuff
 
 
+	// Process word replacers
+	for(%i = 0; %i < $wordReplacerCount; %i++)
+	{
+		%newMsg = strireplace(%newMsg, $filterOldwords[%i], $filterNewWords[%i]);
+	}
+
+
 	%groupCount = clientGroup.getCount();
 	for(%i = 0; %i < %groupCount; %i++)
 	{
@@ -350,3 +357,20 @@ function talk(%message)
 {
 	servercmdMessageSent(AIConsole, %message);
 }
+
+function addWordReplacer(%oldword,%newword)
+{
+	$filterOldWords[$wordReplacerCount] = %oldWord;
+	$filterNewWords[$wordReplacerCount] = %newWord;
+	$wordReplacerCount++;
+}
+
+addWordReplacer("mlp", "cake");
+addWordReplacer("pony", "cake");
+addWordReplacer("furr", "cake");
+addWordReplacer("rekt", "I am stupid.");
+addWordReplacer("nigg", "cake");
+addWordReplacer("negro", "cake");
+addWordReplacer("fagg", "cake");
+addWordReplacer("trann", "cake");
+addWordReplacer("autis", "cake");
