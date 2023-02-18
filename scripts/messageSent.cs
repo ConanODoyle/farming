@@ -365,6 +365,7 @@ function addWordReplacer(%oldword,%newword)
 	$wordReplacerCount++;
 }
 
+$wordReplacerCount = 0;
 addWordReplacer("mlp", "cake");
 addWordReplacer("pony", "cake");
 addWordReplacer("furr", "cake");
