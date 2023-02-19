@@ -312,7 +312,7 @@ function servercmdMessageSent(%client,%msg)
 			}
 		}
 		else
-			commandToClient(%cl, 'chatMessage', %client, '', '', %all, %pre, %name, %suf @ "\c6", %msg, %color, %team.name, "<color:ffffff>"); 
+			commandToClient(%cl, 'chatMessage', %client, '', '', %all, %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>"); 
 	}
 
 	echo(%name @ ":" SPC %newMsg);
