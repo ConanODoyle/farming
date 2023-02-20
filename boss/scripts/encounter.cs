@@ -92,15 +92,27 @@ function setRingColliding(%collide)
 	}
 }
 
+function setSpectatorPlatformColliding(%collide)
+{
+	%bg = BrickGroup_888888;
+	for(%i = 0; %i < %bg.NTObjectCount["_harvesterSpectatorPlatform"]; %i++)
+	{
+		%b = %bg.NTObject["_harvesterSpectatorPlatform", %i];
+		%b.setColliding(%collide);
+	}
+}
+
 function enableBossWalls()
 {
 	setRingColliding(1);
+	setSpectatorPlatformColliding(1);
 	setRingEmitter("BurnEmitterA");
 }
 
 function disableBossWalls()
 {
 	setRingColliding(0);
+	setSpectatorPlatformColliding(0);
 	setRingEmitter(0);
 }
 
