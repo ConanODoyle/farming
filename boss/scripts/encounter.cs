@@ -9,6 +9,11 @@ function Player::addPlayerToHF(%pl, %cl)
 	{
 		return;
 	}
+	if (isObject(Harvester) || isObject(CutsceneHarvester))
+	{
+		%cl.centerprint("A fight is in progress. Please wait.", 5);
+		return;
+	}
 
 	HarvesterFightSet.add(%pl);
 	%pl.setTransform(_harvesterPlayerSpawn.getTransform());

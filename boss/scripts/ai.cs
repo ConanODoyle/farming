@@ -61,6 +61,7 @@ function deleteHarvester()
 	
 	clearHarvesterFightCamera();
 	clearHarvesterFightMusic();
+	clearAncientWarriors();
 }
 
 /// @param	this	ai player
