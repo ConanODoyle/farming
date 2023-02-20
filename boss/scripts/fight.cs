@@ -18,6 +18,14 @@ function harvesterMessage(%message)
 		
 		messageClient(%client, '', %message);
 	}
+
+	//outside arena additions
+	for(%i = 0; %i < HarvesterDeathSet.getCount(); %i++)
+	{
+		%client = HarvesterDeathSet.getObject(%i);
+
+		messageClient(%client, '', %message);
+	}
 }
 
 /// @param	profile	audio profile
@@ -53,6 +61,14 @@ function setHarvesterFightMusic(%profile)
 		
 		HarvesterMusic.scopeToClient(%client);
 	}
+
+	//outside arena additions
+	for(%i = 0; %i < HarvesterDeathSet.getCount(); %i++)
+	{
+		%client = HarvesterDeathSet.getObject(%i);
+
+		HarvesterMusic.scopeToClient(%client);
+	}
 }
 
 function clearHarvesterFightMusic()
@@ -72,6 +88,40 @@ function setHarvesterFightCamera(%position, %rotation)
 		if(!isObject(%client))
 		{
 			continue;
+		}
+
+		%camera = %client.camera;
+
+		if(!isObject(%camera))
+		{
+			continue;
+		}
+		
+		// Release camera from player.
+		%camera.setFlyMode();
+		%camera.setMode("Observer");
+		
+		// Client controls camera.
+		%client.setControlObject(%camera);
+		
+		// Camera controls dummy camera. Apparently a default thing?
+		%camera.setControlObject(%client.dummyCamera);
+		%client.dummyCamera.setTransform(%camera.getTransform());
+		
+		%camera.setTransform(%position SPC %rotation);
+	}
+	for(%i = 0; %i < HarvesterDeathSet.getCount(); %i++)
+	{
+		%client = HarvesterDeathSet.getObject(%i);
+		
+		if(!isObject(%client))
+		{
+			continue;
+		}
+		if(!isObject(%client.player))
+		{
+			%client.instantRespawn();
+			%client.player.setTransform(_harvesterDeathZone.getTransform());
 		}
 
 		%camera = %client.camera;

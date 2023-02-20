@@ -39,6 +39,7 @@ else
 	exec($Harvester::Root @ "/scripts/ai.cs");
 	exec($Harvester::Root @ "/scripts/cutscene.cs");
 	exec($Harvester::Root @ "/scripts/fight.cs");
+	exec($Harvester::Root @ "/scripts/encounter.cs");
 
 	exec($Harvester::Root @ "/npc/dialogue.cs");
 }

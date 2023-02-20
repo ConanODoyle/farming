@@ -2,8 +2,8 @@
 // Armor: //
 //--------//
 
-$Harvester::Armor::BaseHealth = 1000.0;
-$Harvester::Armor::ExtraHealthPerFighter = 1000.0;
+$Harvester::Armor::BaseHealth = 10000.0;
+$Harvester::Armor::ExtraHealthPerFighter = 5000.0;
 
 $Harvester::Armor::Avatar::BodyColor = "0.3 0.3 0.3 1.0";
 $Harvester::Armor::Avatar::ClothesColor = "0.15 0.15 0.15 1.0";	
@@ -20,14 +20,14 @@ $Harvester::AncientWarrior::Armor::Avatar::Color = "0.5 0.7 1.0 0.6";
 // Blade: //
 //--------//
 
-$Harvester::Blade::Damage = 70.0;
+$Harvester::Blade::Damage = 35.0;
 
 //-------------//
 // Beam Rifle: //
 //-------------//
 
 $Harvester::BeamRifle::Range = 64.0;
-$Harvester::BeamRifle::Damage = 70.0;
+$Harvester::BeamRifle::Damage = 45.0;
 $Harvester::BeamRifle::DamageFalloff = 0.9;
 
 //---------------//
