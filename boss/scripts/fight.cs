@@ -171,6 +171,33 @@ function clearHarvesterFightCamera()
 		// Camera controls nothing.
 		%camera.setControlObject("");
 	}
+	for(%i = 0; %i < HarvesterDeathSet.getCount(); %i++)
+	{
+		%client = HarvesterDeathSet.getObject(%i);
+		
+		if(!isObject(%client))
+		{
+			continue;
+		}
+		
+		%camera = %client.camera;
+
+		if(!isObject(%camera))
+		{
+			continue;
+		}
+
+		// Client controls player.
+		// if (!isObject(%client.player))
+		// {
+		// 	%client.instantRespawn();
+		// 	%client.player.position = _harvesterDeathZone.position;
+		// }
+		%client.setControlObject(%player);
+
+		// Camera controls nothing.
+		%camera.setControlObject("");
+	}
 }
 
 package HarvesterFight
