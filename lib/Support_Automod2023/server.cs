@@ -47,13 +47,13 @@ function AutomodBridge::buildRequest(%this)
 	%host			= "Host:" SPC %this.server @ "\r\n";
 	%ua				= "User-Agent: Torque/1.3\r\n";
 	%request = %requestLine @ %host @ %ua @ %length @ %type @ "\r\n" @ %body;
-	announce("Request: " @ %body);
+	// announce("Request: " @ %body);
 	return %request;
 }
 
 function AutomodBridge::onLine(%this, %line)
 {
-	announce("AMB: " @ %line);
+	// announce("AMB: " @ %line);
 	if (stripos(%line, "attribute") == 0)
 	{
 		processAnalysisResults(%line, %this.cache.blid);
