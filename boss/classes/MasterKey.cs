@@ -98,6 +98,22 @@ datablock ParticleEmitterData(MasterKeyTrailEmitter)
 	phiVariance = 360.0;
 };
 
+//------------//
+// Explosion: //
+//------------//
+
+datablock ExplosionData(MasterKeyExplosion : gunExplosion)
+{
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	lightStartRadius = 0.0;
+	lightEndRadius = 0.0;
+	lightStartColor = "0.0 0.0 0.0";
+	lightEndColor = "0.0 0.0 0.0";
+};
+
 //-------//
 // Conc: //
 //-------//
@@ -132,6 +148,8 @@ datablock ProjectileData(MasterKeyConcProjectile : gunProjectile)
 	//------------//
 	// Explosion: //
 	//------------//
+
+	explosion = MasterKeyExplosion;
 	
 	brickExplosionRadius = 0.0;
 	brickExplosionImpact = false;
@@ -191,6 +209,8 @@ datablock ProjectileData(MasterKeyProjectile : gunProjectile)
 	//------------//
 	// Explosion: //
 	//------------//
+
+	explosion = MasterKeyExplosion;
 	
 	brickExplosionRadius = 0.0;
 	brickExplosionImpact = false;
