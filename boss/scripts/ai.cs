@@ -50,54 +50,78 @@ function spawnHarvester()
 	}
 }
 
+function deleteHarvester()
+{
+	if(isObject(Harvester))
+	{
+		Harvester.harvesterTeleport(-1, _harvesterIntro);
+		Harvester.harvesterChat("The Harvester", "You all have sown the seeds of your own defeat. Begone!");
+		Harvester.schedule(0, delete);
+	}
+	
+	clearHarvesterFightCamera();
+	clearHarvesterFightMusic();
+}
+
 /// @param	this	ai player
 /// @param	level	number
-function AIPlayer::harvesterTeleport(%this, %level)
+function AIPlayer::harvesterTeleport(%this, %level, %precise)
 {
 	if(%this.getDamagePercent() < 1.0)
 	{
-		%searchAll = false;
-		%name = "_harvesterTeleportRing" @ %level;
+		%skipAll = false;
 		
-		if(%level $= "")
+		if(%precise !$= "")
 		{
-			// If the level argument was left blank, search all rings for the nearest teleport location.
-			%searchAll = true;
+			%skipAll = true;
+			%closest = %precise;
 		}
-
-		%lastDistance = inf;
-		
-		for(%i = 0; %i < 6; %i++)
+	
+		if(!%skipAll)
 		{
-			if(%searchAll)
-			{
-				// If searching all rings, clobber the name variable with each loop.
-				%name = "_harvesterTeleportRing" @ %i;
-			}
+			%searchAll = false;
+			%name = "_harvesterTeleportRing" @ %level;
 			
-			for(%j = 0; %j < BrickGroup_888888.NTObjectCount[%name]; %j++)
+			if(%level $= "")
 			{
-				%current = BrickGroup_888888.NTObject[%name, %j];
-				
-				if(!isObject(%this.target))
+				// If the level argument was left blank, search all rings for the nearest teleport location.
+				%searchAll = true;
+			}
+
+			%lastDistance = inf;
+			
+			for(%i = 0; %i < 6; %i++)
+			{
+				if(%searchAll)
 				{
-					%closest = %current;
+					// If searching all rings, clobber the name variable with each loop.
+					%name = "_harvesterTeleportRing" @ %i;
+				}
+				
+				for(%j = 0; %j < BrickGroup_888888.NTObjectCount[%name]; %j++)
+				{
+					%current = BrickGroup_888888.NTObject[%name, %j];
+					
+					if(!isObject(%this.target))
+					{
+						%closest = %current;
+						break;
+					}
+					
+					%currentDistance = vectorDist(%current.position, %this.target.position);
+					
+					if(%currentDistance < %lastDistance)
+					{
+						%closest = %current;
+						%lastDistance = %currentDistance;
+					}
+				}
+				
+				if(!%searchAll)
+				{
+					// If /not/ searching all rings, exit after only running once.
 					break;
 				}
-				
-				%currentDistance = vectorDist(%current.position, %this.target.position);
-				
-				if(%currentDistance < %lastDistance)
-				{
-					%closest = %current;
-					%lastDistance = %currentDistance;
-				}
-			}
-			
-			if(!%searchAll)
-			{
-				// If /not/ searching all rings, exit after only running once.
-				break;
 			}
 		}
 		
