@@ -123,8 +123,7 @@ function bossfightStateLoopCheck()
 
 	if (HarvesterFightSet.getCount() == 0 && HarvesterDeathSet.getCount() == 0)
 	{
-		//no winners, no losers, just delete remnants of harveser and exit
-
+		onBossfightComplete("");
 		return;
 	}
 

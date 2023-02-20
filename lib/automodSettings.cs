@@ -51,8 +51,8 @@ $autoModWarningMessage["Flirtation"] = "Excessively flirtatious messages can mak
 
 
 // Middleware configuration. Only change these if you are running your own middleware server.
-$autoModMiddlewareHostname = "pecon.us";
-$autoModMiddlewarePath = "/perspective/";
+// $autoModMiddlewareHostname = "pecon.us";
+// $autoModMiddlewarePath = "/perspective/";
 $autoModMiddlewarePort = 80;
 
 
