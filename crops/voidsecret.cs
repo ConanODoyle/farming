@@ -495,6 +495,7 @@ datablock ShapeBaseImageData(VoidKeyImage)
 	stateScript[3] = "onFire";
 	stateTransitionOnTriggerUp[3] = "Loop";
 	stateTimeoutValue[2] = 0.1;
+	stateAllowImageChange[2] = 0;
 };
 
 function VoidEncasedKeySeedlingItem::onAdd(%this, %item)
@@ -542,6 +543,31 @@ function VoidKeyItem::onPickUp(%this, %obj, %col, %amount)
 	return ItemData::onPickUp(%this, %obj, %col, %amount);
 }
 
+function VoidKeyImage::onFire(%this, %obj, %slot)
+{
+	%obj.playThread(0, shiftLeft);
+	%start = %obj.getEyeTransform();
+	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 5));
+
+	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType | $Typemasks::PlayerObjectType, %obj);
+	%hit = getWord(%ray, 0);
+	if (isObject(%hit))
+	{
+
+		%p = new Projectile() {
+			dataBlock = wrenchProjectile;
+			initialPosition = getWords(%ray, 1, 3);
+			initialVelocity = vectorScale(getWords(%ray, 4, 6), -1);
+		};
+		%p.explode();
+		serverPlay3D(wrenchHitSound, getWords(%ray, 1, 3));
+		if (%hit.getClassName() $= "fxDTSBrick")
+		{
+			%hit.onVKUsed(%obj);
+		}
+	}
+}
+
 
 
 
@@ -552,6 +578,7 @@ function VoidKeyItem::onPickUp(%this, %obj, %col, %amount)
 //ramp
 function enableSecretRamp()
 {
+	$secretRamp = 1;
 	_ramplight1.setLight("flNeutresunetoile");
 	_ramplight2.setLight("flNeutresunetoile");
 	_ramplight1.setColorFX(3);
@@ -562,6 +589,7 @@ function enableSecretRamp()
 
 function disableSecretRamp()
 {
+	$secretRamp = 0;
 	_ramplight1.setLight(0);
 	_ramplight2.setLight(0);
 	_ramplight1.setColorFX(0);
@@ -606,3 +634,45 @@ function teleportPortalPlayer(%pl)
 	%pl.setWhiteout(1);
 	%pl.setDamageFlash(1);
 }
+
+function fxDTSBrick::onVKUsed(%this, %pl)
+{
+	%cl = %pl.client;
+
+	$InputTarget_["Self"] = %this;
+	$InputTarget_["Player"] = %pl;
+	$InputTarget_["Client"] = %cl;
+	$InputTarget_["MiniGame"] = getMiniGameFromObject(%this);
+
+	%this.processInputEvent("onVKUsed", %cl);
+}
+registerInputEvent("fxDTSBrick", "onVKUsed", "Self fxDTSBrick" TAB "Player Player" TAB "Client GameConnection" TAB "MiniGame MiniGame");
+
+function Player::consumeVK(%pl)
+{
+	if ($secretRamp)
+	{
+		centerprint(%pl.client, "The keyhole rejects your key");
+		return;
+	}
+
+	for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
+	{
+		%tool = %pl.tool[%i];
+		if (%tool.getName() $= "VoidKeyItem")
+		{
+			%pl.farmingRemoveItem(%i);
+			%found = 1;
+			break;
+		}
+	}
+
+	if (!%found)
+	{
+		return;
+	}
+
+	%pl.setWhiteout(1);
+	enableSecretRamp();
+}
+registerOutputEvent("Player", "consumeVK", "");

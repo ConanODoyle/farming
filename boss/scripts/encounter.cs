@@ -197,7 +197,7 @@ function spawnOutsideArena(%cl)
 	%cl.instantRespawn();
 	%cl.player.position = _harvesterDeathZone.position;
 	%cl.player.setDamageFlash(1);
-	commandToClient(%cl, 'MessageBoxOK', "Harvested", "- You have been harvested - \n\nIf the boss is defeated, you will get rewards");
+	commandToClient(%cl, 'MessageBoxOK', "Harvested", "<font:Palatino Linotype:30>- You have been harvested -\n<font:Palatino Linotype:18>If the boss is defeated, you will get rewards");
 }
 
 function onBossFightWin()
