@@ -5,6 +5,7 @@ echo("  --Loading plant data");
 exec("./plants/plantDatablocks.cs");
 exec("./seeds/seedDatablocks.cs");
 exec("./crops/cropDatablocks.cs");
+exec("./cans/canDatablocks.cs");
 
 exec("./plants/plantDataFunctions.cs");
 
