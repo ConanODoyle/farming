@@ -541,3 +541,68 @@ function VoidKeyItem::onPickUp(%this, %obj, %col, %amount)
 	}
 	return ItemData::onPickUp(%this, %obj, %col, %amount);
 }
+
+
+
+
+
+
+
+
+//ramp
+function enableSecretRamp()
+{
+	_ramplight1.setLight("flNeutresunetoile");
+	_ramplight2.setLight("flNeutresunetoile");
+	_ramplight1.setColorFX(3);
+	_ramplight2.setColorFX(3);
+	_rampSecret.setRaycasting(1);
+	_rampSecret.setColliding(1);
+}
+
+function disableSecretRamp()
+{
+	_ramplight1.setLight(0);
+	_ramplight2.setLight(0);
+	_ramplight1.setColorFX(0);
+	_ramplight2.setColorFX(0);
+	_rampSecret.setRaycasting(0);
+	_rampSecret.setColliding(0);
+}
+
+function Player::enterP(%pl)
+{
+	%cl = %pl.client;
+	if (!isObject(%cl))
+	{
+		return;
+	}
+
+	if (%cl.allowEnterPortalTime < $Sim::Time)
+	{
+		%str = "<font:Palatino Linotype:30>- WARNING -\n\n<font:Palatino Linotype:18>You cannot return once you enter.\n" @ 
+			"Store any important items you have.\n\nEnter again to proceed.";
+		commandToClient(%cl, 'MessageBoxOK', "Warning", %str);
+		%cl.allowEnterPortalTime = $Sim::Time + 60;
+	}
+	else
+	{
+		%cl.allowEnterPortalTime = 0;
+		teleportPortalPlayer(%pl);
+	}
+}
+registerOutputEvent("Player", "enterP");
+
+function teleportPortalPlayer(%pl)
+{
+	for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
+	{
+		if (%pl.tool[%i].image.showBricks)
+		{
+			%pl.farmingRemoveItem(%i);
+		}
+	}
+	%pl.setTransform(_hellportal.getTransform());
+	%pl.setWhiteout(1);
+	%pl.setDamageFlash(1);
+}

@@ -156,7 +156,17 @@ function onBossfightComplete(%status)
 	switch$ (%status)
 	{
 		case "Win":
-			//teleport everyone to the win zone
+			for (%i = 0; %i < HarvesterFightSet.getCount(); %i++)
+			{
+				%cl = HarvesterFightSet.getObject(%i).client;
+				%cl.checkpointBrick = "";
+			}
+
+			for (%i = 0; %i < HarvesterDeathSet.getCount(); %i++)
+			{
+				%cl = HarvesterDeathSet.getObject(%i);
+				%cl.checkpointBrick = "";
+			}
 		case "Lose":
 			for (%i = 0; %i < HarvesterDeathSet.getCount(); %i++)
 			{
@@ -222,6 +232,19 @@ package HarvesterEncounter
 		{
 			onBossfightComplete("Win");
 		}
+	}
+
+	function serverCmdHome(%cl)
+	{
+		%pl = %cl.player;
+		for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
+		{
+			if (%pl.tool[%i].getName() $= "MasterKeyItem") //TODO: add healing item as well
+			{
+				%pl.farmingRemoveItem(%i);
+			}
+		}
+		parent::serverCmdHome(%cl);
 	}
 };
 activatePackage(HarvesterEncounter);
