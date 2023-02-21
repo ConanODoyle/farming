@@ -281,7 +281,7 @@ function servercmdMessageSent(%client,%msg)
 	// Process word replacers
 	for(%i = 0; %i < $wordReplacerCount; %i++)
 	{
-		if (containsWord(%newMsg, $filterWord[%i]) >= 0)
+		if (containsWord(%newMsg, $filterWord[%i]))
 		{
 			applyManualDemerit(%client.BL_ID, $filterWordType[%i]);
 		}
