@@ -90,7 +90,7 @@ function SeedDatablocks(%name,%singleColor,%singleShape,%packColor,%tree,%stackM
 }
 
 //tree
-SeedDatablocks("Apple","0.09 0.04 0 1","seedsShort","0.24 0.12 0.487 1",true,1);
+SeedDatablocks("Apple","0.09 0.04 0 1","seedsShort","1 0 0 1",true,1);
 SeedDatablocks("Date","0.392 0.192 0 1","seeds","0.412 0.192 0 1",true,1);
 SeedDatablocks("Mango","0.09 0.04 0 1","seedsShort","1 0.83 0 1",true,1);
 SeedDatablocks("Peach","0.412 0.192 0 1","seedsLarge","1 0.603 0.419 1",true,1);
