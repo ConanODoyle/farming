@@ -281,7 +281,10 @@ function servercmdMessageSent(%client,%msg)
 	// Process word replacers
 	for(%i = 0; %i < $wordReplacerCount; %i++)
 	{
-		%newMsg = strireplace(%newMsg, $filterOldwords[%i], $filterNewWords[%i]);
+		if (containsWord(%newMsg, $filterWord[%i]) >= 0)
+		{
+			applyManualDemerit(%client.BL_ID, $filterWordType[%i]);
+		}
 	}
 
 
@@ -358,20 +361,61 @@ function talk(%message)
 	servercmdMessageSent(AIConsole, %message);
 }
 
-function addWordReplacer(%oldword,%newword)
+function addWordManualDemerits(%word, %type)
 {
-	$filterOldWords[$wordReplacerCount] = %oldWord;
-	$filterNewWords[$wordReplacerCount] = %newWord;
+	$filterWord[$wordReplacerCount] = %word;
+	$filterWordType[$wordReplacerCount] = %type;
 	$wordReplacerCount++;
 }
 
+function rot13(%string)
+{
+	%newString = "";
+	%alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+	%stringLength = strlen(%string);
+	for(%i = 0; %i < %stringLength; %i++)
+	{
+		%character = getSubStr(%string, %i, 1);
+
+		%characterPosition = strPos(%alphabet, strLwr(%character));
+
+		if(%characterPosition == -1)
+		{
+			%newString = %newString @ %character;
+			continue;
+		}
+
+		%upperCase = (strCmp(strUpr(%character), %character) == 0);
+		%characterPosition += 13;
+
+		if(%characterPosition >= 26)
+			%characterPosition -= 26;
+
+		%character = getSubStr(%alphabet, %characterPosition, 1);
+
+		if(%upperCase)
+			%character = strUpr(%character);
+
+		%newString = %newString @ %character;
+	}
+
+	return %newString;
+}
+
 $wordReplacerCount = 0;
-addWordReplacer("mlp", "cake");
-addWordReplacer("pony", "cake");
-addWordReplacer("furr", "cake");
-addWordReplacer("rekt", "I am stupid.");
-addWordReplacer("nigg", "cake");
-addWordReplacer("negro", "cake");
-addWordReplacer("fagg", "cake");
-addWordReplacer("trann", "cake");
-addWordReplacer("autis", "cake");
+addWordManualDemerits(rot13("avttre"), "identity_attack");
+addWordManualDemerits(rot13("snttbg"), "identity_attack");
+addWordManualDemerits(rot13("genaal"), "identity_attack");
+addWordManualDemerits(rot13("xvxr"), "identity_attack");
+addWordManualDemerits(rot13("jvttre"), "identity_attack");
+addWordManualDemerits(rot13("tbbx"), "identity_attack");
+addWordManualDemerits(rot13("tbl"), "identity_attack");
+
+
+
+function applyManualDemerit(%blid, %type)
+{
+	%line = "attribute" TAB %type TAB 0.9;
+	processAnalysisResults(%line, %blid);
+}

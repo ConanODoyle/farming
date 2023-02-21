@@ -27,13 +27,13 @@ $autoModMinimumProbability = 0.6;
 
 // Mute punishment values.
 $autoModStartingMuteTime = 120; // Initial mute time in seconds. The first mute will always be this length. (Players get a warning before being muted for anything)
-$autoModMuteTimeExponent = 0.2; // Initial mute time is increased exponentially on each additional punishment. muteTime = startingMuteTime ^ (1 + punishments * muteTimeExponent)
+$autoModMuteTimeExponent = 0.4; // Initial mute time is increased exponentially on each additional punishment. muteTime = startingMuteTime ^ (1 + punishments * muteTimeExponent)
 
 
 // Sensitivity values. Lower value = more leniency for that category. A value of zero will completely disable that category.
 $autoModSensitivity["Toxicity"] = 1.5;
 $autoModSensitivity["severeToxicity"] = 4;
-$autoModSensitivity["IdentityAttack"] = 11;
+$autoModSensitivity["IdentityAttack"] = 14;
 $autoModSensitivity["Insult"] = 4;
 $autoModSensitivity["Profanity"] = 0;
 $autoModSensitivity["Threat"] = 2;
@@ -41,7 +41,7 @@ $autoModSensitivity["SexuallyExplicit"] = 0;
 $autoModSensitivity["Flirtation"] = 0;
 
 $autoModSensitivityLimit = 10; // Number of accumulated demerits required before a punishment will be assessed. I don't recommend messing with this since it'll throw off the balancing of everything else.
-
+$automodDemeritReductionRate = 0.2;
 
 // Warning messages. Copy one of these and use one of the categories above to specify a message for a certain category.
 $autoModWarningMessage["DEFAULT"] = "Be nice. Continued poor chat etiquette may result in a penalty being assessed.";
