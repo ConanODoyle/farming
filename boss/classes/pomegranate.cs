@@ -12,6 +12,8 @@ datablock ItemData(PomegranateHealingItem)
 	friction = 0.6;
 	
 	image = PomegranateHealingImage;
+
+	canDrop = true;
 	
 	uiName = "Pomegranate";
 	iconName = $Harvester::Root @ "/resources/ui/icons/pomegranate";

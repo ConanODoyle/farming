@@ -347,6 +347,7 @@ datablock ShapeBaseImageData(MasterKeyImage)
 	//---------------//
 
 	className = "WeaponImage";
+	toolTip = "Shotgun - Right click to melee";
 	
 	//-----------//
 	// Hitboxes: //

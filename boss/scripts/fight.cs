@@ -200,6 +200,19 @@ function clearHarvesterFightCamera()
 	}
 }
 
+function AIPlayer::updateHPShapename(%pl)
+{
+	%percent = %pl.getDamagePercent();
+	%percent = 1 - %percent;
+
+	%r = getMin((1 - %percent) * 2, 1);//0 -> 1 for 1 to 0.5, then 1 -> 1 for 0.5 to 0
+	%g = (1 - getMax(0, 0.5 - %percent) * 2); //1 -> 1 for 1 to 0.5, then 1 -> 0 for 0.5 to 0
+
+	%pl.setShapeNameColor(%r SPC %g SPC 0);
+	%pl.setShapeName(mFloatLength(%percent * 100, 1) @ "% HP", 8564862);
+	%pl.setShapeNameDistance(50);
+}
+
 package HarvesterFight
 {
 	/// @param	client	client
@@ -213,6 +226,7 @@ package HarvesterFight
 
 			if(%dataBlock == HarvesterArmor.getID() || %dataBlock == AncientWarriorArmor.getID())
 			{
+				%client.schedule(1, updateHPShapename);
 				if(%client.getID() == %victim.getID())
 				{
 					return false;
@@ -232,6 +246,7 @@ package HarvesterFight
 		
 		if(%dataBlock == HarvesterArmor.getID() || %dataBlock == AncientWarriorArmor.getID())
 		{
+			%victim.schedule(1, updateHPShapename);
 			%player = %client.player;
 			
 			if((%client.getType() & $TypeMasks::PlayerObjectType) || (%client.getType() & $TypeMasks::CorpseObjectType))
