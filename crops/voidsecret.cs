@@ -123,6 +123,20 @@ package Void
 		%cl.schedule(50, centerprint, "<just:right><color:FF0000>" @ getVoidNoisedWord(%string, mSin($Sim::Time / 2)), 1);
 		%cl.schedule(75, centerprint, "<just:right><color:FF0000>" @ getVoidNoisedWord(%string, mSin($Sim::Time / 2)), 1);
 	}
+
+	function serverCmdSuicide(%cl)
+	{
+		if (%cl.cannotSuicide)
+		{
+			return;
+		}
+		if (vectorDist(%cl.player.position, _harvesterAltar.position) < 20)
+		{
+			voidSacrifice(%cl, _harvesterAltar);
+			return;
+		}
+		parent::serverCmdSuicide(%cl);
+	}
 };
 activatePackage(Void);
 
@@ -676,3 +690,111 @@ function Player::consumeVK(%pl)
 	enableSecretRamp();
 }
 registerOutputEvent("Player", "consumeVK", "");
+
+function voidSacrifice(%cl, %brick)
+{
+	%pl = %cl.player;
+	%cl.setControlObject(%cl.camera);
+	%cl.dummyCamera.scopeToClient(%cl);
+	%cl.camera.setControlObject(%cl.dummyCamera);
+
+	%pl.position = vectorAdd(%pl.position, "0 0 50");
+	%b = new AIPlayer(){dataBlock = %pl.dataBlock;};
+	%cl.player = %b;
+	%cl.applyBodyParts();
+	%cl.applyBodyColors();
+	%cl.player = %pl;
+	for (%i = 0; %i < 4; %i++)
+	{
+		%b.mountImage(%pl.getMountedImage(%i), %i);
+	}
+
+	%transform = "-4095 -241.5 1336 0.213 0.213 -0.953 1.617";
+	%cl.camera.setTransform(%transform);
+	%cl.camera.setDamageFlash(1);
+	%b.setTransform(%brick.getTransform());
+	serverPlay3D(DeathCrySound, %b.position);
+	%b.playThread(0, death1);
+	%b.playThread(1, death1);
+	%b.playThread(2, death1);
+	%b.playThread(3, death1);
+	%b.schedule(4000, spawnExplosion, deathProjectile, 1);
+	%b.schedule(4050, delete);
+	%cl.cannotSuicide = 1;
+
+	schedule(6000, %cl, pastPortalTeleport, %cl);
+}
+
+function pastPortalTeleport(%cl)
+{
+	%pl = %cl.player;
+	%pl.playThread(0, root);
+	%pl.playThread(1, root);
+	%pl.playThread(2, root);
+	%pl.playThread(3, root);
+	%cl.camera.setControlObject(0);
+	%cl.setControlObject(%pl);
+	%pl.setWhiteout(1);
+	%pl.setTransform(_past_teleport.getTransform());
+
+	for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
+	{
+		if (%pl.tool[%i].getName() $= "MasterKeyItem")
+		{
+			%pl.farmingRemoveItem(%i);
+		}
+
+		if (%pl.tool[%i] == 0)
+		{
+			%validSlot = %i;
+		}
+	}
+
+	if (%validSlot !$= "")
+	{
+		%pl.grantBRs();
+	}
+	else
+	{
+		%cl.claimBossReward = 1;
+		commandToClient(%cl, 'MessageBoxOK', "No inventory slots!", "Your inventory is full and cannot hold the boss fight reward. Please drop an item and do /claimBossReward to claim your reward.");
+		messageClient(%cl, '', "Your inventory is full and cannot hold the boss fight reward. Please drop an item and do /claimBossReward to claim your reward.");
+	}
+
+	%cl.cannotSuicide = 0;
+}
+
+function serverCmdClaimBossReward(%cl)
+{
+	if (!%cl.claimBossReward)
+	{
+		commandToClient(%cl, 'MessageBoxOK', "Invalid", "You have no rewards to claim!");
+		return;
+	}
+	else if (!isObject(%pl = %cl.player))
+	{
+		commandToClient(%cl, 'MessageBoxOK', "Player Missing", "You need to be spawned to claim your reward!");
+		return;
+	}
+
+	for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
+	{
+		if (%pl.tool[%i].getName() $= "MasterKeyItem")
+		{
+			%pl.farmingRemoveItem(%i);
+		}
+
+		if (%pl.tool[%i] == 0)
+		{
+			%validSlot = %i;
+		}
+	}
+
+	if (%validSlot $= "")
+	{
+		commandToClient(%cl, 'MessageBoxOK', "Slot Missing", "You need to have an inventory slot open to claim your reward!");
+		return;
+	}
+	%cl.claimBossReward = 0;
+	%pl.grantBRs();
+}

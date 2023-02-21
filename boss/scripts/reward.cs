@@ -20,6 +20,7 @@ function Player::grantBRs(%pl)
 	//all rewards already obtained
 	if (%safety >= 5)
 	{
+		%pl.farmingAddStackableItem("AncientFlowerSeed0Item", 1);
 		return;
 	}
 
