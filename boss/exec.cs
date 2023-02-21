@@ -29,6 +29,7 @@ else
 	exec($Harvester::Root @ "/classes/HarvesterSpiritSummon.cs");
 	
 	exec($Harvester::Root @ "/classes/MasterKey.cs");
+	exec($Harvester::Root @ "/classes/pomegranate.cs");
 	exec($Harvester::Root @ "/classes/StasisMachine.cs");
 	exec($Harvester::Root @ "/classes/VoidKey.cs");
 	

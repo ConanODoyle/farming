@@ -23,6 +23,7 @@ exec("./lib/Support_DialogueSystem.cs");
 
 exec("./lib/Support_DataID/server.cs");
 exec("./lib/Support_ShapeLinesV2/server.cs");
+exec("./lib/Emote_Heal/server.cs");
 exec("./lib/Bignum/server.cs");
 // exec("./lib/Support_GasMod/server.cs");
 // exec("./lib/swolset.cs");
