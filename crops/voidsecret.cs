@@ -798,3 +798,5 @@ function serverCmdClaimBossReward(%cl)
 	%cl.claimBossReward = 0;
 	%pl.grantBRs();
 }
+
+RegisterPersistenceVar("claimBossReward", false, "");
