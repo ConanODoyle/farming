@@ -77,7 +77,7 @@ datablock ItemData(L4SilenceItem)
 	// Farming: //
 	//----------//
 	
-	durability = 1000;
+	durability = 30;
 	
 	canPickupMultiple = 1;
 
