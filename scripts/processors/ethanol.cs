@@ -243,7 +243,7 @@ datablock ShapeBaseImageData(EthanolRefineryBrickImage : BrickPlacerImage)
 	doColorshift = true;
 	colorShiftColor = EthanolRefineryItem.colorShiftColor;
 
-	toolTip = "Places a Ethanol Refinery";
+	toolTip = "Places an Ethanol Refinery";
 	loopTip = "When powered, refines corn into Ethanol";
 	placeBrick = "brickEthanolRefineryData";
 };

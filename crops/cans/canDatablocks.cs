@@ -17,10 +17,7 @@ function CanImage::onFire(%this, %obj, %slot)
 		%obj.farmingRemoveItem(%obj.currTool);
 	}
 
-	%cropType = %this.cropType;
-	%stackTotal = $Stackable_[%cropType @ "_StackedItemTotal"];
-	%maxStackSize = getWord($Stackable_[%cropType @ "_StackedItem" @ %stackTotal - 1], 1);
-	%obj.farmingAddStackableItem(%this.cropType, %maxStackSize);
+	%obj.farmingAddStackableItem(%this.cropType, getMaxStack(%this.cropType));
 }
 
 function CanImage::onLoop(%this, %obj, %slot)
@@ -74,12 +71,14 @@ function DataString_CanImage(%cropType,%shape,%color,%index)
 		@"stateName[0] = \"Activate\";"
 		@"stateTransitionOnTimeout[0] = \"Loop\";"
 		@"stateTimeoutValue[0] = 0.1;"
+
 		@"stateName[1] = \"Loop\";"
 		@"stateScript[1] = \"onLoop\";"
 		@"stateTransitionOnTriggerDown[1] = \"Fire\";"
 		@"stateTimeoutValue[1] = 0.1;"
 		@"stateTransitionOnTimeout[1] = \"Loop\";"
 		@"stateWaitForTimeout[1] = false;"
+
 		@"stateName[2] = \"Fire\";"
 		@"stateScript[2] = \"onFire\";"
 		@"stateTransitionOnTriggerUp[2] = \"Loop\";"
@@ -103,7 +102,7 @@ function CanDatablocks(%cropType,%color)
 		%imageName = %safeName @ %i @ "Image";
 		%shape = expandFileName("./can" @ (%i + 1) @ ".dts");
 
-		$Stackable_[%safeName @ "_StackedItem" @ %i] = %itemName SPC getMin(5 * (%i + 1) - 1, 10); // 4, 9, 10
+		$Stackable_[%safeName @ "_StackedItem" @ %i] = %itemName SPC getMax(%i * 5, 1); // 1, 5, 10
 		eval(DataString_CanItem(%cropType,%shape,%color,%i));
 		eval(DataString_CanImage(%cropType,%shape,%color,%i));
 	}

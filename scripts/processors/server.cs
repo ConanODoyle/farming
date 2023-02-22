@@ -119,3 +119,4 @@ exec("./power.cs");
 exec("./lights.cs");
 exec("./waterpump.cs");
 exec("./ethanol.cs");
+exec("./cannery.cs");

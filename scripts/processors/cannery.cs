@@ -6,14 +6,15 @@ datablock fxDTSBrickData(brickCanneryData : brick1x1Data)
 {
 	category = "";
 	subCategory = "";
-	uiName = "Planter Box";
+	uiName = "Cannery";
 
-	brickFile = "./scripts/processors/resources/cannery/cannery.blb";
+	brickFile = "./resources/cannery/cannery.blb";
 
 	// iconName = "Add-Ons/Server_Farming/icons/4x_planter";
 
 	cost = 0;
 	isProcessor = 1;
+	processorFunction = "addCanneryIngredients";
 	placerItem = "CanneryItem";
 	callOnActivate = 1;
 	isPoweredProcessor = 1;
@@ -26,7 +27,7 @@ datablock fxDTSBrickData(brickCanneryData : brick1x1Data)
 	isRecipeProcessor = 1;
 
 	isStorageBrick = 1;
-	storageSlotCount = 1;
+	storageSlotCount = 2;
 	itemStackCount = 0;
 	storageMultiplier = 6;
 
@@ -120,10 +121,9 @@ package Cannery
 			if (%power < 50) %color = "\c0";
 			else if (%power < 100) %color = "\c3";
 			else %color = "\c2";
-			
+
 			%brick.centerprintMenu.menuOptionCount = 5; //add on/off toggle
 			%brick.centerprintMenu.menuOption[0] = %brick.centerprintMenu.menuOption[0] SPC "(Input)";
-			%brick.centerprintMenu.menuFunction[0] = "reopenCenterprintMenu";
 			%brick.centerprintMenu.menuOption[1] = %brick.centerprintMenu.menuOption[1] SPC "(Output)";
 			%brick.centerprintMenu.menuOption[2] = "Power: " @ (%brick.isPoweredOn() ? "\c2On" : "\c0Off");
 			%brick.centerprintMenu.menuFunction[2] = "togglePower";
@@ -167,7 +167,7 @@ function addCanneryIngredients(%brick, %cl, %slot)
 	%item = %pl.tool[%slot];
 	if (%item.isStackable && %item.stackType !$= "")
 	{
-		if (getCropClass(%item.stackType) !$= "")
+		if (getCropClass(%item.stackType) $= "")
 		{
 			serverCmdUnuseTool(%cl);
 			%cl.centerprint("You cannot can non-crop items!", 1);
@@ -257,7 +257,7 @@ function createCannedCrops(%brick)
 	%newInput = getStorageValue(%cropType, %inputCount - getMaxStack(%cropType));
 	%newOutput = getStorageValue("Canned" @ %cropType, %outputCount + 1);
 	setDataIDArrayValue(%dataID, 1, %newInput);
-	// setDataIDArrayValue(%dataID, 2, %newOutput);
+	setDataIDArrayValue(%dataID, 2, %newOutput);
 	%brick.updateStorageMenu(%dataID);
 }
 
