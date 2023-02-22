@@ -137,6 +137,15 @@ package Void
 		}
 		parent::serverCmdSuicide(%cl);
 	}
+
+	function AIPlayer::canBuy(%bot, %item)
+	{
+		if (%item.dataBlock.isBossReward)
+		{
+			return 0;
+		}
+		return parent::canBuy(%bot, %item);
+	}
 };
 activatePackage(Void);
 

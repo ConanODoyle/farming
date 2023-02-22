@@ -79,7 +79,8 @@ datablock ItemData(L4SilenceItem)
 	
 	durability = 30;
 	
-	canPickupMultiple = 1;
+	canPickupMultiple = 0;
+	isBossReward = 1;
 
 	hasDataID = 1;
 	isDataIDTool = 1;

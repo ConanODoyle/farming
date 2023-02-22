@@ -18,6 +18,7 @@ datablock ItemData(PomegranateHealingItem)
 	uiName = "Pomegranate";
 	iconName = $Harvester::Root @ "/resources/ui/icons/pomegranate";
 
+	isBossReward = 1;
 	category = "Weapon";
 	className = "Weapon";
 };

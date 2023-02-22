@@ -42,6 +42,7 @@ datablock ItemData(L3LastWordItem)
 	//----------//
 	
 	durability = 10000;
+	isBossReward = 1;
 
 	hasDataID = 1;
 	isDataIDTool = 1;
