@@ -18,6 +18,25 @@ $StorageMax_Watermelon = 1 * 2;
 $StorageMax_Date = 9 * 3;
 $StorageMax_Peach = 16 * 2;
 
+$StorageMax_CannedTomato = 10 * 1;
+$StorageMax_CannedPotato = 10 * 1;
+$StorageMax_CannedCarrot = 10 * 1;
+$StorageMax_CannedCorn = 10 * 1;
+$StorageMax_CannedWheat = 10 * 1;
+$StorageMax_CannedCabbage = 10 * 1;
+$StorageMax_CannedOnion = 10 * 1;
+$StorageMax_CannedBlueberry = 10 * 1;
+$StorageMax_CannedTurnip = 10 * 1;
+$StorageMax_CannedPortobello = 10 * 1;
+$StorageMax_CannedApple = 10 * 1;
+$StorageMax_CannedMango = 10 * 1;
+
+$StorageMax_CannedChili = 10 * 1;
+$StorageMax_CannedCactus = 10 * 1;
+$StorageMax_CannedWatermelon = 10 * 1;
+$StorageMax_CannedDate = 10 * 1;
+$StorageMax_CannedPeach = 10 * 1;
+
 $StorageMax_Weed = 4 * 30;
 
 $StorageMax_TomatoSeed = 12 * 2;
