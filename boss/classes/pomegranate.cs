@@ -31,6 +31,8 @@ datablock ShapeBaseImageData(PomegranateHealingImage)
 	doColorShift = PomegranateHealingItem.doColorShift;
 	colorShiftColor = PomegranateHealingItem.colorShiftColor;
 
+	offset = "-0.07 0.05 0";
+	rotation = matrixToEuler("0 11 0");
 	mountPoint = 0;
 	armReady = true;
 

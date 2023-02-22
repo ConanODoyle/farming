@@ -637,6 +637,7 @@ registerOutputEvent("Player", "enterP");
 
 function teleportPortalPlayer(%pl)
 {
+	%pl.dismount();
 	for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
 	{
 		if (%pl.tool[%i].image.showBricks)

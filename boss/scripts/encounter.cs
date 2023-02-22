@@ -64,6 +64,7 @@ function onAntechamberTimerFinish()
 	// HarvesterFightSet.countdown = 60;
 	$lastLoopCheckStatus = "";
 	bossfightStateLoopCheck();
+	HarvesterFightSet.startCount = HarvesterFightSet.getCount();
 	harvesterIntroCutscene(0);
 }
 
