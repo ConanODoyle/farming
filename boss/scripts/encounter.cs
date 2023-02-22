@@ -168,6 +168,7 @@ function onBossfightComplete(%status)
 				%cl = HarvesterDeathSet.getObject(%i);
 				%cl.checkpointBrick = "";
 			}
+			disableSecretRamp();
 		case "Lose":
 			for (%i = 0; %i < HarvesterDeathSet.getCount(); %i++)
 			{
