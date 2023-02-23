@@ -28,7 +28,7 @@ function fixShopLotColor(%brick)
 	%brick.setColorFX(0);
 }
 
-function fxDTSBrick::updateShopSet(%this, %removed)
+function fxDTSBrick::updateShopSet(%this)
 {
 	if (!isObject($ShopSet))
 	{
@@ -41,18 +41,7 @@ function fxDTSBrick::updateShopSet(%this, %removed)
 		return;
 	}
 
-	if (%removed)
-	{
-		if (!$ShopSet.isMember(%this))
-		{
-			error("ERROR: fxDTSBrick::updateShopSet - brick does not exist in shop set!");
-			talk("ERROR: fxDTSBrick::updateShopSet - brick does not exist in shop set!");
-			return;
-		}
-
-		$ShopSet.remove(%this);
-	}
-	else
+	if (!$ShopSet.isMember(%this))
 	{
 		$ShopSet.add(%this);
 	}
@@ -61,6 +50,10 @@ function fxDTSBrick::updateShopSet(%this, %removed)
 	if (%bg.getName() $= "BrickGroup_888888")
 	{
 		fixShopLotColor(%this);
+	}
+	else
+	{
+		%this.getGroup().shopLot = %this;
 	}
 }
 
@@ -80,12 +73,7 @@ package shopLotBuild
 	{
 		if (%this.isPlanted && %this.getDatablock().isShopLot)
 		{
-			if (%this.getGroup() != BrickGroup_888888.getid())
-			{
-				%this.getGroup().shopLot = %this;
-			}
-
-			%this.schedule(100, updateShopSet, 0);
+			%this.schedule(10, updateShopSet);
 		}
 
 		return parent::onAdd(%this);
@@ -99,8 +87,6 @@ package shopLotBuild
 			{
 				%this.getGroup().shopLot = "";
 			}
-
-			%this.updateShopSet(%this, 1);
 		}
 		return parent::onRemove(%this);
 	}

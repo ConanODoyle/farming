@@ -419,5 +419,5 @@ addWordManualDemerits(rot13("avt"), "identity_attack");
 function applyManualDemerit(%blid, %type)
 {
 	%line = "attribute" TAB %type TAB 0.9;
-	processAnalysisResults(%line, %blid);
+	processAnalysisResults(%line, %blid, 1); //just add demerit value, dont instantly punish - can result in double punish
 }

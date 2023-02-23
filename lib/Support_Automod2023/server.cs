@@ -59,7 +59,7 @@ function AutomodBridge::onLine(%this, %line)
 	}
 }
 
-function processAnalysisResults(%result, %blid)
+function processAnalysisResults(%result, %blid, %skipPunishmentCheck)
 {
 	%scorecard = 0;
 	if(!isObject(%scorecard = nameToID("playerDemerits_" @ %blid)))
@@ -146,6 +146,8 @@ function processAnalysisResults(%result, %blid)
 	else if(%scorecard.demerits["insult"] > 0)
 		%scorecard.demerits["insult"] = getMax(%scorecard.demerits["insult"] - $automodDemeritReductionRate, 0);
 
+	if (%skipPunishmentCheck)
+		return;
 
 	if(%scorecard.demerits["toxicity"] >= $autoModSensitivityLimit)
 		issuePunishment(%scorecard, "toxicity");
