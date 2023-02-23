@@ -411,6 +411,8 @@ addWordManualDemerits(rot13("xvxr"), "identity_attack");
 addWordManualDemerits(rot13("jvttre"), "identity_attack");
 addWordManualDemerits(rot13("tbbx"), "identity_attack");
 addWordManualDemerits(rot13("tbl"), "identity_attack");
+addWordManualDemerits(rot13("snt"), "identity_attack");
+addWordManualDemerits(rot13("avt"), "identity_attack");
 
 
 
