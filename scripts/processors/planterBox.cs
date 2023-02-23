@@ -55,23 +55,3 @@ datablock ShapeBaseImageData(PlanterBoxBrickImage : BrickPlacerImage)
 	loopTip = "Allows a plant to ignore plants on dirt<br>Min planting radius -1";
 	placeBrick = "brickPlanterBoxData";
 };
-
-function PlanterBoxBrickImage::onMount(%this, %obj, %slot)
-{
-	brickPlacerItem_onMount(%this, %obj, %slot);
-}
-
-function PlanterBoxBrickImage::onUnmount(%this, %obj, %slot)
-{
-	brickPlacerItem_onUnmount(%this, %obj, %slot);
-}
-
-function PlanterBoxBrickImage::onLoop(%this, %obj, %slot)
-{
-	brickPlacerItemLoop(%this, %obj, %slot);
-}
-
-function PlanterBoxBrickImage::onFire(%this, %obj, %slot)
-{
-	brickPlacerItemFire(%this, %obj, %slot);
-}

@@ -138,8 +138,8 @@ package PowerSystems
 				%color = "\c2";
 			%brick.centerprintMenu.menuOption[3] = %color @ "Battery: " @ %brick.totalBatteryPower + 0 @ " watt-ticks"; 
 			%brick.centerprintMenu.menuOption[4] = "\c5v Controls v";
-			%brick.centerprintMenu.menuOption[5] = "Input: " @ (%brick.isInputOn() ? "\c2On" : "\c0Off");
-			%brick.centerprintMenu.menuOption[6] = "Output: " @ (%brick.isOutputOn() ? "\c2On" : "\c0Off");
+			%brick.centerprintMenu.menuOption[5] = "Charge: " @ (%brick.isInputOn() ? "\c2On" : "\c0Off");
+			%brick.centerprintMenu.menuOption[6] = "Discharge: " @ (%brick.isOutputOn() ? "\c2On" : "\c0Off");
 			%brick.centerprintMenu.menuOption[7] = "Battery Mode: " @ (%brick.getBatteryMode());
 
 			%brick.centerprintMenu.menuFunction[0] = "reopenCenterprintMenu";
@@ -653,7 +653,7 @@ function fxDTSBrick::getBatteryMode(%brick)
 
 function fxDTSBrick::canAcceptFuel(%brick, %stackType)
 {
-	return strPos(strLwr(%brick.getDatablock().fuelType), strLwr(%stackType)) >= 0;
+	return striPos(%brick.getDatablock().fuelType, %stackType) >= 0;
 }
 
 function connectToControlSystem(%brick, %dataID)

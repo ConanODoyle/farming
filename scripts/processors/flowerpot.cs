@@ -56,23 +56,3 @@ datablock ShapeBaseImageData(FlowerpotBrickImage : BrickPlacerImage)
 	loopTip = "Allows a plant to ignore radius limitations";
 	placeBrick = "brickFlowerpotData";
 };
-
-function FlowerpotBrickImage::onMount(%this, %obj, %slot)
-{
-	brickPlacerItem_onMount(%this, %obj, %slot);
-}
-
-function FlowerpotBrickImage::onUnmount(%this, %obj, %slot)
-{
-	brickPlacerItem_onUnmount(%this, %obj, %slot);
-}
-
-function FlowerpotBrickImage::onLoop(%this, %obj, %slot)
-{
-	brickPlacerItemLoop(%this, %obj, %slot);
-}
-
-function FlowerpotBrickImage::onFire(%this, %obj, %slot)
-{
-	brickPlacerItemFire(%this, %obj, %slot);
-}

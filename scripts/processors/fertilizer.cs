@@ -607,26 +607,6 @@ datablock ShapeBaseImageData(CompostBinBrickImage : BrickPlacerImage)
 	placeBrick = "brickCompostBinData";
 };
 
-function CompostBinBrickImage::onMount(%this, %obj, %slot)
-{
-	brickPlacerItem_onMount(%this, %obj, %slot);
-}
-
-function CompostBinBrickImage::onUnmount(%this, %obj, %slot)
-{
-	brickPlacerItem_onUnmount(%this, %obj, %slot);
-}
-
-function CompostBinBrickImage::onLoop(%this, %obj, %slot)
-{
-	brickPlacerItemLoop(%this, %obj, %slot);
-}
-
-function CompostBinBrickImage::onFire(%this, %obj, %slot)
-{
-	brickPlacerItemFire(%this, %obj, %slot);
-}
-
 
 
 datablock ItemData(LargeCompostBinItem : brickPlacerItem)
@@ -656,26 +636,6 @@ datablock ShapeBaseImageData(LargeCompostBinBrickImage : BrickPlacerImage)
 	loopTip = "Converts produce into fertilizer";
 	placeBrick = "brickLargeCompostBinData";
 };
-
-function LargeCompostBinBrickImage::onMount(%this, %obj, %slot)
-{
-	brickPlacerItem_onMount(%this, %obj, %slot);
-}
-
-function LargeCompostBinBrickImage::onUnmount(%this, %obj, %slot)
-{
-	brickPlacerItem_onUnmount(%this, %obj, %slot);
-}
-
-function LargeCompostBinBrickImage::onLoop(%this, %obj, %slot)
-{
-	brickPlacerItemLoop(%this, %obj, %slot);
-}
-
-function LargeCompostBinBrickImage::onFire(%this, %obj, %slot)
-{
-	brickPlacerItemFire(%this, %obj, %slot);
-}
 
 
 
@@ -707,25 +667,7 @@ datablock ShapeBaseImageData(FertilizerMixerBrickImage : BrickPlacerImage)
 	placeBrick = "brickFertilizerMixerData";
 };
 
-function FertilizerMixerBrickImage::onMount(%this, %obj, %slot)
-{
-	brickPlacerItem_onMount(%this, %obj, %slot);
-}
 
-function FertilizerMixerBrickImage::onUnmount(%this, %obj, %slot)
-{
-	brickPlacerItem_onUnmount(%this, %obj, %slot);
-}
-
-function FertilizerMixerBrickImage::onLoop(%this, %obj, %slot)
-{
-	brickPlacerItemLoop(%this, %obj, %slot);
-}
-
-function FertilizerMixerBrickImage::onFire(%this, %obj, %slot)
-{
-	brickPlacerItemFire(%this, %obj, %slot);
-}
 
 ////////
 //Item//

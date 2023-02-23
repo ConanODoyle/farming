@@ -63,26 +63,6 @@ datablock ShapeBaseImageData(IndoorLightBrickImage : BrickPlacerImage)
 	placeBrick = "brickIndoorLightData";
 };
 
-function IndoorLightBrickImage::onMount(%this, %obj, %slot)
-{
-	brickPlacerItem_onMount(%this, %obj, %slot);
-}
-
-function IndoorLightBrickImage::onUnmount(%this, %obj, %slot)
-{
-	brickPlacerItem_onUnmount(%this, %obj, %slot);
-}
-
-function IndoorLightBrickImage::onLoop(%this, %obj, %slot)
-{
-	brickPlacerItemLoop(%this, %obj, %slot);
-}
-
-function IndoorLightBrickImage::onFire(%this, %obj, %slot)
-{
-	brickPlacerItemFire(%this, %obj, %slot);
-}
-
 
 
 //////////////

@@ -22,6 +22,7 @@ datablock ShapeBaseImageData(BrickPlacerImage)
 
 	// offset = "-0.56 0 -0.25";
 	// eyeOffset = "0 0 0";
+	className = "BrickPlacer";
 
 	item = "BrickPlacerItem";
 	armReady = 1;
@@ -59,6 +60,26 @@ datablock ShapeBaseImageData(BrickPlacerImage)
 	stateTimeoutValue[3] = 0.2;
 	stateWaitForTimeout[3] = true;
 };
+
+function BrickPlacer::onMount(%this, %obj, %slot)
+{
+	brickPlacerItem_onMount(%this, %obj, %slot);
+}
+
+function BrickPlacer::onUnmount(%this, %obj, %slot)
+{
+	brickPlacerItem_onUnmount(%this, %obj, %slot);
+}
+
+function BrickPlacer::onLoop(%this, %obj, %slot)
+{
+	brickPlacerItemLoop(%this, %obj, %slot);
+}
+
+function BrickPlacer::onFire(%this, %obj, %slot)
+{
+	brickPlacerItemFire(%this, %obj, %slot);
+}
 
 function brickPlacerItem_onMount(%this, %obj, %slot)
 {
@@ -111,7 +132,7 @@ function brickPlacerItemFire(%this, %obj, %slot)
 }
 
 exec("./fertilizer.cs");
-exec("./superfertilizer.cs");
+// exec("./superfertilizer.cs");
 exec("./flowerpot.cs");
 exec("./planterBox.cs");
 
@@ -120,3 +141,4 @@ exec("./lights.cs");
 exec("./waterpump.cs");
 exec("./ethanol.cs");
 exec("./cannery.cs");
+exec("./solarpanels.cs");

@@ -68,25 +68,6 @@ datablock ShapeBaseImageData(CanneryBrickImage : BrickPlacerImage)
 	placeBrick = "brickCanneryData";
 };
 
-function CanneryBrickImage::onMount(%this, %obj, %slot)
-{
-	brickPlacerItem_onMount(%this, %obj, %slot);
-}
-
-function CanneryBrickImage::onUnmount(%this, %obj, %slot)
-{
-	brickPlacerItem_onUnmount(%this, %obj, %slot);
-}
-
-function CanneryBrickImage::onLoop(%this, %obj, %slot)
-{
-	brickPlacerItemLoop(%this, %obj, %slot);
-}
-
-function CanneryBrickImage::onFire(%this, %obj, %slot)
-{
-	brickPlacerItemFire(%this, %obj, %slot);
-}
 
 
 package Cannery
