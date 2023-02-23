@@ -568,7 +568,7 @@ function addFuel(%brick, %cl, %slot)
 	if (getTrustLevel(%brick, %cl) < 1)
 	{
 		serverCmdUnuseTool(%cl);
-		%cl.centerprint(getBrickgroupFromObject(%brick).name @ "<color:ff0000> does not trust you enough to do that!", 1);
+		%cl.centerprint(getBrickgroupFromObject(%brick).name @ "\c0 does not trust you enough to do that!", 1);
 		return;
 	}
 

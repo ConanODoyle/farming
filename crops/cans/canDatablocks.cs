@@ -22,7 +22,15 @@ function CanImage::onFire(%this, %obj, %slot)
 
 function CanImage::onLoop(%this, %obj, %slot)
 {
-	foodLoop(%this, %obj);
+	%item = %image.item;
+	%type = %item.stackType;
+	%cl = %obj.client;
+	%count = %obj.toolStackCount[%obj.currTool];
+
+	if (isObject(%cl))
+	{
+		%cl.centerprint("<just:right>\c3-Basket " @ %obj.currTool + 1 @ "- \n\c3" @ %type @ "\c6: " @ %count @ " \n\c5Click to uncan", 1);
+	}
 }
 
 function DataString_CanItem(%cropType,%shape,%color,%index)

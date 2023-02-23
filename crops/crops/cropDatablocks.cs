@@ -28,6 +28,6 @@ function foodLoop(%image, %obj)
 
 	if (isObject(%cl))
 	{
-		%cl.centerprint("<just:right>\c3-Basket " @ %obj.currTool + 1 @ "- <br>" @ %type @ "\c6: " @ %count @ " ", 1);
+		%cl.centerprint("<just:right>\c3-Basket " @ %obj.currTool + 1 @ "- \n\c3" @ %type @ "\c6: " @ %count @ " ", 1);
 	}
 }

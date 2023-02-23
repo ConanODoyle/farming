@@ -298,6 +298,14 @@ datablock AudioProfile(EverywhereAndNowhereMusic)
 	uiName = "Everywhere and Nowhere";
 };
 
+datablock AudioProfile(MorytaniaMusic)
+{
+	filename = "./Music/Morytania.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Morytania";
+};
+
 
 
 
