@@ -143,57 +143,6 @@ function farmingSaveWriteBrick(%file, %brick)
 	}
 }
 
-function farmingSaveLot(%bl_id, %delete)
-{
-	%brickGroup = "brickGroup_" @ %bl_id;
-
-	if (!isObject(%brickGroup))
-	{
-		error("ERROR: farmingSaveLot - Client has no brickGroup! " @ %client);
-		echo("ERROR: farmingSaveLot - Client has no brickGroup! " @ %client);
-		return -1;
-	}
-
-	%brickGroup.refreshLotList();
-
-	%lots = %brickGroup.lotList;
-	%numLots = getWordCount(%lots);
-
-	if (%numLots <= 0)
-	{
-		error("ERROR: farmingSaveLot - Client's brickGroup has no lots!");
-		echo("ERROR: farmingSaveLot - Client's brickGroup has no lots!");
-		return -1;
-	}
-
-	for (%i = 0; %i < %numLots; %i++)
-	{
-		%lot = getWord(%lots, %i);
-		if (%lot.getDatablock().isSingle)
-		{
-			%singleLot = %lot;
-			break;
-		}
-	}
-
-	if (!isObject(%singleLot))
-	{
-		error("ERROR: farmingSaveLot - Client's brickGroup doesn't have a center lot!");
-		echo("ERROR: farmingSaveLot - Client's brickGroup doesn't have a center lot!");
-		return -1;
-	}
-
-	%brickGroup.isSaveClearingLot = true;
-
-	%file = farmingSaveInitFile(%bl_id, "Lot");
-
-	$Farming::Temp::Origin[%file] = %singleLot.position;
-	$Farming::Temp::BrickQueue[%file] = new SimSet();
-	$Farming::Temp::BrickSet[%file] = new SimSet();
-	messageAll('', "\c6Gathering bricks from \c2" @ %brickGroup.name @ "'s brickGroup\c6, found \c3" @ getWordCount(%lots) @ " lots\c6...");
-	farmingSaveGatherBricks(%file, "Lot", %lots, %delete);
-}
-
 
 
 

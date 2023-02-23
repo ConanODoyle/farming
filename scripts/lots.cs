@@ -606,7 +606,7 @@ function serverCmdRotateLot(%cl, %rotation)
 		messageClient(%cl, '', "You can't afford to rotate your lot! It costs $" @ $Farming::LotRotatePrice);
 		return;
 	}
-	if (%rotation == 0)
+	if (%rotation == 0 || mAbs(%rotation) > 3)
 	{
 		messageClient(%cl, '', "Please provide a number to rotate your lot.");
 		messageClient(%cl, '', "Put in a number to rotate your lot by that many 90 degree increments, counterclockwise.");

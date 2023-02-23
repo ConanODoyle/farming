@@ -118,7 +118,7 @@ function processMiningHit(%this, %pl)
 
 	if (%phosphateCheck && getRandom() < %this.phosphateChance)
 	{
-		for (%i = 0; %i < getRandom(1, 2); %i++)
+		for (%i = 0; %i < getRandom(1, 4); %i++)
 		{
 			%this.spawnItem("0 0 5", "PhosphateItem");
 		}
@@ -131,7 +131,7 @@ function processMiningHit(%this, %pl)
 	{
 		if (getRandom() < %this.coalChance)
 		{
-			for (%i = 0; %i < getRandom(1, 2); %i++)
+			for (%i = 0; %i < getRandom(1, 4); %i++)
 			{
 				%this.spawnItem("0 0 5", "CoalItem");
 			}

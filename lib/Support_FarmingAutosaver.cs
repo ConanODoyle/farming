@@ -50,7 +50,7 @@ function farmingLoadAutosave(%path, %type, %dataObj, %rotation, %bl_id)
 
 function farmingLoadLastAutosave(%bl_id, %type, %dataObj, %rotation)
 {
-	if ($Pref::Farming::Last[%type @ "Autosave" @ %bl_id] !$= "")
+	if (isFile($Pref::Farming::Last[%type @ "Autosave" @ %bl_id]))
 	{
 		farmingLoadAutosave($Pref::Farming::Last[%type @ "Autosave" @ %bl_id], %type, %dataObj, %rotation, %bl_id);
 		// talk("Loading lot " @ %bl_id @ " at " @ %dataObj.pos[0] @ "...");
