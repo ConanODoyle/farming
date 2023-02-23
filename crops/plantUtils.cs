@@ -245,17 +245,21 @@ function lightRaycastCheck(%pos, %brick)
 
 function fxDTSBrick::getLightLevel(%brick, %lightLevel)
 {
-	if (%brick.getDatablock().isTree)
+	if (%brick.dataBlock.customLightLevel)
 	{
-		return %lightLevel * getPlantData(%brick.getDatablock().cropType, "lightLevelFactor");
+		return %brick.dataBlock.customLightLevel;
+	}
+	else if (%brick.dataBlock.isTree)
+	{
+		return %lightLevel * getPlantData(%brick.dataBlock.cropType, "lightLevelFactor");
 	}
 	return 0; //normal bricks block all light
 }
 
 function fxDTSBrick::canLightPassThrough(%brick)
 {
-	%db = %brick.getDatablock();
-	if (%db.isTree || %db.isSprinkler || %db.isGreenhouse)
+	%db = %brick.dataBlock;
+	if (%db.isTree || %db.isSprinkler || %db.isGreenhouse || %db.allowLightThrough)
 	{
 		return 1;
 	}

@@ -173,9 +173,9 @@ datablock fxDTSBrickData(brickShopStallData)
 };
 
 
-////////////////
-//Money Bricks//
-////////////////
+///////////////////
+//Money and Decor//
+///////////////////
 
 datablock fxDTSBrickData(brickGoldIngotData)
 {
@@ -187,10 +187,23 @@ datablock fxDTSBrickData(brickGoldIngotData)
 
 	iconName = "Add-Ons/Server_Farming/icons/Gold_Ingot";
 
-	isGreenhouse = 1;
+	cost = 15000;
+	customRefundCost = 15000;
+};
 
-	cost = 5000;
-	customRefundCost = 5000;
+datablock fxDTSBrickData(brickPergolaData)
+{
+	category = "Farming";
+	subCategory = "Extra";
+	uiName = "Pergola";
+
+	brickFile = "./bricks/goldingot.blb";
+
+	iconName = "Add-Ons/Server_Farming/icons/Pergola";
+
+	allowLightThrough = 1;
+	cost = 20;
+	customRefundCost = 20;
 };
 
 
@@ -256,6 +269,11 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 
 	cost = 10;
 };
+
+
+//////////////////
+//Quest Cabinets//
+//////////////////
 
 datablock fxDTSBrickData(brickLeftQuestCabinetClosed0Data)
 {
