@@ -91,21 +91,30 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 
 function FishImage::onMount(%this, %obj, %slot)
 {
+	if (getRandom() < 0.001)
+	{
+		serverPlay3D(BucketSound, %obj.position);
+	}
 	%obj.playThread(1, armReadyBoth);
 }
 
-FishDatablocks("Old Boot","Old Boot",3);
-FishDatablocks("Glass Bottle","Glass Bottle",7);
-FishDatablocks("Bucket","Bucket",3);
+function FishImage::onUnmount(%this, %obj, %slot)
+{
+	%obj.playThread(1, armReadyRight);
+}
 
-FishDatablocks("Sardine","Sardine",5);
-FishDatablocks("Arowana","Arowana",3);
-FishDatablocks("Minnow","Minnow",3);
-FishDatablocks("Catfish","Catfish",3);
-FishDatablocks("Anchovy","Anchovy",4);
-FishDatablocks("Bass Fish","Bass",3);
+FishDatablocks("Old Boot", "Old Boot", 3);
+FishDatablocks("Glass Bottle", "Glass Bottle", 7);
+FishDatablocks("Bucket", "Bucket", 3);
 
-FishDatablocks("Tuna","Tuna",1);
+FishDatablocks("Sardine", "Sardine", 5);
+FishDatablocks("Arowana", "Arowana", 3);
+FishDatablocks("Minnow", "Minnow", 3);
+FishDatablocks("Catfish", "Catfish", 3);
+FishDatablocks("Anchovy", "Anchovy", 4);
+FishDatablocks("Bass Fish", "Bass", 3);
+
+FishDatablocks("Tuna", "Tuna", 1);
 TunaImage.rotation = eulerToMatrix("0 -40 0");
-FishDatablocks("Swordfish","Swordfish",1);
+FishDatablocks("Swordfish", "Swordfish", 1);
 SwordfishImage.rotation = eulerToMatrix("0 -40 0");

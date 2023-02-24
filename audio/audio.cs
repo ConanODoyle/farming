@@ -467,6 +467,14 @@ datablock AudioProfile(Fun0Sound)
 	uiName = "";
 };
 
+datablock AudioProfile(BucketSound)
+{
+	filename = "./fun/bucket.wav";
+	description = AudioClose3D;
+	preload = true;
+	uiName = "";
+};
+
 
 // serverPlay3D rewrite to avoid broadcasting 3D sound updates to players that are too far away to hear them.
 function serverPlay3D(%profile, %transform)
