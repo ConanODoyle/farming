@@ -280,7 +280,7 @@ function powerCheck(%brick)
 
 		if (%genDB.isGenerator && %on && %inputOn)
 		{
-			%totalGeneratedPower = generatorTick(%gen, %genDataID);
+			%totalGeneratedPower += generatorTick(%gen, %genDataID);
 			%genOnCount++;
 		}
 		else if (isObject(%gen.audioEmitter))
