@@ -138,7 +138,7 @@ datablock ParticleEmitterData(L3LastWordWaterDebrisTrailEmitter)
 	periodVarianceMS = 11;
 	
 	ejectionVelocity = 0.5;
-	velocityVariance = 1.0;
+	velocityVariance = 0.5;
 	
 	ejectionOffset = 0.0;
 	
@@ -495,9 +495,9 @@ function L3LastWordImage::onHitscanExplode(%this, %player, %slot, %collision, %p
 		rotation = eulerToQuat_degrees(relativeVectorToRotation(%normal, %player.getUpVector()));
 	};
 
-	if(isObject(%effect))
+	if(isObject(%splash))
 	{
-		MissionCleanup.add(%effect);
+		MissionCleanup.add(%splash);
 		%splash.setScopeAlways();
 	}
 }
