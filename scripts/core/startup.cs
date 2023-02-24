@@ -7,6 +7,7 @@ function startLoops()
 	fishingTick(0);
 	$disableWeather = 0;
 	//fishingTick(0);
+	_sequenceBot.setHSpawnClose(1, 0);
 }
 
 function stopLoops()
