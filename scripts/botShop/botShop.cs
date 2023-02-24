@@ -186,7 +186,7 @@ function purchaseResponseParser(%dataObj, %msg)
 		%price = %dataObj.var_price * %num;
 	}
 
-	%type = %dataObj.sellItem.stackType;
+	%type = %dataObj.sellItem.image.cropType;
 	if (getLicenseCost(%type) > 0 && !%pl.client.hasLicense(%type))
 	{
 		return "LicenseRequired";

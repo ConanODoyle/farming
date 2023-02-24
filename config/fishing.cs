@@ -27,7 +27,7 @@ FishingLootTable.addFishingLootDrop("Bucket", -5 * $fishWeight, 45 * $fishWeight
 FishingLootTable.addFishingLootDrop("Old Boot", -5 * $fishWeight, 45 * $fishWeight, 0);
 FishingLootTable.addFishingLootDrop("Glass Bottle", -5 * $fishWeight, 95 * $fishWeight, 0);
 FishingLootTable.addFishingLootDrop("Wrench", 0, 20, 0);
-FishingLootTable.addFishingLootDrop("Hammer", 0, 20, 0);
+FishingLootTable.addFishingLootDrop("Hammer ", 0, 20, 0);
 FishingLootTable.addFishingLootDrop("Printer", 0, 20, 0);
 FishingLootTable.addFishingLootDrop("Pickaxe", 0, 20, 0);
 FishingLootTable.addFishingLootDrop("Potato Seed", 0, 50, 0.5);
@@ -105,7 +105,7 @@ FishingLootTableB.addFishingLootDrop("Bucket", -5, 45, 0);
 FishingLootTableB.addFishingLootDrop("Old Boot", -5, 45, 0);
 FishingLootTableB.addFishingLootDrop("Glass Bottle", -5, 95, 0);
 FishingLootTableB.addFishingLootDrop("Wrench", 0, 20, 0);
-FishingLootTableB.addFishingLootDrop("Hammer", 0, 20, 0);
+FishingLootTableB.addFishingLootDrop("Hammer ", 0, 20, 0);
 FishingLootTableB.addFishingLootDrop("Printer", 0, 20, 0);
 FishingLootTableB.addFishingLootDrop("Pickaxe", 0, 20, 0);
 FishingLootTableB.addFishingLootDrop("Potato Seed", 50, 10, 0.5);
