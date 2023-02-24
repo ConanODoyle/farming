@@ -140,8 +140,8 @@ function setupCropInfo(%dataObj)
 			%s2 = "They cost 10 experience to plant, and give 0-1 experience per harvest.";
 			%s3 = "[Required spacing: 3 - 2x2 crop, required nutrients: none]";
 		case "Corn":
-			%s1 = "Corn can be harvested 3 times, and drop 3-4 per harvest, but need nutrients to finish growing. They can be harvested earlier for less yield.";
-			%s2 = "They cost 9 experience to plant, and give 2-3 experience per harvest. Use an organic analyzer to figure out what nutrients they need!";
+			%s1 = "Corn can be harvested 3 times, and drop 3-4 per harvest, but need phosphate to finish growing. They can be harvested earlier for less yield.";
+			%s2 = "They cost 9 experience to plant, and give 2-3 experience per harvest. Use an organic analyzer to figure out how much nutrients they need!";
 			%s3 = "[Required spacing: 2, required nutrients: 3 phosphate]";
 		case "Wheat":
 			%s1 = "Wheat is a more compact alternative to corn, dropping 3-5 per harvest. They take slightly longer to grow as well, but use less nutrients.";
