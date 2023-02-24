@@ -55,7 +55,7 @@ function fxDTSBrick::listProducePrices(%brick, %cl)
 {
 	if ($generatedPriceList $= "")
 	{
-		%str = "Sell prices:"
+		%str = "Sell prices:";
 		for (%i = 0; %i < getFieldCount($SellProduceList); %i++)
 		{
 			%produce = getField($SellProduceList, %i);
