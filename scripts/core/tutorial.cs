@@ -324,6 +324,10 @@ function serverCmdTutorial(%client, %type, %t1, %t2, %t3)
 	{
 		serverCmdContinueWaterTutorial(%client);
 	}
+	else if (%type $= "Fishing")
+	{
+		serverCmdContinueFishingTutorial(%client);
+	}
 	else if (%type $= "Money")
 	{
 		serverCmdContinueMoneyTutorial(%client);
