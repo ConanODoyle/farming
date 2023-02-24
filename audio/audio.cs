@@ -306,6 +306,14 @@ datablock AudioProfile(MorytaniaMusic)
 	uiName = "Morytania";
 };
 
+datablock AudioProfile(UnseenLandsMusic)
+{
+	filename = "./Music/James_Primate_-_Rain_World_OST_-_Unseen_Lands.ogg";
+	description = AudioMusicLooping3d;
+	preload = true;
+	uiName = "Unseen Lands";
+};
+
 
 
 
