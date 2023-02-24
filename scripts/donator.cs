@@ -16,6 +16,7 @@ $isVIP_["33468"]	= 1 TAB "Wolfly";
 $isVIP_["12953"]	= 1 TAB "irrel";
 $isVIP_["27312"]	= 1 TAB "FlavouredGames";
 $isVIP_["46426"]	= 1 TAB "Monoblaster";
+$isVIP_["2213"]		= 1 TAB "Carbon Zypher / Darksaber2213";
 
 $isDonator_["4928"]		= 1 TAB "Conan";
 $isDonator_["53456"]	= 1 TAB "celau";
@@ -49,6 +50,7 @@ $isDonator_["14329"]	= 1 TAB "Gothboy";
 $isDonator_["12247"]	= 1 TAB "Pah1023";
 $isDonator_["39002"]	= 1 TAB "Lomby/Redd";
 $isDonator_["51892"]	= 1 TAB "just:center";
+$isDonator_["2213"]		= 1 TAB "Carbon Zypher / Darksaber2213";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
