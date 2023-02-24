@@ -488,18 +488,18 @@ function L3LastWordImage::onHitscanExplode(%this, %player, %slot, %collision, %p
 {
 	Parent::onHitscanExplode(%this, %player, %slot, %collision, %position, %normal, %vector, %crit);
 	
-	%splash = new Splash()
-	{
-		dataBlock = L3LastWordWaterSplash;
-		position = %position;
-		rotation = eulerToQuat_degrees(relativeVectorToRotation(%normal, %player.getUpVector()));
-	};
+	// %splash = new Splash()
+	// {
+		// dataBlock = L3LastWordWaterSplash;
+		// position = %position;
+		// rotation = eulerToQuat_degrees(relativeVectorToRotation(%normal, %player.getUpVector()));
+	// };
 
-	if(isObject(%splash))
-	{
-		MissionCleanup.add(%splash);
-		%splash.setScopeAlways();
-	}
+	// if(isObject(%splash))
+	// {
+		// MissionCleanup.add(%splash);
+		// %splash.setScopeAlways();
+	// }
 }
 
 /// @param	this	weapon image
