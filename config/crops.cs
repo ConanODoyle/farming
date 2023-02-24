@@ -49,7 +49,7 @@ $UndergroundCropsList = "Potato\tCarrot\tOnion\tTurnip\tPortobello";
 $AbovegroundCropsList = "Tomato\tCorn\tWheat\tCabbage\tBlueberry\tChili\tWatermelon";
 $TreeCropsList = "Apple\tMango\tCactus\tPeach\tDate";
 $ProduceList = $UndergroundCropsList TAB $AbovegroundCropsList TAB $TreeCropsList TAB "Rose\tLily\tDaisy\tLilies\tDaisies";
-$SellProduceList = $UndergroundCropsList TAB $AbovegroundCropsList TAB $TreeCropsList;
+$SellProduceList = "Potato\tCarrot\tOnion\tTomato\tCorn\tWheat\tCabbage\tTurnip\tPortobello\tBlueberry\tChili\tWatermelon" TAB $TreeCropsList;
 //$SellFishList auto generated in scripts/fishing/fish/datablocks.cs
 
 function getCropClass(%cropName)

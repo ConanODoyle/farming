@@ -55,7 +55,7 @@ function fxDTSBrick::listProducePrices(%brick, %cl)
 {
 	if ($generatedPriceList $= "")
 	{
-		%str = "<font:Palatino Linotype:28>Sell prices:\n";
+		%str = "<bitmap:Add-Ons/Server_Farming/icons/shopstall>\n\n\n\n\n\n\n<font:Palatino Linotype:28>Sell prices:\n";
 		%str = %str @ "<just:left> Produce: <just:right>Fish:<font:Arial:15>\n\n";
 
 		%count = getMax(getFieldCount($SellProduceList), getFieldCount($SellFishList));
@@ -68,11 +68,11 @@ function fxDTSBrick::listProducePrices(%brick, %cl)
 				%cost = getSellPrice(%produce);
 				%str = %str @ %space @ %produce @ " - $" @ mFloatLength(%cost, 2);
 			}
-			%str = %str @ "<just:right>";
 
 			%produce = getField($SellFishList, %i);
 			if (%produce !$= "")
 			{
+				%str = %str @ "<just:right>";
 				%cost = getSellPrice(%produce);
 				%str = %str @ %space @ strReplace(%produce, "_", " ") @ " - $" @ mFloatLength(%cost, 2);
 			}
