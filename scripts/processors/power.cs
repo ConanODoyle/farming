@@ -10,6 +10,7 @@
 //	burnRate - # of resources to burn per tick
 //	generation - # of watts created per tick
 //	fuelType - space-delimited stacktypes of the fuels it accepts
+//	generatorFunction - optional: defines a custom function that returns amount of power generated that tick
 //
 //Powered Processors draw power, and if supplied enough, run their internal tasks
 //processor fields:
@@ -261,6 +262,7 @@ function powerCheck(%brick)
 
 	%powerDataID = getSubStr(%brick.getName(), 1, 50);
 
+	//generate power
 	%totalGeneratedPower = 0;
 	%genList = getDataIDArrayTagValue(%powerDataID, "generators");
 	%genCount = getWordCount(%genList);
@@ -272,50 +274,13 @@ function powerCheck(%brick)
 			continue;
 		}
 
-		%genDB = %gen.getDatablock();
+		%genDB = %gen.dataBlock;
 		%genDataID = %gen.eventOutputParameter0_1;
 		%on = getDataIDArrayTagValue(%genDataID, "isPoweredOn");
 
 		if (%genDB.isGenerator && %on && %inputOn)
 		{
-			%genDB = %genDB;
-			%powerGen = %genDB.generation;
-			%burn = %genDB.burnRate;
-
-			%fuelStorage = getDataIDArrayValue(%genDataID, 1);
-			%fuelType = getField(%fuelStorage, 0);
-			%count = getField(%fuelStorage, 1);
-
-			if (%count > 0 && %gen.canAcceptFuel(%fuelType)) //has fuel, burn some and generate power
-			{
-				%totalGeneratedPower += %powerGen;
-				if (%count - %burn > 0)
-					%newCount = mFloatLength(%count - %burn, 2);
-				else
-					%newCount = 0;
-				setDataIDArrayValue(%genDataID, 1, %fuelType TAB %newCount TAB getField(%fuelStorage, 2));
-
-				if (!isObject(%gen.audioEmitter))
-				{
-					%gen.setMusic("BatteryLoopSound".getID());
-				}
-				if (%gen.lastCalledEvent !$= "On")
-				{
-					%gen.onGeneratorPoweredOn();
-					%gen.lastCalledEvent = "On";
-				}
-				%gen.updateStorageMenu(%genDataID);
-			}
-			else if (isObject(%gen.audioEmitter))
-			{
-				%gen.setMusic("");
-
-				if (%gen.lastCalledEvent !$= "Off")
-				{
-					%gen.onGeneratorPoweredOff();
-					%gen.lastCalledEvent = "Off";
-				}
-			}
+			%totalGeneratedPower = generatorTick(%gen, %genDataID);
 			%genOnCount++;
 		}
 		else if (isObject(%gen.audioEmitter))
@@ -330,6 +295,7 @@ function powerCheck(%brick)
 		}
 	}
 
+	//calculate desired power draw
 	%totalPowerUsage = 0;
 	%devList = getDataIDArrayTagValue(%powerDataID, "devices");
 	%devCount = getWordCount(%devList);
@@ -341,7 +307,7 @@ function powerCheck(%brick)
 			continue;
 		}
 
-		%devDB = %dev.getDatablock();
+		%devDB = %dev.dataBlock;
 		%devDataID = %dev.eventOutputParameter0_1;
 		%on = getDataIDArrayTagValue(%devDataID, "isPoweredOn");
 
@@ -360,7 +326,8 @@ function powerCheck(%brick)
 		}
 	}
 
-	%powerDiff = %totalGeneratedPower - %totalPowerUsage;
+	//if there's a power deficit, draw power from batteries
+	%powerDelta = %totalGeneratedPower - %totalPowerUsage;
 	%totalBatteryPower = 0;
 	%batteryDischarge = 0;
 	%batList = getDataIDArrayTagValue(%powerDataID, "batteries");
@@ -373,7 +340,7 @@ function powerCheck(%brick)
 			continue;
 		}
 
-		%batDB = %bat.getDatablock();
+		%batDB = %bat.dataBlock;
 		%batDataID = %bat.eventOutputParameter0_1;
 		%on = getDataIDArrayTagValue(%batDataID, "isPoweredOn");
 		
@@ -382,42 +349,38 @@ function powerCheck(%brick)
 
 		if (%batDB.isBattery && %on)
 		{
-			%bat_on[%bat_onCount++ - 1] = %bat.getID();
 			%batDB = %batDB;
 			%discharge = getMin(%batDB.dischargeRate, %chargeAvailable);
 
-			if (%powerDiff < 0 && %discharge > 0 && !%batteryChargeOnly) //need extra power
+			if (%powerDelta < 0 && %discharge > 0 && !%batteryChargeOnly) //need extra power
 			{
-				%dischargeAmt = getMin(%discharge, mAbs(%powerDiff));
-				%powerDiff += %dischargeAmt;
-				setDataIDArrayTagValue(%batDataID, "charge", %chargeAvailable - %dischargeAmt);
+				%dischargeAmt = getMin(%discharge, mAbs(%powerDelta));
+				%powerDelta += %dischargeAmt;
+				%chargeAvailable -= %dischargeAmt;
+				setDataIDArrayTagValue(%batDataID, "charge", %chargeAvailable);
 
-				%totalBatteryPower += %chargeAvailable - %dischargeAmt;
 				%batteryDischarge += %dischargeAmt;
 				
 				%bat.updateStorageMenu(%batDataID);
 			}
-			else if (%powerDiff > 0 && %chargeAvailable < %max) //extra power available to charge battery with
+			else if (%powerDelta > 0 && %chargeAvailable < %max) //extra power available to charge battery with
 			{
-				%addAmt = getMin(%powerDiff, %max - %chargeAvailable);
-				%powerDiff -= %addAmt;
-				setDataIDArrayTagValue(%batDataID, "charge", %chargeAvailable + %addAmt);
+				%addAmt = getMin(%powerDelta, %max - %chargeAvailable);
+				%powerDelta -= %addAmt;
+				%chargeAvailable += %addAmt;
+				setDataIDArrayTagValue(%batDataID, "charge", %chargeAvailable);
 				
-				%totalBatteryPower += %chargeAvailable + %addAmt;
 				%batteryDischarge -= %addAmt;
 				
 				%bat.updateStorageMenu(%batDataID);
 			}
-			else
-			{
-				%totalBatteryPower += %chargeAvailable;
-			}
+			%totalBatteryPower += %chargeAvailable;
 			%batOnCount++;
 		}
-		else if (%batDB.isBattery && %powerDiff > 0 && %chargeAvailable < %max) //extra power available to charge battery with
+		else if (%batDB.isBattery && %powerDelta > 0 && %chargeAvailable < %max) //extra power available to charge battery with
 		{
-			%addAmt = getMin(%powerDiff, %max - %chargeAvailable);
-			%powerDiff -= %addAmt;
+			%addAmt = getMin(%powerDelta, %max - %chargeAvailable);
+			%powerDelta -= %addAmt;
 			setDataIDArrayTagValue(%batDataID, "charge", %chargeAvailable + %addAmt);
 			
 			%totalBatteryPower += %chargeAvailable + %addAmt;
@@ -427,6 +390,7 @@ function powerCheck(%brick)
 		}
 	}
 
+	//using the given power ratio, run powered devices
 	%powerRatio = getMin((%totalGeneratedPower + %batteryDischarge) / %totalPowerUsage, 1);
 	if (%totalPowerUsage <= 0)
 	{
@@ -435,18 +399,63 @@ function powerCheck(%brick)
 
 	for (%i = 0; %i < %dev_onCount; %i++)
 	{
-		%proDB = %dev_on[%i].getDatablock();
+		%proDB = %dev_on[%i].dataBlock;
 		if (isFunction(%proDB.powerFunction))
 		{
 			call(%proDB.powerFunction, %dev_on[%i], %powerRatio);
 		}
 	}
 
+	//update power control box UI
 	%brick.totalBatteryPower = %totalBatteryPower;
 	%brick.totalPowerUsage = %totalPowerUsage;
 	%brick.totalGeneratedPower = %totalGeneratedPower;
 
 	%brick.updateStorageMenu();
+}
+
+function generatorTick(%gen, %genDataID)
+{
+	%genDB = %gen.dataBlock;
+	if (isFunction(%genDB.generatorFunction))
+	{
+		return call(%genDB.generatorFunction, %gen, %genDataID);
+	}
+	%powerGen = %genDB.generation;
+	%burn = %genDB.burnRate;
+
+	%fuelStorage = getDataIDArrayValue(%genDataID, 1);
+	%fuelType = getField(%fuelStorage, 0);
+	%count = getField(%fuelStorage, 1);
+
+	if (%count > 0 && %gen.canAcceptFuel(%fuelType)) //has fuel, burn some and generate power
+	{
+		%totalGeneratedPower = %powerGen;
+		%newCount = getMax(mFloatLength(%count - %burn, 2), 0);
+		setDataIDArrayValue(%genDataID, 1, %fuelType TAB %newCount TAB getField(%fuelStorage, 2));
+
+		if (!isObject(%gen.audioEmitter))
+		{
+			%gen.setMusic("BatteryLoopSound".getID());
+		}
+		if (%gen.lastCalledEvent !$= "On")
+		{
+			%gen.onGeneratorPoweredOn();
+			%gen.lastCalledEvent = "On";
+		}
+		%gen.updateStorageMenu(%genDataID);
+	}
+	else if (isObject(%gen.audioEmitter))
+	{
+		%gen.setMusic("");
+
+		if (%gen.lastCalledEvent !$= "Off")
+		{
+			%gen.onGeneratorPoweredOff();
+			%gen.lastCalledEvent = "Off";
+		}
+	}
+	return %totalGeneratedPower;
 }
 
 function fxDTSBrick::autoAddPowerControlSystem(%brick)

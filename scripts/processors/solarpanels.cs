@@ -18,10 +18,10 @@ datablock fxDTSBrickData(brickSolarPanel4x4Data)
 	placerItem = "SolarPanel4x4Item";
 	callOnActivate = 1;
 	isGenerator = 1;
-	isSolarPanel = 1;
-	burnRate = 0.00; //bodge: generator burns 0 fuel
-	fuelType = ""; //bodge: will pass fuel check due to empty string
+	// burnRate = 0.00;
+	// fuelType = "";
 	generation = 2;
+	generatorFunction = "solarPanelGeneratorTick";
 
 	isStorageBrick = 1;
 	storageSlotCount = 0;
@@ -47,9 +47,8 @@ datablock fxDTSBrickData(brickSolarPanel8x8Data)
 	placerItem = "SolarPanel8x8Item";
 	callOnActivate = 1;
 	isGenerator = 1;
-	isSolarPanel = 1;
-	burnRate = 0.00; //bodge: generator burns 0 fuel
-	fuelType = ""; //bodge: will pass fuel check due to empty string
+	// burnRate = 0.00;
+	// fuelType = "";
 	generation = 12;
 
 	isStorageBrick = 1;
@@ -122,3 +121,27 @@ datablock ShapeBaseImageData(SolarPanel8x8BrickImage : BrickPlacerImage)
 	loopTip = "Provides 12 power when outside";
 	placeBrick = "brickSolarPanel8x8Data";
 };
+
+
+
+/////////////
+//Sun Check//
+/////////////
+
+function solarPanelGeneratorTick(%gen, %genDataID)
+{
+	%genDB = %gen.dataBlock;
+
+	%box = %gen.getWorldBox();
+	%x1 = getWord(%box, 0);
+	%y1 = getWord(%box, 1);
+	%x2 = getWord(%box, 3);
+	%y2 = getWord(%box, 4);
+
+	%xf = %x1 + (%x2 - %x1) * getRandom();
+	%yf = %y1 + (%y2 - %y1) * getRandom();
+	%pos = %xf SPC %yf SPC getWord(%gen.position, 2);
+
+	%light = lightRaycastCheck(%pos, %gen);
+	return mFloor(%light * %genDB.generation);
+}
