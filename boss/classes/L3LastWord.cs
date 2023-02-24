@@ -1,3 +1,260 @@
+//-------------//
+// Water Beam: //
+//-------------//
+
+datablock StaticShapeData(L3LastWordWaterBeamShape)
+{
+	shapeFile = $Harvester::Root @ "/resources/shapes/waterBeam.dts";
+};
+
+//-------------//
+// Water Ring: //
+//-------------//
+
+datablock ParticleData(L3LastWordWaterRingParticle)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	textureName = "base/data/particles/bubble";
+
+	useInvAlpha = false;
+
+	colors[0]	= "0.5 0.7 1.0 0.3";
+	colors[1]	= "0.3 0.5 0.8 0.0";
+
+	sizes[0]	= 3.0;
+	sizes[1]	= 14.0;
+
+	times[0]	= 0.0;
+	times[1]	= 1.0;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	dragCoefficient = 1.0;
+	gravityCoefficient = 0.0;
+
+	inheritedVelFactor = 0.0;
+	constantAcceleration = 0.0;
+
+	lifetimeMS = 500;
+	lifetimeVarianceMS = 200;
+
+	spinSpeed = 1700.0;
+	spinRandomMin = -300.0;
+	spinRandomMax = 300.0;
+};
+
+datablock ParticleEmitterData(L3LastWordWaterRingEmitter)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	particles = "L3LastWordWaterRingParticle";
+	
+	overrideAdvance = false;
+	useEmitterColors = false;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	ejectionPeriodMS = 150;
+	periodVarianceMS = 0;
+	
+	ejectionVelocity = 0.0;
+	velocityVariance = 0.0;
+	
+	ejectionOffset = 0.0;
+	
+	thetaMin = 89.0;
+	thetaMax = 90.0;
+	
+	phiReferenceVel = 0.0;
+	phiVariance = 0.0;
+};
+
+//---------------------//
+// Water Debris Trail: //
+//---------------------//
+
+datablock ParticleData(L3LastWordWaterDebrisTrailParticle)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	textureName = "base/data/particles/bubble";
+
+	useInvAlpha = false;
+
+	colors[0]	= "0.666667 0.8 1.0 0.8";
+	colors[1]	= "0.666667 0.8 0.8 0.0";
+
+	sizes[0]	= 0.5;
+	sizes[1]	= 0.5;
+
+	times[0]	= 0.0;
+	times[1]	= 1.0;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	dragCoefficient = 0.0;
+	gravityCoefficient = 0.998779;
+
+	inheritedVelFactor = 0.0;
+	constantAcceleration = 0.0;
+
+	lifetimeMS = 1200;
+	lifetimeVarianceMS = 400;
+
+	spinSpeed = 0.0;
+	spinRandomMin = 0.0;
+	spinRandomMax = 0.0;
+};
+
+datablock ParticleEmitterData(L3LastWordWaterDebrisTrailEmitter)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	particles = "L3LastWordWaterDebrisTrailParticle";
+	
+	overrideAdvance = false;
+	useEmitterColors = false;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	ejectionPeriodMS = 33;
+	periodVarianceMS = 11;
+	
+	ejectionVelocity = 0.5;
+	velocityVariance = 1.0;
+	
+	ejectionOffset = 0.0;
+	
+	thetaMin = 89.0;
+	thetaMax = 90.0;
+	
+	phiReferenceVel = 0.0;
+	phiVariance = 0.0;
+};
+
+//-------------------------//
+// Water Explosion Debris: //
+//-------------------------//
+
+datablock DebrisData(L3LastWordWaterDebris)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	shapeFile = "base/data/shapes/empty.dts";
+	
+	emitters = "L3LastWordWaterDebrisTrailEmitter";
+	
+	staticOnMaxBounce = false;
+	snapOnMaxBounce = false;
+	explodeOnMaxBounce = true;
+	
+	fade = true;
+
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	lifetime = 2.0;
+
+	minSpinSpeed = 0.0;
+	maxSpinSpeed = 0.0;
+	
+	//----------//
+	// Physics: //
+	//----------//
+	
+	gravModifier = 2.0;
+	numBounces = 2;
+	elasticity = 0.999;
+	friction = 0.0;
+};
+
+//------------------//
+// Water Explosion: //
+//------------------//
+
+datablock ExplosionData(L3LastWordWaterExplosion)
+{
+	//------------//
+	// Rendering: //
+	//------------//
+	
+	explosionShape = "Add-Ons/Weapon_Rocket_Launcher/explosionSphere1.dts";
+	
+	particleEmitter = L3LastWordWaterRingEmitter;
+	particleDensity = 12;
+	particleRadius = 0;
+
+	emitter[0] = PlayerBubbleEmitter;
+	
+	//---------//
+	// Debris: //
+	//---------//
+	
+	debris = L3LastWordWaterDebris;
+	
+	debrisNum = 4;
+	debrisNumVariance = 2;
+	
+	debrisVelocity = 12.0;
+	debrisVelocityVariance = 6.0;
+	
+	debrisThetaMin = 70.0;
+	debrisThetaMax = 180.0;
+	
+	debrisPhiMin = 0.0;
+	debrisPhiMax = 360.0;
+	
+	//-------------//
+	// Properties: //
+	//-------------//
+	
+	soundProfile = Splash1Sound;
+	
+	lifeTimeMS = 150;
+};
+
+datablock ProjectileData(L3LastWordWaterProjectile)
+{
+	//------------//
+	// Explosion: //
+	//------------//
+	
+	explosion = L3LastWordWaterExplosion;
+};
+
+//---------------//
+// Water Splash: //
+//---------------//
+
+datablock SplashData(L3LastWordWaterSplash : PlayerSplash)
+{
+	ejectionAngle = 45.0;
+	ringLifetime = 0.85;
+	lifetimeMS = 400;
+	velocity = 7.2;
+	startRadius = 0.3;
+};
+
 //------------------------//
 // L3 - "Last Word" Item: //
 //------------------------//
@@ -111,7 +368,7 @@ datablock ShapeBaseImageData(L3LastWordImage)
 	
 	hitscanProjectile = L3LastWordWaterProjectile;
 	
-	hitscanTracerStaticShape = HarvesterBeamShape;
+	hitscanTracerStaticShape = L3LastWordWaterBeamShape;
 	hitscanTracerStaticLifetime = 100;
 	
 	hitscanSpread = 0.0;
@@ -227,20 +484,23 @@ function L3LastWordImage::onReady(%this, %player, %slot)
 /// @param	normal		3-element vector
 /// @param	vector		3-element vector
 /// @param	crit		boolean
-// function L3LastWordImage::onHitscanExplode(%this, %player, %slot, %collision, %position, %normal, %vector, %crit)
-// {
-	// Parent::onHitscanExplode(%this, %player, %slot, %collision, %position, %normal, %vector, %crit);
+function L3LastWordImage::onHitscanExplode(%this, %player, %slot, %collision, %position, %normal, %vector, %crit)
+{
+	Parent::onHitscanExplode(%this, %player, %slot, %collision, %position, %normal, %vector, %crit);
 	
-	// if(!isObject(%collision))
-	// {
-		// return;
-	// }
-	
-	// if(!(%collision.getType() & $TypeMasks::fxBrickObjectType))
-	// {
-		// return;
-	// }
-// }
+	%splash = new Splash()
+	{
+		dataBlock = L3LastWordWaterSplash;
+		position = %position;
+		rotation = eulerToQuat_degrees(relativeVectorToRotation(%normal, %player.getUpVector()));
+	};
+
+	if(isObject(%effect))
+	{
+		MissionCleanup.add(%effect);
+		%splash.setScopeAlways();
+	}
+}
 
 /// @param	this	weapon image
 /// @param	player	player
