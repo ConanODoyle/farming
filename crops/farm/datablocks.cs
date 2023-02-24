@@ -206,6 +206,22 @@ datablock fxDTSBrickData(brickPergolaData)
 	customRefundCost = 20;
 };
 
+datablock fxDTSBrickData(brickScarecrowData)
+{
+	category = "Farming";
+	subCategory = "Extra";
+	uiName = "Scarecrow";
+
+	brickFile = "./bricks/scarecrow.blb";
+
+	iconName = "Add-Ons/Server_Farming/icons/Scarecrow";
+
+	allowLightThrough = 1;
+	cost = 200;
+	customRefundCost = 200;
+	customRadius = -1.05;
+};
+
 
 ///////////
 //Storage//
