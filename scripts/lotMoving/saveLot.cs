@@ -483,6 +483,7 @@ function farmingSaveWriteSave(%collection)
 	}
 
 	$Pref::Farming::Last[%collection.type @ "Autosave" @ %collection.bl_id] = %file.path;
+	exportServerPrefs();
 	%collection.fileName = %file.path;
 
 	%file.close();
