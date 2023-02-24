@@ -33,7 +33,7 @@ function gameConnection::messageBoxOKLong(%this, %title, %message, %taggedOkCmd)
 		%splitString[%i] = getSubStr(%message, %i * 255, 255);
 	}
 
-	commandToClient(%this, 'messageBoxOK', %title, '%2%3%4%5', %splitString[0], %splitString[1], %splitString[2], %splitString[3]);
+	commandToClient(%this, 'messageBoxOK', %title, '%1%2%3%4', %splitString[0], %splitString[1], %splitString[2], %splitString[3]);
 }
 
 
