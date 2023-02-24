@@ -39,13 +39,13 @@ function findAllBusStops(%idx)
 
     for (%i = %idx; %i < Brickgroup_888888.getCount(); %i++)
     {
-        if (%count++ > 1024)
+        if (%count++ > 2048)
         {
             break;
         }
         %b = Brickgroup_888888.getObject(%i);
         %name = %b.getName();
-        if (strPos(strLwr(%name), "_busstop") == 0 && !$BusStopSimSet.isMember(%b))
+        if (striPos(%name, "_busstop") == 0 && !$BusStopSimSet.isMember(%b))
         {
             $BusStopSimSet.add(%b);
         }
