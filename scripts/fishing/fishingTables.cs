@@ -44,7 +44,7 @@ function pickFromTable(%table, %percent, %maxTier)
 
 	if (%pick $= "")
 	{
-		talk("ERROR: pickFromTable failed to find a pick! Params: " @ %table SPC %percent SPC %maxTier);
+		talk("ERROR: pickFromTable failed to find a pick! Params: " @ %table @ ", " @ %percent @ ", " @ %maxTier);
 		talk("Weight: " @ %weight @ " pick: " @ %pickWeight @ " currWeight: " @ %currWeight);
 		return 0;
 	}
