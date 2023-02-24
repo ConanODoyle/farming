@@ -77,7 +77,7 @@ $SellCost_["Anchovy"] = 1.80;
 $SellCost_["Minnow"] = 2.70;
 $SellCost_["Catfish"] = 3.80;
 $SellCost_["Arowana"] = 14.00;
-$SellCost_["Bass Fish"] = 18.00;
+$SellCost_["Bass_Fish"] = 18.00;
 $SellCost_["Tuna"] = 60.00;
 $SellCost_["Swordfish"] = 60.00;
 

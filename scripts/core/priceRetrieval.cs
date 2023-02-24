@@ -53,25 +53,30 @@ function getSellPrice(%name, %count) //price to sell items to bots
 
 function fxDTSBrick::listProducePrices(%brick, %cl)
 {
-	if (!isObject(%brick.centerprintMenu))
+	if ($generatedPriceList $= "")
 	{
-		%brick.centerprintMenu = new ScriptObject(ProduceMenus)
-		{
-			isCenterprintMenu = 1;
-			menuName = "Sell Produce Prices";
-		};
-
+		%str = "Sell prices:"
 		for (%i = 0; %i < getFieldCount($SellProduceList); %i++)
 		{
 			%produce = getField($SellProduceList, %i);
 			%cost = getSellPrice(%produce);
-			%brick.centerprintMenu.menuOption[%i] = %produce @ " - $" @ mFloatLength(%cost, 2);
+			%str = %str @ "\n" @ %produce @ " - $" @ mFloatLength(%cost, 2);
 		}
-		%brick.centerprintMenu.menuOptionCount = %i;
-		MissionCleanup.add(%brick.centerprintMenu);
+
+		for (%i = 0; %i < getFieldCount($SellFishList); %i++)
+		{
+			%produce = getField($SellFishList, %i);
+			%cost = getSellPrice(%produce);
+			%str = %str @ "\n" @ %produce @ " - $" @ mFloatLength(%cost, 2);
+		}
+		$generatedPriceList = %str;
 	}
 
-	%cl.startCenterprintMenu(%brick.centerprintMenu);
+	for (%i = 0; %i < 4; %i++)
+	{
+		%str[%i] = getSubStr(%str, %i * 250, 250);
+	}
+	commandToClient(%cl, 'MessageBoxOK', "Sell Prices", '%1%2%3%4', %str0, %str1, %str2, %str3);
 }
 
 registerOutputEvent("fxDTSBrick", "listProducePrices", "", 1);

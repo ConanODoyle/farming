@@ -66,6 +66,7 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 	$StorageMax_[%safeName] = %stackMax * 3;
 	$StorageTypeFishList = trim($StorageTypeFishList) TAB %safeName;
 
+	$SellFishList = trim($SellFishList TAB strReplace(%name, " ", "_"));
 	if (%stackMax <= 1) //cant be stacked
 	{
 		$Stackable_[%safeName @ "_StackedItemTotal"] = 1;
