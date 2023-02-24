@@ -94,18 +94,18 @@ function FishImage::onMount(%this, %obj, %slot)
 	%obj.playThread(1, armReadyBoth);
 }
 
+FishDatablocks("Old Boot","Old Boot",3);
+FishDatablocks("Glass Bottle","Glass Bottle",7);
+FishDatablocks("Bucket","Bucket",3);
+
 FishDatablocks("Sardine","Sardine",5);
-FishDatablocks("Bass Fish","Bass",3);
-FishDatablocks("Catfish","Catfish",3);
-FishDatablocks("Minnow","Minnow",3);
-FishDatablocks("Anchovy","Anchovy",4);
 FishDatablocks("Arowana","Arowana",3);
+FishDatablocks("Minnow","Minnow",3);
+FishDatablocks("Catfish","Catfish",3);
+FishDatablocks("Anchovy","Anchovy",4);
+FishDatablocks("Bass Fish","Bass",3);
 
 FishDatablocks("Tuna","Tuna",1);
 TunaImage.rotation = eulerToMatrix("0 -40 0");
 FishDatablocks("Swordfish","Swordfish",1);
 SwordfishImage.rotation = eulerToMatrix("0 -40 0");
-
-FishDatablocks("Old Boot","Old Boot",3);
-FishDatablocks("Glass Bottle","Glass Bottle",7);
-FishDatablocks("Bucket","Bucket",3);

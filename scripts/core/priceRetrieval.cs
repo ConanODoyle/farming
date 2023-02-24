@@ -55,26 +55,56 @@ function fxDTSBrick::listProducePrices(%brick, %cl)
 {
 	if ($generatedPriceList $= "")
 	{
-		%str = "Sell prices:";
-		for (%i = 0; %i < getFieldCount($SellProduceList); %i++)
-		{
-			%produce = getField($SellProduceList, %i);
-			%cost = getSellPrice(%produce);
-			%str = %str @ "\n" @ %produce @ " - $" @ mFloatLength(%cost, 2);
-		}
+		%str = "<font:Palatino Linotype:28>Sell prices:\n";
+		%str = %str @ "<just:left> Produce: <just:right>Fish:<font:Arial:15>\n\n";
 
-		for (%i = 0; %i < getFieldCount($SellFishList); %i++)
+		%count = getMax(getFieldCount($SellProduceList), getFieldCount($SellFishList));
+		for (%i = 0; %i < %count; %i++)
 		{
+			%str = %str @ "<just:left> ";
+			%produce = getField($SellProduceList, %i);
+			if (%produce !$= "")
+			{
+				%cost = getSellPrice(%produce);
+				%str = %str @ %space @ %produce @ " - $" @ mFloatLength(%cost, 2);
+			}
+			%str = %str @ "<just:right>";
+
 			%produce = getField($SellFishList, %i);
-			%cost = getSellPrice(%produce);
-			%str = %str @ "\n" @ %produce @ " - $" @ mFloatLength(%cost, 2);
+			if (%produce !$= "")
+			{
+				%cost = getSellPrice(%produce);
+				%str = %str @ %space @ strReplace(%produce, "_", " ") @ " - $" @ mFloatLength(%cost, 2);
+			}
+			%str = %str @ " \n";
 		}
+		// for (%i = 0; %i < getFieldCount($SellProduceList); %i++)
+		// {
+		// 	%space = %alt ? "<just:right>" : "\n<just:left>";
+		// 	%alt = !%alt;
+			
+		// 	%produce = getField($SellProduceList, %i);
+		// 	%cost = getSellPrice(%produce);
+		// 	%str = %str @ %space @ %produce @ " - $" @ mFloatLength(%cost, 2);
+		// }
+
+		// %str = %str @ "\n\n";
+
+		// for (%i = 0; %i < getFieldCount($SellFishList); %i++)
+		// {
+		// 	%space = %alt ? "<just:right>" : "\n<just:left>";
+		// 	%alt = !%alt;
+
+		// 	%produce = getField($SellFishList, %i);
+		// 	%cost = getSellPrice(%produce);
+		// 	%str = %str @ %space @ %produce @ " - $" @ mFloatLength(%cost, 2);
+		// }
 		$generatedPriceList = %str;
 	}
 
 	for (%i = 0; %i < 4; %i++)
 	{
-		%str[%i] = getSubStr(%str, %i * 250, 250);
+		%str[%i] = getSubStr($generatedPriceList, %i * 250, 250);
 	}
 	commandToClient(%cl, 'MessageBoxOK', "Sell Prices", '%1%2%3%4', %str0, %str1, %str2, %str3);
 }
