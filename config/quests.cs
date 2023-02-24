@@ -203,7 +203,7 @@ new ScriptObject(MiscToolQuestRewards) { class = "ShopObject"; };
 MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "PlanterItem"			TAB 70;
 MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "PlanterV2Item"		TAB 30;
 MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "OrganicAnalyzerItem"	TAB 100;
-MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "CropTrakKitItem"		TAB 2;
+MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "CropTrakKitItem"		TAB 4;
 
 
 new ScriptObject(BasicElectricQuestRewards) { class = "ShopObject"; };
