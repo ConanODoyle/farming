@@ -99,6 +99,11 @@ FishDatablocks("Minnow","Minnow",3);
 FishDatablocks("Anchovy","Anchovy",4);
 FishDatablocks("Arowana","Arowana",3);
 
+FishDatablocks("Tuna","Tuna",1);
+TunaImage.rotation = eulerToMatrix("0 -40 0");
+FishDatablocks("Swordfish","Swordfish",1);
+SwordfishImage.rotation = eulerToMatrix("0 -40 0");
+
 FishDatablocks("Old Boot","Old Boot",3);
 FishDatablocks("Glass Bottle","Glass Bottle",7);
 FishDatablocks("Bucket","Bucket",3);
