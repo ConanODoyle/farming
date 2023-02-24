@@ -1531,26 +1531,6 @@ datablock ShapeBaseImageData(CoalGeneratorBrickImage : BrickPlacerImage)
 	placeBrick = "brickCoalGeneratorData";
 };
 
-function CoalGeneratorBrickImage::onMount(%this, %obj, %slot)
-{
-	brickPlacerItem_onMount(%this, %obj, %slot);
-}
-
-function CoalGeneratorBrickImage::onUnmount(%this, %obj, %slot)
-{
-	brickPlacerItem_onUnmount(%this, %obj, %slot);
-}
-
-function CoalGeneratorBrickImage::onLoop(%this, %obj, %slot)
-{
-	brickPlacerItemLoop(%this, %obj, %slot);
-}
-
-function CoalGeneratorBrickImage::onFire(%this, %obj, %slot)
-{
-	brickPlacerItemFire(%this, %obj, %slot);
-}
-
 
 
 datablock ItemData(PowerControlBoxItem : brickPlacerItem)
@@ -1558,7 +1538,7 @@ datablock ItemData(PowerControlBoxItem : brickPlacerItem)
 	shapeFile = "./resources/toolbox.dts";
 	uiName = "Power Control Box";
 	image = "PowerControlBoxBrickImage";
-	colorShiftColor = "0.9 0 0 1";
+	colorShiftColor = "1 0.87 0 1";
 
 	iconName = "Add-ons/Server_Farming/icons/PowerControlBox";
 };
@@ -1580,26 +1560,6 @@ datablock ShapeBaseImageData(PowerControlBoxBrickImage : BrickPlacerImage)
 	loopTip = "Connects electrical machines";
 	placeBrick = "brickPowerControlBoxData";
 };
-
-function PowerControlBoxBrickImage::onMount(%this, %obj, %slot)
-{
-	brickPlacerItem_onMount(%this, %obj, %slot);
-}
-
-function PowerControlBoxBrickImage::onUnmount(%this, %obj, %slot)
-{
-	brickPlacerItem_onUnmount(%this, %obj, %slot);
-}
-
-function PowerControlBoxBrickImage::onLoop(%this, %obj, %slot)
-{
-	brickPlacerItemLoop(%this, %obj, %slot);
-}
-
-function PowerControlBoxBrickImage::onFire(%this, %obj, %slot)
-{
-	brickPlacerItemFire(%this, %obj, %slot);
-}
 
 
 
@@ -1630,23 +1590,3 @@ datablock ShapeBaseImageData(BatteryBrickImage : BrickPlacerImage)
 	loopTip = "Stores excess electrical power";
 	placeBrick = "brickBatteryData";
 };
-
-function BatteryBrickImage::onMount(%this, %obj, %slot)
-{
-	brickPlacerItem_onMount(%this, %obj, %slot);
-}
-
-function BatteryBrickImage::onUnmount(%this, %obj, %slot)
-{
-	brickPlacerItem_onUnmount(%this, %obj, %slot);
-}
-
-function BatteryBrickImage::onLoop(%this, %obj, %slot)
-{
-	brickPlacerItemLoop(%this, %obj, %slot);
-}
-
-function BatteryBrickImage::onFire(%this, %obj, %slot)
-{
-	brickPlacerItemFire(%this, %obj, %slot);
-}
