@@ -397,6 +397,7 @@ function serverCmdSellShop(%cl, %force)
 	// %cl.refundRatio = 0;
 	%cl.repeatSellShopLot = 0;
 
+	$Pref::Farming::lastShopAutosave[%cl.bl_id] = "";
 	if (!%force)
 	{
 		messageClient(%cl, '', "\c5You sold a lot for \c2" @ %costString @ "\c5!");
