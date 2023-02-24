@@ -416,7 +416,7 @@ function seedLoop(%image, %obj)
 	if (isObject(%cl))
 	{
 		%seedName = strReplace(getSubStr(%type, 0, strLen(%type) - 4), "_", " ");
-		%cl.centerprint("<just:right><color:ffff00>-Seeds " @ %obj.currTool @ "- \n" @ %seedName @ "<color:ffffff>: " @ %count @ " \n\c0" @ %obj.seedError, 1);
+		%cl.centerprint("<just:right><color:ffff00>-Seeds " @ %obj.currTool + 1 @ "- \n" @ %seedName @ "<color:ffffff>: " @ %count @ " \n\c0" @ %obj.seedError, 1);
 	}
 
 	if (%obj.seedErrorTimeout < $Sim::Time)

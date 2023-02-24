@@ -1,3 +1,16 @@
+function CanImage::onMount(%this, %obj, %slot)
+{
+	if (%obj.toolStackCount[%obj.currTool] > 1)
+	{
+		%obj.playThread(1, armReadyBoth);
+	}
+}
+
+function CanImage::onUnmount(%this, %obj, %slot)
+{
+	%obj.playThread(1, armReadyRight);
+}
+
 function CanImage::onFire(%this, %obj, %slot)
 {
 	%count = %obj.toolStackCount[%obj.currTool];
@@ -22,14 +35,13 @@ function CanImage::onFire(%this, %obj, %slot)
 
 function CanImage::onLoop(%this, %obj, %slot)
 {
-	%item = %image.item;
-	%type = %item.stackType;
+	%type = "Canned " @ %this.cropType;
 	%cl = %obj.client;
 	%count = %obj.toolStackCount[%obj.currTool];
 
 	if (isObject(%cl))
 	{
-		%cl.centerprint("<just:right>\c3-Basket " @ %obj.currTool + 1 @ "- \n\c3" @ %type @ "\c6: " @ %count @ " \n\c5Click to uncan", 1);
+		%cl.centerprint("<just:right>\c3-Can " @ %obj.currTool + 1 @ "- \n\c3" @ %type @ "\c6: " @ %count @ " \n\c5Click to uncan ", 1);
 	}
 }
 
@@ -78,7 +90,7 @@ function DataString_CanImage(%cropType,%shape,%color,%index)
 		@"cropType = \"" @ %cropType @ "\";"
 		@"stateName[0] = \"Activate\";"
 		@"stateTransitionOnTimeout[0] = \"Loop\";"
-		@"stateTimeoutValue[0] = 0.1;"
+		@"stateTimeoutValue[0] = 0.3;"
 
 		@"stateName[1] = \"Loop\";"
 		@"stateScript[1] = \"onLoop\";"

@@ -7,7 +7,7 @@ datablock fxDTSBrickData(brickSolarPanel4x4Data)
 {
 	uiName = "Solar Panel 4x4";
 
-	brickFile = "./resources/power/solarpanel4x.blb";
+	brickFile = "./resources/solarpanels/solarpanel4x.blb";
 
 	iconName = "Add-Ons/Server_Farming/icons/SolarPanel4x";
 
@@ -21,7 +21,7 @@ datablock fxDTSBrickData(brickSolarPanel4x4Data)
 	isSolarPanel = 1;
 	burnRate = 0.00; //bodge: generator burns 0 fuel
 	fuelType = ""; //bodge: will pass fuel check due to empty string
-	generation = 4;
+	generation = 2;
 
 	isStorageBrick = 1;
 	storageSlotCount = 0;
@@ -36,7 +36,7 @@ datablock fxDTSBrickData(brickSolarPanel8x8Data)
 {
 	uiName = "Solar Panel 8x8";
 
-	brickFile = "./resources/power/solarpanel8x.blb";
+	brickFile = "./resources/solarpanels/solarpanel8x.blb";
 
 	iconName = "Add-Ons/Server_Farming/icons/SolarPanel8x";
 
@@ -50,7 +50,7 @@ datablock fxDTSBrickData(brickSolarPanel8x8Data)
 	isSolarPanel = 1;
 	burnRate = 0.00; //bodge: generator burns 0 fuel
 	fuelType = ""; //bodge: will pass fuel check due to empty string
-	generation = 20;
+	generation = 12;
 
 	isStorageBrick = 1;
 	storageSlotCount = 0;
@@ -70,7 +70,7 @@ datablock fxDTSBrickData(brickSolarPanel8x8Data)
 datablock ItemData(SolarPanel4x4Item : brickPlacerItem)
 {
 	shapeFile = "./resources/toolbox.dts";
-	uiName = "Indoor Light - 2x6";
+	uiName = "Solar Panel 4x4";
 	image = "SolarPanel4x4BrickImage";
 	colorShiftColor = "0 0 0.5 1";
 
@@ -90,15 +90,15 @@ datablock ShapeBaseImageData(SolarPanel4x4BrickImage : BrickPlacerImage)
 	doColorshift = true;
 	colorShiftColor = SolarPanel4x4Item.colorShiftColor;
 
-	toolTip = "Places an indoor light";
-	loopTip = "When powered, lets plants grow";
+	toolTip = "Places a solar panel";
+	loopTip = "Provides 2 power when outside";
 	placeBrick = "brickSolarPanel4x4Data";
 };
 
 datablock ItemData(SolarPanel8x8Item : brickPlacerItem)
 {
 	shapeFile = "./resources/toolbox.dts";
-	uiName = "Indoor Light - 2x6";
+	uiName = "Solar Panel 8x8";
 	image = "SolarPanel8x8BrickImage";
 	colorShiftColor = "0 0 0.5 1";
 
@@ -118,7 +118,7 @@ datablock ShapeBaseImageData(SolarPanel8x8BrickImage : BrickPlacerImage)
 	doColorshift = true;
 	colorShiftColor = SolarPanel8x8Item.colorShiftColor;
 
-	toolTip = "Places an indoor light";
-	loopTip = "When powered, lets plants grow";
+	toolTip = "Places a solar panel";
+	loopTip = "Provides 12 power when outside";
 	placeBrick = "brickSolarPanel8x8Data";
 };

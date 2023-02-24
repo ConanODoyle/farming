@@ -197,7 +197,7 @@ datablock fxDTSBrickData(brickPergolaData)
 	subCategory = "Extra";
 	uiName = "Pergola";
 
-	brickFile = "./bricks/goldingot.blb";
+	brickFile = "./bricks/pergola.blb";
 
 	iconName = "Add-Ons/Server_Farming/icons/Pergola";
 
