@@ -219,7 +219,7 @@ datablock fxDTSBrickData(brickScarecrowData)
 	allowLightThrough = 1;
 	cost = 200;
 	customRefundCost = 200;
-	customRadius = -1.05;
+	customRadius = 1.95;
 };
 
 
