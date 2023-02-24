@@ -333,6 +333,11 @@ function reelBobber(%bobber)
 		}
 		else
 		{
+			%spot = "FishingLootTable";
+			if (isObject(%bobber.nearestFishingSpot))
+			{
+				%spot = %spot @ getSubStr(%bobber.nearestFishingSpot.getName(), 1, 1);
+			}
 			%itemDB = getFishingReward(%percent, %quality);
 			messageClient(%client, '', "\c2You fished one " @ %itemDB.uiName @ "!");
 			if (%stats = %bobber.player.checkReelStatsDisplay())

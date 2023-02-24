@@ -68,6 +68,7 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 
 	if (%stackMax <= 1) //cant be stacked
 	{
+		$Stackable_[%safeName @ "_StackedItemTotal"] = 1;
 		$Stackable_[%safeName, "StackedItem0"] = %itemName SPC 1;
 		return;
 	}

@@ -54,9 +54,14 @@ function pickFromTable(%table, %percent, %maxTier)
 	}
 }
 
-function getFishingReward(%percent, %maxTier)
+function getFishingReward(%table, %percent, %maxTier)
 {
-	%uiName = pickFromTable(FishingLootTable, %percent, %maxTier);
+	if (!isObject(%table))
+	{
+		%table = FishingLootTable;
+	}
+
+	%uiName = pickFromTable(%table, %percent, %maxTier);
 	if (!isObject($UINameTable_Items[%uiName]))
 	{
 		talk("No item found for " @ %uiName);

@@ -1,4 +1,4 @@
-function generateLootResults(%percent, %quality, %num)
+function generateLootResults(%table, %percent, %quality, %num)
 {
 	if (%num $= "")
 	{
@@ -6,7 +6,7 @@ function generateLootResults(%percent, %quality, %num)
 	}
 	for (%i = 0; %i < %num; %i++)
 	{
-		%result = pickFromTable(FishingLootTable, %percent, %quality);
+		%result = pickFromTable(%table, %percent, %quality);
 		if (%count_[%result] <= 0)
 		{
 			%list_[%listCount++ - 1] = %result;
