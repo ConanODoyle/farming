@@ -475,6 +475,14 @@ datablock AudioProfile(BucketSound)
 	uiName = "";
 };
 
+datablock AudioProfile(DearGodSound)
+{
+	filename = "./fun/dear_god.wav";
+	description = AudioClose3D;
+	preload = true;
+	uiName = "";
+};
+
 
 // serverPlay3D rewrite to avoid broadcasting 3D sound updates to players that are too far away to hear them.
 function serverPlay3D(%profile, %transform)

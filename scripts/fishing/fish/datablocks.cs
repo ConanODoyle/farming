@@ -91,6 +91,17 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 
 function FishImage::onMount(%this, %obj, %slot)
 {
+	if (%this.item.stackType $= "Bucket")
+	{
+		if (%obj.toolStackCount[%obj.currTool] > 1)
+		{
+			serverPlay3D(DearGodSound, %obj.position);
+		}
+		else
+		{
+			serverPlay3D(BucketSound, %obj.position);
+		}
+	}
 	if (getRandom() < 0.001)
 	{
 		serverPlay3D(BucketSound, %obj.position);
