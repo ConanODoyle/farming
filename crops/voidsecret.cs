@@ -747,13 +747,9 @@ function pastPortalTeleport(%cl)
 	%pl.setWhiteout(1);
 	%pl.setTransform(_past_teleport.getTransform());
 
+	removeBossCombatItems(%pl);
 	for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
 	{
-		if (%pl.tool[%i].getName() $= "MasterKeyItem")
-		{
-			%pl.farmingRemoveItem(%i);
-		}
-
 		if (%pl.tool[%i] == 0)
 		{
 			%validSlot = %i;
@@ -787,13 +783,9 @@ function serverCmdClaimBossReward(%cl)
 		return;
 	}
 
+	removeBossCombatItems(%pl);
 	for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
 	{
-		if (%pl.tool[%i].getName() $= "MasterKeyItem")
-		{
-			%pl.farmingRemoveItem(%i);
-		}
-
 		if (%pl.tool[%i] == 0)
 		{
 			%validSlot = %i;

@@ -216,6 +216,18 @@ function onBossFightWin()
 	}
 }
 
+function removeBossCombatItems(%pl)
+{
+	for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
+	{
+		if (isObject(%pl.tool[%i]) && (%pl.tool[%i].getName() $= "MasterKeyItem"
+				|| %pl.tool[%i].getName() $= "lockGunItem")) //TODO: add healing item as well
+		{
+			%pl.farmingRemoveItem(%i);
+		}
+	}
+}
+
 package HarvesterEncounter
 {
 	function GameConnection::onDeath(%cl, %source, %killer, %type, %location)
@@ -246,14 +258,7 @@ package HarvesterEncounter
 			return;
 		}
 
-		for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
-		{
-			if (isObject(%pl.tool[%i]) && (%pl.tool[%i].getName() $= "MasterKeyItem"
-					|| %pl.tool[%i].getName() $= "lockGunItem")) //TODO: add healing item as well
-			{
-				%pl.farmingRemoveItem(%i);
-			}
-		}
+		removeBossCombatItems(%pl);
 		parent::serverCmdHome(%cl);
 	}
 };
