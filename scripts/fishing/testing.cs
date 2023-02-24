@@ -29,6 +29,7 @@ function generateLootResults(%table, %percent, %quality, %num)
 
 	%file.close();
 	%file.delete();
+	return %total;
 }
 
 function generateReelModifiers(%base, %pSub, %pDiv, %qSub, %qDiv, %time)
@@ -50,8 +51,8 @@ function generateReelModifiers(%base, %pSub, %pDiv, %qSub, %qDiv, %time)
 
 function getPoleReelModifier(%pole, %delay)
 {
-	%percent = calculatePercent(%i, %pole.fishingPSub, %pole.fishingPDiv);
-	%quality = calculateQuality(%i, %pole.fishingBaseQuality, %pole.fishingQSub, %pole.fishingQDiv);
+	%percent = calculatePercent(%delay, %pole.fishingPSub, %pole.fishingPDiv);
+	%quality = calculateQuality(%delay, %pole.fishingBaseQuality, %pole.fishingQSub, %pole.fishingQDiv);
 	return %percent SPC %quality;
 }
 
@@ -60,10 +61,14 @@ function generatePoleReelModifiers(%pole)
 	generateReelModifiers(%pole.fishingBaseQuality, %pole.fishingPSub, %pole.fishingPDiv, %pole.fishingQSub, %pole.fishingQDiv);
 }
 
-function generatePoleLootResults(%pole, %time)
+function generatePoleLootResults(%pole, %table, %time)
 {
-	%mods = generateReelModifiers(%pole.fishingBaseQuality, %pole.fishingPSub, %pole.fishingPDiv, %pole.fishingQSub, %pole.fishingQDiv, %time);
+	if (!isObject(%table) || !isObject(%pole))
+	{
+		return;
+	}
+	%mods = getPoleReelModifier(%pole, %time);
 	%percent = getWord(%mods, 0);
 	%quality = getWord(%mods, 1);
-	generateLootResults(%percent, %quality, 5000);
+	return generateLootResults(%table, %percent, %quality, 5000);
 }

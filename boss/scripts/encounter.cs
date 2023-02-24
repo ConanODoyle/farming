@@ -239,9 +239,16 @@ package HarvesterEncounter
 	function serverCmdHome(%cl)
 	{
 		%pl = %cl.player;
+
+		if (HarvesterFightSet.isMember(%pl) || HarvesterDeathSet.isMember(%cl))
+		{
+			commandToClient(%cl, 'MessageBoxOK', "Restricted", "You are currently in the Harvester boss fight. Please wait until the fight is complete.");
+			return;
+		}
+
 		for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
 		{
-			if (%pl.tool[%i].getName() $= "MasterKeyItem") //TODO: add healing item as well
+			if (isObject(%pl.tool[%i] && %pl.tool[%i].getName() $= "MasterKeyItem") //TODO: add healing item as well
 			{
 				%pl.farmingRemoveItem(%i);
 			}
