@@ -8,6 +8,8 @@ function startLoops()
 	$disableWeather = 0;
 	//fishingTick(0);
 	_sequenceBot.setHSpawnClose(1, 0);
+	randomBappsMatLoop();
+	randomPostOfficeLoop();
 }
 
 function stopLoops()
