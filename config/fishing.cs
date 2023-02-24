@@ -51,4 +51,4 @@ FishingLootTable.addFishingLootDrop("Clipper", 4, -10, 3.2);
 FishingLootTable.addFishingLootDrop("Trowel", 4, -10, 3.2);
 FishingLootTable.addFishingLootDrop("Hoe", 2, -10, 3.2);
 FishingLootTable.addFishingLootDrop("Sickle", 2, -10, 3.2);
-FishingLootTable.addFishingLootDrop("CropTrak", 5, -50, 3.2);
+FishingLootTable.addFishingLootDrop("CropTrak", 6, -50, 3.2);

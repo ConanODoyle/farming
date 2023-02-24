@@ -200,10 +200,10 @@ WeedKillerQuestRewards.option[WeedKillerQuestRewards.count++ - 1]  = "WeedKiller
 
 new ScriptObject(MiscToolQuestRewards) { class = "ShopObject"; };
 
-MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "PlanterItem"			TAB 7;
-MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "PlanterV2Item"		TAB 3;
-MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "OrganicAnalyzerItem"	TAB 10;
-MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "ShovelItem"			TAB 15;
+MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "PlanterItem"			TAB 70;
+MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "PlanterV2Item"		TAB 30;
+MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "OrganicAnalyzerItem"	TAB 100;
+MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "CropTrakKitItem"		TAB 2;
 
 
 new ScriptObject(BasicElectricQuestRewards) { class = "ShopObject"; };
