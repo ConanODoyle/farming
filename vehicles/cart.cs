@@ -159,7 +159,10 @@ package Cart
 		// 	%obj.schedule(1, setTransform, %mount.getTransform());
 		// }
 
-		%obj.client.centerprint("\c6If you're stuck, use /stuck to get unstuck, or /home to go to town.", 5);
+		if (isObject(%obj.client))
+		{
+			%obj.client.centerprint("\c6If you're stuck, use /stuck to get unstuck, or /home to go to town.", 5);
+		}
 
 		return parent::onUnmount(%this, %obj, %mount, %slot);
 	}

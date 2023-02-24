@@ -91,7 +91,7 @@ function FishDatablocks(%name,%shapeName,%stackMax)
 
 function FishImage::onMount(%this, %obj, %slot)
 {
-	if (%this.item.stackType $= "Bucket")
+	if (%this.item.stackType $= "Bucket" && getRandom() < 0.1)
 	{
 		if (%obj.toolStackCount[%obj.currTool] > 1)
 		{
