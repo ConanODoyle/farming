@@ -211,16 +211,18 @@ new ScriptObject(BasicElectricQuestRewards) { class = "ShopObject"; };
 BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "MediumPumpItem"			TAB 15;
 BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "IndoorLightItem"		TAB 20;
 BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "BatteryItem"			TAB 15;
+BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "SolarPanel4x4Item"		TAB 8;
 BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "EthanolRefineryItem"	TAB 8;
 BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "EthanolGeneratorItem"	TAB 8;
 
 
 new ScriptObject(AdvancedElectricQuestRewards) { class = "ShopObject"; };
 
-AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "LargePumpItem"			TAB 15;
-AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "EthanolRefineryItem"		TAB 20;
-AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "EthanolGeneratorItem"		TAB 20;
-AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "CanneryItem"				TAB 15;
+AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "LargePumpItem"			TAB 17;
+AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "EthanolRefineryItem"		TAB 24;
+AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "EthanolGeneratorItem"		TAB 24;
+AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "CanneryItem"				TAB 17;
+AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "SolarPanel8x8Item"		TAB 10;
 AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "FertilizerMixerItem"		TAB 5;
 // AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "LargeBatteryItem"		TAB 11;
 
