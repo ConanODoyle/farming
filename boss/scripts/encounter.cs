@@ -248,7 +248,8 @@ package HarvesterEncounter
 
 		for (%i = 0; %i < %pl.dataBlock.maxTools; %i++)
 		{
-			if (isObject(%pl.tool[%i] && %pl.tool[%i].getName() $= "MasterKeyItem") //TODO: add healing item as well
+			if (isObject(%pl.tool[%i]) && (%pl.tool[%i].getName() $= "MasterKeyItem"
+					|| %pl.tool[%i].getName() $= "lockGunItem")) //TODO: add healing item as well
 			{
 				%pl.farmingRemoveItem(%i);
 			}
