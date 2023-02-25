@@ -227,7 +227,7 @@ function lightRaycastCheck(%pos, %brick)
 				%greenhouseFound = 1;
 			}
 		}
-		else
+		else if (!%hit.canLightPassThrough())
 		{
 			%light = %hit.getLightLevel(%light);
 			if (%light == 0)
