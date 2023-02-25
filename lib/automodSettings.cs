@@ -97,6 +97,22 @@ package autoModeratorEnforcement
 
 		parent::serverCmdStartTalking(%client);
 	}
+
+	function autoModMessageAdmins(%message)
+	{
+		warn(%message);
+
+		for(%i = 0; %i < clientGroup.getCount(); %i++)
+		{
+			%client = clientGroup.getObject(%i);
+
+
+			%client.chatMessage(%message);
+
+			if(%client.isAdmin)
+				%client.play2D(Beep_Popup_Sound);
+		}
+	}
 };
 activatePackage(autoModeratorEnforcement);
 

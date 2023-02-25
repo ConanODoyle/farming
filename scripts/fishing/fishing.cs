@@ -49,7 +49,7 @@ datablock StaticShapeData(FishingLineShape)
 
 datablock fxDTSBrickData(brickFishingSpotData : brick8x8fData)
 {
-	category = "Farming";
+	category = "Farming Dev";
 	subCategory = "Fishing";
 	uiName = "Fishing Spot";
 	isIllegal = 1;
