@@ -150,10 +150,10 @@ function serverCmdUnmute(%cl, %a, %b, %c, %d)
 	else
 		unmute(%target.bl_id);
 
-	messageClient(%cl, '', "\c6Unmuted " @ %target);
+	messageClient(%cl, '', "\c5Unmuted " @ %target);
 	if (isObject(%target))
 	{
-		messageClient(%target, '', "\c6" @ %cl.name @ " unmuted you.");
+		messageClient(%target, '', "\c5" @ %cl.name @ " unmuted you.");
 	}
 	echo("[" @ getDateTime() @ "] " @ %cl.name @ " unmuted " @ %target @ " (" @ %target.name SPC %target.bl_id @ ")");
 }
@@ -166,6 +166,7 @@ function serverCmdMute(%cl, %blid, %time)
 	if (%blid $= "" || %time $= "")
 	{
 		messageClient(%cl, '', "Usage: /mute blid timeInSeconds");
+		return;
 	}
 
 	if (!isObject(%target = findClientByBL_ID(%blid)))
@@ -176,10 +177,10 @@ function serverCmdMute(%cl, %blid, %time)
 
 	$autoModeratorMute[%target.bl_id] = $Sim::Time + %time;
 
-	messageClient(%cl, '', "\c6Unmuted " @ %target);
+	messageClient(%cl, '', "\c5Muted " @ %target.name @ " for " @ %time @ " seconds.");
 	if (isObject(%target))
 	{
-		messageClient(%target, '', "\c6" @ %cl.name @ " muted you.");
+		messageClient(%target, '', "\c5" @ %cl.name @ " muted you.");
 	}
 	echo("[" @ getDateTime() @ "] " @ %cl.name @ " muted " @ %target @ " (" @ %target.name SPC %target.bl_id @ ")");
 }
