@@ -405,6 +405,7 @@ function rot13(%string)
 
 $wordReplacerCount = 0;
 addWordManualDemerits(rot13("avttre"), "identity_attack");
+addWordManualDemerits(rot13("avttn"), "identity_attack");
 addWordManualDemerits(rot13("snttbg"), "identity_attack");
 addWordManualDemerits(rot13("genaal"), "identity_attack");
 addWordManualDemerits(rot13("xvxr"), "identity_attack");
