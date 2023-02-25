@@ -23,7 +23,7 @@ datablock fxDTSBrickData(BrickStasisMachineData)
 	// Properties: //
 	//-------------//
 	
-	category = "Special";
+	category = "";
 	subCategory = "Interactive";
 
 	uiName = "Stasis Machine";
