@@ -69,17 +69,18 @@ $BuyCost_["Fishing_Pole_3"] = 1200;
 $BuyCost_["Fish_Finder"] = 800;
 $BuyCost_["Tackle_Box"] = 600;
 
-$SellCost_["Bucket"] = 1;
-$SellCost_["Old_Boot"] = 0.40;
-$SellCost_["Glass_Bottle"] = 0.10;
-$SellCost_["Sardine"] = 1.30;
-$SellCost_["Anchovy"] = 1.80;
-$SellCost_["Minnow"] = 2.70;
-$SellCost_["Catfish"] = 3.80;
-$SellCost_["Arowana"] = 14.00;
-$SellCost_["Bass_Fish"] = 18.00;
-$SellCost_["Tuna"] = 60.00;
-$SellCost_["Swordfish"] = 60.00;
+$FishSellModifier = 1.1;
+$SellCost_["Bucket"] = mFloatLength(1 * $FishSellModifier, 2);
+$SellCost_["Old_Boot"] = mFloatLength(0.40 * $FishSellModifier, 2);
+$SellCost_["Glass_Bottle"] = mFloatLength(0.10 * $FishSellModifier, 2);
+$SellCost_["Sardine"] = mFloatLength(1.30 * $FishSellModifier, 2);
+$SellCost_["Anchovy"] = mFloatLength(1.80 * $FishSellModifier, 2);
+$SellCost_["Minnow"] = mFloatLength(2.70 * $FishSellModifier, 2);
+$SellCost_["Catfish"] = mFloatLength(3.80 * $FishSellModifier, 2);
+$SellCost_["Arowana"] = mFloatLength(14.00 * $FishSellModifier, 2);
+$SellCost_["Bass_Fish"] = mFloatLength(18.00 * $FishSellModifier, 2);
+$SellCost_["Tuna"] = mFloatLength(60.00 * $FishSellModifier, 2);
+$SellCost_["Swordfish"] = mFloatLength(60.00 * $FishSellModifier, 2);
 
 
 

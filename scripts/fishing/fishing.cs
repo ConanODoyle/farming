@@ -286,7 +286,7 @@ function bobberFishCheck(%bobber)
 		{
 			%bobber.fishPending = 1;
 			%bobber.fishQuality = %bobber.nearestFishingSpot.fish;
-			%bobber.nextDunkTime = $Sim::Time + getRandom(12) + 4;
+			%bobber.nextDunkTime = $Sim::Time + getRandom(8) + 4;
 			// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Fish now pending, dunk time " @ %bobber.nextDunkTime);
 		}
 	}
