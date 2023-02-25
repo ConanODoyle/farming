@@ -56,7 +56,7 @@ function serverCmdContinueTutorial(%client)
 		case 2:
 			%head = "Tutorial - Basics";
 			%text = $header @ "- Overview -\n\n" 
-				@ $body @ "Your first land pot is free - talk to the Lot Manager in City Hall for help in getting your first lot!\n\n"
+				@ $body @ "Your first land plot is free - talk to the Lot Manager in City Hall for help in getting your first lot!\n\n"
 				@ "Buy seeds from seed sellers in the Barn or at Bapps, plant them on dirt bricks (found in the Farming tab), then water them and wait for them to grow. Crops do not die unless harvested, so don't worry about losing progress!\n\n"
 				@ "Sell your produce to the Supermarket Buyer, found next to Bapps and the Barn. Some crops will drop seeds on harvest, letting you replant them for free!";
 		case 3:

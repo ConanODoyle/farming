@@ -3,18 +3,18 @@ function getPluralWord(%word)
     %lastChar = getSubStr(%word, getMax(0, strLen(%word) - 1), 1);
     %lastWord = getWord(%word, getWordCount(%word) - 1);
     %noPluralAppend = "wheat corn coal phosphate sticks weed killer";
-    %esAppend = "tomato potato peach";
+    %esAppend = "tomato potato peach fish";
     %sAppend = "gameboy";
 
-    if (strPos(%noPluralAppend, strLwr(%lastWord)) >= 0)
+    if (striPos(%noPluralAppend, %lastWord) >= 0)
     {
         return %word;
     }
-    else if (strPos(%sAppend, strLwr(%lastWord)) >= 0) //prioritize custom cases
+    else if (striPos(%sAppend, %lastWord) >= 0) //prioritize custom cases
     {
         return %word @ "s";
     }
-    else if (strPos(%esAppend, strLwr(%lastWord)) >= 0) //prioritize custom cases
+    else if (striPos(%esAppend, %lastWord) >= 0) //prioritize custom cases
     {
         return %word @ "es";
     }
