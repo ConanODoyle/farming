@@ -57,7 +57,7 @@ FishingLootTable.addFishingLootDrop("Clipper", 3, -10, 3.2);
 FishingLootTable.addFishingLootDrop("Trowel", 3, -10, 3.2);
 FishingLootTable.addFishingLootDrop("Hoe", 1, -10, 3.2);
 FishingLootTable.addFishingLootDrop("Sickle", 1, -10, 3.2);
-FishingLootTable.addFishingLootDrop("CropTrak\x99_Upgrade_Kit", 6, -50, 3.2);
+FishingLootTable.addFishingLootDrop("CropTrak\x99_Upgrade_Kit", 4, -50, 3.2);
 
 
 
@@ -131,11 +131,11 @@ FishingLootTableB.addFishingLootDrop("Rose Seed", 30, 10, 3);
 FishingLootTableB.addFishingLootDrop("Lily Seed", 30, 10, 3);
 FishingLootTableB.addFishingLootDrop("Daisy Seed", 30, 10, 3);
 
-FishingLootTableB.addFishingLootDrop("Clipper", 3, -10, 3.1);
-FishingLootTableB.addFishingLootDrop("Trowel", 3, -10, 3.1);
+FishingLootTableB.addFishingLootDrop("Clipper", 2, -10, 3.1);
+FishingLootTableB.addFishingLootDrop("Trowel", 2, -10, 3.1);
 FishingLootTableB.addFishingLootDrop("Hoe", 1, -10, 3.2);
 FishingLootTableB.addFishingLootDrop("Sickle", 1, -10, 3.2);
-FishingLootTableB.addFishingLootDrop("CropTrak\x99_Upgrade_Kit", 4, -50, 3.0);
+FishingLootTableB.addFishingLootDrop("CropTrak\x99_Upgrade_Kit", 3, -50, 3.0);
 
 
 
