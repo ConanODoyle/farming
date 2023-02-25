@@ -123,7 +123,7 @@ function unmute(%bl_id)
 
 function serverCmdUnmute(%cl, %a, %b, %c, %d)
 {
-	if(!%cl.isSuperAdmin)
+	if(!%cl.isAdmin)
 		return;
 
 	%name = trim(%a SPC %b SPC %c SPC %d);
@@ -156,6 +156,32 @@ function serverCmdUnmute(%cl, %a, %b, %c, %d)
 		messageClient(%target, '', "\c6" @ %cl.name @ " unmuted you.");
 	}
 	echo("[" @ getDateTime() @ "] " @ %cl.name @ " unmuted " @ %target @ " (" @ %target.name SPC %target.bl_id @ ")");
+}
+
+function serverCmdMute(%cl, %blid, %time)
+{
+	if(!%cl.isAdmin)
+		return;
+
+	if (%blid $= "" || %time $= "")
+	{
+		messageClient(%cl, '', "Usage: /mute blid timeInSeconds");
+	}
+
+	if (!isObject(%target = findClientByBL_ID(%blid)))
+	{
+		messageClient(%cl, '', "Cannot find player with BLID " @ %blid);
+		return;
+	}
+
+	$autoModeratorMute[%target.bl_id] = $Sim::Time + %time;
+
+	messageClient(%cl, '', "\c6Unmuted " @ %target);
+	if (isObject(%target))
+	{
+		messageClient(%target, '', "\c6" @ %cl.name @ " muted you.");
+	}
+	echo("[" @ getDateTime() @ "] " @ %cl.name @ " muted " @ %target @ " (" @ %target.name SPC %target.bl_id @ ")");
 }
 
 function resetPunishment(%bl_id)
