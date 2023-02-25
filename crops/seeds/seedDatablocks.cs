@@ -127,6 +127,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	//plant successful, make plant brick
 	%b = createPlantBrick(%pos, %brickDB, 1, "", %brickDB.defaultColor + 0);
 	%b.plantedTime = $Sim::Time;
+	%inGreenhouse = getWord(lightRaycastCheck(%pos, %b), 1);
 	%b.inGreenhouse = %inGreenhouse;
 
 	%error = %b.plant();

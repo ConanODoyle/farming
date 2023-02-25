@@ -579,6 +579,11 @@ function fxDTSBrick::getNextTickTime(%brick, %nutrients, %light, %weather)
 		%multi = %multi * %heatTimeMod;
 	}
 
+	if (%brick.inGreenhouse)
+	{
+		%multi *= 0.5;
+	}
+
 	//lowest value is 1 second to prevent infinite recursion/fast plant checks
 	return getMax(1, (%tickTime + %lightModifier + %nutrientModifier + %weedTimeModifier) * %multi);
 }
