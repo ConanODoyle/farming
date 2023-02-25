@@ -66,8 +66,8 @@ $BuyCost_["L3_-_\"Last_Word\""] = 2500;
 $BuyCost_["Fishing_Pole"] = 150;
 $BuyCost_["Fishing_Pole_2"] = 600;
 $BuyCost_["Fishing_Pole_3"] = 1200;
-$BuyCost_["Fish_Finder"] = 800;
-$BuyCost_["Tackle_Box"] = 600;
+$BuyCost_["Fish_Finder"] = 300;
+$BuyCost_["Tackle_Box"] = 150;
 
 $FishSellModifier = 1.0;
 $SellCost_["Bucket"] = mFloatLength(1 * $FishSellModifier, 2);
