@@ -9,6 +9,8 @@ datablock ItemData(RubyItem : HammerItem)
 
 	doColorShift = false;
 	colorShiftColor = "1 0 0 1";
+
+	canPickupMultiple = 1;
 };
 
 datablock ShapeBaseImageData(RubyImage)
@@ -34,6 +36,8 @@ datablock ItemData(SapphireItem : HammerItem)
 	image = "SapphireImage";
 	doColorShift = false;
 	colorShiftColor = "0.15 0 0.77 1";
+
+	canPickupMultiple = 1;
 };
 
 datablock ShapeBaseImageData(SapphireImage)
@@ -59,6 +63,8 @@ datablock ItemData(EmeraldItem : HammerItem)
 	image = "EmeraldImage";
 	doColorShift = false;
 	colorShiftColor = "0 0.847 0 1";
+
+	canPickupMultiple = 1;
 };
 
 datablock ShapeBaseImageData(EmeraldImage)
@@ -84,6 +90,8 @@ datablock ItemData(DiamondItem : HammerItem)
 	image = "DiamondImage";
 	doColorShift = false;
 	colorShiftColor = "1 1 1 1";
+
+	canPickupMultiple = 1;
 };
 
 datablock ShapeBaseImageData(DiamondImage)
