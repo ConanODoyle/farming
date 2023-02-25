@@ -12,6 +12,7 @@ function startLoops()
 	randomPostOfficeLoop();
 	eval("function updater::checkdaytick(%this, %date){ return; }");
 	$GamemodeDisplayName = "Framing";
+	infoLoop();
 }
 
 function stopLoops()

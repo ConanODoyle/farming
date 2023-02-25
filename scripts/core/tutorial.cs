@@ -1,3 +1,32 @@
+//tips
+function registerInfo(%str)
+{
+	$InfoString[$InfoStringCount++ - 1] = "[INFO] \c6" @ %str;
+}
+
+function infoLoop()
+{
+	cancel($InfoLoopSchedule);
+
+	$InfoIDX = ($InfoIDX + 1) % $InfoStringCount;
+	announce($InfoString[$InfoIDX]);
+
+	$InfoLoopSchedule = schedule(300000, 0, infoLoop);
+}
+
+$InfoStringCount = 0;
+registerInfo("Use \c5/tutorial\c6 to see information on a lot of things, like greenhouses, fishing, and fertilizer!");
+registerInfo("Talk to the Lot Manager if you need to find an empty lot to buy! Use \c5/buyLot\c6 to buy a red lot - your first lot is free!");
+registerInfo("Use \c5/home\c6 to instantly teleport to town!");
+registerInfo("Explore the map to find secrets! Treasure chests give \c2$100\c6 each!");
+registerInfo("Bus stops let you travel for just $0.50! Click the destination sheet to select a bus stop using brick controls!");
+registerInfo("New to farming? Start with potatoes and carrots!");
+registerInfo("Join the Discord here: <a:https://discord.gg/R3R3Vfj>https://discord.gg/R3R3Vfj");
+
+
+
+//tutorial
+
 function gameConnection::messageBoxYesNoLong(%this, %title, %message, %taggedOkCmd)
 {
 	%maxSplits = 4;
