@@ -39,6 +39,7 @@ $StorageMax_CannedPeach = 10 * 1;
 
 $StorageMax_Weed = 4 * 30;
 
+
 $StorageMax_TomatoSeed = 12 * 2;
 $StorageMax_PotatoSeed = 12 * 2;
 $StorageMax_CarrotSeed = 12 * 2;
@@ -51,6 +52,7 @@ $StorageMax_TurnipSeed = 24 * 1;
 $StorageMax_PortobelloSeed = 16 * 1;
 $StorageMax_AppleSeed = 4;
 $StorageMax_MangoSeed = 4;
+$StorageMax_VoidSeed = 1;
 
 $StorageMax_ChiliSeed = 16 * 3;
 $StorageMax_CactusSeed = 8 * 2;
