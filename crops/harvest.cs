@@ -39,7 +39,7 @@ function harvestBrick(%brick, %tool, %harvester, %fixedBonus)
 	}
 
 	//harvest tool checks
-	if (isObject(%tool) && !canToolHarvest(%tool, %brick))
+	if (isObject(%tool))
 	{
 		%toolCanHarvest = canToolHarvest(%tool, %brick);
 		if (!%toolCanHarvest)
