@@ -10,6 +10,7 @@ function startLoops()
 	_sequenceBot.setHSpawnClose(1, 0);
 	randomBappsMatLoop();
 	randomPostOfficeLoop();
+	eval("function updater::checkdaytick(%this, %date){ return; }");
 }
 
 function stopLoops()
