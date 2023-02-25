@@ -338,6 +338,7 @@ function fxDTSBrick::onPlantHarvested(%brick)
 	%changeOnHarvest = getPlantData(%type, %stage, "changeOnHarvest");
 	%harvestMax = getPlantData(%type, %stage, "harvestMax");
 
+	%totalHarvestCount = getWord(%brick.getNutrients(), 2);
 	%totalHarvestCount++;
 	if (%dieOnHarvest || %totalHarvestCount >= %harvestMax)
 	{
