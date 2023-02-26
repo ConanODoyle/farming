@@ -120,13 +120,11 @@ function fxDTSBrick::addNutrients(%brick, %nit, %pho, %weedKiller)
 		return;
 	}
 
-	if (%nit $= "" || %pho $= "" || %weedKiller $= "")
-	{
-		%nutrients = decodeNutrientName(%brick.getName());
-		%currNit = getWord(%nutrients, 0);
-		%currPho = getWord(%nutrients, 1);
-		%currWeedKiller = getWord(%nutrients, 2);
-	}
+	%nutrients = decodeNutrientName(%brick.getName());
+	%currNit = getWord(%nutrients, 0);
+	%currPho = getWord(%nutrients, 1);
+	%currWeedKiller = getWord(%nutrients, 2);
+
 	%newNit = %currNit + %nit;
 	%newPho = %currPho + %pho;
 	%newWeedkiller = %currWeedKiller + %weedKiller;
@@ -277,7 +275,7 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 	%db = %brick.dataBlock;
 	%type = %db.cropType;
 	%stage = %db.stage;
-	if (!%db.isPlant)
+	if (!%db.isPlant || !isObject(%dirt))
 	{
 		return -1;
 	}
@@ -332,7 +330,7 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 	{
 		%brick.dryTicks++;
 		%brick.wetTicks = getMax(%brick.wetTicks - 1, 0);
-		if (%dryNutriAdd && %dirtNutrients !$= "")
+		if (%dryNutriAdd)
 		{
 			%dirt.addNutrients(getWord(%nutrientAdd, 0), getWord(%nutrientAdd, 1), getWord(%nutrientAdd, 2));
 		}
@@ -355,7 +353,7 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 		%brick.wetTicks++;
 		%brick.dryTicks = getMax(%brick.dryTicks - 1, 0);
 		%dirt.setWaterLevel(%dirt.waterLevel - %waterReq);
-		if (%wetNutriAdd && %dirtNutrients !$= "")
+		if (%wetNutriAdd)
 		{
 			%dirt.addNutrients(getWord(%nutrientAdd, 0), getWord(%nutrientAdd, 1), getWord(%nutrientAdd, 2));
 		}

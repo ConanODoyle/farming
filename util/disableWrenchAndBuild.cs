@@ -59,7 +59,7 @@ package disableWrenchData
 							continue;
 						}
 					case "VDB":
-						if (!purchaseVehicle(%cl, getWord(%field, 1)))
+						if (%cl.wrenchBrick.dataBlock.specialBrickType $= "VehicleSpawn" && !purchaseVehicle(%cl, getWord(%field, 1)))
 						{
 							%data = setField(%data, %i, "VDB 0");
 							%i--;
