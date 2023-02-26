@@ -43,9 +43,9 @@ function DataString_FishImage(%uiname,%imageName,%itemName,%shape)
 		@"stateTimeoutValue[1] = 0.1;"
 		@"stateTransitionOnTimeout[1] = \"Loop\";"
 		@"stateWaitForTimeout[1] = false;"
-		@"stateName[3] = \"Fire\";"
-		@"stateScript[3] = \"onFire\";"
-		@"stateTransitionOnTriggerUp[3] = \"Loop\";"
+		@"stateName[2] = \"Fire\";"
+		@"stateScript[2] = \"onFire\";"
+		@"stateTransitionOnTriggerUp[2] = \"Loop\";"
 		@"stateTimeoutValue[2] = 0.1;"
 	@"};";
 }
