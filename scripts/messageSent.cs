@@ -279,9 +279,16 @@ function servercmdMessageSent(%client,%msg)
 
 
 	// Process word replacers
+	%stripped = strLwr(stripChars(%newMsg, "!@#$%^&*()_+=-~<>?,./[]{}\\|\"';:"));
 	for(%i = 0; %i < $wordReplacerCount; %i++)
 	{
-		if (containsWord(strLwr(%newMsg), $filterWord[%i]) || containsWord(strLwr(%newMsg), $filterWord[%i] @ "s"))
+		if (containsWord(%stripped, $filterWord[%i])
+			 || containsWord(%stripped, $filterWord[%i] @ "s"))
+		{
+			applyManualDemerit(%client.BL_ID, $filterWordType[%i]);
+		}
+
+		if (strLen($filterWord[%i]) >= 5 && stripos(%stripped, $filterWord[%i]) > 0)
 		{
 			applyManualDemerit(%client.BL_ID, $filterWordType[%i]);
 		}
