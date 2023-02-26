@@ -51,6 +51,7 @@ $isDonator_["12247"]	= 1 TAB "Pah1023";
 $isDonator_["39002"]	= 1 TAB "Lomby/Redd";
 $isDonator_["51892"]	= 1 TAB "just:center";
 $isDonator_["2213"]		= 1 TAB "Carbon Zypher / Darksaber2213";
+$isDonator_["210164"]	= 1 TAB "Jerry McLarry";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
