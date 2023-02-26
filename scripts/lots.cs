@@ -741,7 +741,6 @@ function serverCmdSellLot(%cl, %force)
 	{
 		$Pref::Farming::LastLotAutosave[%cl.bl_id] = "";
 		$Pref::Farming::LastSoldLot[%cl.bl_id] = getDateTime();
-		exportServerPrefs();
 		messageClient(%cl, '', "Your saved lot has been removed");
 		exportServerPrefs();
 	}
