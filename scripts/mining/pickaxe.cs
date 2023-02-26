@@ -101,7 +101,7 @@ registerOutputEvent("fxDTSBrick", "setMineable", "bool 0" TAB "string 100 100" T
 $SapphireChance = 0.0012;
 $EmeraldChance = 0.0008;
 $RubyChance = 0.0004;
-$DiamondChance = 0.0002;
+$DiamondChance = 0.0001;
 
 function processMiningHit(%this, %pl)
 {
@@ -116,7 +116,7 @@ function processMiningHit(%this, %pl)
 		default: %coalCheck = 1; %phosphateCheck = 1; %gemCheck = 1;
 	}
 
-	if (%phosphateCheck && getRandom() < %this.phosphateChance)
+	if (%phosphateCheck && getRandom() < %this.phosphateChance * getMax(1, %this.hitcount / 5))
 	{
 		for (%i = 0; %i < getRandom(1, 4); %i++)
 		{
@@ -127,19 +127,16 @@ function processMiningHit(%this, %pl)
 		%this.disappear(60);
 		return;
 	}
-	if (%coalCheck)
+	if (%coalCheck && getRandom() < %this.coalChance * getMax(1, %this.hitcount / 5))
 	{
-		if (getRandom() < %this.coalChance)
+		for (%i = 0; %i < getRandom(1, 4); %i++)
 		{
-			for (%i = 0; %i < getRandom(1, 4); %i++)
-			{
-				%this.spawnItem("0 0 5", "CoalItem");
-			}
-			serverPlay3D("FarmingHarvestBelowGroundPlantSound", %this.position);
-			%this.hitcount = 0;
-			%this.disappear(90);
-			return;
+			%this.spawnItem("0 0 5", "CoalItem");
 		}
+		serverPlay3D("FarmingHarvestBelowGroundPlantSound", %this.position);
+		%this.hitcount = 0;
+		%this.disappear(90);
+		return;
 	}
 	if (%gemCheck)
 	{

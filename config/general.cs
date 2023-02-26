@@ -1,6 +1,6 @@
 $Game::Item::PopTime = 180000;
 
-$startingAmount = 200;
+$startingAmount = 400;
 $betaBonus = 100;
 
 // Score grant tracking

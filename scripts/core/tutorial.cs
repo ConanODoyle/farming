@@ -4,6 +4,8 @@ function registerInfo(%str)
 	$InfoString[$InfoStringCount++ - 1] = "[INFO] \c6" @ %str;
 }
 
+$tutorialTopicList = "basic, tools, storage, water, shop, money, planting/harvest, greenhouse fishing";
+
 function infoLoop()
 {
 	cancel($InfoLoopSchedule);
@@ -97,7 +99,7 @@ function serverCmdContinueTutorial(%client)
 			%head = "Tutorial - Basics";
 			%text = $header @ "- More Info -\n\n" 
 			@ $body @ "That's it for the basics!\nDo /tutorial if you wish to view this again.\n\n"
-			@ "If you would like to know more, do /tutorial [topic] for specific information.\nOptions: basic (for this tutorial), tools, storage, water, shop, money, planting/harvest, fishing";
+			@ "If you would like to know more, do /tutorial [topic] for specific information.\nOptions: " @ $tutorialTopicList;
 			%client.messageBoxOKLong(%head, %text);
 			%client.hasReadBasicTutorial = 1;
 			return;
@@ -341,27 +343,27 @@ function serverCmdTutorial(%client, %type, %t1, %t2, %t3)
 
 	%type = strLwr(trim(%type SPC %t1 SPC %t2 SPC %t3));
 
-	if (%type $= "Storage")
+	if (stripos(%type, "Storage") == 0)
 	{
 		serverCmdContinueStorageTutorial(%client);
 	}
-	else if (%type $= "Shop")
+	else if (stripos(%type, "Shop") == 0)
 	{
 		serverCmdContinueShopTutorial(%client);
 	}
-	else if (%type $= "Water")
+	else if (stripos(%type, "Water") == 0)
 	{
 		serverCmdContinueWaterTutorial(%client);
 	}
-	else if (%type $= "Fishing")
+	else if (stripos(%type, "Fishing") == 0)
 	{
 		serverCmdContinueFishingTutorial(%client);
 	}
-	else if (%type $= "Money")
+	else if (stripos(%type, "Money") == 0)
 	{
 		serverCmdContinueMoneyTutorial(%client);
 	}
-	else if (%type $= "Planting" || %type $= "Harvest" || stripos(%type, "plant") == 0)
+	else if (stripos(%type, "Plant") == 0 || stripos(%type, "Harvest") == 0)
 	{
 		serverCmdContinuePlantingTutorial(%client);
 	}
@@ -369,7 +371,7 @@ function serverCmdTutorial(%client, %type, %t1, %t2, %t3)
 	{
 		serverCmdContinueToolsTutorial(%client);
 	}
-	else if (%type $= "Greenhouse")
+	else if (stripos(%type, "Greenhouse") == 0)
 	{
 		%head = "Tutorial - Greenhouse";
 		%text = $header @ "- Greenhouses -\n\n" 
@@ -378,7 +380,7 @@ function serverCmdTutorial(%client, %type, %t1, %t2, %t3)
 			@ "Weeds also cannot grow under greenhouses, and won't affect plants inside them.";
 		%client.messageBoxOKLong(%head, %text);
 	}
-	else if (%type $= "Experience")
+	else if (stripos(%type, "Experience") == 0)
 	{
 		%head = "Tutorial - Experience";
 		%text = $header @ "- Experience -\n\n" 
@@ -392,7 +394,7 @@ function serverCmdTutorial(%client, %type, %t1, %t2, %t3)
 		%head = "Tutorial List";
 		%text = $header @ "- More Info -\n\n" 
 			@ $body @ "That's it for the basics!\nDo /tutorial if you wish to view this again.\n\n"
-			@ "If you would like to know more, do /tutorial [topic] for specific information.\nOptions: basic, tools, storage, water, shop, money, planting/harvest, fishing";
+			@ "If you would like to know more, do /tutorial [topic] for specific information.\nOptions: " @ $tutorialTopicList;
 		%client.messageBoxOKLong(%head, %text);
 	}
 }
