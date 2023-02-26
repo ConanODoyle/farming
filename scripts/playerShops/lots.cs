@@ -398,7 +398,13 @@ function serverCmdSellShop(%cl, %force)
 	%cl.repeatSellShopLot = 0;
 
 	$Pref::Farming::lastShopAutosave[%cl.bl_id] = "";
+	%file = new FileObject();
+	%file.openForWrite("saves/Autosaver/Shops/" @ %cl.bl_id @ "/sold.bls");
+	%file.writeLine("Sold @ " @ getDateTime());
+	%file.close();
+	%file.delete();
 	exportServerPrefs();
+	messageClient(%cl, '', "Your shop lot has been removed");
 	if (!%force)
 	{
 		messageClient(%cl, '', "\c5You sold a lot for \c2" @ %costString @ "\c5!");

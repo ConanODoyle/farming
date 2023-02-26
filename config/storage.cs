@@ -118,6 +118,10 @@ $StorageTypeToolsList = $StorageTypeToolsList TAB "L0RemorseItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "L3LastWordItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "L4SilenceItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "BulgeItem";
+$StorageTypeToolsList = $StorageTypeToolsList TAB "redKeyItem";
+$StorageTypeToolsList = $StorageTypeToolsList TAB "greenKeyItem";
+$StorageTypeToolsList = $StorageTypeToolsList TAB "blueKeyItem";
+$StorageTypeToolsList = $StorageTypeToolsList TAB "yellowKeyItem";
 $StorageTypeToolsIsBlacklist = false;
 
 $StorageTypeQuestsExists = true;

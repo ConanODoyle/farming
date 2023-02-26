@@ -433,6 +433,50 @@ schedule(1000, 0, activatePackage, lotBuild);
 
 
 
+function findAllBLIDLotSaves()
+{
+	%dir = "saves/Autosaver/Lots/*/*.bls";
+	%filename = findFirstFile(%dir);
+
+	while (%filename !$= "")
+	{
+		%blid = getBLIDFromSaveName(%filename, 21);
+		%currSave = $Pref::Farming::LastLotAutosave[%blid];
+		if (%currSave $= "" || !isFile(%currSave) || getFileModifiedSortTime(%currSave) < getFileModifiedSortTime(%filename))
+		{
+			$Pref::Farming::LastLotAutosave[%blid] = %filename;
+		}
+		%filename = findNextFile(%dir);
+	}
+
+	%dir = "saves/Autosaver/Shops/*/*.bls";
+	%filename = findFirstFile(%dir);
+
+	while (%filename !$= "")
+	{
+		%blid = getBLIDFromSaveName(%filename, 22);
+		%currSave = $Pref::Farming::LastShopAutosave[%blid];
+		if (%currSave $= "" || !isFile(%currSave) || getFileModifiedSortTime(%currSave) < getFileModifiedSortTime(%filename))
+		{
+			$Pref::Farming::LastShopAutosave[%blid] = %filename;
+		}
+		%filename = findNextFile(%dir);
+	}
+}
+
+function getBLIDFromSaveName(%dir, %offset)
+{
+	return getSubStr(%dir, %offset, strPos(%dir, "/", %offset) - %offset);
+}
+
+
+
+
+
+
+
+
+
 
 //purchasing
 
@@ -740,7 +784,11 @@ function serverCmdSellLot(%cl, %force)
 	else //sold single lot, remove saved lot
 	{
 		$Pref::Farming::LastLotAutosave[%cl.bl_id] = "";
-		$Pref::Farming::LastSoldLot[%cl.bl_id] = getDateTime();
+		%file = new FileObject();
+		%file.openForWrite("saves/Autosaver/Lots/" @ %cl.bl_id @ "/sold.bls");
+		%file.writeLine("Sold @ " @ getDateTime());
+		%file.close();
+		%file.delete();
 		messageClient(%cl, '', "Your saved lot has been removed");
 		exportServerPrefs();
 	}
@@ -762,6 +810,8 @@ function serverCmdSellLot(%cl, %force)
 
 function serverCmdSellAllLots(%cl)
 {
+	messageClient(%cl, '', "Use /sellLot instead!");
+	return;
 	if (!isObject(%bg = %cl.brickGroup))
 	{
 		return;
