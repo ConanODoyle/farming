@@ -219,7 +219,7 @@ function serverCmdContinueToolsTutorial(%client)
 				@ "CropTrak\x99 Kits apply a new CropTrak\x99 on a given harvesting tool. With enough tracked harvests, you can get permanent harvesting bonuses!";
 		case 2:
 			%head = "Tutorial - Tools";
-			%text = $header @ "- Crops -\n\n" 
+			%text = $header @ "- Farming -\n\n" 
 				@ $body @ "There are 3 tiers of watering cans and hoses. Hoses fill water tanks very quickly but dirt very slowly, while watering cans fill dirt quickly.\n\n"
 				@ "Weedkiller prevents dirt from spawning weeds for a while.\n\n"
 				@ "Organic Analyzers inform you the current requirements and conditions of a plant.";

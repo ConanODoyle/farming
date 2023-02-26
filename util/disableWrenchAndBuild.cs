@@ -43,7 +43,6 @@ package disableWrenchData
 			{
 				%field = getField(%data, %i);
 				%type = getWord(%field, 0);
-
 				switch$ (%type)
 				{
 					case "IDB":
@@ -62,7 +61,7 @@ package disableWrenchData
 					case "VDB":
 						if (!purchaseVehicle(%cl, getWord(%field, 1)))
 						{
-							%data = removeField(%data, %i);
+							%data = setField(%data, %i, "VDB 0");
 							%i--;
 							continue;
 						}
@@ -75,6 +74,14 @@ package disableWrenchData
 							%i--;
 							continue;
 						}
+				}
+			}
+
+			if (%cl.debug)
+			{
+				for (%i = 0; %i < getFieldCount(%data); %i++)
+				{
+					messageClient(%cl, '', "f: " @ getField(%data, %i));
 				}
 			}
 		}
