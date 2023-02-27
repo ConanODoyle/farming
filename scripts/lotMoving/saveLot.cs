@@ -141,6 +141,10 @@ function farmingSaveWriteBrick(%file, %brick)
 		%line = "+-VEHICLE" SPC %brick.VehicleSpawnMarker.getUiName() @ "\" " @ %brick.VehicleSpawnMarker.getReColorVehicle();
 		%file.writeLine(%line);
 	}
+
+	if (%brick.getGroup().bl_id == 888888) {
+		return -1;
+	}
 }
 
 
@@ -234,6 +238,8 @@ function farmingSaveLot(%bl_id, %delete)
 	%collection.lotList = %bg.lotList;
 	%collection.type = "Lot"; //required for farmingSaveWriteSave/farmingSaveInitFile
 	%queue.lotList = %bg.lotList;
+
+	talk("Attempting to save lot for" SPC %bg.name);
 
 	farmingSaveRecursiveCollectBricks(%collection, %queue, %visited);
 }
@@ -461,12 +467,24 @@ function farmingSaveWriteSave(%collection)
 	%file.lotOrigin = %center.getPosition();
 
 	//write single lot and normal lots first
-	farmingSaveWriteBrick(%file, %center);
+	%writeResult = farmingSaveWriteBrick(%file, %center);
+	if (%writeResult == -1) {
+		talk("ERROR! farmingSaveWriteBrick tried to write brick with bl_id 888888 to save. Canceling save.");
+		talk("Context: Center lot write for BL_ID" SPC %collection.bl_id);
+		return;
+	}
+
 	%wrote[%center.getID()] = 1;
 	for (%i = 0; %i < getWordCount(%collection.foundLots); %i++)
 	{
 		%lot = getWord(%collection.foundLots, %i);
-		farmingSaveWriteBrick(%file, %lot);
+		%writeResult = farmingSaveWriteBrick(%file, %lot);
+		if (%writeResult == -1) {
+			talk("ERROR! farmingSaveWriteBrick tried to write brick with bl_id 888888 to save. Canceling save.");
+			talk("Context: Non-center lot write for BL_ID" SPC %collection.bl_id);
+			return;
+		}
+
 		%wrote[%lot.getID()] = 1;
 	}
 
@@ -479,7 +497,12 @@ function farmingSaveWriteSave(%collection)
 		{
 			continue;
 		}
-		farmingSaveWriteBrick(%file, %brick);
+		%writeResult = farmingSaveWriteBrick(%file, %brick);
+		if (%writeResult == -1) {
+			talk("ERROR! farmingSaveWriteBrick tried to write brick with bl_id 888888 to save. Canceling save.");
+			talk("Context: Standard brick write for BL_ID" SPC %collection.bl_id);
+			return;
+		}
 	}
 
 	$Pref::Farming::Last[%collection.type @ "Autosave" @ %collection.bl_id] = %file.path;
