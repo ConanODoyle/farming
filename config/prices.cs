@@ -69,7 +69,7 @@ $BuyCost_["Fishing_Pole_3"] = 1200;
 $BuyCost_["Fish_Finder"] = 300;
 $BuyCost_["Tackle_Box"] = 150;
 
-$FishSellModifier = 1.0;
+$FishSellModifier = 0.8;
 $SellCost_["Bucket"] = mFloatLength(1 * $FishSellModifier, 2);
 $SellCost_["Old_Boot"] = mFloatLength(0.40 * $FishSellModifier, 2);
 $SellCost_["Glass_Bottle"] = mFloatLength(0.10 * $FishSellModifier, 2);

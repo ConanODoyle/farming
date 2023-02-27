@@ -3,7 +3,7 @@
 //--------//
 
 $Harvester::Armor::BaseHealth = 6000.0;
-$Harvester::Armor::ExtraHealthPerFighter = 7500.0;
+$Harvester::Armor::ExtraHealthPerFighter = 8000.0;
 
 $Harvester::Armor::Avatar::BodyColor = "0.3 0.3 0.3 1.0";
 $Harvester::Armor::Avatar::ClothesColor = "0.15 0.15 0.15 1.0";	

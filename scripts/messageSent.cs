@@ -224,6 +224,7 @@ function servercmdMessageSent(%client,%msg)
 			{
 				//only 1 match
 				%highestEndPos = %len + 1;
+				%highestEndPos = %i + %ping + %len + 1;
 				%highest = %match;
 			}
 			//more than 1 match, dont do anything
