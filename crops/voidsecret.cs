@@ -52,6 +52,22 @@ function getVoidNoisedWord(%word, %noise)
 
 package Void
 {
+	function SimObject::onCameraEnterOrbit (%obj, %camera)
+	{
+		return;
+	}
+
+	function SimObject::onCameraLeaveOrbit (%obj, %camera)
+	{
+		return;
+	}
+
+	function serverCmdDropCameraAtPlayer(%cl)
+	{
+		parent::serverCmdDropCameraAtPlayer(%cl);
+		%cl.camera.unmountImage(0);
+	}
+
 	function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	{
 		%cropType = %image.cropType;

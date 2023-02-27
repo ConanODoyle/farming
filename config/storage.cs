@@ -122,6 +122,7 @@ $StorageTypeToolsList = $StorageTypeToolsList TAB "redKeyItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "greenKeyItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "blueKeyItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "yellowKeyItem";
+$StorageTypeToolsList = $StorageTypeToolsList TAB "VoidKeyItem";
 $StorageTypeToolsIsBlacklist = false;
 
 $StorageTypeQuestsExists = true;
