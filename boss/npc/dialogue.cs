@@ -29,7 +29,7 @@ $obj = new ScriptObject(WandererRedirectDialogue)
 	
 	messageCount = 1;
 	
-	message[0] = "Hello! I'm a wandering archaeologist... say, that key you have...";
+	message[0] = "Hello! I'm a wandering archaeologist... say, that casing you have...";
 	messageTimeout[0] = 3;
 	
 	dialogueTransitionOnTimeout = "WandererRepairInitialDialogue";
@@ -51,7 +51,7 @@ $obj = new ScriptObject(WandererRepairInitialDialogue)
 	
 	message[0] = "That's an ancient relic you've found! However, it doesn't look usable in it's current state...";
 	messageTimeout[0] = 3;
-	message[1] = "Fortunately, I know how to repair your key... for a small price, of course.";
+	message[1] = "Fortunately, I can extract something very interesting from it... for a small price, of course.";
 	messageTimeout[1] = 3;
 	message[2] = "Well, what do you say? Say yes to confirm.";
 	messageTimeout[2] = 1;
@@ -77,7 +77,7 @@ $obj = new ScriptObject(WandererRepairPriceDialogue)
 	
 	messageCount = 1;
 	
-	message[0] = "I think it will take, hnmmm, $%keyRepairPrice% and %keyRepairEXPPrice% XP to repair your key. Say yes to confirm.";
+	message[0] = "I think it will take, hmmm, $%keyRepairPrice% and %keyRepairEXPPrice% XP to extract it. Say yes to confirm.";
 	messageTimeout[0] = 1;
 	
 	botTalkAnim = true;
@@ -128,7 +128,7 @@ $obj = new ScriptObject(WandererKeyMissingDialogue)
 {
 	messageCount = 1;
 	
-	message[0] = "Hmm... where did your key go?";
+	message[0] = "Hmm... where did the casing go?";
 	messageTimeout[0] = 1;
 	
 	botTalkAnim = true;
