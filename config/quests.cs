@@ -413,7 +413,7 @@ new ScriptObject(AdvancedElectricQuestType) {
 	class = "QuestType";
 	questWeight = 5;
 
-	maxBudget = 3500;
+	maxBudget = 4500;
 
 	rewardsItems = true;
 	rewardTable = AdvancedElectricQuestRewards;

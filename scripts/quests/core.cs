@@ -98,7 +98,7 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 		talk("ERROR: " @ %this.getName() @ " has insufficient budget for " @ %numItems @ " items! Budget: " @ %maxBudget);
 		talk("    Automatically increasing budget by 500...");
 		%this.maxBudget += 500;
-		return %this.addQuestItems(%questID, %maxBudget, %mode);
+		return %this.addQuestItems(%questID, %this.maxBudget, %mode);
 	}
 
 	%maxBudgetPerStep = mClamp(0, %remainingBudget, %remainingBudget / %items);
