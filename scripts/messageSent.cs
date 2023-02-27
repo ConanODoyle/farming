@@ -204,58 +204,30 @@ function servercmdMessageSent(%client,%msg)
 
 		//warn("Found @" SPC %ping SPC %i);
 
+		//potential "ping string"
 		%pingString = getSubStr(%newMsg, %i + %ping + 1, %msgLength);
-		%pingLength = strLen(%pingString);
-		%highestScore = 0;
-
-		for(%j = 0; %j < %clientCount; %j++)
+		%len = 2; //base length we start searching at
+		while (%len <= strLen(%pingString))
 		{
-			%pingTarget = ClientGroup.getObject(%j);
-
-			if(%pingClient[%pingTarget])
-				continue;
-
-			%checkName = %pingTarget.name;
-			%valid = false;
-			%score = 0;
-			//warn("Testing '" @ %checkName @ "' '" @ %pingString @ "'");
-
-			for(%cursor = 1; %cursor <= %pingLength; %cursor++)
+			//get the subsection up to %len, then check if any clients match
+			//if no matches, exit
+			//if multiple matches, continue
+			//if one match, store match but keep going (to find more characters to collect to later remove)
+			%subStr = trim(getSubStr(%pingString, 0, %len));
+			%match = matchClients(%subStr);
+			if (%match $= "")
 			{
-				if(%cursor >= strLen(%checkName))
-					break;
-
-				if(strPos(strLwr(%pingString), strLwr(getSubStr(%checkName, 0, %cursor))) == 0)
-				{
-					//warn("Match" SPC strLwr(getSubStr(%checkName, 0, %cursor)));
-
-					if(%cursor > %highestScore)
-					{
-						%score = %cursor;
-						%scoreEndPos = %i + %ping + %cursor + 1;
-
-						//warn("validity:" SPC getSubStr(%pingString, %cursor + 1, 1) SPC %pingString SPC %cursor + 1);
-						if(getSubStr(%pingString, %cursor + 1, 1) $= " " || %cursor + 1 >= %pingLength)
-						{
-							%valid = true;
-
-							if(%cursor >= strLen(%checkName))
-								break;
-						}
-					}
-				}
-				else
-				{
-					break;
-				}
+				//no match at all, exit
+				break;
 			}
-
-			if(%score > %highestScore && %valid)
+			else if (isObject(%match))
 			{
-				%highestScore = %score;
-				%highest = %pingTarget;
-				%highestEndPos = %scoreEndPos;
+				//only 1 match
+				%highestEndPos = %len + 1;
+				%highest = %match;
 			}
+			//more than 1 match, dont do anything
+			%len++;
 		}
 
 		if(isObject(%highest))
@@ -347,6 +319,25 @@ if(!isObject(AIConsole))
 		echoMessages = true;
 		nameColor = "\c5";
 	};
+
+function matchClients(%subStr)
+{
+	for (%i = 0; %i < ClientGroup.getCount(); %i++)
+	{
+		%cl = ClientGroup.getObject(%i);
+		%name = %cl.name;
+		if (striPos(%name, %subStr) == 0)
+		{
+			%ret = %cl;
+			%count++;
+			if (%count >= 2)
+			{
+				return -1;
+			}
+		}
+	}
+	return %ret;
+}
 
 function AIConsole::chatMessage(%this, %msg)
 {
