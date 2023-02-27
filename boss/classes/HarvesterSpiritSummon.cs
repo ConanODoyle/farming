@@ -258,6 +258,7 @@ function HarvesterSpiritSummonImage::onFire(%this, %player, %slot)
 {
 	if(%player.getDamagePercent() < 1.0)
 	{
+		clearAncientWarriors();
 		%player.harvesterSummonAncientWarriors();
 		
 		%effect = new Projectile()
