@@ -13,6 +13,7 @@ function startLoops()
 	eval("function updater::checkdaytick(%this, %date){ return; }");
 	$GamemodeDisplayName = "Framing";
 	infoLoop();
+	loopSaveLots(0);
 }
 
 function stopLoops()

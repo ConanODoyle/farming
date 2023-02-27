@@ -184,7 +184,7 @@ function servercmdMessageSent(%client,%msg)
 
 		%ping = strPos(getSubStr(%newMsg, %i, %msgLength), "@");
 
-		if(%ping == -1)
+		if(%ping == -1 || getWordCount(trim(%pingUser)) > 2)
 			break; // No @s found
 
 		if(%i > 0 || %ping > 0)
@@ -206,6 +206,11 @@ function servercmdMessageSent(%client,%msg)
 
 		//potential "ping string"
 		%pingString = getSubStr(%newMsg, %i + %ping + 1, %msgLength);
+		// if (%client.bl_id == 4928)
+		// {
+		// 	messageClient(%client, '', "pingstr: " @ %pingString);
+		// }
+		%highest = 0;
 		%len = 2; //base length we start searching at
 		while (%len <= strLen(%pingString))
 		{
@@ -213,17 +218,30 @@ function servercmdMessageSent(%client,%msg)
 			//if no matches, exit
 			//if multiple matches, continue
 			//if one match, store match but keep going (to find more characters to collect to later remove)
-			%subStr = trim(getSubStr(%pingString, 0, %len));
+			%subStr = getSubStr(%pingString, 0, %len);
 			%match = matchClients(%subStr);
 			if (%match $= "")
 			{
+				%lastChar = getSubStr(%pingString, %len - 1, 1);
+				// if (%client.bl_id == 4928)
+				// {
+				// 	messageClient(%client, '', "    substr: " @ %subStr @ " lastchar: " @ %lastChar);
+				// }
+				//check if this next character is punctuation or whitespace, rather than more letters/numbers
+				//we dont want @skill5 to match Skill4Life, as an example
+				if (striPos("!@#$%^&*()_+-=,.?/<>[]{}\\|;'\": ", %lastChar) < 0)
+				{
+					%highest = 0;
+					%highestEndPos = 0;
+					%finalLen = 0;
+				}
 				//no match at all, exit
 				break;
 			}
 			else if (isObject(%match))
 			{
 				//only 1 match
-				%highestEndPos = %len + 1;
+				%finalLen = %len;
 				%highestEndPos = %i + %ping + %len + 1;
 				%highest = %match;
 			}
@@ -241,9 +259,16 @@ function servercmdMessageSent(%client,%msg)
 			{
 				%extraSpace = " ";
 			}
+			%oldMsg = %newMsg;
 			%newMsg = getSubStr(%newMsg, 0, %i + %ping) @ "\c4@" @ %highest.name @ "\c6" @ %extraSpace @ getSubStr(%newMsg, %highestEndPos, %msgLength);
+			// if (%client.bl_id == 4928)
+			// {
+			// 	messageClient(%client, '', "  pre: " @ getSubStr(%oldMsg, 0, %i + %ping));
+			// 	messageClient(%client, '', "  post: " @ getSubStr(%oldMsg, %highestEndPos, %msgLength));
+			// 	messageClient(%client, '', "  ping: " @ %ping @ " len: " @ %finalLen @ " i: " @ %i);
+			// }
+			%i += %ping + getMax(strLen(%highest.name), 1);
 			%msgLength = strLen(%newMsg);
-			%i += %ping + strLen(%highest.name) + 2;
 		}
 	}
 
@@ -269,40 +294,55 @@ function servercmdMessageSent(%client,%msg)
 
 
 	%groupCount = clientGroup.getCount();
-	for(%i = 0; %i < %groupCount; %i++)
+
+	if (%client.bl_id !$= ":robot:")
 	{
-		%cl = clientGroup.getObject(%i);
-
-		if(%pingAll)
+		for(%i = 0; %i < %groupCount; %i++)
 		{
-			if(isObject(Beep_Popup_Sound))
-				%cl.play2D(nameToID("Beep_Popup_Sound"));
+			%cl = clientGroup.getObject(%i);
 
-			commandToClient(%cl, 'chatMessage', %client, '', '', %all, "<div:1>" @ %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>"); 
-		}
-		else if(trim(%pingUser) !$= "")
-		{
-			if (strPos(%pingUser, " " @ %cl.getID() @ " ") >= 0)
+			if(%pingAll)
 			{
 				if(isObject(Beep_Popup_Sound))
 					%cl.play2D(nameToID("Beep_Popup_Sound"));
 
 				commandToClient(%cl, 'chatMessage', %client, '', '', %all, "<div:1>" @ %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>"); 
 			}
-			else
+			else if(trim(%pingUser) !$= "")
 			{
+				if (strPos(%pingUser, " " @ %cl.getID() @ " ") >= 0)
+				{
+					if(isObject(Beep_Popup_Sound))
+						%cl.play2D(nameToID("Beep_Popup_Sound"));
+
+					commandToClient(%cl, 'chatMessage', %client, '', '', %all, "<div:1>" @ %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>"); 
+				}
+				else
+				{
+					commandToClient(%cl, 'chatMessage', %client, '', '', %all, %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>"); 
+				}
+			}
+			else
 				commandToClient(%cl, 'chatMessage', %client, '', '', %all, %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>"); 
+		}
+	}
+	else
+	{
+		for(%i = 0; %i < %groupCount; %i++)
+		{
+			%cl = clientGroup.getObject(%i);
+			if (%cl.isAdmin)
+			{
+				commandToClient(%cl, 'chatMessage', %client, '', '', %all, %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>");
 			}
 		}
-		else
-			commandToClient(%cl, 'chatMessage', %client, '', '', %all, %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>"); 
 	}
-
-	echo(%name @ ":" SPC %newMsg);
 
 	// Send to the discord bridge
 	if(isFunction("sendMessage"))
 		sendMessage(%client, stripMLControlChars(%newMsg));
+
+	echo(%name @ ":" SPC %newMsg);
 
 	%client.lastMsg = %msg;
 	%client.lastMsgTime = %time;

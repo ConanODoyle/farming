@@ -54,6 +54,44 @@ if (!isObject($ShopLotSimSet))
 	$ShopLotSimSet = new SimSet(ShopLots);
 }
 
+function loopSaveLots(%i)
+{
+	cancel($loopSaveLotSchedule);
+	
+	%loopTime = 10000;
+	while (%safety++ < 10)
+	{
+		if (%i >= $SingleLotSimSet.getCount())
+		{
+			%i = 0;
+		}
+
+		%lot = $SingleLotSimSet.getObject(%i);
+		%group = %lot.getGroup();
+		if (%group.bl_id == 888888 || $LastSavedLot[%group.bl_id] > getSimTime() - (60 * 60 * 1000 | 0))
+		{
+			%i++;
+			continue;
+		}
+		echo("Autosaving " @ %group.name @ "'s lot (BLID " @ %group.bl_id @ ")");
+		if (isObject(%group.client))
+		{
+			messageClient(%group.client, 'MsgUploadEnd', "\c3[INFO] \c6Autosaving your lot...");
+		}
+		if ($loopSaveLotDebug)
+		{
+			messageClient(fcn(Conan), '', "Autosaving " @ %group.name @ "'s lot (BLID " @ %group.bl_id @ ")");
+		}
+		farmingSaveLot(%group.bl_id, 0);
+		$LastSavedLot[%group.bl_id] = getSimTime();
+		%loopTime = 30000;
+		break;
+	}
+	%i++;
+
+	$loopSaveLotSchedule = schedule(30000, $SingleLotSimSet, loopSaveLots, %i);
+}
+
 function getFreeShopLotCount()
 {
 	return getNumPublicLots($ShopLotSimSet);
