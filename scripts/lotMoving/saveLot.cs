@@ -473,6 +473,8 @@ function farmingSaveWriteSave(%collection)
 	if (%writeResult == -1) {
 		talk("ERROR: farmingSaveWriteBrick - tried to write brick with bl_id 888888 to save. Canceling save.");
 		talk("Context: Center lot write for BL_ID" SPC %collection.bl_id);
+		%file.close();
+		%file.delete();
 		return;
 	}
 
@@ -484,6 +486,8 @@ function farmingSaveWriteSave(%collection)
 		if (%writeResult == -1) {
 			talk("ERROR: farmingSaveWriteBrick - tried to write brick with bl_id 888888 to save. Canceling save.");
 			talk("Context: Non-center lot write for BL_ID" SPC %collection.bl_id);
+			%file.close();
+			%file.delete();
 			return;
 		}
 
@@ -503,6 +507,8 @@ function farmingSaveWriteSave(%collection)
 		if (%writeResult == -1) {
 			talk("ERROR: farmingSaveWriteBrick - tried to write brick with bl_id 888888 to save. Canceling save.");
 			talk("Context: Standard brick write for BL_ID" SPC %collection.bl_id);
+			%file.close();
+			%file.delete();
 			return;
 		}
 	}
