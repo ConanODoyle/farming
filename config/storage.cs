@@ -53,6 +53,7 @@ $StorageMax_PortobelloSeed = 16 * 1;
 $StorageMax_AppleSeed = 4;
 $StorageMax_MangoSeed = 4;
 $StorageMax_VoidSeed = 1;
+$StorageMax_AncientFlowerSeed = 4;
 
 $StorageMax_ChiliSeed = 16 * 3;
 $StorageMax_CactusSeed = 8 * 2;

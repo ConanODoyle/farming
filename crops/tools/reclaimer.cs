@@ -146,7 +146,7 @@ function getReclaimSeedCount(%brick)
 	%yield = getPlantData(%type, %stage, "yield");
 
 	//special case for flowers and trees - no double reclaims
-	if (strPos("daisy lily rose", strLwr(%type)) >= 0)
+	if (strPos("daisy lily rose ancientflower", strLwr(%type)) >= 0)
 	{
 		return 1;
 	}
