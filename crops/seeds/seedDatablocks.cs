@@ -101,7 +101,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	%pos = getBrickPlantPosition(%hitLoc, %brickDB);
 
 	//check if this is in a greenhouse or not
-	%light = lightRaycastCheck(roundToStudCenter(%hitLoc), %hit);
+	%light = lightRaycastCheck(vectorAdd(roundToStudCenter(%hitLoc), "0 0 0.1"), %hit);
 	%greenhouseFound = getWord(%light, 1);
 
 	if (%greenhouseFound && %isTree)
@@ -127,8 +127,7 @@ function plantCrop(%image, %obj, %imageSlot, %remotePlacement)
 	//plant successful, make plant brick
 	%b = createPlantBrick(%pos, %brickDB, 1, "", %brickDB.defaultColor + 0);
 	%b.plantedTime = $Sim::Time;
-	%inGreenhouse = getWord(lightRaycastCheck(%pos, %b), 1);
-	%b.inGreenhouse = %inGreenhouse;
+	%b.inGreenhouse = %greenhouseFound;
 
 	%error = %b.plant();
 	if (%error > 0 || %error $= "")

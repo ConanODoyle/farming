@@ -67,7 +67,7 @@ function PomegranateHealingImage::onFire(%this,%obj,%slot)
 {
 	%obj.playThread(2, plant);
 
-	if ((%obj.lastStimTime + %this.minShotTime) > getSimTime())
+	if (%obj.stimRecharging)
 	{
 		centerprint(%obj.client, "Can't take another bite yet!\n\nGive it a while to regrow..." , 5);
 		return;
@@ -82,6 +82,7 @@ function PomegranateHealingImage::onFire(%this,%obj,%slot)
 	%obj.lastStimTime = getSimTime();
 	serverPlay3D(brickPlantSound,%obj.getPosition());
 
+	%obj.stimRecharging = 1;
 	schedule(%this.minShotTime, 0, "canEatPomegranate", %obj);	
 
 	%obj.setWhiteout(0.3);
@@ -95,4 +96,5 @@ function canEatPomegranate(%obj)
 {
 	centerprint(%obj.client, "\c4Pomegranate regrown!\n\c6You can use it again.", 5);
 	serverPlay3D(brickChangeSound, %obj.getPosition());
+	%obj.stimRecharging = 0;
 }
