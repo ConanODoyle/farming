@@ -283,7 +283,7 @@ function HarvestToolImage::onFire(%this, %obj, %slot, %hitLoc)
 			}
 		}
 	}
-	else if (canToolHarvest(%item, %hit))
+	else if (canToolHarvest(%item, %hit) || canPrune(%hit, %item))
 	{
 		%plant[0] = %hit;
 		%plantCount = 1;

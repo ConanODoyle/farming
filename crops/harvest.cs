@@ -22,8 +22,7 @@ function harvestBrick(%brick, %tool, %harvester, %fixedBonus)
 	//check if the plant is being pruned
 	if (canPrune(%brick, %tool))
 	{
-		prunePlant(%brick, %harvester);
-		return 0;
+		return prunePlant(%brick, %harvester);
 	}
 
 	//check if plant has anything to harvest
@@ -93,10 +92,11 @@ function canPrune(%brick, %tool)
 	%stage = %db.stage;
 	%type = %db.cropType;
 	%pruneTool = getPlantData(%type, %stage, "pruneTool");
+	%pruneTool = strReplace(%pruneTool, "_", " ");
 
 	return %pruneTool !$= ""
 		&& isObject(getPlantData(%type, %stage, "changeOnPrune"))
-		&& strPos(%pruneTool, strLwr(%tool.uiName)) >= 0;
+		&& striPos(%pruneTool, %tool.toolType) >= 0;
 }
 
 function prunePlant(%brick, %harvester)
