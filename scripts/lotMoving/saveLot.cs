@@ -388,6 +388,10 @@ function farmingSaveWriteBrick(%file, %brick)
 		%line = "+-VEHICLE" SPC %brick.VehicleSpawnMarker.getUiName() @ "\" " @ %brick.VehicleSpawnMarker.getReColorVehicle();
 		%file.writeLine(%line);
 	}
+
+	if (%brick.getGroup().bl_id == 888888) {
+		return -1;
+	}
 }
 
 // need this subcall to guarantee all lots are iterated over and collected
