@@ -215,8 +215,7 @@ function PlanterImage::onFire(%this, %obj, %slot)
 		%plantCount = 0;
 		%plantMax = %this.min;
 		%originalCurrTool = %obj.currTool;
-		%greenhouseCheck = getWord(containerRaycast(%hitloc, vectorAdd(%hitloc, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType), 0);
-		%inGreenhouse = (isObject(%greenhouseCheck) && %greenhouseCheck.getDatablock().isGreenhouse);
+		%inGreenhouse = getWord(lightRaycastCheck(vectorAdd(roundToStudCenter(%hitLoc), "0 0 0.1")), 1);
 
 		// talk("planter found " @ %count);
 		for (%i = 0; %i < %count; %i++)
@@ -241,8 +240,8 @@ function PlanterImage::onFire(%this, %obj, %slot)
 					if (%plantCount > 0)
 					{
 						%hitloc = vectorAdd(%hitloc, %plantingSpace);
-						%greenhouseCheck = getWord(containerRaycast(%hitloc, vectorAdd(%hitloc, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType), 0);
-						if (%inGreenhouse != (isObject(%greenhouseCheck) && %greenhouseCheck.getDatablock().isGreenhouse))
+						%greenhouseCheck = getWord(lightRaycastCheck(vectorAdd(roundToStudCenter(%hitLoc), "0 0 0.1")), 1);
+						if (%inGreenhouse != %greenhouseCheck)
 						{
 							%obj.currTool = %originalCurrTool;
 							return;
