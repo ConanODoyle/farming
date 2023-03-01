@@ -33,7 +33,8 @@ function Item::schedulePop(%obj)
 	{
 		clearCurrentQuotaObject();
 	}
-	%obj.schedule($Game::Item::PopTime - 1000.0, "startFade", 1000, 0, 1);
+	cancel(%obj.popSchedule);
+	%obj.popSchedule = %obj.schedule($Game::Item::PopTime - 1000.0, "startFade", 1000, 0, 1);
 	if (%obj.getDataBlock().doColorShift)
 	{
 		%color = getWords(%obj.getDataBlock().colorShiftColor, 0, 2);

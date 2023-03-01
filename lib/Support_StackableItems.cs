@@ -330,6 +330,10 @@ package Support_StackableItems
 						%amt = getWord(%ret, 2);
 
 						pickupStackableItem(%obj, %col, %slot, %amt);
+						if (isObject(%col))
+						{
+							%col.schedulePop();
+						}
 					}
 				}
 				else
@@ -422,6 +426,7 @@ function checkGroupStackable(%item, %times)
     	%p.explode();
 
     	updateStackableShapeName(%item);
+    	%item.schedulePop();
     }
 
     schedule(1000, %item, checkGroupStackable, %item, %times++);

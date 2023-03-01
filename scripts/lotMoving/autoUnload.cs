@@ -68,7 +68,10 @@ function loopSaveLots(%i)
 
 		%lot = $SingleLotSimSet.getObject(%i);
 		%group = %lot.getGroup();
-		if (%group.bl_id == 888888 || $LastSavedLot[%group.bl_id] > getSimTime() - (60 * 60 * 1000 | 0))
+		%timeSince = getSimTime() - $LastSavedLot[%group.bl_id];
+		if (%group.bl_id == 888888
+			|| (%timeSince >= (120 * 60 * 1000 | 0) && !isObject(%group.client))
+			|| (%timeSince >= (20 * 60 * 1000 | 0) && isObject(%group.client)))
 		{
 			%i++;
 			continue;
@@ -90,6 +93,19 @@ function loopSaveLots(%i)
 	%i++;
 
 	$loopSaveLotSchedule = schedule(30000, $SingleLotSimSet, loopSaveLots, %i);
+}
+
+function unloadAllLots()
+{
+	for (%i = 0; %i < $SingleLotSimSet.getCount(); %i++)
+	{
+		%lot = $SingleLotSimSet.getObject(%i);
+		%group = %lot.getGroup();
+		if (%group.bl_id != 888888)
+		{
+			unloadLot(%)
+		}
+	}
 }
 
 function getFreeShopLotCount()

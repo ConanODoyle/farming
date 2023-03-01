@@ -363,6 +363,10 @@ function fxDTSBrick::attemptGrowth(%brick, %dirt, %plantNutrients, %light, %weat
 		{
 			if (isObject(%wetGrow) && strPos(%nutrientDiff, "-") < 0)
 			{
+				if (vectorLen(%levelUpRequirement) > 0)
+				{
+					%brick.setNutrients(getWord(%nutrientDiff, 0), getWord(%nutrientDiff, 1));
+				}
 				%brick.grow(%wetGrow);
 			}
 			else if (%killOnWetGrow)
@@ -591,7 +595,6 @@ function fxDTSBrick::grow(%brick, %growDB)
 	%brick.setDatablock(%growDB);
 	%brick.dryTicks = 0;
 	%brick.wetTicks = 0;
-	%brick.setNutrients(0, 0);
 
 	// Growth particles
 	%p = new Projectile()

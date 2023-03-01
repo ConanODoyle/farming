@@ -403,7 +403,7 @@ function removeStack(%cl, %menu, %option)
 		dataID = %itemDataID;
 	};
 	MissionCleanup.add(%i);
-	%i.setTransform(%cl.player.getTransform());
+	%i.setTransform(%cl.player.getHackPosition());
 
 	%cl.startCenterprintMenu(%menu);
 	%cl.displayCenterprintMenu(%option);
