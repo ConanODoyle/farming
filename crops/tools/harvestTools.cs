@@ -447,6 +447,8 @@ function Player::getToolStatTrak(%pl)
 			case (SickleItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
 			case (HoeItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
 			case (TreeClipperItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
+			case (L4SilenceItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
+			case (L0RemorseImage.getID()): %dataID = %pl.toolDataID[%pl.currTool];
 			default: return "";
 		}
 		%displayAsKills = getDataIDArrayTagValue(%dataID, "displayAsKills");
