@@ -95,19 +95,6 @@ function loopSaveLots(%i)
 	$loopSaveLotSchedule = schedule(30000, $SingleLotSimSet, loopSaveLots, %i);
 }
 
-function unloadAllLots()
-{
-	for (%i = 0; %i < $SingleLotSimSet.getCount(); %i++)
-	{
-		%lot = $SingleLotSimSet.getObject(%i);
-		%group = %lot.getGroup();
-		if (%group.bl_id != 888888)
-		{
-			unloadLot(%)
-		}
-	}
-}
-
 function getFreeShopLotCount()
 {
 	return getNumPublicLots($ShopLotSimSet);
