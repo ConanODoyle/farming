@@ -174,9 +174,18 @@ function clearHarvesterFightCamera()
 	for(%i = 0; %i < HarvesterDeathSet.getCount(); %i++)
 	{
 		%client = HarvesterDeathSet.getObject(%i);
+		%player = %client.player;
 		
 		if(!isObject(%client))
 		{
+			continue;
+		}
+
+		if (!isObject(%player))
+		{
+			%transform = %client.camera.getTransform();
+			%client.instantRespawn();
+			%client.player.setTransform(%transform);
 			continue;
 		}
 		
