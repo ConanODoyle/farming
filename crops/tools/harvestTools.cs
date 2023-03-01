@@ -422,6 +422,8 @@ function addStatTrak(%item, %dataID)
 		case "Clipper": %list = $AbovegroundCropsList;
 		case "Sickle": %list = $AbovegroundCropsList;
 		case "Tree Clipper": %list = $TreeCropsList;
+		case "L4 - \"Silence\"": %list = $UndergroundCropsList;
+		case "L0 - \"Remorse\"": %list = $AbovegroundCropsList;
 		default: return 0;
 	}
 	%crop = getField(%list, getRandom(getFieldCount(%list) - 1));
