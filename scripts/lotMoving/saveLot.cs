@@ -223,6 +223,13 @@ function farmingSaveLot(%bl_id, %delete)
 		error("ERROR: farmingSaveLot - brickGroup doesn't exist! " @ %bg);
 		return 0;
 	}
+
+	if (%bg.isUnloadingLot) {
+		return 0;
+	}
+
+	%bg.isUnloadingLot = 1;
+
 	%collection = new SimSet();
 	%queue = new SimSet();
 	%visited = new SimSet();
@@ -519,6 +526,8 @@ function farmingSaveWriteSave(%collection)
 
 	%file.close();
 	%file.delete();
+
+	%collection.brickGroup.isUnloadingLot = 0;
 
 	if (isFunction(%collection.callbackOnComplete))
 	{
