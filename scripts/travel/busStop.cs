@@ -59,6 +59,7 @@ function findAllBusStops(%idx)
 }
 
 $busStopChance["ZUH"] = 0.005;
+$busStopChance["HUH"] = 0.25;
 
 $busStopGoToCost["WTF"] = 0.5;
 $busStopTravelFromCost["WTF"] = 0;
@@ -245,9 +246,18 @@ function busStopLoop(%cl, %obj)
     if (%cl.camera.busStopObj != %currBrick)
     {
         %cl.camera.setFlyMode();
-        %pos = vectorAdd(%currBrick.getPosition(), "0 0 8");
-        %start = vectorAdd(%pos, vectorScale(%currBrick.getForwardVector(), 5));
-        %end = vectorAdd(%pos, "0 0 -3");
+        if (stripos(%cl.centerprintMenu.menuOption[%cl.currOption], "HUH") == 0)
+        {
+            %pos = vectorAdd(%currBrick.getPosition(), "0 0 -5");
+            %start = vectorAdd(%pos, vectorScale(%currBrick.getForwardVector(), 5));
+            %end = vectorAdd(%pos, "0 0 3");
+        }
+        else
+        {
+            %pos = vectorAdd(%currBrick.getPosition(), "0 0 8");
+            %start = vectorAdd(%pos, vectorScale(%currBrick.getForwardVector(), 5));
+            %end = vectorAdd(%pos, "0 0 -3");
+        }
 
         //aim the camera at the target brick
         %delta = vectorSub(%end, %start);

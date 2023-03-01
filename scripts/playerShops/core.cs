@@ -287,7 +287,6 @@ function fxDTSBrick::updateShopMenus(%brick)
 		%shopBuyMenu = new ScriptObject(ShopCenterprintMenu)
 		{
 			isCenterprintMenu = 1;
-			menuName = getBrickgroupFromObject(%brick).name @ "'s Shop";
 
 			menuOptionCount = %count;
 
@@ -307,13 +306,13 @@ function fxDTSBrick::updateShopMenus(%brick)
 
 		%brick.shopBuyMenu = %shopBuyMenu;
 	}
+	%shopBuyMenu.menuName = getBrickgroupFromObject(%brick).name @ "'s Shop";
 
 	if (!isObject(%shopStorageMenu))
 	{
 		%shopStorageMenu = new ScriptObject(ShopCenterprintMenu)
 		{
 			isCenterprintMenu = 1;
-			menuName = getBrickgroupFromObject(%brick).name @ "'s Shop";
 
 			menuOptionCount = %count + 1;
 
@@ -336,6 +335,7 @@ function fxDTSBrick::updateShopMenus(%brick)
 
 		%brick.shopStorageMenu = %shopStorageMenu;
 	}
+	%shopStorageMenu.menuName = getBrickgroupFromObject(%brick).name @ "'s Shop";
 
 	for (%i = 0; %i < %count; %i++)
 	{

@@ -31,7 +31,7 @@ Tomato 3,12,brickTomato4CropData,,6,15,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Tomato 4,,,,,,,,,,,,,,,,2 3 3 4 4 4 5 5,TomatoItem,12,Clipper Sickle,0 1 1 2,,brickTomato2CropData,,0.005,,,,,,,,,,,,,,,,,,
 ,00:12:00,,,306,0.425,,,,,,,,,,,,,,,,,,,1.06,,,,,,,,,,,,,,,,,,
 ,00:06:00,,,162,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Cabbage 0,6,brickCabbage1CropData,,6,12,-1,,,,,,,,,,,,,,,,,,,,3,0.5,1,2,1.5,200,20,20,3 4 5,,,,,0,,0.85,3.20
+Cabbage 0,6,brickCabbage1CropData,,6,12,-1,,,,,,,,,,,,,,,,,,,,3,0.5,1,2,1.5,200,20,20,1 2 3,,,,,0,,0.85,3.20
 Cabbage 1,7,brickCabbage2CropData,,8,20,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Cabbage 2,8,brickCabbage3CropData,,10,20,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Cabbage 3,5,brickCabbage4CropData,,12,20,-1,,,,,,,,,,1 2,CabbageItem,4,Clipper Sickle,1,,,,,,,,,,,,,,,,,,,,,,
@@ -45,7 +45,7 @@ Blueberry 3,10,brickBlueberry4CropData,,15,10,-1,,,,,,,3 3 0,3 3 0,,,,,,,,,,,,,,
 Blueberry 4,,,,,,,,,,,,,,,,2 2 3 3 3 4 4 5 6,BlueberryItem,3,Clipper Sickle,0 1 1 2,,,,0.03,,,,,,,,,,,,,,,,,,
 ,00:06:02,,,414,1.14364640883978,,,,,,,,,,,,,,,,,,,1.09,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Turnip 0,8,brickTurnip1CropData,,5,10,-1,,,,,,,,,,,,,,,,,,,,3,0.5,1,1.5,1,300,6,6,4 5 6,,,,,1,,2.90,3.70
+Turnip 0,8,brickTurnip1CropData,,5,10,-1,,,,,,,,,,,,,,,,,,,,3,0.5,1,1.5,1,300,6,6,1 2 3,,,,,1,,2.90,3.70
 Turnip 1,10,brickTurnip2CropData,,8,10,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Turnip 2,10,brickTurnip3CropData,,10,10,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Turnip 3,10,brickTurnip4CropData,,20,10,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -73,7 +73,7 @@ Portobello2,8,brickPortobello3CropData,brickPortobello1CropData,4,10,30,,,,-1 * 
 Portobello3,,,,,,,,,,,,,,,,1,PortobelloItem,1,Trowel Hoe,0 1,,,,0.5,,,,,,,,,,,,,,,,,,
 ,00:04:00,,,120,0.5,,,,,,,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Cactus0,12,brickCactus1CropData,brickCactus1CropData,50,3,10,,,,,,,,,,,,,,,,,,,,3,1,4,0.35,1,200,60,60,3 3 4 4 5,,1,50,,1,1,1.20,50.00
+Cactus0,12,brickCactus1CropData,brickCactus1CropData,50,3,10,,,,,,,,,,,,,,,,,,,,3,1,4,0.35,1,200,60,60,1 2 3,,1,50,,1,1,1.20,50.00
 Cactus1,14,brickCactus2CropData,brickCactus2CropData,50,3,10,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Cactus2,14,brickCactus3CropData,brickCactus3CropData,50,6,16,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Cactus3,16,brickCactus4CropData,brickCactus4CropData,50,6,16,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -83,7 +83,7 @@ Cactus6,22,brickCactus7CropData,,10,10,10,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Cactus7,,,,,,,,,,,,,,,,2 3 4 5,CactusItem,15,Clipper Sickle,1 1 1 2,,brickCactus5CropData,,,,,,,,,,,,,,,,,,,,
 ,00:16:46,,,1800,1.78926441351889,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,00:10:20,,,500,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Watermelon0,6,brickWatermelon1CropData,,10,10,-1,,,,,,,,,,,,,,,,,,,,3,0.5,1,1,0.5,300,40,40,3 3 4 4 5,,,,,1,1,5.00,35.00
+Watermelon0,6,brickWatermelon1CropData,,10,10,-1,,,,,,,,,,,,,,,,,,,,3,0.5,1,1,0.5,300,40,40,1 2 2 3,,,,,1,1,5.00,35.00
 Watermelon1,7,brickWatermelon2CropData,,10,10,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Watermelon2,7,brickWatermelon3CropData,,10,10,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Watermelon3,8,brickWatermelon4CropData,,20,15,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
