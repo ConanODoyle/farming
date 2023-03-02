@@ -205,7 +205,7 @@ MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "PlanterV2Item"
 MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "UpgradeToolItem"		TAB 70;
 MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "RepairToolItem"		TAB 70;
 MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "OrganicAnalyzerItem"	TAB 70;
-MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "CropTrakKitItem"		TAB 4;
+MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "CropTrakKitItem"		TAB 15;
 
 
 new ScriptObject(BasicElectricQuestRewards) { class = "ShopObject"; };
