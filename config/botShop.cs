@@ -168,7 +168,8 @@ function generateInstrumentShop()
 		{
 			BS_Instruments.option[%instrumentCount + 0] = %db TAB 10;
 			%fixedName = strReplace(%db.uiName, " ", "_");
-			%fixedName = stripchars(%fixedName, "-'!@#$%^&*()<>,.?/;:[]{}\\|+=");
+			%fixedName = strReplace(%fixedName, "-", "DASH");
+			%fixedName = stripchars(%fixedName, "'!@#$%^&*()<>,.?/;:[]{}\\|+=");
 			$SellCost_[%fixedName] = 1000;
 			$BuyCost_[%fixedName] = 1200;
 			%instrumentCount++;
