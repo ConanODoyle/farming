@@ -58,6 +58,7 @@ $isDonator_["259928"]	= 1 TAB "_=Conner=_";
 $isDonator_["264855"]	= 1 TAB "Betel";
 $isDonator_["263061"]	= 1 TAB "Bricksmith/Scepter";
 $isDonator_["27086"]	= 1 TAB "Scepter/Bricksmith";
+$isDonator_["31470"]	= 1 TAB "Fastmapler";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
