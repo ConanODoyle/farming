@@ -1,5 +1,9 @@
 function hasSavedShop(%bl_id)
 {
+	if (striPos($Pref::Farming::LastShopAutosave[%bl_id], "sold.bls") >= 0)
+	{
+		$Pref::Farming::LastShopAutosave[%bl_id] = "";
+	}
 	if (!isFile($Pref::Farming::LastShopAutosave[%bl_id]))
 	{
 		return isFile($Pref::Server::AS_["Directory"] @ $Pref::Farming::LastShopAutosave[%bl_id] @ ".bls");

@@ -1,16 +1,21 @@
 function exportServerPrefs()
 {
 	echo("Exporting server prefs...");
+	fileCopy("config/server/farmingPrefs.cs", "config/server/farmingPrefsOld.cs");
+	export("$Pref::Farming*", "config/server/farmingPrefs.cs");
+
+	fileCopy("config/server/prefs.cs", "config/server/prefsOld.cs");
 	export("$Pref::Server*", "config/server/prefs.cs");
 	export("$Pref::Net::PacketRateToClient", "config/server/prefs.cs", true);
 	export("$Pref::Net::PacketRateToServer", "config/server/prefs.cs", true);
 	export("$Pref::Net::PacketSize", "config/server/prefs.cs", true);
 	export("$Pref::Net::LagThreshold", "config/server/prefs.cs", true);
-	export("$Pref::Farming*", "config/server/prefs.cs", true);
 	export("$Pref::IPLogger*", "config/server/prefs.cs", true);
 	export("$Pref::TimeLogger*", "config/server/prefs.cs", true);
 	export("$Pref::LotMoving*", "config/server/prefs.cs", true);
 }
+
+schedule(1000, 0, exec, "config/server/farmingPrefs.cs");
 
 function destroyServer ()
 {
