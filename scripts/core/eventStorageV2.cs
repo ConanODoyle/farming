@@ -318,7 +318,7 @@ function removeStack(%cl, %menu, %option)
 	}
 
 
-	if (%menu.menuOption[%option] $= "Empty")
+	if (striPos(%menu.menuOption[%option], "Empty") == 0)
 	{
 		if (%cl.nextMessageEmpty < $Sim::Time)
 			messageClient(%cl, '', "That slot is empty!", 1);
@@ -340,6 +340,7 @@ function removeStack(%cl, %menu, %option)
 	if (!isObject(%datablock))
 	{
 		talk("ERROR: removestack - storage data invalid! contents:[" @ strReplace(%storageData, "\t", "|") @ "] @ slot \"" @ %storageSlot @ "\"");
+		talk("    dataID:[" @ %dataID @ "] user " @ %cl.name @ "");
 		talk("Please notify an admin of this error!");
 		return;
 	}

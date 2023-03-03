@@ -20,7 +20,7 @@ datablock fxDTSBrickData(brickCanneryData : brick1x1Data)
 	isPoweredProcessor = 1;
 	hasCustomMenu = 1;
 	energyUse = 50;
-	canRate = 5;
+	canRate = 2;
 	powerFunction = "canCrops";
 
 	isCannery = 1;
@@ -236,6 +236,10 @@ function createCannedCrops(%brick)
 	%cropType = getField(%input, 1);
 
 	%newInput = getStorageValue(%cropType, %inputCount - getMaxStack(%cropType));
+	if (%inputCount - getMaxStack(%cropType) <= 0)
+	{
+		%newInput = "";
+	}
 	%newOutput = getStorageValue("Canned" @ %cropType, %outputCount + 1);
 	setDataIDArrayValue(%dataID, 1, %newInput);
 	setDataIDArrayValue(%dataID, 2, %newOutput);

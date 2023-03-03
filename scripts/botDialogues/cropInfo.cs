@@ -129,7 +129,7 @@ function setupCropInfo(%dataObj)
 			%s3 = "[Required spacing: 2, required nutrients: none]";
 		case "Turnip":
 			%s1 = "Turnips are profitable cash crops, but take a decent bit to grow, and don't stack well. Use a trowel to boost their yield!";
-			%s2 = "I hear sometimes they look like they're staring at you...";
+			%s2 = "They cost 6 experience to plant, and give 1-3 per harvest.";
 			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Portobello":
 			%s1 = "Portobellos are mushrooms sensitive to light. They can even grow with no light, but need nutrients to grow.";
@@ -161,7 +161,7 @@ function setupCropInfo(%dataObj)
 			%s3 = "[Required spacing: 2, required nutrients: 2 nitrogen, 2 phosphate]";
 		case "Watermelon":
 			%s1 = "Watermelon are an unusual desert crop, which needs lots of water in their second-to-last stage, and can revert a stage if left dry.";
-			%s2 = "They drop 1-2 watermelons every harvest, and in total get 8 harvests. They cost 40 experience to plant, and give 3-5 experience per harvest.";
+			%s2 = "They drop 1-2 watermelons every harvest, and in total get 8 harvests. They cost 40 experience to plant, and give 1-3 experience per harvest.";
 			%s3 = "[Required spacing: 3 - 2x2 crop, required nutrients: none]";
 		case "Cactus":
 			%s1 = "Cacti are small tree-like plants, able to grow with no water at all (but grow faster with). Each harvest gives 2-5 cactus fruit.";
@@ -169,7 +169,7 @@ function setupCropInfo(%dataObj)
 			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Cacti":
 			%s1 = "Cacti are small tree-like plants, able to grow with no water at all (but grow faster with). Each harvest gives 2-5 cactus fruit.";
-			%s2 = "They can be harvested up to 15 times, giving 3-5 experience per harvest. They cost 60 experience to plant.";
+			%s2 = "They can be harvested up to 15 times, giving 1-3 experience per harvest. They cost 60 experience to plant.";
 			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Apple":
 			%s1 = "Apples have the smallest plant radius and cast little shade on plants under it. Like all trees, it needs nutrients to grow.";

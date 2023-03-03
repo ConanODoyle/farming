@@ -344,7 +344,7 @@ function powerCheck(%brick)
 		%batDataID = %bat.eventOutputParameter0_1;
 		%on = getDataIDArrayTagValue(%batDataID, "isPoweredOn");
 		
-		%chargeAvailable = getDataIDArrayTagValue(%batDataID, "charge");
+		%chargeAvailable = getMin(%batDB.capacity, getDataIDArrayTagValue(%batDataID, "charge"));
 		%max = %batDB.capacity;
 
 		if (%batDB.isBattery && %on)
@@ -1491,7 +1491,7 @@ datablock fxDTSBrickData(brickBatteryData)
 	callOnActivate = 1;
 	isBattery = 1;
 	dischargeRate = 40;
-	capacity = 100000;
+	capacity = 5000;
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
 	storageSlotCount = 1;

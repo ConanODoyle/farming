@@ -295,8 +295,8 @@ function servercmdMessageSent(%client,%msg)
 
 	%groupCount = clientGroup.getCount();
 
-	if (%client.bl_id !$= ":robot:")
-	{
+	// if (%client.bl_id !$= ":robot:")
+	// {
 		for(%i = 0; %i < %groupCount; %i++)
 		{
 			%cl = clientGroup.getObject(%i);
@@ -325,18 +325,18 @@ function servercmdMessageSent(%client,%msg)
 			else
 				commandToClient(%cl, 'chatMessage', %client, '', '', %all, %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>"); 
 		}
-	}
-	else
-	{
-		for(%i = 0; %i < %groupCount; %i++)
-		{
-			%cl = clientGroup.getObject(%i);
-			if (%cl.isAdmin)
-			{
-				commandToClient(%cl, 'chatMessage', %client, '', '', %all, %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>");
-			}
-		}
-	}
+	// }
+	// else
+	// {
+	// 	for(%i = 0; %i < %groupCount; %i++)
+	// 	{
+	// 		%cl = clientGroup.getObject(%i);
+	// 		if (%cl.isAdmin)
+	// 		{
+	// 			commandToClient(%cl, 'chatMessage', %client, '', '', %all, %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>");
+	// 		}
+	// 	}
+	// }
 
 	// Send to the discord bridge
 	if(isFunction("sendMessage"))

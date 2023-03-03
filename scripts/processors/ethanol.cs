@@ -18,7 +18,7 @@ datablock fxDTSBrickData(brickEthanolGeneratorData)
 	placerItem = "EthanolGeneratorItem";
 	callOnActivate = 1;
 	isGenerator = 1;
-	burnRate = 0.01;
+	burnRate = 0.04;
 	generation = 50;
 	fuelType = "Ethanol";
 
@@ -322,7 +322,7 @@ package EthanolRefinery
 			
 			%brick.centerprintMenu.menuOptionCount = 5; //add on/off toggle
 			%brick.centerprintMenu.menuOption[0] = %brick.centerprintMenu.menuOption[0] SPC "(Input)";
-			%brick.centerprintMenu.menuFunction[0] = "reopenCenterprintMenu";
+			// %brick.centerprintMenu.menuFunction[0] = "reopenCenterprintMenu";
 			%brick.centerprintMenu.menuOption[1] = %brick.centerprintMenu.menuOption[1] SPC "(Output)";
 			%brick.centerprintMenu.menuOption[2] = "Power: " @ (%brick.isPoweredOn() ? "\c2On" : "\c0Off");
 			%brick.centerprintMenu.menuFunction[2] = "togglePower";
