@@ -22,6 +22,8 @@ exec("./lib/Support_TCPClient.cs");
 exec("./lib/Support_DiscordListener.cs");
 exec("./lib/Support_DialogueSystem.cs");
 
+exec("./lib/Server_IPBanning.cs");
+
 exec("./lib/Support_DataID/server.cs");
 exec("./lib/Support_ShapeLinesV2/server.cs");
 exec("./lib/Emote_Heal/server.cs");

@@ -211,11 +211,11 @@ package Support_CenterprintMenuSystemPackage
 			%option = %i + %min;
 			if (%option == %optionIDX)
 			{
-				%line = %line @ %fontB @ %menu.menuOption[%option] @ " <br>" @ %fontA;
+				%line = %line @ %fontB @ %menu.menuOption[%option] @ " \n" @ %fontA;
 			}
 			else
 			{
-				%line = %line @ %menu.menuOption[%option] @ " <br>\c6";
+				%line = %line @ %menu.menuOption[%option] @ " \n\c6";
 			}
 		}
 
