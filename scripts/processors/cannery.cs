@@ -214,12 +214,15 @@ function canCan(%brick)
 	%input = validateStorageValue(getDataIDArrayValue(%dataID, 1));
 	%output = validateStorageValue(getDataIDArrayValue(%dataID, 2));
 	%cropType = getField(%input, 1);
+	%outputType = getField(%output, 1);
+	%canType = "Canned" @ %cropType;
 	%maxOutput = %brick.getStorageMax(getStackTypeDatablock("Canned" @ %cropType, 1));
 	%inputCount = getField(%input, 2);
 	%outputCount = getField(%output, 2);
 	%outputSpace = %maxOutput - %outputCount;
 
-	if (%inputCount < getMaxStack(%cropType) || %outputSpace < 1)
+	if (%inputCount < getMaxStack(%cropType) || %outputSpace < 1
+		|| %outputType !$= %canType)
 	{
 		return false;
 	}

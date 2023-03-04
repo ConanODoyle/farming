@@ -319,7 +319,7 @@ package Support_StackableItems
 
 				for (%i = 0; %i < 2; %i++)
 				{
-					if (%col.count <= 0)
+					if (%col.count !$= "" && %col.count <= 0 || !isObject(%col))
 					{
 						break;
 					}
