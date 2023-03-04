@@ -20,8 +20,8 @@ $BuyCost_["Tree_Clipper"] = 1400;
 $BuyCost_["Hoe"] = 1200;
 $BuyCost_["Sickle"] = 1200;
 
-$BuyCost_["L4_DASH_\"Silence\""] = 1200;
-$BuyCost_["L0_DASH_\"Remorse\""] = 1200;
+$BuyCost_["L4_DASH_\"Silence\""] = 600;
+$BuyCost_["L0_DASH_\"Remorse\""] = 600;
 
 $BuyCost_["Seed_Planter"] = 1200;
 $BuyCost_["Seed_Planter_V2"] = 2000;
@@ -58,7 +58,7 @@ $BuyCost_["Hose"] = 1000;
 $BuyCost_["Hose_V2"] = 2000;
 $BuyCost_["Watering_Snake"] = 2500;
 
-$BuyCost_["L3_DASH_\"Last_Word\""] = 2500;
+$BuyCost_["L3_DASH_\"Last_Word\""] = 1200;
 
 
 
