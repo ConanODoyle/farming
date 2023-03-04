@@ -1011,7 +1011,7 @@ function drawControlNetwork(%PowerDataID, %simSet, %focusObj)
 	%controlBox = getDataIDArrayTagValue(%powerDataID, "powerControlBox");
 	if (!isObject(%controlBox))
 	{
-		talk("ERROR: No power control box found! DataID: " @ %powerDataID);
+		// talk("ERROR: No power control box found! DataID: " @ %powerDataID);
 		return %simSet;
 	}
 	%controlBoxPos = vectorAdd("0 0 " @ (%controlBox.getDatablock().brickSizeZ * 0.1), %controlBox.getPosition());

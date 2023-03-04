@@ -1,5 +1,5 @@
 $statTrakBaseBonusModifier = 200;
-$statTrakBonusReductionMultiplier = 1.5;
+$statTrakBonusReductionMultiplier = 1.8;
 //harvest tools
 
 datablock ItemData(TrowelItem : HammerItem)

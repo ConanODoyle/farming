@@ -165,7 +165,7 @@ datablock fxDTSBrickData(brickShopStallData)
 	storageMultiplier = 1;
 	itemStackCount = 2;
 
-	cost = 25;
+	cost = 250;
 	itemPos0 = "1 0.7 0";
 	itemPos1 = "1 -0.7 0";
 	itemPos2 = "0 0.7 0.4";

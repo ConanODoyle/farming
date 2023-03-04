@@ -164,7 +164,7 @@ function setupCropInfo(%dataObj)
 			%s2 = "They drop 1-2 watermelons every harvest, and in total get 8 harvests. They cost 40 experience to plant, and give 1-3 experience per harvest.";
 			%s3 = "[Required spacing: 3 - 2x2 crop, required nutrients: none]";
 		case "Cactus":
-			%s1 = "Cacti are small tree-like plants, able to grow with no water at all (but grow faster with). Each harvest gives 2-5 cactus fruit.";
+			%s1 = "Cacti are small tree-like plants, able to grow with no water at all (but grow slower with). Each harvest gives 2-5 cactus fruit.";
 			%s2 = "They can be harvested up to 15 times, giving 3-5 experience per harvest. They cost 60 experience to plant.";
 			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Cacti":

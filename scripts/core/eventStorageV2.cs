@@ -951,6 +951,7 @@ package StorageBricks
 
 	function fxDTSBrick::onDeath(%this)
 	{
+		%storageDataID = %this.eventOutputParameter0_1;
 		if (%this.getDatablock().isStorageBrick
 			|| getWord(getDataIDArrayValue(%storageDataID, 0), 0) $= "info")
 		{

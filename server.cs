@@ -137,3 +137,28 @@ schedule(1000, 0, powerTick, 0);
 schedule(1000, 0, sprinklerTick, 0);
 schedule(1000, 0, rainCheckLoop);
 schedule(1000, 0, generateInstrumentList);
+
+package Script_Server_BufferOverflowFix
+{
+	//when a client spawns
+	function GameConnection::onClientEnterGame(%this)
+	{
+		if($Pref::Server::BufferOverflowFix::Enabled)
+		{
+			commandToClient(%this, 'BufferOverflowHandshake');
+
+			%silent = $Pref::Server::BufferOverflowFix::Silent;
+			commandToClient(%this, 'BufferOverflowSet', "Enable", %silent);
+			commandToClient(%this, 'BufferOverflowSet', "Distance", $Pref::Server::BufferOverflowFix::Distance);
+			commandToClient(%this, 'BufferOverflowSet', "InstantDistance", $Pref::Server::BufferOverflowFix::InstantDistance);
+		}
+
+		return parent::onClientEnterGame(%this);
+	}
+};
+activatePackage(Script_Server_BufferOverflowFix);
+
+$Pref::Server::BufferOverflowFix::Enabled = 1;
+$Pref::Server::BufferOverflowFix::Silent = 1;
+$Pref::Server::BufferOverflowFix::Distance = 600;
+$Pref::Server::BufferOverflowFix::InstantDistance = 800;

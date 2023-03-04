@@ -19,8 +19,8 @@ datablock fxDTSBrickData(brickCanneryData : brick1x1Data)
 	callOnActivate = 1;
 	isPoweredProcessor = 1;
 	hasCustomMenu = 1;
-	energyUse = 50;
-	canRate = 2;
+	energyUse = 80;
+	canRate = 4;
 	powerFunction = "canCrops";
 
 	isCannery = 1;
