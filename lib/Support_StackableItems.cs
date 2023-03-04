@@ -43,15 +43,15 @@ function updateStackableShapeName(%item)
 
 	if (%item.count > getMaxStack(%stackType))
 	{
-    	%item.setShapeName(%stacktype @ " - " @ %item.count);
-    	%item.setShapeNameDistance(10);
-    	%item.shapeNameSet = 1;
-    }
-    else
-    {
-    	%item.setShapeName("");
-    	%item.shapeNameSet = 0;
-    }
+		%item.setShapeName(%stacktype @ " - " @ %item.count);
+		%item.setShapeNameDistance(10);
+		%item.shapeNameSet = 1;
+	}
+	else
+	{
+		%item.setShapeName("");
+		%item.shapeNameSet = 0;
+	}
 }
 
 function getMaxPickup(%pl, %stackType)
@@ -311,34 +311,41 @@ package Support_StackableItems
 			%itemDB = %col.getDatablock();
 			if (%col.getClassName() $= "Item" && %itemDB.isStackable)
 			{
-                // if (%col.nextPickupAttempt > $Sim::Time)
-                // {
-                //     return;
-                // }
-                // %col.nextPickupAttempt = $Sim::Time + getRandom(1, 2);
+				// if (%col.nextPickupAttempt > $Sim::Time)
+				// {
+				//     return;
+				// }
+				// %col.nextPickupAttempt = $Sim::Time + getRandom(1, 2);
 
-				%ret = stackedCanPickup(%obj, %col);
-
-				// talk(%ret);
-
-				if (!isObject(%col.harvestedBG) || getTrustLevel(%col.harvestedBG, %obj) > 1)
+				for (%i = 0; %i < 2; %i++)
 				{
-					if (%ret > 0)
+					if (%col.count <= 0)
 					{
-						%type = getWord(%ret, 0);
-						%slot = getWord(%ret, 1);
-						%amt = getWord(%ret, 2);
+						break;
+					}
+					%ret = stackedCanPickup(%obj, %col);
 
-						pickupStackableItem(%obj, %col, %slot, %amt);
-						if (isObject(%col))
+					// talk(%ret);
+
+					if (!isObject(%col.harvestedBG) || getTrustLevel(%col.harvestedBG, %obj) > 1)
+					{
+						if (%ret > 0)
 						{
-							%col.schedulePop();
+							%type = getWord(%ret, 0);
+							%slot = getWord(%ret, 1);
+							%amt = getWord(%ret, 2);
+
+							pickupStackableItem(%obj, %col, %slot, %amt);
+							if (isObject(%col))
+							{
+								%col.schedulePop();
+							}
 						}
 					}
-				}
-				else
-				{
-					%obj.client.centerprint(%col.harvestedBG.name @ "<color:ff0000> does not trust you enough to do that.", 1);
+					else
+					{
+						%obj.client.centerprint(%col.harvestedBG.name @ "<color:ff0000> does not trust you enough to do that.", 1);
+					}
 				}
 				//we dont want to do normal item onCollision code with stackable items
 				return;
@@ -375,61 +382,61 @@ activatePackage(Support_StackableItems);
 
 function checkGroupStackable(%item, %times)
 {
-    if (%times > 3)
-    {
-        return;
-    }
+	if (%times > 3)
+	{
+		return;
+	}
 
-    %pos = %item.getPosition();
-    %radius = 1;
-    %stackType = %item.getDatablock().stackType;
-    if (%stackType $= "")
-    {
-        return;
-    }
+	%pos = %item.getPosition();
+	%radius = 1;
+	%stackType = %item.getDatablock().stackType;
+	if (%stackType $= "")
+	{
+		return;
+	}
 
-    if (%item.count <= 0)
-    {
-    	%item.count = 1;
-    }
+	if (%item.count <= 0)
+	{
+		%item.count = 1;
+	}
 
-    initContainerRadiusSearch(%pos, %radius, $TypeMasks::ItemObjectType);
-    while (isObject(%next = containerSearchNext()))
-    {
-        if (%next == %item)
-        {
-            continue;
-        }
+	initContainerRadiusSearch(%pos, %radius, $TypeMasks::ItemObjectType);
+	while (isObject(%next = containerSearchNext()))
+	{
+		if (%next == %item)
+		{
+			continue;
+		}
 
-        if (!%next.static && %next.getDatablock().stackType $= %stackType)
-        {
-        	if (%next.count <= 0)
-        	{
-        		%next.count = 1;
-        	}
+		if (!%next.static && %next.getDatablock().stackType $= %stackType)
+		{
+			if (%next.count <= 0)
+			{
+				%next.count = 1;
+			}
 
-            %item.count += %next.count;
-            %countChanged = 1;
-            %next.delete();
-        }
-    }
+			%item.count += %next.count;
+			%countChanged = 1;
+			%next.delete();
+		}
+	}
 
-    if (%countChanged)
-    {
-    	%item.setDatablock(getStacktypeDatablock(%stackType, %item.count));
-    	%p = new Projectile() {
-    		dataBlock = deathProjectile;
-    		scale = "0.2 0.2 0.2";
-    		initialPosition = %item.getPosition();
-    		initialVelocity = "0 0 -10";
-    	};
-    	%p.explode();
+	if (%countChanged)
+	{
+		%item.setDatablock(getStacktypeDatablock(%stackType, %item.count));
+		%p = new Projectile() {
+			dataBlock = deathProjectile;
+			scale = "0.2 0.2 0.2";
+			initialPosition = %item.getPosition();
+			initialVelocity = "0 0 -10";
+		};
+		%p.explode();
 
-    	updateStackableShapeName(%item);
-    	%item.schedulePop();
-    }
+		updateStackableShapeName(%item);
+		%item.schedulePop();
+	}
 
-    schedule(1000, %item, checkGroupStackable, %item, %times++);
+	schedule(1000, %item, checkGroupStackable, %item, %times++);
 }
 
 
