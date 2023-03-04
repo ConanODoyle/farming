@@ -1431,14 +1431,14 @@ datablock fxDTSBrickData(brickCoalGeneratorData)
 	placerItem = "CoalGeneratorItem";
 	callOnActivate = 1;
 	isGenerator = 1;
-	burnRate = 0.01;
+	burnRate = 0.05;
 	generation = 10;
 	fuelType = "Coal";
 
 	isStorageBrick = 1;
 	storageSlotCount = 1;
 	itemStackCount = 0;
-	storageMultiplier = 12;
+	storageMultiplier = 16;
 
 	musicRange = 30;
 	musicDescription = "AudioMusicLooping3d";
