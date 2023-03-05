@@ -155,9 +155,9 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 	%brick.centerprintMenu.storageDataID = %dataID;
 }
 
-function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
+function fxDTSBrick::insertIntoStorage(%brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %pickedSlot)
 {
-	return insertIntoStorage(%brick, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+	return insertIntoStorage(%brick, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %pickedSlot);
 }
 
 function AIPlayer::insertIntoStorage(%bot, %dataID, %storeItemDB, %insertCount, %itemDataID)
@@ -219,7 +219,7 @@ function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCo
 		%searchEnd = %specificSlot + 1;
 	}
 
-	for (%i = 0; %i < %count; %i++)
+	for (%i = %searchStart; %i < %searchEnd; %i++)
 	{
 		%storageType = getField(%data[%i], 0);
 		%display = getField(%data[%i], 1);

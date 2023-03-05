@@ -53,11 +53,11 @@ package PlayerShops
 		}
 	}
 
-	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
+	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot)
 	{
-		if (!isObject(%storageObj) || !%storageObj.getDatablock().isShop) return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+		if (!isObject(%storageObj) || !%storageObj.getDatablock().isShop) return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot);
 
-		%ret = parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+		%ret = parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot);
 
 		if (%ret == 2) return %ret; // if insertion fails, no need to update shop menus
 

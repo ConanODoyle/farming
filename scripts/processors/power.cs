@@ -97,7 +97,7 @@ package PowerSystems
 		}
 	}
 
-	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
+	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot)
 	{
 		if (%storageObj.getDatablock().isGenerator && !%storageObj.isAcceptingFuel)
 		{
@@ -107,7 +107,7 @@ package PowerSystems
 		{
 			return 2;
 		}
-		return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+		return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot);
 	}
 
 	function fxDTSBrick::updateStorageMenu(%brick, %dataID)

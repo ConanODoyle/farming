@@ -72,14 +72,14 @@ datablock ShapeBaseImageData(CanneryBrickImage : BrickPlacerImage)
 
 package Cannery
 {
-	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
+	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot)
 	{
 		//reject inserting if we've already determined we can't accept more
 		if (%storageObj.dataBlock.isRecipeProcessor && !%storageObj.isAcceptingIngredients)
 		{
 			return 3;
 		}
-		return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+		return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot);
 	}
 
 	function fxDTSBrick::updateStorageMenu(%brick, %dataID)

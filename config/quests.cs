@@ -377,7 +377,7 @@ new ScriptObject(MiscToolQuestType) {
 	class = "QuestType";
 	questWeight = 10;
 
-	maxBudget = 2000;
+	maxBudget = 6000;
 
 	rewardsItems = true;
 	rewardTable = MiscToolQuestRewards;

@@ -20,13 +20,13 @@ activatePackage(CompostBinSimSetCollector);
 
 package CompostBinRetrieveOnly
 {
-	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
+	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot)
 	{
 		if (%storageObj.getDatablock().isCompostBin)
 		{
 			return 2;
 		}
-		return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+		return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot);
 	}
 
 	function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
@@ -1121,14 +1121,14 @@ function PhosphateLoop(%image, %obj)
 
 package FertilizerMixer
 {
-	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID)
+	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot)
 	{
 		//reject inserting if we've already determined we can't accept more
 		if (%storageObj.dataBlock.isRecipeProcessor && !%storageObj.isAcceptingIngredients)
 		{
 			return 3;
 		}
-		return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID);
+		return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot);
 	}
 
 	function fxDTSBrick::updateStorageMenu(%brick, %dataID)
@@ -1217,8 +1217,8 @@ function addFertilizerIngredients(%brick, %cl, %slot)
 		%slot1 = validateStorageValue(getDataIDArrayValue(%dataID, 2));
 		%itemCount0 = getField(%slot0, 2);
 		%itemCount1 = getField(%slot1, 2);
-		%space0 = getMin(%pl.toolStackCount[%slot], %max - %itemCount);
-		%space1 = getMin(%pl.toolStackCount[%slot], %max - %itemCount);
+		%space0 = getMin(%pl.toolStackCount[%slot], %max - %itemCount0);
+		%space1 = getMin(%pl.toolStackCount[%slot], %max - %itemCount1);
 
 		if (%compost)
 		{
@@ -1312,8 +1312,23 @@ function createFertilizer(%brick)
 	%output = validateStorageValue(getDataIDArrayValue(%dataID, 3));
 	%outputCount = getField(%output, 2);
 
-	%newInputC = getStorageValue("Compost", %inputCompost - $Fertilizer::InputCompostAmount);
-	%newInputP = getStorageValue("Phosphate", %inputPhosphate - $Fertilizer::InputPhosphateAmount);
+	if (%inputCompost - $fertilizer::InputCompostAmount <= 0)
+	{
+		%newInputC = "";
+	}
+	else
+	{
+		%newInputC = getStorageValue("Compost", %inputCompost - $Fertilizer::InputCompostAmount);
+	}
+
+	if (%inputPhosphate - $fertilizer::InputPhosphateAmount <= 0)
+	{
+		%newInputP = "";
+	}
+	else
+	{
+		%newInputP = getStorageValue("Phosphate", %inputPhosphate - $Fertilizer::InputPhosphateAmount);
+	}
 	%newOutput = getStorageValue("Fertilizer", %outputCount + $Fertilizer::OutputAmount);
 	setDataIDArrayValue(%dataID, 1, %newInputC);
 	setDataIDArrayValue(%dataID, 2, %newInputP);
