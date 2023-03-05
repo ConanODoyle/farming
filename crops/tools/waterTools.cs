@@ -337,94 +337,97 @@ function wateringCanReady(%this, %obj, %slot)
 
 function waterCanFire(%this, %obj, %slot)
 {
-    %obj.playThread(0, plant);
+	%obj.playThread(0, plant);
 
-    %start = %obj.getEyeTransform();
-    %end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), getMax(4, %this.waterRange)));
-    %ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
+	%start = %obj.getEyeTransform();
+	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), getMax(4, %this.waterRange)));
+	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
 
-    if (isObject(%hit = getWord(%ray, 0)))
-    {
-        %db = %hit.getDatablock();
+	if (isObject(%hit = getWord(%ray, 0)))
+	{
+		%db = %hit.getDatablock();
 
-        if (%db.isPlant)
-        {
-            %start = %hit.getPosition();
-            %end = vectorAdd(%start, "0 0 -10");
-            %hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType, %hit), 0);
-            %db = %hit.getDatablock();
-        }
+		if (%db.isPlant)
+		{
+			for (%i = 0; %i < %hit.getNumDownBricks(); %i++)
+			{
+				%list = %list SPC %hit.getDownBrick(%i);
+			}
+			%list = trim(%list);
+			%hit = getWord(%list, getRandom(0, %i - 1));
+			%db = %hit.getDatablock();
+		}
 
-        if (%db.isDirt || %db.isWaterTank)
-        {
-        	%durability = useDurability(%this, %obj, %slot);
-            if (%db.isWaterTank && %durability > 0)
-            {
-            	%amt = %this.tankAmount;
-            }
-            else if (%durability > 0)
-            {
-                %amt = %this.waterAmount;
-            }
-            else
-            {
-            	%amt = 0;
-            }
+		if (%db.isDirt || %db.isWaterTank)
+		{
+			%durability = useDurability(%this, %obj, %slot);
+			if (%db.isWaterTank && %durability > 0)
+			{
+				%amt = %this.tankAmount;
+			}
+			else if (%durability > 0)
+			{
+				%amt = %this.waterAmount;
+			}
+			else
+			{
+				%amt = 0;
+			}
 
-            if (%amt < 1)
-            {
-            	serverPlay3D(pushBroomHitSound, %obj.getMuzzlePoint(%slot));
-            }
-            else if (%amt < 40)
-            {
-                serverPlay3D(waterCanSound, %obj.getMuzzlePoint(%slot));
-            }
-            else
-            {
-                serverPlay3D(waterCanLotsSound, %obj.getMuzzlePoint(%slot));
-            }
+			if (%amt < 1)
+			{
+				serverPlay3D(pushBroomHitSound, %obj.getMuzzlePoint(%slot));
+			}
+			else if (%amt < 40)
+			{
+				serverPlay3D(waterCanSound, %obj.getMuzzlePoint(%slot));
+			}
+			else
+			{
+				serverPlay3D(waterCanLotsSound, %obj.getMuzzlePoint(%slot));
+			}
 
-            %pre = %hit.waterLevel;
-            %hit.setWaterLevel(%hit.waterLevel + %amt);
-            %post = %hit.waterLevel;
-            %dispensed = %post - %pre;
-            %waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
+			%pre = %hit.waterLevel;
+			%hit.setWaterLevel(%hit.waterLevel + %amt);
+			%post = %hit.waterLevel;
+			%dispensed = %post - %pre;
+			%waterLevel = %hit.waterLevel + 0 @ "/" @ %hit.getDatablock().maxWater;
 
-            %obj.waterCount++;
-            if (%obj.waterCount >= 10)
-            {
-                %waterLevel = %waterLevel @ " <just:right>\c2Combo: " @ %obj.waterCount;
-            }
-            %waterLevel = %waterLevel @ " \n";
+			%obj.waterCount++;
+			if (%obj.waterCount >= 10)
+			{
+				%waterLevel = %waterLevel @ " <just:right>\c2Combo: " @ %obj.waterCount;
+			}
+			%waterLevel = %waterLevel @ " \n";
 
-            %waterString = "Watering... (+" @ %dispensed @ "/" @ %amt @ ") \n";
-            if (%durability == 0)
-            {
-            	%durability = %durability @ " \n\c0This tool needs repairs!";
-            }
-            %durabilityString = "Durability: " @ %durability @ " \n";
+			%waterString = "Watering... (+" @ %dispensed @ "/" @ %amt @ ") \n";
+			if (%durability == 0)
+			{
+				%durability = %durability @ " \n\c0This tool needs repairs!";
+			}
+			%durabilityString = "Durability: " @ %durability @ " \n";
 
-            %obj.client.centerprint("<just:right><color:ffffff>" @ %waterString @ %durabilityString @ %waterLevel, 1);
-            %obj.client.schedule(50, centerprint, "<just:right><color:cccccc>" @ %waterString @ %durabilityString @ %waterLevel, 1);
+			%obj.client.centerprint("<just:right><color:ffffff>" @ %waterString @ %durabilityString @ %waterLevel, 1);
+			%obj.client.schedule(50, centerprint, "<just:right><color:cccccc>" @ %waterString @ %durabilityString @ %waterLevel, 1);
 
-            cancel(%obj.client.waterComboSchedule);
-            %obj.client.waterComboSchedule = schedule(1000, 0, checkWaterCombo, %obj, %obj.client.bl_id, %obj.client.name, %obj.waterCount);
-        }
-    }
+			cancel(%obj.client.waterComboSchedule);
+			%obj.client.waterComboSchedule = schedule(1000, 0, checkWaterCombo, %obj, %obj.client.bl_id, %obj.client.name, %obj.waterCount);
+		}
+	}
 }
 
 function checkWaterCombo(%obj, %blid, %name, %waterCount)
 {
-    if (%waterCount > $Pref::Server::maxWaterCombo)
-    {
-        announce("<bitmap:base/client/ui/ci/star>\c3" @ %name @ "\c6 set a new watering combo count of \c3" @ %waterCount @ "\c6!");
-        $Pref::Server::maxWaterCombo = %obj.waterCount SPC "(" @ %name @ ")";
-    }
-    else if (isObject(%obj.client) && %waterCount > 500)
-    {
-    	messageClient(%obj.client, '', "<bitmap:base/client/ui/ci/star>\c3You achieved a watering combo of "@ %waterCount);
-    }
-    %obj.waterCount = 0;
+	if (%waterCount > $Pref::Server::maxWaterCombo)
+	{
+		announce("<bitmap:base/client/ui/ci/star>\c3" @ %name @ "\c6 set a new watering combo count of \c3" @ %waterCount @ "\c6!");
+		$Pref::Server::maxWaterCombo = %obj.waterCount SPC "(" @ %name @ ")";
+	}
+	else if (isObject(%obj.client) && %waterCount > 500)
+	{
+		messageClient(%obj.client, '', "<bitmap:base/client/ui/ci/star>\c3You achieved a watering combo of "@ %waterCount);
+	}
+	%obj.waterCount = 0;
 }
 
 function serverCmdTopCombo(%cl)
