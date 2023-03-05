@@ -359,7 +359,7 @@ function fxDTSBrick::onPlantHarvested(%brick)
 
 	%brick.setDatablock(%changeOnHarvest);	
 
-	%brick.growTicks = 0;
+	%brick.wetTicks = 0;
 	%brick.dryTicks = 0;
 	%brick.nextGrow = "";
 	if (!PlantSimSet.isMember(%brick))
