@@ -146,3 +146,20 @@ function solarPanelGeneratorTick(%gen, %genDataID)
 	%light = lightRaycastCheck(%pos, %gen);
 	return mFloor(%light * %genDB.generation);
 }
+
+
+package SolarPanels
+{
+	function fxDTSBrick::updateStorageMenu(%brick, %dataID)
+	{
+		%ret = parent::updateStorageMenu(%brick, %dataID);
+		%db = %brick.getDatablock();
+		if (stripos(%db.uiName, "Solar Panel") == 0)
+		{
+			%brick.centerprintMenu.menuOption[0] = "Generates " @ %brick.dataBlock.generation @ " watts per tick";
+		}
+
+		return %ret;
+	}
+};
+activatePackage(SolarPanels);
