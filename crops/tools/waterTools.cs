@@ -351,11 +351,21 @@ function waterCanFire(%this, %obj, %slot)
 		{
 			for (%i = 0; %i < %hit.getNumDownBricks(); %i++)
 			{
+				%brick = %hit.getDownBrick(%i);
+				if (%brick.waterLevel >= %brick.dataBlock.maxWater)
+				{
+					continue;
+				}
 				%list = %list SPC %hit.getDownBrick(%i);
 			}
 			%list = trim(%list);
-			%hit = getWord(%list, getRandom(0, %i - 1));
+			%hit = getWord(%list, getRandom(0, getWordCount(%list) - 1));
 			%db = %hit.getDatablock();
+
+			if (!isObject(%hit))
+			{
+				return;
+			}
 		}
 
 		if (%db.isDirt || %db.isWaterTank)

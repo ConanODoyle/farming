@@ -73,7 +73,7 @@ Portobello2,8,brickPortobello3CropData,brickPortobello1CropData,4,10,30,,,,-1 * 
 Portobello3,,,,,,,,,,,,,,,,1,PortobelloItem,1,Trowel Hoe,0 1,,,,0.5,,,,,,,,,,,,,,,,,,
 ,00:04:00,,,120,0.5,,,,,,,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Cactus0,12,brickCactus1CropData,brickCactus1CropData,50,3,10,,,,,,,,,,,,,,,,,,,,3,1,4,0.35,1,200,60,60,1 2 3,,1,50,,1,1,1.20,50.00
+Cactus0,12,brickCactus1CropData,brickCactus1CropData,50,3,10,,,,,,,,,,,,,,,,,,,,3,1,4,0.35,1,200,60,60,0 1 2,,1,50,,1,1,1.20,50.00
 Cactus1,14,brickCactus2CropData,brickCactus2CropData,50,3,10,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Cactus2,14,brickCactus3CropData,brickCactus3CropData,50,6,16,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Cactus3,16,brickCactus4CropData,brickCactus4CropData,50,6,16,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

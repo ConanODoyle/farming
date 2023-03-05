@@ -299,7 +299,7 @@ function HarvestToolImage::onFire(%this, %obj, %slot, %hitLoc)
 		%type = %plantDB.cropType;
 		if (%type $= %cropTrakType)
 		{
-			%success = harvestBrick(%plant, %item, %obj, %bonus);
+			%success = harvestBrick(%plant, %item, %obj, getRandom(0, %bonus));
 		}
 		else
 		{
