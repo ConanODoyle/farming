@@ -209,9 +209,12 @@ function lightRaycastCheck(%pos, %brick)
 			break;
 		}
 
-		if (!%hit.canLightPassThrough() && %hit.getLightLevel(1) <= 0)
+		if (!%hit.canLightPassThrough())
 		{
-			%light = 0;
+			if (!%lightLevelFixed)
+			{
+				%light = %hit.getLightLevel(%light);
+			}
 			break;
 		}
 
@@ -225,7 +228,8 @@ function lightRaycastCheck(%pos, %brick)
 				%greenhouseFound = 1;
 			}
 		}
-		else if (!%hit.canLightPassThrough())
+
+		if (!%lightLevelFixed)
 		{
 			%light = %hit.getLightLevel(%light);
 			if (%light == 0)
@@ -234,6 +238,11 @@ function lightRaycastCheck(%pos, %brick)
 			}
 		}
 
+		if (%hitDB.isIndoorLight)
+		{
+			%lightLevelFixed = 1;
+		}
+	
 		%start = getWords(%ray, 1, 3);
 		%ray = containerRaycast(%start, %end, %masks, %brick, %hit);
 		continue;
@@ -243,21 +252,27 @@ function lightRaycastCheck(%pos, %brick)
 
 function fxDTSBrick::getLightLevel(%brick, %lightLevel)
 {
-	if (%brick.dataBlock.customLightLevel)
+	%db = %brick.dataBlock;
+	if (%db.customLightLevel)
 	{
-		return %brick.dataBlock.customLightLevel;
+		return %db.customLightLevel;
 	}
-	else if (%brick.dataBlock.isTree)
+	else if (%db.isTree)
 	{
-		return %lightLevel * getPlantData(%brick.dataBlock.cropType, "lightLevelFactor");
+		return %lightLevel * getPlantData(%db.cropType, "lightLevelFactor");
 	}
+	else if (%db.isSprinkler || %db.isGreenhouse || %db.allowLightThrough)
+	{
+		return %lightLevel;
+	}
+
 	return 0; //normal bricks block all light
 }
 
 function fxDTSBrick::canLightPassThrough(%brick)
 {
 	%db = %brick.dataBlock;
-	if (%db.isTree || %db.isSprinkler || %db.isGreenhouse || %db.allowLightThrough)
+	if (%db.isTree || %db.isSprinkler || %db.isGreenhouse || %db.isIndoorLight || %db.allowLightThrough)
 	{
 		return 1;
 	}
