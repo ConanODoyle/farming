@@ -17,7 +17,7 @@ datablock ItemData(PortobelloItem : HammerItem)
 datablock ItemData(PortobelloBasket0Item : HammerItem)
 {
 	shapeFile = "./PortobelloBasket0.dts";
-	uiName = "Quarter Portobello Basket";
+	uiName = "One-Third Portobello Basket";
 	image = "PortobelloBasket0Image";
 	doColorShift = false;
 
@@ -31,7 +31,7 @@ datablock ItemData(PortobelloBasket1Item : HammerItem)
 {
 	shapeFile = "./PortobelloBasket1.dts";
 
-	uiName = "Half Portobello Basket";
+	uiName = "Two-Thirds Portobello Basket";
 	image = "PortobelloBasket1Image";
 	doColorShift = false;
 
@@ -45,11 +45,11 @@ datablock ItemData(PortobelloBasket2Item : HammerItem)
 {
 	shapeFile = "./PortobelloBasket2.dts";
 
-	uiName = "Three Quarter Portobello Basket";
+	uiName = "Full Portobello Basket";
 	image = "PortobelloBasket2Image";
 	doColorShift = false;
 
-	iconName = "Add-ons/Server_Farming/icons/Portobello_Basket_Star";
+	iconName = "Add-ons/Server_Farming/icons/Portobello_Star";
 
 	isStackable = 1;
 	stackType = "Portobello";
