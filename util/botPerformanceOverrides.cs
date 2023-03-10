@@ -99,7 +99,7 @@ package DespawnDistantBots
 				return;
 			}
 		}
-		if (vectorDist(%obj.spawnBrick.position, %obj.position) > 4)
+		if (vectorDist(%obj.spawnBrick.position, %obj.position) > 1)
 		{
 			if (isObject(%obj.getObjectMount()))
 			{
