@@ -99,6 +99,14 @@ package DespawnDistantBots
 				return;
 			}
 		}
+		if (vectorDist(%obj.spawnBrick.position, %obj.position) > 4)
+		{
+			if (isObject(%obj.getObjectMount()))
+			{
+				%obj.dismount();
+			}
+			%obj.setTransform(%obj.spawnBrick.getTransform());
+		}
 		return parent::hLoop(%obj);
 	}
 
