@@ -1,5 +1,27 @@
 package Server_FarmingDropInventoryOnDeath
 {
+	function GameConnection::instantRespawn(%client)
+	{
+		if (isObject(%client.player))
+		{
+			%pos = %client.player.getPosition();
+
+			for(%i = 0; %i < %client.player.getDatablock().maxTools; %i++)
+			{
+				%item = %client.player.tool[%i];
+
+				if (isObject(%item) && !%item.skipDrop)
+				{
+					serverCmdDropTool(%client, %i);
+					%drop = $LastDroppedItem;
+					%vel = vectorNormalize(getRandom() - 0.5 SPC getRandom() - 0.5);
+					%drop.setVelocity(vectorAdd(vectorScale(%vel, 3), "0 0 5"));
+				}
+			}
+		}
+		return parent::instantRespawn(%client);
+	}
+
 	function GameConnection::onDeath(%client, %source, %killer, %type, %location)
 	{
 		if(isObject(%client.player))
