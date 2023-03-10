@@ -67,7 +67,7 @@ package disableWrenchData
 						}
 					// put above in a vehicle purchase subscript
 					case "SDB":
-						if (%db.musicRange > 10)
+						if (%db.musicRange >= 16)
 						{
 							%data = removeField(%data, %i);
 							messageClient(%cl, '', "You can only set music on short range bricks!");
