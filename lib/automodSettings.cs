@@ -22,7 +22,7 @@ $autoModAnalysisDelaySeconds = 6;
 $autoModExperimentalMode = false; 
 
 // Minimum probability to be considered for demerits in any category. 0.6 is recommended.
-$autoModMinimumProbability = 0.6; 
+$autoModMinimumProbability = 0.5; 
 
 
 // Mute punishment values.
