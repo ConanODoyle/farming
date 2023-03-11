@@ -115,7 +115,7 @@ datablock fxDTSBrickData(brickSwaySprinklerData)
 
 	iconName = "Add-Ons/Server_Farming/icons/sway_sprinkler";
 
-	cost = 300;
+	cost = 500;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
 	boxSize = "8 2 1";
