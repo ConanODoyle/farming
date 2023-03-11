@@ -81,7 +81,7 @@ datablock fxDTSBrickData(brickDripLineData)
 
 	iconName = "Add-Ons/Server_Farming/icons/drip_line";
 
-	cost = 80;
+	cost = 40;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.2";
 	boxSize = "0.5 4 0.2";

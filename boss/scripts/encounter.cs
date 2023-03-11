@@ -161,12 +161,14 @@ function onBossfightComplete(%status)
 			{
 				%cl = HarvesterFightSet.getObject(%i).client;
 				%cl.checkpointBrick = "";
+				%cl.checkPointBrickPos = "";
 			}
 
 			for (%i = 0; %i < HarvesterDeathSet.getCount(); %i++)
 			{
 				%cl = HarvesterDeathSet.getObject(%i);
 				%cl.checkpointBrick = "";
+				%cl.checkPointBrickPos = "";
 			}
 			disableSecretRamp();
 		case "Lose":
