@@ -279,7 +279,7 @@ function AIPlayer::randomBuyerLoop(%bot, %selectionCount, %speak, %timeRange, %s
 		%bot.buyItems = "";
 	}
 
-	if (%speak > 0)
+	if (%speak > 0 && (%bot.buyItem !$= "" || %bot.buyItems !$= ""))
 	{
 		%prefix = "<bitmap:base/data/particles/exclamation><bitmap:base/client/ui/ci/star>";
 		%name = %bot.name $= "" ? "Buyer" : %bot.name;

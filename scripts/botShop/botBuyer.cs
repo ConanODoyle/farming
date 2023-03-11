@@ -11,7 +11,7 @@ $obj = new ScriptObject(BuyDialogueStart)
 	messageCount = 2;
 	message[0] = "Hello!";
 	messageTimeout[0] = 1;
-	message[1] = "I'm buying %purchase%%factorPhrase% Use Ctrl-W (drop tool) to give me anything you'd like to sell.";
+	message[1] = "I'm buying %purchase%%factorPhrase%%postPhrase%";
 	messageTimeout[1] = 1;
 
 	functionOnStart = "setupBuyDialogue";
@@ -62,6 +62,13 @@ function setupBuyDialogue(%dataObj)
 	{
 		%dataObj.var_purchase = strReplace(%buyer.buyType, " ", " and ");
 	}
+	else
+	{
+		%dataObj.var_purchase = "nothing right now! Come back later!";
+		%dataObj.var_factorPhrase = " ";
+		%dataObj.var_postPhrase = " ";
+		return;
+	}
 
 	if (%buyer.buyPriceMod != 1)
 	{
@@ -71,6 +78,7 @@ function setupBuyDialogue(%dataObj)
 	{
 		%dataObj.var_factorPhrase = "!";
 	}
+	%dataObj.var_postPhrase = " Use Ctrl-W (drop tool) to give me anything you'd like to sell.";
 }
 
 
