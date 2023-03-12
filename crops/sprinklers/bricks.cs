@@ -16,7 +16,7 @@ datablock fxDTSBrickData(brickSmallSprinklerData)
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
 	boxSize = "2 2 1";
-	waterPerSecond = 20;
+	waterPerSecond = 30;
 };
 
 datablock fxDTSBrickData(brickSmallSprinklerDownData)
@@ -33,7 +33,7 @@ datablock fxDTSBrickData(brickSmallSprinklerDownData)
 	isSprinkler = 1;
 	directionalOffset = "0 0 -1.9";
 	boxSize = "4 4 3.4";
-	waterPerSecond = 20;
+	waterPerSecond = 30;
 	noCollide = 1;
 };
 
