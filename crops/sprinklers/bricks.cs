@@ -51,7 +51,7 @@ datablock fxDTSBrickData(brickMedSprinklerData)
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
 	boxSize = "4 4 1";
-	waterPerSecond = 40;
+	waterPerSecond = 45;
 };
 
 datablock fxDTSBrickData(brickLargeSprinklerData)
