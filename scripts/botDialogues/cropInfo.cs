@@ -73,6 +73,7 @@ function cropInfoSelectionParser(%dataObj, %msg)
 {
 	%msg = trim(strLwr(%msg));
 	%msg = strReplace(%msg, "cacti", "cactus");
+	%msg = strReplace(%msg, "pepper", "chili");
 	%msg = strReplace(%msg, "daisies", "daisy");
 	%msg = strReplace(%msg, "lilies", "lily");
 	%msg = strReplace(%msg, "blueberries", "blueberry");
@@ -142,11 +143,11 @@ function setupCropInfo(%dataObj)
 		case "Corn":
 			%s1 = "Corn can be harvested 3 times, and drop 3-4 per harvest, but need phosphate to finish growing. They can be harvested earlier for less yield.";
 			%s2 = "They cost 9 experience to plant, and give 2-3 experience per harvest. Use an organic analyzer to figure out how much nutrients they need!";
-			%s3 = "[Required spacing: 2, required nutrients: 3 phosphate]";
+			%s3 = "[Required spacing: 2, required nutrients: 2 phosphate]";
 		case "Wheat":
 			%s1 = "Wheat is a more compact alternative to corn, dropping 3-5 per harvest. They take slightly longer to grow as well, but use less nutrients.";
 			%s2 = "They cost 12 experience to plant, and give 3-4 experience per harvest. Use an organic analyzer to figure out what nutrients they need!";
-			%s3 = "[Required spacing: 1, required nutrients: 2 phosphate]";
+			%s3 = "[Required spacing: 1, required nutrients: 1 phosphate]";
 		case "Cabbage":
 			%s1 = "Cabbage is a water-hungry crop, and drops 2-3 per harvest. However, they don't need nutrients to finish growing!";
 			%s2 = "You can harvest them 4 times, giving 3-5 experience per harvest. They cost 20 experience to plant.";
