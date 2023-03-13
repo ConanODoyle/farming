@@ -222,7 +222,7 @@ function canCan(%brick)
 	%outputSpace = %maxOutput - %outputCount;
 
 	if (%inputCount < getMaxStack(%cropType) || %outputSpace < 1
-		|| %outputType !$= %canType)
+		|| (%outputType !$= %canType && %outputType !$= ""))
 	{
 		return false;
 	}

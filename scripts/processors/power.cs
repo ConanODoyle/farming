@@ -1375,10 +1375,12 @@ function ElectricalCableImage::onFire(%this, %obj, %slot)
 				{
 					case 2: %errorString = "\c0Object is already connected to this control brick!"; //replace with disconnect
 							%error = disconnectFromControlBox(%obj.poweredBrick, %obj.powerControlBrick);
+							%pb = %obj.poweredBrick;
 							%obj.poweredBrick = "";
 							if (%error)
 							{
 								talk("Disconnect critical error! " @ %error);
+								%pb.setName("");
 								return;
 							}
 							%obj.responseString = "Disconnected!";
