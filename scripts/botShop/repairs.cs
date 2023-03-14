@@ -143,7 +143,6 @@ function getRepairPrice(%itemDB, %durabilityLevel, %durabilityMax)
 function RepairResponseParser(%dataObj, %msg)
 {
 	%pl = %dataObj.player;
-	%product = %dataObj.sellItem;
 
 	if (%msg > 0)
 	{
@@ -176,7 +175,7 @@ function RepairResponseParser(%dataObj, %msg)
 		return "CannotRepair";
 	}
 
-	%durabilty = getDataIDArrayTagValue(%toolDataID, "durability");
+	%durability = getDataIDArrayTagValue(%toolDataID, "durability");
 	%maxDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
 	%price = getRepairPrice(%tool, %durability, %maxDurability);
 

@@ -501,6 +501,31 @@ function GoldenHoseV2Image::onFire(%this, %obj, %slot)
 	waterCanFire(%this, %obj, %slot);
 }
 
+function GoldenWateringCanImage::onReady(%this, %obj, %slot)
+{
+	wateringCanReady(%this, %obj, %slot);
+}
+
+function GoldenWateringCan2Image::onReady(%this, %obj, %slot)
+{
+	wateringCanReady(%this, %obj, %slot);
+}
+
+function GoldenWateringCan3Image::onReady(%this, %obj, %slot)
+{
+	wateringCanReady(%this, %obj, %slot);
+}
+
+function GoldenHoseImage::onReady(%this, %obj, %slot)
+{
+	wateringCanReady(%this, %obj, %slot);
+}
+
+function GoldenHoseV2Image::onReady(%this, %obj, %slot)
+{
+	wateringCanReady(%this, %obj, %slot);
+}
+
 
 
 //harvest tools
