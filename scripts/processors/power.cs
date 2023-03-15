@@ -1501,7 +1501,7 @@ datablock fxDTSBrickData(brickBatteryData)
 
 datablock fxDTSBrickData(brickBatteryMatrixData)
 {
-	uiName = "Battery";
+	uiName = "Battery Matrix";
 
 	brickFile = "./resources/power/batterymatrix.blb";
 
