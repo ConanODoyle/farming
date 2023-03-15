@@ -19,6 +19,56 @@ datablock fxDTSBrickData(brickIndoorLightData)
 	placerItem = "IndoorLightItem";
 	callOnActivate = 1;
 	isPoweredProcessor = 1;
+	energyUse = 1;
+	powerFunction = "powerLight";
+
+	isIndoorLight = 1;
+	baseLightLevel = 0.75;
+
+	isStorageBrick = 1; //purely for the gui, don't enable storage
+	storageSlotCount = 1;
+};
+
+datablock fxDTSBrickData(brickIndoorLight4x6Data)
+{
+	uiName = "Indoor Light 4x6";
+
+	brickFile = "./resources/light/4x6light.blb";
+
+	iconName = "Add-ons/Server_Farming/icons/IndoorLight4x6";
+
+	cost = 0;
+	isProcessor = 1;
+	// processorFunction = "grindProduce";
+	// activateFunction = "IndoorLightInfo";
+	placerItem = "IndoorLight4x6Item";
+	callOnActivate = 1;
+	isPoweredProcessor = 1;
+	energyUse = 2;
+	powerFunction = "powerLight";
+
+	isIndoorLight = 1;
+	baseLightLevel = 0.75;
+
+	isStorageBrick = 1; //purely for the gui, don't enable storage
+	storageSlotCount = 1;
+};
+
+datablock fxDTSBrickData(brickIndoorLight4x8Data)
+{
+	uiName = "Indoor Light 4x8";
+
+	brickFile = "./resources/light/4x8light.blb";
+
+	iconName = "Add-ons/Server_Farming/icons/IndoorLight4x8";
+
+	cost = 0;
+	isProcessor = 1;
+	// processorFunction = "grindProduce";
+	// activateFunction = "IndoorLightInfo";
+	placerItem = "IndoorLight4x8Item";
+	callOnActivate = 1;
+	isPoweredProcessor = 1;
 	energyUse = 2;
 	powerFunction = "powerLight";
 
@@ -63,6 +113,62 @@ datablock ShapeBaseImageData(IndoorLightBrickImage : BrickPlacerImage)
 	placeBrick = "brickIndoorLightData";
 };
 
+datablock ItemData(IndoorLight4x6Item : brickPlacerItem)
+{
+	shapeFile = "./resources/toolbox.dts";
+	uiName = "Indoor Light - 4x6";
+	image = "IndoorLight4x6BrickImage";
+	colorShiftColor = "0.7 0 0 1";
+
+	iconName = "Add-ons/Server_Farming/icons/IndoorLight4x6";
+};
+
+datablock ShapeBaseImageData(IndoorLight4x6BrickImage : BrickPlacerImage)
+{
+	shapeFile = "./resources/toolbox.dts";
+	
+	offset = "-0.56 0 0";
+	eyeOffset = "0 0 0";
+	rotation = eulerToMatrix("0 0 90");
+
+	item = IndoorLight4x6Item;
+	
+	doColorshift = true;
+	colorShiftColor = IndoorLight4x6Item.colorShiftColor;
+
+	toolTip = "Places an indoor light";
+	loopTip = "When powered, lets plants grow";
+	placeBrick = "brickIndoorLight4x6Data";
+};
+
+datablock ItemData(IndoorLight4x8Item : brickPlacerItem)
+{
+	shapeFile = "./resources/toolbox.dts";
+	uiName = "Indoor Light - 4x8";
+	image = "IndoorLight4x8BrickImage";
+	colorShiftColor = "0.5 0 0 1";
+
+	iconName = "Add-ons/Server_Farming/icons/IndoorLight4x8";
+};
+
+datablock ShapeBaseImageData(IndoorLight4x8BrickImage : BrickPlacerImage)
+{
+	shapeFile = "./resources/toolbox.dts";
+	
+	offset = "-0.56 0 0";
+	eyeOffset = "0 0 0";
+	rotation = eulerToMatrix("0 0 90");
+
+	item = IndoorLight4x8Item;
+	
+	doColorshift = true;
+	colorShiftColor = IndoorLight4x8Item.colorShiftColor;
+
+	toolTip = "Places an indoor light";
+	loopTip = "When powered, lets plants grow";
+	placeBrick = "brickIndoorLight4x8Data";
+};
+
 
 
 //////////////
@@ -94,7 +200,8 @@ package PoweredLight
 			%brick.centerprintMenu.menuOptionCount = 1; //only keep the first power toggle option accessible
 			%brick.centerprintMenu.menuOption[1] = "Current Power: " @ %color @ mFloor(%brick.lightPower * 100) @ "%";
 			%brick.centerprintMenu.menuFunction[1] = "reopenCenterprintMenu";
-			%brick.centerprintMenu.menuOption[2] = "Uses " @ %db.energyUse @ " power per tick";
+			%brick.centerprintMenu.menuOption[2] = "Light level: " @ mFloor(%brick.lightPower * %db.baseLightLevel * 100) @ "%";
+			%brick.centerprintMenu.menuOption[3] = "Uses " @ %db.energyUse @ " power per tick";
 		}
 		return %ret;
 	}

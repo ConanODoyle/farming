@@ -1499,6 +1499,28 @@ datablock fxDTSBrickData(brickBatteryData)
 	storageSlotCount = 1;
 };
 
+datablock fxDTSBrickData(brickBatteryMatrixData)
+{
+	uiName = "Battery";
+
+	brickFile = "./resources/power/batterymatrix.blb";
+
+	iconName = "Add-Ons/Server_Farming/icons/BatteryMatrix";
+
+	cost = 0;
+	isProcessor = 1;
+	// processorFunction = "grindProduce";
+	// activateFunction = "CoalGeneratorInfo";
+	placerItem = "BatteryMatrixItem";
+	callOnActivate = 1;
+	isBattery = 1;
+	dischargeRate = 100;
+	capacity = 50000;
+
+	isStorageBrick = 1; //purely for the gui, don't enable storage
+	storageSlotCount = 1;
+};
+
 
 
 ///////////////
@@ -1570,7 +1592,7 @@ datablock ItemData(BatteryItem : brickPlacerItem)
 	shapeFile = "./resources/toolbox.dts";
 	uiName = "Battery";
 	image = "BatteryBrickImage";
-	colorShiftColor = "0.9 0 0 1";
+	colorShiftColor = "0.7 0.7 0 1";
 
 	iconName = "Add-ons/Server_Farming/icons/Battery";
 };
@@ -1588,7 +1610,37 @@ datablock ShapeBaseImageData(BatteryBrickImage : BrickPlacerImage)
 	doColorshift = true;
 	colorShiftColor = BatteryItem.colorShiftColor;
 
-	toolTip = "Places a Battery";
+	toolTip = "Stores power (" @ brickBatteryData.capacity @ " capacity, " @ brickBatteryData.dischargeRate @ " discharge rate)";
 	loopTip = "Stores excess electrical power";
 	placeBrick = "brickBatteryData";
+};
+
+
+
+datablock ItemData(BatteryMatrixItem : brickPlacerItem)
+{
+	shapeFile = "./resources/toolbox.dts";
+	uiName = "Battery Matrix";
+	image = "BatteryMatrixBrickImage";
+	colorShiftColor = "0.9 0.9 0 1";
+
+	iconName = "Add-ons/Server_Farming/icons/BatteryMatrix";
+};
+
+datablock ShapeBaseImageData(BatteryMatrixBrickImage : BrickPlacerImage)
+{
+	shapeFile = "./resources/toolbox.dts";
+	
+	offset = "-0.56 0 0";
+	eyeOffset = "0 0 0";
+	rotation = eulerToMatrix("0 0 90");
+
+	item = BatteryMatrixItem;
+	
+	doColorshift = true;
+	colorShiftColor = BatteryMatrixItem.colorShiftColor;
+
+	toolTip = "Stores power (" @ brickBatteryMatrixData.capacity @ " capacity, " @ brickBatteryMatrixData.dischargeRate @ " discharge rate)";
+	loopTip = "Stores excess electrical power";
+	placeBrick = "brickBatteryMatrixData";
 };
