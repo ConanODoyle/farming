@@ -15,7 +15,7 @@ new ScriptObject(AdvancedRequests) { class = "ShopObject"; };
 
 AdvancedRequests.option[AdvancedRequests.count++ - 1]  = "Tomato"	TAB 40;
 AdvancedRequests.option[AdvancedRequests.count++ - 1]  = "Corn"		TAB 40;
-AdvancedRequests.option[AdvancedRequests.count++ - 1]  = "Wheat"	TAB 40;
+AdvancedRequests.option[AdvancedRequests.count++ - 1]  = "Wheat"	TAB 80;
 AdvancedRequests.option[AdvancedRequests.count++ - 1]  = "Cabbage"	TAB 40;
 AdvancedRequests.option[AdvancedRequests.count++ - 1]  = "Onion"	TAB 40;
 
@@ -211,11 +211,18 @@ MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "CropTrakKitIte
 new ScriptObject(BasicElectricQuestRewards) { class = "ShopObject"; };
 
 BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "MediumPumpItem"			TAB 15;
-BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "IndoorLightItem"		TAB 20;
 BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "BatteryItem"			TAB 15;
 BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "SolarPanel4x4Item"		TAB 8;
 BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "EthanolRefineryItem"	TAB 8;
 BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "EthanolGeneratorItem"	TAB 8;
+
+
+new ScriptObject(ElectricLightQuestRewards) { class = "ShopObject"; };
+
+BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "IndoorLightItem"		TAB 20;
+BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "IndoorLight4x6Item"		TAB 18;
+BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "IndoorLight4x8Item"		TAB 16;
+BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "SolarPanel4x4Item"		TAB 8;
 
 
 new ScriptObject(AdvancedElectricQuestRewards) { class = "ShopObject"; };
@@ -224,9 +231,9 @@ AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  =
 AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "EthanolRefineryItem"		TAB 24;
 AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "EthanolGeneratorItem"		TAB 24;
 AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "CanneryItem"				TAB 17;
-AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "SolarPanel8x8Item"		TAB 10;
 AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "FertilizerMixerItem"		TAB 5;
-// AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "LargeBatteryItem"		TAB 11;
+AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "SolarPanel8x8Item"		TAB 10;
+AdvancedElectricQuestRewards.option[AdvancedElectricQuestRewards.count++ - 1]  = "BatteryMatrixItem"		TAB 10;
 
 
 new ScriptObject(CompostQuestRewards) { class = "ShopObject"; };
@@ -405,8 +412,26 @@ new ScriptObject(BasicElectricQuestType) {
 	maxBonusFactor = 2.2;
 
 	requestTable = RareRequests;
-	budgetPerRequestItem = 250;
+	budgetPerRequestItem = 400;
 	maxRequestItems = 3;
+};
+
+new ScriptObject(ElectricLightQuestType) {
+	class = "QuestType";
+	questWeight = 20;
+
+	maxBudget = 1500;
+
+	rewardsItems = true;
+	rewardTable = ElectricLightQuestRewards;
+	maxRewardItems = 2;
+
+	minBonusFactor = 1.8;
+	maxBonusFactor = 2.2;
+
+	requestTable = AdvancedRequests;
+	budgetPerRequestItem = 300;
+	maxRequestItems = 4;
 };
 
 new ScriptObject(AdvancedElectricQuestType) {

@@ -1515,7 +1515,7 @@ datablock fxDTSBrickData(brickBatteryMatrixData)
 	callOnActivate = 1;
 	isBattery = 1;
 	dischargeRate = 100;
-	capacity = 50000;
+	capacity = 20000;
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
 	storageSlotCount = 1;
