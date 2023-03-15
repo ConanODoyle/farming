@@ -26,8 +26,10 @@ function weedTick(%index)
 		{
 			%pos = %brick.getPosition();
 			%brick.nextWeedCheck = $Sim::Time + $WeedSpawnTickTime;
-			%hit = containerRaycast(%pos, vectorAdd(%pos, "0 0 300"), $TypeMasks::fxBrickAlwaysObjectType, %brick);
-			if (isObject(%hit) && %hit.getDatablock().isGreenhouse)
+			%start = vectorAdd(%pos, "0 0 " @ (%brick.dataBlock.brickSizeZ * 0.1 + 0.05));
+			%check = lightRaycastCheck(%start, %brick);
+
+			if (getWord(%check, 1) == 1)
 			{
 				%brick.inGreenhouse = 1;
 				continue;

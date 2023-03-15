@@ -213,7 +213,7 @@ function bottomprintInfo(%cl)
 	}
 	else
 	{
-		%amount = "<just:right>\c3Money: $" @ %cl.getMoney();
+		%amount = "<just:right>\c3$" @ %cl.getMoney();
 	}
 
 	%cl.bottomprint(%pre @ %amount @ " ", 2, 0);
