@@ -412,8 +412,8 @@ new ScriptObject(BasicElectricQuestType) {
 	maxBonusFactor = 2.2;
 
 	requestTable = RareRequests;
-	budgetPerRequestItem = 400;
-	maxRequestItems = 3;
+	budgetPerRequestItem = 700;
+	maxRequestItems = 6;
 };
 
 new ScriptObject(ElectricLightQuestType) {
@@ -430,7 +430,7 @@ new ScriptObject(ElectricLightQuestType) {
 	maxBonusFactor = 2.2;
 
 	requestTable = AdvancedRequests;
-	budgetPerRequestItem = 300;
+	budgetPerRequestItem = 500;
 	maxRequestItems = 4;
 };
 
@@ -448,7 +448,7 @@ new ScriptObject(AdvancedElectricQuestType) {
 	maxBonusFactor = 2.2;
 
 	requestTable = RareAndEthanolRequests;
-	budgetPerRequestItem = 350;
+	budgetPerRequestItem = 900;
 	maxRequestItems = 6;
 };
 

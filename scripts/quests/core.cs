@@ -98,6 +98,13 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 		talk("ERROR: " @ %this.getName() @ " has insufficient budget for " @ %numItems @ " items! Budget: " @ %maxBudget);
 		talk("    Automatically increasing budget by 500...");
 		%this.maxBudget += 500;
+		
+		if ($safety++ > 10)
+		{
+			$safety = 0;
+			talk("goddamnit irrel i HATE recursive solutions because its the hardest to insert safeties on");
+			return "";
+		}
 		return %this.addQuestItems(%questID, %this.maxBudget, %mode);
 	}
 
@@ -156,10 +163,12 @@ function QuestType::addQuestItems(%this, %questID, %maxBudget, %mode) {
 }
 
 function QuestType::selectRewards(%this, %questID) {
+	$safety = 0;
 	return %this.addQuestItems(%questID, %this.maxBudget, "Rewards");
 }
 
 function QuestType::selectRequests(%this, %questID, %maxBudget) {
+	$safety = 0;
 	%this.addQuestItems(%questID, %maxBudget, "Requests");
 }
 
