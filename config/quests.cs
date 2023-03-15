@@ -420,7 +420,7 @@ new ScriptObject(ElectricLightQuestType) {
 	class = "QuestType";
 	questWeight = 20;
 
-	maxBudget = 1500;
+	maxBudget = 3000;
 
 	rewardsItems = true;
 	rewardTable = ElectricLightQuestRewards;
