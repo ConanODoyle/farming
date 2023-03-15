@@ -116,7 +116,7 @@ $BuyCost_["Large_Tank_Pump"] = 3500;
 
 $BuyCost_["Ethanol_Tank_Refinery"] = 3000;
 $BuyCost_["Ethanol_Generator"] = 3000;
-$BuyCost_["Solar_Panel_4x4"] = 3000;
+$BuyCost_["Solar_Panel_4x4"] = 1500;
 $BuyCost_["Solar_Panel_8x8"] = 3000;
 $BuyCost_["Cannery"] = 4500;
 $BuyCost_["Fertilizer_Mixer"] = 4500;

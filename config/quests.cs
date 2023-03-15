@@ -219,10 +219,10 @@ BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "Etha
 
 new ScriptObject(ElectricLightQuestRewards) { class = "ShopObject"; };
 
-BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "IndoorLightItem"		TAB 20;
-BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "IndoorLight4x6Item"		TAB 18;
-BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "IndoorLight4x8Item"		TAB 16;
-BasicElectricQuestRewards.option[BasicElectricQuestRewards.count++ - 1]  = "SolarPanel4x4Item"		TAB 8;
+ElectricLightQuestRewards.option[ElectricLightQuestRewards.count++ - 1]  = "IndoorLightItem"		TAB 20;
+ElectricLightQuestRewards.option[ElectricLightQuestRewards.count++ - 1]  = "IndoorLight4x6Item"		TAB 18;
+ElectricLightQuestRewards.option[ElectricLightQuestRewards.count++ - 1]  = "IndoorLight4x8Item"		TAB 16;
+ElectricLightQuestRewards.option[ElectricLightQuestRewards.count++ - 1]  = "SolarPanel4x4Item"		TAB 8;
 
 
 new ScriptObject(AdvancedElectricQuestRewards) { class = "ShopObject"; };
