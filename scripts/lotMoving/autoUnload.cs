@@ -70,8 +70,8 @@ function loopSaveLots(%i)
 		%group = %lot.getGroup();
 		%timeSince = getSimTime() - $LastSavedLot[%group.bl_id];
 		if (%group.bl_id == 888888
-			|| (%timeSince >= (120 * 60 * 1000 | 0) && !isObject(%group.client))
-			|| (%timeSince >= (20 * 60 * 1000 | 0) && isObject(%group.client)))
+			|| (%timeSince >= (24 * 60 * 60 * 1000 | 0) && !isObject(%group.client))
+			|| (%timeSince >= (60 * 60 * 1000 | 0) && isObject(%group.client)))
 		{
 			%i++;
 			continue;
