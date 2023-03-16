@@ -1,3 +1,111 @@
+if (!isObject(LoadedDataIDs))
+{
+	new ScriptObject(LoadedDataIDs)
+	{
+		numActive = 0; //number of active data IDs
+		listSize = 0; //list containing loaded data id's
+		isLoaded = ""; //quick reference check if a data id is already loaded
+		lastTouched = 0; //checks when the dataID was last touched
+	};
+}
+
+function pushDataID(%dataID)
+{
+	if (%dataID $= "")
+	{
+		return;
+	}
+
+	if (LoadedDataIDs.isLoaded[%dataID])
+	{
+		LoadedDataIDs.lastTouched[%dataID] = getSimTime();
+		return;
+	}
+
+	LoadedDataIDs.isLoaded[%dataID] = 1;
+	LoadedDataIDs.numActive++;
+	for (%i = 0; %i < LoadedDataIDs.listSize; %i++)
+	{
+		if (LoadedDataIDs.list[%i] $= "")
+		{
+			%foundSlot = 1;
+			LoadedDataIDs.list[%i] = %dataID;
+			break;
+		}
+	}
+
+	if (!%foundSlot)
+	{
+		LoadedDataIDs.list[LoadedDataIDs.listSize] = %dataID;
+		LoadedDataIDs.listSize++;
+	}
+}
+
+function popDataID(%dataID)
+{
+	if (%dataID $= "")
+	{
+		return;
+	}
+
+	if (!LoadedDataIDs.isLoaded[%dataID])
+	{
+		return;
+	}
+
+	LoadedDataIDs.isLoaded[%dataID] = "";
+	LoadedDataIDs.lastTouched[%dataID] = "";
+	LoadedDataIDs.numActive--;
+	for (%i = 0; %i < LoadedDataIDs.listSize; %i++)
+	{
+		echo(" Comparing " @ LoadedDataIDs.list[%i] @ " to " @ %dataID);
+		if (LoadedDataIDs.list[%i] $= %dataID)
+		{
+			%foundSlot = %i;
+			LoadedDataIDs.list[%i] = "";
+			break;
+		}
+	}
+
+	if (%foundSlot !$= "")
+	{
+		talk("ERROR: tried to pop dataID not loaded! dataID: " @ %dataID @ " size: " @ %loadedDataIDs.listSize);
+	}
+
+	if (%foundSlot == LoadedDataIDs.listSize - 1) //reduce list size if we happen to remove the last one in the list
+	{
+		LoadedDataIDs.listSize--;
+	}
+}
+
+function getOldestDataID()
+{
+	for (%i = 0; %i < LoadedDataIDs.listSize; %i++)
+	{
+		%dataID = LoadedDataIDs.list[%i];
+		if (%dataID !$= "" && (LoadedDataIDs.lastTouched[%dataID] < %oldestTime || %oldest $= ""))
+		{
+			%oldest = %dataID;
+			%oldestTime = LoadedDataIDs.lastTouched[%dataID];
+		}
+	}
+	return %oldest;
+}
+
+function isDataIDLoaded(%dataID)
+{
+	return LoadedDataIDs.isLoaded[%dataID];
+}
+
+function getLoadedDataIDCount(%dataID)
+{
+	return LoadedDataIDs.numActive;
+}
+
+
+
+
+
 //utility functions
 function getSafeDataIDArrayName(%aid)
 {
@@ -18,7 +126,7 @@ function loadDataIDArray(%aid, %force)
 	pruneDataIDArrays();
 
 	%aid = getSafeDataIDArrayName(%aid);
-	if (!$executedDataID[%aid] || %force)
+	if (!$executedDataID[%aid] || !isDataIDLoaded(%aid) || %force)
 	{
 		if ($DataIDDebug) talk("loadDataIDArray");
 		deleteVariables("$DataID_" @ %aid @ "_*");
@@ -38,6 +146,7 @@ function loadDataIDArray(%aid, %force)
 		}
 	}
 	$executedDataID[%aid] = 1;
+	pushDataID(%aid);
 
 	return %aid;
 }
@@ -61,6 +170,7 @@ function unloadDataIDArray(%aid)
 	saveDataIDArray(%aid);
 	deleteVariables("$DataID_" @ %aid @ "_*");
 	$executedDataID[%aid] = 0;
+	popDataID(%aid);
 	deleteVariables("$executedDataID" @ %aid);
 }
 
@@ -78,6 +188,7 @@ function deleteDataIDArray(%aid)
 	
 	deleteVariables("$DataID_" @ %aid @ "_*");
 	$executedDataID[%aid] = 0;
+	popDataID(%aid);
 	deleteVariables("$executedDataID" @ %aid);
 	fileDelete("config/server/DataIDs/" @ %aid @ ".cs");
 	return %aid;
@@ -91,11 +202,15 @@ function pruneDataIDArrays()
 		return;
 	}
 	$nextPruneDataIDArray = $Sim::Time + 10;
-	while (getWordCount($loadedDataIDs) > 80)
+	while (getWordCount($loadedDataIDs) > 80 || getLoadedDataIDCount() > 80)
 	{
 		%curr = getWord($loadedDataIDs, 0);
 		$loadedDataIDs = getWords($loadedDataIDs, 1, 999999);
 		unloadDataIDArray(%curr);
+
+		%oldest = getOldestDataID();
+		popDataID(%oldest);
+		
 		%count++;
 	}
 	if ($DataIDDebug) talk("Pruned " @ %count + 0 @ " arrays");
