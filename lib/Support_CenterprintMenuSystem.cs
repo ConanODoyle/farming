@@ -129,7 +129,7 @@ package Support_CenterprintMenuSystemPackage
 			return;
 		}
 
-		if (%cl.lastMessagedBrickControls + 8 < $Sim::Time)
+		if (%cl.lastMessagedBrickControls + 20 < $Sim::Time)
 		{
 			messageClient(%cl, '', "\c5Use brick controls/numpad to navigate the centerprint menu. Use Ctrl-W to drop items into the storage box.");
 		}

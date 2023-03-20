@@ -247,7 +247,7 @@ function doWaterTankDraw(%brick)
 {
 	%max = %brick.dataBlock.maxWater;
 	%curr = %brick.waterLevel;
-	%draw = getMin(%max - %curr, 100);
+	%draw = getMin(%max - %curr, 1000);
 
 	%amt = drawWater(%brick, %draw);
 	%brick.setWaterLevel(%brick.waterLevel + %amt);

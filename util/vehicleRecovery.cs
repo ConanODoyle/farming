@@ -48,3 +48,10 @@ function servercmdRecoverMyVehiclePlease(%client)
 
 	%client.chatMessage("Vehicle recovered.");
 }
+
+
+//override for spawnvehicle to remove quota object
+$Server::Quota::Vehicle = 999;
+$Server::MaxPhysVehicles_Total = 999;
+$Min::MaxPhysVehicles_Total = 999;
+$Max::MaxPhysVehicles_Total = 999;

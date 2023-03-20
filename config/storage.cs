@@ -72,7 +72,7 @@ $StorageMax_SuperFertilizer = 60;
 $StorageMax_WeedKiller = 120;
 
 $StorageMax_Coal = 12 * 1;
-$StorageMax_Ethanol = 20 * 1;
+$StorageMax_Ethanol = 50 * 1;
 
 // Storage Types
 $StorageTypeCropsExists = true;
