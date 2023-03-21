@@ -788,7 +788,8 @@ function dropStoredItems(%brick, %storageSlotCount)
 			}
 		}
 	}
-	deleteDataIDArray(%dataID);
+	//allows other things to continue accessing the dataID array prior to brick death code completing
+	schedule(1000, 0, deleteDataIDArray, %dataID);
 }
 
 

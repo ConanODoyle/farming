@@ -125,6 +125,7 @@ function updatePlantStatus(%brick)
 	%brick.canGrow = %brick.canGrow();
 	%brick.waterNeeded = getPlantData(%cropType, %db.stage, "waterPerTick");
 	%brick.nutrients = %nutrients;
+	%brick.harvestMax = getPlantData(%cropType, %db.stage, "harvestMax");
 	%brick.nextUpdateInfo = $Sim::Time + 1;
 }
 
@@ -142,6 +143,11 @@ function displayPlantStatus(%brick, %cl)
 	else
 	{
 		%string = %string @ "\c6Crop is done growing! \n";
+	}
+
+	if (%brick.harvestMax > 1)
+	{
+		%string = %string @ "\c6Harvests: " @ getWord(%brick.nutrients, 2) @ "/" @ %brick.harvestMax @ " \n";
 	}
 
 	if (%brick.requiresNutrients !$= "")

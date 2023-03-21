@@ -235,6 +235,32 @@ package PlayerShops
 		}
 		return parent::onCollision(%this, %obj, %col, %vec, %speed);
 	}
+
+	function sellObject(%b)
+	{
+		if (!%b.sold && %b.dataBlock.isShop)
+		{
+			%group = getBrickgroupFromObject(%b);
+			%cl = %group.client;
+			
+			%dataID = %b.eventOutputParameter[0, 1];
+			%moneyStored = getDataIDArrayTagValue(%dataID, "moneyStored");
+			setDataIDArrayTagValue(%dataID, "moneyStored", 0);
+
+			if (!isObject(%cl))
+			{
+				%group.delayedScoreAdjustment += %moneyStored;
+			}
+			else
+			{
+				%cl.addMoney(%moneyStored);
+				messageClient(%cl, '', "\c2$" @ mFloatLength(%moneyStored, 2) @ "\c6 has been withdrawn from the shop and added to your account");
+			}
+			%b.updateShopMenus();
+		}
+
+		return parent::sellObject(%b);
+	}
 };
 activatePackage(PlayerShops);
 

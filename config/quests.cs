@@ -412,8 +412,8 @@ new ScriptObject(BasicElectricQuestType) {
 	maxBonusFactor = 2.2;
 
 	requestTable = RareRequests;
-	budgetPerRequestItem = 700;
-	maxRequestItems = 6;
+	budgetPerRequestItem = 750;
+	maxRequestItems = 4;
 };
 
 new ScriptObject(ElectricLightQuestType) {
