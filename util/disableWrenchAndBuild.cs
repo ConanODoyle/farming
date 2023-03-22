@@ -147,7 +147,7 @@ package disableWrenchData
 	function fxDTSBrick::setColorFX(%this, %type)
 	{
 		%db = %this.getDatablock();
-		if (%db.isStorageBrick || %db.isSprinkler || %db.isGreenhouse || %db.isWaterTank 
+		if (%db.isStorageBrick || %db.isSprinkler || %db.isWaterTank 
 			|| %db.isShopLot || %db.isDirt || %db.isPlant || %db.isLot || %db.isProcessor)
 		{
 			%type = 0;

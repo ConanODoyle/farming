@@ -145,7 +145,23 @@ function fxDTSBrick::updateStorageMenu(%brick, %dataID)
 			}
 			else
 			{
-				%entry = trim(%display) @ " - " @ %itemCount;
+				%max = %brick.getStorageMax(%db);
+				if (isObject(%brick.vehicle) && %max == 0)
+				{
+					if (%brick.vehicle.getClassName() $= "AIPlayer")
+					{
+						%max = %brick.vehicle.getStorageMax(%db);
+					}
+					else if (isObject(%brick.vehicle.storageBot))
+					{
+						%max = %brick.vehicle.storageBot.getStorageMax(%db);
+					}
+					else
+					{
+						%max = "???";
+					}
+				}
+				%entry = trim(%display) @ " - " @ %itemCount @ "/" @ %max;
 			}
 		}
 		%brick.centerprintMenu.menuOption[%i] = %entry;

@@ -20,7 +20,7 @@ datablock fxDTSBrickData(brickSolarPanel4x4Data)
 	isGenerator = 1;
 	// burnRate = 0.00;
 	// fuelType = "";
-	generation = 2;
+	generation = 3;
 	generatorFunction = "solarPanelGeneratorTick";
 
 	isStorageBrick = 1;
