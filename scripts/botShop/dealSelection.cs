@@ -275,34 +275,51 @@ function AIPlayer::randomBuyerLoop(%bot, %selectionCount, %speak, %timeRange, %s
 	}
 	else
 	{
+		if (%bot.buyItem !$= "" || %bot.buyItems !$= "")
+		{
+			%lastHadItem = 1;
+			%lastItem = %bot.buyItem;
+			%lastItems = %bot.buyItems;
+		}
 		%bot.buyItem = "";
 		%bot.buyItems = "";
 	}
 
-	if (%speak > 0 && (%bot.buyItem !$= "" || %bot.buyItems !$= ""))
+	if (%speak > 0)
 	{
 		%prefix = "<bitmap:base/data/particles/exclamation><bitmap:base/client/ui/ci/star>";
 		%name = %bot.name $= "" ? "Buyer" : %bot.name;
-		switch (%speak)
+		if (%bot.buyItem !$= "" || %bot.buyItems !$= "")
 		{
-			case 1: %str = %prefix @ "\c3" SPC %name @ "\c6: I got some new deals, come by and check!";
-			case 2: %str = %prefix @ "\c3" SPC %name @ "\c6: I'm buying ";
-					%buyList = trim(%buyList);
-					%buyListCount = getFieldCount(%buyList);
-					if (%buyListCount > 1)
-					{
-						%pre = getFields(%buyList, 0, %buyListCount - 2);
-						%post = getField(%buyList, %buyListCount - 1);
-						%buyList = trim(strReplace(%pre, "\t", ", ")) @ " and " @ %post;
-					}
+			switch (%speak)
+			{
+				case 1: %str = %prefix @ "\c3" SPC %name @ "\c6: I got some new deals, come by and check!";
+				case 2: %str = %prefix @ "\c3" SPC %name @ "\c6: I'm buying ";
+						%buyList = trim(%buyList);
+						%buyListCount = getFieldCount(%buyList);
+						if (%buyListCount > 1)
+						{
+							%pre = getFields(%buyList, 0, %buyListCount - 2);
+							%post = getField(%buyList, %buyListCount - 1);
+							%buyList = trim(strReplace(%pre, "\t", ", ")) @ " and " @ %post;
+						}
 
-					if (%bot.buyPriceMod > 0)
-					{
-						%mod = " for " @ mFloor(%bot.buyPriceMod * 100) @ "% of the normal price";
-					}
-					%str = %str @ %buyList @ %mod @ "!";
+						if (%bot.buyPriceMod > 0)
+						{
+							%mod = " for " @ mFloor(%bot.buyPriceMod * 100) @ "% of the normal price";
+						}
+						%str = %str @ %buyList @ %mod @ "!";
+			}
 		}
-		messageAll('', %str);
+		else if (%lastHadItem)
+		{
+			%str = %prefix @ "\c3" SPC %name @ "\c6: My offer has ended!";
+		}
+
+		if (%str !$= "")
+		{
+			messageAll('', %str);
+		}
 	}
 
 	%bot.lastChangedSale = $Sim::Time;
