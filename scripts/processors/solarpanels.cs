@@ -91,7 +91,7 @@ datablock ShapeBaseImageData(SolarPanel4x4BrickImage : BrickPlacerImage)
 	colorShiftColor = SolarPanel4x4Item.colorShiftColor;
 
 	toolTip = "Places a solar panel";
-	loopTip = "Provides 2 power when outside";
+	loopTip = "Provides 3 power when outside";
 	placeBrick = "brickSolarPanel4x4Data";
 };
 
