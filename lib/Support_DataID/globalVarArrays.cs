@@ -58,7 +58,7 @@ function popDataID(%dataID)
 	LoadedDataIDs.numActive--;
 	for (%i = 0; %i < LoadedDataIDs.listSize; %i++)
 	{
-		echo(" Comparing " @ LoadedDataIDs.list[%i] @ " to " @ %dataID);
+		// echo(" Comparing " @ LoadedDataIDs.list[%i] @ " to " @ %dataID);
 		if (LoadedDataIDs.list[%i] $= %dataID)
 		{
 			%foundSlot = %i;
@@ -67,9 +67,9 @@ function popDataID(%dataID)
 		}
 	}
 
-	if (%foundSlot !$= "")
+	if (%foundSlot $= "")
 	{
-		talk("ERROR: tried to pop dataID not loaded! dataID: " @ %dataID @ " size: " @ %loadedDataIDs.listSize);
+		echo("ERROR: tried to pop dataID not loaded! dataID: " @ %dataID @ " size: " @ LoadedDataIDs.listSize);
 	}
 
 	if (%foundSlot == LoadedDataIDs.listSize - 1) //reduce list size if we happen to remove the last one in the list
@@ -126,11 +126,10 @@ function loadDataIDArray(%aid, %force)
 	pruneDataIDArrays();
 
 	%aid = getSafeDataIDArrayName(%aid);
-	if (!$executedDataID[%aid] || !isDataIDLoaded(%aid) || %force)
+	if (!isDataIDLoaded(%aid) || %force)
 	{
 		if ($DataIDDebug) talk("loadDataIDArray");
 		deleteVariables("$DataID_" @ %aid @ "_*");
-		$executedDataID[%aid] = 0;
 		deleteVariables("$executedDataID" @ %aid);
 		if (isFile("config/server/DataIDs/" @ %aid @ ".cs"))
 		{
@@ -140,12 +139,7 @@ function loadDataIDArray(%aid, %force)
 		{
 			echo("No dataID file found for " @ %aid @ "!");
 		}
-		if (strPos(" " @ $loadedDataIDs @ " ", " " @ %aid @ " ") < 0)
-		{
-			$loadedDataIDs = trim($loadedDataIDs SPC %aid);
-		}
 	}
-	$executedDataID[%aid] = 1;
 	pushDataID(%aid);
 
 	return %aid;
@@ -163,13 +157,12 @@ function unloadDataIDArray(%aid)
 {
 	if ($DataIDDebug) talk("unloadDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
-	if (!$executedDataID[%aid])
+	if (!isDataIDLoaded(%aid))
 	{
 		return;
 	}
 	saveDataIDArray(%aid);
 	deleteVariables("$DataID_" @ %aid @ "_*");
-	$executedDataID[%aid] = 0;
 	popDataID(%aid);
 	deleteVariables("$executedDataID" @ %aid);
 }
@@ -187,7 +180,6 @@ function deleteDataIDArray(%aid)
 	}
 	
 	deleteVariables("$DataID_" @ %aid @ "_*");
-	$executedDataID[%aid] = 0;
 	popDataID(%aid);
 	deleteVariables("$executedDataID" @ %aid);
 	fileDelete("config/server/DataIDs/" @ %aid @ ".cs");
@@ -202,18 +194,15 @@ function pruneDataIDArrays()
 		return;
 	}
 	$nextPruneDataIDArray = $Sim::Time + 10;
-	while (getWordCount($loadedDataIDs) > 80 || getLoadedDataIDCount() > 80)
+	while (getLoadedDataIDCount() > 200 && %safety++ < 10)
 	{
-		%curr = getWord($loadedDataIDs, 0);
-		$loadedDataIDs = getWords($loadedDataIDs, 1, 999999);
-		unloadDataIDArray(%curr);
-
 		%oldest = getOldestDataID();
-		popDataID(%oldest);
-		
+		unloadDataIDArray(%oldest);
+
 		%count++;
 	}
 	if ($DataIDDebug) talk("Pruned " @ %count + 0 @ " arrays");
+	else if (%count > 0) echo("Pruned " @ %count + 0 @ " arrays");
 }
 
 function printDataIDArray(%aid, %skipLoad)
@@ -463,7 +452,7 @@ function clearDataIDArray(%aid)
 	}
 
 	deleteVariables("$DataID_" @ %aid @ "_*");
-	$executedDataID[%aid] = 0;
+	popDataID(%aid);
 	deleteVariables("$executedDataID" @ %aid);
 
 	if (isFile("config/server/DataIDs/" @ %aid @ ".cs"))

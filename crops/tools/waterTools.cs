@@ -360,12 +360,11 @@ function waterCanFire(%this, %obj, %slot)
 			}
 			%list = trim(%list);
 			%hit = getWord(%list, getRandom(0, getWordCount(%list) - 1));
-			%db = %hit.getDatablock();
-
 			if (!isObject(%hit))
 			{
 				return;
 			}
+			%db = %hit.getDatablock();
 		}
 
 		if (%db.isDirt || %db.isWaterTank)

@@ -1,6 +1,9 @@
-function exportServerPrefs()
+function exportServerPrefs(%suppress)
 {
-	echo("Exporting server prefs...");
+	if (!%suppress)
+	{
+		echo("Exporting server prefs...");
+	}
 	fileCopy("config/server/farmingPrefs.cs", "config/server/farmingPrefsOld.cs");
 	export("$Pref::Farming*", "config/server/farmingPrefs.cs");
 
