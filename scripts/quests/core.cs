@@ -308,10 +308,11 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 		}
 		return;
 	}
+	%questUID = getSubStr(%questID, strLen(%questID) - 3, 3);
 
 	%numRewards = getDataIDArrayTagValue(%questID, "numRewards"); // needed for offset
 	if (%displayRewards) {
-		%displayString = "<just:right>\c3-Quest Rewards- \n\c3";
+		%displayString = "<just:right>\c3-Quest [" @ %questUID @ "] Rewards- \n\c3";
 		for (%i = 0; %i < %numRewards; %i++) {
 			%reward = getDataIDArrayValue(%questID, %i); // offset by number of requests into array
 			%item = getWord(%reward, 0);
@@ -327,7 +328,7 @@ function GameConnection::displayQuest(%client, %questID, %displayRewards) {
 			%displayString = %displayString @ "Money\c6: $" @ mFloatLength(%cashReward, 2);
 		}
 	} else {
-		%displayString = "<just:right>\c3-Quest Requests- \n\c3";
+		%displayString = "<just:right>\c3-Quest [" @ %questUID @ "] Requests- \n\c3";
 		%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
 		for (%i = 0; %i < %numRequests; %i++) {
 			%request = getDataIDArrayValue(%questID, %numRewards + %i);
@@ -381,7 +382,9 @@ function QuestProfitValue(%questID)
 }
 
 function getQuestString(%questID, %showDelivered) {
-	%string = "Requests:\n";
+    %questUID = getSubStr(%questID, strLen(%questID) - 3, 3);
+    %string = "Quest [" @ %questUID @ "]\n";
+	%string = %string @ "Requests:\n";
 	%numRequests = getDataIDArrayTagValue(%questID, "numRequests");
 	%numRewards = getDataIDArrayTagValue(%questID, "numRewards");
 	for (%i = 0; %i < %numRequests; %i++) {

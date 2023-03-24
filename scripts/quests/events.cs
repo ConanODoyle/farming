@@ -100,7 +100,12 @@ function fxDTSBrick::displayActiveQuest(%this, %depositBoxArray, %client) {
         commandToClient(%client, 'MessageBoxOK', "No Assigned Quest", "There's no quest assigned to this deposit box.\nDrop a quest here to assign it to the box!");
         return;
     }
-    commandToClient(%client, 'MessageBoxYesNo', "Current Quest", "Here's the quest you've assigned to this deposit box.\n\n" @ getQuestString(%quest, true) @ "\n\nDo you want a new copy of this quest?\nYou have " @ convTime($Farming::QuestAcceptTime) @ " to get a copy.", 'getQuestCopy');
+    %str = "Here's the quest you've assigned to this deposit box.\n\n" @ getQuestString(%quest, true) @ "\n\nDo you want a new copy of this quest?\nYou have " @ convTime($Farming::QuestAcceptTime) @ " to get a copy.";
+    for (%i = 0; %i < 4; %i++)
+    {
+        %str[%i] = getSubStr(%str, %i * 250, 250);
+    }
+    commandToClient(%client, 'MessageBoxYesNo', "Current Quest", '%2%3%4%5', 'getQuestCopy', %str0, %str1, %str2, %str3);
     %client.questToCopy = %quest;
     %client.questCopyTimeout = $Sim::Time + $Farming::QuestAcceptTime;
 }
