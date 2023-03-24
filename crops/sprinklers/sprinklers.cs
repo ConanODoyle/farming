@@ -1,4 +1,4 @@
-$SprinklerMaxDistance = 20;
+$SprinklerMaxDistance = 40;
 $SprinklerWaterTime = 500;
 
 if (!isObject(WaterSystemNameTable))
