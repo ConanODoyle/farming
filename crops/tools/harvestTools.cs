@@ -357,9 +357,9 @@ function centerprintHarvestToolInfo(%cl, %this, %obj, %slot)
 		%string = %string NL "\c2Bonus yield: " @ (getStatTrakBonusYield(%dataID, %cropTrakType) + 0) @ " ";
 	}
 
-	if (%this.hasDataID && %dataID !$= "")
+	if (%this.item.hasDataID && %dataID !$= "")
 	{
-		%title = %this.uiName @ " [" @ getSubStr(%dataID, strLen(%dataID) - 4, 3) @ "] \n";
+		%title = %this.item.uiName @ " [" @ getSubStr(%dataID, strLen(%dataID) - 3, 3) @ "] \n";
 	}
 
 	%cl.centerprint("<just:right>\c3" @ %title @ "<color:cccccc>Durability: " @ %durability @ " \n" @ %string, 1);
