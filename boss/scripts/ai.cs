@@ -189,6 +189,12 @@ function AIPlayer::harvesterTeleport(%this, %level, %precise)
 function AIPlayer::harvesterFindTarget(%this)
 {
 	%highestWeight = -inf;
+
+	if (HarvesterFightSet.getCount() == 0)
+	{
+		onBossfightComplete("Lose");
+		return;
+	}
 	
 	echo("::harvesterFindTarget(" @ %this @ "):");
 	
