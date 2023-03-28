@@ -76,6 +76,15 @@ function RepairToolImage::onReady(%this, %obj, %slot)
 
 function RepairToolImage::onFire(%this, %obj, %slot)
 {
+	if (getDurability(%this, %obj, %slot) <= 0)
+	{
+		if (isObject(%cl = %obj.client))
+		{
+			%cl.centerprint("<just:right><color:cccccc>This tool needs repairs!", 1);
+		}
+		return;
+	}
+	
 	%start = %obj.getEyePoint();
 	%vector = vectorScale(%obj.getEyeVector(), 10 * getWord(%obj.getScale(), 2));
 	%end = vectorAdd(%start, %vector);
@@ -139,20 +148,8 @@ function RepairToolImage::onFire(%this, %obj, %slot)
 	}
 
 	%obj.playThread(0, "plant");
-
-	if (getDurability(%this, %obj, %slot) <= 0)
+	if (isObject(%cl = %obj.client))
 	{
-		if (isObject(%cl = %obj.client))
-		{
-			%cl.centerprint("\c6Repaired \c2" @ %repairAmount @ " durability\c6, \c0but your repair tool broke!", 1);
-		}
-		%obj.farmingRemoveItem(%obj.currTool);
-	}
-	else
-	{
-		if (isObject(%cl = %obj.client))
-		{
-			%cl.centerprint("\c6Repaired \c2" @ %repairAmount @ " durability\c6!", 1);
-		}
+		%cl.centerprint("\c6Repaired \c2" @ %repairAmount @ " durability\c6!", 1);
 	}
 }

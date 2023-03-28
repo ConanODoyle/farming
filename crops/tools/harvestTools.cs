@@ -324,6 +324,7 @@ function HarvestToolImage::onFire(%this, %obj, %slot, %hitLoc)
 
 		incrementHarvestCount(%dataID, %plantDB.cropType, %harvestCount[%plantDB]);
 		incrementHarvestCount(%dataID, %plantDB.cropType @ "_yieldTotal", %harvestYieldCount[%plantDB]);
+		setDataIDArrayTagValue(%dataID, "lastUserBLID", %obj.client.bl_id);
 	}
 
 	if (%item.hasDataID && %harvestListCount > 0)

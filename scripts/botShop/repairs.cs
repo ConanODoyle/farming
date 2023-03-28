@@ -170,7 +170,7 @@ function RepairResponseParser(%dataObj, %msg)
 	}
 
 	if (!isObject(%tool) || getDataIDArrayTagValue(%toolDataID, "maxDurability") <= 0
-		|| !%tool.hasDataID || trim(%toolDataID) $= "" || %tool.isRepairTool)
+		|| !%tool.hasDataID || trim(%toolDataID) $= "")
 	{
 		return "CannotRepair";
 	}
@@ -178,6 +178,10 @@ function RepairResponseParser(%dataObj, %msg)
 	%durability = getDataIDArrayTagValue(%toolDataID, "durability");
 	%maxDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
 	%price = getRepairPrice(%tool, %durability, %maxDurability);
+	if (%tool.isRepairTool)
+	{
+		%price = %price * 10;
+	}
 
 	%dataObj.var_tool = %tool;
 	%dataObj.var_toolDataID = %toolDataID;
