@@ -87,7 +87,7 @@ $SellCost_["Swordfish"] = mFloatLength(60.00 * $FishSellModifier, 2);
 //Other tools
 $BuyCost_["CropTrak\x99_Upgrade_Kit"] = 6000;
 $BuyCost_["Upgrade_Tool"] = 800;
-$BuyCost_["Repair_Tool"] = 120;
+$BuyCost_["Repair_Tool"] = 400;
 $BuyCost_["Inventory_Upgrade_Satchel"] = 3000;
 
 

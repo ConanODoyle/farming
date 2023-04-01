@@ -45,7 +45,8 @@ datablock ShapeBaseImageData(ShovelImage)
 
 	stateName[2] = "Fire";
 	stateScript[2] = "onFire";
-	stateTransitionOnTriggerUp[2] = "Ready";
+	stateTimeoutValue[2] = 0.2;
+	stateTransitionOnTimeout[2] = "Ready";
 
 	stateName[3] = "Ready2";
 	stateTransitionOnTimeout[3] = "Ready";

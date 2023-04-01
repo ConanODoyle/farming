@@ -823,8 +823,8 @@ function fertilizerLoop(%image, %obj)
 
 
 
-$Stackable_Compost_StackedItem0 = "CompostBag0Item 20";
-$Stackable_Compost_StackedItem1 = "CompostBag1Item 40";
+$Stackable_Compost_StackedItem0 = "CompostBag0Item 25";
+$Stackable_Compost_StackedItem1 = "CompostBag1Item 50";
 $Stackable_Compost_StackedItem2 = "CompostBag2Item 80";
 $Stackable_Compost_StackedItemTotal = 3;
 
@@ -878,9 +878,8 @@ datablock ShapeBaseImageData(CompostBag0Image)
 
 	stateName[3] = "Fire";
 	stateScript[3] = "onFire";
-	stateTransitionOnTriggerUp[3] = "LoopA";
 	stateTransitionOnTimeout[3]	= "LoopA";
-	stateTimeoutValue[3] = 0.4;
+	stateTimeoutValue[3] = 0.2;
 	stateWaitForTimeout[3] = true;
 };
 
@@ -971,8 +970,8 @@ function CompostLoop(%image, %obj)
 
 
 
-$Stackable_Phosphate_StackedItem0 = "PhosphateBag0Item 20";
-$Stackable_Phosphate_StackedItem1 = "PhosphateBag1Item 40";
+$Stackable_Phosphate_StackedItem0 = "PhosphateBag0Item 25";
+$Stackable_Phosphate_StackedItem1 = "PhosphateBag1Item 50";
 $Stackable_Phosphate_StackedItem2 = "PhosphateBag2Item 80";
 $Stackable_Phosphate_StackedItemTotal = 3;
 
@@ -1026,9 +1025,8 @@ datablock ShapeBaseImageData(PhosphateBag0Image)
 
 	stateName[3] = "Fire";
 	stateScript[3] = "onFire";
-	stateTransitionOnTriggerUp[3] = "LoopA";
 	stateTransitionOnTimeout[3]	= "LoopA";
-	stateTimeoutValue[3] = 0.4;
+	stateTimeoutValue[3] = 0.2;
 	stateWaitForTimeout[3] = true;
 };
 
