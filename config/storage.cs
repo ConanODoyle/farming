@@ -111,6 +111,7 @@ $StorageTypeToolsList = $StorageTypeToolsList TAB "RepairToolItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "FishingPole1Item";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "FishingPole2Item";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "FishingPole3Item";
+$StorageTypeToolsList = $StorageTypeToolsList TAB "FishingPoleCoDItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "FishFinderItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "TackleBoxItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "CropTrakKitItem";
