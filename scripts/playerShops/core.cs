@@ -65,6 +65,10 @@ package PlayerShops
 		{
 			%pricePrefix = %storeItemDB.stackType;
 		}
+		else if (%storeItemDB.hasDataID)
+		{
+			%pricePrefix = %itemDataID;
+		}
 		else
 		{
 			%pricePrefix = %storeItemDB.getName();
@@ -120,6 +124,10 @@ package PlayerShops
 			{
 				%pricePrefix = %dataBlock.stackType;
 			}
+			else if (%datablock.hasDataID)
+			{
+				%pricePrefix = getField(%entry, 3);
+			}
 			else
 			{
 				%pricePrefix = %dataBlock.getName();
@@ -156,6 +164,10 @@ package PlayerShops
 			if (%dataBlock.isStackable)
 			{
 				%pricePrefix = %dataBlock.stackType;
+			}
+			else if (%datablock.hasDataID)
+			{
+				%pricePrefix = getField(%entry, 3);
 			}
 			else
 			{
@@ -297,7 +309,12 @@ function fxDTSBrick::updateShopMenus(%brick)
 			{
 				%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.stackType @ "Price");
 			}
-			else
+			else if (%datablock.hasDataID)
+			{
+				%price[%count] = getDataIDArrayTagValue(%dataID, getField(%data[%count], 3) @ "Price");
+			}
+			
+			if (%price[%count] <= 0)
 			{
 				%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
 			}
@@ -367,7 +384,15 @@ function fxDTSBrick::updateShopMenus(%brick)
 	{
 		%dataBlock = getField(%data[%i], 0);
 		%displayName = getField(%data[%i], 1);
-		%itemCount = getField(%data[%i], 2);
+		if (%datablock.hasDataID)
+		{
+			%itemCount = getField(%data[%i], 3);
+			%itemCount = "[" @ getSubStr(%itemCount, strLen(%itemCount) - 3, 3) @ "]";
+		}
+		else
+		{
+			%itemCount = getField(%data[%i], 2);
+		}
 		%price = %price[%i];
 		if (isObject(%dataBlock))
 		{
@@ -414,7 +439,12 @@ function fxDTSBrick::updateShopDisplay(%brick)
 			{
 				%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.stackType @ "Price");
 			}
-			else
+			else if (%dataBlock.hasDataID)
+			{
+				%price[%count] = getDataIDArrayTagValue(%dataID, getField(%data[%count], 3) @ "Price");
+			}
+
+			if (%price[%count] <= 0)
 			{
 				%price[%count] = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
 			}
@@ -577,7 +607,12 @@ function buyUnit(%cl, %menu, %option)
 	{
 		%price = getDataIDArrayTagValue(%dataID, %dataBlock.stackType @ "Price");
 	}
-	else
+	else if (%datablock.hasDataID)
+	{
+		%price = getDataIDArrayTagValue(%dataID, getField(%entry, 3) @ "Price");
+	}
+
+	if (%price <= 0)
 	{
 		%price = getDataIDArrayTagValue(%dataID, %dataBlock.getName() @ "Price");
 	}

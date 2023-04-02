@@ -1,5 +1,5 @@
 //input: output from getStorageValue()
-//output: itemDatablock TAB displayName (uiname or stacktype) TAB count
+//output: itemDatablock TAB displayName (uiname or stacktype) TAB count TAB itemDataID
 function validateStorageValue(%string)
 {
 	if (%string $= "")
