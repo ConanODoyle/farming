@@ -113,10 +113,41 @@ datablock ShapeBaseImageData(FishingPole3Image : FishingPole1Image)
 	fishingQSub = 300;
 	fishingQDiv = 900;
 
-	areaHarvest = 2;
 	stateTimeoutValue[2] = 0.4;
 
 	toolTip = "Fish in any pond";
+};
+
+datablock ItemData(FishingPoleCoDItem : FishingPole3Item)
+{
+	shapeFile = "./fishingPole/fishingcod.dts";
+	doColorShift = true;
+	colorShiftColor = "0.72 0.56 0.36 1";
+	image = FishingPoleCoDImage;
+	uiName = "Fishing CoD";
+	iconName = "Add-ons/Server_Farming/icons/fishingRodCoD";
+};
+
+datablock ShapeBaseImageData(FishingPoleCoDImage : FishingPole3Image)
+{
+	shapeFile = "./fishingPole/fishingcod.dts";
+
+	item = FishingPoleCoDItem;
+	doColorShift = true;
+	colorShiftColor = FishingPole3Item.colorShiftColor;
+	rotation = eulerToMatrix("-50 0 0");
+
+	fishingRange = 64;
+	fishingForce = 20;
+	fishingPSub = 300;
+	fishingPDiv = 2000;
+	fishingBaseQuality = 2;
+	fishingQSub = 300;
+	fishingQDiv = 900;
+
+	stateTimeoutValue[2] = 0.4;
+
+	toolTip = "Tactically fish in any pond";
 };
 
 function FishingPoleImage::onReady(%this, %obj, %slot)
