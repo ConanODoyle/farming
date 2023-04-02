@@ -377,7 +377,7 @@ function getStatTrakBonusYield(%dataID, %type)
 	//increase bonus threshold based on crop price and harvest count
 	%totalHarvested = getDataIDArrayTagValue(%dataID, %type);
 	%threshold = mFloor($statTrakBaseBonusModifier * mPow(%price, 0.75));
-	while (%totalHarvested > 0 && %safety++ < 10)
+	while (%totalHarvested > 0 && %safety++ < 11)
 	{
 		%totalHarvested -= %threshold;
 		if (%totalHarvested > 0)
