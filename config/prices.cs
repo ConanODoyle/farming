@@ -66,6 +66,7 @@ $BuyCost_["L3_DASH_\"Last_Word\""] = 1200;
 $BuyCost_["Fishing_Pole"] = 150;
 $BuyCost_["Fishing_Pole_2"] = 600;
 $BuyCost_["Fishing_Pole_3"] = 1200;
+$BuyCost_["Fishing_CoD"] = 1600;
 $BuyCost_["Fish_Finder"] = 300;
 $BuyCost_["Tackle_Box"] = 150;
 

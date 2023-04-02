@@ -122,7 +122,7 @@ datablock ItemData(FishingPoleCoDItem : FishingPole3Item)
 {
 	shapeFile = "./fishingPole/fishingcod.dts";
 	doColorShift = true;
-	colorShiftColor = "0.72 0.56 0.36 1";
+	colorShiftColor = "0.4 0.4 0.4 1";
 	image = FishingPoleCoDImage;
 	uiName = "Fishing CoD";
 	iconName = "Add-ons/Server_Farming/icons/fishingRodCoD";
@@ -134,7 +134,7 @@ datablock ShapeBaseImageData(FishingPoleCoDImage : FishingPole3Image)
 
 	item = FishingPoleCoDItem;
 	doColorShift = true;
-	colorShiftColor = FishingPole3Item.colorShiftColor;
+	colorShiftColor = FishingPoleCoDItem.colorShiftColor;
 	rotation = eulerToMatrix("-50 0 0");
 
 	fishingRange = 64;
@@ -149,6 +149,47 @@ datablock ShapeBaseImageData(FishingPoleCoDImage : FishingPole3Image)
 
 	toolTip = "Tactically fish in any pond";
 };
+
+package FishingCodItem
+{
+	function serverCmdMessageSent(%cl, %msg)
+	{
+		if (isObject(%cl.player))
+		{
+			for (%i = 0; %i < %cl.player.getDatablock().maxTools; %i++)
+			{
+				if (%cl.player.tool[%i] == "FishingPoleCoDItem".getID())
+				{
+					%hasFishingCoD = 1;
+					break;
+				}
+			}
+		}
+
+		if (strPos(strLwr(%msg), "again") >= 0 && %cl.didCoDMessage)
+		{
+			%chance = 1;
+		}
+		else
+		{
+			%chance = 0.15;
+		}
+
+		if (%hasFishingCoD && getRandom() < %chance && strPos(%msg, ":L") < 0)
+		{
+			%msg = %msg SPC ":L";
+			%cl.didCoDMessage = 1;
+		}
+		else
+		{
+			%cl.didCoDMessage = 0;
+		}
+
+		return parent::serverCmdMessageSent(%cl, %msg);
+	}
+};
+activatePackage(FishingCodItem);
+
 
 function FishingPoleImage::onReady(%this, %obj, %slot)
 {
