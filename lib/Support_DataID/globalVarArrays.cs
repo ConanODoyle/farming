@@ -16,13 +16,12 @@ function pushDataID(%dataID)
 		return;
 	}
 
+	LoadedDataIDs.lastTouched[%dataID] = getSimTime();
 	if (LoadedDataIDs.isLoaded[%dataID])
 	{
-		LoadedDataIDs.lastTouched[%dataID] = getSimTime();
 		return;
 	}
 
-	LoadedDataIDs.lastTouched[%dataID] = getSimTime();
 	LoadedDataIDs.isLoaded[%dataID] = 1;
 	LoadedDataIDs.numActive++;
 	for (%i = 0; %i < LoadedDataIDs.listSize; %i++)
@@ -198,12 +197,20 @@ function pruneDataIDArrays()
 	while (getLoadedDataIDCount() > 200 && %safety++ < 10)
 	{
 		%oldest = getOldestDataID();
+		%oldestTime = LoadedDataIDS.lastTouched[%oldest];
+		%age = (getSimTime() - %oldestTime | 0) / 1000;
+		if (%age < 30 && getLoadedDataIDCount() < 400) //don't prune if its not actually aged at all
+		{
+			echo("    Hard exit due to young dataIDs");
+			break;
+		}
+		%avgAge += %age;
 		unloadDataIDArray(%oldest);
 
 		%count++;
 	}
-	if ($DataIDDebug) talk("Pruned " @ %count + 0 @ " arrays");
-	else if (%count > 0) echo("Pruned " @ %count + 0 @ " arrays");
+	if ($DataIDDebug) talk("Pruned " @ %count + 0 @ " arrays (avg age " @ (%avgAge / %count) @ "s)");
+	else if (%count > 0) echo("Pruned " @ %count + 0 @ " arrays (avg age " @ (%avgAge / %count) @ "s)");
 }
 
 function printDataIDArray(%aid, %skipLoad)
