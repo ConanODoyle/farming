@@ -22,6 +22,7 @@ function pushDataID(%dataID)
 		return;
 	}
 
+	LoadedDataIDs.lastTouched[%dataID] = getSimTime();
 	LoadedDataIDs.isLoaded[%dataID] = 1;
 	LoadedDataIDs.numActive++;
 	for (%i = 0; %i < LoadedDataIDs.listSize; %i++)
