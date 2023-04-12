@@ -6,6 +6,9 @@ function loadLastAutosave()
   fcn(Zeustal).isBuilder = 1;
   serverCmdLoadAutosave($FakeClient, "last");
 
+  $Pref::FloatingBricks::AdminOnly = 1;
+  $Pref::FloatingBricks::Enabled = 0;
+
   schedule(15000, 0, setAllWaterLevelsFull);
 }
 //DO NOT schedule the growTick call - it will break loading plants!
