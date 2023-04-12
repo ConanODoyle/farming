@@ -141,7 +141,7 @@ datablock ShapeBaseImageData(FishingPoleCoDImage : FishingPole1Image)
 	fishingForce = 25;
 	fishingPSub = 400;
 	fishingPDiv = 800;
-	fishingBaseQuality = 3.5;
+	fishingBaseQuality = 3.7;
 	fishingQSub = 300;
 	fishingQDiv = 400;
 
