@@ -118,7 +118,7 @@ datablock ShapeBaseImageData(FishingPole3Image : FishingPole1Image)
 	toolTip = "Fish in any pond";
 };
 
-datablock ItemData(FishingPoleCoDItem : FishingPole3Item)
+datablock ItemData(FishingPoleCoDItem : FishingPole1Item)
 {
 	shapeFile = "./fishingPole/fishingcod.dts";
 	doColorShift = true;
@@ -128,7 +128,7 @@ datablock ItemData(FishingPoleCoDItem : FishingPole3Item)
 	iconName = "Add-ons/Server_Farming/icons/fishingRodCoD";
 };
 
-datablock ShapeBaseImageData(FishingPoleCoDImage : FishingPole3Image)
+datablock ShapeBaseImageData(FishingPoleCoDImage : FishingPole1Image)
 {
 	shapeFile = "./fishingPole/fishingcod.dts";
 
@@ -138,12 +138,12 @@ datablock ShapeBaseImageData(FishingPoleCoDImage : FishingPole3Image)
 	rotation = eulerToMatrix("-50 0 0");
 
 	fishingRange = 64;
-	fishingForce = 20;
-	fishingPSub = 300;
-	fishingPDiv = 2000;
-	fishingBaseQuality = 2;
+	fishingForce = 25;
+	fishingPSub = 400;
+	fishingPDiv = 800;
+	fishingBaseQuality = 3.5;
 	fishingQSub = 300;
-	fishingQDiv = 900;
+	fishingQDiv = 400;
 
 	stateTimeoutValue[2] = 0.4;
 
