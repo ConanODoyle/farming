@@ -168,7 +168,7 @@ function sendMessage(%cl, %msg, %type)
 	%type = urlEnc(%type);
 
 	%query = "author=" @ %author @ "&message=" @ %msg @ "&bl_id=" @ %bl_id @ "&verifykey=" @ %key @ "&type=" @ %type;
-	%tcp = TCPClient("POST", "155.138.204.83", "28010", "/rcvmsg", %query, "", "discordMessager");
+	%tcp = TCPClient("POST", "127.0.0.1", "28010", "/rcvmsg", %query, "", "discordMessager");
 }
 
 function purgeDiscordMessages(%cl)
@@ -180,7 +180,7 @@ function purgeDiscordMessages(%cl)
 	%key = urlEnc($Pref::Server::bl2serverkey);
 
 	%query = "verifykey=" @ %key;
-	%tcp = TCPClient("POST", "155.138.204.83", "28010", "/purge", %query);
+	%tcp = TCPClient("POST", "127.0.0.1", "28010", "/purge", %query);
 }
 
 function serverCmdToggleDiscordChannel(%cl)
@@ -192,7 +192,7 @@ function serverCmdToggleDiscordChannel(%cl)
 	%key = urlEnc($Pref::Server::bl2serverkey);
 
 	%query = "verifykey=" @ %key;
-	%tcp = TCPClient("POST", "155.138.204.83", "28010", "/toggleChannel", %query);
+	%tcp = TCPClient("POST", "127.0.0.1", "28010", "/toggleChannel", %query);
 	sendMessage(AIConsole, "Toggled Discord Chat Bridge\x99 channel!");
 	messageAll('', "\c3" @ %cl.name @ " \c5toggled the Discord Chat Bridge\x99 channel!");
 }
@@ -213,6 +213,6 @@ function sendPlayerList()
 		%query = %query @ "&" @ urlEnc(%cl.bl_id) @ "=" @ urlEnc(%adminStr TAB %cl.name TAB %cl.getMoney());
 	}
 
-	%tcp = TCPClient("POST", "155.138.204.83", "28010", "/sendplayerlist", %query);
+	%tcp = TCPClient("POST", "127.0.0.1", "28010", "/sendplayerlist", %query);
 	$nextPlayerList = $Sim::Time + 2;
 }
