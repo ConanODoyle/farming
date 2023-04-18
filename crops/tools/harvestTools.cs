@@ -323,7 +323,9 @@ function HarvestToolImage::onFire(%this, %obj, %slot, %hitLoc)
 		%plantDB = %harvestList[%i];
 
 		incrementHarvestCount(%dataID, %plantDB.cropType, %harvestCount[%plantDB]);
+		incrementHarvestCount(%dataID, "ALL", %harvestCount[%plantDB]);
 		incrementHarvestCount(%dataID, %plantDB.cropType @ "_yieldTotal", %harvestYieldCount[%plantDB]);
+		incrementHarvestCount(%dataID, "ALL_yieldTotal", %harvestYieldCount[%plantDB]);
 		setDataIDArrayTagValue(%dataID, "lastUserBLID", %obj.client.bl_id);
 	}
 
@@ -363,6 +365,11 @@ function centerprintHarvestToolInfo(%cl, %this, %obj, %slot)
 		%title = %this.item.uiName @ " [" @ getSubStr(%dataID, strLen(%dataID) - 3, 3) @ "] \n";
 	}
 
+	if (getDataIDArrayTagValue(%dataID, "toolItemToggles") !$= "")
+	{
+		%string = %string NL "[Press Light to toggle type] ";
+	}
+
 	%cl.centerprint("<just:right>\c3" @ %title @ "<color:cccccc>Durability: " @ %durability @ " \n" @ %string, 1);
 }
 
@@ -373,7 +380,22 @@ function getStatTrakBonusYield(%dataID, %type)
 		return 0;
 	}
 	
-	%price = getSellPrice(%type);
+	if (%type $= "ALL")
+	{
+		%price = 4;
+		%bonusCount = 1;
+	}
+	else
+	{
+		%price = getSellPrice(%type);
+		%bonusCount = 1;
+		if (getCropClass(%type) $= "Tree")
+		{
+			%price = %price / 2;
+			%bonusCount = 2;
+		}
+	}
+	
 	//increase bonus threshold based on crop price and harvest count
 	%totalHarvested = getDataIDArrayTagValue(%dataID, %type);
 	%threshold = mFloor($statTrakBaseBonusModifier * mPow(%price, 0.75));
@@ -382,7 +404,7 @@ function getStatTrakBonusYield(%dataID, %type)
 		%totalHarvested -= %threshold;
 		if (%totalHarvested > 0)
 		{
-			%bonus++;
+			%bonus += %bonusCount;
 		}
 		%threshold = mFloor(%threshold * $statTrakBonusReductionMultiplier);
 	}
@@ -499,3 +521,64 @@ function getHighestToolHarvestCount(%dataID)
 
 	return %maxType SPC %maxCount;
 }
+
+function toggleTool(%this, %pl, %slot)
+{
+	if (!%pl.tool[%pl.currTool].hasDataID || %pl.toolDataID[%pl.currTool] $= "")
+	{
+		return 0;
+	}
+
+	%dataID = %pl.toolDataID[%pl.currTool];
+
+	%toggleOptions = getDataIDArrayTagValue(%dataID, "toolItemToggles");
+	%count = getWordCount(%toggleOptions);
+
+	for (%i = 0; %i < %count; %i++)
+	{
+		%tool = getWord(%toggleOptions, %i);
+		if (%this.item.getName() $= %tool)
+		{
+			%found = 1;
+			break;
+		}
+	}
+
+	if (!%found)
+	{
+		return 0;
+	}
+
+	%next = (%i + 1) % %count;
+	%nextTool = getWord(%toggleOptions, %next);
+
+	if (!isObject(%nextTool))
+	{
+		return 0;
+	}
+
+	%nextTool = %nextTool.getID();
+	%pl.tool[%pl.currTool] = %nextTool;
+	messageClient(%pl.client, 'MsgItemPickup', "", %pl.currTool, %nextTool);
+	%pl.unMountImage(%slot);
+	%pl.mountImage(%nextTool.image, %slot);
+	return 1;
+}
+
+package HarvestToolToggle
+{
+	function serverCmdLight(%cl)
+	{
+		if (isObject(%pl = %cl.player) && %pl.getMountedImage(0))
+		{
+			%success = toggleTool(%pl.getMountedImage(0), %pl, 0);
+
+			if (%success)
+			{
+				return;
+			}
+		}
+		return parent::serverCmdLight(%cl);
+	}
+};
+activatePackage(HarvestToolToggle);
