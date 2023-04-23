@@ -1496,6 +1496,9 @@ datablock fxDTSBrickData(brickBatteryData)
 	capacity = 5000;
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
+	storageSlotCount = 0;
+	itemStackCount = 0;
+	storageMultiplier = 0;
 	storageSlotCount = 1;
 };
 
@@ -1518,6 +1521,9 @@ datablock fxDTSBrickData(brickBatteryMatrixData)
 	capacity = 20000;
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
+	storageSlotCount = 0;
+	itemStackCount = 0;
+	storageMultiplier = 0;
 	storageSlotCount = 1;
 };
 

@@ -32,6 +32,9 @@ datablock fxDTSBrickData(brickMediumPumpData)
 	tankOffset = "0 0.25 0.4"; //add to pump, should be tank location
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
+	storageSlotCount = 0;
+	itemStackCount = 0;
+	storageMultiplier = 0;
 	storageSlotCount = 1;
 
 	musicRange = 50;
@@ -66,6 +69,9 @@ datablock fxDTSBrickData(brickLargePumpData)
 	tankOffset = "0.75 -1.75 1"; //add to pump, should be tank location
 
 	isStorageBrick = 1; //purely for the gui, don't enable storage
+	storageSlotCount = 0;
+	itemStackCount = 0;
+	storageMultiplier = 0;
 	storageSlotCount = 1;
 
 	musicRange = 50;

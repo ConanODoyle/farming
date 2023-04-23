@@ -436,7 +436,11 @@ function fxDTSBrick::getStorageMax(%brick, %itemDB)
 	}
 	else if (%itemDB.hasDataID)
 	{
-		%total = 1;
+		if (%brick.dataBlock.itemStackCount $= "0")
+		{
+			return 0;
+		}
+		return 1;
 	}
 	else
 	{
