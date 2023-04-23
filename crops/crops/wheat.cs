@@ -1,6 +1,6 @@
-$Stackable_Wheat_StackedItem0 = "WheatBasket0Item 4";
-$Stackable_Wheat_StackedItem1 = "WheatBasket1Item 8";
-$Stackable_Wheat_StackedItem2 = "WheatBasket2Item 12";
+$Stackable_Wheat_StackedItem0 = "WheatBasket0Item 6";
+$Stackable_Wheat_StackedItem1 = "WheatBasket1Item 12";
+$Stackable_Wheat_StackedItem2 = "WheatBasket2Item 18";
 $Stackable_Wheat_StackedItemTotal = 3;
 
 datablock ItemData(WheatItem : HammerItem)
