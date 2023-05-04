@@ -343,6 +343,10 @@ function serverCmdSellShop(%cl, %force)
 		%force = 0;
 	}
 
+	messageClient(%cl, '', "This function is broken! Contact Conan if you need help selling your shop.");
+
+	return;
+
 	%start = %pl.getHackPosition();
 	%end = vectorAdd(%start, "0 0 -10");
 	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
