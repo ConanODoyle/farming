@@ -7,7 +7,7 @@ function createDiscordMessageListener()
 	}
 	
 	$DiscordMessageListener = new TCPObject(DiscordMessageListenerClass){};
-	$DiscordMessageListener.schedule(1000, listen, 28008);
+	$DiscordMessageListener.schedule(8000, listen, 28008);
 	
 	echo("Discord listener running on port" SPC 28008);
 }

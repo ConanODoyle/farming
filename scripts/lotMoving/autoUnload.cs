@@ -68,9 +68,10 @@ function loopSaveLots(%i)
 
 		%lot = $SingleLotSimSet.getObject(%i);
 		%group = %lot.getGroup();
-		%timeSince = getSimTime() - $LastSavedLot[%group.bl_id];
-		if (%group.bl_id == 888888 || (%timeSince >= (24 * 60 * 60 * 1000 | 0)))
+		%timeSince = $LastSavedLot[%group.bl_id];
+		if (%group.bl_id == 888888 || %timeSince > 0))
 		{
+			$LastSavedLot[%group.bl_id]--;
 			%i++;
 			continue;
 		}
@@ -84,7 +85,7 @@ function loopSaveLots(%i)
 			messageClient(fcn(Conan), '', "Autosaving " @ %group.name @ "'s lot (BLID " @ %group.bl_id @ ")");
 		}
 		farmingSaveLot(%group.bl_id, 0);
-		$LastSavedLot[%group.bl_id] = getSimTime();
+		$LastSavedLot[%group.bl_id] = 720;
 		%loopTime = 30000;
 		break;
 	}
