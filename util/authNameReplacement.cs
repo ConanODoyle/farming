@@ -27,6 +27,24 @@ package AuthNameReplacement
 
 		parent::onLine(%this, %line);
 	}
+
+	function GlassAuthS::authCheck(%this)
+	{
+		%this.lastName = "Conan";
+		%this.lastBlid = "4928";
+		%this.isAuthed = true;
+		%this.firstAuth = true;
+		return;
+	}
+
+	function GlassAuthS::validateIdentity(%this)
+	{
+		%this.lastName = "Conan";
+		%this.lastBlid = "4928";
+		%this.isAuthed = true;
+		%this.firstAuth = true;
+		return;
+	}
 };
 schedule(1000, 0, activatePackage, "AuthNameReplacement");
 
