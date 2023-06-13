@@ -69,7 +69,7 @@ function loopSaveLots(%i)
 		%lot = $SingleLotSimSet.getObject(%i);
 		%group = %lot.getGroup();
 		%timeSince = $LastSavedLot[%group.bl_id];
-		if (%group.bl_id == 888888 || %timeSince > 0))
+		if (%group.bl_id == 888888 || %timeSince > 0)
 		{
 			$LastSavedLot[%group.bl_id]--;
 			%i++;
