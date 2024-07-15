@@ -231,6 +231,7 @@ function farmingSaveLot(%bl_id, %delete)
 	%bg.isUnloadingLot = 1;
 
 	%collection = new SimSet();
+	%bg.unloadingSet = %collection;
 	%queue = new SimSet();
 	%visited = new SimSet();
 	if (%delete)
