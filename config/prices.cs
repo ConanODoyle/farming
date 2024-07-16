@@ -1,8 +1,8 @@
-JeepVehicle.uiName = "Jeep - $700";
+JeepVehicle.uiName = "Jeep - $800";
 HorseArmor.uiName = "Horse - $200";
 
 //Vehicles
-$BuyCost_["Jeep_DASH_700"] = 700;
+$BuyCost_["Jeep_DASH_800"] = 800;
 $BuyCost_["Horse_DASH_200"] = 200;
 $BuyCost_["Storage_Cart_DASH_250"] = 250;
 $BuyCost_["Large_Storage_Cart_4x_DASH_900"] = 900;
@@ -27,9 +27,9 @@ $BuyCost_["Seed_Planter"] = 1200;
 $BuyCost_["Seed_Planter_V2"] = 2000;
 $BuyCost_["Seed_Reclaimer"] = 500;
 
-$BuyCost_["Shovel"] = 200;
+$BuyCost_["Shovel"] = 150;
 $BuyCost_["Weed_Cutter"] = 200;
-$BuyCost_["Organic_Analyzer"] = 700;
+$BuyCost_["Organic_Analyzer"] = 500;
 
 //Extra stackable items
 $BuyCost_["Fertilizer"] = 0.50;
@@ -64,10 +64,10 @@ $BuyCost_["L3_DASH_\"Last_Word\""] = 1200;
 
 //Fishing
 $BuyCost_["Fishing_Pole"] = 150;
-$BuyCost_["Fishing_Pole_2"] = 600;
-$BuyCost_["Fishing_Pole_3"] = 1200;
-$BuyCost_["Fishing_CoD"] = 1600;
-$BuyCost_["Fish_Finder"] = 300;
+$BuyCost_["Fishing_Pole_2"] = 700;
+$BuyCost_["Fishing_Pole_3"] = 1400;
+$BuyCost_["Fishing_CoD"] = 1800;
+$BuyCost_["Fish_Finder"] = 250;
 $BuyCost_["Tackle_Box"] = 150;
 
 $FishSellModifier = 0.8;

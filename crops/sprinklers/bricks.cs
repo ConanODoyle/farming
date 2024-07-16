@@ -12,7 +12,7 @@ datablock fxDTSBrickData(brickSmallSprinklerData)
 
 	iconName = "Add-Ons/Server_Farming/icons/small_sprinkler";
 
-	cost = 150;
+	cost = 125;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
 	boxSize = "2 2 1";
@@ -29,7 +29,7 @@ datablock fxDTSBrickData(brickSmallSprinklerDownData)
 
 	iconName = "Add-Ons/Server_Farming/icons/small_sprinkler_down";
 
-	cost = 150;
+	cost = 125;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -1.9";
 	boxSize = "4 4 3.4";
@@ -47,7 +47,7 @@ datablock fxDTSBrickData(brickMedSprinklerData)
 
 	iconName = "Add-Ons/Server_Farming/icons/medium_sprinkler";
 
-	cost = 300;
+	cost = 250;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
 	boxSize = "4 4 1";
@@ -64,7 +64,7 @@ datablock fxDTSBrickData(brickLargeSprinklerData)
 
 	iconName = "Add-Ons/Server_Farming/icons/large_sprinkler";
 
-	cost = 450;
+	cost = 400;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.4";
 	boxSize = "6 6 1";
@@ -98,7 +98,7 @@ datablock fxDTSBrickData(brickStraightSprinklerData)
 
 	iconName = "Add-Ons/Server_Farming/icons/straight_sprinkler";
 
-	cost = 300;
+	cost = 250;
 	isSprinkler = 1;
 	directionalOffset = "4.5 0 -0.3";
 	boxSize = "8 1 1";
@@ -115,7 +115,7 @@ datablock fxDTSBrickData(brickSwaySprinklerData)
 
 	iconName = "Add-Ons/Server_Farming/icons/sway_sprinkler";
 
-	cost = 500;
+	cost = 450;
 	isSprinkler = 1;
 	directionalOffset = "0 0 -0.3";
 	boxSize = "8 2 1";

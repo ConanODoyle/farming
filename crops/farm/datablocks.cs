@@ -8,7 +8,7 @@ datablock fxDTSBrickData(brick4x4DirtData : brick4x4Data)
 	subCategory = "Dirt";
 	uiName = "4x4 Dirt";
 
-	cost = 20;
+	cost = 10;
 	isDirt = 1;
 	maxWater = 150;
 	maxNutrients = 80;
@@ -21,7 +21,7 @@ datablock fxDTSBrickData(brick8x8DirtData : brick8x8Data)
 	subCategory = "Dirt";
 	uiName = "8x8 Dirt";
 
-	cost = 120;
+	cost = 80;
 	isDirt = 1;
 	maxWater = 1200;
 	maxNutrients = 300;
@@ -43,7 +43,7 @@ datablock fxDTSBrickData(brickSmallWaterTankData)
 
 	iconName = "Add-Ons/Server_Farming/icons/small_water_tank";
 
-	cost = 200;
+	cost = 150;
 	isWaterTank = 1;
 	maxWater = 10000;
 
@@ -79,7 +79,7 @@ datablock fxDTSBrickData(brickMediumWaterTankData)
 
 	iconName = "Add-Ons/Server_Farming/icons/medium_water_tank";
 
-	cost = 800;
+	cost = 600;
 	isWaterTank = 1;
 	maxWater = 50000;
 	isOutflowTank = 1;
@@ -98,7 +98,7 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 
 	iconName = "Add-Ons/Server_Farming/icons/large_water_tank";
 
-	cost = 2200;
+	cost = 1800;
 	isWaterTank = 1;
 	maxWater = 100000;
 	maxSprinklers = 0;
@@ -141,7 +141,7 @@ datablock fxDTSBrickData(brickGreenhouseData)
 
 	isGreenhouse = 1;
 
-	cost = 2800;
+	cost = 3000;
 };
 
 
@@ -243,7 +243,7 @@ datablock fxDTSBrickData(brickStorageCrateData)
 	storageMultiplier = 1;
 	itemStackCount = 2;
 
-	cost = 100;
+	cost = 80;
 };
 
 datablock fxDTSBrickData(brickSiloData)
@@ -263,7 +263,7 @@ datablock fxDTSBrickData(brickSiloData)
 	storageType = "Crops";
 	itemStackCount = 0;
 
-	cost = 600;
+	cost = 500;
 };
 
 datablock fxDTSBrickData(brickLargeToolboxData)
@@ -308,7 +308,7 @@ datablock fxDTSBrickData(brickLeftQuestCabinetClosed0Data)
 	storageType = "Quests";
 	itemStackCount = 1;
 
-	cost = 150;
+	cost = 200;
 
 	baseDatablockName = "LeftQuestCabinet";
 	IsOpenable = true;
@@ -404,7 +404,7 @@ datablock fxDTSBrickData(brickRightQuestCabinetClosed0Data)
 	storageType = "Quests";
 	itemStackCount = 1;
 
-	cost = 150;
+	cost = 200;
 
 	baseDatablockName = "RightQuestCabinet";
 	isOpenable = true;
