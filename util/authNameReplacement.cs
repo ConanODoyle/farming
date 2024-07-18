@@ -45,6 +45,16 @@ package AuthNameReplacement
 		%this.firstAuth = true;
 		return;
 	}
+
+	function GlassAuthS::startNewAuth(%this)
+	{
+		return;
+	}
+
+	function GlassAuthS::checkinDefault(%this)
+	{
+		return;
+	}
 };
 schedule(1000, 0, activatePackage, "AuthNameReplacement");
 
