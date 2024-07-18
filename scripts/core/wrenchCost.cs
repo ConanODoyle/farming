@@ -52,8 +52,10 @@ function purchaseVehicle(%cl, %vehicle)
 
 function purchaseItem(%cl, %item)
 {
-	if (%cl.isBuilder)
+	if (%cl.isBuilder || !isEventPending($masterGrowSchedule))
 	{
+		if (!%cl.isBuilder)
+			messageClient(%cl, '', "WARNING: Loaded item spawn as non-builder!");
 		return 1;
 	}
 	
