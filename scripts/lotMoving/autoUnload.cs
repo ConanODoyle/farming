@@ -92,7 +92,7 @@ function loopSaveLots(%i)
 		farmingSaveLot(%group.bl_id, 0);
 
 		//change time between lot autosaves depending on if player is on server
-		if (isObject(%group.client))\
+		if (isObject(%group.client))
 		{
 			LastSavedLot.autosaveTicksLeft_[%group.bl_id] = 720;
 		}
