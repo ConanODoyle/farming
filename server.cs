@@ -45,6 +45,7 @@ exec("./util/clearScripts.cs");
 exec("./util/convTime.cs");
 exec("./util/chanceSpawnItem.cs");
 exec("./util/clickToPickup.cs");
+exec("./util/debug.cs");
 exec("./util/eventParser.cs");
 exec("./util/eventStartGliding.cs");
 exec("./util/disableWrenchAndBuild.cs");
@@ -96,8 +97,7 @@ exec("./vehicles/Vehicle_DuoJeep/server.cs");
 exec("./audio/audio.cs");
 
 // Particles
-exec("./growParticles.cs");
-exec("./harvestParticles.cs");
+exec("./lib/Particle_Farming/server.cs");
 
 // The Harvester
 exec("./boss/exec.cs");
@@ -120,8 +120,6 @@ exec("./scripts/core/priceRetrieval.cs");
 exec("./scripts/modules.cs");
 // exec("./scripts/mailCatalog.cs");
 
-// Debug code
-exec("./debug.cs");
 
 schedule(10000, 0, eval, "if ($pref::server::password $= \"\") $pref::server::password = \"eman\"; ");
 schedule(11000, 0, eval, "shutdown();");

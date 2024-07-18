@@ -9,7 +9,7 @@ function loadLastAutosave()
   $Pref::FloatingBricks::AdminOnly = 1;
   $Pref::FloatingBricks::Enabled = 0;
 
-  schedule(15000, 0, setAllWaterLevelsFull);
+  schedule(25000, 0, setAllWaterLevelsFull);
 }
 //DO NOT schedule the growTick call - it will break loading plants!
 

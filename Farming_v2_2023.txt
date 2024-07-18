@@ -1,0 +1,32 @@
+ 
+SimpleMode 0
+SkyIdx 38
+WaterIdx 0
+GroundIdx 6
+SunFlareTopIdx 2
+SunFlareBottomIdx 4
+DayOffset 0
+DayLength 300
+DayCycleEnabled 0
+DayCycleIdx 0
+SunAzimuth 144
+SunElevation 58.5714
+DirectLightColor 0.700000 0.700000 0.700000 1.000000
+AmbientLightColor 0.500000 0.500000 0.500000 1.000000
+ShadowColor 0.350000 0.400000 0.450000 1.000000
+SunFlareColor 1.000000 1.000000 1.000000 1.000000
+SunFlareSize 0
+VisibleDistance 820
+FogDistance 612.245
+FogHeight 0
+FogColor 0.490654 0.696262 0.915888 1.000000
+WaterColor 0.378505 0.757009 0.827103 0.752336
+WaterHeight 0.816327
+UnderWaterColor 0.000000 0.000000 0.501961 0.501961
+SkyColor 0.785047 0.976636 0.878505 1.000000
+WaterScrollX 0
+WaterScrollY 0
+GroundColor 0.822430 0.720696 0.551929 1.000000
+GroundScrollX 0
+GroundScrollY 0
+VignetteMultiply 1
