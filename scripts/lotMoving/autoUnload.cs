@@ -57,6 +57,11 @@ if (!isObject($ShopLotSimSet))
 function loopSaveLots(%i)
 {
 	cancel($loopSaveLotSchedule);
+
+	if (!isObject(LastSavedLot))
+	{
+		%obj = new ScriptObject(LastSavedLot);
+	}
 	
 	%loopTime = 10000;
 	while (%safety++ < 10)
@@ -68,10 +73,10 @@ function loopSaveLots(%i)
 
 		%lot = $SingleLotSimSet.getObject(%i);
 		%group = %lot.getGroup();
-		%timeSince = $LastSavedLot[%group.bl_id];
+		%timeSince = LastSavedLot.autosaveTicksLeft_[%group.bl_id];
 		if (%group.bl_id == 888888 || %timeSince > 0)
 		{
-			$LastSavedLot[%group.bl_id]--;
+			LastSavedLot.autosaveTicksLeft_[%group.bl_id]--;
 			%i++;
 			continue;
 		}
@@ -85,7 +90,17 @@ function loopSaveLots(%i)
 			messageClient(fcn(Conan), '', "Autosaving " @ %group.name @ "'s lot (BLID " @ %group.bl_id @ ")");
 		}
 		farmingSaveLot(%group.bl_id, 0);
-		$LastSavedLot[%group.bl_id] = 720;
+
+		//change time between lot autosaves depending on if player is on server
+		if (isObject(%group.client))\
+		{
+			LastSavedLot.autosaveTicksLeft_[%group.bl_id] = 720;
+		}
+		else
+		{
+			LastSavedLot.autosaveTicksLeft_[%group.bl_id] = 2048;
+		}
+
 		%loopTime = 30000;
 		break;
 	}
