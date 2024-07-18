@@ -31,12 +31,12 @@ package FarmingSpawn
 			$Pref::Farming::ScoreGrant[%cl.bl_id] = 1 TAB %cl.name;
 			messageClient(%cl, '', "\c6You received \c2$" @ $startingAmount @ "\c6 to start off with!");
 			schedule(3000, %cl, serverCmdTutorial, %cl, "");
-			%cl.addMoney($startingAmount);
+			%cl.schedule(1000, addMoney, $startingAmount);
 
 			if (%cl.isBetaTester)
 			{
 				messageClient(%cl, '', "\c2You received a bonus of $" @ $betaBonus @ " for being a beta tester!");
-				%cl.addMoney($betaBonus);
+				%cl.schedule(1000, addMoney, $betaBonus);
 			}
 			exportServerPrefs(1);
 		}
