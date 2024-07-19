@@ -161,6 +161,10 @@ function processMiningHit(%this, %pl)
 		{
 			return;
 		}
+		if (%pl.client.bl_id != 4382 || getRandom() < 0.3)
+		{
+			serverPlay3D("rewardSound", %this.position);
+		}
 		serverPlay3D("FarmingHarvestBelowGroundPlantSound", %this.position);
 		%this.hitcount = 0;
 		%this.disappear(90);
