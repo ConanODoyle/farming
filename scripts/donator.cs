@@ -73,6 +73,7 @@ $isDonator_["82190"]	= 1 TAB "marco";
 $isDonator_["40407"]	= 1 TAB "Macstroyer";
 $isDonator_["183926"]	= 1 TAB "Inco";
 $isDonator_["32164"]	= 1 TAB "WileyCoyote";
+$isDonator_["2072"]		= 1 TAB "Johnny (^ (gifted by jerry)";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
