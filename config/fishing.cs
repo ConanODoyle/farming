@@ -135,7 +135,7 @@ FishingLootTableB.addFishingLootDrop("Clipper", 3, -10, 3.2);
 FishingLootTableB.addFishingLootDrop("Trowel", 3, -10, 3.2);
 FishingLootTableB.addFishingLootDrop("Hoe", 1, -10, 3.2);
 FishingLootTableB.addFishingLootDrop("Sickle", 1, -10, 3.2);
-FishingLootTableB.addFishingLootDrop("CropTrak\x99 Upgrade Kit", 4, -50, 3.2);
+FishingLootTableB.addFishingLootDrop("CropTrak\x99 Upgrade Kit", 4, -20, 3.2);
 
 
 
@@ -176,4 +176,4 @@ FishingLootTableC.addFishingLootDrop("Swordfish", 8 * $fishWeight, -1 * $fishWei
 // FishingLootTableC.addFishingLootDrop("Trowel", 4, -10, 3.2);
 // FishingLootTableC.addFishingLootDrop("Hoe", 2, -10, 3.2);
 // FishingLootTableC.addFishingLootDrop("Sickle", 2, -10, 3.2);
-FishingLootTableC.addFishingLootDrop("CropTrak\x99 Upgrade Kit", 2, -20, 3.2);
+FishingLootTableC.addFishingLootDrop("CropTrak\x99 Upgrade Kit", 2, -10, 3.2);
