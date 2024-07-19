@@ -127,5 +127,5 @@ datablock WheeledVehicleData(duoStandardJeepVehicle)
     protectPassengersRadius = true; //protect passengers from radius damage (explosions) ?
     protectPassengersDirect = false; //protect passengers from direct damage (bullets) ?
 
-    cost = 700;
+    cost = 800;
 };
