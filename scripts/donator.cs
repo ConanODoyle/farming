@@ -74,6 +74,12 @@ $isDonator_["40407"]	= 1 TAB "Macstroyer";
 $isDonator_["183926"]	= 1 TAB "Inco";
 $isDonator_["32164"]	= 1 TAB "WileyCoyote";
 $isDonator_["2072"]		= 1 TAB "Johnny (^ (gifted by jerry)";
+$isDonator_["263963"]	= 1 TAB "irrel (gifted by jerry)";
+$isDonator_["28116"]	= 1 TAB "Buddy (gifted by jerry)";
+$isDonator_["188659"]	= 1 TAB "PK Freeze (gifted by jerry)";
+$isDonator_["44574"]	= 1 TAB "Mr Queeba";
+$isDonator_["28626"]	= 1 TAB "Bristem";
+$isDoantor_["46426"]	= 1 TAB "Monoblaster";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
@@ -133,7 +139,10 @@ function applyDonatorSettings(%cl)
 		{
 			%cl.player.setShapeNameColor(%cl.shapeNameColor);
 		}
-		messageAll('', "<bitmap:base/client/ui/ci/star> \c3" @ %cl.name @ "\c6 is a donator!");
+		if (%cl.bl_id == 3306)
+			messageAll('', "<bitmap:base/client/ui/ci/star> \c3" @ %cl.name @ "\c6 is French! Hon hon hon!");
+		else
+			messageAll('', "<bitmap:base/client/ui/ci/star> \c3" @ %cl.name @ "\c6 is a donator!");
 	}
 	chatMessageClient(%cl, '', "You are now able to use /refreshDeal and /hat!");
 	echo("Applied donator settings to " @ %cl.getPlayerName());
