@@ -29,9 +29,9 @@ $BuyCost_["Seed_Planter"] = 1200;
 $BuyCost_["Seed_Planter_V2"] = 2000;
 $BuyCost_["Seed_Reclaimer"] = 500;
 
-$BuyCost_["Shovel"] = 150;
+$BuyCost_["Shovel"] = 100;
 $BuyCost_["Weed_Cutter"] = 200;
-$BuyCost_["Organic_Analyzer"] = 500;
+$BuyCost_["Organic_Analyzer"] = 50;
 
 //Extra stackable items
 $BuyCost_["Fertilizer"] = 0.50;

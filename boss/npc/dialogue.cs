@@ -155,7 +155,6 @@ function wandererInitialResponseParser(%dataObj, %message)
 		if (strPos(%lwr, %word) >= 0)
 		{
 			%dataObj.var_keyRepairPrice = 500;
-			%dataObj.var_keyRepairEXPPrice = 1000;
 			
 			return "Yes";
 		}
