@@ -80,6 +80,7 @@ $isDonator_["188659"]	= 1 TAB "PK Freeze (gifted by jerry)";
 $isDonator_["44574"]	= 1 TAB "Mr Queeba";
 $isDonator_["28626"]	= 1 TAB "Bristem";
 $isDoantor_["46426"]	= 1 TAB "Monoblaster";
+$isDonator_["168002"]	= 1 TAB "Hydrak";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
