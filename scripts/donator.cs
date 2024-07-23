@@ -81,6 +81,9 @@ $isDonator_["44574"]	= 1 TAB "Mr Queeba";
 $isDonator_["28626"]	= 1 TAB "Bristem";
 $isDoantor_["46426"]	= 1 TAB "Monoblaster";
 $isDonator_["168002"]	= 1 TAB "Hydrak";
+$isDonator_["4785"]		= 1 TAB "Pacer";
+$isDonator_["6052"]		= 1 TAB "Sauce (part 2)";
+$isDonator_["219047"]	= 1 TAB "Agster (gifted by Sauce)";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
@@ -124,6 +127,14 @@ function checkIfBetaTester(%bl_id)
 function checkIfVIP(%bl_id)
 {
 	return $isVIP_[%bl_id];
+}
+
+function makeDonator(%bl_id)
+{
+	%client = findClientByBL_ID(%bl_id);
+	%client.isDonator = 1;
+	%client.canWearHats = 1;
+	%client.canRefreshDeal = 1;
 }
 
 function applyDonatorSettings(%cl)
