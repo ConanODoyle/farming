@@ -217,17 +217,16 @@ function checkItemAllowed(%itemDB)
 	return 1;
 }
 
-function checkBrickAllowed(%brick)
+function checkBrickAllowed(%db)
 {
 	if ((%db.category $= "Baseplates" && %db.subCategory !$= "Plain") || %db.subCategory $= "Drinks" || %db.subCategory $= "Holes"
-				|| %db.category $= "Zonebricks" || %db.uiName $= "Treasure Chest" || %db.isShopLot || %db.isLot || %db.isTeledoor || %db.isIllegal)
+		|| %db.category $= "Zonebricks" || %db.uiName $= "Treasure Chest" || %db.isShopLot || %db.isLot || %db.isTeledoor || %db.isIllegal
+		|| %db.uiName $= "Waving Flag" || %db.uiName $= "Still Flag")
 	{
 		if (%db.subCategory $= "Cube" && getWord(%db.uiname, 0) < 16)
 		{
-			return parent::serverCmdPlantBrick(%cl);
+			return 1;
 		}
-		messageClient(%cl, '', "You cannot plant " @ %db.uiname @ " bricks!");
-		serverCmdCancelBrick(%cl);
-		return;
+		return 0;
 	}
 }
