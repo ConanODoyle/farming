@@ -15,7 +15,7 @@ datablock fxDTSBrickData(brick32x32LotData : brick32x32fData)
 
 datablock fxDTSBrickData(brick32x32LotRaisedData : brick32x32fData)
 {
-	brickFile = "./core/resources/normalLotRaised.blb";
+	brickFile = "./core/resources/unboughtLot.blb";
 	category = "";
 	subcategory = "";
 	uiName = "32x32 Lot Raised";
