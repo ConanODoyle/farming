@@ -280,6 +280,7 @@ function messageSale(%cl, %money, %count, %type)
 	%cl.totalMoney[%type] = 0;
 	%cl.totalCount[%type] = 0;
 
+	%type = strReplace(%type, "_", " ");
 	if(%count > 1)
 	{
 		%type = getPluralWord(%type);
