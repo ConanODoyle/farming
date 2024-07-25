@@ -140,12 +140,16 @@ function dialogue_purchaseProduct(%dataObj)
 		{
 			for (%i = 0; %i < %dataObj.var_amount; %i++)
 			{
-				%pl.farmingAddItem(%item);
+				%overflow = isObject(%pl.farmingAddItem(%item));
 			}
 		}
 		else
 		{
-			%pl.farmingAddStackableItem(%item, %dataObj.var_amount);
+			%overflow = (2 == %pl.farmingAddStackableItem(%item, %dataObj.var_amount));
+		}
+		if (%overflow)
+		{
+			commandToClient(%cl, 'MessageBoxOK', "Inventory Full", "Could not insert item(s) into your inventory! Overflow items have been dropped at your feet.");
 		}
 	}
 	return 0;
