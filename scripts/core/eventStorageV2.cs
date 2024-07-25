@@ -1048,7 +1048,7 @@ package StorageBricks
 				}
 				else if (isObject(%item))
 				{
-					commandToClient(%cl, 'MessageBoxOk', "Storage Full", "This storage is full!");
+					commandToClient(%cl, 'MessageBoxOk', "Storage Full", "Cannot insert this item!");
 					return;
 				}
 			}
