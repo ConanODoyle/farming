@@ -503,7 +503,7 @@ datablock fxDTSBrickData(brickCompostBinData)
 	isStorageBrick = 1;
 	storageSlotCount = 1;
 	itemStackCount = 0;
-	storageMultiplier = 4;
+	storageMultiplier = 1;
 	processorFunction = "processIntoCompost";
 	activateFunction = "compostBinInfo";
 	placerItem = "CompostBinItem";
@@ -529,7 +529,7 @@ datablock fxDTSBrickData(brickLargeCompostBinData)
 	isStorageBrick = 1;
 	storageSlotCount = 1;
 	itemStackCount = 0;
-	storageMultiplier = 12;
+	storageMultiplier = 3;
 	processorFunction = "processIntoCompost";
 	activateFunction = "compostBinInfo";
 	placerItem = "LargeCompostBinItem";
