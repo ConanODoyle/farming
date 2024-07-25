@@ -314,7 +314,7 @@ function fixLotColor(%brick)
 		}
 		else
 		{
-			%brick.setColor(57);
+			%brick.setColor(33);
 		}
 	}
 	else
@@ -325,7 +325,7 @@ function fixLotColor(%brick)
 		}
 		else
 		{
-			%brick.setColor(58);
+			%brick.setColor(33);
 		}
 	}
 	%brick.setShapeFX(0);
