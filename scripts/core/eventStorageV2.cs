@@ -1046,6 +1046,11 @@ package StorageBricks
 					}
 					return;
 				}
+				else if (isObject(%item))
+				{
+					commandToClient(%cl, 'MessageBoxOk', "Storage Full", "This storage is full!");
+					return;
+				}
 			}
 		}
 		return parent::serverCmdDropTool(%cl, %slot);

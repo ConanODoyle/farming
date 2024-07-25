@@ -1,6 +1,6 @@
 //building & brickgroup
 
-$maxLotBuildHeight = 35;
+$maxLotBuildHeight = 42;
 
 datablock fxDTSBrickData(brick32x32LotData : brick32x32fData)
 {
