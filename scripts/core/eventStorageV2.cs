@@ -1057,3 +1057,5 @@ package StorageBricks
 	}
 };
 schedule(1000, 0, activatePackage, StorageBricks);
+schedule(1100, 0, deactivatePackage, Processors);
+schedule(1200, 0, activatePackage, Processors);
