@@ -19,7 +19,7 @@ package WeedLmao
 			}
 		}
 
-		if(strPos(%msg, "[INFO]") > -1)
+		if(strPos(%msg, "[INFO]") > -1 || strPos(%msg, "[TIP]") > -1)
 		{
 			if(isObject(%cl.player))
 			{
