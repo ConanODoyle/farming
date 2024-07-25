@@ -31,7 +31,7 @@ function getPluralWord(%word)
     {
         if (getRandom() < 0.1)
         {
-            getSubStr(%word, 0, strLen(%word) - 2) @ "sies";
+            return getSubStr(%word, 0, strLen(%word) - 2) @ "sies";
         }
         return getSubStr(%word, 0, strLen(%word) - 2) @ "i";
     }
