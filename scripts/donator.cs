@@ -84,12 +84,13 @@ $isDonator_["168002"]	= 1 TAB "Hydrak";
 $isDonator_["4785"]		= 1 TAB "Pacer";
 $isDonator_["6052"]		= 1 TAB "Sauce (part 2)";
 $isDonator_["219047"]	= 1 TAB "Agster (gifted by Sauce)";
+$isDonator_["35003"]	= 1 TAB "Qube (gifted by Sauce)";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
 $isBetaTester_["155122"]	= 1 TAB "";
 $isBetaTester_["53456"]		= 1 TAB "celau";
-$isBetaTester_["35003"]		= 1 TAB "Qube?";
+$isBetaTester_["35003"]		= 1 TAB "Qube";
 $isBetaTester_["46098"]		= 1 TAB "";
 $isBetaTester_["10661"]		= 1 TAB "Dart";
 $isBetaTester_["3180"]		= 1 TAB "";
