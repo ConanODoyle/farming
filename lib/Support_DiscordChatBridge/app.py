@@ -7,20 +7,21 @@ import socket
 import re
 import demoji
 
-
-demoji.download_codes()
-
-client = discord.Client()
+intents = discord.Intents.all()
+client = discord.Client(intents=intents)
 app = Flask(__name__)
 client_loop = None
-server2blkey = 'UNIQUE KEY HERE'
-bl2serverkey = 'UNIQUE KEY HERE'
-discordkey = 'DISCORD BOT KEY HERE'
-channel_id = 10000000000 # valid channel id here - enable Developer mode and right click the channel to get the ID
-re_mentions = re.compile(r'\<\@\!\d+\>')
-re_customemoji = re.compile(r'\d+\>')
+server2blkey = ''
+bl2serverkey = ''
+discordkey = ''
 debug = False
 
+emoji_list = []
+emoji_list_init = False
+
+channelID = 784285464340987924
+privateChannelID = 754466520439980056
+currentChannel = channelID
 
 async def client_start():
 	await client.start(discordkey)
@@ -42,11 +43,11 @@ def init():
 
 async def forward_message(message):
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.connect(('155.138.204.83', 28008))
+	s.connect(('localhost', 28008))
 	if debug:
-		s.send((message + '\n').encode('cp1252', errors='ignore'))
+		s.send((message + '\n').encode('cp1252', errors='replace'))
 	else:
-		s.send((server2blkey + '\t' + message + '\n').encode('cp1252', errors='ignore'))
+		s.send((server2blkey + '\t' + message + '\n').encode('cp1252', errors='replace'))
 	s.close()
 	return
 
@@ -73,22 +74,37 @@ def filter_string(string):
 	return string
 
 
-def replace_mentions(messageString, message):
-	mention_dict = {}
-	mentions = re.findall(re_mentions, messageString)
-	for idx, member in enumerate(message.mentions):
-		memname = member.nick if member.nick else member.name
-		while mentions[idx] in mention_dict:
-			idx += 1
-		mention_dict[mentions[idx]] = memname
+def create_emoji_list():
+	global emoji_list, emoji_list_init, client
 
-	for key, value in mention_dict.items():
-		messageString = re.sub(key, '@' + value, messageString)
-	# remove any remaining ones
-	messageString = re.sub(re_mentions, '', messageString)
-	return messageString
+	if emoji_list_init:
+		return emoji_list
+
+	for emoji in client.emojis:
+		emoji_list.append((emoji.name, emoji.id))
+
+	emoji_list_init = True
+	return emoji_list
 
 
+#sending custom emojis from ingame to discord
+def replace_transmit_emojis(string, emoji_list):
+	for emoji_name, emoji_id  in emoji_list:
+		string = re.sub(
+			':' + emoji_name + ':', 
+			'<:' + emoji_name + ':' + str(emoji_id) + '>', 
+			string)
+	return string
+
+
+#sending discord custom emojis to ingame
+def replace_forward_emojis(string, emoji_list):
+	for emoji_name, emoji_id in emoji_list:
+		string = re.sub(
+			'<:' + emoji_name + ':' + str(emoji_id) + '>',
+			':' + emoji_name + ':',
+			string)
+	return string
 
 
 @client.event
@@ -101,7 +117,7 @@ async def on_message(message):
 	if message.author == client.user:
 		return
 
-	if message.channel.name == 'farming-chat':
+	if message.channel.id == currentChannel:
 		if message.content == '!players':
 			await forward_message('playerlist')
 			return
@@ -110,16 +126,18 @@ async def on_message(message):
 		attachments = message.attachments
 		messageString = ''
 
+		emoji_list = create_emoji_list()
 
 		# label messages if they have attachments
 		for a in attachments:
-			messageString = messageString + '[' + a.filename + '] '
-		# base mesasge
-		messageString = name + '\t' + messageString + message.content
+			messageString = messageString + '[<a:' + a.proxy_url + ">" + a.filename + '</a>] '
+		# base message
+		messageString = name + '\t' + messageString + message.clean_content
 		# convert emojis into {plaintext}
 		messageString = demoji.replace_with_desc(messageString)
-		# remove mentions
-		messageString = replace_mentions(messageString, message)
+		# replace server custom emoji with short form
+		messageString = replace_forward_emojis(messageString, emoji_list)
+
 
 		#remove TML
 		newString = filter_string(messageString)
@@ -139,7 +157,10 @@ async def on_message(message):
 		messageString = messageString.replace('\n', ' ')
 
 		#strip non-cp1252 characters
-		messageString = messageString.encode('cp1252', errors='ignore').decode().encode('utf-8').decode()
+		# encoded = messageString.encode('cp1252', errors='replace')
+		# print("Encoded to cp1252:")
+		# print(encoded)
+		# messageString = messageString.encode('cp1252', errors='replace')#.decode().encode('utf-8').decode()
 
 		print(messageString)
 		sendCount = 0
@@ -157,13 +178,13 @@ async def on_message(message):
 
 
 async def sendMessage(message):
-	channel = client.get_channel(channel_id)
+	channel = client.get_channel(currentChannel)
 	if channel:
 		await channel.send(message)
 
 
 async def postPlayerList(playerlist):
-	channel = client.get_channel(channel_id)
+	channel = client.get_channel(currentChannel)
 	embed = discord.Embed(
 		title = ':joystick: Players',
 		colour = discord.Color.blue(),
@@ -175,7 +196,7 @@ async def postPlayerList(playerlist):
 	message = '```' + header + '\n'
 	for blid, name in playerlist.items():
 		admin, name, score = name.split('\t')
-		admin = admin.ljust(6)
+		admin = admin.ljust(4)
 		name = name.ljust(25)
 		score = score.ljust(8)
 		message = message + f'{admin}{name}{score}{blid}\n'
@@ -187,7 +208,7 @@ async def postPlayerList(playerlist):
 
 
 async def purgeMessages():
-	channel = client.get_channel(channel_id)
+	channel = client.get_channel(currentChannel)
 	if channel:
 		await channel.purge(limit=20000)
 
@@ -200,6 +221,8 @@ def transmit_message():
 		if form['verifykey'] != bl2serverkey:
 			return;
 
+		emoji_list = create_emoji_list()
+
 		if form['type'] == 'raw':
 			message = form['message']
 		elif form['type'] == 'connection':
@@ -207,12 +230,15 @@ def transmit_message():
 		else:
 			message = '**{}** ({}): {}'.format(form['author'], form['bl_id'], form['message'])
 
-		#remove messageAlls
+		# remove @mentions
 		message = discord.utils.escape_mentions(message)
 
 		message = message.replace('\n', '')
 		message = message.replace('\r', '')
 		message = message.replace(':^)', '`:^)`')
+
+		# replace incoming short custom emoji names with server custom emojis
+		message = replace_transmit_emojis(message, emoji_list)
 
 		urls = re.findall(r'https:\/\/\S+', message)
 		if urls:
@@ -238,6 +264,19 @@ def purge_messages():
 		send_fut = asyncio.run_coroutine_threadsafe(purgeMessages(), client_loop)
 		return 'Success'
 
+@app.route('/toggleChannel', methods=['POST'])
+def toggle_channel():
+	if request.method == 'POST':
+		global currentChannel
+		form = request.form.to_dict()
+		if form['verifykey'] != bl2serverkey:
+			return;
+		if currentChannel == channelID:
+			currentChannel = privateChannelID
+		else:
+			currentChannel = channelID
+		return 'Success ' + str(currentChannel);
+
 
 @app.route('/sendplayerlist', methods=['POST'])
 def player_list():
@@ -256,4 +295,4 @@ def player_list():
 
 
 init()
-app.run(host='0.0.0.0', port=28010, debug=False, threaded=True)
+app.run(port=28010, debug=False, threaded=True)
