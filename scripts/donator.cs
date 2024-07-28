@@ -85,6 +85,7 @@ $isDonator_["4785"]		= 1 TAB "Pacer";
 $isDonator_["6052"]		= 1 TAB "Sauce (part 2)";
 $isDonator_["219047"]	= 1 TAB "Agster (gifted by Sauce)";
 $isDonator_["35003"]	= 1 TAB "Qube (gifted by Sauce)";
+$isDonator_["266017"]	= 1 TAB "Guero";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
