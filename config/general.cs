@@ -1,4 +1,4 @@
-$Game::Item::PopTime = 180000;
+$Game::Item::PopTime = 360000;
 
 $startingAmount = 400;
 $betaBonus = 100;
