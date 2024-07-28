@@ -75,6 +75,8 @@ datablock ItemData(Bux0Item : Tix0Item)
 	shapeFile = "./resources/bux.dts";
 	image = "Bux0Image";
 	uiName = "Bux";
+
+	stackType = "Bux";
 };
 
 datablock ShapeBaseImageData(Bux0Image : Tix0Image)
@@ -119,3 +121,50 @@ datablock ShapeBaseImageData(FarmicoinImage : Tix0Image)
 	
 	toolTip = "Community goal reward currency";
 };
+
+
+function Tix0Image::onLoop(%this, %obj, %slot)
+{
+	tixLoop(%this, %obj);
+}
+
+function Tix1Image::onLoop(%this, %obj, %slot)
+{
+	tixLoop(%this, %obj);
+}
+
+function Bux0Image::onLoop(%this, %obj, %slot)
+{
+	buxLoop(%this, %obj);
+}
+
+function Bux1Image::onLoop(%this, %obj, %slot)
+{
+	buxLoop(%this, %obj);
+}
+
+function tixLoop(%image, %obj)
+{
+	%item = %image.item;
+	%type = %item.stackType;
+	%cl = %obj.client;
+	%count = %obj.toolStackCount[%obj.currTool];
+
+	if (isObject(%cl))
+	{
+		%cl.centerprint("<just:right>\c3-Farming Tix " @ %obj.currTool @ "- \n\c3Amount\c6: " @ %count @ " ", 1);
+	}
+}
+
+function buxLoop(%image, %obj)
+{
+	%item = %image.item;
+	%type = %item.stackType;
+	%cl = %obj.client;
+	%count = %obj.toolStackCount[%obj.currTool];
+
+	if (isObject(%cl))
+	{
+		%cl.centerprint("<just:right>\c3-Farming Bux " @ %obj.currTool @ "- \n\c2Amount\c6: " @ %count @ " ", 1);
+	}
+}
