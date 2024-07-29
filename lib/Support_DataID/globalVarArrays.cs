@@ -129,6 +129,7 @@ function loadDataIDArray(%aid, %force)
 	if (!isDataIDLoaded(%aid) || %force)
 	{
 		if ($DataIDDebug) talk("loadDataIDArray");
+		if ($DataIDEcho) echo("DataID: Loading " @ %aid);
 		deleteVariables("$DataID_" @ %aid @ "_*");
 		deleteVariables("$executedDataID" @ %aid);
 		if (isFile("config/server/DataIDs/" @ %aid @ ".cs"))
@@ -149,6 +150,7 @@ function saveDataIDArray(%aid, %force)
 {
 	if ($DataIDDebug) talk("saveDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
+	if ($DataIDEcho) echo("DataID: Saving " @ %aid);
 	export("$DataID_" @ %aid @ "*", "config/server/DataIDs/" @ %aid @ ".cs");
 	return %aid;
 }
@@ -157,6 +159,7 @@ function unloadDataIDArray(%aid)
 {
 	if ($DataIDDebug) talk("unloadDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
+	if ($DataIDEcho) echo("DataID: Unloading " @ %aid);
 	if (!isDataIDLoaded(%aid))
 	{
 		return;
@@ -171,6 +174,7 @@ function deleteDataIDArray(%aid)
 {
 	if ($DataIDDebug) talk("deleteDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
+	if ($DataIDEcho) echo("DataID: Deleting " @ %aid);
 
 	if(%aid $= "")
 	{
@@ -311,6 +315,7 @@ function setDataIDArrayCount(%aid, %count)
 {
 	if ($DataIDDebug) talk("setDataIDArrayCount");
 	%aid = loadDataIDArray(%aid);
+	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ " count to " @ %count);
 
 	if (%count == $DataID_[%aid, "count"])
 	{
@@ -344,6 +349,7 @@ function setDataIDArrayValue(%aid, %slot, %value)
 {
 	if ($DataIDDebug) talk("setDataIDArrayValue");
 	%aid = loadDataIDArray(%aid);
+	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ " slot [" @ %slot @ "]: set to [" @ %value @ "]");
 
 	%slot = getMax(%slot + 0, 0); //ensure it's not empty string
 	%count = getDataIDArrayCount(%aid);
@@ -362,6 +368,7 @@ function addToDataIDArray(%aid, %value, %start)
 {
 	if ($DataIDDebug) talk("addToDataIDArray");
 	%aid = loadDataIDArray(%aid);
+	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ " slot [" @ %slot @ "]: added [" @ %value @ "]");
 
 	%start = getMax(%start + 0, 0);
 	%count = getDataIDArrayCount(%aid);
@@ -392,6 +399,7 @@ function setDataIDArrayTagValue(%aid, %tag, %value)
 {
 	if ($DataIDDebug) talk("setDataIDArrayTagValue");
 	%aid = loadDataIDArray(%aid);
+	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ " tag [" @ %tag @ "]: set to [" @ %value @ "]");
 
 	%tag = getSafeDataIDArrayName(%tag);
 	if (%tag $= %tag + 0 || %tag $= "tags" || %tag $= "count" || %tag $= "")
@@ -415,6 +423,7 @@ function removeDataIDArrayValue(%aid, %slot)
 {
 	if ($DataIDDebug) talk("removeDataIDArrayValue");
 	%aid = loadDataIDArray(%aid);
+	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ " slot [" @ %slot @ "]: removed");
 
 	%count = getDataIDArrayCount(%aid);
 	$DataID_[%aid, %slot] = "";
@@ -428,6 +437,7 @@ function removeDataIDArrayTagValue(%aid, %tag)
 {
 	if ($DataIDDebug) talk("removeDataIDArrayTagValue");
 	%aid = loadDataIDArray(%aid);
+	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ " tag [" @ %tag @ "]: removed");
 
 	%tag = getSafeDataIDArrayName(%tag);
 	if (%tag $= %tag + 0 || %tag $= "tags" || %tag $= "count" || %tag $= "")
@@ -451,6 +461,7 @@ function clearDataIDArray(%aid)
 {
 	if ($DataIDDebug) talk("clearDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
+	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ ": cleared");
 
 	if(%aid $= "")
 	{
