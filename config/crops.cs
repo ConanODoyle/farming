@@ -20,7 +20,7 @@ $DirtWaterColorCount = 7;
 $FertCount_Potato = "12 16";
 $FertCount_Carrot = "16 22";
 $FertCount_Tomato = "18 24";
-$FertCount_Weed = "1 3";
+$FertCount_Weed = "2 6";
 
 $FertCount_Default = "10 16";
 $FertTickAmt = 1;

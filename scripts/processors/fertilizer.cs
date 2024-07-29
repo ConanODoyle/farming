@@ -856,9 +856,9 @@ datablock ShapeBaseImageData(CompostBag0Image)
 
 	offset = "-0.1 0.3 -0.1";
 
-	toolTip = "Add 2 nitrogen to soil";
+	toolTip = "Add 5 nitrogen to soil";
 
-	fertilizerNitrogen = 2;
+	fertilizerNitrogen = 5;
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";
