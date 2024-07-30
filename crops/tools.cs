@@ -60,6 +60,11 @@ function useDurability(%this, %obj, %slot)
 	{
 		setDataIDArrayTagValue(%dataID, "durability", %durability - 1 | 0);
 	}
+	
+	if (isObject(%obj.client))
+	{
+		setDataIDArrayTagValue(%dataID, "lastUserBLID", %obj.client.bl_id);
+	}
 	return getMax((%durability - 1) | 0, 0);
 }
 
