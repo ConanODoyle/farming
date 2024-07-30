@@ -217,6 +217,11 @@ function getOldestLotBLID(%set)
 
 		if (%blid == 888888) continue;
 
+		if ($Pref::LotMoving::LastOn[%blid] > getRealTime())
+		{
+			$Pref::LotMoving::LastOn[%blid] = 0;
+		}
+		
 		if (%oldestBLID $= "" || %oldestBLIDTime > $Pref::LotMoving::LastOn[%blid])
 		{
 			if (isObject(findClientByBL_ID(%blid)))
