@@ -125,7 +125,7 @@ function doSprinklerWater(%sprinkler)
 
 	%list = %sprinkler.dirtList;
 	%count = getWordCount(%list);
-	%total = %sprinkler.dataBlock.waterPerSecond * ($SprinklerWaterTime / 1000);
+	%total = mFloor(%sprinkler.dataBlock.waterPerSecond * ((getSimTime() - %sprinkler.lastWater | 0) / 1000));
 
 	%thirstyDirtCount = 0;
 	%totalThirst = 0;
