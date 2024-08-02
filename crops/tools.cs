@@ -61,7 +61,7 @@ function useDurability(%this, %obj, %slot)
 		setDataIDArrayTagValue(%dataID, "durability", %durability - 1 | 0);
 	}
 	
-	if (isObject(%obj.client))
+	if (isObject(%obj.client) && getDataIDArrayTagValue(%dataID, "lastUserBLID") != %obj.client.bl_id)
 	{
 		setDataIDArrayTagValue(%dataID, "lastUserBLID", %obj.client.bl_id);
 	}
