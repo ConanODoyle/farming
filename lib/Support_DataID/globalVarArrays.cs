@@ -129,7 +129,7 @@ function loadDataIDArray(%aid, %force)
 	if (!isDataIDLoaded(%aid) || %force)
 	{
 		if ($DataIDDebug) talk("loadDataIDArray");
-		if ($DataIDEcho) echo("DataID: Loading " @ %aid);
+		if ($DataIDEcho) echo("DataID: Loading " @ %aid SPC getDateTime());
 		deleteVariables("$DataID_" @ %aid @ "_*");
 		deleteVariables("$executedDataID" @ %aid);
 		if (isFile("config/server/DataIDs/" @ %aid @ ".cs"))
@@ -150,7 +150,7 @@ function saveDataIDArray(%aid, %force)
 {
 	if ($DataIDDebug) talk("saveDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
-	if ($DataIDEcho) echo("DataID: Saving " @ %aid);
+	if ($DataIDEcho) echo("DataID: Saving " @ %aid SPC getDateTime());
 	export("$DataID_" @ %aid @ "*", "config/server/DataIDs/" @ %aid @ ".cs");
 	return %aid;
 }
@@ -174,7 +174,7 @@ function deleteDataIDArray(%aid)
 {
 	if ($DataIDDebug) talk("deleteDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
-	if ($DataIDEcho) echo("DataID: Deleting " @ %aid);
+	if ($DataIDEcho) echo("DataID: Deleting " @ %aid SPC getDateTime());
 
 	if(%aid $= "")
 	{
@@ -349,7 +349,7 @@ function setDataIDArrayValue(%aid, %slot, %value)
 {
 	if ($DataIDDebug) talk("setDataIDArrayValue");
 	%aid = loadDataIDArray(%aid);
-	if ($DataIDEcho) echo("DataID: Setting " @ getSubStr(%aid, 0, 15) @ "[" @ %slot @ "]: set [" @ %value @ "] at " @ getDateTime());
+	if ($DataIDEcho) echo("DataID: Setting " @ getSubStr(%aid, 0, 15) @ "[" @ %slot @ "]: set [" @ %value @ "] " @ getDateTime());
 
 	%slot = getMax(%slot + 0, 0); //ensure it's not empty string
 	%count = getDataIDArrayCount(%aid);
@@ -368,7 +368,7 @@ function addToDataIDArray(%aid, %value, %start)
 {
 	if ($DataIDDebug) talk("addToDataIDArray");
 	%aid = loadDataIDArray(%aid);
-	if ($DataIDEcho) echo("DataID: Setting " @ getSubStr(%aid, 0, 15) @ "[" @ %slot @ "]: add [" @ %value @ "]");
+	if ($DataIDEcho) echo("DataID: Setting " @ getSubStr(%aid, 0, 15) @ "[" @ %slot @ "]: add [" @ %value @ "] " @ getDateTime());
 
 	%start = getMax(%start + 0, 0);
 	%count = getDataIDArrayCount(%aid);
@@ -399,7 +399,7 @@ function setDataIDArrayTagValue(%aid, %tag, %value)
 {
 	if ($DataIDDebug) talk("setDataIDArrayTagValue");
 	%aid = loadDataIDArray(%aid);
-	if ($DataIDEcho && %tag !$= "durability") echo("DataID: Setting " @ getSubStr(%aid, 0, 15) @ "[" @ %tag @ "]: set [" @ %value @ "]");
+	if ($DataIDEcho && %tag !$= "durability") echo("DataID: Setting " @ getSubStr(%aid, 0, 15) @ "[" @ %tag @ "]: set [" @ %value @ "] " @ getDateTime());
 
 	%tag = getSafeDataIDArrayName(%tag);
 	if (%tag $= %tag + 0 || %tag $= "tags" || %tag $= "count" || %tag $= "")
