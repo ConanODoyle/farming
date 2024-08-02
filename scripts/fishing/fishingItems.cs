@@ -286,7 +286,7 @@ datablock ItemData(TackleBoxItem : HammerItem)
 
 	showFishingStats = 1;
 
-	description = "\c6Allows you to see how quickly you reeled a fish in";
+	description = "\c6Allows you to see your reeling quality and speed";
 };
 
 datablock ShapeBaseImageData(TackleBoxImage)
@@ -350,7 +350,7 @@ datablock ItemData(FishFinderItem : HammerItem)
 
 	showFishingStats = 2;
 
-	description = "\c6Allows you to see the quality of your \n\c6pull & activity level of a fishing spot";
+	description = "\c6Allows you to see the reeling quality & info \n\c6of the fishing spot you're looking at";
 };
 
 datablock ShapeBaseImageData(FishFinderImage)
@@ -409,7 +409,7 @@ function FishFinderImage::onLoop(%this, %obj, %slot)
 			%obj.lootDisplayIDX = (%obj.lootDisplayIDX + 1) % %table.count;
 			%obj.lootDisplay = %table.option[%obj.lootDisplayIDX];
 		}
-		%description = "\c3Fishing Spot Activity: \c6" @ mFloor(%hit.fish * 100) @ "%\n\c3Can catch \c6" @ %obj.lootDisplay;
+		%description = "\c3Fishing Spot Activity: \c6" @ mFloor(%hit.fish * 100) @ "%\n\c3Can catch: \c6" @ %obj.lootDisplay;
 	}
 
 	if (isObject(%cl))
