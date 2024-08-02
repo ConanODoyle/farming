@@ -349,7 +349,7 @@ function setDataIDArrayValue(%aid, %slot, %value)
 {
 	if ($DataIDDebug) talk("setDataIDArrayValue");
 	%aid = loadDataIDArray(%aid);
-	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ " slot [" @ %slot @ "]: set to [" @ %value @ "]");
+	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ "[" @ %slot @ "]: set [" @ %value @ "] at " @ getDateTime());
 
 	%slot = getMax(%slot + 0, 0); //ensure it's not empty string
 	%count = getDataIDArrayCount(%aid);
@@ -368,7 +368,7 @@ function addToDataIDArray(%aid, %value, %start)
 {
 	if ($DataIDDebug) talk("addToDataIDArray");
 	%aid = loadDataIDArray(%aid);
-	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ " slot [" @ %slot @ "]: added [" @ %value @ "]");
+	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ "[" @ %slot @ "]: add [" @ %value @ "]");
 
 	%start = getMax(%start + 0, 0);
 	%count = getDataIDArrayCount(%aid);
@@ -399,7 +399,7 @@ function setDataIDArrayTagValue(%aid, %tag, %value)
 {
 	if ($DataIDDebug) talk("setDataIDArrayTagValue");
 	%aid = loadDataIDArray(%aid);
-	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ " tag [" @ %tag @ "]: set to [" @ %value @ "]");
+	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ "[" @ %tag @ "]: set [" @ %value @ "]");
 
 	%tag = getSafeDataIDArrayName(%tag);
 	if (%tag $= %tag + 0 || %tag $= "tags" || %tag $= "count" || %tag $= "")
@@ -423,7 +423,7 @@ function removeDataIDArrayValue(%aid, %slot)
 {
 	if ($DataIDDebug) talk("removeDataIDArrayValue");
 	%aid = loadDataIDArray(%aid);
-	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ " slot [" @ %slot @ "]: removed");
+	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ "[" @ %slot @ "]: removed");
 
 	%count = getDataIDArrayCount(%aid);
 	$DataID_[%aid, %slot] = "";
@@ -437,7 +437,7 @@ function removeDataIDArrayTagValue(%aid, %tag)
 {
 	if ($DataIDDebug) talk("removeDataIDArrayTagValue");
 	%aid = loadDataIDArray(%aid);
-	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ " tag [" @ %tag @ "]: removed");
+	if ($DataIDEcho) echo("DataID: Setting " @ %aid @ "[" @ %tag @ "]: removed");
 
 	%tag = getSafeDataIDArrayName(%tag);
 	if (%tag $= %tag + 0 || %tag $= "tags" || %tag $= "count" || %tag $= "")
