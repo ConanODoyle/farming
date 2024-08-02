@@ -342,10 +342,11 @@ function reelBobber(%bobber)
 			messageClient(%client, '', "\c2You fished one " @ %itemDB.uiName @ "!");
 			if (%stats = %bobber.player.checkReelStatsDisplay())
 			{
-				if (getWord(%stats, 1))
+				if (getWord(%stats, 1) || getWord(%stats, 2))
+				{
 					messageClient(%client, '', "\c3Reel Timing: \c6" @ %delta @ "ms (ping " @ %client.getPing() @ ")");
-				if (getWord(%stats, 2))
 					messageClient(%client, '', "\c3Reel Quality: \c6" @ %quality @ " \c3Fish weight modifier: \c6" @ mFloor((1 - %percent) * 100) @ "%");
+				}
 			}
 			if (isObject(%itemDB))
 			{

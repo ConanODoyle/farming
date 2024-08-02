@@ -402,7 +402,14 @@ function FishFinderImage::onLoop(%this, %obj, %slot)
 	%ray = containerRaycast(%start, %end, $Typemasks::FxBrickAlwaysObjectType);
 	if (isObject(%hit = getWord(%ray, 0)) && %hit.dataBlock.isFishingSpot)
 	{
-		%description = "\c3Fishing Spot Activity: \c6" @ mFloor(%hit.fish * 100) @ "%";
+		%table = "FishingLootTable" @ getSubStr(%hit.getName(), 1, 100);
+		if (%obj.nextRandomLootDisplay < getSimTime()) 
+		{
+			%obj.nextRandomLootDisplay = (getSimTime() + 1000 | 0) | 0;
+			%obj.lootDisplayIDX = (%obj.lootDisplayIDX + 1) % %table.count;
+			%obj.lootDisplay = %table.option[%obj.lootDisplayIDX];
+		}
+		%description = "\c3Fishing Spot Activity: \c6" @ mFloor(%hit.fish * 100) @ "%\n\c3Can catch \c6" @ %obj.lootDisplay;
 	}
 
 	if (isObject(%cl))
