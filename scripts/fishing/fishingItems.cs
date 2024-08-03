@@ -400,6 +400,13 @@ function FishFinderImage::onLoop(%this, %obj, %slot)
 	%start = %obj.getEyePoint();
 	%end = vectorAdd(%start, vectorScale(%obj.getEyeVector(), 100));
 	%ray = containerRaycast(%start, %end, $Typemasks::FxBrickAlwaysObjectType);
+
+	while (isObject(%hit = getWord(%ray, 0)) && !%hit.isRaycasting() && !%hit.dataBlock.isFishingSpot && %safety++ < 3)
+	{
+		%start = getWords(%ray, 1, 3);
+		%ray = containerRaycast(%start, %end, $Typemasks::FxBrickAlwaysObjectType);
+	}
+
 	if (isObject(%hit = getWord(%ray, 0)) && %hit.dataBlock.isFishingSpot)
 	{
 		%table = "FishingLootTable" @ getSubStr(%hit.getName(), 1, 100);
