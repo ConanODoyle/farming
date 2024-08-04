@@ -115,6 +115,11 @@ function generateWeed(%brick)
 		%brick.fertilizerWeedModifier = (%brick.fertilizerWeedModifier < 0 ? 0 : %brick.fertilizerWeedModifier);
 		return "";
 	}
+	else if (getWord(lightRaycastCheck(%b.getPosition(), %b), 1) == 1) // in greenhouse
+	{
+		%b.delete();
+		return "";
+	}
 
 	//weed planted, decrease modifier
 	%b.setTrusted(1);
