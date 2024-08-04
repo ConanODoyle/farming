@@ -16,6 +16,36 @@ $obj = new ScriptObject(ShopNotDeal)
 };
 $DealDialogueSet.add($obj);
 
+$obj = new ScriptObject(ShopNotDealHonse)
+{
+	messageCount = 1;
+	message[0] = "Sorry, I don't do special deals. I'm a horse!";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+};
+$DealDialogueSet.add($obj);
+
+$obj = new ScriptObject(ShopNotDealCargo)
+{
+	messageCount = 1;
+	message[0] = "Sorry, I don't do special- uhh, what I meant to say was- *cargo noises*";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+};
+$DealDialogueSet.add($obj);
+
+$obj = new ScriptObject(ShopNotDealHarvester)
+{
+	messageCount = 1;
+	message[0] = "SILENCE, FARMER!";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+};
+$DealDialogueSet.add($obj);
+
 $obj = new ScriptObject(DealTimeout)
 {
 	messageCount = 1;
@@ -336,7 +366,22 @@ function AIPlayer::rerollDeal(%bot, %cl)
 
 	if (!isEventPending(%bot.randomDealLoopSched))
 	{
-		%pl.startDialogue(%bot, "ShopNotDeal");
+		if (stripos(%bot.dataBlock.uiName, "horse") >= 0)
+		{
+			%pl.startDialogue(%bot, "ShopNotDealHonse");
+		}
+		else if (stripos(%bot.dataBlock.uiName, "harvester") >= 0)
+		{
+			%pl.startDialogue(%bot, "ShopNotDealHarvester");
+		}
+		else if (stripos(%bot.dataBlock.getName(), "cargo") >= 0 || stripos(%bot.dataBlock.uiname, "cart") >= 0)
+		{
+			%pl.startDialogue(%bot, "ShopNotDealCargo");
+		}
+		else 
+		{
+			%pl.startDialogue(%bot, "ShopNotDeal");
+		}
 	}
 	else if (%bot.lastChangedSale + $DealRerollTimeout > $Sim::Time)
 	{
