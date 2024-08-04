@@ -155,6 +155,11 @@ function openPackage(%packageID, %player)
         error("ERROR: No client to reward money to!");
         return false;
     }
+    if (getDataIDArrayTagValue(%packageID, "opened"))
+    {
+        messageClient(%client, '', "This package has been opened already!");
+        return;
+    }
 
     %count = getDataIDArrayCount(%packageID);
     for (%i = 0; %i < %count; %i++) {
@@ -183,6 +188,7 @@ function openPackage(%packageID, %player)
 
     %cashReward = getDataIDArrayTagValue(%packageID, "cashReward");
     %client.addMoney(%cashReward);
+    setDataIDArrayTagValue(%packageID, "opened", 1);
     deleteDataIDArray(%packageID);
 }
 
@@ -237,13 +243,15 @@ function addToPackageArray(%packageID, %o)
     return %packageID;
 }
 
-function createPackage(%packageID, %player, %pos)
+function createPackage(%packageID, %player, %pos, %questID)
 {
     if (%pos $= "" && isObject(%player))
     {
         %pos = %player.getTransform();
     }
     setDataIDArrayTagValue(%packageID, "isPackage", 1);
+    setDataIDArrayTagValue(%packageID, "grantedTo", %player.client.bl_id);
+    setDataIDArrayTagValue(%packageID, "questID", %questID);
 
     %item = new Item() {
         dataBlock = ShippingPackageItem;

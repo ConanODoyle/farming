@@ -292,7 +292,7 @@ function GameConnection::completeQuest(%client, %questID) {
 	%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
 	addToPackageArray(%packageDataID, "cashReward" SPC %cashReward);
 	//TODO: Mailbox dropoff
-	createPackage(%packageDataID, %player, %player.position);
+	createPackage(%packageDataID, %player, %player.position, %questID);
 
 	deleteQuest(%questID);
 
