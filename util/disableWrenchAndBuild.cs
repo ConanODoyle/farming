@@ -59,11 +59,20 @@ package disableWrenchData
 							continue;
 						}
 					case "VDB":
-						if (%cl.wrenchBrick.dataBlock.specialBrickType $= "VehicleSpawn" && !purchaseVehicle(%cl, getWord(%field, 1)))
+						if (%cl.wrenchBrick.dataBlock.specialBrickType $= "VehicleSpawn")
 						{
-							%data = setField(%data, %i, "VDB 0");
-							%i--;
-							continue;
+							if (%cl.wrenchBrick.getGroup().bl_id != %cl.bl_id)
+							{
+								%data = setField(%data, %i, "VDB 0");
+								messageClient(%cvl, '', "You can only buy vehicles on your own vehicle spawn!");
+								continue;
+							}
+							if (!purchaseVehicle(%cl, getWord(%field, 1)))
+							{
+								%data = setField(%data, %i, "VDB 0");
+								%i--;
+								continue;
+							}
 						}
 					// put above in a vehicle purchase subscript
 					case "SDB":
