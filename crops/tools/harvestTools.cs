@@ -434,7 +434,7 @@ function generateHarvestToolDurability(%item)
 
 function generateHarvestToolModifiers(%item, %dataID)
 {
-	if (getRandom() < 0.03)
+	if (getRandom() < 0.05)
 	{
 		addStatTrak(%item, %dataID);
 	}
