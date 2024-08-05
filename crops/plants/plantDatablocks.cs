@@ -422,6 +422,58 @@ datablock fxDTSBrickData(brickWheat5CropData : brickWheat0CropData)
 };
 
 
+//beam
+datablock fxDTSBrickData(brickBean0CropData)
+{
+	uiName = "Bean0";
+
+	brickFile = "./bricks/Bean0.blb";
+	cropType = "Bean";
+	stage = 0;
+	isPlant = 1;
+};
+
+datablock fxDTSBrickData(brickBean1CropData : brickBean0CropData)
+{
+	uiName = "Bean1";
+
+	brickFile = "./bricks/Bean1.blb";
+	stage = 1;
+};
+
+datablock fxDTSBrickData(brickBean2CropData : brickBean0CropData)
+{
+	uiName = "Bean2";
+
+	brickFile = "./bricks/Bean2.blb";
+	stage = 2;
+};
+
+datablock fxDTSBrickData(brickBean3CropData : brickBean0CropData)
+{
+	uiName = "Bean3";
+
+	brickFile = "./bricks/Bean3.blb";
+	stage = 3;
+};
+
+datablock fxDTSBrickData(brickBean4CropData : brickBean0CropData)
+{
+	uiName = "Bean4";
+
+	brickFile = "./bricks/Bean4.blb";
+	stage = 4;
+};
+
+datablock fxDTSBrickData(brickBean5CropData : brickBean0CropData)
+{
+	uiName = "Bean5";
+
+	brickFile = "./bricks/Bean5.blb";
+	stage = 5;
+};
+
+
 
 
 
