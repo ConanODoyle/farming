@@ -16,7 +16,7 @@ function Player::addPlayerToHF(%pl, %cl)
 	}
 
 	HarvesterFightSet.add(%pl);
-	%pl.setTransform(_harvesterPlayerSpawn.getTransform());
+	%pl.setTransform(Brickgroup_888888.NTObject_harvesterPlayerSpawn_0.getTransform());
 	%pl.setWhiteout(1);
 
 	//update antechamber timer	
@@ -214,7 +214,7 @@ function onBossFightWin()
 			%cl.instantRespawn();
 		}
 		%pl = %cl.player;
-		%pl.setTransform(_harvesterPlayerSpawn.getTransform());
+		%pl.setTransform(Brickgroup_888888.NTObject_harvesterPlayerSpawn_0.getTransform());
 	}
 }
 

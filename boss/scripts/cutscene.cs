@@ -40,7 +40,7 @@ function harvesterIntroCutscene(%stage)
 				}
 			}
 			
-			setHarvesterFightCamera(_harvesterCamera0.position, eulerToQuat("40.0 0.0 -240.0"));
+			setHarvesterFightCamera(Brickgroup_888888.NTObject_harvesterCamera0_0.position, eulerToQuat("40.0 0.0 -240.0"));
 			
 			setHarvesterFightMusic(HarvesterIntroMusic);
 			schedule(20210, 0, setHarvesterFightMusic, HarvesterPhase1Music);
@@ -64,7 +64,7 @@ function harvesterIntroCutscene(%stage)
 			// Land sound (synced with landing from jump).
 			serverPlay3d(HarvesterLandSound, CutsceneHarvester.position);
 			
-			setHarvesterFightCamera(_harvesterCamera1.position, eulerToQuat("-60.0 0.0 90.0"));
+			setHarvesterFightCamera(Brickgroup_888888.NTObject_harvesterCamera1_0.position, eulerToQuat("-60.0 0.0 90.0"));
 			
 		case 3:
 			%nextStageTime = 2200;
@@ -73,7 +73,7 @@ function harvesterIntroCutscene(%stage)
 			CutsceneHarvester.setHeadAngle($piOver2);
 			CutsceneHarvester.playThread(0, "slamDone");
 			
-			setHarvesterFightCamera(_harvesterCamera2.position, eulerToQuat("15.0 0.0 25.0"));
+			setHarvesterFightCamera(Brickgroup_888888.NTObject_harvesterCamera2_0.position, eulerToQuat("15.0 0.0 25.0"));
 			
 			CutsceneHarvester.harvesterChat("???", "No matter...");
 			CutsceneHarvester.playAudio(2, HarvesterIntroVoiceSound3);
@@ -85,7 +85,7 @@ function harvesterIntroCutscene(%stage)
 			CutsceneHarvester.setHeadAngle(0.0);
 			CutsceneHarvester.playThread(0, "sweepReady");
 			
-			setHarvesterFightCamera(_harvesterCamera3.position, eulerToQuat("30.0 0.0 -127.5"));
+			setHarvesterFightCamera(Brickgroup_888888.NTObject_harvesterCamera3_0.position, eulerToQuat("30.0 0.0 -127.5"));
 			
 			CutsceneHarvester.harvesterChat("???", "The tallest stalk is cut down first, farmer.");
 			CutsceneHarvester.playAudio(2, HarvesterIntroVoiceSound4);
@@ -95,7 +95,7 @@ function harvesterIntroCutscene(%stage)
 			
 			CutsceneHarvester.playThread(0, "stunDone");
 			
-			setHarvesterFightCamera(_harvesterCamera4.position, eulerToQuat("0.0 0.0 -90.0"));
+			setHarvesterFightCamera(Brickgroup_888888.NTObject_harvesterCamera4_0.position, eulerToQuat("0.0 0.0 -90.0"));
 			
 		case 6:
 			%nextStageTime = 3000;
@@ -202,7 +202,7 @@ function harvesterOutroCutscene(%stage)
 			new AIPlayer(CutsceneHarvester)
 			{
 				dataBlock = HarvesterArmor;
-				position = _harvesterDeath.position;
+				position = Brickgroup_888888.NTObject_harvesterDeath_0.position;
 				name = "The Harvester";
 				invulnerable = true;
 				isBot = true;
@@ -241,7 +241,7 @@ function harvesterOutroCutscene(%stage)
 			new StaticShape(HarvesterVortex)
 			{
 				dataBlock = HarvesterVortexShape;
-				position = _harvesterDeath.position;
+				position = Brickgroup_888888.NTObject_harvesterDeath_0.position;
 				rotation = eulerToQuat_Degrees("0 0 -90");
 			};
 
@@ -254,7 +254,7 @@ function harvesterOutroCutscene(%stage)
 			new StaticShape(HarvesterRiser)
 			{
 				dataBlock = HarvesterRiserShape;
-				position = _harvesterDeath.position;
+				position = Brickgroup_888888.NTObject_harvesterDeath_0.position;
 				rotation = eulerToQuat_Degrees("0 0 -90");
 			};
 
@@ -265,11 +265,11 @@ function harvesterOutroCutscene(%stage)
 				HarvesterRiser.mountObject(CutsceneHarvester, 0);
 			}
 
-			setHarvesterFightCamera(_harvesterCamera0.position, eulerToQuat("40.0 0.0 -240.0"));
+			setHarvesterFightCamera(Brickgroup_888888.NTObject_harvesterCamera0_0.position, eulerToQuat("40.0 0.0 -240.0"));
 
 			setHarvesterFightMusic(HarvesterSiriusBMusic);
 			
-			setHarvesterFightCamera(_harvesterCamera5.position, eulerToQuat("15.0 0.0 75.0"));
+			setHarvesterFightCamera(Brickgroup_888888.NTObject_harvesterCamera5_0.position, eulerToQuat("15.0 0.0 75.0"));
 		
 		case 1:
 			%nextStageTime = 6200;

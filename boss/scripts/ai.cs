@@ -15,7 +15,7 @@ function spawnHarvester()
 	new AIPlayer(Harvester)
 	{
 		dataBlock = HarvesterArmor;
-		position = _harvesterTeleportRing0.position;
+		position = Brickgroup_888888.NTObject_harvesterTeleportRing0_0.position;
 		name = "The Harvester";
 		isBot = true;
 		
