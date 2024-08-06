@@ -413,15 +413,15 @@ function seedLoop(%image, %obj)
 	%cl = %obj.client;
 	%count = %obj.toolStackCount[%obj.currTool];
 
+	if (%obj.seedErrorTimeout < $Sim::Time)
+	{
+		%obj.seedError = "\c5Use /drop # to drop a specific amount";
+	}
+
 	if (isObject(%cl) && !%cl.isInCenterprintMenu)
 	{
 		%seedName = strReplace(getSubStr(%type, 0, strLen(%type) - 4), "_", " ");
-		%cl.centerprint("<just:right><color:ffff00>-Seeds " @ %obj.currTool + 1 @ "- \n" @ %seedName @ "<color:ffffff>: " @ %count @ " \n\c0" @ %obj.seedError, 1);
-	}
-
-	if (%obj.seedErrorTimeout < $Sim::Time)
-	{
-		%obj.seedError = "";
+		%cl.centerprint("<just:right>\c3-Seeds " @ %obj.currTool + 1 @ "- \n" @ %seedName @ "\c6: " @ %count @ " \n\c0" @ %obj.seedError, 1);
 	}
 }
 

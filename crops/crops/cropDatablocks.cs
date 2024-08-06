@@ -30,6 +30,6 @@ function foodLoop(%image, %obj)
 
 	if (isObject(%cl) && !%cl.isInCenterprintMenu)
 	{
-		%cl.centerprint("<just:right>\c3-Basket " @ %obj.currTool + 1 @ "- \n\c3" @ %type @ "\c6: " @ %count @ " ", 1);
+		%cl.centerprint("<just:right>\c3-Basket " @ %obj.currTool + 1 @ "- \n\c3" @ %type @ "\c6: " @ %count @ " \n\c5Use /drop # to drop a specific amount", 1);
 	}
 }

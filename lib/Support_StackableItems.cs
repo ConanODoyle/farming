@@ -255,7 +255,7 @@ function pickupStackableItem(%pl, %item, %slot, %amt)
 
 //code copied from default serverCmdDropTool
 //added lines are marked
-function dropStackableItem(%client, %position)
+function dropStackableItem(%client, %position, %amount)
 {
 	%player = %client.Player;
 	if (!isObject(%player))
@@ -272,12 +272,14 @@ function dropStackableItem(%client, %position)
 			%muzzlevector = %player.getEyeVector();
 			%muzzlepoint = VectorAdd(%muzzlepoint, %muzzlevector);
 			%playerRot = rotFromTransform(%player.getTransform());
+			%amount = (%amount $= "" ? %player.toolStackCount[%position] : getMin(%amount, %player.toolStackCount[%position])); //added line here
 			%thrownItem = new Item(""){
 				dataBlock = %item;
-				count = %player.toolStackCount[%position]; //added line here
+				count = %amount; //added line here
 			};
 			%thrownItem.setScale(%player.getScale());
-			%player.toolStackCount[%position] = 0; //added line here
+			%remaining = %player.toolStackCount[%position] - %amount; //added line here
+			%player.toolStackCount[%position] = %remaining; //added line here
 			MissionCleanup.add(%thrownItem);
 			%thrownItem.setTransform(%muzzlepoint @ " " @ %playerRot);
 			%thrownItem.setVelocity(VectorScale(%muzzlevector, 20.0 * %zScale));
@@ -289,18 +291,33 @@ function dropStackableItem(%client, %position)
 			{
 				%player.weaponCount = %player.weaponCount - 1.0;
 			}
-			%player.tool[%position] = 0;
-			messageClient(%client, 'MsgItemPickup', '', %position, 0);
-			if (%player.getMountedImage(%item.image.mountPoint) > 0.0)
+			if (%remaining <= 0)
 			{
-				if (%player.getMountedImage(%item.image.mountPoint).getId() == %item.image.getId())
+				%player.tool[%position] = 0;
+				messageClient(%client, 'MsgItemPickup', '', %position, 0);
+				if (%player.getMountedImage(%item.image.mountPoint) > 0.0)
 				{
-					%player.unmountImage(%item.image.mountPoint);
+					if (%player.getMountedImage(%item.image.mountPoint).getId() == %item.image.getId())
+					{
+						%player.unmountImage(%item.image.mountPoint);
+					}
 				}
 			}
 		}
 	}
 }
+
+function serverCmdDrop(%cl, %count)
+{
+	if (!isObject(%pl = %cl.player) || !isObject(%pl.tool[%pl.currTool])
+		|| !%pl.tool[%pl.currTool].isStackable || %count <= 0)
+	{
+		messageClient(%cl, '', "Can't drop this amount!");
+		return;
+	}
+	dropStackableItem(%cl, %pl.currTool, getMin(%count, %pl.toolStackCount[%pl.currTool]));
+}
+
 
 package Support_StackableItems
 {
@@ -362,7 +379,7 @@ package Support_StackableItems
 			%item = %pl.tool[%slot];
 			if (%item.isStackable)
 			{
-				dropStackableItem(%cl, %slot);
+				dropStackableItem(%cl, %slot, %pl.toolStackCount[%slot]);
 				return;
 			}
 		}
