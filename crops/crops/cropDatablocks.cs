@@ -1,3 +1,4 @@
+HammerItem.friction = 0.2;
 exec("./potato.cs");
 exec("./carrot.cs");
 exec("./tomato.cs");
@@ -18,6 +19,7 @@ exec("./peachTree.cs");
 exec("./dateTree.cs");
 
 exec("./weed.cs");
+HammerItem.friction = 0.6;
 
 function foodLoop(%image, %obj)
 {
