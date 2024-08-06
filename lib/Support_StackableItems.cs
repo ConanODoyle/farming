@@ -309,6 +309,8 @@ function dropStackableItem(%client, %position, %amount)
 
 function serverCmdDrop(%cl, %count)
 {
+	%count = mFloor(%count);
+	
 	if (!isObject(%pl = %cl.player) || !isObject(%pl.tool[%pl.currTool])
 		|| !%pl.tool[%pl.currTool].isStackable || %count <= 0)
 	{
