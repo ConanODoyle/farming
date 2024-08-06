@@ -634,7 +634,7 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 	}
 	else
 	{
-		%selected = "None";
+		%selected = "None <br>\c5Use this to link sprinklers to water <br>\c5tanks, or tanks to other tanks! ";
 	}
 	%centerprint = %centerprint @ "\c6Selection: \c3" @ %selected @ " <br>";
 
