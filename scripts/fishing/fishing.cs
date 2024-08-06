@@ -80,11 +80,12 @@ function fishingTick(%idx)
 		else
 		{
 			%obj = FishingSimSet.getObject(%curr);
-			if (%obj.isBobber)
+			if (%obj.isBobber && %obj.nextCheckTick-- < 0)
 			{
 				bobberCheck(%obj);
+				%obj.nextCheckTick = 1;
 			}
-			else
+			else if (%brick.nextRestockTime > $Sim::Time)
 			{
 				fishingSpotCheck(%obj);
 			}
