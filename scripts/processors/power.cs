@@ -1296,8 +1296,15 @@ function ElectricalCableImage::onReady(%this, %obj, %slot)
 		%cpstr = "<just:right>\c3-Electrical Cable- \n";
 		%currDevice = (isObject(%obj.poweredBrick) ? %obj.poweredBrick.getDatablock().uiName : "\c0None");
 		%currPowerBrick = (isObject(%obj.powerControlBrick) ? %obj.powerControlBrick.getPosition() : "\c0None");
-		%cpstr = %cpstr @ "\c6Current Device: \c3" @ %currDevice @ " \n";
-		%cpstr = %cpstr @ "\c6Current Box: \c3" @ %currPowerBrick @ " \n";
+		if (%currDevice $= "None" && %currPowerBrick $= "None")
+		{
+			%cpstr = "\c5Use this item to connect \nelectrical equipment together \n";
+		}
+		else
+		{
+			%cpstr = %cpstr @ "\c6Current Device: \c3" @ %currDevice @ " \n";
+			%cpstr = %cpstr @ "\c6Current Box: \c3" @ %currPowerBrick @ " \n";
+		}
 		%cpstr = %cpstr @ "\c4" @ %obj.brickInfo @ " \n";
 		%cpstr = %cpstr @ %obj.responseString @ " \n";
 		%cpstr = %cpstr @ %obj.errorString;
