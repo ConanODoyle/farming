@@ -87,14 +87,20 @@ function QuestImage::displayQuest(%image, %player, %slot)
         return;
     }
 
-    %client.displayQuest(%player.toolDataID[%itemSlot], %player.questDisplayMode);
+    if (!%client.isInCenterprintMenu)
+    {
+        %client.displayQuest(%player.toolDataID[%itemSlot], %player.questDisplayMode);
+    }
 }
 
 function QuestImage::setQuestDisplayRequest(%image, %player, %slot)
 {
     %player.questDisplayMode = false;
 
-    %image.displayQuest(%player, %slot);
+    if (!%player.client.isInCenterprintMenu)
+    {
+        %image.displayQuest(%player, %slot);
+    }
 }
 
 function QuestImage::toggleQuestDisplay(%image, %player, %slot)
@@ -102,7 +108,10 @@ function QuestImage::toggleQuestDisplay(%image, %player, %slot)
     %player.questDisplayMode = !%player.questDisplayMode;
     %player.playThread(2, "rotcw");
 
-    %image.displayQuest(%player, %slot);
+    if (!%player.client.isInCenterprintMenu)
+    {
+        %image.displayQuest(%player, %slot);
+    }
 }
 
 function QuestImage::onUnMount(%image, %player, %slot)
@@ -112,5 +121,9 @@ function QuestImage::onUnMount(%image, %player, %slot)
     {
         return;
     }
-    %client.centerPrint(" ");
+
+    if (!%client.isInCenterprintMenu)
+    {
+        %client.centerPrint(" ");
+    }
 }
