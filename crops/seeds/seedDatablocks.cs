@@ -413,7 +413,7 @@ function seedLoop(%image, %obj)
 	%cl = %obj.client;
 	%count = %obj.toolStackCount[%obj.currTool];
 
-	if (isObject(%cl))
+	if (isObject(%cl) && !%cl.isInCenterprintMenu)
 	{
 		%seedName = strReplace(getSubStr(%type, 0, strLen(%type) - 4), "_", " ");
 		%cl.centerprint("<just:right><color:ffff00>-Seeds " @ %obj.currTool + 1 @ "- \n" @ %seedName @ "<color:ffffff>: " @ %count @ " \n\c0" @ %obj.seedError, 1);

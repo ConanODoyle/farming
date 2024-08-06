@@ -260,7 +260,7 @@ function HarvestToolImage::onFire(%this, %obj, %slot, %hitLoc)
 	if (%item.hasDataID)
 	{
 		%durability = getDurability(%this, %obj, %slot);
-		if (%durability == 0 && isObject(%cl = %obj.client))
+		if (%durability == 0 && isObject(%cl = %obj.client) && !%cl.isInCenterprintMenu)
 		{
 			%cl.centerprint("<just:right><color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!", 1);
 			return;
@@ -348,6 +348,11 @@ function HarvestToolImage::onReady(%this, %obj, %slot)
 
 function centerprintHarvestToolInfo(%cl, %this, %obj, %slot)
 {
+	if (%cl.isInCenterprintMenu)
+	{
+		return;
+	}
+	
 	%durability = getDurability(%img, %obj, %slot);
 
 	%statTrak = %obj.getToolStatTrak();

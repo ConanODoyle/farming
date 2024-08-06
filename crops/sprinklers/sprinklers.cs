@@ -707,7 +707,7 @@ function SprinklerLinkImage::onLoop(%this, %obj, %slot)
 	}
 	%centerprint = %centerprint @ %error;
 
-	if (isObject(%cl = %obj.client))
+	if (isObject(%cl = %obj.client) && !%cl.isInCenterprintMenu)
 	{
 		%cl.centerprint(%centerprint, 1);
 	}

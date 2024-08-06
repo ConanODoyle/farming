@@ -26,7 +26,7 @@ function foodLoop(%image, %obj)
 	%cl = %obj.client;
 	%count = %obj.toolStackCount[%obj.currTool];
 
-	if (isObject(%cl))
+	if (isObject(%cl) && !%cl.isInCenterprintMenu)
 	{
 		%cl.centerprint("<just:right>\c3-Basket " @ %obj.currTool + 1 @ "- \n\c3" @ %type @ "\c6: " @ %count @ " ", 1);
 	}

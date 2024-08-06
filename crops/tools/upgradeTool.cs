@@ -59,7 +59,7 @@ datablock ShapeBaseImageData(UpgradeToolImage)
 // functions
 function UpgradeToolImage::onReady(%this, %obj, %slot)
 {
-	if (isObject(%cl = %obj.client))
+	if (isObject(%cl = %obj.client) && !%cl.isInCenterprintMenu)
 	{
 		%durability = getDurability(%this, %obj, %slot);
 		%cl.centerprint("\n<just:right><color:cccccc>Upgrades left: 1", 1);

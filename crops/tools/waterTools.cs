@@ -328,7 +328,7 @@ datablock AudioProfile(waterCanLotsSound : exitWaterSound)
 
 function wateringCanReady(%this, %obj, %slot)
 {
-	if (isObject(%cl = %obj.client))
+	if (isObject(%cl = %obj.client) && !%cl.isInCenterprintMenu)
 	{
 		%durability = getDurability(%this, %obj, %slot);
 		%cl.centerprint("\n<just:right><color:cccccc>Durability: " @ %durability @ " ", 1);

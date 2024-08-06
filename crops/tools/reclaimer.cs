@@ -161,7 +161,7 @@ function getReclaimSeedCount(%brick)
 
 function ReclaimerImage::onReady(%this, %obj, %slot)
 {
-	if (!isObject(%cl = %obj.client))
+	if (!isObject(%cl = %obj.client) || %cl.isInCenterprintMenu)
 	{
 		return;
 	}

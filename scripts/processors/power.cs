@@ -1282,7 +1282,7 @@ function ElectricalCableImage::onReady(%this, %obj, %slot)
 	}
 
 	//display centerprint
-	if (isObject(%cl = %obj.client))
+	if (isObject(%cl = %obj.client) && !%cl.isInCenterprintMenu)
 	{
 		if (%obj.errorTime < $Sim::Time)
 		{

@@ -67,7 +67,7 @@ datablock ShapeBaseImageData(RepairToolImage)
 // functions
 function RepairToolImage::onReady(%this, %obj, %slot)
 {
-	if (isObject(%cl = %obj.client))
+	if (isObject(%cl = %obj.client) && !%cl.isInCenterprintMenu)
 	{
 		%durability = getDurability(%this, %obj, %slot);
 		%cl.centerprint("\n<just:right><color:cccccc>Repairs left: " @ %durability @ " \nRepairs 25% of max durability per use ", 1);
