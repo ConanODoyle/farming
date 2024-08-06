@@ -145,6 +145,12 @@ function configureBusStopCenterprintMenu(%menu, %brick)
     return %menuOptionCount;
 }
 
+registerOutputEvent("GameConnection", "displayBusStopStats");
+function GameConnection::displayBusStopStats(%cl)
+{
+    commandToClient(%cl, 'MessageBoxOK', "Bus Stop Stats", "Served " @ $Pref::Server::BusStopTrips @ " people!\nTotal spent: $" @ mFloatLength($Pref::Server::BusStopTotalCost / 10, 2));
+}
+
 function goToBusStop(%cl, %menu, %option)
 {
     %brick = %menu.menuBrick[%option];
@@ -181,6 +187,8 @@ function goToBusStop(%cl, %menu, %option)
     }
 
     %cl.subMoney(%cost);
+    $Pref::Server::BusStopTrips++;
+    $Pref::Server::BusStopTotalCost = (($Pref::Server::BusStopTotalCost | 0) + ((%cost * 10) | 0)) | 0;
     %target.setTransform(%brick.getTransform());
 
     %pl.setWhiteout(1);
