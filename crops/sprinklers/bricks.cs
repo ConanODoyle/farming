@@ -31,8 +31,8 @@ datablock fxDTSBrickData(brickSmallSprinklerDownData)
 
 	cost = 125;
 	isSprinkler = 1;
-	directionalOffset = "0 0 -1.9";
-	boxSize = "4 4 3.4";
+	directionalOffset = "0 0 -2";
+	boxSize = "4 4 3.6";
 	waterPerSecond = 30;
 	noCollide = 1;
 };
