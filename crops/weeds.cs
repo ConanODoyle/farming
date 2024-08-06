@@ -12,7 +12,7 @@ function weedTick(%index)
 		%index = RainFillSimSet.getCount() - 1;
 	}
 
-	%max = 16;
+	%max = 8;
 	for (%i = 0; %i < %max; %i++)
 	{
 		if (%i > %index)
