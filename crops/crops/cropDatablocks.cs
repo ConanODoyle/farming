@@ -1,4 +1,4 @@
-HammerItem.friction = 0.2;
+HammerItem.friction = 0.4;
 exec("./potato.cs");
 exec("./carrot.cs");
 exec("./tomato.cs");
