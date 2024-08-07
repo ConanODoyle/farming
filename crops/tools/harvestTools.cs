@@ -386,7 +386,7 @@ function getStatTrakBonusYield(%dataID, %type)
 	
 	if (%type $= "ALL")
 	{
-		%price = 4;
+		%price = 16;
 		%bonusCount = 1;
 	}
 	else
