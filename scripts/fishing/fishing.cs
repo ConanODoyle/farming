@@ -85,7 +85,7 @@ function fishingTick(%idx)
 				bobberCheck(%obj);
 				%obj.nextCheckTick = 1;
 			}
-			else if (%brick.nextRestockTime > $Sim::Time)
+			else if (%brick.nextRestockTime < $Sim::Time)
 			{
 				fishingSpotCheck(%obj);
 			}
@@ -122,7 +122,7 @@ function fishingSpotCheck(%brick)
 	}
 
 	%brick.fish = getRandom();
-	%brick.nextRestockTime = $Sim::Time + getRandom(getWord($Fishing::SpotResetTime, 0), getWord($Fishing::SpotResetTime, 1));
+	%brick.nextRestockTime = $Sim::Time + (getRandom(getWord($Fishing::SpotResetTime, 0), getWord($Fishing::SpotResetTime, 1))) | 0;
 
 	//adjust visual effect of Spot based on fishcount
 	if (!isObject(%brick.emitter))
