@@ -49,7 +49,7 @@ datablock PlayerData(Player6SlotArmor : PlayerNoJet)
 	maxTools = 6;
 	maxWeapons = 6;
 
-	expCost = 6000;
+	expCost = 1000;
 };
 
 datablock PlayerData(Player7SlotArmor : PlayerNoJet)
@@ -59,7 +59,7 @@ datablock PlayerData(Player7SlotArmor : PlayerNoJet)
 	maxTools = 7;
 	maxWeapons = 7;
 
-	expCost = 8000;
+	expCost = 4000;
 };
 
 datablock PlayerData(Player8SlotArmor : PlayerNoJet)
@@ -69,7 +69,17 @@ datablock PlayerData(Player8SlotArmor : PlayerNoJet)
 	maxTools = 8;
 	maxWeapons = 8;
 
-	expCost = 10000;
+	expCost = 8000;
+};
+
+datablock PlayerData(Player9SlotArmor : PlayerNoJet)
+{
+	canJet = 0;
+	uiName = "9 Slot Player";
+	maxTools = 9;
+	maxWeapons = 9;
+
+	expCost = 16000;
 };
 
 function GameConnection::upgradeInventory(%cl, %passkey)
@@ -84,6 +94,7 @@ function GameConnection::upgradeInventory(%cl, %passkey)
 		{
 			case "Player6SlotArmor": %next = "Player7SlotArmor";
 			case "Player7SlotArmor": %next = "Player8SlotArmor";
+			case "Player8SlotArmor": %next = "Player9SlotArmor";
 			default: %next = 0;
 		}
 	}
