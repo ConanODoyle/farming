@@ -93,7 +93,7 @@ datablock WheeledVehicleData(duoStandardJeepVehicle)
 
     justcollided = 0;
 
-    uiName = $AddOn__Server_Farming ? "Standard Jeep - $700" : "Standard Jeep";
+    uiName = $AddOn__Server_Farming ? "Standard Jeep - $800" : "Standard Jeep";
     rideable = true;
     lookUpLimit = 0.65;
     lookDownLimit = 0.45;
