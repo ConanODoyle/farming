@@ -16,7 +16,7 @@ datablock PlayerData(duoJeepCargoArmor : PlayerStandardArmor) {
     // extra fields for conan's farming
     isStorageVehicle = 1;
     storageSlotCount = 4;
-    storageMultiplier = 10;
+    storageMultiplier = 12;
     itemStackCount = 2;
     menuName = "Cargo Jeep";
 

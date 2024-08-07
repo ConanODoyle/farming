@@ -8,8 +8,8 @@ datablock PlayerData(StorageCartArmor : HorseArmor)
 	maxForwardCrouchSpeed = 5.5;
 	maxBackwardCrouchSpeed = 5.5;
 
-	boundingBox = vectorScale("1.9 1.9 1.3", 4);
-	crouchBoundingBox = vectorScale("1.9 1.9 1.3", 4);
+	boundingBox = vectorScale("1.6 1.6 1.2", 4);
+	crouchBoundingBox = vectorScale("1.6 1.6 1.2", 4);
 
 	jumpForce = 0;
 	mountNode[0] = 0;
@@ -29,8 +29,8 @@ datablock PlayerData(HorseStorageCartArmor : HorseArmor)
 	shapeFile = "./horseCart.dts";
 
 	uiName = "Horse Cart - $500";
-	maxForwardSpeed = 9;
-	maxForwardCrouchSpeed = 9;
+	maxForwardSpeed = 10;
+	maxForwardCrouchSpeed = 10;
 
 	jumpForce = 1000;
 
@@ -57,7 +57,7 @@ datablock PlayerData(LargeStorageCartArmor : StorageCartArmor)
 
 	isStorageVehicle = 1;
 	storageSlotCount = 4;
-	storageMultiplier = 5;
+	storageMultiplier = 8;
 	itemStackCount = 2;
 	menuName = "Large Storage Cart";
 
