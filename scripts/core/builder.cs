@@ -143,5 +143,14 @@ package BuilderOrb
 		}
 		return %ret;
 	}
+
+	function serverCmdNewDuplicator(%cl)
+	{
+		if (!%cl.isBuilder)
+		{
+			return;
+		}
+		parent::serverCmdNewDuplicator(%cl);
+	}
 };
 activatePackage(BuilderOrb);
