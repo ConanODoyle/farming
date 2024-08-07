@@ -80,10 +80,9 @@ function fishingTick(%idx)
 		else
 		{
 			%obj = FishingSimSet.getObject(%curr);
-			if (%obj.isBobber && %obj.nextCheckTick-- < 0)
+			if (%obj.isBobber)
 			{
 				bobberCheck(%obj);
-				%obj.nextCheckTick = 1;
 			}
 			else if (%brick.nextRestockTime < $Sim::Time)
 			{
@@ -246,34 +245,41 @@ function bobberFishCheck(%bobber)
 		}
 		%bobber.nextFishCheck = $Sim::Time + 2 | 0;
 		// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Next fish check " @ %bobber.nextFishCheck);
-		
-		//if we don't already have a fishing spot found, try to find one
-		//put under the periodic fishing check to avoid spamming radius searches
-		if (!isObject(%bobber.nearestFishingSpot))
+
+		//ensure we're on water
+		%bobber.radiusCheckFrequency--;
+		if (%bobber.radiusCheckFrequency < 0)
 		{
-			initContainerRadiusSearch(%bobber.position, 3, $Typemasks::fxBrickAlwaysObjectType);
+			initContainerRadiusSearch(vectorAdd(%bobber.position, "0 0 -0.2"), 0.15, $Typemasks::PhysicalZoneObjectType);
+			%bobber.hasWater = 0;
+			%bobber.radiusCheckFrequency = 2;
 			while (isObject(%next = containerSearchNext()))
 			{
-				if (%next.dataBlock.isFishingSpot)
+				if (%next.isWater)
 				{
-					%bobber.nearestFishingSpot = %next;
+					%bobber.hasWater = 1;
+					%bobber.radiusCheckFrequency = 4;
 					break;
+				}
+			}
+
+			//if we don't already have a fishing spot found, try to find one
+			//put under the periodic fishing check to avoid spamming radius searches
+			if (!isObject(%bobber.nearestFishingSpot))
+			{
+				initContainerRadiusSearch(%bobber.position, 3, $Typemasks::fxBrickAlwaysObjectType);
+				while (isObject(%next = containerSearchNext()))
+				{
+					if (%next.dataBlock.isFishingSpot)
+					{
+						%bobber.nearestFishingSpot = %next;
+						break;
+					}
 				}
 			}
 		}
 
-		//ensure we're on water
-		initContainerRadiusSearch(vectorAdd(%bobber.position, "0 0 -0.2"), 0.15, $Typemasks::PhysicalZoneObjectType);
-		while (isObject(%next = containerSearchNext()))
-		{
-			if (%next.isWater)
-			{
-				%found = 1;
-				break;
-			}
-		}
-
-		if (!%found)
+		if (!%bobber.hasWater)
 		{
 			return;
 		}
