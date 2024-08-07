@@ -164,7 +164,6 @@ function unloadDataIDArray(%aid)
 	{
 		return;
 	}
-	saveDataIDArray(%aid);
 	deleteVariables("$DataID_" @ %aid @ "_*");
 	popDataID(%aid);
 	deleteVariables("$executedDataID" @ %aid);
