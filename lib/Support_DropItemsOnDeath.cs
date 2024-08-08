@@ -27,6 +27,7 @@ package Server_FarmingDropInventoryOnDeath
 		if(isObject(%client.player))
 		{
 			%pos = %client.player.getPosition();
+			%client.player.isDying = 1;
 
 			for(%i = 0; %i < %client.player.getDatablock().maxTools; %i++)
 			{

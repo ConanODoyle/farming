@@ -1046,7 +1046,7 @@ package StorageBricks
 					}
 					return;
 				}
-				else if (isObject(%item))
+				else if (isObject(%item) && !%pl.isDying)
 				{
 					commandToClient(%cl, 'MessageBoxOk', "Storage Full", "Cannot insert this item!");
 					return;
