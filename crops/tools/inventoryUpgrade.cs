@@ -25,7 +25,7 @@ datablock ShapeBaseImageData(InventoryUpgradeImage)
 
 	armReady = 1;
 
-	toolTip = "Upgrades your inventory, max 8";
+	toolTip = "Upgrades your inventory, max 9";
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "Ready";
@@ -82,6 +82,7 @@ function InventoryUpgradeImage::onReady(%this, %obj, %slot)
 		{
 			case "Player6SlotArmor": %next = "Player7SlotArmor";
 			case "Player7SlotArmor": %next = "Player8SlotArmor";
+			case "Player8SlotArmor": %next = "Player9SlotArmor";
 			default: %next = 0;
 		}
 	}
@@ -111,6 +112,7 @@ function InventoryUpgradeImage::onFire(%this, %obj, %slot)
 		{
 			case "Player6SlotArmor": %next = "Player7SlotArmor";
 			case "Player7SlotArmor": %next = "Player8SlotArmor";
+			case "Player8SlotArmor": %next = "Player9SlotArmor";
 			default: %next = 0;
 		}
 	}
