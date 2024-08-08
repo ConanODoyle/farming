@@ -53,6 +53,7 @@ function findAllBusStops(%idx)
 
     if (%i >= Brickgroup_888888.getCount())
     {
+        $foundAllBusStops = 1;
         return;
     }
     $busStopSearchSchedule = schedule(33, MissionCleanup, findAllBusStops, %i);
@@ -70,7 +71,10 @@ function configureBusStopCenterprintMenu(%menu, %brick)
     {
         return;
     }
-    findAllBusStops();
+    if (!$foundAllBusStops)
+    {
+        findAllBusStops();
+    }
 
     %menu.lastConfiguredMenu = $Sim::Time;
     %oldMenuCount = %menu.menuOptionCount;
