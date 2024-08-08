@@ -102,6 +102,20 @@ function getLoadedDataIDCount(%dataID)
 	return LoadedDataIDs.numActive;
 }
 
+function queueSaveDataIDArray(%aid)
+{
+	if (!isEventPending($scheduleSave[%aid]))
+	{
+		$scheduleSave[%aid] = schedule(16000, 0, popSaveDataIDArray, %aid);
+	}
+}
+
+function popSaveDataIDArray(%aid)
+{
+	cancel($scheduleSave[%aid]);
+	saveDataIDArray(%aid);
+	deleteVariables("$scheduleSave" @ %aid);
+}
 
 
 
@@ -164,6 +178,7 @@ function unloadDataIDArray(%aid)
 	{
 		return;
 	}
+	popSaveDataIDArray(%aid);
 	deleteVariables("$DataID_" @ %aid @ "_*");
 	popDataID(%aid);
 	deleteVariables("$executedDataID" @ %aid);
@@ -196,13 +211,13 @@ function pruneDataIDArrays()
 	{
 		return;
 	}
-	$nextPruneDataIDArray = $Sim::Time + 10;
+	$nextPruneDataIDArray = $Sim::Time + 10 | 0;
 	while (getLoadedDataIDCount() > 200 && %safety++ < 10)
 	{
 		%oldest = getOldestDataID();
 		%oldestTime = LoadedDataIDS.lastTouched[%oldest];
 		%age = (getSimTime() - %oldestTime | 0) / 1000;
-		if (%age < 30 && getLoadedDataIDCount() < 400) //don't prune if its not actually aged at all
+		if (%age < 30 && getLoadedDataIDCount() < 600) //don't prune if its not actually aged at all
 		{
 			echo("    Hard exit due to young dataIDs");
 			break;
@@ -338,7 +353,7 @@ function setDataIDArrayCount(%aid, %count)
 	}
 	$DataID_[%aid, "count"] = %count + 0;
 
-	saveDataIDArray(%aid);
+	queueSaveDataIDArray(%aid);
 }
 
 
@@ -359,7 +374,7 @@ function setDataIDArrayValue(%aid, %slot, %value)
 
 	$DataID_[%aid, %slot] = %value;
 
-	saveDataIDArray(%aid);
+	queueSaveDataIDArray(%aid);
 }
 
 //add %value to first available slot in %aid. %start optional
@@ -389,7 +404,7 @@ function addToDataIDArray(%aid, %value, %start)
 		return -1;
 	}
 
-	saveDataIDArray(%aid);
+	queueSaveDataIDArray(%aid);
 	return %returnIDX;
 }
 
@@ -414,7 +429,7 @@ function setDataIDArrayTagValue(%aid, %tag, %value)
 		$DataID_[%aid, "tags"] = trim($DataID_[%aid, "tags"] SPC %tag);
 	}
 
-	saveDataIDArray(%aid);
+	queueSaveDataIDArray(%aid);
 }
 
 //removes value at %slot
@@ -427,7 +442,7 @@ function removeDataIDArrayValue(%aid, %slot)
 	%count = getDataIDArrayCount(%aid);
 	$DataID_[%aid, %slot] = "";
 
-	saveDataIDArray(%aid);
+	queueSaveDataIDArray(%aid);
 }
 
 //removes value at %tag
@@ -453,7 +468,7 @@ function removeDataIDArrayTagValue(%aid, %tag)
 		$DataID_[%aid, "tags"] = trim(%currTags);
 	}
 
-	saveDataIDArray(%aid);
+	queueSaveDataIDArray(%aid);
 }
 
 function clearDataIDArray(%aid)
