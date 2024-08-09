@@ -421,7 +421,7 @@ function seedLoop(%image, %obj)
 	if (isObject(%cl) && !%cl.isInCenterprintMenu)
 	{
 		%seedName = strReplace(getSubStr(%type, 0, strLen(%type) - 4), "_", " ");
-		%cl.centerprint("<just:right>\c3-Seeds " @ %obj.currTool + 1 @ "- \n" @ %seedName @ "\c6: " @ %count @ " \n\c0" @ %obj.seedError, 1);
+		%cl.centerprint("<just:right>\c3-Seeds " @ %obj.currTool + 1 @ "- \n\c3" @ %seedName @ "\c6: " @ %count @ " \n\c0" @ %obj.seedError, 1);
 	}
 }
 
