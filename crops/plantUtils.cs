@@ -201,11 +201,12 @@ function lightRaycastCheck(%pos, %brick)
 	%ray = containerRaycast(%start, %end, %masks, %brick);
 	%light = 1;
 	%greenhouseFound = 0;
-	while (%safety++ < 5)
+	while (%safety++ < 4)
 	{
 		%hit = getWord(%ray, 0);
 		if (!isObject(%hit) || %hit.getGroup().bl_id == 888888)
 		{
+			%lightSourceFound = 1;
 			break;
 		}
 
@@ -226,6 +227,10 @@ function lightRaycastCheck(%pos, %brick)
 			if (getWord(%pos, 2) >= %z)
 			{
 				%greenhouseFound = 1;
+				if (%lightSourceFound)
+				{
+					break;
+				}
 			}
 		}
 
@@ -240,13 +245,23 @@ function lightRaycastCheck(%pos, %brick)
 
 		if (%hitDB.isIndoorLight)
 		{
+			%lightSourceFound = 1;
 			%lightLevelFixed = 1;
+			if (%greenhouseFound)
+			{
+				break;
+			}
 		}
 	
 		%start = getWords(%ray, 1, 3);
 		%ray = containerRaycast(%start, %end, %masks, %brick, %hit);
 		continue;
 	}
+	if (%light == 1 && !%lightSourceFound)
+	{
+		%light = 0;
+	}
+
 	return %light SPC %greenhouseFound;
 }
 
