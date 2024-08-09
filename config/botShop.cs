@@ -29,20 +29,18 @@ $obj = new ScriptObject(BS_Instruments) { class = "ShopObject"; };
 $BotShopSet.add($obj);
 
 
-BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Potato"			TAB mFloor(60 * 2 / 3);
-BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Carrot"			TAB mFloor(70 * 2 / 3);
-BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Tomato"			TAB mFloor(60 * 2 / 3);
-BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Corn"			TAB mFloor(40 * 2 / 3);
-BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Wheat"			TAB mFloor(30 * 2 / 3);
-BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Portobello"		TAB mFloor(20 * 2 / 3);
-BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Cabbage"		TAB mFloor(15 * 2 / 3);
-BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Onion"			TAB mFloor(50 * 2 / 3);
+BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Tomato"			TAB mFloor(60 / 2);
+BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Corn"			TAB mFloor(40 / 2);
+BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Wheat"			TAB mFloor(30 / 2);
+BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Portobello"		TAB mFloor(20 / 2);
+BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Cabbage"		TAB mFloor(15 / 2);
+BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Onion"			TAB mFloor(50 / 2);
 BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Blueberry"		TAB 8;
 BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Turnip"			TAB 8;
 BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Apple"			TAB 8;
 BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Mango"			TAB 4;
 BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Chili"			TAB 8;
-BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Cactus"			TAB 8;
+BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Cactus"			TAB 4;
 BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Watermelon"		TAB 4;
 BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Date"			TAB 2;
 BS_BigBuyer.option[BS_BigBuyer.count++ - 1]  = "Peach"			TAB 2;
