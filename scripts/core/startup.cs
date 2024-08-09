@@ -14,6 +14,7 @@ function startLoops()
 	$GamemodeDisplayName = "Framing";
 	infoLoop();
 	loopSaveLots(0);
+	findAllBuyerSpawns();
 }
 
 function stopLoops()
