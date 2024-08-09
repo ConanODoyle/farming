@@ -39,7 +39,11 @@ function botHoleGhostLoop(%idx)
 			%cl = ClientGroup.getObject(%j);
 			%pl = %cl.player;
 
-			if (!isObject(%pl) || vectorDist(%pl.position, %bot.position) > 150)
+			if (%bot.spawnBrick.getName() $= "_bigbuyer")
+			{
+				%bot.scopeToClient(%cl);
+			}
+			else if (!isObject(%pl) || vectorDist(%pl.position, %bot.position) > 150)
 			{
 				%bot.clearScopeToClient(%cl);
 			}
