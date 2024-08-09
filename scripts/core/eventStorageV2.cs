@@ -1011,7 +1011,7 @@ package StorageBricks
 
 	function serverCmdDropTool(%cl, %slot)
 	{
-		if (isObject(%pl = %cl.player))
+		if (isObject(%pl = %cl.player) && !%pl.isDying)
 		{
 			%item = %pl.tool[%slot];
 			%start = %pl.getEyePoint();
