@@ -308,7 +308,7 @@ function servercmdMessageSent(%client,%msg)
 
 				commandToClient(%cl, 'chatMessage', %client, '', '', %all, "<div:1>" @ %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>"); 
 			}
-			else if(trim(%pingUser) !$= "")
+			else if(trim(%pingUser) !$= "" && !%client.pingBanned)
 			{
 				if (strPos(%pingUser, " " @ %cl.getID() @ " ") >= 0)
 				{
