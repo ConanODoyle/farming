@@ -19,9 +19,9 @@ package LotMoving
 	{
 		if (%cl.hasSpawnedOnce)
 		{
-			$Pref::LotMoving::LastOn[%cl.bl_id] = getRealTime();
 			checkFreeLots();
 			unloadEmptyLots();
+			$Pref::LotMoving::LastOn[%cl.bl_id] = getRealTime();
 		}
 		return parent::onDrop(%cl);
 	}
