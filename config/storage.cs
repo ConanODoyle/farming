@@ -130,6 +130,7 @@ $StorageTypeToolsList = $StorageTypeToolsList TAB "BanjoItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "BassItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "BrassItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "ClarinetItem";
+$StorageTypeToolsList = $StorageTypeToolsList TAB "DrumsItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "DrumSticksItem";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "Drums808Item";
 $StorageTypeToolsList = $StorageTypeToolsList TAB "ElectricBassItem";
