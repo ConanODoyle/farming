@@ -29,9 +29,7 @@ function Player::farmingSetItem(%player, %datablock, %slot, %dataID) {
         return 0;
     }
 
-    if (%datablock + 0 == 0) {
-        %datablock = %datablock.getID();
-    }
+    %datablock = %datablock.getID();
 
     %player.tool[%slot] = %datablock;
     %player.toolDataID[%slot] = "";
@@ -55,7 +53,7 @@ function Player::farmingSetItem(%player, %datablock, %slot, %dataID) {
 function Player::getFirstEmptySlot(%player) {
     %maxTools = %player.getDatablock().maxTools;
     for (%i = 0; %i < %maxTools; %i++) {
-        if (!isObject(%player.tool[%i])) {
+        if (%player.tool[%i] == 0) {
             return %i;
         }
     }

@@ -134,7 +134,7 @@ function loadDataIDArray(%aid, %force)
 {
 	if (%aid $= "")
 	{
-		return;
+		return %aid;
 	}
 
 	pruneDataIDArrays();
@@ -493,3 +493,34 @@ function clearDataIDArray(%aid)
 		fileDelete("config/server/DataIDs/" @ %aid @ ".cs");
 	}
 }
+
+
+
+
+
+
+
+package DataIDBadIDDebug
+{
+	function loadDataIDArray(%aid, %force)
+	{
+		if (strlen(%aid) < 6)
+		{
+			talk("Attempting to load bad dataid (" @ %aid @ ")! Please ping Conan, and whoever triggered this message please say what you did in chat");
+			return;
+		}
+		return parent::loadDataIDArray(%aid, %force);
+	}
+	function unloadDataIDArray(%aid)
+	{
+		if (strlen(%aid) < 6)
+		{
+			talk("Attempting to unload bad dataid (" @ %aid @ ")!");
+			popDataID(%aid);
+			deleteVariables("$executedDataID" @ %aid);
+			return;
+		}
+		return parent::unloadDataIDArray(%aid, %force);
+	}
+};
+activatePackage(DataIDBadIDDebug);
