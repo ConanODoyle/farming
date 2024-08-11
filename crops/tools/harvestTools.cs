@@ -393,7 +393,7 @@ function getStatTrakBonusYield(%dataID, %type)
 	{
 		%price = getSellPrice(%type);
 		%bonusCount = 1;
-		if (getCropClass(%type) $= "Tree")
+		if (getCropClass(%type) $= "Tree" && %type !$= "Cactus")
 		{
 			%price = %price / 2;
 			%bonusCount = 2;
