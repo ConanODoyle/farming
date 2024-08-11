@@ -32,6 +32,12 @@ activatePackage(BigBuyerMoving);
 function moveBuyer(%bot)
 {
 	%currSpawn = %bot.spawnBrick;
+	if (!isObject(%currSpawn))
+	{
+		messageAll('', "No spawn brick found for " @ %bot @ "! Report this issue to Conan");
+		return 0;
+	}
+
 	while (%safety++ < 10)
 	{
 		%pick = BigBuyerMover.getObject(getRandom(BigBuyerMover.getCount() - 1));
@@ -54,6 +60,7 @@ function findAllBuyerSpawns()
         if (striPos(%name, "_bigbuyer") == 0 && !BigBuyerMover.isMember(%b))
         {
             BigBuyerMover.add(%b);
+			messageAll('', "    Found big buyer spawn " @ %b);
             %b.setHSpawnClose(1, 0);
         }
     }
@@ -76,6 +83,7 @@ function findAllBuyerSpawns()
 			}
 			continue;
 		}
+		messageAll('', "Spawning big buyer on " @ %pick);
 	    %pick.setHSpawnClose(0, 10000);
     }
 }
