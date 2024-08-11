@@ -185,6 +185,7 @@ function attemptUnloadOldestLot()
 	else
 	{
 		unloadLot(%oldestBLID);
+		talk("Auto unloading " @ ("Brickgroup_" @ %oldestBLID).name @ "'s lot");
 		return 0;
 	}
 }
