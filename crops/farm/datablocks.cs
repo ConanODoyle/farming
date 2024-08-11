@@ -266,6 +266,26 @@ datablock fxDTSBrickData(brickSiloData)
 	cost = 500;
 };
 
+datablock fxDTSBrickData(brickLargeSiloData)
+{
+	category = "Farming";
+	subCategory = "Storage";
+	uiName = "Large Silo";
+	description = "(1 slot, 45x storage, crops only)";
+
+	brickFile = "./bricks/LargeSilo.blb";
+
+	iconName = "Add-Ons/Server_Farming/icons/silo";
+
+	isStorageBrick = 1;
+	storageSlotCount = 1;
+	storageMultiplier = 120;
+	storageType = "Crops";
+	itemStackCount = 0;
+
+	cost = 1100;
+};
+
 datablock fxDTSBrickData(brickLargeToolboxData)
 {
 	category = "Farming";
