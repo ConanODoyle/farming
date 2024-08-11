@@ -7,6 +7,7 @@ datablock fxDTSBrickData(brick4x4DirtData : brick4x4Data)
 	category = "Farming";
 	subCategory = "Dirt";
 	uiName = "4x4 Dirt";
+	description = "(Holds 150 water, 80 nutrients)";
 
 	cost = 10;
 	isDirt = 1;
@@ -20,6 +21,7 @@ datablock fxDTSBrickData(brick8x8DirtData : brick8x8Data)
 	category = "Farming";
 	subCategory = "Dirt";
 	uiName = "8x8 Dirt";
+	description = "(Holds 1200 water, 300 nutrients)";
 
 	cost = 80;
 	isDirt = 1;
@@ -38,6 +40,7 @@ datablock fxDTSBrickData(brickSmallWaterTankData)
 	category = "Farming";
 	subCategory = "Water Tanks";
 	uiName = "Small Water Tank";
+	description = "(Holds 10000 water)";
 
 	brickFile = "./bricks/smallWaterTank.blb";
 
@@ -74,6 +77,7 @@ datablock fxDTSBrickData(brickMediumWaterTankData)
 	category = "Farming";
 	subCategory = "Water Tanks";
 	uiName = "Medium Water Tank";
+	description = "(Holds 50000 water)";
 
 	brickFile = "./bricks/medWaterTank.blb";
 
@@ -93,6 +97,7 @@ datablock fxDTSBrickData(brickLargeWaterTankData)
 	category = "Farming";
 	subCategory = "Water Tanks";
 	uiName = "Large Water Tank";
+	description = "(Holds 100000 water)";
 
 	brickFile = "./bricks/largeWaterTank.blb";
 
@@ -134,6 +139,7 @@ datablock fxDTSBrickData(brickGreenhouseData)
 	category = "Farming";
 	subCategory = "Extra";
 	uiName = "Greenhouse";
+	description = "(/help greenhouse for information)";
 
 	brickFile = "./bricks/Greenhouse.blb";
 
@@ -154,6 +160,7 @@ datablock fxDTSBrickData(brickShopStallData)
 	category = "Farming";
 	subCategory = "Extra";
 	uiName = "Shop Stall";
+	description = "(Put items on sale to other players)";
 
 	brickFile = "./bricks/shopBrick.blb";
 
@@ -182,6 +189,7 @@ datablock fxDTSBrickData(brickGoldIngotData)
 	category = "Farming";
 	subCategory = "Extra";
 	uiName = "Gold Ingot";
+	description = "(Does not block light)";
 
 	brickFile = "./bricks/goldingot.blb";
 
@@ -196,6 +204,7 @@ datablock fxDTSBrickData(brickPergolaData)
 	category = "Farming";
 	subCategory = "Extra";
 	uiName = "Pergola";
+	description = "(Does not block light)";
 
 	brickFile = "./bricks/pergola.blb";
 
@@ -271,7 +280,7 @@ datablock fxDTSBrickData(brickLargeSiloData)
 	category = "Farming";
 	subCategory = "Storage";
 	uiName = "Large Silo";
-	description = "(1 slot, 45x storage, crops only)";
+	description = "(1 slot, 120x storage, crops only)";
 
 	brickFile = "./bricks/LargeSilo.blb";
 
