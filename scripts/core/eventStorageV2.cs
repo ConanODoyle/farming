@@ -974,7 +974,7 @@ package StorageBricks
 	{
 		%storageDataID = %this.eventOutputParameter0_1;
 		if (%this.getDatablock().isStorageBrick
-			|| getWord(getDataIDArrayValue(%storageDataID, 0), 0) $= "info")
+			|| (%this.eventOutput_0 $= "accessStorage" && getWord(getDataIDArrayValue(%storageDataID, 0), 0) $= "info"))
 		{
 			%count = 4;
 			if (%this.getDatablock().storageSlotCount > 0)

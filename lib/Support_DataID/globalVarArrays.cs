@@ -263,6 +263,7 @@ function printDataIDArray(%aid, %skipLoad)
 //reads
 function getDataIDArrayValue(%aid, %slot)
 {
+	if (%aid $= "") return;
 	if ($DataIDDebug) talk("getDataIDArrayValue");
 	%aid = loadDataIDArray(%aid);
 
@@ -279,6 +280,7 @@ function getDataIDArrayValue(%aid, %slot)
 
 function getDataIDArrayTagValue(%aid, %tag)
 {
+	if (%aid $= "") return;
 	if ($DataIDDebug) talk("getDataIDArrayTagValue");
 	%aid = loadDataIDArray(%aid);
 
@@ -287,6 +289,7 @@ function getDataIDArrayTagValue(%aid, %tag)
 
 function getDataIDArrayCount(%aid)
 {
+	if (%aid $= "") return;
 	if ($DataIDDebug) talk("getDataIDArrayCount");
 	%aid = loadDataIDArray(%aid);
 
@@ -297,6 +300,7 @@ function getDataIDArrayCount(%aid)
 
 function indexOfDataIDArray(%aid, %value, %startIndex)
 {
+	if (%aid $= "") return;
 	if ($DataIDDebug) talk("indexOfDataIDArray");
 	%aid = loadDataIDArray(%aid);
 
@@ -314,6 +318,7 @@ function indexOfDataIDArray(%aid, %value, %startIndex)
 
 function getDataIDArrayTags(%aid)
 {
+	if (%aid $= "") return;
 	if ($DataIDDebug) talk("getDataIDArrayTags");
 	%aid = loadDataIDArray(%aid);
 
