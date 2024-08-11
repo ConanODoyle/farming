@@ -201,7 +201,7 @@ function lightRaycastCheck(%pos, %brick)
 	%ray = containerRaycast(%start, %end, %masks, %brick);
 	%light = 1;
 	%greenhouseFound = 0;
-	while (%safety++ < 4)
+	while (%safety++ < 5)
 	{
 		%hit = getWord(%ray, 0);
 		if (!isObject(%hit) || %hit.getGroup().bl_id == 888888)
@@ -261,6 +261,21 @@ function lightRaycastCheck(%pos, %brick)
 	{
 		%light = 0;
 	}
+
+	if (!%greenhouseFound)
+	{
+		%box = "0.01 0.01 0.01";
+		initContainerBoxSearch(%pos, %box, $Typemasks::fxBrickObjectType);
+		while (isObject(%next = containerSearchNext()))
+		{
+			if (%next.dataBlock.isGreenhouse)
+			{
+				%greenhouseFound = 1;
+				break;
+			}
+		}
+	}
+
 
 	return %light SPC %greenhouseFound;
 }
