@@ -139,7 +139,7 @@ datablock fxDTSBrickData(brickGreenhouseData)
 	category = "Farming";
 	subCategory = "Extra";
 	uiName = "Greenhouse";
-	description = "(/help greenhouse for information)";
+	description = "(/help greenhouse for info)";
 
 	brickFile = "./bricks/Greenhouse.blb";
 
@@ -160,7 +160,7 @@ datablock fxDTSBrickData(brickShopStallData)
 	category = "Farming";
 	subCategory = "Extra";
 	uiName = "Shop Stall";
-	description = "(Put items on sale to other players)";
+	description = "(Sell items to other players)";
 
 	brickFile = "./bricks/shopBrick.blb";
 
