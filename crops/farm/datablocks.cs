@@ -180,58 +180,6 @@ datablock fxDTSBrickData(brickShopStallData)
 };
 
 
-///////////////////
-//Money and Decor//
-///////////////////
-
-datablock fxDTSBrickData(brickGoldIngotData)
-{
-	category = "Farming";
-	subCategory = "Extra";
-	uiName = "Gold Ingot";
-	description = "(Does not block light)";
-
-	brickFile = "./bricks/goldingot.blb";
-
-	iconName = "Add-Ons/Server_Farming/icons/Gold_Ingot";
-
-	cost = 15000;
-	customRefundCost = 15000;
-};
-
-datablock fxDTSBrickData(brickPergolaData)
-{
-	category = "Farming";
-	subCategory = "Extra";
-	uiName = "Pergola";
-	description = "(Does not block light)";
-
-	brickFile = "./bricks/pergola.blb";
-
-	iconName = "Add-Ons/Server_Farming/icons/Pergola";
-
-	allowLightThrough = 1;
-	cost = 20;
-	customRefundCost = 20;
-};
-
-datablock fxDTSBrickData(brickScarecrowData)
-{
-	category = "Farming";
-	subCategory = "Extra";
-	uiName = "Scarecrow";
-
-	brickFile = "./bricks/scarecrow.blb";
-
-	iconName = "Add-Ons/Server_Farming/icons/Scarecrow";
-
-	allowLightThrough = 1;
-	cost = 200;
-	customRefundCost = 200;
-	customRadius = 1.95;
-};
-
-
 ///////////
 //Storage//
 ///////////
@@ -313,6 +261,58 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 	itemStackCount = 1;
 
 	cost = 10;
+};
+
+
+///////////////////
+//Money and Decor//
+///////////////////
+
+datablock fxDTSBrickData(brickGoldIngotData)
+{
+	category = "Farming";
+	subCategory = "Extra";
+	uiName = "Gold Ingot";
+	description = "(Does not block light)";
+
+	brickFile = "./bricks/goldingot.blb";
+
+	iconName = "Add-Ons/Server_Farming/icons/Gold_Ingot";
+
+	cost = 15000;
+	customRefundCost = 15000;
+};
+
+datablock fxDTSBrickData(brickPergolaData)
+{
+	category = "Farming";
+	subCategory = "Decor";
+	uiName = "Pergola";
+	description = "(Does not block light)";
+
+	brickFile = "./bricks/pergola.blb";
+
+	iconName = "Add-Ons/Server_Farming/icons/Pergola";
+
+	allowLightThrough = 1;
+	cost = 20;
+	customRefundCost = 20;
+};
+
+datablock fxDTSBrickData(brickScarecrowData)
+{
+	category = "Farming";
+	subCategory = "Decor";
+	uiName = "Scarecrow";
+
+	brickFile = "./bricks/scarecrow.blb";
+
+	iconName = "Add-Ons/Server_Farming/icons/Scarecrow";
+
+	allowLightThrough = 1;
+	cost = 200;
+	customRefundCost = 200;
+	customRadius = 1.95;
 };
 
 
