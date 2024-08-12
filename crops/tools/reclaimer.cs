@@ -3,6 +3,7 @@ datablock ItemData(ReclaimerItem : HammerItem)
 	shapeFile = "./redtools/Reclaimer.dts";
 	iconName = "Add-Ons/Server_Farming/icons/Seed_Reclaimer";
 	uiName = "Seed Reclaimer";
+	canPickupMultiple = true;
 
 	hasDataID = 1;
 	isDataIDTool = 1;

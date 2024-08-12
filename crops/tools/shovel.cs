@@ -6,6 +6,7 @@ datablock ItemData(ShovelItem : HammerItem)
 	colorShiftColor = "0.4 0 0 1";
 	doColorShift = false;
 
+	canPickupMultiple = true;
 	hasDataID = 1;
 	isDataIDTool = 1;
 	
