@@ -213,6 +213,7 @@ datablock fxDTSBrickData(brickSiloData)
 	brickFile = "./bricks/Silo.blb";
 
 	iconName = "Add-Ons/Server_Farming/icons/silo";
+	orientationFix = 2;
 
 	isStorageBrick = 1;
 	storageSlotCount = 1;
@@ -233,6 +234,7 @@ datablock fxDTSBrickData(brickLargeSiloData)
 	brickFile = "./bricks/LargeSilo.blb";
 
 	iconName = "Add-Ons/Server_Farming/icons/silo";
+	orientationFix = 2;
 
 	isStorageBrick = 1;
 	storageSlotCount = 1;
@@ -322,6 +324,7 @@ datablock fxDTSBrickData (brickGarageDoor4xOpenData)
 	
 	isDoor = 1;
 	isOpen = 1;
+	orientationFix = 4;
 	
 	closedCW = "brickGarageDoor4xClosedData";
 	stage1CW = "brickGarageDoor4xHalfOpenData";
@@ -359,6 +362,7 @@ datablock fxDTSBrickData (brickGarageDoor8xOpenData)
 	
 	isDoor = 1;
 	isOpen = 1;
+	orientationFix = 4;
 	
 	closedCW = "brickGarageDoor8xClosedData";
 	stage1CW = "brickGarageDoor8xHalfOpenData";
@@ -396,6 +400,7 @@ datablock fxDTSBrickData (brickGarageDoor12xOpenData)
 	
 	isDoor = 1;
 	isOpen = 1;
+	orientationFix = 4;
 	
 	closedCW = "brickGarageDoor12xClosedData";
 	stage1CW = "brickGarageDoor12xHalfOpenData";
