@@ -33,12 +33,16 @@ $BuyCost_["Shovel"] = 100;
 $BuyCost_["Weed_Cutter"] = 200;
 $BuyCost_["Organic_Analyzer"] = 50;
 
-//Extra stackable items
+//Extra stackable items & currencies
 $BuyCost_["Fertilizer"] = 0.50;
 $BuyCost_["WeedKiller"] = 0.50;
 $BuyCost_["Compost"] = 0.50;
 $BuyCost_["Phosphate"] = 0.50;
 $BuyCost_["Coal"] = 0.50;
+
+$BuyCost_["Tix"] = 0.2;
+$BuyCost_["Bux"] = 2;
+$BuyCost_["FarmiCoin"] = 1000;
 
 //Gems
 $BuyCost_["Sapphire"] = 200;
@@ -101,7 +105,6 @@ $BuyCost_["Large_Compost_Bin"] = 1600;
 
 $BuyCost_["Flower_Pot"] = 100;
 $BuyCost_["Planter_Box"] = 300;
-
 
 
 
