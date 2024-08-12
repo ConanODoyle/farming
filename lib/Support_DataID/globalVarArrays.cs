@@ -512,6 +512,8 @@ package DataIDBadIDDebug
 		if (strlen(%aid) < 6)
 		{
 			talk("Attempting to load bad dataid (" @ %aid @ ")! Please ping Conan, and whoever triggered this message please say what you did in chat");
+			trace(1);
+			schedule(2, 0, trace, 0);
 			return;
 		}
 		return parent::loadDataIDArray(%aid, %force);
