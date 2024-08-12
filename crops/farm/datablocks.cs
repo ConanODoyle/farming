@@ -216,6 +216,7 @@ datablock fxDTSBrickData(brickStorageCratePrintData : brickStorageCrateData)
 
 	hasPrint = 1;
 	printAspectRatio = "2x2f";
+	orientationFix = 1;
 
 	cost = 90;
 };
