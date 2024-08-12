@@ -89,6 +89,7 @@ $isDonator_["266017"]	= 1 TAB "Guero";
 $isDonator_["214703"]	= 1 TAB "Ellie the Collie";
 $isDonator_["35084"]	= 1 TAB "Spoofus";
 $isDonator_["25412"]	= 1 TAB "Rose the Floran insane tier";
+$isDonator_["262936"]	= 1 TAB "Pickled (gifted by rose)";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
