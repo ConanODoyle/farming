@@ -7,6 +7,7 @@ datablock ItemData(UpgradeToolItem : HammerItem)
 	colorShiftColor = "0.4 0 0 1";
 	doColorShift = false;
 
+	canPickupMultiple = true;
 	isRepairTool = 1;
 
 	iconName = "Add-ons/Server_Farming/icons/upgradetool";

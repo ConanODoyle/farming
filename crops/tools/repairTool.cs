@@ -9,6 +9,7 @@ datablock ItemData(RepairToolItem : HammerItem)
 
 	hasDataID = 1;
 	isDataIDTool = 1;
+	canPickupMultiple = true;
 
 	isRepairTool = 1;
 
