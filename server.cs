@@ -8,6 +8,7 @@ exec("./lib/NewBrickToolOverride.cs");
 exec("./lib/NewPaintCanOverride.cs");
 exec("./lib/disableMinigameCreation.cs");
 exec("./lib/disableMountSound.cs");
+exec("./lib/Support_StagedDoors.cs");
 exec("./lib/Support_StackableItems.cs");
 exec("./lib/Support_GiveItems.cs");
 exec("./lib/Support_BrickProcessors.cs");
