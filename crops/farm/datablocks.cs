@@ -315,6 +315,117 @@ datablock fxDTSBrickData(brickScarecrowData)
 	customRadius = 1.95;
 };
 
+datablock fxDTSBrickData (brickGarageDoor4xOpenData)
+{
+	brickFile = "./bricks/GarageDoor4xOpen.blb";
+	uiName = "Farming Garage Door 4x";
+	
+	isDoor = 1;
+	isOpen = 1;
+	
+	closedCW = "brickGarageDoor4xClosedData";
+	stage1CW = "brickGarageDoor4xHalfOpenData";
+	stage1CWTime = 200;
+	openCW = "brickGarageDoor4xOpenData";
+	
+	closedCCW = "brickGarageDoor4xClosedData";
+	stage1CCW = "brickGarageDoor4xHalfOpenData";
+	stage1CCWTime = 200;
+	openCCW = "brickGarageDoor4xOpenData";
+	
+	orientationFix = 1;
+};
+
+datablock fxDTSBrickData (brickGarageDoor4xHalfOpenData : brickGarageDoor4xOpenData)
+{
+	brickFile = "./bricks/GarageDoor4xHalfOpen.blb";
+
+	isOpen = 1;
+};
+
+datablock fxDTSBrickData (brickGarageDoor4xClosedData : brickGarageDoor4xOpenData)
+{
+	brickFile = "./bricks/GarageDoor4xClosed.blb";
+	category = "Special";
+	subCategory = "Doors";
+	
+	isOpen = 0;
+};
+
+datablock fxDTSBrickData (brickGarageDoor8xOpenData)
+{
+	brickFile = "./bricks/GarageDoor8xOpen.blb";
+	uiName = "Farming Garage Door 8x";
+	
+	isDoor = 1;
+	isOpen = 1;
+	
+	closedCW = "brickGarageDoor8xClosedData";
+	stage1CW = "brickGarageDoor8xHalfOpenData";
+	stage1CWTime = 200;
+	openCW = "brickGarageDoor8xOpenData";
+	
+	closedCCW = "brickGarageDoor8xClosedData";
+	stage1CCW = "brickGarageDoor8xHalfOpenData";
+	stage1CCWTime = 200;
+	openCCW = "brickGarageDoor8xOpenData";
+	
+	orientationFix = 1;
+};
+
+datablock fxDTSBrickData (brickGarageDoor8xHalfOpenData : brickGarageDoor8xOpenData)
+{
+	brickFile = "./bricks/GarageDoor8xHalfOpen.blb";
+
+	isOpen = 1;
+};
+
+datablock fxDTSBrickData (brickGarageDoor8xClosedData : brickGarageDoor8xOpenData)
+{
+	brickFile = "./bricks/GarageDoor8xClosed.blb";
+	category = "Special";
+	subCategory = "Doors";
+	
+	isOpen = 0;
+};
+
+datablock fxDTSBrickData (brickGarageDoor12xOpenData)
+{
+	brickFile = "./bricks/GarageDoor12xOpen.blb";
+	uiName = "Farming Garage Door 12x";
+	
+	isDoor = 1;
+	isOpen = 1;
+	
+	closedCW = "brickGarageDoor12xClosedData";
+	stage1CW = "brickGarageDoor12xHalfOpenData";
+	stage1CWTime = 200;
+	openCW = "brickGarageDoor12xOpenData";
+	
+	closedCCW = "brickGarageDoor12xClosedData";
+	stage1CCW = "brickGarageDoor12xHalfOpenData";
+	stage1CCWTime = 200;
+	openCCW = "brickGarageDoor12xOpenData";
+	
+	orientationFix = 1;
+};
+
+datablock fxDTSBrickData (brickGarageDoor12xHalfOpenData : brickGarageDoor12xOpenData)
+{
+	brickFile = "./bricks/GarageDoor12xHalfOpen.blb";
+
+	isOpen = 1;
+};
+
+datablock fxDTSBrickData (brickGarageDoor12xClosedData : brickGarageDoor12xOpenData)
+{
+	brickFile = "./bricks/GarageDoor12xClosed.blb";
+	category = "Special";
+	subCategory = "Doors";
+	
+	isOpen = 0;
+};
+
 
 //////////////////
 //Quest Cabinets//
