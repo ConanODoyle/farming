@@ -123,6 +123,12 @@ datablock ShapeBaseImageData(FarmicoinImage : Tix0Image)
 };
 
 
+function Tix0Item::onAdd(%this, %item) { Parent::onAdd(%this, %item); %item.rotate = 1;}
+function Tix1Item::onAdd(%this, %item) { Parent::onAdd(%this, %item); %item.rotate = 1;}
+function Bux0Item::onAdd(%this, %item) { Parent::onAdd(%this, %item); %item.rotate = 1;}
+function Bux1Item::onAdd(%this, %item) { Parent::onAdd(%this, %item); %item.rotate = 1;}
+function FarmicoinItem::onAdd(%this, %item) { Parent::onAdd(%this, %item); %item.rotate = 1;}
+
 function Tix0Image::onLoop(%this, %obj, %slot)
 {
 	tixLoop(%this, %obj);
