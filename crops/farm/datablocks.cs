@@ -203,6 +203,23 @@ datablock fxDTSBrickData(brickStorageCrateData)
 	cost = 80;
 };
 
+datablock fxDTSBrickData(brickStorageCratePrintData : brickStorageCrateData)
+{
+	category = "Farming";
+	subCategory = "Storage";
+	uiName = "Storage Crate Print";
+	description = "(4 slots, has print)";
+
+	brickFile = "./bricks/storageCratePrint.blb";
+
+	iconName = "Add-Ons/Server_Farming/icons/storage_crate";
+
+	hasPrint = 1;
+	printAspectRatio = "2x2f";
+
+	cost = 90;
+};
+
 datablock fxDTSBrickData(brickSiloData)
 {
 	category = "Farming";
