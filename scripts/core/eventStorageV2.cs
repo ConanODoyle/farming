@@ -633,6 +633,14 @@ function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
 	{
 		%storageObj = %brick;
 	}
+	
+	//we need to close the menu they had open
+	if(isEventPending(%cl.storageSchedule))
+	{
+		%cl.isInCenterprintMenu = false;
+		storageLoop(%cl, %cl.lastStorageObj);
+	}
+	
 	%brick.storageObj = %storageObj;
 
 	%brick.updateStorageMenu(%dataID);
@@ -702,6 +710,7 @@ function storageLoop(%cl, %obj)
 	}
 
 	%cl.displayCenterprintMenu(0);
+	%cl.lastStorageObj = %obj;
 
 	%cl.storageSchedule = schedule(200, %cl, storageLoop, %cl, %obj);
 }
