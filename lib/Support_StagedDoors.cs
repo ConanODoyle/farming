@@ -55,8 +55,8 @@ function StagedDoors_nextStage(%obj, %direction, %ccw)
 	%db = %obj.dataBlock;
 	%ccwString = %ccw ? "CCW" : "CW";
 	%index = %obj.stageIndex + %direction;
-	%nextDB = %db.stage[%index, %ccw];
-	%time = %db.stage[%index, %ccw, "Time"] > 95 ? %db.stage[%index, %ccw, "Time"] : 95;
+	%nextDB = %db.stage[%index @ %ccwString];
+	%time = %db.stage[%index @ %ccwString @ "Time"] > 95 ? %db.stage[%index @ %ccwString @ "Time"] : 95;
 
 	if (!isObject(%nextDB))
 	{
@@ -73,6 +73,6 @@ function StagedDoors_nextStage(%obj, %direction, %ccw)
 
 	if (!%break)
 	{
-		%obj.nextStageSchedule = schedule(%time, %obj, "StagedDoors_nextStage", %direction, %ccw);
+		%obj.nextStageSchedule = schedule(%time, %obj, "StagedDoors_nextStage", %obj, %direction, %ccw);
 	}
 }
