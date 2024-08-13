@@ -19,7 +19,7 @@ function CanImage::onFire(%this, %obj, %slot)
 		%obj.toolStackCount[%obj.currTool]--;
 
 		%stackType = %this.item.stackType;
-		%bestItem = getStacktypeDatablock(%stackType, %obj.toolStackCount[%obj.currTool]);
+		%bestItem = getStackTypeDatablock(%stackType, %obj.toolStackCount[%obj.currTool]);
 
 		%obj.tool[%obj.currTool] = %bestItem.getID();
 		messageClient(%obj.client, 'MsgItemPickup', '', %obj.currTool, %bestItem.getID());
