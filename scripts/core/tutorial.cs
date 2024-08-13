@@ -25,6 +25,18 @@ registerInfo("Bus stops let you travel for just $0.50! Click the destination she
 registerInfo("New to farming? Start with potatoes and carrots!");
 registerInfo("Join the Discord here: <a:https://discord.gg/R3R3Vfj>https://discord.gg/R3R3Vfj");
 
+package TutorialTrigger
+{
+	function serverCmdMessageSent(%cl, %msg)
+	{
+		if (%msg $= "[ TIP ] If you needed a helpful tip bot, do not read this message.")
+		{
+			infoLoop();
+		}
+		return parent::serverCmdMessageSent(%cl, %msg);
+	}
+};
+activatePackage(TutorialTrigger);
 
 
 //tutorial
