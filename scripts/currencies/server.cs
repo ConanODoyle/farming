@@ -111,6 +111,9 @@ datablock ItemData(FarmicoinItem : Tix0Item)
 	image = "FarmicoinImage";
 	uiName = "Farmicoin";
 
+	stackType = "";
+	canPickupMultiple = 1;
+
 	isStackable = 0;
 };
 
@@ -118,6 +121,8 @@ datablock ShapeBaseImageData(FarmicoinImage : Tix0Image)
 {
 	shapeFile = "./resources/coin.dts";
 	item = "FarmicoinItem";
+
+	offset = "0 0.4 0";
 	
 	toolTip = "Community goal reward currency";
 };
