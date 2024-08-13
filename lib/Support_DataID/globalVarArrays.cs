@@ -140,6 +140,14 @@ function loadDataIDArray(%aid, %force)
 	pruneDataIDArrays();
 
 	%aid = getSafeDataIDArrayName(%aid);
+	
+	if(%aid $= "")
+	{
+		talk("DATAID ERROR: loadDataIDArray has empty %aid, check backtrace");
+		backTrace();
+		return;
+	}
+	
 	if (!isDataIDLoaded(%aid) || %force)
 	{
 		if ($DataIDDebug) talk("loadDataIDArray");
@@ -165,6 +173,14 @@ function saveDataIDArray(%aid, %force)
 	if ($DataIDDebug) talk("saveDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
 	if ($DataIDEcho) echo("DataID: Saving " @ %aid SPC getDateTime());
+
+	if(%aid $= "")
+	{
+		talk("DATAID ERROR: saveDataIDArray has empty %aid, check backtrace");
+		backTrace();
+		return;
+	}
+
 	export("$DataID_" @ %aid @ "*", "config/server/DataIDs/" @ %aid @ ".cs");
 	return %aid;
 }
@@ -174,6 +190,14 @@ function unloadDataIDArray(%aid)
 	if ($DataIDDebug) talk("unloadDataIDArray");
 	%aid = getSafeDataIDArrayName(%aid);
 	if ($DataIDEcho) echo("DataID: Unloading " @ %aid);
+
+	if(%aid $= "")
+	{
+		talk("DATAID ERROR: unloadDataIDArray has empty %aid, check backtrace");
+		backTrace();
+		return;
+	}
+
 	if (!isDataIDLoaded(%aid))
 	{
 		return;
