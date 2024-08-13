@@ -1,7 +1,8 @@
-$DailyItemCount = 100; //multiply by price
+
 
 function generateRequirements(%dataID, %numTypes, %table)
 {
+	setDataIDArrayCount(%dataID, %numTypes);
 	for (%i = 0; %i < %numTypes; %i++)
 	{
 		//tables taken from config/quests.cs
@@ -12,13 +13,13 @@ function generateRequirements(%dataID, %numTypes, %table)
 			%pick = getField(%table.option[getRandom(%count - 1)], 0);
 		}
 		%picked[%pick] = 1;
-		addDataIDArrayValue(%dataID, %i, %pick);
+		addToDataIDArray(%dataID, %pick);
 		setDataIDArrayTagValue(%dataID, %pick, 1);
 	}
-	echo("Generated requirements " @ %numTypes @ " for " @ %dataID);
+	echo("Generated " @ %numTypes @ " requirements for " @ %dataID);
 }
 
-function addCropProgressToGoal(%dataID, %cl, %crop, %amt)
+function addCropProgressForGoal(%dataID, %cl, %crop, %amt)
 {
 	%blid = %cl.bl_id;
 	if (getDataIDArrayTagValue(%dataID, %crop) != 1)
@@ -30,19 +31,33 @@ function addCropProgressToGoal(%dataID, %cl, %crop, %amt)
 	setDataIDArrayTagValue(%dataID, %tag, %currCount + %amt);
 }
 
-function grantGoalReward(%cl, %rewardList)
+function getCropProgressForGoal(%dataID, %cl, %crop)
 {
+	%blid = %cl.bl_id;
+	if (getDataIDArrayTagValue(%dataID, %crop) != 1)
+	{
+		return -1;
+	}
+	%tag = "Progress_" @ %blid @ "_" @ %crop;
+	return getDataIDArrayTagValue(%dataID, %tag) + 0;
+}
+
+function grantGoalReward(%cl, %rewardList, %sourceID)
+{
+	if (!isObject(%player = %cl.player))
+	{
+		commandToClient(%cl, 'MessageBoxOK', "Can't grant reward!", "You need to be spawned to redeem this reward!");
+		return 0;
+	}
 	%packageDataID = "DailyPackage_" @ getRandomHash("dailypackage");
 	
-	%numRewards = getDataIDArrayTagValue(%questID, "numRewards");
-	for (%i = 0; %i < %numRewards; %i++) {
-		%reward = getDataIDArrayValue(%questID, %i);
+	for (%i = 0; %i < getFieldCount(%rewardList); %i++)
+	{
+		%reward = getField(%rewardList, %i);
+
 		addToPackageArray(%packageDataID, %reward);
 	}
-
-	%cashReward = getDataIDArrayTagValue(%questID, "cashReward");
-	addToPackageArray(%packageDataID, "cashReward" SPC %cashReward);
-	//TODO: Mailbox dropoff
-	createPackage(%packageDataID, %player, %player.position, %questID);
-
+	
+	%package = createPackage(%packageDataID, %player, %player.position, %sourceID);
+	return 1 SPC %package;
 }
