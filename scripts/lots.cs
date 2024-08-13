@@ -423,9 +423,6 @@ package lotBuild
 	}
 };
 schedule(1000, 0, activatePackage, lotBuild);
-schedule(2000, 0, deactivatePackage, Support_CenterprintMenuSystemPackage);
-schedule(2100, 0, activatePackage, Support_CenterprintMenuSystemPackage);
-
 
 
 
