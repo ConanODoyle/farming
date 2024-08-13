@@ -63,7 +63,7 @@ package Processors
 			%i.setTransform(%this.getTransform());
 			%i.setVelocity("0 0 4");
 			MissionCleanup.add(%i);
-			%i.schedule(60000, schedulePop);
+			%i.schedule($Game::Item::PopTime, schedulePop);
 		}	
 		return parent::onDeath(%this, %obj);
 	}
