@@ -29,9 +29,9 @@ package TutorialTrigger
 {
 	function serverCmdMessageSent(%cl, %msg)
 	{
-		if (%msg $= "[ TIP ] If you needed a helpful tip bot, do not read this message.")
+		if (stripos(%msg, "If you needed a helpful tip bot,") >= 0)
 		{
-			infoLoop();
+			schedule(1, 0, infoLoop);
 		}
 		return parent::serverCmdMessageSent(%cl, %msg);
 	}
