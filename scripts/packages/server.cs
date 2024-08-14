@@ -243,7 +243,7 @@ function addToPackageArray(%packageID, %o)
     return %packageID;
 }
 
-function createPackage(%packageID, %player, %pos, %questID)
+function createPackage(%packageID, %player, %pos, %sourceID)
 {
     if (%pos $= "" && isObject(%player))
     {
@@ -251,7 +251,7 @@ function createPackage(%packageID, %player, %pos, %questID)
     }
     setDataIDArrayTagValue(%packageID, "isPackage", 1);
     setDataIDArrayTagValue(%packageID, "grantedTo", %player.client.bl_id);
-    setDataIDArrayTagValue(%packageID, "questID", %questID);
+    setDataIDArrayTagValue(%packageID, "sourceID", %sourceID);
 
     %item = new Item() {
         dataBlock = ShippingPackageItem;

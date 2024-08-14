@@ -18,7 +18,7 @@ function getMaxStack(%stackType)
 	return getWord($Stackable_[%stackType, "stackedItem" @ %idxMax - 1], 1);
 }
 
-function getStacktypeDatablock(%stackType, %count)
+function getStackTypeDatablock(%stackType, %count)
 {
 	%last = "-1";
 	for (%i = 0; %i < $Stackable_[%stackType, "stackedItemTotal"]; %i++)
@@ -193,7 +193,7 @@ function pickupStackableItem(%pl, %item, %slot, %amt)
 
 	%pl.toolStackCount[%slot] += %amt;
 	//figure out which item to give to the player
-	%bestItem = getStacktypeDatablock(%type, %pl.toolStackCount[%slot]);
+	%bestItem = getStackTypeDatablock(%type, %pl.toolStackCount[%slot]);
 
 	// talk(%bestItem.getID() @ " vs " @ %pl.tool[%slot]);
 	if (!isObject(%bestItem))
@@ -237,7 +237,7 @@ function pickupStackableItem(%pl, %item, %slot, %amt)
 	else
 	{
 		//figure out which itemDB to set the dropped item to
-		%bestItem = getStacktypeDatablock(%type, %item.count);
+		%bestItem = getStackTypeDatablock(%type, %item.count);
 
 		if (isObject(%bestItem))
 		{
@@ -442,7 +442,7 @@ function checkGroupStackable(%item, %times)
 
 	if (%countChanged)
 	{
-		%item.setDatablock(getStacktypeDatablock(%stackType, %item.count));
+		%item.setDatablock(getStackTypeDatablock(%stackType, %item.count));
 		%p = new Projectile() {
 			dataBlock = deathProjectile;
 			scale = "0.2 0.2 0.2";
@@ -456,6 +456,89 @@ function checkGroupStackable(%item, %times)
 	}
 
 	schedule(1000, %item, checkGroupStackable, %item, %times++);
+}
+
+function Player::getStackableItemTotal(%player, %stackType)
+{
+	if (!isStackType(%stackType))
+	{
+		%stackType = %stackType.stackType;
+		if (!isStackType(%stackType))
+		{
+			return 0;
+		}
+	}
+
+	%total = 0;
+	for (%i = 0; %i < %player.dataBlock.maxTools; %i++)
+	{
+		%tool = %player.tool[%i];
+		%type = %tool.stackType;
+		if (!%tool.isStackable || %type !$= %stackType)
+		{
+			continue;
+		}
+		%total += %player.toolStackCount[%i];
+	}
+	return %total;
+}
+
+function Player::removeStackableItemTotal(%player, %stackType, %count)
+{
+	if (!isStackType(%stackType))
+	{
+		%stackType = %stackType.stackType;
+		if (!isStackType(%stackType))
+		{
+			return 0;
+		}
+	}
+
+	if (%count <= 0 || %player.getStackableItemTotal(%stackType) < %count)
+	{
+		return 0;
+	}
+
+	for (%i = 0; %i < %player.dataBlock.maxTools; %i++)
+	{
+		%tool = %player.tool[%i];
+		%type = %tool.stackType;
+		if (!%tool.isStackable || %type !$= %stackType)
+		{
+			continue;
+		}
+		%delta = getMin(%player.toolStackCount[%i], %count);
+		%count -= %delta;
+		%player.toolStackCount[%i] -= %delta;
+
+		if (%player.toolStackCount[%i] <= 0)
+		{
+			%player.tool[%i] = 0;
+			%player.toolStackCount[%i] = 0;
+			messageClient(%player.client, 'MsgItemPickup', "", %i, 0);
+			if (%player.currTool == %i)
+			{
+				serverCmdUnUseTool(%player.client);
+			}
+		}
+		else
+		{
+			%db = getStackTypeDatablock(%stackType, %player.toolStackCount[%i]).getID();
+			%player.tool[%i] = %db;
+			messageClient(%player.client, 'MsgItemPickup', "", %i, %db);
+			if (%player.currTool == %i)
+			{
+				serverCmdUnUseTool(%player.client);
+				serverCmdUseTool(%player.client, %i);
+			}
+		}
+
+		if (%count <= 0)
+		{
+			break;
+		}
+	}
+	return 1;
 }
 
 

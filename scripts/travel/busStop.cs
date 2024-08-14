@@ -53,6 +53,21 @@ function findAllBusStops(%idx)
 
     if (%i >= Brickgroup_888888.getCount())
     {
+        $BusStopSimSet.bringToFront(_busstopZUH);
+        $BusStopSimSet.bringToFront(_busstopHUH);
+        $BusStopSimSet.bringToFront(_busstopTOW);
+        $BusStopSimSet.bringToFront(_busstopDES);
+        $BusStopSimSet.bringToFront(_busstopWTF);
+        $BusStopSimSet.bringToFront(_busstopHTP);
+        $BusStopSimSet.bringToFront(_busstopFOR);
+        $BusStopSimSet.bringToFront(_busstopMIN);
+        $BusStopSimSet.bringToFront(_busstopTRW);
+        $BusStopSimSet.bringToFront(_busstopLSS);
+        $BusStopSimSet.bringToFront(_busstopOFL);
+        $BusStopSimSet.bringToFront(_busstopFTP);
+        $BusStopSimSet.bringToFront(_busstopCFP);
+        $BusStopSimSet.bringToFront(_busstopCTF);
+        $BusStopSimSet.bringToFront(_busstopPKT);
         $foundAllBusStops = 1;
         return;
     }

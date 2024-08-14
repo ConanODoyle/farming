@@ -37,7 +37,7 @@ datablock ShapeBaseImageData(Tix0Image)
 
 	offset = "";
 
-	toolTip = "Tree crop quest reward currency";
+	toolTip = "Crop quest reward currency";
 
 	stateName[0] = "Activate";
 	stateTransitionOnTimeout[0] = "LoopA";
@@ -65,6 +65,8 @@ datablock ShapeBaseImageData(Tix1Image : Tix0Image)
 {
 	shapeFile = "./resources/tixstack.dts";
 	item = "Tix1Item";
+
+	offset = "-0.04 0.212 0";
 };
 
 
@@ -84,7 +86,7 @@ datablock ShapeBaseImageData(Bux0Image : Tix0Image)
 	shapeFile = "./resources/bux.dts";
 	item = "Bux0Item";
 	
-	toolTip = "Crop quest reward currency";
+	toolTip = "Tree crop quest reward currency";
 };
 
 datablock ItemData(Bux1Item : Bux0Item)
@@ -98,8 +100,10 @@ datablock ShapeBaseImageData(Bux1Image : Bux0Image)
 {
 	shapeFile = "./resources/buxstack.dts";
 	item = "Bux1Item";
+
+	offset = "-0.04 0.212 0";
 	
-	toolTip = "Crop quest reward currency";
+	toolTip = "Tree crop quest reward currency";
 };
 
 
@@ -111,6 +115,9 @@ datablock ItemData(FarmicoinItem : Tix0Item)
 	image = "FarmicoinImage";
 	uiName = "Farmicoin";
 
+	stackType = "";
+	canPickupMultiple = 1;
+
 	isStackable = 0;
 };
 
@@ -118,6 +125,8 @@ datablock ShapeBaseImageData(FarmicoinImage : Tix0Image)
 {
 	shapeFile = "./resources/coin.dts";
 	item = "FarmicoinItem";
+
+	offset = "0 0.4 0";
 	
 	toolTip = "Community goal reward currency";
 };
