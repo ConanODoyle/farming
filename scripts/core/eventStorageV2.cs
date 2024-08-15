@@ -960,6 +960,11 @@ package StorageBricks
 			%this.centerprintMenu.delete();
 		}
 
+		if (%this.eventOutput0 !$= "accessStorage")
+		{
+			return;
+		}
+
 		%storageDataID = %this.eventOutputParameter0_1;
 		if (%this.getDatablock().isStorageBrick
 			|| getWord(getDataIDArrayValue(%storageDataID, 0), 0) $= "info")
