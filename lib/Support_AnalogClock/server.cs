@@ -70,8 +70,25 @@ function loopApplyDateTime(%clock)
 		{
 			playClockThread($ClockSimSet.getObject(%i), %currTime, $smoothClock);
 		}
+		onClockMinuteChange(%hr, %min);
+
+		if (%min == 00)
+		{
+			onClockHourChange(%hr, %min);
+		}
 		%time = 50000;
 	}
+
 	
 	$loopApplyDateTimeSchedule = schedule(%time, 0, loopApplyDateTime, %clock);
+}
+
+function onClockHourChange(%hr, %min)
+{
+	return;
+}
+
+function onClockMinuteChange(%hr, %min)
+{
+	return;
 }
