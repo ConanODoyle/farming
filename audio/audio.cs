@@ -371,7 +371,7 @@ datablock AudioProfile(BusSound)
 	uiName = "Bus";
 };
 
-datablock AudioProfile(AudioInfRange3d : AudioDefault3d)
+datablock AudioDescription(AudioInfRange3d : AudioDefault3d)
 {
 	maxDistance = 1000000;
 	referenceDistance = 50;
