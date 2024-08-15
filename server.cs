@@ -28,6 +28,7 @@ exec("./lib/Server_IPBanning.cs");
 
 exec("./lib/Support_DataID/server.cs");
 exec("./lib/Support_ShapeLinesV2/server.cs");
+exec("./lib/Support_AnalogClock/server.cs");
 exec("./lib/Emote_Heal/server.cs");
 exec("./lib/Bignum/server.cs");
 // exec("./lib/Support_GasMod/server.cs");
