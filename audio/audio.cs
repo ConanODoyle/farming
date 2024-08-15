@@ -371,12 +371,18 @@ datablock AudioProfile(BusSound)
 	uiName = "Bus";
 };
 
+datablock AudioProfile(AudioInfRange3d : AudioDefault3d)
+{
+	maxDistance = 1000000;
+	referenceDistance = 50;
+};
+
 datablock AudioProfile(BellSound)
 {
 	filename = "./bell.wav";
-	description = AudioDefault3d;
+	description = AudioInfRange3d;
 	preload = true;
-	uiName = "Bus";
+	uiName = "Bell";
 };
 
 
