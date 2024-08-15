@@ -83,8 +83,23 @@ function loopApplyDateTime(%clock)
 	$loopApplyDateTimeSchedule = schedule(%time, 0, loopApplyDateTime, %clock);
 }
 
+$clockTowerPos = "-605 -930 64";
 function onClockHourChange(%hr, %min)
 {
+	if (isObject(BellSound))
+	{
+		%hr = %hr % 12;
+		if (%hr == 0)
+		{
+			%hr = 12;
+		}
+		
+		for (%i = 0; %i < %hr; %i++)
+		{
+			schedule(%i * 2000, 0, serverPlay3d, BellSound, $clockTowerPos);
+			serverPlay3d(BellSound, $clockTowerPos);
+		}
+	}
 	return;
 }
 
