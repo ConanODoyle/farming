@@ -371,6 +371,14 @@ datablock AudioProfile(BusSound)
 	uiName = "Bus";
 };
 
+datablock AudioProfile(BellSound)
+{
+	filename = "./bell.wav";
+	description = AudioDefault3d;
+	preload = true;
+	uiName = "Bus";
+};
+
 
 
 
