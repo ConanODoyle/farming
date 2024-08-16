@@ -533,7 +533,7 @@ function serverCmdLoadLot(%cl, %rotation)
 	serverCmdBuyLot(%cl, %rotation);
 }
 
-function serverCmdBuyLot(%cl, %rotation)
+function serverCmdBuyLot(%cl, %rotationOriginal)
 {
 	if (!isObject(%pl = %cl.player))
 	{
@@ -542,7 +542,7 @@ function serverCmdBuyLot(%cl, %rotation)
 	}
 	%load = hasLoadedLot(%cl.bl_id);
 
-	%rotation = %rotation | 0;
+	%rotation = %rotationOriginal | 0;
 
 	%start = %cl.player.getHackPosition();
 	%end = vectorAdd(%start, "0 0 -10");
@@ -600,7 +600,7 @@ function serverCmdBuyLot(%cl, %rotation)
 		if (hasSavedLot(%cl.bl_id) && !hasLoadedLot(%cl.bl_id))
 		{
 			messageClient(%cl, '', "\c5Are you sure you want to load your lot here? Repeat /loadLot to confirm.");
-			if (%rotation $= "")
+			if (%rotationOriginal $= "")
 			{
 				messageClient(%cl, '', "\c5You can rotate your lot by any number of 90 degree counterclockwise turns with /loadLot [rotation].");
 			}
