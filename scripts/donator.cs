@@ -154,7 +154,7 @@ function applyDonatorSettings(%cl)
 	%cl.canWearHats = 1;
 	%cl.canRefreshDeal = 1;
 
-	if (%cl.name !$= "The Titanium" && !%cl.name $= "Avem" && %cl.name !$= "Conan")
+	if (%cl.name !$= "The Titanium" && %cl.name !$= "Avem" && %cl.name !$= "Conan")
 	{
 		%cl.isDonator = 1;
 		%cl.shapeNameColor = "0.95 0.85 0";
