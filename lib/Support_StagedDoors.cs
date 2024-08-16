@@ -68,7 +68,15 @@ function StagedDoors_nextStage(%obj, %direction, %ccw)
 		%break = 1;
 	}
 
-	%obj.setDoorDataBlock(%nextDB);
+
+	if (isObject(%nextDB))
+	{
+		%obj.setDoorDataBlock(%nextDB);
+	}
+	else
+	{
+		error("Can't find next door datablock (db:" @ %db @ " dir:" @ %direction @ " ccw:" @ %ccw @ ")");
+	}
 	%obj.stageIndex = %index;
 
 	if (!%break)
