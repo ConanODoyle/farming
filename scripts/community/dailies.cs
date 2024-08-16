@@ -6,8 +6,28 @@ function dailyRefreshSchedule()
 	cancel($dailyRefreshSchedule);
 
 	%timeLeft = getDailyTimeLeft();
+	%timeLeftMS = getField(%timeLeft, 1);
+	%timeLeftReadable = getField(%timeLeft, 0);
 
-	$dailyRefreshSchedule = schedule(300000, 0, dailyRefreshSchedule);
+	$time = 600000;
+	if (%timeLeft > %timeLeftMS)
+	{
+		%time = getMax(%timeLeft / 2, 60000);
+	}
+
+	%nowDay = getWord(getDateTime(), 0);
+	if ($lastDay !$= %nowDay)
+	{
+		generateDailyGoal();
+		AIConsole.name = "Challenge Manager";
+		AIConsole.bl_id = ":trophy:";
+		talk("A new daily goal has been issued! Use /dailyProgress to see your progress.");;
+		AIConsole.name = "Console";
+		AIConsole.bl_id = ":robot:";
+	}
+
+	$lastDay = %nowDay;
+	$dailyRefreshSchedule = schedule(%timeLeft, 0, dailyRefreshSchedule);
 }
 
 function generateDailyGoal()
@@ -65,6 +85,11 @@ function checkDailyGoalProgress(%dataID, %cl)
 	return 1;
 }
 
+function serverCmdDailyProgress(%cl)
+{
+	displayDailyProgress(%cl);
+}
+
 function displayDailyProgress(%cl)
 {
 	%title = "Daily Progress " @ getWord(getDateTime(), 0);
@@ -74,15 +99,24 @@ function displayDailyProgress(%cl)
 
 	%text = %header @ "Time left: " @ getField(getDailyTimeLeft(), 0) @ "\n\n";
 
-	%text = %text @ "Progress:";
+	%text = %text @ "Progress:" @ %body;;
 	for (%i = 0; %i < $numDailyRequirements; %i++)
 	{
-		%required = getDataIDArrayValue($CurrDailyGoalID, %i);
-		%amount = getDailyGoalCropRequirement(%required);
-		%completed = getCropProgressForGoal($CurrDailyGoalID, %cl, %required);
+		%requiredType = getDataIDArrayValue($CurrDailyGoalID, %i);
+		%amount = getDailyGoalCropRequirement(%requiredType);
+		%completed = getCropProgressForGoal($CurrDailyGoalID, %cl, %requiredType);
+		if (%amount > %completed)
+		{
+			%finished++;
+		}
 		%suffix = %amount > %completed ? "" : "\xab";
 		%prefix = %amount > %completed ? "" : "\xbb";
-		%text = %text @ "\n" @ %body @ (%required) @ ": " @ %prefix SPC %completed @ " / " @ %amount SPC %suffix;
+		%text = %text @ "\n" @ %requiredType @ ": " @ %prefix SPC %completed @ " / " @ %amount SPC %suffix;
+	}
+
+	if (%finished == $numDailyRequirements)
+	{
+		%text = %text @ "\n\n""You have completed the daily goal! Go to the clock tower at HTP to claim your reward!";
 	}
 	%cl.messageBoxOKLong(%title, %text);
 }
