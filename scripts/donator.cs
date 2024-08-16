@@ -94,6 +94,7 @@ $isDonator_["265729"]	= 1 TAB "Jacket The Cat (gifted by rose)";
 $isDonator_["222"]		= 1 TAB "Bathory (gifted by Flavored)";
 $isDonator_["104794"]	= 1 TAB "EDit232 (gifted by Flavored)";
 $isDonator_["2143"]		= 1 TAB "Crown";
+$isDonator_["42651"]	= 1 TAB "Avem (not donator but needs hat access for donating a hat model)";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
@@ -153,7 +154,7 @@ function applyDonatorSettings(%cl)
 	%cl.canWearHats = 1;
 	%cl.canRefreshDeal = 1;
 
-	if (%cl.name !$= "The Titanium" && %cl.name !$= "Conan")
+	if (%cl.name !$= "The Titanium" && !%cl.name $= "Avem" && %cl.name !$= "Conan")
 	{
 		%cl.isDonator = 1;
 		%cl.shapeNameColor = "0.95 0.85 0";
