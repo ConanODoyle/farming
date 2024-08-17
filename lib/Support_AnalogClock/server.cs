@@ -97,7 +97,9 @@ function onClockHourChange(%hr, %min)
 		for (%i = 0; %i < %hr; %i++)
 		{
 			schedule(%i * 2000, 0, serverPlay3d, BellSound, $clockTowerPos);
-			serverPlay3d(BellSound, $clockTowerPos);
+			schedule(%i * 2000, 0, serverPlay3d, BellSound, $clockTowerPos);
+			schedule(%i * 2000, 0, serverPlay3d, BellSound, $clockTowerPos);
+			schedule(%i * 2000, 0, serverPlay3d, BellSound, $clockTowerPos);
 		}
 	}
 	return;
