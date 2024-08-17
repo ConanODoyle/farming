@@ -126,6 +126,10 @@ function updatePlantStatus(%brick)
 	%brick.waterNeeded = getPlantData(%cropType, %db.stage, "waterPerTick");
 	%brick.nutrients = %nutrients;
 	%brick.harvestMax = getPlantData(%cropType, %db.stage, "harvestMax");
+	%brick.willKillOnWetGrow = getPlantData(%cropType, %db.stage, "killOnWetGrow");
+	%brick.willKillOnDryGrow = getPlantData(%cropType, %db.stage, "killOnDryGrow");
+	%brick.maxWetTicks = getPlantData(%cropType, %db.stage, "numWetTicks");
+	%brick.maxDryTicks = getPlantData(%cropType, %db.stage, "numDryTicks");
 	%brick.nextUpdateInfo = $Sim::Time + 1;
 }
 
@@ -164,6 +168,31 @@ function displayPlantStatus(%brick, %cl)
 		{
 			%string = %string @ "\c6Has " @ %phoHas @ "/" @  %phoReq @  " needed phosphate \n";
 		}
+	}
+
+	if (%brick.canGrow && (%brick.willKillOnWetGrow || %brick.willKillOnDryGrow))
+	{
+		if (%brick.willKillOnWetGrow)
+		{
+			%maxWiltTicks = %brick.maxWetTicks;
+			%curGrowTick  = %brick.wetTicks;
+		}
+		else
+		{
+			%maxWiltTicks = %brick.maxDryTicks;
+			%curGrowTick  = %brick.dryTicks;
+		}
+
+		%timeTillWilt = (%maxWiltTicks - %curGrowTick) * %brick.nextTickTime;
+		if (%timeTillWilt > 60)
+		{
+			%timeTillWilt = mFloatLength(%timeTillWilt / 60, 0) @ "m";
+		}
+		else
+		{
+			%timeTillWilt = %timeTillWilt @ "s";
+		}
+		%string = %string @ "\c6Wilts in: " @ %timeTillWilt;
 	}
 	
 	%cl.centerprint("<just:right>\c6" @ %string, 1);
