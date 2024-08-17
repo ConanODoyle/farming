@@ -104,7 +104,7 @@ function displayDirtStatus(%brick, %cl)
 function updatePlantStatus(%brick)
 {
 	%db = %brick.dataBlock;
-	%weather = ($isHeatWave + 0) SPC ($isRaining + 0);
+	%weather = ($isRaining + 0) SPC ($isHeatWave + 0);
 	%light = getPlantLightLevel(%brick);
 
 	%brick.lightLevel = getWord(%light, 0);
