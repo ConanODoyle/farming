@@ -30,7 +30,7 @@ function CanImage::onFire(%this, %obj, %slot)
 		%obj.farmingRemoveItem(%obj.currTool);
 	}
 
-	%obj.farmingAddStackableItem(%this.cropType, getMaxStack(%this.cropType));
+	%obj.farmingAddStackableItem(%this.cannedCropType, getMaxStack(%this.cannedCropType));
 }
 
 function CanImage::onLoop(%this, %obj, %slot)
@@ -87,7 +87,7 @@ function DataString_CanImage(%cropType,%shape,%color,%index)
 		@"colorShiftColor = \"" @ %color @ "\";"
 		@"item = \"" @ %itemName @ "\";"
 		@"armReady = 1;"
-		@"cropType = \"" @ %cropType @ "\";"
+		@"cannedCropType = \"" @ %cropType @ "\";"
 		@"stateName[0] = \"Activate\";"
 		@"stateTransitionOnTimeout[0] = \"Loop\";"
 		@"stateTimeoutValue[0] = 0.3;"
