@@ -268,7 +268,12 @@ function checkPlantRadiusError(%pos, %db, %planterFound, %inGreenhouse)
 function getPlantRadius(%db, %planterFound, %inGreenhouse)
 {
 	%studRadius = getPlantData(%db.cropType, "plantSpace");
-	return getMax((%studRadius - (%planterFound + %inGreenhouse)) * 0.5 + 0.49, 0.49);
+	%radius = getMax((%studRadius - (%planterFound + %inGreenhouse)) * 0.5 + 0.49, 0.49);
+	if (%radius < 0.5 && %planterFound + %inGreenhouse != 2)
+	{
+		%radius = 0.99;
+	}
+	return %radius;
 }
 
 //0 for no issue, any other number for a certain kind of issue

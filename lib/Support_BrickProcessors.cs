@@ -110,6 +110,7 @@ package Processors
 					serverCmdUnuseTool(%cl);
 					if (!isObject($LastAddedBrick) && !isObject(%cl.processorPlaced))
 					{
+						talk("Removing placer: LastAddedBrick " @ $LastAddedBrick);
 						%pl.tool[%currTool] = %item;
 						serverCmdUseTool(%cl, %currTool);
 						messageClient(%cl, 'MsgItemPickup', '', %currTool, %item);
