@@ -465,7 +465,8 @@ function fxDTSBrick::updateShopDisplay(%brick)
 			case 3: %currPos = -1 * getWord(%currPos, 1) SPC getWord(%currPos, 0) SPC getWord(%currPos, 2);
 		}
 		%currPos = vectorAdd(%brick.getPosition(), %currPos);
-		// %p = createBoxAt(%currPos, "0 0 1 1", 0.1);
+		%currPos = vectorAdd(%currPos, "0 0 0.2");
+		// %p = createBoxMarker(%currPos, "0 0 1 1", "0.5 0.5 0");
 		// %p.schedule(1000, delete);
 		%dataBlock = getField(%data[%i], 0);
 		%itemCount = getField(%data[%i], 2);
@@ -493,20 +494,13 @@ function fxDTSBrick::updateShopDisplay(%brick)
 				%item.setNodeColor("ALL", %dataBlock.colorShiftColor);
 			}
 
-			%height = %item.getWorldBox();
-			%height = getWord(%height, 5) - getWord(%height, 2);
+			%realObjectBox = %item.getWorldBox();
+			%realObjectBox = vectorSub(getWords(%realObjectBox, 3, 5), getWords(%realObjectBox, 0, 2));
 
-			switch$ (%item.getDatablock().uiName)
-			{
-				case "Hammer ": %height = %height - 0.6;
-				case "Wrench": %height = %height - 0.8;
-				case "Printer": %height = %height - 0.4;
-				default: %height = %height;
-			}
+			%offset = vectorSub(%item.getTransform(), %item.getWorldBoxCenter());
+			%offset = vectorAdd(%offset, 0 SPC 0 SPC getWord(%realObjectBox, 2) / 2);
 
-			%offset = %item.getWorldBox();
-			%center = vectorScale(vectorAdd(getWords(%offset, 0, 1), getWords(%offset, 3, 4)), 0.5);
-			%offset = getWords(vectorSub(%item.getTransform(), %center), 0, 1) SPC %height;
+			//need to make the bottom of the item be the %currPos
 			%item.setTransform(vectorAdd(%currPos, %offset) SPC %rotation);
 		}
 		else
