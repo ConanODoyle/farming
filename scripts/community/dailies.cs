@@ -6,24 +6,28 @@ function dailyRefreshSchedule()
 	cancel($dailyRefreshSchedule);
 
 	%timeLeft = getDailyTimeLeft();
-	%timeLeftMS = getField(%timeLeft, 1);
+	%timeLeftSec = getField(%timeLeft, 1);
 	%timeLeftReadable = getField(%timeLeft, 0);
 
 	$time = 600000;
-	if (%timeLeft > %timeLeftMS)
+	if (%time / 1000 > %timeLeftSec)
 	{
-		%time = getMax(%timeLeft / 2, 60000);
+		%time = getMax(%timeLeftSec * 500, 120000);
 	}
 
 	%nowDay = getWord(getDateTime(), 0);
 	if ($lastDay !$= %nowDay)
 	{
 		generateDailyGoal();
-		AIConsole.name = "Challenge Manager";
-		AIConsole.bl_id = ":trophy:";
-		talk("A new daily goal has been issued! Use /dailyProgress to see your progress.");
+		AIConsole.name = "[DAILY]";
+		AIConsole.bl_id = ":sun:";
+		talk("A new daily request has been issued! Use /dailyProgress to see your progress.");
 		AIConsole.name = "Console";
 		AIConsole.bl_id = ":robot:";
+	}
+	else if (%timeLeftSec < 3600)
+	{
+		messageAll('', "<font:Palatino Linotype:28>\c3[DAILY]\c6 There is \c3" @ %timeLeftReadable @ "\c6 left before the daily requests reset");
 	}
 
 	$lastDay = %nowDay;
@@ -35,7 +39,7 @@ function generateDailyGoal()
 	$CurrDailyGoalID = getSafeDataIDArrayName("DailyGoal_" @ strReplace(getWord(getDateTime(), 0), "/", "_"));
 	if (getDataIDArrayTagValue($CurrDailyGoalID, "generated"))
 	{
-		warn("Already generated daily goal for " @ $CurrDailyGoalID @ ", exiting...");
+		warn("Already generated daily request for " @ $CurrDailyGoalID @ ", exiting...");
 		return;
 	}
 	generateRequirements($CurrDailyGoalID, $numDailyRequirements, CommonRequests);
@@ -140,7 +144,7 @@ function displayDailyProgress(%cl)
 
 	if (%finished == $numDailyRequirements)
 	{
-		%text = %text @ "\n\nYou have completed the daily goal! Go to the clock tower at HTP to claim your reward!";
+		%text = %text @ "\n\nYou have completed the daily request! Go to the clock tower at HTP to claim your reward!";
 	}
 	%cl.messageBoxOKLong(%title, %text);
 }
@@ -162,7 +166,7 @@ function grantDailyReward(%cl)
 	
 	if (getDataIDArrayTagValue($CurrDailyGoalID, %tag))
 	{
-		commandToClient(%cl, 'MessageBoxOK', "Can't grant reward!", "You already redeemed your daily goal reward!");
+		commandToClient(%cl, 'MessageBoxOK', "Can't grant reward!", "You already redeemed your daily request reward!");
 		return;
 	}
 	%reward = "Tix 100" TAB "Bux 10" TAB "cashReward 100";
