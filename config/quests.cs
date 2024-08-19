@@ -283,6 +283,16 @@ new ScriptObject(BoxQuestRewards) { class = "ShopObject"; };
 
 BoxQuestRewards.option[BoxQuestRewards.count++ - 1]  = "PlanterBoxItem"	TAB 1;
 
+
+new ScriptObject(TixQuestRewards) { class = "ShopObject"; };
+
+TixQuestRewards.option[TixQuestRewards.count++ - 1]  = "Tix"	TAB 7;
+
+
+new ScriptObject(BuxQuestRewards) { class = "ShopObject"; };
+
+BuxQuestRewards.option[BuxQuestRewards.count++ - 1]  = "Bux"	TAB 7;
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 /// quests //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -630,4 +640,26 @@ new ScriptObject(LargeMineralQuestType) {
 	requestTable = MineralRequests;
 	budgetPerRequestItem = 25;
 	maxRequestItems = 2;
+};
+
+new ScriptObject(TixQuestType) {
+	class = "QuestType";
+	questWeight = 10;
+
+	maxBudget = 2000;
+
+	rewardsItems = true;
+	rewardTable = TreeSeedQuestRewards;
+	maxRewardItems = 1;
+
+	minCashReward = 0;
+	maxCashReward = 0;
+	cashRewardIncrement = 0;
+
+	minBonusFactor = 0;
+	maxBonusFactor = 0;
+
+	requestTable = CommonRequests;
+	budgetPerRequestItem = 150;
+	maxRequestItems = 200;
 };

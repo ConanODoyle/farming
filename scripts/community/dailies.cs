@@ -21,7 +21,7 @@ function dailyRefreshSchedule()
 		generateDailyGoal();
 		AIConsole.name = "Challenge Manager";
 		AIConsole.bl_id = ":trophy:";
-		talk("A new daily goal has been issued! Use /dailyProgress to see your progress.");;
+		talk("A new daily goal has been issued! Use /dailyProgress to see your progress.");
 		AIConsole.name = "Console";
 		AIConsole.bl_id = ":robot:";
 	}
@@ -99,7 +99,7 @@ function displayDailyProgress(%cl)
 
 	%text = %header @ "Time left: " @ getField(getDailyTimeLeft(), 0) @ "\n\n";
 
-	%text = %text @ "Progress:" @ %body;;
+	%text = %text @ "Progress:" @ %body;
 	for (%i = 0; %i < $numDailyRequirements; %i++)
 	{
 		%requiredType = getDataIDArrayValue($CurrDailyGoalID, %i);
@@ -116,7 +116,7 @@ function displayDailyProgress(%cl)
 
 	if (%finished == $numDailyRequirements)
 	{
-		%text = %text @ "\n\n""You have completed the daily goal! Go to the clock tower at HTP to claim your reward!";
+		%text = %text @ "\n\nYou have completed the daily goal! Go to the clock tower at HTP to claim your reward!";
 	}
 	%cl.messageBoxOKLong(%title, %text);
 }
