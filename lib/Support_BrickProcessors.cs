@@ -110,13 +110,13 @@ package Processors
 					serverCmdUnuseTool(%cl);
 					if (!isObject($LastAddedBrick) && !isObject(%cl.processorPlaced))
 					{
-						talk("Removing placer: LastAddedBrick " @ $LastAddedBrick);
 						%pl.tool[%currTool] = %item;
 						serverCmdUseTool(%cl, %currTool);
 						messageClient(%cl, 'MsgItemPickup', '', %currTool, %item);
 					}
 					else
 					{
+						talk("Removing " @ %item.uiname @ " placer: LastAddedBrick " @ $LastAddedBrick SPC $LastAddedBrick.position SPC $LastAddedBrick.angleid);
 						%brick = $LastAddedBrick;
 						%brick.processorPlaced = $Sim::Time;
 						%brick.placer = %cl;
@@ -149,11 +149,6 @@ package Processors
 			return false;
 		}
 		return parent::ndTrustCheckSelect(%obj, %group2, %bl_id, %admin);
-	}
-
-	function fxDTSBrickData::onRemove(%this, %obj)
-	{
-		return parent::onRemove(%this, %obj);
 	}
 };
 activatePackage(Processors);
