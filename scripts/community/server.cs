@@ -6,3 +6,4 @@
 exec("./core.cs");
 exec("./dailies.cs");
 exec("./weeklies.cs");
+exec("./dailiesbot.cs");

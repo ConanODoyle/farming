@@ -18,16 +18,43 @@ $obj = new ScriptObject(DailiesDialogueStart)
 };
 $DailiesDialogueSet.add($obj);
 
-$obj = new ScriptObject(DailiesDialogueCore)
+$obj = new ScriptObject(DailiesDialogueIncomplete)
 {
 	messageCount = 1;
-	message[0] = "I give out rewards for completing daily quests! Here's todays daily quest!";
-	messageTimeout[0] = 1;
+	message[0] = "I give out rewards for completing daily requests! Here's todays daily request!";
+	messageTimeout[0] = 1.5;
+	functionOnStart = "displayDailyProgress";
 
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "ExitResponse";
 };
 $ShopDialogueSet.add($obj);
+
+$obj = new ScriptObject(DailiesDialogueCompleteReward)
+{
+	messageCount = 1;
+	message[0] = "Thanks for completing today's daily request! Here's your reward!";
+	messageTimeout[0] = 1.5;
+
+	botTalkAnim = 1;
+	functionOnStart = "grantDailyReward";
+	dialogueTransitionOnTimeout = "ExitResponse";
+};
+$ShopDialogueSet.add($obj);
+
+$obj = new ScriptObject(DailiesDialogueCompleteRewardClaimed)
+{
+	messageCount = 1;
+	message[0] = "Thanks for completing today's daily request! Come back tomorrow for another one!";
+	messageTimeout[0] = 1.5;
+	message[1] = "Daily requests reset at midnight EDT. The current time is %currTime%.";
+	messageTimeout[1] = 1.5;
+
+	botTalkAnim = 1;
+	dialogueTransitionOnTimeout = "ExitResponse";
+};
+$ShopDialogueSet.add($obj);
+
 
 
 function setupDailiesDialogue(%dataObj)
@@ -40,19 +67,23 @@ function setupDailiesDialogue(%dataObj)
 		return 0;
 	}
 
+	%dataObj.var_currTime = getWord(getDateTime(), 1);
 
-	%dataObj.var_price = $Farming::LotUnloadPrice;
+	%hasCompletedDaily = checkDailyGoalProgress(%client);
+	%hasClaimedDailyReward = hasClaimedDailyReward(%client);
 
-	%type = hasLoadedLot(%player.client.BL_ID);
-	if (%type == 1) %type = "hasLoadedLot";
-	else if (%type $= "0") %type = "noLot";
-
-	switch$ (%type)
+	if (!%hasCompletedDaily)
 	{
-		case "noSavedLot": %manager.startDialogue("IntroLotDialogue", %player.client);t
-		case "noLot": %manager.startDialogue("LotUnloadedDialogue", %player.client);
-		case "hasLoadedLot": %manager.startDialogue("LotPresentDialogue", %player.client);
+		%manager.startDialogue("DailiesDialogueIncomplete", %client);
+	}
+	else if (%hasCompletedDaily && !%hasClaimedDailyReward)
+	{
+		%manager.startDialogue("DailiesDialogueCompleteReward", %client);
+	}
+	else if (%hasClaimedDailyReward)
+	{
+		%manager.startDialogue("DailiesDialogueCompleteRewardClaimed", %client);
 	}
 
-	return 1; //redirected into different dialogue object BUT still want the text
+	return 1; //redirected into different dialogue object, skip this dialogue
 }

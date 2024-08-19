@@ -44,10 +44,14 @@ function generateDailyGoal()
 
 function getDailiesCompleted(%cl)
 {
-	%blid = %cl.bl_id;
-	%dataID = "TotalDailiesCompleted";
-	return getDataIDArrayValue(%dataID, %blid) + 0;
+	return %cl.dailiesCompleted;
 }
+
+function incDailiesCompleted(%cl)
+{
+	%cl.dailiesCompleted++;
+}
+RegisterPersistenceVar("dailiesCompleted", false, "");
 
 function getDailyTimeLeft()
 {
@@ -66,8 +70,15 @@ function getDailyGoalCropRequirement(%crop)
 	return mFloor($DailyItemCount / mSqrt(%price));
 }
 
-function checkDailyGoalProgress(%dataID, %cl)
+function checkDailyGoalProgress(%cl)
 {
+	%dataID = $CurrDailyGoalID;
+	if (%dataID $= "")
+	{
+		talk("Cannot check daily progress: No daily generated!");
+		error("Cannot check daily progress: No daily generated!");
+		return 0;
+	}
 	%blid = %cl.bl_id;
 	%count = getDataIDArrayCount(%dataID);
 	for (%i = 0; %i < %count; %i++)
@@ -92,6 +103,19 @@ function serverCmdDailyProgress(%cl)
 
 function displayDailyProgress(%cl)
 {
+	//called by dialogue set directly, so get actual client accordingly
+	if (%cl.class $= "DialogueData")
+	{
+		%cl = %cl.player.client;
+	}
+
+	if (!isObject(%cl) || $CurrDailyGoalID $= "")
+	{
+		talk("Unable to display daily requirements to " @ %cl.name @ "!");
+		error("Unable to display daily requirements to " @ %cl.name @ "!");
+		return;
+	}
+
 	%title = "Daily Progress " @ getWord(getDateTime(), 0);
 	
 	%header = "<font:Palatino Linotype:24>";
@@ -123,7 +147,13 @@ function displayDailyProgress(%cl)
 
 function grantDailyReward(%cl)
 {
-	if (!isObject(%cl))
+	//called by dialogue set directly, so get actual client accordingly
+	if (%cl.class $= "DialogueData")
+	{
+		%cl = %cl.player.client;
+	}
+
+	if (!isObject(%cl) || $CurrDailyGoalID $= "")
 	{
 		return;
 	}
@@ -137,16 +167,27 @@ function grantDailyReward(%cl)
 	}
 	%reward = "Tix 100" TAB "Bux 10" TAB "cashReward 100";
 	%item = grantGoalReward(%cl, %reward, $CurrDailyGoalID);
-	if (!isObject(item))
+	if (!isObject(%item))
 	{
 		return;
 	}
 	setDataIDArrayTagValue($CurrDailyGoalID, %tag, 1);
+	incDailiesCompleted(%cl);
 }
 
-function getDailiesCompleted(%cl)
+function hasClaimedDailyReward(%cl)
 {
-	%blid = %cl.bl_id;
-	%aid = "TotalDailiesCompleted";
-	return getDataIDArrayValue(%aid, %blid) + 0;
+	if (!isObject(%cl))
+	{
+		return 0;
+	}
+	else if ($CurrDailyGoalID $= "")
+	{
+		talk("Cannot check claimed daily progress: No daily generated!");
+		error("Cannot check claimed daily progress: No daily generated!");
+		return 0;
+	}
+	%tag = getSafeDataIDArrayName("Completed_" @ %cl.bl_id);
+	
+	return getDataIDArrayTagValue($CurrDailyGoalID, %tag);
 }
