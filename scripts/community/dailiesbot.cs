@@ -23,6 +23,10 @@ $obj = new ScriptObject(DailiesDialogueIncomplete)
 	messageCount = 1;
 	message[0] = "I give out rewards for completing daily requests! Here's todays daily request!";
 	messageTimeout[0] = 1.5;
+	message[1] = "To make progress on the request, simply sell the required crops to any buyer. Use /dailyProgress to check your progress.";
+	messageTimeout[1] = 3;
+	message[2] = "Talk to me when you're done to claim your reward!";
+	messageTimeout[2] = 3;
 	functionOnStart = "displayDailyProgress";
 
 	botTalkAnim = 1;

@@ -191,3 +191,33 @@ function hasClaimedDailyReward(%cl)
 	
 	return getDataIDArrayTagValue($CurrDailyGoalID, %tag);
 }
+
+package DailyGoals
+{
+	function AIPlayer::attemptBuy(%bot, %item)
+	{
+		%db = %item.dataBlock;
+		%count = %item.count;
+		%type = %db.stackType;
+		%blid = %item.bl_id;
+		%client = findClientByBL_ID(%blid);
+
+		%ret = parent::attemptBuy(%bot, %item);
+		if (!%ret || %count <= 0 || !%item.isStackable || !isObject(%client)
+			|| $CurrDailyGoalID $= "" //no daily generated
+			|| getDataIDArrayTagValue($CurrDailyGoalID, %type) != 1) //not part of daily
+		{
+			return %ret;
+		}
+
+		addCropProgressForGoal($CurrDailyGoalID, %client, %type, %amt);
+		if (checkDailyGoalProgress(%client) && !hasClaimedDailyReward(%client))
+		{
+			commandToClient(%client, 'MessageBoxOK', "Daily Complete", 
+				"You have completed today's daily requests! Head to the clock tower at HTP to claim your reward!");
+		}
+
+		return %ret;
+	}
+};
+activatePackage(DailyGoals);
