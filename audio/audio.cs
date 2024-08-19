@@ -374,7 +374,7 @@ datablock AudioProfile(BusSound)
 datablock AudioDescription(AudioInfRange3d : AudioDefault3d)
 {
 	maxDistance = 1000000;
-	referenceDistance = 50;
+	referenceDistance = 300;
 };
 
 datablock AudioProfile(BellSound)
