@@ -291,7 +291,7 @@ function dropStackableItem(%client, %position, %amount)
 			{
 				%player.weaponCount = %player.weaponCount - 1.0;
 			}
-			if (%remaining <= 0)
+			if (%remaining <= 0) //added lines here to adjust item removal logic
 			{
 				%player.tool[%position] = 0;
 				messageClient(%client, 'MsgItemPickup', '', %position, 0);
@@ -325,53 +325,49 @@ package Support_StackableItems
 {
 	function Armor::onCollision(%db, %obj, %col, %vec, %speed)
 	{
-		if (%obj.getState() !$= "Dead" && %obj.getDamagePercent() < 1.0 && isObject(%obj.client))
+		if (%obj.getState() $= "Dead" || %obj.getDamagePercent() >= 1.0 || !isObject(%obj.client))
 		{
-			%itemDB = %col.getDatablock();
-			if (%col.getClassName() $= "Item" && %itemDB.isStackable)
-			{
-				// if (%col.nextPickupAttempt > $Sim::Time)
-				// {
-				//     return;
-				// }
-				// %col.nextPickupAttempt = $Sim::Time + getRandom(1, 2);
-
-				for (%i = 0; %i < 2; %i++)
-				{
-					if (%col.count !$= "" && %col.count <= 0 || !isObject(%col))
-					{
-						break;
-					}
-					%ret = stackedCanPickup(%obj, %col);
-
-					// talk(%ret);
-
-					if (!isObject(%col.harvestedBG) || getTrustLevel(%col.harvestedBG, %obj) > 1)
-					{
-						if (%ret > 0)
-						{
-							%type = getWord(%ret, 0);
-							%slot = getWord(%ret, 1);
-							%amt = getWord(%ret, 2);
-
-							pickupStackableItem(%obj, %col, %slot, %amt);
-							if (isObject(%col))
-							{
-								%col.schedulePop();
-							}
-						}
-					}
-					else
-					{
-						%obj.client.centerprint(%col.harvestedBG.name @ "<color:ff0000> does not trust you enough to do that.", 1);
-					}
-				}
-				//we dont want to do normal item onCollision code with stackable items
-				return;
-			}
+			return parent::onCollision(%db, %obj, %col, %vec, %speed);
 		}
 
-		return parent::onCollision(%db, %obj, %col, %vec, %speed);
+		%itemDB = %col.getDatablock();
+		if (%col.getClassName() !$= "Item" || !%itemDB.isStackable)
+		{
+			return parent::onCollision(%db, %obj, %col, %vec, %speed);
+		}
+
+		//no trust
+		if (isObject(%col.harvestedBG) && getTrustLevel(%col.harvestedBG, %obj) < 2)
+		{
+			%obj.client.centerprint(%col.harvestedBG.name @ "\c0 does not trust you enough to do that.", 1);
+			return;
+		}
+
+		for (%i = 0; %i < %db.maxTools; %i++) //pick up an entire inventory's worth if possible
+		{
+			if (%col.count !$= "" && %col.count <= 0 || !isObject(%col))
+			{
+				break;
+			}
+			%ret = stackedCanPickup(%obj, %col);
+
+			if (%ret == 0) //cant pick any up
+			{
+				break;
+			}
+
+			%type = getWord(%ret, 0);
+			%slot = getWord(%ret, 1);
+			%amt = getWord(%ret, 2);
+
+			pickupStackableItem(%obj, %col, %slot, %amt);
+			if (isObject(%col))
+			{
+				%col.schedulePop();
+			}
+		}
+		//we dont want to do normal item onCollision code with stackable items, don't return parent
+		return;
 	}
 
 	function serverCmdDropTool(%cl, %slot)
