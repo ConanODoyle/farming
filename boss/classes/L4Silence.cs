@@ -313,7 +313,7 @@ function L4SilenceImage::onFire(%this, %player, %slot)
 				
 		%effect = new Projectile()
 		{
-			dataBlock = HarvesterSpikeProjectile;
+			dataBlock = L4SilenceSpikeProjectile;
 			initialVelocity = %player.getMuzzleVector(%slot);
 			initialPosition = %player.getMuzzlePoint(%slot);
 			scale = "0.67 0.67 0.67";
