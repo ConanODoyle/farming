@@ -54,10 +54,16 @@ function harvestBrick(%brick, %tool, %harvester, %fixedBonus)
 
 	//shiny plant and general extra yield checks
 	%bonusYield += getBonusYield(%brick);
-	%bonusYield += %fixedBonus;
 
 	//spawn harvest + seeds
 	%pickedTotal = getTotalYield(%brick, %bonusYield);
+
+	//put fixed bonus yield in a stack to prevent lag (massive croptrak harvests)
+	%didFixedBonusSpawn = spawnFixedBonusCrops(%brick, %fixedBonus, %harvester);
+	if (%fixedBonus > 0 && !%didFixedBonusSpawn)
+	{
+		%pickedTotal += %fixedBonus;
+	}
 
 	spawnCrops(%brick, %pickedTotal, %harvester);
 	spawnSeeds(%brick, %harvester);
@@ -243,6 +249,52 @@ function spawnCrops(%brick, %count, %harvester)
 		%item.setTransform(vectorAdd(%pos, %offset) SPC getRandomRotation());
 		%item.setVelocity(%vel);
 	}
+}
+
+function spawnFixedBonusCrops(%brick, %count, %harvester)
+{
+	if (%count <= 0)
+	{
+		return false;
+	}
+	
+	%db = %brick.dataBlock;
+	%stage = %db.stage;
+	%type = %db.cropType;
+	%itemDB = getPlantData(%type, %stage, "item");
+	%stackType = %db.stackType;
+	%stackDatablock = getStackTypeDatablock(%stackType, %count);
+	if (!isObject(%stackDatablock))
+	{
+		return false;
+	}
+	
+	%pos = %brick.getPosition();
+	%bg = getBrickgroupFromObject(%harvester);
+
+	%vel = (getRandom(12) - 6) / 4 SPC  (getRandom(12) - 6) / 4 SPC 6;
+	//jank tree check - trees/tree-like crops are colliding while normal crops arent
+	//if "tree" then spawn higher up in the brick
+	if (%brick.isColliding())
+	{
+		%dir = vectorNormalize(getWords(%vel, 0, 1));
+		%vel = vectorAdd(%vel, vectorScale(%dir, 3));
+		%offset = vectorScale(%dir, 0.75);
+	}
+
+	%item = new Item(Crop)
+	{
+		dataBlock = %stackDatablock;
+		count = %count;
+		harvestedBG = %bg;
+		canVacuum = 1;
+	};
+	MissionCleanup.add(%item);
+	%item.schedule(90 * 1000, schedulePop);
+	%item.setTransform(vectorAdd(%pos, %offset) SPC getRandomRotation());
+	%item.setVelocity(%vel);
+
+	return %item;
 }
 
 function spawnSeeds(%brick, %harvester)
