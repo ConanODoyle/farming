@@ -137,14 +137,15 @@ function displayDailyProgress(%cl)
 	for (%i = 0; %i < $numDailyRequirements; %i++)
 	{
 		%requiredType = getDataIDArrayValue($CurrDailyGoalID, %i);
-		%amount = getDailyGoalCropRequirement(%requiredType);
+		%required = getDailyGoalCropRequirement(%requiredType);
 		%completed = getCropProgressForGoal($CurrDailyGoalID, %cl, %requiredType);
-		if (%amount <= %completed)
+		if (%required <= %completed)
 		{
 			%finished++;
+			%completed = %required;
 		}
-		%suffix = %amount > %completed ? "" : "\xab";
-		%prefix = %amount > %completed ? "" : "\xbb";
+		%suffix = %required > %completed ? "" : "\xab";
+		%prefix = %required > %completed ? "" : "\xbb";
 		%text = %text @ "\n" @ %requiredType @ ": " @ %prefix SPC %completed @ " / " @ %amount SPC %suffix;
 	}
 
@@ -180,8 +181,8 @@ function grantDailyReward(%cl)
 		return;
 	}
 	%reward = "Tix 100" TAB "Bux 10" TAB "cashReward 100";
-	%item = grantGoalReward(%cl, %reward, $CurrDailyGoalID);
-	if (!isObject(%item))
+	%success = grantGoalReward(%cl, %reward, $CurrDailyGoalID);
+	if (!%success)
 	{
 		return;
 	}
