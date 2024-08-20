@@ -9,10 +9,14 @@ function dailyRefreshSchedule()
 	%timeLeftSec = getField(%timeLeft, 1);
 	%timeLeftReadable = getField(%timeLeft, 0);
 
-	$time = 600000;
+	%time = 600000;
 	if (%time / 1000 > %timeLeftSec)
 	{
 		%time = getMax(%timeLeftSec * 500, 120000);
+	}
+	if (%timeLeftSec <= 10)
+	{
+		%time = 10000;
 	}
 
 	%nowDay = getWord(getDateTime(), 0);
@@ -27,11 +31,11 @@ function dailyRefreshSchedule()
 	}
 	else if (%timeLeftSec < 3600)
 	{
-		messageAll('', "<font:Palatino Linotype:28>\c3[DAILY]\c6 There is \c3" @ %timeLeftReadable @ "\c6 left before the daily requests reset");
+		messageAll('', "<font:Palatino Linotype:28>\c3[DAILY]\c6 There is \c3" @ %timeLeftReadable @ "\c6 left before the daily requests reset. Use /dailyProgress to check your progress.");
 	}
 
 	$lastDay = %nowDay;
-	$dailyRefreshSchedule = schedule(%timeLeft, 0, dailyRefreshSchedule);
+	$dailyRefreshSchedule = schedule(%time, 0, dailyRefreshSchedule);
 }
 
 function generateDailyGoal()
@@ -105,6 +109,8 @@ function serverCmdDailyProgress(%cl)
 	displayDailyProgress(%cl);
 }
 
+function serverCmdDP(%cl) { displayDailyProgress(%cl); }
+
 function displayDailyProgress(%cl)
 {
 	//called by dialogue set directly, so get actual client accordingly
@@ -145,6 +151,10 @@ function displayDailyProgress(%cl)
 	if (%finished == $numDailyRequirements)
 	{
 		%text = %text @ "\n\nYou have completed the daily request! Go to the clock tower at HTP to claim your reward!";
+	}
+	else
+	{
+		%text = %text @ "\n\nGain progress by selling the crops above!";
 	}
 	%cl.messageBoxOKLong(%title, %text);
 }
