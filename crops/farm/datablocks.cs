@@ -283,6 +283,26 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 	cost = 10;
 };
 
+datablock fxDTSBrickData(brickSafe3x3x3Data)
+{
+	category = "Farming";
+	subCategory = "Storage";
+	uiName = "Currency Safe";
+	description = "(Stores currencies)";
+
+	brickFile = "./bricks/safe3x3x3.blb";
+
+	iconName = "";
+
+	isStorageBrick = 1;
+	storageSlotCount = 3;
+	storageMultiplier = 10;
+	storageType = "Currency";
+	itemStackCount = 1;
+
+	cost = 200;
+};
+
 
 ///////////////////
 //Money and Decor//

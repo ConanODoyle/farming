@@ -74,10 +74,17 @@ $StorageMax_WeedKiller = 120;
 $StorageMax_Coal = 12 * 1;
 $StorageMax_Ethanol = 50 * 1;
 
+$StorageMax_Tix = 100;
+$StorageMax_Bux = 100;
+
 // Storage Types
 $StorageTypeCropsExists = true;
 $StorageTypeCropsList = "Potato\tCarrot\tTomato\tCorn\tWheat\tCabbage\tOnion\tBlueberry\tTurnip\tPortobello\tApple\tMango\tChili\tCactus\tWatermelon\tPeach\tDate";
 $StorageTypeCropsIsBlacklist = false;
+
+$StorageTypeCurrencyExists = true;
+$StorageTypeCurrencyList = "Tix\tBux\tFarmicoin";
+$StorageTypeCurrencyIsBlacklist = false;
 
 $StorageTypeToolsExists = true;
 $StorageTypeToolsList = "toolgunItem";
