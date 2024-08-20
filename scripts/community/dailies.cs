@@ -12,11 +12,7 @@ function dailyRefreshSchedule()
 	%time = 600000;
 	if (%time / 1000 > %timeLeftSec)
 	{
-		%time = getMax(%timeLeftSec * 500, 120000);
-	}
-	if (%timeLeftSec <= 10)
-	{
-		%time = 10000;
+		%time = getMax(mFloor(%timeLeftSec / 2) * 1000, 100);
 	}
 
 	%nowDay = getWord(getDateTime(), 0);
@@ -29,7 +25,7 @@ function dailyRefreshSchedule()
 		AIConsole.name = "Console";
 		AIConsole.bl_id = ":robot:";
 	}
-	else if (%timeLeftSec < 3600)
+	else if (%timeLeftSec < 3600 && %timeLeftSec > 20)
 	{
 		messageAll('', "<font:Palatino Linotype:28>\c3[DAILY]\c6 There is \c3" @ %timeLeftReadable @ "\c6 left before the daily requests reset. Use /dailyProgress to check your progress.");
 	}
@@ -146,7 +142,7 @@ function displayDailyProgress(%cl)
 		}
 		%suffix = %required > %completed ? "" : "\xab";
 		%prefix = %required > %completed ? "" : "\xbb";
-		%text = %text @ "\n" @ %requiredType @ ": " @ %prefix SPC %completed @ " / " @ %amount SPC %suffix;
+		%text = %text @ "\n" @ %requiredType @ ": " @ %prefix SPC %completed @ " / " @ %required SPC %suffix;
 	}
 
 	if (%finished == $numDailyRequirements)
@@ -155,7 +151,7 @@ function displayDailyProgress(%cl)
 	}
 	else
 	{
-		%text = %text @ "\n\nGain progress by selling the crops above!";
+		%text = %text @ "\n\nGain progress by selling the crops above!\n\nReward: 10 Bux, 100 Tix, $100";
 	}
 	%cl.messageBoxOKLong(%title, %text);
 }
