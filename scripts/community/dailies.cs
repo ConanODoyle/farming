@@ -133,7 +133,7 @@ function displayDailyProgress(%cl)
 		%requiredType = getDataIDArrayValue($CurrDailyGoalID, %i);
 		%amount = getDailyGoalCropRequirement(%requiredType);
 		%completed = getCropProgressForGoal($CurrDailyGoalID, %cl, %requiredType);
-		if (%amount > %completed)
+		if (%amount <= %completed)
 		{
 			%finished++;
 		}
@@ -207,14 +207,14 @@ package DailyGoals
 		%client = findClientByBL_ID(%blid);
 
 		%ret = parent::attemptBuy(%bot, %item);
-		if (!%ret || %count <= 0 || !%item.isStackable || !isObject(%client)
+		if (!%ret || %count <= 0 || !%db.isStackable || !isObject(%client)
 			|| $CurrDailyGoalID $= "" //no daily generated
 			|| getDataIDArrayTagValue($CurrDailyGoalID, %type) != 1) //not part of daily
 		{
 			return %ret;
 		}
 
-		addCropProgressForGoal($CurrDailyGoalID, %client, %type, %amt);
+		addCropProgressForGoal($CurrDailyGoalID, %client, %type, %count);
 		if (checkDailyGoalProgress(%client) && !hasClaimedDailyReward(%client))
 		{
 			commandToClient(%client, 'MessageBoxOK', "Daily Complete", 
