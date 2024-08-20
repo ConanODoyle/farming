@@ -18,6 +18,7 @@ $RepairDialogueSet.add($obj);
 $obj = new ScriptObject(RepairDialogueCore)
 {
 	response["CanRepair"] = "RepairConfirmation";
+	response["CanRepairMultiple"] = "RepairConfirmationMultiple";
 	response["InsufficientMoney"] = "RepairFail";
 	response["FullDurability"] = "RepairUnneeded";
 	response["CannotRepair"] = "RepairInvalid";
@@ -64,6 +65,24 @@ $obj = new ScriptObject(RepairConfirmation)
 };
 $RepairDialogueSet.add($obj);
 
+$obj = new ScriptObject(RepairConfirmationMultiple)
+{
+	response["Yes"] = "RepairProduct";
+	response["No"] = "RepairDialogueCore";
+	response["Quit"] = "ExitResponse";
+	response["Error"] = "ErrorResponse";
+
+	messageCount = 1;
+	message[0] = "It will cost $%repairPrice% to repair all of your tools. Are you sure? Say yes to confirm.";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+	waitForResponse = 1;
+	responseParser = "yesNoResponseParser";
+};
+$RepairDialogueSet.add($obj);
+
+
 $obj = new ScriptObject(RepairInvalid)
 {
 	messageCount = 1;
@@ -78,7 +97,7 @@ $RepairDialogueSet.add($obj);
 $obj = new ScriptObject(RepairUnneeded)
 {
 	messageCount = 1;
-	message[0] = "Your %toolName% doesn't need repairs...?";
+	message[0] = "Your %toolName% %toolPlural% need repairs...?";
 	messageTimeout[0] = 2;
 
 	botTalkAnim = 1;
@@ -114,11 +133,15 @@ function dialogue_RepairProduct(%dataObj)
 	%pl = %dataObj.player;
 	%cl = %pl.client;
 
-	if (%cl.checkMoney(%dataObj.var_total))
+	if (%cl.checkMoney(%dataObj.var_repairPrice))
 	{
 		%cl.subMoney(%dataObj.var_repairPrice);
-		%toolDataID = %dataObj.var_toolDataID;
-		setDataIDArrayTagValue(%toolDataID, "durability", %dataObj.var_maxDurability | 0);
+		for(%i = 0; %i < %dataObj.var_toolCount; %i++)
+		{
+			%toolDataID = %dataObj.var_toolDataID[%i];
+			%maxDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
+			setDataIDArrayTagValue(%toolDataID, "durability", %maxDurability | 0);
+		}
 	}
 	return 0;
 }
@@ -144,15 +167,28 @@ function RepairResponseParser(%dataObj, %msg)
 {
 	%pl = %dataObj.player;
 
+	%toolCount = 0;
 	if (%msg > 0)
 	{
-		%tool = %pl.tool[%msg - 1];
-		%toolDataID = %pl.toolDataID[%msg - 1];
+		%tool[0] = %pl.tool[%msg - 1];
+		%toolDataID[0] = %pl.toolDataID[%msg - 1];
+		%toolCount = 1;
 	}
 	else if (%msg $= "current tool")
 	{
-		%tool = %pl.tool[%pl.currTool];
-		%toolDataID = %pl.toolDataID[%pl.currTool];
+		%tool[0] = %pl.tool[%pl.currTool];
+		%toolDataID[0] = %pl.toolDataID[%pl.currTool];
+		%toolCount = 1;
+	}
+	else if (%msg $= "all tools" || %msg $= "all")
+	{
+		%toolCount = %pl.getDatablock().maxTools;
+		for (%i = 0; %i < %toolCount; %i++)
+		{
+			%currTool = %pl.tool[%i];
+			%tool[%i] = %currTool;
+			%toolDataID[%i] = %pl.toolDataID[%i];
+		}
 	}
 	else
 	{
@@ -162,48 +198,94 @@ function RepairResponseParser(%dataObj, %msg)
 			%currTool = %pl.tool[%i];
 			if (strPos(strLwr(%currTool.uiName), %msg) >= 0)
 			{
-				%tool = %currTool;
-				%toolDataID = %pl.toolDataID[%i];
+				%tool[0] = %currTool;
+				%toolDataID[0] = %pl.toolDataID[%i];
+				%toolCount = 1;
 				break;
 			}
 		}
 	}
 
-	if (!isObject(%tool) || getDataIDArrayTagValue(%toolDataID, "maxDurability") <= 0
-		|| !%tool.hasDataID || trim(%toolDataID) $= "")
+	%repairableToolCount = 0;
+	%totalRepairPrice = 0;
+	%lastToolError = "Error";
+	for(%i = 0; %i < %toolCount; %i++)
 	{
-		return "CannotRepair";
+		%tool = %tool[%i];
+		%toolDataID = %toolDataID[%i];
+
+		if (!isObject(%tool) || getDataIDArrayTagValue(%toolDataID, "maxDurability") <= 0
+			|| !%tool.hasDataID || trim(%toolDataID) $= "")
+		{
+			%lastToolError = "CannotRepair";
+			continue;
+		}
+
+		%durability = getDataIDArrayTagValue(%toolDataID, "durability");
+		%maxDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
+		if (%durability == %maxDurability)
+		{
+			%lastToolError = "FullDurability";
+			continue;
+		}
+
+		%price = getRepairPrice(%tool, %durability, %maxDurability);
+		if (%tool.isRepairTool)
+		{
+			%price = %price * 10;
+		}
+		
+		%totalRepairPrice += %price;
+
+		%repairableTool[%repairableToolCount] = %tool;
+		%repairableToolDataID[%repairableToolCount] = %toolDataID;
+		%repairableToolCount++;
 	}
 
-	%durability = getDataIDArrayTagValue(%toolDataID, "durability");
-	%maxDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
-	%price = getRepairPrice(%tool, %durability, %maxDurability);
-	if (%tool.isRepairTool)
+	%dataObj.var_toolCount = %repairableToolCount;
+	for (%i = 0; %i < %repairableToolCount; %i++)
 	{
-		%price = %price * 10;
+		%dataObj.var_tool[%i] = %repairableTool[%i];
+		%dataObj.var_toolDataID[%i] = %repairableToolDataID[%i];
+	}
+	
+	%repairMultipleTools = %toolCount > 1;
+	if (%repairMultipleTools)
+	{
+		%dataObj.var_toolName = "tools";
+		%dataObj.var_toolPlural = "don't";
+	}
+	else
+	{
+		%tool = %tool[0];
+		%toolDataID = %toolDataID[0];
+		%maxDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
+		%dataObj.var_toolName = %tool.uiName;
+		%dataObj.var_maxDurability = %maxDurability;
+		%dataObj.var_toolPlural = "doesn't";
 	}
 
-	%dataObj.var_tool = %tool;
-	%dataObj.var_toolDataID = %toolDataID;
-	%dataObj.var_toolName = %tool.uiName;
-	%dataObj.var_repairPrice = %price;
-	%dataObj.var_maxDurability = %maxDurability;
+	%dataObj.var_repairPrice = %totalRepairPrice;
 
-	if (%tool $= "")
+	if (%repairableToolCount == 0)
 	{
-		return "Error";
+		return %lastToolError;
 	}
-	else if (%maxDurability == %durability)
-	{
-		return "FullDurability";
-	}
-	else if (!%pl.client.checkMoney(%price))
+
+	if (!%pl.client.checkMoney(%totalRepairPrice))
 	{
 		return "InsufficientMoney";
 	}
-	else if (%pl.client.checkMoney(%price))
+	else if (%pl.client.checkMoney(%totalRepairPrice))
 	{
-		return "CanRepair";
+		if (%repairMultipleTools)
+		{
+			return "CanRepairMultiple";
+		}
+		else
+		{
+			return "CanRepair";
+		}
 	}
 	return "Error";
 }
