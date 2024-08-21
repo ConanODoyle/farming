@@ -216,6 +216,7 @@ function PlanterImage::onFire(%this, %obj, %slot)
 		%plantMax = %this.min;
 		%originalCurrTool = %obj.currTool;
 		%inGreenhouse = getWord(lightRaycastCheck(vectorAdd(roundToStudCenter(%hitLoc), "0 0 0.1")), 1);
+		%planterFound = %ray.getDatablock().isPlanter;
 
 		// talk("planter found " @ %count);
 		for (%i = 0; %i < %count; %i++)
@@ -226,7 +227,8 @@ function PlanterImage::onFire(%this, %obj, %slot)
 			%currItem = getField(%seed[%i], 3);
 
 			%brickDB = %currItem.image.cropBrick;
-			%plantRadius = getPlantData(%brickDB.cropType, "plantSpace") * 0.5 + 0.5 - (%inGreenhouse * 0.5);
+			%plantRadius = getPlantRadius(%brickDB, %planterFound, %inGreenhouse);
+			%plantRadius = mFloatLength(%plantRadius * 2, 0) / 2;
 			%obj.currTool = %currSlot;
 
 			%plantingSpace = vectorScale(%plantingDir, %plantRadius);
