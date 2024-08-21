@@ -215,8 +215,7 @@ package DailyGoals
 
 		%ret = parent::attemptBuy(%bot, %item);
 		if (!%ret || %count <= 0 || !%db.isStackable || !isObject(%client)
-			|| $CurrDailyGoalID $= "" //no daily generated
-			|| getDataIDArrayTagValue($CurrDailyGoalID, %type) != 1) //not part of daily
+			|| $CurrDailyGoalID $= "") //no daily generated
 		{
 			return %ret;
 		}

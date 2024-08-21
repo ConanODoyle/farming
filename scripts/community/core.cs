@@ -22,10 +22,6 @@ function generateRequirements(%dataID, %numTypes, %table)
 function addCropProgressForGoal(%dataID, %cl, %crop, %amt)
 {
 	%blid = %cl.bl_id;
-	if (getDataIDArrayTagValue(%dataID, %crop) != 1)
-	{
-		return;
-	}
 	%tag = "Progress_" @ %blid @ "_" @ %crop;
 	%currCount = getDataIDArrayTagValue(%dataID, %tag);
 	setDataIDArrayTagValue(%dataID, %tag, %currCount + %amt);
