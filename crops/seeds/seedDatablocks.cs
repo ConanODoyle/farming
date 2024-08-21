@@ -369,6 +369,7 @@ function getPlantDownBricks(%hitLoc, %db, %obj)
 		%down = %b.getDownBrick(%i);
 		if (!%down.dataBlock.isDirt || getTrustLevel(%down, %obj) < 2)
 		{
+			%b.delete();
 			return "";
 		}
 		%list = %list SPC %down;
