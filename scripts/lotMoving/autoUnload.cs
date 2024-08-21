@@ -11,7 +11,7 @@ package LotMoving
 			unloadEmptyLots();
 		}
 		%cl.hasSpawnedOnce = 1;
-		$Pref::LotMoving::LastOn[%cl.bl_id] = getRealTime();
+		$Pref::LotMoving::LastOn[%cl.bl_id] = getDateInMinutes(getDateTime());
 		return %ret;
 	}
 
@@ -21,7 +21,7 @@ package LotMoving
 		{
 			checkFreeLots();
 			unloadEmptyLots();
-			$Pref::LotMoving::LastOn[%cl.bl_id] = getRealTime();
+			$Pref::LotMoving::LastOn[%cl.bl_id] = getDateInMinutes(getDateTime());
 		}
 		return parent::onDrop(%cl);
 	}
@@ -218,7 +218,8 @@ function getOldestLotBLID(%set)
 
 		if (%blid == 888888) continue;
 
-		if ($Pref::LotMoving::LastOn[%blid] > getRealTime())
+		if ($Pref::LotMoving::LastOn[%blid] > getDateInMinutes(getDateTime())
+			|| $Pref::LotMoving::LastOn[%blid] < 0)
 		{
 			$Pref::LotMoving::LastOn[%blid] = 0;
 		}
@@ -234,6 +235,28 @@ function getOldestLotBLID(%set)
 		}
 	}
 	return %oldestBLID;
+}
+
+//by Buddy
+//rough estimate of date to minutes starting from 2024
+function getDateInMinutes(%DT)
+{
+    %date = getWord(%DT, 0);
+    %time = getWord(%DT, 1);
+
+    %token = nextToken(%date , "month"        , "/"); //%month
+    %token = nextToken(%token, "dayOfMonth" , "/"); //%day
+    %token = nextToken(%token, "Year"        , "/");    //%year
+
+    %token = nextToken(%time , "hour"        , ":"); //%hour
+    %token = nextToken(%token, "minute"        , ":");    //%minute
+    //ignore seconds
+
+    %dayNumber = getDayOfYear(%month, %dayOfMonth);
+    //this number cannot exceed ~525600
+    %minutes  = %minute + %hour * 60 + %dayNumber * 60 * 24;
+    %yearsInMinutes = (%Year - 24) * 525600;
+    return ((%minutes | 0) + (%yearsInMinutes | 0)) | 0;
 }
 
 function unloadEmptyLots() 
