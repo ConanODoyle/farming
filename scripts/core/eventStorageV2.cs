@@ -1011,13 +1011,19 @@ package StorageBricks
 		if (%this.getDatablock().isStorageBrick)
 		{
 			%dataID = %this.eventOutputParameter[0, 1];
-			%this.updateStorageDatablock(%dataID);
+			if (%dataID !$= "")
+			{
+				%this.updateStorageDatablock(%dataID);
+			}
 		}
 
 		if (isObject(%this.vehicle) && %this.vehicle.getDatablock().isStorageVehicle)
 		{
 			%dataID = %this.eventOutputParameter[0, 1];
-			%this.vehicle.updateStorageDatablock(%dataID);
+			if (%dataID !$= "")
+			{
+				%this.vehicle.updateStorageDatablock(%dataID);
+			}
 		}
 
 		return %result;
