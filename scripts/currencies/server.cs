@@ -1,3 +1,4 @@
+exec("./currencyshop.cs");
 
 ////////
 //Item//
