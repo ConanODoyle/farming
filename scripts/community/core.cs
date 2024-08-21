@@ -34,10 +34,6 @@ function addCropProgressForGoal(%dataID, %cl, %crop, %amt)
 function getCropProgressForGoal(%dataID, %cl, %crop)
 {
 	%blid = %cl.bl_id;
-	if (getDataIDArrayTagValue(%dataID, %crop) != 1)
-	{
-		return -1;
-	}
 	%tag = "Progress_" @ %blid @ "_" @ %crop;
 	return getDataIDArrayTagValue(%dataID, %tag) + 0;
 }
