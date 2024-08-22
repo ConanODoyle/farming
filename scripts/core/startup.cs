@@ -15,6 +15,7 @@ function startLoops()
 	infoLoop();
 	loopSaveLots(0);
 	findAllBuyerSpawns();
+	loopApplyDateTime();
 }
 
 function stopLoops()

@@ -53,7 +53,7 @@ function playClockThread(%clock, %currTime, %smooth)
 }
 
 $smoothClock = 1;
-function loopApplyDateTime(%clock)
+function loopApplyDateTime()
 {
 	cancel($loopApplyDateTimeSchedule);
 
@@ -80,7 +80,7 @@ function loopApplyDateTime(%clock)
 	}
 
 	
-	$loopApplyDateTimeSchedule = schedule(%time, 0, loopApplyDateTime, %clock);
+	$loopApplyDateTimeSchedule = schedule(%time, 0, loopApplyDateTime, );
 }
 
 $clockTowerPos = "-605 -930 64";
