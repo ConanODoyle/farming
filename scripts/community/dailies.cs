@@ -88,7 +88,7 @@ function checkDailyGoalProgress(%cl)
 	for (%i = 0; %i < %count; %i++)
 	{
 		%crop = getDataIDArrayValue(%dataID, %i);
-		%amount = getGoalCropRequirement(%crop);
+		%amount = getDailyGoalCropRequirement(%crop);
 		%tag = "Progress_" @ %blid @ "_" @ %crop;
 		%currCount = getDataIDArrayTagValue(%dataID, %tag);
 
