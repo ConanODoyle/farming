@@ -62,6 +62,7 @@ function findAllBuyerSpawns()
             BigBuyerMover.add(%b);
 			messageAll('', "    Found big buyer spawn " @ %b);
             %b.setHSpawnClose(1, 0);
+            %b.hbot.delete();
         }
     }
 
