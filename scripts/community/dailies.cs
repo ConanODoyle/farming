@@ -147,7 +147,14 @@ function displayDailyProgress(%cl)
 
 	if (%finished == $numDailyRequirements)
 	{
-		%text = %text @ "\n\nYou have completed the daily request! Go to the clock tower at HTP to claim your reward!";
+		if (!hasClaimedDailyReward(%cl))
+		{
+			%text = %text @ "\n\nYou have completed the daily request! Go to the clock tower at HTP to claim your reward!";
+		}
+		else
+		{
+			%text = %text @ "\n\nYou have already claimed today's reward! Check back tomorrow for a new daily request.";
+		}
 	}
 	else
 	{

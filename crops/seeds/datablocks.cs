@@ -96,9 +96,9 @@ SeedDatablocks("Mango","0.09 0.04 0 1","seedsShort","1 0.83 0 1",true,1);
 SeedDatablocks("Peach","0.412 0.192 0 1","seedsLarge","1 0.603 0.419 1",true,1);
 
 //underground
-SeedDatablocks("Carrot","0.39 0.34 0.30 1","seeds","1 0.502 0 1",false,3);
+SeedDatablocks("Carrot","0.39 0.34 0.30 1","seeds","1 0.502 0 1",false,6);
 SeedDatablocks("Onion","0.08 0.08 0.08 1","seedsFlat","1 0.96 0.74 1",false,6);
-SeedDatablocks("Potato","0.9 0.68 0.12 1","seeds","0.568 0.329 0 1",false,3);
+SeedDatablocks("Potato","0.9 0.68 0.12 1","seeds","0.568 0.329 0 1",false,6);
 SeedDatablocks("Turnip","0.08 0.08 0.08 1","seedsRound","0.9 0.9 0.9 1",false,6);
 
 //aboveground

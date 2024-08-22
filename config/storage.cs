@@ -41,8 +41,8 @@ $StorageMax_Weed = 4 * 30;
 
 
 $StorageMax_TomatoSeed = 12 * 2;
-$StorageMax_PotatoSeed = 12 * 2;
-$StorageMax_CarrotSeed = 12 * 2;
+$StorageMax_PotatoSeed = 24 * 2;
+$StorageMax_CarrotSeed = 24 * 2;
 $StorageMax_CornSeed = 12 * 2;
 $StorageMax_WheatSeed = 24 * 2;
 $StorageMax_CabbageSeed = 12 * 2;

@@ -14,7 +14,6 @@ function generateRequirements(%dataID, %numTypes, %table)
 		}
 		%picked[%pick] = 1;
 		addToDataIDArray(%dataID, %pick);
-		setDataIDArrayTagValue(%dataID, %pick, 1);
 	}
 	echo("Generated " @ %numTypes @ " requirements for " @ %dataID);
 }
