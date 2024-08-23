@@ -40,6 +40,11 @@ if (!isObject(PowerControlSimSet))
 	$PowerControlSimSet = new SimSet(PowerControlSimSet) {};
 }
 
+if (!isObject(onLoadEndPowerAddSimSet)) 
+{
+	$onLoadEndPowerAddSimSet = new SimSet(onLoadEndPowerAddSimSet) {};
+}
+
 package PowerSystems
 {
 	function fxDTSBrick::onAdd(%obj) 
@@ -49,14 +54,20 @@ package PowerSystems
 		%db = %obj.getDatablock();
 		if (%obj.isPlanted)
 		{
+			if (%db.isPowerControlBox || %db.isPoweredProcessor || %db.isBattery || %db.isGenerator)
+			{
+				if (isEventPending ($LoadSaveFile_Tick_Schedule) || %obj.getGroup().isLoadingLot)
+				{
+					onLoadEndPowerAddSimSet.add(%obj);
+					return %ret;
+				}
+
+				%obj.schedule(100, autoAddPowerControlSystem);
+			}
+
 			if (%db.isPowerControlBox)
 			{
 				PowerControlSimSet.add(%obj);
-			}
-
-			if (%db.isPowerControlBox || %db.isPoweredProcessor || %db.isBattery || %db.isGenerator)
-			{
-				%obj.schedule(100, autoAddPowerControlSystem);
 			}
 		}
 
@@ -179,8 +190,37 @@ package PowerSystems
 		}
 		return parent::removeStack(%cl, %menu, %option);
 	}
+
+	function ServerLoadSaveFile_End ()
+	{
+		onLoadEndAddPowerBricks();
+		return parent::ServerLoadSaveFile_End ();
+	}
+
+	function farmingLoadEnd(%loadFile, %type, %dataObj, %brickGroup)
+	{
+		onLoadEndAddPowerBricks();
+		return parent::farmingLoadEnd (%loadFile, %type, %dataObj, %brickGroup);
+	}
 };
 activatePackage(PowerSystems);
+
+function onLoadEndAddPowerBricks()
+{
+	%count = $onLoadEndPowerAddSimSet.getCount();
+	for(%i = 0; %i < %count; %i++)
+	{
+		%obj = $onLoadEndPowerAddSimSet.getObject(%i);
+		%db = %obj.getDataBlock();
+		
+		if (%db.isPowerControlBox)
+		{
+			PowerControlSimSet.add(%obj);
+		}
+		%obj.autoAddPowerControlSystem();
+	}
+	$onLoadEndPowerAddSimSet.clear();
+}
 
 function powerTick(%index)
 {
