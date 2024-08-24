@@ -29,7 +29,7 @@ package NoPlantBuild
 			%cl.player.tempBrick.delete();
 			messageClient(%cl, '', "You are not allowed to place plant bricks directly!");
 		}
-		parent::serverCmdPlantBrick(%cl);
+		return parent::serverCmdPlantBrick(%cl);
 	}
 
 	function fxDTSBrick::onAdd(%obj)

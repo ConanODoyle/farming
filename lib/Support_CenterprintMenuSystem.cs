@@ -346,7 +346,7 @@ package centerprintMenuSystem
 		if (%cl.isInCenterprintMenu)
 		{
 			%cl.confirmCenterprintMenu();
-			return;
+			return 0;
 		}
 
 		return parent::serverCmdPlantBrick(%cl);
