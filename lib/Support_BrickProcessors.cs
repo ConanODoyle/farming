@@ -106,9 +106,9 @@ package Processors
 					messageClient(%cl, 'MsgItemPickup', '', %pl.currTool, 0);
 					$LastPlacedProcessorClient = %cl;
 					%ret = parent::serverCmdPlantBrick(%cl);
-					// talk("Placed: " @ $LastAddedBrick SPC " isObject: " @ isObject($LastAddedBrick) SPC "Removed: " @ ($LastAddedBrick).removed);
+					//talk(%cl.name SPC "Placed: " @ $LastAddedBrick SPC " isObject: " @ isObject($LastAddedBrick) SPC "Removed: " @ ($LastAddedBrick).removed);
 					serverCmdUnuseTool(%cl);
-					if (!isObject($LastAddedBrick) && !isObject(%cl.processorPlaced))
+					if(!isObject(%ret))
 					{
 						%pl.tool[%currTool] = %item;
 						serverCmdUseTool(%cl, %currTool);
@@ -116,7 +116,7 @@ package Processors
 					}
 					else
 					{
-						talk("Removing " @ %item.uiname @ " placer: LastAddedBrick " @ $LastAddedBrick SPC $LastAddedBrick.position SPC $LastAddedBrick.angleid);
+						talk("Removing " @ %item.uiname @ " placer: LastAddedBrick " @ $LastAddedBrick SPC $LastAddedBrick.position SPC $LastAddedBrick.angleid SPC %ret);
 						%brick = $LastAddedBrick;
 						%brick.processorPlaced = $Sim::Time;
 						%brick.placer = %cl;
