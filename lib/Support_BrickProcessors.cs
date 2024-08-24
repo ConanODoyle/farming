@@ -89,7 +89,7 @@ package Processors
 				{
 					messageClient(%cl, '', "You cannot plant " @ %db.uiname @ " bricks without the item!");
 					serverCmdCancelBrick(%cl);
-					return;
+					return 0;
 				}
 				else
 				{
@@ -99,7 +99,7 @@ package Processors
 					{
 						messageClient(%cl, '', "You cannot plant " @ %db.uiname @ " bricks without the item!");
 						serverCmdCancelBrick(%cl);
-						return;
+						return 0;
 					}
 
 					%pl.tool[%pl.currTool] = "";

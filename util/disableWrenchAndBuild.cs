@@ -187,7 +187,7 @@ package disableWrenchData
 					messageClient(%cl, '', "Find an empty single lot (red-colored) and do /buylot to purchase a lot!");
 				}
 				serverCmdCancelBrick(%cl);
-				return;
+				return 0;
 			}
 		}
 
