@@ -60,9 +60,6 @@ function logItemAction(%dataID, %action, %blid)
 	return %newActionLog;
 }
 
-if(isFunction("ItemData", "onRemove"))
-	eval("function ItemData::onRemove(%this, %obj) { }");
-
 package Support_DataIDItem
 {
 	function Armor::onCollision(%db, %obj, %col, %vec, %speed)
@@ -97,15 +94,6 @@ package Support_DataIDItem
 			}
 		}
 		return parent::serverCmdDropTool(%cl, %slot);
-	}
-
-	function ItemData::onRemove(%this, %obj)
-	{
-		if (%this.hasDataID && %this.isDataIDTool && && %obj.dataID !$= "")
-		{
-			logItemAction(%obj.dataID, "despawn", 0);
-		}
-		return parent::onRemove(%this, %obj);
 	}
 };
 activatePackage(Support_DataIDItem);
