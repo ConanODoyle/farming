@@ -104,11 +104,9 @@ package Processors
 
 					%pl.tool[%pl.currTool] = "";
 					messageClient(%cl, 'MsgItemPickup', '', %pl.currTool, 0);
-					$LastPlacedProcessorClient = %cl;
-					%ret = parent::serverCmdPlantBrick(%cl);
-					//talk(%cl.name SPC "Placed: " @ $LastAddedBrick SPC " isObject: " @ isObject($LastAddedBrick) SPC "Removed: " @ ($LastAddedBrick).removed);
+					%brick = parent::serverCmdPlantBrick(%cl);
 					serverCmdUnuseTool(%cl);
-					if(!isObject(%ret))
+					if(!isObject(%brick))
 					{
 						%pl.tool[%currTool] = %item;
 						serverCmdUseTool(%cl, %currTool);
@@ -116,30 +114,16 @@ package Processors
 					}
 					else
 					{
-						talk("Removing " @ %item.uiname @ " placer: LastAddedBrick " @ $LastAddedBrick SPC $LastAddedBrick.position SPC $LastAddedBrick.angleid SPC %ret);
-						%brick = $LastAddedBrick;
-						%brick.processorPlaced = $Sim::Time;
+						//don't believe these do anything
 						%brick.placer = %cl;
 						%brick.placerSlot = %currTool;
 					}
-					%cl.processorPlaced = "";
-					return %ret;
+					return %brick;
 				}
 			}
 		}
 
 		return parent::serverCmdPlantBrick(%cl);
-	}
-
-	function fxDTSBrickData::onAdd(%this, %obj)
-	{
-		$LastAddedBrick = %obj;
-		if (%this.isProcessor && %obj.isPlanted && $LastPlacedProcessorClient !$= "")
-		{
-			$LastPlacedProcessorClient.processorPlaced = %obj;
-			$LastPlacedProcessorClient = "";
-		}
-		return parent::onAdd(%this, %obj);
 	}
 
 	function ndTrustCheckSelect(%obj, %group2, %bl_id, %admin)
