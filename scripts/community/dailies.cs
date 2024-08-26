@@ -230,8 +230,17 @@ package DailyGoals
 		addCropProgressForGoal($CurrDailyGoalID, %client, %type, %count);
 		if (checkDailyGoalProgress(%client) && !hasClaimedDailyReward(%client))
 		{
-			commandToClient(%client, 'MessageBoxOK', "Daily Complete", 
-				"You have completed today's daily requests! Head to the clock tower at HTP to claim your reward!");
+			if($Sim::Time - %client.lastDailyCompleteNotify > 60 * 5)
+			{
+				commandToClient(%client, 'MessageBoxOK', "Daily Complete", 
+					"You have completed today's daily requests! Head to the clock tower at HTP to claim your reward!");
+			}
+			else if ($Sim::Time - %client.lastDailyCompleteNotify > 5)
+			{
+				%client.chatMessage("<bitmap:base/client/ui/ci/star> \c6You have completed today's daily requests! Head to the clock tower at HTP to claim your reward!");
+			}
+
+			%client.lastDailyCompleteNotify = $Sim::Time;
 		}
 
 		return %ret;
