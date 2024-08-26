@@ -56,6 +56,11 @@ function Item::schedulePopLoop(%obj, %color, %transparency)
 	%obj.startFade(1000, 0, 1);
 	if (%transparency < 0.05)
 	{
+		%itemDB = %obj.getDataBlock();
+		if (%itemDB.hasDataID && %itemDB.isDataIDTool && %obj.dataID !$= "")
+		{
+			logItemAction(%obj.dataID, "despawn", 0);
+		}
 		%obj.delete();
 		return;
 	}

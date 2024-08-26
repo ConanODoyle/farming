@@ -1039,10 +1039,18 @@ package StorageBricks
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
 			if (isObject(%hit) && %hit.getDatablock().isStorageBrick && getTrustLevel(%hit, %cl) >= 2)
 			{
+				%toolID = %pl.toolDataID[%slot];
 				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1],
 												%item,
 												!%pl.tool[%slot].isStackable ? 1 : %pl.toolStackCount[%slot],
-												%pl.toolDataID[%slot]);
+												%toolID);
+
+				if ((%success == 0 || %success == 1)
+					&& %item.hasDataID && %item.isDataIDTool && %toolID !$= "")
+				{
+					logItemAction(%toolID, "stored", %cl.bl_id);
+				}
+
 				if (%success == 0) //complete insertion
 				{
 					%pl.toolStackCount[%slot] = 0;

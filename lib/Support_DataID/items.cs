@@ -41,8 +41,23 @@ function dropDataIDItem(%client, %slot)
 					%player.unmountImage(%item.image.mountPoint);
 				}
 			}
+
+			logItemAction(%thrownItem.dataID, "dropped", %client.bl_id); //added line here
 		}
 	}
+}
+
+function logItemAction(%dataID, %action, %blid)
+{
+	if (%dataID $= "" || getWordCount(%action) != 1 || %blid !$= atoi(%blid))
+		return false;
+	
+	%actionString = getSafeVariableName(%action @ "_" @ %blid);
+	%actionLog = getDataIDArrayTagValue(%dataID, "actionLog");
+	%newActionLog = getWords(%actionString SPC %actionLog, 0, 3);
+	setDataIDArrayTagValue(%dataID, "actionLog", %newActionLog);
+
+	return %newActionLog;
 }
 
 package Support_DataIDItem
@@ -58,6 +73,8 @@ package Support_DataIDItem
 				if (%slot != -1)
 				{
 					%obj.toolDataID[%slot] = %col.dataID;
+					//this logs item retrievals from chests too
+					logItemAction(%col.dataID, "pickedUp", %obj.client.bl_id);
 				}
 			}
 		}
@@ -80,6 +97,7 @@ package Support_DataIDItem
 	}
 };
 activatePackage(Support_DataIDItem);
+
 
 RegisterPersistenceVar("toolDataID0", false, "");
 RegisterPersistenceVar("toolDataID1", false, "");
