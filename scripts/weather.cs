@@ -11,6 +11,16 @@ $noRainModifier = 0.0001;
 $heatWaveChance = 0.0032;
 $heatWaveRainReduction = 0.0005;
 
+function getRainChance()
+{
+	return $rainChance + $noRainModifier * mFloor(($Sim::Time - $lastRained + 0.1) / 15);
+}
+
+function getHeatwaveChance()
+{
+	return $heatWaveChance - (6 - mFloor(($Sim::Time - $lastRained) / 15) / 20) * $heatWaveRainReduction;
+}
+
 function rainCheckLoop()
 {
 	cancel($masterRainCheckLoop);
@@ -31,8 +41,8 @@ function rainCheckLoop()
 		$isRaining = 0;
 	}
 
-	%rainChance = $rainChance + $noRainModifier * mFloor(($Sim::Time - $lastRained + 0.1) / 15);
-	%heatWaveChance = $heatWaveChance - (6 - mFloor(($Sim::Time - $lastRained) / 15) / 20) * $heatWaveRainReduction;
+	%rainChance = getRainChance();
+	%heatWaveChance = getHeatwaveChance();
 	if (!$isRaining && !$isHeatWave)
 	{
 		if (getRandom() < %rainChance)
