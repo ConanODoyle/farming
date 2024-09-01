@@ -80,7 +80,7 @@ function loopApplyDateTime()
 	}
 
 	
-	$loopApplyDateTimeSchedule = schedule(%time, 0, loopApplyDateTime, );
+	$loopApplyDateTimeSchedule = schedule(%time, 0, loopApplyDateTime);
 }
 
 $clockTowerPos = "-605 -930 64";
