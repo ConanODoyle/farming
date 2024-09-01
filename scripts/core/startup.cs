@@ -16,6 +16,7 @@ function startLoops()
 	loopSaveLots(0);
 	findAllBuyerSpawns();
 	loopApplyDateTime();
+	dailyRefreshSchedule();
 }
 
 function stopLoops()
