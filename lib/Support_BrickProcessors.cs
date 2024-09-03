@@ -104,7 +104,11 @@ package Processors
 
 					%pl.tool[%pl.currTool] = "";
 					messageClient(%cl, 'MsgItemPickup', '', %pl.currTool, 0);
+
+					%cl.isPlantingProcessor = true;
 					%brick = parent::serverCmdPlantBrick(%cl);
+					%cl.isPlantingProcessor = false;
+
 					serverCmdUnuseTool(%cl);
 					if(!isObject(%brick))
 					{
@@ -114,7 +118,6 @@ package Processors
 					}
 					else
 					{
-						//don't believe these do anything
 						%brick.placer = %cl;
 						%brick.placerSlot = %currTool;
 					}
@@ -124,6 +127,50 @@ package Processors
 		}
 
 		return parent::serverCmdPlantBrick(%cl);
+	}
+
+	//this should never be called from a schedule unless your brick has >100 bricks connected to it
+	function fxDTSBrick::TrustCheckFailed(%obj)
+	{
+		%item = nameToID(%obj.getDatablock().placerItem);
+		if (!isObject(%item))
+		{
+			return parent::TrustCheckFailed(%obj);
+		}
+
+		%client = %obj.placer;
+		%placerSlot = %brick.placerSlot;
+		//TrustCheckFailed can immediately fail on plant during /plantBrick parent
+		if (!isObject(%client) && %obj.client.isPlantingProcessor)
+		{
+			%client = %obj.client;
+			%placerSlot = %client.player.currTool;
+		}
+
+		if (isObject(%client))
+		{
+			%player = %client.player;
+		
+			if (!isObject(%player) || %player.tool[%placerSlot] != 0)
+			{
+				%i = new Item(BrickPlacers) {
+					dataBlock = %item;
+					harvestedBG = getBrickgroupFromObject(%obj);
+				};
+				%i.setTransform(%obj.getTransform());
+				%i.setVelocity("0 0 4");
+				MissionCleanup.add(%i);
+				%i.schedule($Game::Item::PopTime, schedulePop);
+			}
+			else
+			{
+				%player.tool[%placerSlot] = %item;
+				serverCmdUseTool(%client, %placerSlot);
+				messageClient(%client, 'MsgItemPickup', '', %placerSlot, %item);
+			}
+		}
+
+		return parent::TrustCheckFailed(%obj);
 	}
 
 	function ndTrustCheckSelect(%obj, %group2, %bl_id, %admin)
