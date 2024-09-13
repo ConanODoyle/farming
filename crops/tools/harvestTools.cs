@@ -466,6 +466,55 @@ function addStatTrak(%item, %dataID)
 	return 1 TAB "Crop: " @ %crop;
 }
 
+function listStorageToolsTraks(%storageID)
+{
+	%count = getDataIDArrayCount(%storageID);
+	for (%i = 1; %i < %count; %i++)
+	{
+		%field = getDataIDArrayValue(%storageID, %i);
+		%item = getField(%field, 0);
+		%count = getField(%field, 1);
+		%dataID = getField(%field, 2);
+
+		if (!isObject(%item) || !%item.hasDataID)
+		{
+			continue;
+		}
+
+		%statTrakType = getDataIDArrayTagValue(%dataID, "statTrakType");
+		if (%statTrakType $= "")
+		{
+			continue;
+		}
+
+		if (!%hasFound[%item])
+		{
+			%hasFound[%item] = 1;
+			%itemList[%itemListCount++ - 1] = %item;
+		}
+
+		%itemTypes[%item] = %itemTypes[%item] SPC %statTrakType;
+	}
+
+	for (%i = 0; %i < %itemListCount; %i++)
+	{
+		%item = %itemList[%i];
+		echo(%item @ ": " @ %itemTypes[%item]);
+	}
+}
+
+function makeOmniTrak(%dataID)
+{
+	setDataIDArrayTagValue(%dataID, "statTrakType", "ALL");
+	setDataIDArrayTagValue(%dataID, "toolItemToggles", "ClipperItem SickleItem TrowelItem HoeItem TreeClipperItem");
+}
+
+function superKillStorageBrick(%brick)
+{
+	%brick.setDatablock("brick1x1fData");
+	%brick.eventOutput0 = "";
+	%brick.killBrick();
+}
 
 
 function Player::getToolStatTrak(%pl)
