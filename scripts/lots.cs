@@ -490,11 +490,11 @@ function getLotCost(%count, %lot)
 	}
 	if (%count >= 4)
 	{
-		%cost = mPow(2, %count - 1) * 400;
+		%cost = mPow(2, %count - 1) * 200;
 	}
 	else if (%count > 0)
 	{
-		%cost = mPow(2, %count) * 200;
+		%cost = mPow(2, %count) * 150;
 	}
 	else
 	{
