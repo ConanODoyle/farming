@@ -1,6 +1,6 @@
 function serverCmdUL(%cl)
 {
-    if (!isObject(%pl = %cl.getControlObject()) || !%cl.isSuperAdmin)
+    if (!isObject(%pl = %cl.getControlObject()) || !%cl.isSuperAdmin || !%cl.isBuilder)
     {
         return;
     }
@@ -20,8 +20,44 @@ function serverCmdUL(%cl)
             return;
         }
         // talk("e " @ %group.bl_id);
+        if (%group.isUnloadingLot)
+        {
+            messageClient(%cl, '', "\c5Already unloading " @ %group.bl_id @ "'s lot!");
+            return;
+        }
         unloadLot(%group.bl_id);
+        messageClient(%cl, '', "\c5Unloading " @ %group.bl_id @ "'s lot...");
     }
+}
+
+function unloadAllLots()
+{
+    announce("\c5Unloading all lots");
+    for (%i = 0; %i < MainBrickgroup.getCount(); %i++)
+    {
+        %bg = MainBrickgroup.getObject(%i);
+        if (%bg.bl_id >= 888888)
+        {
+            continue;
+        }
+
+        %bg.refreshLotList();
+        if (%bg.lotList !$= "")
+        {
+            unloadLot(%bg.bl_id);
+            announce("\c7Unloading " @ %bg.bl_id @ "'s lots");
+            %count++;
+        }
+    }
+
+    announce("\c5Unloaded " @ (%count + 0) @ " lots");
+}
+
+function resetAllLots()
+{
+    deleteVariables("$Pref::Farming::LastLotAutosave*");
+    deleteVariables("$Pref::Farming::BossReward*");
+    unloadAllLots();
 }
 
 function serverCmdUS(%cl)

@@ -19,6 +19,21 @@ function _singleHexToInt(%c, %pv)
 	return mPow(16, %pv) * %i;
 }
 
+function _singleHexToInt2(%c, %pv)
+{
+	switch$ (%c)
+	{
+		case "a": %i = 10;
+		case "b": %i = 11;
+		case "c": %i = 12;
+		case "d": %i = 13;
+		case "e": %i = 14;
+		case "f": %i = 15;
+		default: %i = %c;
+	}
+	return mPow(16, %pv) * %i;
+}
+
 function _singleIntToHex(%i)
 {
 	return getSubStr("0123456789abcdef", %i, 1);
