@@ -204,6 +204,10 @@ function bottomprintInfo(%cl)
 			{
 				%pre = %pre @ "\c6      [" @ %prefix @ "Lot Owner: None]";
 			}
+			else
+			{
+				%pre = %pre @ "\c3      " @ (%cl.numFoundTreasureChests + 0) @ "/" @ $TreasureChest::NumChests @ " chests found";
+			}
 		}
 	}
 
