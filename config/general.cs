@@ -14,8 +14,8 @@ JeepSpring.damping = 5000;
 HorseArmor.maxForwardSpeed = 12;
 HorseArmor.maxForwardCrouchSpeed = 12;
 
-hangglidervehicle.lift = 8;
-hangglidervehicle.verticalSurfaceForce = 17;
+hangglidervehicle.lift = 11;
+hangglidervehicle.verticalSurfaceForce = 18;
 hangglidervehicle.forwardThrust = 5;
 hangglidervehicle.reverseThrust = 5;
 
