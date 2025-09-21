@@ -36,6 +36,18 @@ datablock fxDTSBrickData(brick32x32SingleLotData : brick32x32fData)
 	isSingle = 1;
 };
 
+datablock fxDTSBrickData(brick32x32SingleLotNoLadderData : brick32x32fData)
+{
+	brickFile = "./core/resources/basementLotNoLadder.blb";
+	category = "Baseplates";
+	subcategory = "Lots";
+	uiName = "32x32 Single Lot No Ladder";
+
+	cost = -1;
+	isLot = 1;
+	isSingle = 1;
+};
+
 function GameConnection::getTempBrickBounds(%cl)
 {
 	if (!isObject(%pl = %cl.player))
