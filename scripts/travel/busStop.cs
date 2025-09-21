@@ -27,7 +27,8 @@ package BusStops
         return parent::exitCenterprintMenu(%cl);
     }
 };
-schedule(10000, 0, activatePackage, BusStops);
+schedule(15000, 0, activatePackage, BusStops);
+schedule(15000, 0, resetAllOpCallFunc);
 
 function findAllBusStops(%idx)
 {
@@ -146,7 +147,7 @@ function configureBusStopCenterprintMenu(%menu, %brick)
         %menu.menuOption[%menuOptionCount] = %name;
         if (%here)
         {
-            %menu.menuFunction[%menuOptionCount] = "";
+            %menu.menuFunction[%menuOptionCount] = "exitBusStopMenu";
             %menu.currentStopName = %originalName;
             %here = 0;
         }
@@ -168,6 +169,11 @@ registerOutputEvent("GameConnection", "displayBusStopStats");
 function GameConnection::displayBusStopStats(%cl)
 {
     commandToClient(%cl, 'MessageBoxOK', "Bus Stop Stats", "Served " @ $Pref::Server::BusStopTrips @ " people!\nTotal spent: $" @ mFloatLength($Pref::Server::BusStopTotalCost / 10, 2));
+}
+
+function exitBusStopMenu(%cl, %menu, %option)
+{
+    %cl.setControlObject(%cl.player);
 }
 
 function goToBusStop(%cl, %menu, %option)
