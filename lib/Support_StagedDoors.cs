@@ -27,7 +27,7 @@ package Support_StagedDoors
 		// else
 		
 		// set the datablock
-		%obj.setDoorDataBlock( %newDataBlock );
+		// %obj.setDoorDataBlock( %newDataBlock );
 	}
 
 	function fxDTSBrick::doorClose( %obj, %client )
