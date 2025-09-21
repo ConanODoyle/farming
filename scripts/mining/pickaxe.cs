@@ -112,8 +112,11 @@ function processMiningHit(%this, %pl)
 		case 0: return;
 		case 1: return;
 		case 2: %coalCheck = 1; %phosphateCheck = 1;
-		case 3: %coalCheck = 1; %phosphateCheck = 1; %gemCheck = 1; //no fall through :pensive:
-		default: %coalCheck = 1; %phosphateCheck = 1; %gemCheck = 1;
+		case 3: %coalCheck = 1; %phosphateCheck = 1; %gemCheck = mFloor(getRandom() + 0.3); //no fall through :pensive:
+		case 4: %coalCheck = 1; %phosphateCheck = 1; %gemCheck = mFloor(getRandom() + 1);
+		case 5: %coalCheck = 1; %phosphateCheck = 1; %gemCheck = mFloor(getRandom() + 1.2);
+		case 6: %coalCheck = 1; %phosphateCheck = 1; %gemCheck = mFloor(getRandom() + 1.4);
+		default: %coalCheck = 1; %phosphateCheck = 1; %gemCheck = mFloor(getRandom() + 1.8);
 	}
 
 	if (%phosphateCheck && getRandom() < %this.phosphateChance * getMax(1, %this.hitcount / 5))
@@ -138,8 +141,9 @@ function processMiningHit(%this, %pl)
 		%this.disappear(90);
 		return;
 	}
-	if (%gemCheck)
+	while (%gemCheck >= 1)
 	{
+		%gemCheck--;
 		%rand = getRandom();
 		if (%rand < $DiamondChance)
 		{
