@@ -45,6 +45,7 @@ function addBappsMatStrings()
 	addBappsMatString("<3");
 	addBappsMatString("8==D");
 	addBappsMatString("boklnd");
+	addBappsMatString("beeb");
 	addBappsMatString("brapps");
 	addBappsMatString("borked");
 	addBappsMatString("hewwo!");
@@ -107,7 +108,8 @@ function addBappsMatStrings()
 	addBappsMatString("mwah");
 	addBappsMatString("waaagh");
 	addBappsMatString("floor.");
-	addBappsMatString("2020");
+	addBappsMatString("?2020?");
+	addBappsMatString("!2025!");
 	addBappsMatString("pemis.");
 	addBappsMatString("%I");
 	addBappsMatString("%>");
@@ -282,8 +284,10 @@ function addPostOfficeStrings()
 	addPostOfficeString("please" TAB "read");
 	addPostOfficeString("" TAB "    hi");
 	addPostOfficeString(".mail." TAB "room");
+	addPostOfficeString(".mail." TAB "shack?");
 	addPostOfficeString("wheres" TAB "mail");
 	addPostOfficeString(".blok." TAB "mail");
+	addPostOfficeString("..mmmm" TAB "mail");
 	addPostOfficeString("cursed" TAB "post");
 	addPostOfficeString(".plop." TAB "office");
 	addPostOfficeString("potty" TAB "humor");
@@ -293,7 +297,9 @@ function addPostOfficeStrings()
 	addPostOfficeString(".dont." TAB "read");
 	addPostOfficeString("e     ");
 	addPostOfficeString("bottom" TAB "text");
+	addPostOfficeString("its " TAB "2025??");
 	addPostOfficeString("i love" TAB "you <3");
+	addPostOfficeString("wat da" TAB "hell");
 	addPostOfficeString(".xbox." TAB "live");
 	addPostOfficeString(".good." TAB "night!");
 	addPostOfficeString("i go" TAB "sleep.");
