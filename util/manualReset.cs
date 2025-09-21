@@ -53,6 +53,32 @@ function unloadAllLots()
     announce("\c5Unloaded " @ (%count + 0) @ " lots");
 }
 
+function deleteShopLots()
+{
+    announce("\c5Deleting shop lots");
+    for (%i = 0; %i < MainBrickgroup.getCount(); %i++)
+    {
+        %bg = MainBrickgroup.getObject(%i);
+        if (%bg.bl_id >= 888888)
+        {
+            continue;
+        }
+
+        %bg.refreshLotList();
+        if (%bg.shopLot !$= "")
+        {
+            clearLotRecursive(%bg.shopLot);
+            fixShopLotColor(%bg.shopLot);
+            Brickgroup_888888.add(%hit);
+            %bg.shopLot = "";
+            announce("\c7Deleted " @ %bg.bl_id @ "'s shopLot");
+            %count++;
+        }
+    }
+
+    announce("\c5Deleted " @ (%count + 0) @ " shop lots");
+}
+
 function resetAllLots()
 {
     deleteVariables("$Pref::Farming::LastLotAutosave*");
