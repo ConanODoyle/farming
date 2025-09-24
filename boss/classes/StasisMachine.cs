@@ -27,6 +27,7 @@ datablock fxDTSBrickData(BrickStasisMachineData)
 	subCategory = "Interactive";
 
 	uiName = "Stasis Machine";
+	isIllegal = 1;
 	// iconName = "Add-Ons/Player_Harvester/icon_stasis_machine";
 };
 
