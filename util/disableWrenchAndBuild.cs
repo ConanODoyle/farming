@@ -175,7 +175,7 @@ package disableWrenchData
 			%db = %pl.tempBrick.getDatablock();
 			if ((%db.category $= "Baseplates" && %db.subCategory !$= "Plain") || %db.subCategory $= "Drinks" || %db.subCategory $= "Holes"
 				|| %db.category $= "Zonebricks" || %db.uiName $= "Treasure Chest" || %db.isShopLot || %db.isLot || %db.isTeledoor || %db.isIllegal
-				|| %db.uiName $= "Waving Flag" || %db.uiName $= "Still Flag")
+				|| %db.uiName $= "Waving Flag" || %db.uiName $= "Still Flag" || %db.uiName $= "")
 			{
 				if (%db.subCategory $= "Cube" && getWord(%db.uiname, 0) < 16)
 				{
