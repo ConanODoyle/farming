@@ -166,7 +166,7 @@ function AIPlayer::canBuy(%bot, %item)
 			%type = getWord(%bot.buyType, %i);
 			%list = "\t" @ $StorageType[%type @ "List"] @ "\t";
 			%type = %itemDB.stackType $= "" ? %itemDB.getName() : %itemDB.stackType;
-			if (strPos(%list, "\t" @ %type @ "\t") >= 0)
+			if (striPos(%list, "\t" @ %type @ "\t") >= 0)
 			{
 				return 1;
 			}

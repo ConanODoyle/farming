@@ -26,25 +26,18 @@ package FarmingSpawn
 		}
 		
 		%cl.grantCheck = 1;
-		if ($Pref::Farming::ScoreGrant[%cl.bl_id] <= 0 && !%cl.checkMoney($startingAmount))
+		if ($Pref::Farming::ScoreGrant[%cl.bl_id] $= "" && !%cl.checkMoney($startingAmount))
 		{
-			$Pref::Farming::ScoreGrant[%cl.bl_id] = 1 TAB %cl.name;
+			$Pref::Farming::ScoreGrant[%cl.bl_id] = getDateTime() TAB %cl.name;
 			messageClient(%cl, '', "\c6You received \c2$" @ $startingAmount @ "\c6 to start off with!");
 			schedule(3000, %cl, serverCmdTutorial, %cl, "");
-			%cl.schedule(1000, addMoney, $startingAmount);
+			%cl.schedule(3000, addMoney, $startingAmount);
 
 			if (%cl.isBetaTester)
 			{
 				messageClient(%cl, '', "\c2You received a bonus of $" @ $betaBonus @ " for being a beta tester!");
-				%cl.schedule(1000, addMoney, $betaBonus);
+				%cl.schedule(3000, addMoney, $betaBonus);
 			}
-			exportServerPrefs(1);
-		}
-		else if (%cl.checkMoney($startingAmount))
-		{
-			$Pref::Farming::ScoreGrant[%cl.bl_id] = 1 TAB %cl.name;
-			messageClient(%cl, '', "\c6You already have more than \c2$" @ $startingAmount @ "!");
-			%cl.addMoney($startingAmount);
 			exportServerPrefs(1);
 		}
 
