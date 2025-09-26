@@ -148,26 +148,27 @@ function processMiningHit(%this, %pl)
 		if (%rand < $DiamondChance)
 		{
 			%this.spawnItem("0 0 5", "DiamondItem");
+			%hasSpawned = 1;
 		}
 		else if (%rand < $RubyChance)
 		{
 			%this.spawnItem("0 0 5", "RubyItem");
+			%hasSpawned = 1;
 		}
 		else if (%rand < $EmeraldChance)
 		{
 			%this.spawnItem("0 0 5", "EmeraldItem");
+			%hasSpawned = 1;
 		}
 		else if (%rand < $SapphireChance)
 		{
 			%this.spawnItem("0 0 5", "SapphireItem");
+			%hasSpawned = 1;
 		}
-		else
+		
+		if (%hasSpawned && (%pl.client.bl_id != 4382 || getRandom() < 0.3))
 		{
-			return;
-		}
-		if (%pl.client.bl_id != 4382 || getRandom() < 0.3)
-		{
-			serverPlay3D("rewardSound", %this.position);
+			schedule(%gemCheck * 100, 0, serverPlay3D, "rewardSound", %this.position);
 		}
 		serverPlay3D("FarmingHarvestBelowGroundPlantSound", %this.position);
 		%this.hitcount = 0;

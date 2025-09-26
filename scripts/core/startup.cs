@@ -17,9 +17,11 @@ function startLoops()
 	findAllBuyerSpawns();
 	loopApplyDateTime();
 	dailyRefreshSchedule();
+	announce("Started loops");
 }
 
 function stopLoops()
 {
 	cancel($masterGrowSchedule);
+	announce("Stopped loops");
 }
