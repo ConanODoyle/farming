@@ -292,7 +292,7 @@ datablock fxDTSBrickData(brickSafe3x3x3Data)
 
 	brickFile = "./bricks/safe3x3x3.blb";
 
-	iconName = "";
+	iconName = "Currency_Safe";
 
 	isStorageBrick = 1;
 	storageSlotCount = 3;
@@ -483,7 +483,7 @@ datablock fxDTSBrickData(brickLeftQuestCabinetClosed0Data)
 
 	brickFile = "./bricks/leftQuestCabinetClosed0.blb";
 
-	iconName = "";
+	iconName = "Quest_Cabinet_Left";
 
 	isStorageBrick = 1;
 	storageSlotCount = 4;
@@ -579,7 +579,7 @@ datablock fxDTSBrickData(brickRightQuestCabinetClosed0Data)
 
 	brickFile = "./bricks/rightQuestCabinetClosed0.blb";
 
-	iconName = "";
+	iconName = "Quest_Cabinet_Right";
 
 	isStorageBrick = 1;
 	storageSlotCount = 4;
