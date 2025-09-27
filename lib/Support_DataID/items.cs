@@ -52,7 +52,7 @@ function logItemAction(%dataID, %action, %blid)
 	if (%dataID $= "" || getWordCount(%action) != 1 || %blid !$= atoi(%blid))
 		return false;
 	
-	%actionString = getSafeVariableName(%action @ "_" @ %blid);
+	%actionString = getSafeVariableName(%action @ "_" @ %blid) @ "_" @ strReplace(getDateTime(), " ", "_");
 	%actionLog = getDataIDArrayTagValue(%dataID, "actionLog");
 	%newActionLog = getWords(%actionString SPC %actionLog, 0, 3);
 	setDataIDArrayTagValue(%dataID, "actionLog", %newActionLog);
