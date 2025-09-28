@@ -345,7 +345,7 @@ package Support_StackableItems
 
 		for (%i = 0; %i < %db.maxTools; %i++) //pick up an entire inventory's worth if possible
 		{
-			if (%col.count !$= "" && %col.count <= 0 || !isObject(%col))
+			if ((!%col.isStatic() && %col.count !$= "" && %col.count <= 0) || !isObject(%col))
 			{
 				break;
 			}
@@ -423,7 +423,7 @@ function checkGroupStackable(%item, %times)
 			continue;
 		}
 
-		if (!%next.static && %next.getDatablock().stackType $= %stackType)
+		if (!%next.static && %next.getDatablock().stackType $= %stackType && getTrustLevel(%col.harvestedBG, %obj) >= 2)
 		{
 			if (%next.count <= 0)
 			{
