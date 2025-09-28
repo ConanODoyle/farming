@@ -345,7 +345,7 @@ package Support_StackableItems
 
 		for (%i = 0; %i < %db.maxTools; %i++) //pick up an entire inventory's worth if possible
 		{
-			if ((!%col.isStatic() && %col.count !$= "" && %col.count <= 0) || !isObject(%col))
+			if (!isObject(%col) || (!%col.isStatic() && %col.count !$= "" && %col.count <= 0))
 			{
 				break;
 			}
