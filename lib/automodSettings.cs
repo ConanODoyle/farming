@@ -1,3 +1,4 @@
+return;
 
 %error = forceRequiredAddon("Server_Automoderator");
 
