@@ -13,6 +13,12 @@ package BuildCost
 		return parent::onAdd(%obj);
 	}
 
+	function fxDTSBrickData::onTrustCheckFailed(%data, %obj)
+	{
+		%obj.trustFailed = 1;
+		parent::onTrustCheckFailed(%data, %obj);
+	}
+
 	function fxDTSBrick::onDeath(%obj)
 	{
 		%db = %obj.getDatablock();
@@ -38,7 +44,7 @@ activatePackage(BuildCost);
 function buyBrick(%b)
 {
 	%group = getBrickgroupFromObject(%b);
-	if (!isObject(%group.client) || %group.client.isBuilder || %group.isLoadingLot || %b.skipBuy)
+	if (!isObject(%group.client) || %group.client.isBuilder || %group.isLoadingLot || %b.skipBuy || %b.trustFailed)
 	{
 		return;
 	}
