@@ -423,7 +423,7 @@ function checkGroupStackable(%item, %times)
 			continue;
 		}
 
-		if (!%next.static && %next.getDatablock().stackType $= %stackType && getTrustLevel(%col.harvestedBG, %obj) >= 2)
+		if (!%next.static && %next.getDatablock().stackType $= %stackType)
 		{
 			if (%next.count <= 0)
 			{
