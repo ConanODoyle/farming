@@ -53,6 +53,7 @@ exec("./util/debug.cs");
 exec("./util/eventParser.cs");
 exec("./util/eventStartGliding.cs");
 exec("./util/disableWrenchAndBuild.cs");
+exec("./util/disableWandKnockup.cs");
 exec("./util/dualClient.cs");
 exec("./util/fixSchedulePop.cs");
 exec("./util/getPluralWord.cs");
