@@ -127,10 +127,10 @@ exec("./scripts/modules.cs");
 // exec("./scripts/mailCatalog.cs");
 
 
-schedule(10000, 0, eval, "if ($pref::server::password $= \"\") $pref::server::password = \"eman\"; ");
-schedule(11000, 0, eval, "shutdown();");
-schedule(11000, 0, eval, "auth_init_server();");
-schedule(15000, 0, eval, "webcom_postServer();");
+schedule(2000, 0, eval, "if ($pref::server::password $= \"\") $pref::server::password = \"" @ sha1() @ "\"; ");
+schedule(2100, 0, eval, "shutdown();");
+schedule(2100, 0, eval, "auth_init_server();");
+schedule(2500, 0, eval, "webcom_postServer();");
 
 RegisterPersistenceVar("farmingExperience", false, "");
 

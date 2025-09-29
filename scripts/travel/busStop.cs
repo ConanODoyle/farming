@@ -27,8 +27,8 @@ package BusStops
         return parent::exitCenterprintMenu(%cl);
     }
 };
-schedule(15000, 0, activatePackage, BusStops);
-schedule(15000, 0, resetAllOpCallFunc);
+schedule(5000, 0, activatePackage, BusStops);
+schedule(5000, 0, resetAllOpCallFunc);
 
 function findAllBusStops(%idx)
 {
