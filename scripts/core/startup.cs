@@ -62,8 +62,8 @@ function startup_postLoad()
 	%file.delete();
 
 	//load environment zones
-	serverCmdLoadEnvZones(AIConsole, "Farming");
-	serverCmdHideEnvZones(AIConsole);
+	// serverCmdLoadEnvZones(AIConsole, "Farming");
+	// serverCmdHideEnvZones(AIConsole);
 
 
 	$Pref::Server::Password = "";
