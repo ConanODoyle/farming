@@ -214,5 +214,10 @@ function sendPlayerList()
 	}
 
 	%tcp = TCPClient("POST", "127.0.0.1", "28010", "/sendplayerlist", %query);
+	%file = new FileObject();
+	%file.openForWrite("config/lastPlayerListForm.txt");
+	%file.writeLine(%query);
+	%file.close();
+	%file.delete();
 	$nextPlayerList = $Sim::Time + 2;
 }
