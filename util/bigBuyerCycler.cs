@@ -51,6 +51,18 @@ function moveBuyer(%bot)
 	return 0;
 }
 
+function findActiveBuyers()
+{
+    for (%i = 0; %i < BigBuyerMover.getCount(); %i++)
+    {
+	    %pick = BigBuyerMover.getObject(%i);
+		if (isObject(%pick.hBot))
+		{
+			messageAll('', "Buyer is at " @ %pick);
+		}
+    }
+}
+
 function findAllBuyerSpawns()
 {
     for (%i = 0; %i < Brickgroup_888888.getCount(); %i++)
