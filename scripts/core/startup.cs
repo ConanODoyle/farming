@@ -45,9 +45,10 @@ function startup()
 function startup_postLoad()
 {
 	startLoops();
-	resetAllBots(AIConsole);
+	serverCmdResetAllBots(AIConsole);
 
 	//load environment
+	AIConsole.currentEnvironment = $DefaultEnvironment;
 	%file = new FileObject();
 	%file.openForRead("Add-ons/Server_Farming/environment.txt");
 	while (!%file.isEOF())
@@ -60,6 +61,7 @@ function startup_postLoad()
 	// commandToServer ('EnvGui_SetVar', %varName, %value);
 	%file.close();
 	%file.delete();
+	AIConsole.currentEnvironment = "";
 
 	//load environment zones
 	// serverCmdLoadEnvZones(AIConsole, "Farming");
