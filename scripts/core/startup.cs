@@ -29,6 +29,11 @@ function stopLoops()
 
 function createHostBrickgroup()
 {
+	if (isObject("Brickgroup_" @ getMyBLID()))
+	{
+		echo("Host Brickgroup exists, continuing...");
+		return;
+	}
 	%brickGroup = new SimGroup (("BrickGroup_" @ getMyBLID()));
 	mainBrickGroup.add(%brickGroup);
 	%brickGroup.name = "\c1BLID: " @ getMyBLID();
@@ -39,7 +44,8 @@ function createHostBrickgroup()
 
 function startup()
 {
-	echo("Startup initialized");
+	$startPassword = $Pref::Server::Password;
+	echo("Startup initialized, initial password " @ $startPassword);
 	createHostBrickgroup();
 	serverCmdLoadAutosave(AIConsole, "last");
 	$waitingForLoadFinish = 1;
@@ -54,10 +60,10 @@ function checkPasswordLoop()
 		echo("Load complete, pausing password loop");
 		return;
 	}
-	if ($Pref::Server::Password $= "")
+	if ($Pref::Server::Password !$= $startPassword)
 	{
-		warn("Password unset too soon!");
-		announce("Password unset too soon!");
+		warn("Password changed too soon!");
+		announce("Password changed too soon!");
 	}
 	$checkPasswordLoopSchedule = schedule(33, 0, checkPasswordLoop);
 }
