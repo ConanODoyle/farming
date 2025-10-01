@@ -127,7 +127,13 @@ exec("./scripts/modules.cs");
 // exec("./scripts/mailCatalog.cs");
 
 
-schedule(2000, 0, eval, "if ($pref::server::password $= \"\") $pref::server::password = \"" @ sha1() @ "\"; ");
+schedule(1, 0, eval, "if ($pref::server::password $= \"\") {$pref::server::password = \"eman\"; echo(\"1. Password set due to password unset!\");} ");
+schedule(33, 0, eval, "if ($pref::server::password $= \"\") {$pref::server::password = \"eman\"; echo(\"2. Password set due to password unset!\");} ");
+schedule(100, 0, eval, "if ($pref::server::password $= \"\") {$pref::server::password = \"eman\"; echo(\"3. Password set due to password unset!\");} ");
+schedule(200, 0, eval, "if ($pref::server::password $= \"\") {$pref::server::password = \"eman\"; echo(\"4. Password set due to password unset!\");} ");
+schedule(500, 0, eval, "if ($pref::server::password $= \"\") {$pref::server::password = \"eman\"; echo(\"5. Password set due to password unset!\");} ");
+schedule(1000, 0, eval, "if ($pref::server::password $= \"\") {$pref::server::password = \"eman\"; echo(\"6. Password set due to password unset!\");} ");
+schedule(2000, 0, eval, "if ($pref::server::password $= \"\") {$pref::server::password = \"eman\"; echo(\"7. Password set due to password unset!\");} ");
 schedule(2100, 0, eval, "shutdown();");
 schedule(2100, 0, eval, "auth_init_server();");
 schedule(2500, 0, eval, "webcom_postServer();");

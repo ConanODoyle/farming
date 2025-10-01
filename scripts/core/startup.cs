@@ -33,21 +33,43 @@ function createHostBrickgroup()
 	mainBrickGroup.add(%brickGroup);
 	%brickGroup.name = "\c1BLID: " @ getMyBLID();
 	%brickGroup.bl_id = getMyBLID();
+
+	echo("Host brickgroup created: " @ %brickGroup);
 }
 
 function startup()
 {
+	echo("Startup initialized");
 	createHostBrickgroup();
 	serverCmdLoadAutosave(AIConsole, "last");
 	$waitingForLoadFinish = 1;
+	checkPasswordLoop();
+}
+
+function checkPasswordLoop()
+{
+	cancel($checkPasswordLoopSchedule);
+	if (!$waitingForLoadFinish)
+	{
+		echo("Load complete, pausing password loop");
+		return;
+	}
+	if ($Pref::Server::Password $= "")
+	{
+		warn("Password unset too soon!");
+		announce("Password unset too soon!");
+	}
+	$checkPasswordLoopSchedule = schedule(33, 0, checkPasswordLoop);
 }
 
 function startup_postLoad()
 {
 	startLoops();
+	echo("Resetting bots");
 	serverCmdResetAllBots(AIConsole);
 
 	//load environment
+	echo("Setting environment");
 	AIConsole.currentEnvironment = $DefaultEnvironment;
 	%file = new FileObject();
 	%file.openForRead("Add-ons/Server_Farming/environment.txt");
@@ -64,11 +86,13 @@ function startup_postLoad()
 	AIConsole.currentEnvironment = "";
 
 	//load environment zones
+	echo("Loading environment zones (disabled)");
 	// serverCmdLoadEnvZones(AIConsole, "Farming");
 	// serverCmdHideEnvZones(AIConsole);
 
 
-	$Pref::Server::Password = "";
+	// $Pref::Server::Password = "";
+	echo("Unsetting password");
 	webcom_postServer();
 }
 
@@ -81,6 +105,7 @@ package Farming_Startup
 		{
 			$waitingForLoadFinish = 0;
 			schedule(500, 0, startup_postLoad);
+			echo("Load complete, starting postload");
 		}
 		return %ret;
 	}
@@ -89,4 +114,4 @@ activatePackage(Farming_Startup);
 resetAllOpCallFunc();
 
 
-schedule(15000, 0, startup);
+// schedule(15000, 0, startup);
