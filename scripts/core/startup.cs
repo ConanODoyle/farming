@@ -98,8 +98,8 @@ function startup_postLoad()
 	serverCmdHideEnvZones(AIConsole);
 
 
-	// $Pref::Server::Password = "";
 	echo("Unsetting password");
+	$Pref::Server::Password = "";
 	webcom_postServer();
 }
 
@@ -121,4 +121,4 @@ activatePackage(Farming_Startup);
 resetAllOpCallFunc();
 
 
-// schedule(15000, 0, startup);
+schedule(15000, 0, startup);
