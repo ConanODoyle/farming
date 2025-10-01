@@ -76,6 +76,7 @@ function startup_postLoad()
 
 	//load environment
 	echo("Setting environment");
+	setupDefaultEnvironment();
 	AIConsole.currentEnvironment = $DefaultEnvironment;
 	%file = new FileObject();
 	%file.openForRead("Add-ons/Server_Farming/environment.txt");
@@ -93,8 +94,8 @@ function startup_postLoad()
 
 	//load environment zones
 	echo("Loading environment zones (disabled)");
-	// serverCmdLoadEnvZones(AIConsole, "Farming");
-	// serverCmdHideEnvZones(AIConsole);
+	serverCmdLoadEnvZones(AIConsole, "Farming");
+	serverCmdHideEnvZones(AIConsole);
 
 
 	// $Pref::Server::Password = "";
