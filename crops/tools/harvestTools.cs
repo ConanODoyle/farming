@@ -473,7 +473,7 @@ function listStorageToolsTraks(%storageID)
 	{
 		%field = getDataIDArrayValue(%storageID, %i);
 		%item = getField(%field, 0);
-		%count = getField(%field, 1);
+		%itemCount = getField(%field, 1);
 		%dataID = getField(%field, 2);
 
 		if (!isObject(%item) || !%item.hasDataID)
@@ -503,10 +503,23 @@ function listStorageToolsTraks(%storageID)
 	}
 }
 
+function makeAlltrak(%dataID)
+{
+	setDataIDArrayTagValue(%dataID, "statTrakType", "ALL");
+	if (getRandom() < 0.1)
+	{
+		setDataIDArrayTagValue(%dataID, "displayAsKills", 1);
+	}
+}
+
 function makeOmniTrak(%dataID)
 {
 	setDataIDArrayTagValue(%dataID, "statTrakType", "ALL");
 	setDataIDArrayTagValue(%dataID, "toolItemToggles", "ClipperItem SickleItem TrowelItem HoeItem TreeClipperItem");
+	if (getRandom() < 0.1)
+	{
+		setDataIDArrayTagValue(%dataID, "displayAsKills", 1);
+	}
 }
 
 function superKillStorageBrick(%brick)
