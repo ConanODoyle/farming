@@ -122,3 +122,27 @@ resetAllOpCallFunc();
 
 
 schedule(15000, 0, startup);
+
+
+function softShutdown(%text)
+{
+	%count = ClientGroup.getCount ();
+	%clientIndex = 0;
+	while (%clientIndex < %count)
+	{
+		%cl = ClientGroup.getObject (%clientIndex);
+		if (!%cl.isLocal () && !%cl.isSuperAdmin)
+		{
+			if (%text !$= "")
+			{
+				%cl.schedule (10, delete, %text);
+			}
+			else 
+			{
+				%cl.schedule (10, delete, "The server was shut down.");
+			}
+		}
+		%clientIndex += 1;
+	}
+	$Pref::Server::Password = sha1(getRandom());
+}
