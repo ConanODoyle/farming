@@ -35,3 +35,9 @@ function registerCosmetic(%inheritItem, %inheritImage, %model, %icon, %offset, %
 }
 
 registerCosmetic(WateringCatItem, WateringCatImage, "cat_black", "", "wateringCat", "Black Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_blackwhite", "", "wateringCat", "Black&White Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_white", "", "wateringCat", "White Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_orange", "", "wateringCat", "Orange Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_calico", "", "wateringCat", "Calico Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_gray", "", "wateringCat", "Gray Cat");
+
