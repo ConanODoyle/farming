@@ -1,3 +1,5 @@
+schedule(2, 0, registerOutputEvent, "Bot", "SetBotName", "string 40 100");
+
 //override ::hLoop to increase performance + allow management of bot spawns more easily
 //assumptions:
 //	bots not mounted
