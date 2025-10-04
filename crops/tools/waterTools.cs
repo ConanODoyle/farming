@@ -25,6 +25,7 @@ datablock ShapeBaseImageData(WateringCanImage)
 	item = WateringCanItem;
 	doColorShift = false;
 	colorShiftColor = "0.6 0.6 0.6 1";
+	className = "WateringToolImage";
 
 	waterAmount = 12;
 	tankAmount = 25;
@@ -66,16 +67,6 @@ datablock ShapeBaseImageData(WateringCanImage)
 	stateWaitForTimeout[4] = false;
 };
 
-function WateringCanImage::onFire(%this, %obj, %slot)
-{
-	waterCanFire(%this, %obj, %slot);
-}
-
-function WateringCanImage::onReady(%this, %obj, %slot)
-{
-	wateringCanReady(%this, %obj, %slot);
-}
-
 ////
 
 datablock ItemData(WateringCan2Item : WateringCanItem) 
@@ -102,16 +93,6 @@ datablock ShapeBaseImageData(WateringCan2Image : WateringCanImage)
 
 	toolTip = "Waters Dirt: +30 | Tanks: +50";
 };
-
-function WateringCan2Image::onFire(%this, %obj, %slot)
-{
-	waterCanFire(%this, %obj, %slot);
-}
-
-function WateringCan2Image::onReady(%this, %obj, %slot)
-{
-	wateringCanReady(%this, %obj, %slot);
-}
 
 ////
 
@@ -141,16 +122,6 @@ datablock ShapeBaseImageData(WateringCan3Image : WateringCanImage)
 	toolTip = "Waters Dirt: +50 | Tanks: +75";
 };
 
-function WateringCan3Image::onFire(%this, %obj, %slot)
-{
-	waterCanFire(%this, %obj, %slot);
-}
-
-function WateringCan3Image::onReady(%this, %obj, %slot)
-{
-	wateringCanReady(%this, %obj, %slot);
-}
-
 ////
 
 datablock ItemData(WateringCatItem : WateringCanItem) 
@@ -179,16 +150,6 @@ datablock ShapeBaseImageData(WateringCatImage : WateringCanImage)
 	toolTip = "Waters Dirt: +150 | Tanks: +250 :0";
 };
 
-function WateringCatImage::onFire(%this, %obj, %slot)
-{
-	waterCanFire(%this, %obj, %slot);
-}
-
-function WateringCatImage::onReady(%this, %obj, %slot)
-{
-	wateringCanReady(%this, %obj, %slot);
-}
-
 ////
 
 datablock ItemData(HoseItem : WateringCanItem) 
@@ -215,16 +176,6 @@ datablock ShapeBaseImageData(HoseImage : WateringCanImage)
 
 	toolTip = "Waters Dirt: +30 | Tanks: +200";
 };
-
-function HoseImage::onFire(%this, %obj, %slot)
-{
-	waterCanFire(%this, %obj, %slot);
-}
-
-function HoseImage::onReady(%this, %obj, %slot)
-{
-	wateringCanReady(%this, %obj, %slot);
-}
 
 ////
 
@@ -253,16 +204,6 @@ datablock ShapeBaseImageData(HoseV2Image : WateringCanImage)
 	toolTip = "Waters Dirt: +50 | Tanks: +400";
 };
 
-function HoseV2Image::onFire(%this, %obj, %slot)
-{
-	waterCanFire(%this, %obj, %slot);
-}
-
-function HoseV2Image::onReady(%this, %obj, %slot)
-{
-	wateringCanReady(%this, %obj, %slot);
-}
-
 ////
 
 datablock ItemData(WateringSnakeItem : WateringCanItem) 
@@ -290,12 +231,12 @@ datablock ShapeBaseImageData(WateringSnakeImage : WateringCanImage)
 	toolTip = "Waters Dirt: +100 | Tanks: +600";
 };
 
-function WateringSnakeImage::onFire(%this, %obj, %slot)
+function WateringToolImage::onFire(%this, %obj, %slot)
 {
 	waterCanFire(%this, %obj, %slot);
 }
 
-function WateringSnakeImage::onReady(%this, %obj, %slot)
+function WateringToolImage::onReady(%this, %obj, %slot)
 {
 	wateringCanReady(%this, %obj, %slot);
 }
