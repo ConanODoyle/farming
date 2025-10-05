@@ -270,7 +270,7 @@ datablock fxDTSBrickData(brickSeedCabinetOpenData)
 
 	brickFile = "./bricks/seedCabinetOpen.blb";
 
-	iconName = "Add-Ons/Server_Farming/icons/storage_crate";
+	iconName = "Add-Ons/Server_Farming/icons/no icon";
 
 	hasPrint = 1;
 	printAspectRatio = "2x2f";
