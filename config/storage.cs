@@ -83,7 +83,7 @@ $StorageTypeCropsList = "Potato\tCarrot\tTomato\tCorn\tWheat\tCabbage\tOnion\tBl
 $StorageTypeCropsIsBlacklist = false;
 
 $StorageTypeSeedsExists = true;
-$StorageTypeSeedsList = "PotatoSeed\tCarrotSeed\tTomatoSeed\tCornSeed\tWheatSeed\tCabbageSeed\tOnionSeed\tBlueberrySeed\tTurnipSeed\tPortobelloSeed\tAppleSeed\tMangoSeed\tChiliSeed\tCactusSeed\tWatermelonSeed\tPeachSeed\tDateSeed";
+//$StorageTypeSeedsList auto generated in crops/seeds/datablocks.cs
 $StorageTypeSeedsIsBlacklist = false;
 
 $StorageTypeCurrencyExists = true;

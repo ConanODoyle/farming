@@ -87,6 +87,7 @@ function SeedDatablocks(%name,%singleColor,%singleShape,%packColor,%tree,%stackM
 		eval(DataString_SeedItem(%uiname,%safeName,%itemName,%imageName,%shape,%packColor));
 		eval(DataString_SeedImage(%uiname,%imageName,%itemName,%shape,%packColor,%cropBrick,%name));
 	}
+	$StorageTypeSeedsList = trim($StorageTypeSeedsList TAB %safeName);
 }
 
 //tree
