@@ -66,6 +66,7 @@ exec("./util/ipCheck.cs");
 exec("./util/makeLotSingle.cs");
 exec("./util/onRandomChance.cs");
 exec("./util/persistenceOverride.cs");
+exec("./util/pingBan.cs");
 exec("./util/radiusAnnounce.cs");
 exec("./util/resetOres.cs");
 exec("./util/roundToStudCenter.cs");
