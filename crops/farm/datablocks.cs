@@ -291,6 +291,8 @@ datablock fxDTSBrickData(brickSeedCabinetClosedData : brickSeedCabinetOpenData)
 {
 	category = "Farming";
 	subCategory = "Storage";
+
+	brickFile = "./bricks/seedCabinetClosed.blb";
 };
 
 datablock fxDTSBrickData(brickLargeToolboxData)
