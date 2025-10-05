@@ -97,6 +97,7 @@ $isDonator_["2143"]		= 1 TAB "Crown";
 $isDonator_["42651"]	= 1 TAB "Avem (not donator but needs hat access for donating a hat model)";
 $isDonator_["26321"]	= 1 TAB "TreshCoal";
 $isDonator_["29095"]	= 1 TAB "Trect";
+$isDonator_["936739"]	= 1 TAB "Smallguy";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
