@@ -82,6 +82,10 @@ $StorageTypeCropsExists = true;
 $StorageTypeCropsList = "Potato\tCarrot\tTomato\tCorn\tWheat\tCabbage\tOnion\tBlueberry\tTurnip\tPortobello\tApple\tMango\tChili\tCactus\tWatermelon\tPeach\tDate";
 $StorageTypeCropsIsBlacklist = false;
 
+$StorageTypeSeedsExists = true;
+$StorageTypeSeedsList = "PotatoSeed\tCarrotSeed\tTomatoSeed\tCornSeed\tWheatSeed\tCabbageSeed\tOnionSeed\tBlueberrySeed\tTurnipSeed\tPortobelloSeed\tAppleSeed\tMangoSeed\tChiliSeed\tCactusSeed\tWatermelonSeed\tPeachSeed\tDateSeed";
+$StorageTypeSeedsIsBlacklist = false;
+
 $StorageTypeCurrencyExists = true;
 $StorageTypeCurrencyList = "Tix\tBux\tFarmicoin";
 $StorageTypeCurrencyIsBlacklist = false;

@@ -263,6 +263,36 @@ datablock fxDTSBrickData(brickLargeSiloData)
 	cost = 1100;
 };
 
+datablock fxDTSBrickData(brickSeedCabinetOpenData)
+{
+	uiName = "Seed Cabinet";
+	description = "(4 slots, 2x storage, seeds only)";
+
+	brickFile = "./bricks/seedCabinetOpen.blb";
+
+	iconName = "Add-Ons/Server_Farming/icons/storage_crate";
+
+	hasPrint = 1;
+	printAspectRatio = "2x2f";
+
+	isStorageBrick = 1;
+	storageSlotCount = 4;
+	storageMultiplier = 2;
+	storageType = "Seeds";
+	itemStackCount = 0;
+
+	isOpenable = 1;
+	baseDatablockName = "SeedCabinetData";
+
+	cost = 220;
+};
+
+datablock fxDTSBrickData(brickSeedCabinetClosedData : brickSeedCabinetOpenData)
+{
+	category = "Farming";
+	subCategory = "Storage";
+};
+
 datablock fxDTSBrickData(brickLargeToolboxData)
 {
 	category = "Farming";
