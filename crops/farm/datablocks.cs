@@ -313,7 +313,7 @@ datablock fxDTSBrickData(brickGoldIngotData)
 	category = "Farming";
 	subCategory = "Extra";
 	uiName = "Gold Ingot";
-	description = "(Does not block light)";
+	description = "(Store money as bricks!)";
 
 	brickFile = "./bricks/goldingot.blb";
 
