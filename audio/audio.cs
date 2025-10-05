@@ -349,7 +349,7 @@ datablock AudioProfile(OpenDrawerSound)
 
 datablock AudioProfile(CloseDrawerSound)
 {
-	filename = "./drawer_close.wav";
+	filename = "./drawer_shut.wav";
 	description = AudioClosest3d;
 	preload = true;
 	uiName = "";

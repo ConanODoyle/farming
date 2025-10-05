@@ -282,7 +282,9 @@ datablock fxDTSBrickData(brickSeedCabinetOpenData)
 	itemStackCount = 0;
 
 	isOpenable = 1;
-	baseDatablockName = "SeedCabinetData";
+	baseDatablockName = "SeedCabinet";
+	storageOpenDatablock = "brickSeedCabinetOpenData";
+	storageClosedDatablock = "brickSeedCabinetClosedData";
 
 	cost = 220;
 };
