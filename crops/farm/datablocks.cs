@@ -266,7 +266,7 @@ datablock fxDTSBrickData(brickLargeSiloData)
 datablock fxDTSBrickData(brickSeedCabinetOpenData)
 {
 	uiName = "Seed Cabinet";
-	description = "(4 slots, 2x storage, seeds only)";
+	description = "(4 slots, 4x storage, seeds only)";
 
 	brickFile = "./bricks/seedCabinetOpen.blb";
 
@@ -277,7 +277,7 @@ datablock fxDTSBrickData(brickSeedCabinetOpenData)
 
 	isStorageBrick = 1;
 	storageSlotCount = 4;
-	storageMultiplier = 2;
+	storageMultiplier = 4;
 	storageType = "Seeds";
 	itemStackCount = 0;
 
@@ -286,7 +286,7 @@ datablock fxDTSBrickData(brickSeedCabinetOpenData)
 	storageOpenDatablock = "brickSeedCabinetOpenData";
 	storageClosedDatablock = "brickSeedCabinetClosedData";
 
-	cost = 220;
+	cost = 380;
 };
 
 datablock fxDTSBrickData(brickSeedCabinetClosedData : brickSeedCabinetOpenData)
