@@ -501,12 +501,12 @@ function fxDTSBrick::updateStorageDatablock(%brick, %dataID, %open)
 				cancel(%brick.closeSchedule);
 				%datablockName = %datablockName @ "Open";
 				%brick.closeSchedule = %brick.schedule(1000, updateStorageDatablock, %dataID, false);
-				%brick.playSound(brickChangeSound);
+				%brick.playSound(OpenDrawerSound);
 			}
 			else
 			{
 				%datablockName = %datablockName @ "Closed";
-				%brick.playSound(brickPlantSound);
+				%brick.playSound(CloseDrawerSound);
 			}
 		}
 

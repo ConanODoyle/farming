@@ -339,6 +339,22 @@ datablock AudioProfile(AmbientRustlingSound)
 	uiName = "Ambient - Desert Rustling";
 };
 
+datablock AudioProfile(OpenDrawerSound)
+{
+	filename = "./drawer_open.wav";
+	description = AudioClosest3d;
+	preload = true;
+	uiName = "";
+};
+
+datablock AudioProfile(CloseDrawerSound)
+{
+	filename = "./drawer_close.wav";
+	description = AudioClosest3d;
+	preload = true;
+	uiName = "";
+};
+
 datablock AudioProfile(ToggleStartSound)
 {
 	filename = "./Power/toggle_start.wav";
