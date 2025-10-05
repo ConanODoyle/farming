@@ -2,31 +2,40 @@ package Cosmetics
 {
 	function Player::mountImage(%obj, %img, %slot)
 	{
-		if (%obj.client.isDonator && isObject(%img.donatorImage) && %img.donatorImage.getID() != %img.getID())
+		if (isObject(%img) && %img.hasSkin) //assumed that the item will have a data id
 		{
-			return %obj.mountImage(%img.donatorImage, %slot);
+			%tool = %obj.currTool;
+			%skin = getDataIDArrayTagValue(%obj.toolDataID[%obj.tool], "skin");
+			%obj.unmountImage(%slot);
+			return %obj.mountImage(%img, %slot, %skin);
 		}
 		return parent::mountImage(%obj, %img, %slot);
 	}
 };
 activatePackage(Cosmetics);
 
-function registerCosmetic(%inheritItem, %inheritImage, %model, %icon, %offset, %name)
+function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, %icon, %offset, %name)
 {
 	if (isObject(stripChars(%name, " ") @ "Item"))
 	{
 		error("    Already registered item " @ %name @ "! Skipping...");
 		return;
 	}
+
+	if (%imagemodel $= "")
+	{
+		%imagemodel = %itemmodel;
+	}
+
 	%str = %str @ "datablock ItemData(" @ stripChars(%name, " ") @ "Item : " @ %inheritItem @ ") {";
 	%str = %str @ "    iconName = \"Add-ons/Server_Farming/icons/" @ %icon @ "\";";
-	%str = %str @ "    shapeFile = \"./" @ %model @ "\";";
+	%str = %str @ "    shapeFile = \"./" @ %itemmodel @ "\";";
 	%str = %str @ "    uiName = \"" @ %name @ "\";";
 	%str = %str @ "    image = \"" @ stripChars(%name, " ") @ "Image\";";
 	%str = %str @ "}";
 
 	%str = %str @ "datablock ShapeBaseImageData(" @ stripChars(%name, " ") @ "Image : " @ %inheritImage @ ") {";
-	%str = %str @ "    shapeFile = \"./" @ %model @ "\";";
+	%str = %str @ "    shapeFile = \"./" @ %imagemodel @ "\";";
 	%str = %str @ "    item = \"" @ stripChars(%name, " ") @ "Item\";";
 	%str = %str @ "    offset = \"" @ %offset @ "Item\";";
 	%str = %str @ "}";
@@ -34,10 +43,14 @@ function registerCosmetic(%inheritItem, %inheritImage, %model, %icon, %offset, %
 	eval(%str);
 }
 
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_black", "", "wateringCat", "Black Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_blackwhite", "", "wateringCat", "Black&White Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_white", "", "wateringCat", "White Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_orange", "", "wateringCat", "Orange Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_calico", "", "wateringCat", "Calico Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_gray", "", "wateringCat", "Gray Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_black", "", 			"no_icon", "wateringCat", "Black Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_blackwhite", "", 		"no_icon", "wateringCat", "Black&White Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_white", "", 			"no_icon", "wateringCat", "White Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_orange", "", 			"no_icon", "wateringCat", "Orange Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_calico", "", 			"no_icon", "wateringCat", "Calico Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_gray", "", 			"no_icon", "wateringCat", "Gray Cat");
 
+registerCosmetic(WateringCatItem, WateringCatImage, "cup", "", 					"no_icon", "wateringCat", "Mug");
+MugImage.hasSkin = 1;
+registerCosmetic(ClipperItem, ClipperImage, 		"scissors", "scissorsopen",	"no_icon", "wateringCat", "Mug");
+MugImage.hasSkin = 1;
