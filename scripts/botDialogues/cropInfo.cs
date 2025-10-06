@@ -130,12 +130,12 @@ function setupCropInfo(%dataObj)
 			%s3 = "[Required spacing: 2, required nutrients: none]";
 		case "Turnip":
 			%s1 = "Turnips are profitable cash crops, but take a decent bit to grow, and don't stack well. Use a trowel to boost their yield!";
-			%s2 = "They cost 6 experience to plant, and give 1-3 per harvest.";
+			%s2 = "They cost 6 experience to plant, and give 1-3 experience per harvest.";
 			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Portobello":
 			%s1 = "Portobellos are mushrooms sensitive to light. They can even grow with no light, but need nutrients to grow.";
 			%s2 = "However, they still want some light - anything different than what they want will slow growth. Use an organic analyzer to check!";
-			%s3 = "[Required spacing: 2, required nutrients: 4 nitrogen 4 phosphate]";
+			%s3 = "[Required spacing: 2, required nutrients: 3 nitrogen 6 phosphate]";
 		case "Tomato":
 			%s1 = "Tomatoes are cheap crops that can be harvested 12 times. They drop 2-5 tomatoes per harvest and take relatively little water.";
 			%s2 = "They cost 10 experience to plant, and give 0-1 experience per harvest.";
@@ -146,11 +146,11 @@ function setupCropInfo(%dataObj)
 			%s3 = "[Required spacing: 2, required nutrients: 2 phosphate]";
 		case "Wheat":
 			%s1 = "Wheat is a more compact alternative to corn, dropping 3-5 per harvest. They take slightly longer to grow as well, but use less nutrients.";
-			%s2 = "They cost 12 experience to plant, and give 3-4 experience per harvest. Use an organic analyzer to figure out what nutrients they need!";
+			%s2 = "They cost 12 experience to plant, and give 3-5 experience per harvest. Use an organic analyzer to figure out what nutrients they need!";
 			%s3 = "[Required spacing: 1, required nutrients: 1 phosphate]";
 		case "Cabbage":
 			%s1 = "Cabbage is a water-hungry crop, and drops 2-3 per harvest. However, they don't need nutrients to finish growing!";
-			%s2 = "You can harvest them 4 times, giving 3-5 experience per harvest. They cost 20 experience to plant.";
+			%s2 = "You can harvest them 4 times, giving 1-3 experience per harvest. They cost 20 experience to plant.";
 			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Blueberry":
 			%s1 = "Blueberries are profitable cash crops, able to be harvested 3 times for 2-6 berries per harvest.";
@@ -158,7 +158,7 @@ function setupCropInfo(%dataObj)
 			%s3 = "[Required spacing: 3, required nutrients: 3 nitrogen, 3 phosphate]";
 		case "Chili":
 			%s1 = "Chilis are a desert crop that use nearly no water and drop 2-5 per harvest. However, they need nutrients to fully grow.";
-			%s2 = "They can be harvested 2 times, costing 12 experience and returning 5-6 experience per harvest.";
+			%s2 = "They can be harvested 2 times, costing 24 experience and returning 9-10 experience per harvest.";
 			%s3 = "[Required spacing: 2, required nutrients: 2 nitrogen, 2 phosphate]";
 		case "Watermelon":
 			%s1 = "Watermelon are an unusual desert crop, which needs lots of water in their second-to-last stage, and can revert a stage if left dry.";
@@ -166,11 +166,11 @@ function setupCropInfo(%dataObj)
 			%s3 = "[Required spacing: 3 - 2x2 crop, required nutrients: none]";
 		case "Cactus":
 			%s1 = "Cacti are small tree-like plants, able to grow with no water at all (but grow slower with). Each harvest gives 2-5 cactus fruit.";
-			%s2 = "They can be harvested up to 15 times, giving 3-5 experience per harvest. They cost 60 experience to plant.";
+			%s2 = "They can be harvested up to 15 times, giving 0-1 experience per harvest. They cost 60 experience to plant.";
 			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Cacti":
 			%s1 = "Cacti are small tree-like plants, able to grow with no water at all (but grow faster with). Each harvest gives 2-5 cactus fruit.";
-			%s2 = "They can be harvested up to 15 times, giving 1-3 experience per harvest. They cost 60 experience to plant.";
+			%s2 = "They can be harvested up to 15 times, giving 0-1 experience per harvest. They cost 60 experience to plant.";
 			%s3 = "[Required spacing: 3, required nutrients: none]";
 		case "Apple":
 			%s1 = "Apples have the smallest plant radius and cast little shade on plants under it. Like all trees, it needs nutrients to grow.";
@@ -198,15 +198,15 @@ function setupCropInfo(%dataObj)
 			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again. You can use a reclaimer to reclaim unwilted flowers!";
 			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		case "Daisy":
-			%s1 = "Daisies are flowers that add 2 phosphate to soil every 30 seconds, in their final flowering stage.";
+			%s1 = "Daisies are flowers that add 2 phosphate to soil every 40 seconds, in their final flowering stage.";
 			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again. You can use a reclaimer to reclaim unwilted flowers!";
 			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		case "Daisies":
-			%s1 = "Daisies are flowers that add 2 phosphate to soil every 30 seconds, in their final flowering stage.";
+			%s1 = "Daisies are flowers that add 2 phosphate to soil every 40 seconds, in their final flowering stage.";
 			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again. You can use a reclaimer to reclaim unwilted flowers!";
 			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		case "Rose":
-			%s1 = "Roses are flowers that add 1 nitrogen and 1 phosphate to soil every 30 seconds, in their final flowering stage.";
+			%s1 = "Roses are flowers that add 1 nitrogen and 1 phosphate to soil every 80 seconds, in their final flowering stage.";
 			%s2 = "They die after wilting, but if you cut them before they wilt, they will grow again. You can use a reclaimer to reclaim unwilted flowers!";
 			%s3 = "[Required spacing: 1 - 2x2 crop, required nutrients: none]";
 		default:
