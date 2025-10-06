@@ -17,6 +17,7 @@ function startLoops()
 	findAllBuyerSpawns();
 	loopApplyDateTime();
 	dailyRefreshSchedule();
+	loadBrickGroupTrust();
 	announce("Started loops");
 }
 
@@ -145,4 +146,5 @@ function softShutdown(%text)
 		%clientIndex += 1;
 	}
 	$Pref::Server::Password = sha1(getRandom());
+	saveBrickGroupTrust();
 }

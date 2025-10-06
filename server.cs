@@ -23,6 +23,7 @@ exec("./lib/Support_FarmingAutosaver.cs");
 exec("./lib/Support_TCPClient.cs");
 exec("./lib/Support_DiscordListener.cs");
 exec("./lib/Support_DialogueSystem.cs");
+exec("./lib/Support_BrickgroupData.cs");
 
 exec("./lib/Server_IPBanning.cs");
 
