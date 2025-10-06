@@ -25,7 +25,7 @@ $BuyCost_["Sickle"] = 1200;
 $BuyCost_["L4_DASH_\"Silence\""] = 600;
 $BuyCost_["L0_DASH_\"Remorse\""] = 600;
 
-$BuyCost_["Seed_Planter"] = 1200;
+$BuyCost_["Seed_Planter"] = 500;
 $BuyCost_["Seed_Planter_V2"] = 2000;
 $BuyCost_["Seed_Reclaimer"] = 500;
 
