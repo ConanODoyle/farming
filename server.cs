@@ -63,6 +63,7 @@ exec("./util/getRandomBrickOrthoRot.cs");
 exec("./util/gitpull.cs");
 exec("./util/hasItem.cs");
 exec("./util/hexToInt.cs");
+exec("./util/honking.cs");
 exec("./util/ipCheck.cs");
 exec("./util/makeLotSingle.cs");
 exec("./util/onRandomChance.cs");

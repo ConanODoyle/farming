@@ -401,6 +401,14 @@ datablock AudioProfile(BellSound)
 	uiName = "Bell";
 };
 
+datablock AudioProfile(HonkSound)
+{
+	filename = "./honk.wav";
+	description = AudioClose3d;
+	preload = true;
+	uiName = "Honk";
+};
+
 
 
 
