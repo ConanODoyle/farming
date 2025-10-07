@@ -37,11 +37,6 @@ package Sprinklers
 
 		return parent::onRemove(%obj);
 	}
-
-	function Armor::onTrigger(%this, %obj, %trig, %val)
-	{
-		return parent::onTrigger(%this, %obj, %trig, %val);
-	}
 };
 activatePackage(Sprinklers);
 
