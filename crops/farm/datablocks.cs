@@ -320,14 +320,12 @@ datablock fxDTSBrickData(brickSeedSiloData)
 	cost = 450;
 };
 
-datablock fxDTSBrickData(brickLargeToolboxData)
+datablock fxDTSBrickData(brickLargeToolboxOpenData)
 {
-	category = "Farming";
-	subCategory = "Storage";
 	uiName = "Toolbox";
 	description = "(8 slots, tools only)";
 
-	brickFile = "./bricks/toolboxLargeFeatures.blb";
+	brickFile = "./bricks/toolboxOpen.blb";
 
 	iconName = "Add-Ons/Server_Farming/icons/toolbox";
 
@@ -337,7 +335,18 @@ datablock fxDTSBrickData(brickLargeToolboxData)
 	storageType = "Tools";
 	itemStackCount = 1;
 
+	storageOpenDatablock = "brickToolboxOpenData";
+	storageClosedDatablock = "brickToolboxClosedData";
+
 	cost = 10;
+};
+
+datablock fxDTSBrickData(brickLargeToolboxClosedData : brickLargeToolboxOpenData)
+{
+	category = "Farming";
+	subCategory = "Storage";
+
+	brickFile = "./bricks/toolboxClosed.blb";
 };
 
 datablock fxDTSBrickData(brickSafe3x3x3Data)
