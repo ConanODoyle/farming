@@ -313,7 +313,7 @@ datablock fxDTSBrickData(brickSeedSiloData)
 
 	isStorageBrick = 1;
 	storageSlotCount = 1;
-	storageMultiplier = 20;
+	storageMultiplier = 40;
 	storageType = "Seeds";
 	itemStackCount = 0;
 
