@@ -297,6 +297,29 @@ datablock fxDTSBrickData(brickSeedCabinetClosedData : brickSeedCabinetOpenData)
 	brickFile = "./bricks/seedCabinetClosed.blb";
 };
 
+datablock fxDTSBrickData(brickSeedSiloData)
+{
+	category = "Farming";
+	subCategory = "Storage";
+	uiName = "Seed Silo";
+	description = "(1 slot, 20x storage, seeds only)";
+
+	brickFile = "./bricks/seedSilo.blb";
+
+	iconName = "Add-Ons/Server_Farming/icons/seedSilo";
+	
+	hasPrint = 1;
+	printAspectRatio = "2x2f";
+
+	isStorageBrick = 1;
+	storageSlotCount = 1;
+	storageMultiplier = 20;
+	storageType = "Seeds";
+	itemStackCount = 0;
+
+	cost = 450;
+};
+
 datablock fxDTSBrickData(brickLargeToolboxData)
 {
 	category = "Farming";
