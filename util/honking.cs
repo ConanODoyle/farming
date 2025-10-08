@@ -6,7 +6,8 @@ package VehicleHonking
 		{
 			if (%val && isObject(%veh.dataBlock.honkSound))
 			{
-				%veh.playAudio(0, %veh.dataBlock.honkSound);
+				%veh.honkIndex = (%veh.honkIndex + 1) % 4;
+				%veh.playAudio(%veh.honkIndex, %veh.dataBlock.honkSound);
 			}
 		}
 		return parent::onTrigger(%this, %obj, %trig, %val);
