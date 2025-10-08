@@ -22,4 +22,4 @@ function assignHonks()
 	JeepVehicle.honkSound = "HonkSound";
 }
 
-assignHonks();
+schedule(1, 0, assignHonks);
