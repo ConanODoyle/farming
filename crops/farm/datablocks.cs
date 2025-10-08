@@ -335,8 +335,8 @@ datablock fxDTSBrickData(brickLargeToolboxOpenData)
 	storageType = "Tools";
 	itemStackCount = 1;
 
-	storageOpenDatablock = "brickToolboxOpenData";
-	storageClosedDatablock = "brickToolboxClosedData";
+	storageOpenDatablock = "brickLargeToolboxOpenData";
+	storageClosedDatablock = "brickLargeToolboxClosedData";
 
 	cost = 10;
 };
