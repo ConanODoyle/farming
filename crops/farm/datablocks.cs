@@ -335,6 +335,8 @@ datablock fxDTSBrickData(brickLargeToolboxOpenData)
 	storageType = "Tools";
 	itemStackCount = 1;
 
+	orientationFix = 3;
+
 	storageOpenDatablock = "brickLargeToolboxOpenData";
 	storageClosedDatablock = "brickLargeToolboxClosedData";
 
@@ -365,6 +367,8 @@ datablock fxDTSBrickData(brickSafe3x3x3Data)
 	storageMultiplier = 10;
 	storageType = "Currency";
 	itemStackCount = 1;
+
+	orientationFix = 2;
 
 	cost = 200;
 };
