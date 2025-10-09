@@ -123,8 +123,6 @@ function servercmdMessageSent(%client,%msg)
 		%all  = '\c7%1\c3%5%2\c7%3%7: %4';
 
 	// Discord ping stuff
-	%attemptedPing = "";
-
 	for (%i = 0; %i < getWordCount(%msg); %i++)
 	{
 		%pingWord = getWord(%msg, %i);
@@ -134,8 +132,6 @@ function servercmdMessageSent(%client,%msg)
 
 			if(%client.isAdmin)
 				%pingAll = 1;
-			else
-				%attemptedPing = "@everyone";
 		}
 
 		if (%pingWord $= "@here")
@@ -144,8 +140,6 @@ function servercmdMessageSent(%client,%msg)
 
 			if(%client.isAdmin)
 				%pingAll = 1;
-			else
-				%attemptedPing = "@everyone";
 		}
 
 		%newMsg = %newMsg SPC %pingWord;
@@ -343,14 +337,6 @@ function servercmdMessageSent(%client,%msg)
 	// 		}
 	// 	}
 	// }
-
-	switch$ (%attemptedPing)
-	{
-		case "@user":
-            messageClient(%client, "", "Notifications unsuccessful as you are restricted from pinging.");
-        case "@everyone":
-            messageClient(%client, "", "Pinging @everyone is restricted.");
-	}
 
 	// Send to the discord bridge
 	if(isFunction("sendMessage"))
