@@ -32,25 +32,31 @@ function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, 
 	%str = %str @ "    shapeFile = \"./" @ %itemmodel @ "\";";
 	%str = %str @ "    uiName = \"" @ %name @ "\";";
 	%str = %str @ "    image = \"" @ stripChars(%name, " ") @ "Image\";";
-	%str = %str @ "}";
+	%str = %str @ "};";
 
 	%str = %str @ "datablock ShapeBaseImageData(" @ stripChars(%name, " ") @ "Image : " @ %inheritImage @ ") {";
 	%str = %str @ "    shapeFile = \"./" @ %imagemodel @ "\";";
 	%str = %str @ "    item = \"" @ stripChars(%name, " ") @ "Item\";";
-	%str = %str @ "    offset = \"" @ %offset @ "Item\";";
-	%str = %str @ "}";
+	%str = %str @ "    offset = \"" @ %offset @ "\";";
+	%str = %str @ "};";
 
 	eval(%str);
 }
 
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_black", "", 			"no_icon", "wateringCat", "Black Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_blackwhite", "", 		"no_icon", "wateringCat", "Black&White Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_white", "", 			"no_icon", "wateringCat", "White Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_orange", "", 			"no_icon", "wateringCat", "Orange Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_calico", "", 			"no_icon", "wateringCat", "Calico Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_gray", "", 			"no_icon", "wateringCat", "Gray Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_black", "", 			"no_icon", "", "Black Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_blackwhite", "", 		"no_icon", "", "Black&White Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_white", "", 			"no_icon", "", "White Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_orange", "", 			"no_icon", "", "Orange Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_calico", "", 			"no_icon", "", "Calico Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_gray", "", 			"no_icon", "", "Gray Cat");
 
-registerCosmetic(WateringCatItem, WateringCatImage, "cup", "", 					"no_icon", "wateringCat", "Mug");
+registerCosmetic(WateringCatItem, WateringCatImage, "cup", "", 					"no_icon", "", "Mug");
 MugImage.hasSkin = 1;
-registerCosmetic(ClipperItem, ClipperImage, 		"scissors", "scissorsopen",	"no_icon", "wateringCat", "Mug");
-MugImage.hasSkin = 1;
+
+registerCosmetic(ClipperItem, ClipperImage, 		"scissors", "scissorsopen",	"no_icon", "", "Scissors");
+
+registerCosmetic(TrowelItem, TrowelImage, 			"entrenchingtool", "",		"no_icon", "", "Entrenching Tool");
+
+registerCosmetic(SickleItem, SickleImage, 			"communismsickle", "",		"no_icon", "", "Proletariat Sickle");
+
+registerCosmetic(hoeItem, hoeImage, 				"snowplow", "",				"no_icon", "", "Snowplow");
