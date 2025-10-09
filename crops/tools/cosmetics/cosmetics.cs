@@ -16,7 +16,7 @@ activatePackage(Cosmetics);
 
 function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, %icon, %offset, %name)
 {
-	if (isObject("Cosmetic_" @ stripChars(%name, " ") @ "Item"))
+	if (isObject("Cosmetic__" @ stripChars(%name, " ") @ "Item"))
 	{
 		error("    Already registered item " @ %name @ "! Skipping...");
 		return;
@@ -27,16 +27,16 @@ function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, 
 		%imagemodel = %itemmodel;
 	}
 
-	%str = %str @ "datablock ItemData(Cosmetic_" @ stripChars(%name, " ") @ "Item : " @ %inheritItem @ ") {";
+	%str = %str @ "datablock ItemData(Cosmetic__" @ stripChars(%name, " ") @ "Item : " @ %inheritItem @ ") {";
 	%str = %str @ "    iconName = \"Add-ons/Server_Farming/icons/" @ %icon @ "\";";
-	%str = %str @ "    shapeFile = \"./" @ %itemmodel @ ".dts\";";
+	%str = %str @ "    shapeFile = \"Add-ons/Server_Farming/crops/tools/cosmetics/" @ %itemmodel @ ".dts\";";
 	%str = %str @ "    uiName = \"" @ %name @ "\";";
-	%str = %str @ "    image = \"Cosmetic_" @ stripChars(%name, " ") @ "Image\";";
+	%str = %str @ "    image = \"Cosmetic__" @ stripChars(%name, " ") @ "Image\";";
 	%str = %str @ "};";
 
-	%str = %str @ "datablock ShapeBaseImageData(Cosmetic_" @ stripChars(%name, " ") @ "Image : " @ %inheritImage @ ") {";
-	%str = %str @ "    shapeFile = \"./" @ %imagemodel @ ".dts\";";
-	%str = %str @ "    item = \"Cosmetic_" @ stripChars(%name, " ") @ "Item\";";
+	%str = %str @ "datablock ShapeBaseImageData(Cosmetic__" @ stripChars(%name, " ") @ "Image : " @ %inheritImage @ ") {";
+	%str = %str @ "    shapeFile = \"Add-ons/Server_Farming/crops/tools/cosmetics/" @ %imagemodel @ ".dts\";";
+	%str = %str @ "    item = \"Cosmetic__" @ stripChars(%name, " ") @ "Item\";";
 	%str = %str @ "    offset = \"" @ %offset @ "\";";
 	%str = %str @ "};";
 
