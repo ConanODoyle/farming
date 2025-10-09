@@ -181,6 +181,7 @@ HarvestToolQuestRewards.option[HarvestToolQuestRewards.count++ - 1]  = "TreeClip
 HarvestToolQuestRewards.option[HarvestToolQuestRewards.count++ - 1]  = "HoeItem"			TAB 30;
 HarvestToolQuestRewards.option[HarvestToolQuestRewards.count++ - 1]  = "SickleItem"			TAB 30;
 HarvestToolQuestRewards.option[HarvestToolQuestRewards.count++ - 1]  = "ReclaimerItem"		TAB 10;
+HarvestToolQuestRewards.option[HarvestToolQuestRewards.count++ - 1]  = "CropTrakKitItem"	TAB 5;
 
 
 new ScriptObject(WateringToolQuestRewards) { class = "ShopObject"; };
@@ -195,7 +196,8 @@ WateringToolQuestRewards.option[WateringToolQuestRewards.count++ - 1]  = "Wateri
 
 new ScriptObject(WeedKillerQuestRewards) { class = "ShopObject"; };
 
-WeedKillerQuestRewards.option[WeedKillerQuestRewards.count++ - 1]  = "WeedKiller"	TAB 1;
+WeedKillerQuestRewards.option[WeedKillerQuestRewards.count++ - 1]  = "WeedKiller"	TAB 50;
+WeedKillerQuestRewards.option[WeedKillerQuestRewards.count++ - 1]  = "Croptrak"		TAB 5;
 
 
 new ScriptObject(MiscToolQuestRewards) { class = "ShopObject"; };
@@ -204,9 +206,8 @@ MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "PlanterItem"		
 MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "PlanterV2Item"		TAB 30;
 MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "UpgradeToolItem"		TAB 50;
 MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "RepairToolItem"		TAB 40;
-MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "OrganicAnalyzerItem"	TAB 40;
-MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "CropTrakKitItem"		TAB 40;
-MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "FishingPoleCoDItem"	TAB 20;
+MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "CropTrakKitItem"		TAB 20;
+MiscToolQuestRewards.option[MiscToolQuestRewards.count++ - 1]  = "FishingPoleCoDItem"	TAB 10;
 
 
 new ScriptObject(BasicElectricQuestRewards) { class = "ShopObject"; };
