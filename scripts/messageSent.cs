@@ -321,7 +321,7 @@ function servercmdMessageSent(%client,%msg)
 					commandToClient(%cl, 'chatMessage', %client, '', '', %all, %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>"); 
 					%attemptedPing = "@user";
 				}
-				if (strPos(%pingUser, " " @ %cl.getID() @ " ") >= 0)
+				else if (strPos(%pingUser, " " @ %cl.getID() @ " ") >= 0)
 				{
 					if(isObject(Beep_Popup_Sound))
 						%cl.play2D(nameToID("Beep_Popup_Sound"));
