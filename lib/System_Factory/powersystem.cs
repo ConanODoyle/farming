@@ -75,14 +75,10 @@ function PowerSystem::tick(%this)
         %storage += %this.storage.getObject(%i).provideStoredPower();
     }
 
-    %diff = %power - %draw;
-    if (%diff < 0)
-    {
-        %storageUsed = getMin(%storage, %diff * -1);
-        %power += %diff;
-    }
-
-    %ratio = %power / %draw; // each device gets at most %ratio * %power allocated to them
+    %unsupplied = %draw - %power;
+    // if we need more power than we can provide; draw from battery storage
+    %storageUsed = getMax(getMin(%storage, %unsupplied), 0);
+    %ratio = (%power + %storageUsed) / %draw; // each device gets at most %ratio * %power allocated to them
     for (%i = 0; %i < %count; %i++)
     {
         %this.consumers.getObject(%i).powerTick(%ratio, %power, %draw);
@@ -92,17 +88,12 @@ function PowerSystem::tick(%this)
     {
         return;
     }
-    %this.updateStoredPower(%storageUsed, %diff);
+    %this.updateStoredPower((%unsupplied * -1) - storageUsed);
 }
 
-function PowerSystem::updateStoredPower(%this, %amount, %diff)
+function PowerSystem::updateStoredPower(%this, %amount)
 {
-    // %diff > 0 = excess power this tick, store it
-    if (%diff > 0)
-    {
-        
-        return;
-    }
+    %amount = mFloatLength(%amount, 2);
 
     %count = %this.storage.getCount();
     %storageCount = 0;
@@ -116,8 +107,14 @@ function PowerSystem::updateStoredPower(%this, %amount, %diff)
     }
 
     %split = %amount / %storageCount;
+    %unsupplied = 0;
     for (%i = 0; %i < %storageCount; %i++)
     {
+        %unsupplied += %storageList[%i].updateStoredPower(%split);
+    }
 
+    if (%unsupplied > 0.01)
+    {
+        %this.updateStoredPower(%amount, %diff);
     }
 }
