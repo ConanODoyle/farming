@@ -386,8 +386,15 @@ function getStatTrakBonusYield(%dataID, %type)
 	
 	if (%type $= "ALL")
 	{
+		if (getDataIDArrayTagValue(%dataID, "datablock") $= "TreeClipperItem")
+		{
+			%bonusCount = 2;
+		}
+		else
+		{
+			%bonusCount = 1;
+		}
 		%price = 4.5;
-		%bonusCount = 1;
 	}
 	else
 	{
