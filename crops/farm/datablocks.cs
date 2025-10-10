@@ -364,7 +364,7 @@ datablock fxDTSBrickData(brickSafe3x3x3Data)
 
 	isStorageBrick = 1;
 	storageSlotCount = 3;
-	storageMultiplier = 10;
+	storageMultiplier = 100;
 	storageType = "Currency";
 	itemStackCount = 1;
 
