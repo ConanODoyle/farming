@@ -40,3 +40,17 @@ function serverCmdPingBan(%cl, %blid)
 }
 
 RegisterPersistenceVar("pingBanned", false, "");
+
+function serverCmdTogglePings(%cl)
+{
+   %cl.pingsDisabled = 1 - %cl.pingsDisabled;
+   switch$ (%cl.pingsDisabled)
+   {
+      case 0:
+         messageClient(%cl, '', "\c5Pings sent to you are enabled. Use /togglepings to disable.");
+      case 1:
+         messageClient(%cl, '', "\c5Pings sent to you are disabled. Use /togglepings to reenable.");
+
+   }
+
+}

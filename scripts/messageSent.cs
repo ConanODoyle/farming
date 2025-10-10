@@ -323,6 +323,12 @@ function servercmdMessageSent(%client,%msg)
 				}
 				else if (strPos(%pingUser, " " @ %cl.getID() @ " ") >= 0)
 				{
+					if(%cl.pingsDisabled)
+					{
+						commandToClient(%cl, 'chatMessage', %client, '', '', %all, %pre, %name, %suf @ "\c6", %newMsg, %color, %team.name, "<color:ffffff>"); 
+						continue;
+					}
+
 					if(isObject(Beep_Popup_Sound))
 						%cl.play2D(nameToID("Beep_Popup_Sound"));
 
