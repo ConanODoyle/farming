@@ -306,7 +306,7 @@ datablock fxDTSBrickData(brickSeedSiloData)
 
 	brickFile = "./bricks/seedSilo.blb";
 
-	iconName = "Add-Ons/Server_Farming/icons/seedSilo";
+	iconName = "Add-Ons/Server_Farming/icons/seed_silo";
 	
 	hasPrint = 1;
 	printAspectRatio = "2x2f";
