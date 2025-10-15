@@ -147,4 +147,6 @@ function softShutdown(%text)
 	}
 	$Pref::Server::Password = sha1(getRandom());
 	saveBrickGroupTrust();
+
+	serverCmdASB(AIConsole);
 }
