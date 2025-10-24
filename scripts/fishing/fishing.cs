@@ -315,6 +315,8 @@ function bobberFishCheck(%bobber)
 		{
 			%bobber.nextBobTime = $Sim::Time + 2;
 			%bobber.setVelocity("0 0 -" @ getRandom(25, 40));
+			serverPlay3D(BobberTugSound, %bobber.getTransform());
+			serverPlay3D(ReelTugSound, %bobber.player.getMuzzlePoint(0));
 			// messageClient(fcn(Conan), '', "\c3[" @ $Sim::Time @ "]\c6 Fish bobbing");
 		}
 	}
@@ -368,11 +370,22 @@ function reelBobber(%bobber)
 				%item.setTransform(%client.player.position SPC getRandomRotation());
 			}
 		}
+		%successfulReel = 1;
 	}
 	else if (%bobber.fishPending == 1)
 	{
 		messageClient(%client, '', "\c0You reeled in too early...");
 	}
+
+	if (%successfulReel)
+	{
+		serverPlay3D(BobberPullFishSound, %bobber.getTransform());
+	}
+	else
+	{
+		serverPlay3D(BobberPullNothingSound, %bobber.getTransform());
+	}
+
 	cleanupBobber(%bobber);
 }
 

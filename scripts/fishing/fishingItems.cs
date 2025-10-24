@@ -237,11 +237,12 @@ function FishingPoleImage::onFire(%this, %obj, %slot)
 				return;
 			}
 		}
-		useDurability(%img, %obj, %slot);
-		castFishingLine(%this, %obj, %slot);
+		serverPlay3D(ReelCastSound, %obj.getMuzzlePoint(%slot));
+		schedule(500, 0, castFishingLine, %obj.getMountedImage(%slot), %obj, %slot);
 	}
 	else
 	{
+		serverPlay3D(ReelRetractSound, %obj.getMuzzlePoint(%slot));
 		reelFishingLine(%this, %obj, %slot);
 	}
 }
@@ -259,10 +260,11 @@ function reelFishingLine(%this, %obj, %slot)
 
 function castFishingLine(%this, %obj, %slot)
 {
-	if (isObject(%obj.bobber))
+	if (isObject(%obj.bobber) || %obj.getMountedImage(%slot) != %this)
 	{
 		return;
 	}
+	useDurability(%img, %obj, %slot);
 	startFish(%obj, %this);
 	%obj.playThread(2, shiftDown);
 }
