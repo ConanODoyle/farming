@@ -10,6 +10,8 @@ exec("./tools/upgradeTool.cs");
 exec("./tools/croptrak.cs");
 exec("./tools/inventoryUpgrade.cs");
 
+exec("./tools/cosmetics/cosmetics.cs");
+
 
 function repairDurability(%dataID, %amount)
 {
