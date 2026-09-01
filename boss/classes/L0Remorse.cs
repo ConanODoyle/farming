@@ -7,13 +7,13 @@ datablock ItemData(L0RemorseItem)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	shapeFile = $Harvester::Root @ "/resources/shapes/remorse.dts";
 	emap = false;
-	
+
 	doColorShift = true;
 	colorShiftColor = "0.3 0.3 0.3 1.0";
-	
+
 	//----------//
 	// Physics: //
 	//----------//
@@ -26,23 +26,23 @@ datablock ItemData(L0RemorseItem)
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	image = L0RemorseImage;
-	
+
 	canDrop = true;
-	
+
 	uiName = "L0 - \"Remorse\"";
 	iconName = $Harvester::Root @ "/resources/ui/icons/icon_remorse";
 
 	category = "Weapon";
 	className = "Weapon";
-	
+
 	//----------//
 	// Farming: //
 	//----------//
-	
+
 	durability = 30;
-	
+
 	canPickupMultiple = 0;
 	isBossReward = 1;
 
@@ -60,59 +60,59 @@ datablock ShapeBaseImageData(L0RemorseImage)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	shapeFile = $Harvester::Root @ "/resources/shapes/blade.dts";
 
 	emap = false;
-	
+
 	doColorShift = L0RemorseItem.doColorShift;
 	colorShiftColor = L0RemorseItem.colorShiftColor;
-	
+
 	//-----------//
 	// Mounting: //
 	//-----------//
-	
+
 	offset = "0.0 0.0 0.0";
 	eyeOffset = "0.0 0.0 0.0";
 
 	rotation = "0.0 0.0 0.0 0.0";
 	eyeRotation = "0.0 0.0 0.0 0.0";
-	
+
 	mountPoint = $RightHandSlot;
-	
+
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	correctMuzzleVector = true;
 	melee = false;
 
 	item = L0RemorseItem;
-	
+
 	ammo = "";
 	projectile = "";
 	projectileType = Projectile;
 
 	armReady = true;
-	
+
 	//---------------//
 	// Miscellanous: //
 	//---------------//
 
 	className = "WeaponImage";
-	
+
 	//----------//
 	// Farming: //
 	//----------//
-	
+
 	areaHarvest = 4;
-	
+
 	toolTip = "+3 area harvest above ground crops";
-	
+
 	//---------//
 	// States: //
 	//---------//
-	
+
 	stateName[0] = "Activate";
 	stateTimeoutValue[0] = 0.25;
 	stateTransitionOnTimeout[0] = "PreReady";
@@ -121,14 +121,14 @@ datablock ShapeBaseImageData(L0RemorseImage)
 	stateSound[0] = weaponSwitchSound;
 	stateSequence[0] = "equip";
 	stateScript[0] = "onActivate";
-	
+
 	stateName[1] = "PreReady";
 	stateTimeoutValue[1] = 0.15;
 	stateTransitionOnTimeout[1] = "Ready";
 	stateWaitForTimeout[1] = true;
 	stateAllowImageChange[1] = true;
 	stateScript[1] = "onPreReady";
-	
+
 	stateName[2] = "Ready";
 	stateTransitionOnTriggerDown[2] = "PreFire";
 	stateWaitForTimeout[2] = false;
@@ -136,7 +136,7 @@ datablock ShapeBaseImageData(L0RemorseImage)
 	stateTransitionOnTimeout[2] = "Ready2";
 	stateAllowImageChange[2] = true;
 	stateScript[2] = "onReady";
-	
+
 	stateName[6] = "Ready2";
 	stateTransitionOnTriggerDown[6] = "PreFire";
 	stateWaitForTimeout[6] = false;
@@ -144,14 +144,14 @@ datablock ShapeBaseImageData(L0RemorseImage)
 	stateTransitionOnTimeout[6] = "Ready";
 	stateAllowImageChange[6] = true;
 	stateScript[6] = "onReady";
-	
+
 	stateName[3] = "PreFire";
 	stateTimeoutValue[3] = 0.25;
 	stateTransitionOnTimeout[3] = "Fire";
 	stateWaitForTimeout[3] = true;
 	stateAllowImageChange[3] = false;
 	stateScript[3] = "onPreFire";
-	
+
 	stateName[4] = "Fire";
 	stateTimeoutValue[4] = 0.45;
 	stateTransitionOnTimeout[4] = "Done";
@@ -162,7 +162,7 @@ datablock ShapeBaseImageData(L0RemorseImage)
 	stateEmitterNode[4] = "muzzlePoint";
 	stateScript[4] = "onFire";
 	stateFire[4] = true;
-	
+
 	stateName[5] = "Done";
 	stateTimeoutValue[5] = 0.25;
 	stateTransitionOnTimeout[5] = "Ready";
@@ -223,32 +223,35 @@ function L0RemorseImage::onFire(%this, %player, %slot)
 {
 	if(%player.getDamagePercent() < 1.0)
 	{
-		%shape = new StaticShape()
+		if(getDurability(%this, %player, %slot) > 0)
 		{
-			dataBlock = HarvesterBladeTrailShape;
-			scale = "9.0 9.0 1.0";
-		};
+			%shape = new StaticShape()
+			{
+				dataBlock = HarvesterBladeTrailShape;
+				scale = "9.0 9.0 1.0";
+			};
 
-		if(isObject(%shape))
-		{
-			MissionCleanup.add(%shape);
+			if(isObject(%shape))
+			{
+				MissionCleanup.add(%shape);
 
-			%rotation = relativeVectorToRotation(%player.getForwardVector(), %player.getUpVector());
-			
-			%local = %player.getHackPosition() SPC %rotation;
-			%offset = "0.0 0.0 0.0" SPC eulerToQuat("70.0 0.0 270.0");
-			%actual = matrixMultiply(%local, %offset);
+				%rotation = relativeVectorToRotation(%player.getForwardVector(), %player.getUpVector());
 
-			%shape.setTransform(%actual);
-			%shape.playThread(0, "rotate");
-			%shape.schedule(1000, delete);
+				%local = %player.getHackPosition() SPC %rotation;
+				%offset = "0.0 0.0 0.0" SPC eulerToQuat("70.0 0.0 270.0");
+				%actual = matrixMultiply(%local, %offset);
+
+				%shape.setTransform(%actual);
+				%shape.playThread(0, "rotate");
+				%shape.schedule(1000, delete);
+			}
+
+			serverPlay3d("HarvesterBladeAttackSound" @ getRandom(1, 2), %player.getHackPosition());
 		}
-		
+
 		%player.playThread(0, "plant");
 		%player.playThread(2, "shiftTo");
 		%player.playThread(3, "shiftTo");
-
-		serverPlay3d("HarvesterBladeAttackSound" @ getRandom(1, 2), %player.getHackPosition());
 
 		HarvestToolImage::onFire(%this, %player, %slot);
 	}

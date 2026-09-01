@@ -16,7 +16,7 @@ datablock ParticleData(L3LastWordWaterRingParticle)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	textureName = "base/data/particles/bubble";
 
 	useInvAlpha = false;
@@ -33,7 +33,7 @@ datablock ParticleData(L3LastWordWaterRingParticle)
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	dragCoefficient = 1.0;
 	gravityCoefficient = 0.0;
 
@@ -53,27 +53,27 @@ datablock ParticleEmitterData(L3LastWordWaterRingEmitter)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	particles = "L3LastWordWaterRingParticle";
-	
+
 	overrideAdvance = false;
 	useEmitterColors = false;
 
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	ejectionPeriodMS = 150;
 	periodVarianceMS = 0;
-	
+
 	ejectionVelocity = 0.0;
 	velocityVariance = 0.0;
-	
+
 	ejectionOffset = 0.0;
-	
+
 	thetaMin = 89.0;
 	thetaMax = 90.0;
-	
+
 	phiReferenceVel = 0.0;
 	phiVariance = 0.0;
 };
@@ -87,7 +87,7 @@ datablock ParticleData(L3LastWordWaterDebrisTrailParticle)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	textureName = "base/data/particles/bubble";
 
 	useInvAlpha = false;
@@ -104,7 +104,7 @@ datablock ParticleData(L3LastWordWaterDebrisTrailParticle)
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	dragCoefficient = 0.0;
 	gravityCoefficient = 0.998779;
 
@@ -124,27 +124,27 @@ datablock ParticleEmitterData(L3LastWordWaterDebrisTrailEmitter)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	particles = "L3LastWordWaterDebrisTrailParticle";
-	
+
 	overrideAdvance = false;
 	useEmitterColors = false;
 
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	ejectionPeriodMS = 33;
 	periodVarianceMS = 11;
-	
+
 	ejectionVelocity = 0.5;
 	velocityVariance = 0.5;
-	
+
 	ejectionOffset = 0.0;
-	
+
 	thetaMin = 89.0;
 	thetaMax = 90.0;
-	
+
 	phiReferenceVel = 0.0;
 	phiVariance = 0.0;
 };
@@ -158,30 +158,30 @@ datablock DebrisData(L3LastWordWaterDebris)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	shapeFile = "base/data/shapes/empty.dts";
-	
+
 	emitters = "L3LastWordWaterDebrisTrailEmitter";
-	
+
 	staticOnMaxBounce = false;
 	snapOnMaxBounce = false;
 	explodeOnMaxBounce = true;
-	
+
 	fade = true;
 
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	lifetime = 2.0;
 
 	minSpinSpeed = 0.0;
 	maxSpinSpeed = 0.0;
-	
+
 	//----------//
 	// Physics: //
 	//----------//
-	
+
 	gravModifier = 2.0;
 	numBounces = 2;
 	elasticity = 0.999;
@@ -197,39 +197,39 @@ datablock ExplosionData(L3LastWordWaterExplosion)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	explosionShape = "Add-Ons/Weapon_Rocket_Launcher/explosionSphere1.dts";
-	
+
 	particleEmitter = L3LastWordWaterRingEmitter;
 	particleDensity = 12;
 	particleRadius = 0;
 
 	emitter[0] = PlayerBubbleEmitter;
-	
+
 	//---------//
 	// Debris: //
 	//---------//
-	
+
 	debris = L3LastWordWaterDebris;
-	
+
 	debrisNum = 4;
 	debrisNumVariance = 2;
-	
+
 	debrisVelocity = 12.0;
 	debrisVelocityVariance = 6.0;
-	
+
 	debrisThetaMin = 70.0;
 	debrisThetaMax = 180.0;
-	
+
 	debrisPhiMin = 0.0;
 	debrisPhiMax = 360.0;
-	
+
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	soundProfile = Splash1Sound;
-	
+
 	lifeTimeMS = 150;
 };
 
@@ -238,7 +238,7 @@ datablock ProjectileData(L3LastWordWaterProjectile)
 	//------------//
 	// Explosion: //
 	//------------//
-	
+
 	explosion = L3LastWordWaterExplosion;
 };
 
@@ -264,13 +264,13 @@ datablock ItemData(L3LastWordItem)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	shapeFile = $Harvester::Root @ "/resources/shapes/beamRifle.dts";
 	emap = false;
-	
+
 	doColorShift = true;
 	colorShiftColor = "0.3 0.3 0.3 1.0";
-	
+
 	//----------//
 	// Physics: //
 	//----------//
@@ -283,21 +283,21 @@ datablock ItemData(L3LastWordItem)
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	image = L3LastWordImage;
-	
+
 	canDrop = true;
-	
+
 	uiName = "L3 - \"Last Word\"";
 	iconName = $Harvester::Root @ "/resources/ui/icons/icon_lastWord";
 
 	category = "Weapon";
 	className = "Weapon";
-	
+
 	//----------//
 	// Farming: //
 	//----------//
-	
+
 	durability = 10000;
 	isBossReward = 1;
 
@@ -314,89 +314,89 @@ datablock ShapeBaseImageData(L3LastWordImage)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	shapeFile = $Harvester::Root @ "/resources/shapes/beamRifle.dts";
 
 	emap = false;
-	
+
 	doColorShift = L3LastWordItem.doColorShift;
 	colorShiftColor = L3LastWordItem.colorShiftColor;
-	
+
 	//-----------//
 	// Mounting: //
 	//-----------//
-	
+
 	offset = "0.0 0.0 0.0";
 	eyeOffset = "0.0 0.0 0.0";
 
 	rotation = "0.0 0.0 0.0 0.0";
 	eyeRotation = "0.0 0.0 0.0 0.0";
-	
+
 	mountPoint = $RightHandSlot;
-	
+
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	correctMuzzleVector = true;
 	melee = false;
 
 	item = L3LastWordItem;
-	
+
 	ammo = "";
 	projectile = "";
 	projectileType = Projectile;
 
 	armReady = true;
-	
+
 	//---------------//
 	// Miscellanous: //
 	//---------------//
 
 	className = "WeaponImage";
-	
+
 	//----------//
 	// Hitscan: //
 	//----------//
-	
+
 	hitscanRange = $Harvester::BeamRifle::Range;
 	hitscanTypes = $TypeMasks::StaticObjectType | $TypeMasks::TerrainObjectType | $TypeMasks::FXBrickObjectType;
-	
+
 	hitscanDamage = 0;
 	hitscanDamageType = $DamageType::Direct;
 	hitscanDamageFalloff = 0;
-	
+
 	hitscanProjectile = L3LastWordWaterProjectile;
-	
+
 	hitscanTracerStaticShape = L3LastWordWaterBeamShape;
 	hitscanTracerStaticLifetime = 100;
-	
+
 	hitscanSpread = 0.0;
 	hitscanShotCount = 1;
-	
+
 	hitscanPenetrate = false;
-	
+
 	hitscanFromMuzzle = true;
-	
+
 	hitscanImpactImpulse = 0.0;
 	hitscanVerticalImpulse = 0.0;
-	
+
 	hitscanExplodeOnMiss = true;
-	
+
 	//----------//
 	// Farming: //
 	//----------//
-	
+
 	waterRange = $Harvester::BeamRifle::Range;
 	tankAmount = 1000;
 	waterAmount = 1000;
-	
+
 	toolTip = "Waters Dirt: +1000 | Tanks: +1000";
-	
+
 	//---------//
 	// States: //
 	//---------//
-	
+
 	stateName[0] = "Activate";
 	stateTimeoutValue[0] = 0.15;
 	stateTransitionOnTimeout[0] = "Ready";
@@ -404,7 +404,7 @@ datablock ShapeBaseImageData(L3LastWordImage)
 	stateAllowImageChange[0] = true;
 	stateSound[0] = weaponSwitchSound;
 	stateScript[0] = "onActivate";
-	
+
 	stateName[1] = "Ready";
 	stateTransitionOnTriggerDown[1] = "Charge";
 	stateWaitForTimeout[1] = false;
@@ -420,7 +420,7 @@ datablock ShapeBaseImageData(L3LastWordImage)
 	stateTransitionOnTimeout[7] = "Ready";
 	stateAllowImageChange[7] = true;
 	stateScript[7] = "onReady";
-	
+
 	stateName[2] = "Charge";
 	stateTimeoutValue[2] = 1.75;
 	stateTransitionOnTimeout[2] = "Fire";
@@ -431,7 +431,7 @@ datablock ShapeBaseImageData(L3LastWordImage)
 	stateAllowImageChange[2] = true;
 	stateSound[2] = HarvesterBeamRifleChargeSound;
 	stateScript[2] = "onCharge";
-	
+
 	stateName[3] = "Fire";
 	stateTimeoutValue[3] = 0.35;
 	stateTransitionOnTimeout[3] = "Wait";
@@ -443,20 +443,20 @@ datablock ShapeBaseImageData(L3LastWordImage)
 	stateSound[3] = HarvesterBeamRifleFireSound;
 	stateScript[3] = "onFire";
 	stateFire[3] = true;
-	
+
 	stateName[4] = "Wait";
 	stateTimeoutValue[4] = 0.75;
 	stateTransitionOnTimeout[4] = "CheckFire";
 	stateWaitForTimeout[4] = true;
 	stateAllowImageChange[4] = false;
 	stateScript[4] = "onWait";
-	
+
 	stateName[5] = "CheckFire";
 	stateTransitionOnTriggerDown[5] = "Fire";
 	stateTransitionOnTriggerUp[5] = "Done";
 	stateAllowImageChange[5] = true;
 	stateScript[5] = "onCheckFire";
-	
+
 	stateName[6] = "Done";
 	stateTimeoutValue[6] = 0.35;
 	stateTransitionOnTimeout[6] = "Ready";
@@ -487,7 +487,7 @@ function L3LastWordImage::onReady(%this, %player, %slot)
 function L3LastWordImage::onHitscanExplode(%this, %player, %slot, %collision, %position, %normal, %vector, %crit)
 {
 	Parent::onHitscanExplode(%this, %player, %slot, %collision, %position, %normal, %vector, %crit);
-	
+
 	// %splash = new Splash()
 	// {
 		// dataBlock = L3LastWordWaterSplash;
@@ -509,9 +509,11 @@ function L3LastWordImage::onFire(%this, %player, %slot)
 {
 	if(%player.getDamagePercent() < 1.0)
 	{
-		Parent::onFire(%this, %player, %slot);
+		if(getDurability(%this, %player, %slot) > 0)
+			Parent::onFire(%this, %player, %slot);
+
 		waterCanFire(%this, %player, %slot);
-		
+
 		%player.playThread(0, "jump");
 		%player.playThread(2, "activate");
 	}

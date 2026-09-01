@@ -148,11 +148,11 @@ function PlanterImage::onLoop(%this, %obj, %slot)
 
 	if (%idx !$= "")
 	{
-		%cl.centerprint("<just:right>\c3-Row " @ %this.item.uiname @"- \n" @ %durabilityString @ " \n\c6" @ %append, 1);
+		%cl.centerprint("<just:right>\c3-" @ %this.item.uiname @ "- \n" @ %durabilityString @ " \n\c6" @ %append, 1);
 	}
 	else
 	{
-		%cl.centerprint("<just:right>\c3-Row " @ %this.item.uiname @"- \n" @ %durabilityString @ " \n\c0No seeds in inventory! ", 1);
+		%cl.centerprint("<just:right>\c3-" @ %this.item.uiname @ "- \n" @ %durabilityString @ " \n\c0No seeds in inventory! ", 1);
 	}
 }
 
@@ -165,7 +165,7 @@ function PlanterImage::onFire(%this, %obj, %slot)
 		{
 			%durability = getDurability(%this, %obj, %slot);
 			%durabilityString = "<color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!";
-			%cl.centerprint("<just:right>\c3-Row " @ %this.item.uiname @"- \n" @ %durabilityString, 1);
+			%cl.centerprint("<just:right>\c3-" @ %this.item.uiname @ "- \n" @ %durabilityString, 1);
 		}
 		return;
 	}
@@ -264,7 +264,7 @@ function PlanterImage::onFire(%this, %obj, %slot)
 						{
 							%durability = getDurability(%this, %obj, %slot);
 							%durabilityString = "<color:cccccc>Durability: " @ %durability @ " \n\c0This tool needs repairs!";
-							%cl.centerprint("<just:right>\c3-Row " @ %this.item.uiname @"- \n" @ %durabilityString, 1);
+							%cl.centerprint("<just:right>\c3-" @ %this.item.uiname @ "- \n" @ %durabilityString, 1);
 						}
 						return;
 					}

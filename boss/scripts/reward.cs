@@ -8,13 +8,14 @@ function Player::grantBRs(%pl)
 	%blid = %cl.bl_id;
 
 	%reward0 = "L0RemorseItem";
-	%reward1 = "L3LastWordItem";
-	%reward2 = "L4SilenceItem";
+	%reward1 = "L2PenanceItem";
+	%reward2 = "L3LastWordItem";
+	%reward3 = "L4SilenceItem";
 
-	%pick = getRandom(0, 2);
+	%pick = getRandom(0, 3);
 	while (getWord($Pref::Farming::BossReward[%blid], %pick) == 1 && %safety++ < 5)
 	{
-		%pick = (%pick + 1) % 3;
+		%pick = (%pick + 1) % 4;
 	}
 
 	//all rewards already obtained

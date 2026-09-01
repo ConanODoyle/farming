@@ -61,7 +61,7 @@ datablock ParticleData(HarvesterBombExplosionBlastParticle)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	textureName = $Harvester::Root @ "/resources/particles/blast/blast1";
 
 	animTexName[0]	= $Harvester::Root @ "/resources/particles/blast/blast1";
@@ -73,10 +73,10 @@ datablock ParticleData(HarvesterBombExplosionBlastParticle)
 	animTexName[6]	= $Harvester::Root @ "/resources/particles/blast/blast7";
 	animTexName[7]	= $Harvester::Root @ "/resources/particles/blast/blast8";
 	animTexName[8]	= $Harvester::Root @ "/resources/particles/blast/blast9";
-	
+
 	animateTexture = true;
 	framesPerSec = 30;
-	
+
 	useInvAlpha = false;
 
 	colors[0]	= "1.0 1.0 1.0 1";
@@ -84,14 +84,14 @@ datablock ParticleData(HarvesterBombExplosionBlastParticle)
 
 	sizes[0]	= 2.0;
 	sizes[1]	= 4.0;
-	
+
 	times[0]	= 0.0;
 	times[1]	= 1.0;
 
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	dragCoefficient = 1.0;
 	gravityCoefficient = 0.0;
 
@@ -110,27 +110,27 @@ datablock ParticleEmitterData(HarvesterBombExplosionBlastEmitter)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	particles = "HarvesterBombExplosionBlastParticle";
-	
+
 	overrideAdvance = false;
 	useEmitterColors = false;
 
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	ejectionPeriodMS = HarvesterBombExplosionBlastParticle.lifetimeMS;
 	periodVarianceMS = 0;
-	
+
 	ejectionVelocity = 0.0;
 	velocityVariance = 0.0;
-	
+
 	ejectionOffset = 0.0;
-	
+
 	thetaMin = 89.0;
 	thetaMax = 90.0;
-	
+
 	phiReferenceVel = 0.0;
 	phiVariance = 360.0;
 };
@@ -144,15 +144,15 @@ datablock ParticleData(HarvesterBombExplosionFlareParticle)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	textureName = $Harvester::Root @ "/resources/particles/blastFlare";
-	
+
 	useInvAlpha = false;
-	
+
 	colors[0]	= "1.0 0.9 0.8 0.6";
 	colors[1]	= "1.0 0.5 0.2 0.4";
 	colors[2]	= "1.0 0.4 0.1 0.0";
-	
+
 	sizes[0]	= 15.0;
 	sizes[1]	= 30.0;
 	sizes[2]	= 10.0;
@@ -164,7 +164,7 @@ datablock ParticleData(HarvesterBombExplosionFlareParticle)
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	dragCoefficient = 0.0;
 	gravityCoefficient = 0.0;
 
@@ -183,27 +183,27 @@ datablock ParticleEmitterData(HarvesterBombExplosionFlareEmitter)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	particles = "HarvesterBombExplosionFlareParticle";
-	
+
 	overrideAdvance = false;
 	useEmitterColors = false;
 
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	ejectionPeriodMS = 11;
 	periodVarianceMS = 0;
-	
+
 	ejectionVelocity = 0.0;
 	velocityVariance = 0.0;
-	
+
 	ejectionOffset = 0.2;
-	
+
 	thetaMin = 0.0;
 	thetaMax = 180.0;
-	
+
 	phiReferenceVel = 0.0;
 	phiVariance = 360.0;
 };
@@ -217,11 +217,11 @@ datablock ParticleData(HarvesterBombExplosionParticle)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	textureName = "base/data/particles/cloud";
-	
+
 	useInvAlpha = false;
-	
+
 	colors[0]	= "1.0 1.0 1.0 0.3";
 	colors[1]	= "0.9 0.5 0.0 0.6";
 	colors[2]	= "0.1 0.05 0.025 0.1";
@@ -240,7 +240,7 @@ datablock ParticleData(HarvesterBombExplosionParticle)
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	dragCoefficient = 3.0;
 	gravityCoefficient = -1.0;
 
@@ -259,27 +259,27 @@ datablock ParticleEmitterData(HarvesterBombExplosionEmitter)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	particles = "HarvesterBombExplosionParticle";
-	
+
 	overrideAdvance = false;
 	useEmitterColors = false;
 
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	ejectionPeriodMS = 4;
 	periodVarianceMS = 0;
-	
+
 	ejectionVelocity = 3.0;
 	velocityVariance = 2.0;
-	
+
 	ejectionOffset = 2.0;
-	
+
 	thetaMin = 0.0;
 	thetaMax = 180.0;
-	
+
 	phiReferenceVel = 0.0;
 	phiVariance = 360.0;
 };
@@ -293,11 +293,11 @@ datablock ParticleData(HarvesterBombExplosionSmokeParticle)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	textureName = "base/data/particles/cloud";
-	
+
 	useInvAlpha = true;
-	
+
 	colors[0]	= "0.95 0.9 0.8 0.8";
 	colors[1]	= "0.1 0.05 0.025 0.6";
 	colors[2]	= "0.1 0.05 0.025 0.0";
@@ -313,7 +313,7 @@ datablock ParticleData(HarvesterBombExplosionSmokeParticle)
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	dragCoefficient = 5.0;
 	gravityCoefficient = -0.5;
 
@@ -332,27 +332,27 @@ datablock ParticleEmitterData(HarvesterBombExplosionSmokeEmitter)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	particles = "HarvesterBombExplosionSmokeParticle";
-	
+
 	overrideAdvance = false;
 	useEmitterColors = false;
 
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	ejectionPeriodMS = 4;
 	periodVarianceMS = 0;
-	
+
 	ejectionVelocity = 7.0;
 	velocityVariance = 2.0;
-	
+
 	ejectionOffset = 1.0;
-	
+
 	thetaMin = 0.0;
 	thetaMax = 180.0;
-	
+
 	phiReferenceVel = 30.0;
 	phiVariance = 32.0;
 };
@@ -366,29 +366,29 @@ datablock ExplosionData(HarvesterBombExplosion)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	explosionShape = "Add-Ons/Weapon_Rocket_Launcher/explosionSphere1.dts";
-	
+
 	particleEmitter = HarvesterBombExplosionBlastEmitter;
 	particleDensity = 4;
 	particleRadius = 3.5;
-	
+
 	emitter[0] = HarvesterBombExplosionFlareEmitter;
 	emitter[1] = HarvesterBombExplosionEmitter;
 	emitter[2] = HarvesterBombExplosionSmokeEmitter;
-	
+
 	//-------------//
 	// Properties: //
 	//-------------//
 
 	lifeTimeMS = 150;
-	
+
 	damageRadius = $Harvester::Bomb::Radius;
 	radiusDamage = $Harvester::Bomb::RadiusDamage;
 
 	impulseRadius = $Harvester::Bomb::Radius + 1;
 	impulseForce = 1700.0;
-	
+
 	shakeCamera = true;
 	camShakeFreq = "2.0 4.0 2.0";
 	camShakeAmp = "2.5 6.5 2.5";
@@ -400,58 +400,58 @@ datablock ProjectileData(HarvesterBombProjectile)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	projectileShapeName = $Harvester::Root @ "/resources/shapes/bombProjectile.dts";
-	
+
 	hasLight = false;
-	
+
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	directDamage = 0.0;
 	directDamageType = $DamageType::Direct;
-	radiusDamageType = $DamageType::Direct;	
-	
+	radiusDamageType = $DamageType::Direct;
+
 	impactImpulse = 0.0;
 	verticalImpulse = 0.0;
-	
+
 	muzzleVelocity = 12.0;
-	
+
 	//----------//
 	// Physics: //
 	//----------//
-	
+
 	armingDelay = 1500;
 	lifetime = 1500;
 	fadeDelay = 0;
-	
+
 	isBallistic = true;
 	gravityMod = 1;
 	bounceElasticity = 0.9;
 	bounceFriction = 0.1;
-	
+
 	ballRadius = 0.2;
-	
+
 	//------------//
 	// Explosion: //
 	//------------//
 
 	explosion = HarvesterBombExplosion;
-	
+
 	explodeOnPlayerImpact = true;
 	explodeOnDeath = true;
-	
+
 	brickExplosionRadius = 0.0;
 	brickExplosionImpact = false;
 	brickExplosionForce = 0.0;
 	brickExplosionMaxVolume = 0;
 	brickExplosionMaxVolumeFloating = 0;
-	
+
 	//---------------//
 	// Miscellanous: //
 	//---------------//
-	
+
 	uiName = "The Harvester's Bomb";
 };
 
@@ -474,30 +474,32 @@ datablock ProjectileData(HarvesterClusterBombProjectile : HarvesterBombProjectil
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	projectileShapeName = $Harvester::Root @ "/resources/shapes/bomb3Projectile.dts";
-	
+
 	//----------//
 	// Physics: //
 	//----------//
-	
+
 	armingDelay = $Harvester::Bomb::MaxSplitTimeMS + 1000;
 	lifetime = $Harvester::Bomb::MaxSplitTimeMS + 1000;
-	
+
 	ballRadius = 0.4;
-	
+
 	//------------//
 	// Explosion: //
 	//------------//
 
 	explodeOnPlayerImpact = false;
-	
+
 	//---------------//
 	// Miscellanous: //
 	//---------------//
-	
+
 	uiName = "The Harvester's Cluster Bomb";
-	
+
+	isHarvesterClusterBomb = true;
+	baseProjectile = HarvesterBombProjectile;
 	subProjectile = HarvesterBombProjectile;
 	subProjectileCount = 3;
 };
@@ -521,15 +523,15 @@ function HarvesterClusterBombProjectile::split(%this, %projectile)
 		%adjustment[0] = unitVectorFromAngles(22.5, 0);
 		%adjustment[1] = unitVectorFromAngles(0, 22.5);
 		%adjustment[2] = unitVectorFromAngles(-22.5, 0);
-			
+
 		for(%i = 0; %i < %this.subProjectileCount; %i++)
-		{	
+		{
 			%rotation = relativeVectorToRotation(%projectile.initialVelocity, %projectile.getUpVector());
 			%local = %projectile.position SPC %rotation;
 			%actual = matrixMulVector(%local, %adjustment[%i]);
 			%velocity = vectorScale(%actual, %this.subProjectile.muzzleVelocity);
 			%velocity = randomVectorNudge(%velocity, 0.05);
-				
+
 			%split = new Projectile()
 			{
 				dataBlock = %this.subProjectile;
@@ -545,11 +547,11 @@ function HarvesterClusterBombProjectile::split(%this, %projectile)
 				MissionCleanup.add(%split);
 			}
 		}
-		
+
 		// Spawn a projectile to compensate for Torque's fuckery (.explode() does not spawn explosion at correct position after a bounce).
 		%effect = new Projectile()
 		{
-			dataBlock = HarvesterBombProjectile;
+			dataBlock = %this.baseProjectile;
 			initialVelocity = "0 0 1";
 			initialPosition = %projectile.position;
 			sourceObject = %projectile.sourceObject;
@@ -562,7 +564,7 @@ function HarvesterClusterBombProjectile::split(%this, %projectile)
 			MissionCleanup.add(%effect);
 			%effect.explode();
 		}
-		
+
 		%projectile.delete();
 	}
 }
@@ -576,21 +578,21 @@ datablock ProjectileData(HarvesterBigClusterBombProjectile : HarvesterClusterBom
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	projectileShapeName = $Harvester::Root @ "/resources/shapes/bomb9Projectile.dts";
-	
+
 	//----------//
 	// Physics: //
 	//----------//
-	
+
 	ballRadius = 0.6;
-	
+
 	//---------------//
 	// Miscellanous: //
 	//---------------//
-	
+
 	uiName = "The Harvester's Big Cluster Bomb";
-	
+
 	subProjectile = HarvesterClusterBombProjectile;
 };
 
@@ -608,55 +610,7 @@ function HarvesterBigClusterBombProjectile::onExplode(%this, %projectile, %posit
 /// @param	projectile	projectile
 function HarvesterBigClusterBombProjectile::split(%this, %projectile)
 {
-	if(isObject(%projectile))
-	{
-		%adjustment[0] = unitVectorFromAngles(22.5, 0);
-		%adjustment[1] = unitVectorFromAngles(0, 22.5);
-		%adjustment[2] = unitVectorFromAngles(-22.5, 0);
-			
-		for(%i = 0; %i < %this.subProjectileCount; %i++)
-		{	
-			%rotation = relativeVectorToRotation(%projectile.initialVelocity, %projectile.getUpVector());
-			%local = %projectile.position SPC %rotation;
-			%actual = matrixMulVector(%local, %adjustment[%i]);
-			%velocity = vectorScale(%actual, %this.subProjectile.muzzleVelocity);
-			%velocity = randomVectorNudge(%velocity, 0.05);
-				
-			%split = new Projectile()
-			{
-				dataBlock = %this.subProjectile;
-				initialVelocity = %velocity;
-				initialPosition = %projectile.position;
-				sourceObject = %projectile.sourceObject;
-				sourceSlot = %projectile.sourceSlot;
-				client = %projectile.client;
-			};
-
-			if(isObject(%split))
-			{
-				MissionCleanup.add(%split);
-			}
-		}
-		
-		// Spawn a projectile to compensate for Torque's fuckery (.explode() does not spawn explosion at correct position after a bounce).
-		%effect = new Projectile()
-		{
-			dataBlock = HarvesterBombProjectile;
-			initialVelocity = "0 0 1";
-			initialPosition = %projectile.position;
-			sourceObject = %projectile.sourceObject;
-			sourceSlot = %projectile.sourceSlot;
-			client = %projectile.client;
-		};
-
-		if(isObject(%effect))
-		{
-			MissionCleanup.add(%effect);
-			%effect.explode();
-		}
-		
-		%projectile.delete();
-	}
+	HarvesterClusterBombProjectile::split(%this, %projectile);
 }
 
 //--------------------//
@@ -668,12 +622,12 @@ datablock ItemData(HarvesterClusterBombItem)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	shapeFile = $Harvester::Root @ "/resources/shapes/bomb3Image.dts";
 	emap = false;
-	
+
 	doColorShift = false;
-	
+
 	//----------//
 	// Physics: //
 	//----------//
@@ -686,11 +640,11 @@ datablock ItemData(HarvesterClusterBombItem)
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	image = HarvesterClusterBombImage;
-	
+
 	canDrop = true;
-	
+
 	uiName = "The Harvester's Penance (x3)";
 	iconName = $Harvester::Root @ "/resources/ui/icons/icon_penance";
 
@@ -707,51 +661,51 @@ datablock ShapeBaseImageData(HarvesterClusterBombImage)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	shapeFile = $Harvester::Root @ "/resources/shapes/bomb3Image.dts";
 
 	emap = false;
-	
+
 	doColorShift = HarvesterClusterBombItem.doColorShift;
 	colorShiftColor = HarvesterClusterBombItem.colorShiftColor;
-	
+
 	//-----------//
 	// Mounting: //
 	//-----------//
-	
+
 	offset = "0.0 0.0 0.0";
 	eyeOffset = "0.0 0.0 0.0";
 
 	rotation = "0.0 0.0 0.0 0.0";
 	eyeRotation = "0.0 0.0 0.0 0.0";
-	
+
 	mountPoint = $RightHandSlot;
-	
+
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	correctMuzzleVector = true;
 	melee = false;
 
 	item = HarvesterClusterBombItem;
-	
+
 	ammo = "";
 	projectile = HarvesterClusterBombProjectile;
 	projectileType = Projectile;
 
 	armReady = true;
-	
+
 	//---------------//
 	// Miscellanous: //
 	//---------------//
 
 	className = "WeaponImage";
-	
+
 	//---------//
 	// States: //
 	//---------//
-	
+
 	stateName[0] = "Activate";
 	stateTimeoutValue[0] = 0.15;
 	stateTransitionOnTimeout[0] = "Ready";
@@ -759,7 +713,7 @@ datablock ShapeBaseImageData(HarvesterClusterBombImage)
 	stateAllowImageChange[0] = true;
 	stateSound[0] = weaponSwitchSound;
 	stateScript[0] = "onActivate";
-	
+
 	stateName[1] = "Ready";
 	stateTransitionOnTriggerDown[1] = "Charge";
 	stateAllowImageChange[1] = true;
@@ -769,7 +723,7 @@ datablock ShapeBaseImageData(HarvesterClusterBombImage)
 	stateTransitionOnTriggerUp[2] = "Fire";
 	stateAllowImageChange[2] = false;
 	stateScript[2] = "onCharge";
-	
+
 	stateName[3] = "Fire";
 	stateTimeoutValue[3] = 0.45;
 	stateTransitionOnTimeout[3] = "Done";
@@ -777,7 +731,7 @@ datablock ShapeBaseImageData(HarvesterClusterBombImage)
 	stateAllowImageChange[3] = false;
 	stateScript[3] = "onFire";
 	stateFire[3] = true;
-	
+
 	stateName[4] = "Done";
 	stateTimeoutValue[4] = 0.25;
 	stateTransitionOnTimeout[4] = "Ready";
@@ -795,7 +749,7 @@ function HarvesterClusterBombImage::onReady(%this, %player, %slot)
 	{
 		%player.playThread(0, "root");
 	}
-	
+
 	%player.stopAudio(1);
 }
 
@@ -818,7 +772,7 @@ function HarvesterClusterBombImage::onFire(%this, %player, %slot)
 	if(%player.getDamagePercent() < 1.0)
 	{
 		Parent::onFire(%this, %player, %slot);
-		
+
 		%player.playThread(0, "sweepAttack");
 		%player.playAudio(1, "HarvesterSmallYellSound" @ getRandom(1, 2));
 	}
@@ -844,15 +798,15 @@ datablock ItemData(HarvesterBigClusterBombItem : HarvesterClusterBombItem)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	shapeFile = $Harvester::Root @ "/resources/shapes/bomb9Image.dts";
-	
+
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	image = HarvesterBigClusterBombImage;
-	
+
 	uiName = "The Harvester's Penance (x9)";
 };
 
@@ -865,12 +819,12 @@ datablock ShapeBaseImageData(HarvesterBigClusterBombImage : HarvesterClusterBomb
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	shapeFile = $Harvester::Root @ "/resources/shapes/bomb9Image.dts";
-	
+
 	doColorShift = HarvesterBigClusterBombItem.doColorShift;
 	colorShiftColor = HarvesterBigClusterBombItem.colorShiftColor;
-	
+
 	//-------------//
 	// Properties: //
 	//-------------//
@@ -889,7 +843,7 @@ function HarvesterBigClusterBombImage::onReady(%this, %player, %slot)
 	{
 		%player.playThread(0, "root");
 	}
-	
+
 	%player.stopAudio(1);
 }
 
@@ -912,7 +866,7 @@ function HarvesterBigClusterBombImage::onFire(%this, %player, %slot)
 	if(%player.getDamagePercent() < 1.0)
 	{
 		Parent::onFire(%this, %player, %slot);
-		
+
 		%player.playThread(0, "sweepAttack");
 		%player.playAudio(1, "HarvesterSmallYellSound" @ getRandom(1, 2));
 	}
@@ -935,13 +889,10 @@ package HarvesterClusterBombSplitting
 	function Projectile::onAdd(%this)
 	{
 		Parent::onAdd(%this);
-		
 		%datablock = %this.getDatablock();
-		
-		if(%datablock == HarvesterClusterBombProjectile.getID() || %datablock == HarvesterBigClusterBombProjectile.getID())
-		{
+
+		if(%datablock.isHarvesterClusterBomb)
 			%datablock.scheduleNoQuota(getRandom($Harvester::Bomb::MinSplitTimeMS, $Harvester::Bomb::MaxSplitTimeMS), split, %this);
-		}
 	}
 };
 activatePackage(HarvesterClusterBombSplitting);

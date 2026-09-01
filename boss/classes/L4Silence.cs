@@ -20,7 +20,7 @@ datablock ProjectileData(L4SilenceSpikeProjectile : HarvesterSpikeProjectile)
 	//------------//
 	// Explosion: //
 	//------------//
-	
+
 	explosion = L4SilenceSpikeExplosion;
 };
 
@@ -43,13 +43,13 @@ datablock ItemData(L4SilenceItem)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	shapeFile = $Harvester::Root @ "/resources/shapes/silence.dts";
 	emap = false;
-	
+
 	doColorShift = true;
 	colorShiftColor = "0.1 0.1 0.1 1.0";
-	
+
 	//----------//
 	// Physics: //
 	//----------//
@@ -62,23 +62,23 @@ datablock ItemData(L4SilenceItem)
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	image = L4SilenceImage;
-	
+
 	canDrop = true;
-	
+
 	uiName = "L4 - \"Silence\"";
 	iconName = $Harvester::Root @ "/resources/ui/icons/icon_silence";
 
 	category = "Weapon";
 	className = "Weapon";
-	
+
 	//----------//
 	// Farming: //
 	//----------//
-	
+
 	durability = 30;
-	
+
 	canPickupMultiple = 0;
 	isBossReward = 1;
 
@@ -96,59 +96,59 @@ datablock ShapeBaseImageData(L4SilenceImage)
 	//------------//
 	// Rendering: //
 	//------------//
-	
+
 	shapeFile = $Harvester::Root @ "/resources/shapes/silence.dts";
 
 	emap = false;
-	
+
 	doColorShift = L4SilenceItem.doColorShift;
 	colorShiftColor = L4SilenceItem.colorShiftColor;
-	
+
 	//-----------//
 	// Mounting: //
 	//-----------//
-	
+
 	offset = "0.0 0.0 0.0";
 	eyeOffset = "0.0 0.0 0.0";
 
 	rotation = "0.0 0.0 0.0 0.0";
 	eyeRotation = "0.0 0.0 0.0 0.0";
-	
+
 	mountPoint = $RightHandSlot;
-	
+
 	//-------------//
 	// Properties: //
 	//-------------//
-	
+
 	correctMuzzleVector = true;
 	melee = false;
 
 	item = L4SilenceItem;
-	
+
 	ammo = "";
 	projectile = "";
 	projectileType = Projectile;
 
 	armReady = true;
-	
+
 	//---------------//
 	// Miscellanous: //
 	//---------------//
 
 	className = "WeaponImage";
-	
+
 	//----------//
 	// Farming: //
 	//----------//
-	
+
 	areaHarvest = 4;
-	
+
 	toolTip = "+3 area harvest below ground crops";
-	
+
 	//---------//
 	// States: //
 	//---------//
-	
+
 	stateName[0] = "Activate";
 	stateTimeoutValue[0] = 0.15;
 	stateTransitionOnTimeout[0] = "Ready";
@@ -156,7 +156,7 @@ datablock ShapeBaseImageData(L4SilenceImage)
 	stateAllowImageChange[0] = true;
 	stateSound[0] = weaponSwitchSound;
 	stateScript[0] = "onActivate";
-	
+
 	stateName[1] = "Ready";
 	stateTransitionOnTriggerDown[1] = "Charge";
 	stateWaitForTimeout[1] = false;
@@ -172,7 +172,7 @@ datablock ShapeBaseImageData(L4SilenceImage)
 	stateTransitionOnTimeout[7] = "Ready";
 	stateAllowImageChange[7] = true;
 	stateScript[7] = "onReady";
-	
+
 	stateName[2] = "Charge";
 	stateTimeoutValue[2] = 0.75;
 	stateTransitionOnTimeout[2] = "Fire";
@@ -183,7 +183,7 @@ datablock ShapeBaseImageData(L4SilenceImage)
 	stateAllowImageChange[2] = true;
 	stateSound[2] = HarvesterBeamRifleChargeSound;
 	stateScript[2] = "onCharge";
-	
+
 	stateName[3] = "Fire";
 	stateTimeoutValue[3] = 0.5;
 	stateTransitionOnTimeout[3] = "Wait";
@@ -195,20 +195,20 @@ datablock ShapeBaseImageData(L4SilenceImage)
 	stateSound[3] = HarvesterBeamRifleFireSound;
 	stateScript[3] = "onFire";
 	stateFire[3] = true;
-	
+
 	stateName[4] = "Wait";
 	stateTimeoutValue[4] = 0.75;
 	stateTransitionOnTimeout[4] = "CheckFire";
 	stateWaitForTimeout[4] = true;
 	stateAllowImageChange[4] = false;
 	stateScript[4] = "onWait";
-	
+
 	stateName[5] = "CheckFire";
 	stateTransitionOnTriggerDown[5] = "Fire";
 	stateTransitionOnTriggerUp[5] = "Done";
 	stateAllowImageChange[5] = true;
 	stateScript[5] = "onCheckFire";
-	
+
 	stateName[6] = "Done";
 	stateTimeoutValue[6] = 0.35;
 	stateTransitionOnTimeout[6] = "Ready";
@@ -227,21 +227,21 @@ function L4SilenceImage::spawnSpike(%this, %player, %slot, %position, %direction
 	if(%player.getDamagePercent() < 1.0)
 	{
 		%typeMasks = $TypeMasks::StaticObjectType | $TypeMasks::TerrainObjectType | $TypeMasks::FXBrickObjectType;
-		
+
 		%start = vectorAdd(vectorAdd(%position, "0.0 0.0 3.0"), %direction);
 		%end = vectorSub(%start, "0.0 0.0 9.0");
-		
+
 		%groundRay = containerRaycast(%start, %end, %typeMasks);
-		
+
 		if(!isObject(firstWord(%groundRay)))
 		{
 			return;
 		}
-		
+
 		%groundPosition = getWords(%groundRay, 1, 3);
-		
+
 		%scale = getRandom() + 1.0;
-		
+
 		%shape = new StaticShape()
 		{
 			dataBlock = HarvesterSpikeShape;
@@ -249,18 +249,18 @@ function L4SilenceImage::spawnSpike(%this, %player, %slot, %position, %direction
 			rotation = eulerToQuat_Degrees("0.0 22.5" SPC getRandom(0, 360));
 			scale = %scale SPC %scale SPC %scale;
 		};
-		
+
 		if(isObject(%shape))
 		{
 			MissionCleanup.add(%shape);
-			
+
 			%shape.setNodeColor("spike", "0.1 0.1 0.1 1.0");
 			%shape.setNodeColor("iridescence", getRandom() SPC getRandom() SPC getRandom() SPC 0.0);
 
 			%shape.playThread(0, "spike");
 			%shape.schedule(1000, delete);
 		}
-		
+
 		%effect = new Projectile()
 		{
 			dataBlock = L4SilenceSpikeProjectile;
@@ -306,28 +306,31 @@ function L4SilenceImage::onFire(%this, %player, %slot)
 {
 	if(%player.getDamagePercent() < 1.0)
 	{
-		for(%i = 0; %i < 8; %i++)
+		if(getDurability(%this, %player, %slot) > 0)
 		{
-			%this.schedule(67 + 67 * %i, spawnSpike, %player, %slot, %player.getHackPosition(), vectorScale(unitVectorFromAngles(45 * %i, 0), 4));
-		}
-				
-		%effect = new Projectile()
-		{
-			dataBlock = L4SilenceSpikeProjectile;
-			initialVelocity = %player.getMuzzleVector(%slot);
-			initialPosition = %player.getMuzzlePoint(%slot);
-			scale = "0.67 0.67 0.67";
-			sourceObject = %player;
-			sourceSlot = %slot;
-			client = %player.client;
-		};
+			for(%i = 0; %i < 8; %i++)
+			{
+				%this.schedule(67 + 67 * %i, spawnSpike, %player, %slot, %player.getHackPosition(), vectorScale(unitVectorFromAngles(45 * %i, 0), 4));
+			}
 
-		if(isObject(%effect))
-		{
-			MissionCleanup.add(%effect);
-			%effect.explode();
+			%effect = new Projectile()
+			{
+				dataBlock = L4SilenceSpikeProjectile;
+				initialVelocity = %player.getMuzzleVector(%slot);
+				initialPosition = %player.getMuzzlePoint(%slot);
+				scale = "0.67 0.67 0.67";
+				sourceObject = %player;
+				sourceSlot = %slot;
+				client = %player.client;
+			};
+
+			if(isObject(%effect))
+			{
+				MissionCleanup.add(%effect);
+				%effect.explode();
+			}
 		}
-		
+
 		%player.playThread(0, "plant");
 		%player.playThread(2, "spearThrow");
 

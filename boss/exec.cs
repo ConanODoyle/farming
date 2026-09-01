@@ -14,11 +14,11 @@ else
 {
 	exec($Harvester::Root @ "/plugins/unitVectorFromAngles.cs");
 	exec($Harvester::Root @ "/plugins/checkInZone.cs");
-	
+
 	exec($Harvester::Root @ "/properties.cs");
-	
+
 	exec($Harvester::Root @ "/classes/environment.cs");
-	
+
 	exec($Harvester::Root @ "/classes/HarvesterArmor.cs");
 	exec($Harvester::Root @ "/classes/AncientWarrior.cs");
 	exec($Harvester::Root @ "/classes/HarvesterBlade.cs");
@@ -27,13 +27,14 @@ else
 	exec($Harvester::Root @ "/classes/HarvesterBeamRifle.cs");
 	exec($Harvester::Root @ "/classes/HarvesterSpike.cs");
 	exec($Harvester::Root @ "/classes/HarvesterSpiritSummon.cs");
-	
+
 	exec($Harvester::Root @ "/classes/MasterKey.cs");
 	exec($Harvester::Root @ "/classes/pomegranate.cs");
 	exec($Harvester::Root @ "/classes/StasisMachine.cs");
 	exec($Harvester::Root @ "/classes/VoidKey.cs");
-	
+
 	exec($Harvester::Root @ "/classes/L0Remorse.cs");
+	exec($Harvester::Root @ "/classes/L2Penance.cs");
 	exec($Harvester::Root @ "/classes/L3LastWord.cs");
 	exec($Harvester::Root @ "/classes/L4Silence.cs");
 
