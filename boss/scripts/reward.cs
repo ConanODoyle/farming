@@ -1,33 +1,37 @@
-function Player::grantBRs(%pl)
+function Player::grantBRs(%this)
 {
-	%cl = %pl.client;
-	if (!isObject(%cl))
-	{
+	%client = %this.client;
+
+	if(!isObject(%client))
 		return;
-	}
-	%blid = %cl.bl_id;
 
-	%reward0 = "L0RemorseItem";
-	%reward1 = "L2PenanceItem";
-	%reward2 = "L3LastWordItem";
-	%reward3 = "L4SilenceItem";
+	%bl_id = %client.bl_id;
+	%possible = "L0RemorseItem L2PenanceItem L3LastWordItem L4SilenceItem";
 
-	%pick = getRandom(0, 3);
-	while (getWord($Pref::Farming::BossReward[%blid], %pick) == 1 && %safety++ < 5)
+	while(getWordCount(%possible) > 0)
 	{
-		%pick = (%pick + 1) % 4;
+		%index = getRandom(0, getWordCount(%possible) - 1);
+		%check = getWord(%possible, %index);
+
+		if(!containsWord($Pref::Farming::BossRewards[%bl_id], %check))
+		{
+			%reward = %check;
+			break;
+		}
+
+		%possible = removeWord(%possible, %index);
 	}
 
-	//all rewards already obtained
-	if (%safety >= 5)
+	if(isObject(%reward))
 	{
-		%pl.farmingAddStackableItem("AncientFlowerSeed0Item", 1);
-		return;
+		%this.farmingAddItem(nameToID(%reward));
+		$Pref::Farming::BossRewards[%bl_id] = trim($Pref::Farming::BossRewards[%bl_id] SPC %reward);
+		exportServerPrefs();
 	}
-
-	//give picked reward
-	%pl.farmingAddItem(%reward[%pick].getID());
-	$Pref::Farming::BossReward[%blid] = setWord($Pref::Farming::BossReward[%blid], %pick, 1);
-	exportServerPrefs();
+	else
+	{
+		%this.farmingAddStackableItem(AncientFlowerSeed0Item, 1);
+	}
 }
-registerOutputEvent("Player", "grantBRs");
+
+registerOutputEvent("Player", grantBRs);
