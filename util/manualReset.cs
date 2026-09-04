@@ -82,7 +82,7 @@ function deleteShopLots()
 function resetAllLots()
 {
     deleteVariables("$Pref::Farming::LastLotAutosave*");
-    deleteVariables("$Pref::Farming::BossReward*");
+    deleteVariables("$Pref::Farming::BossRewards*");
     unloadAllLots();
 }
 

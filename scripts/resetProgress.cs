@@ -15,10 +15,10 @@ function serverCmdResetAllProgress(%cl)
 
 function clearClientData(%blid)
 {
-	$Pref::Farming::BossReward[%blid] = "";
+	$Pref::Farming::BossRewards[%blid] = "";
 	$Pref::Farming::LastLotAutosave[%blid] = "";
 	$Pref::Farming::License[%blid] = "";
 	$Pref::Farming::ScoreGrant[%blid] = "";
-	
+
 	fileDelete("config/server/persistence/" @ %blid @ ".txt");
 }
