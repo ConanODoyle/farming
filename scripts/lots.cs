@@ -733,10 +733,7 @@ function serverCmdSellLot(%cl, %force)
 		%force = 0;
 	}
 
-	%start = %pl.getHackPosition();
-	%end = vectorAdd(%start, "0 0 -10");
-	%ray = containerRaycast(%start, %end, $Typemasks::fxBrickObjectType);
-	%hit = getWord(%ray, 0);
+	%hit = getLotBelow(%pl.getHackPosition());
 
 	if (!isObject(%hit) || !%hit.getDatablock().isLot)
 	{

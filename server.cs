@@ -58,6 +58,7 @@ exec("./util/disableWandKnockup.cs");
 exec("./util/dualClient.cs");
 exec("./util/fixSchedulePop.cs");
 exec("./util/fixPersistenceNan.cs");
+exec("./util/getLotBelow.cs");
 exec("./util/getPluralWord.cs");
 exec("./util/getRandomHash.cs");
 exec("./util/getRandomBrickOrthoRot.cs");

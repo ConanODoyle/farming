@@ -128,34 +128,15 @@ function bottomprintInfo(%cl)
 			}
 			else
 			{
-				%start = %pl.getHackPosition();
-				%end = vectorSub(%start, "0 0 " @ ($maxLotBuildHeight - 0.2 * 27));
-
-				%ray = containerRaycast(%start, %end, $Typemasks::fxBrickAlwaysObjectType);
-
-				while (isObject(%hit = getWord(%ray, 0)) && %safety++ < 100)
+				%lot = getLotBelow(%pl.getHackPosition());
+				if (isObject(%lot) && %lot.getDatablock().isSingle)
 				{
-					if (%hit.getDatablock().isLot || %hit.getDatablock().isShopLot)
-					{
-						%owner = getBrickgroupFromObject(%hit).name;
-						%bl_id = getBrickgroupFromObject(%hit).bl_id;
-						if (%hit.getDatablock().isSingle)
-						{
-							%prefix = "Center ";
-						}
+					%prefix = "Center ";
+				}
 
-						if (%hit.getDatablock().isShopLot)
-						{
-							%prefix = "Shop ";
-						}
-
-						break;
-					}
-					else if (%hit.getGroup().bl_id == 888888)
-					{
-						break;
-					}
-					%ray = containerRaycast(vectorSub(getWords(%ray, 1, 3), "0 0 0.1"), %end, $Typemasks::fxBrickAlwaysObjectType, %hit);
+				if (isObject(%lot) && %lot.getDatablock().isShopLot)
+				{
+					%prefix = "Shop ";
 				}
 
 				if (%owner !$= "" && %bl_id != 888888 && %bl_id != 999999)
