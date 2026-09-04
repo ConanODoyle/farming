@@ -212,6 +212,12 @@ function postSaveClearLot(%collection)
 		call("load" @ %collection.type, %collection.bl_id, %lot, %rotation);
 	}
 
+	if (findClientByBL_ID(%collection.bl_id).isResettingProgress)
+	{
+		commandToClient(findClientByBL_ID(%collection.bl_id), 'MessageBoxOK', "Lot Unloaded", "Your lot has been unloaded. Resetting progress...");
+		schedule(2000, 0, serverCmdResetAllProgress, findClientByBL_ID(%collection.bl_id));
+	}
+
 	%collection.delete();
 }
 
@@ -459,7 +465,7 @@ function farmingSaveWriteSave(%collection)
 	{
 		if (!isObject(%center))
 		{
-			talk("ERROR: farmingSaveWriteSave - no single lots found! " @ %center);
+			talk("ERROR: farmingSaveWriteSave - no single lots found for " @ %collection @ "! " @ %center);
 			error("ERROR: farmingSaveWriteSave - no single lots found! " @ %center);
 		}
 		else

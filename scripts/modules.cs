@@ -29,3 +29,4 @@ exec("./messageSent.cs");
 exec("./weather.cs");
 exec("./wateringTools.cs");
 exec("./weedLmao.cs");
+exec("./resetProgress.cs");
