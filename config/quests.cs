@@ -196,8 +196,8 @@ WateringToolQuestRewards.option[WateringToolQuestRewards.count++ - 1]  = "Wateri
 
 new ScriptObject(WeedKillerQuestRewards) { class = "ShopObject"; };
 
-WeedKillerQuestRewards.option[WeedKillerQuestRewards.count++ - 1]  = "WeedKiller"	TAB 50;
-WeedKillerQuestRewards.option[WeedKillerQuestRewards.count++ - 1]  = "Croptrak"		TAB 5;
+WeedKillerQuestRewards.option[WeedKillerQuestRewards.count++ - 1]  = "WeedKiller"		TAB 50;
+WeedKillerQuestRewards.option[WeedKillerQuestRewards.count++ - 1]  = "CroptrakKitItem"	TAB 5;
 
 
 new ScriptObject(MiscToolQuestRewards) { class = "ShopObject"; };
