@@ -103,6 +103,7 @@ $isDonator_["6052"]		= 1 TAB "Sauce (part 3??)";
 $isDonator_["48129"]	= 1 TAB "Esmerelda (gifted by 6052)";
 $isDonator_["49079"]	= 1 TAB "Secutor (gifted by 6052)";
 $isDonator_["31243"]	= 1 TAB "Tills (gifted by FlavouredGames)";
+$isDonator_["261427"]	= 1 TAB "TAN-MAN TANNER (gifted by FlavouredGames)";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
@@ -129,7 +130,7 @@ $isBetaTester_["12027"]		= 1 TAB "Sentry";
 $isBetaTester_["4342"]		= 1 TAB "NEkram";
 $isBetaTester_["9373"]		= 1 TAB "Smallguy";
 $isBetaTester_["4382"]		= 1 TAB "Skill4Life";
-$isBetaTester_["166680"]	= 1 TAB "Wetback/Nothing";
+$isBetaTester_["166680"]	= 1 TAB "Wetback/Ntanksothing";
 
 
 
@@ -150,10 +151,21 @@ function checkIfVIP(%bl_id)
 
 function makeDonator(%bl_id)
 {
-	%client = findClientByBL_ID(%bl_id);
-	%client.isDonator = 1;
-	%client.canWearHats = 1;
-	%client.canRefreshDeal = 1;
+	if (!isObject(findClientByBL_ID(%bl_id)))
+	{
+		echo("No client with BLID found. Assigning global var.");
+		$isDonator_[%bl_id] = 1;
+		return;
+	}
+	findClientByBL_ID(%bl_id).makeDonator();
+}
+
+function GameConnection::makeDonator(%cl)
+{
+	%cl.isDonator = 1;
+	%cl.canWearHats = 1;
+	%cl.canRefreshDeal = 1;
+	$isDonator_[%cl.bl_id] = 1;
 }
 
 function applyDonatorSettings(%cl)
