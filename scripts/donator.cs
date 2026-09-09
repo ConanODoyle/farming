@@ -104,6 +104,7 @@ $isDonator_["48129"]	= 1 TAB "Esmerelda (gifted by 6052)";
 $isDonator_["49079"]	= 1 TAB "Secutor (gifted by 6052)";
 $isDonator_["31243"]	= 1 TAB "Tills (gifted by FlavouredGames)";
 $isDonator_["261427"]	= 1 TAB "TAN-MAN TANNER (gifted by FlavouredGames)";
+$isDonator_["46210"]	= 1 TAB "SenorBonBon (gifted by Sauce)";
 
 $isBetaTester_["30881"]		= 1 TAB "Allun Pentax";
 $isBetaTester_["39617"]		= 1 TAB "Queuenard";
