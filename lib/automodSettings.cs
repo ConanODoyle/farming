@@ -170,10 +170,20 @@ function serverCmdMute(%cl, %blid, %time)
 		return;
 	}
 
+	if (%time == -1)
+	{
+		%time = 9999999999;
+		%perma = 1;
+	}
+
 	if (!isObject(%target = findClientByBL_ID(%blid)))
 	{
-		messageClient(%cl, '', "Cannot find player with BLID " @ %blid);
-		return;
+		messageClient(%cl, '', "Cannot find player with BLID " @ %blid @ ", trying name...");
+		if (!isObject(%target = findClientByName(%blid)))
+		{
+			messageClient(%cl, '', "Cannot find player with name " @ %blid);
+			return;
+		}
 	}
 
 	$autoModeratorMute[%target.bl_id] = $Sim::Time + %time;
@@ -181,7 +191,7 @@ function serverCmdMute(%cl, %blid, %time)
 	messageClient(%cl, '', "\c5Muted " @ %target.name @ " for " @ %time @ " seconds.");
 	if (isObject(%target))
 	{
-		messageClient(%target, '', "\c5" @ %cl.name @ " muted you.");
+		// messageClient(%target, '', "\c5" @ %cl.name @ " muted you.");
 	}
 	echo("[" @ getDateTime() @ "] " @ %cl.name @ " muted " @ %target @ " (" @ %target.name SPC %target.bl_id @ ")");
 }
