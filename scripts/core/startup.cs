@@ -77,7 +77,7 @@ function startup_postLoad()
 
 	//load environment
 	echo("Setting environment");
-	setupDefaultEnvironment();
+	setupDefaultEnvironment(); //required - normally happens during the first player joining the server
 	AIConsole.currentEnvironment = $DefaultEnvironment;
 	%file = new FileObject();
 	%file.openForRead("Add-ons/Server_Farming/environment.txt");
@@ -102,6 +102,8 @@ function startup_postLoad()
 	echo("Unsetting password");
 	$Pref::Server::Password = "";
 	webcom_postServer();
+
+	schedule(1000, 0, talk, "Server is up!");
 }
 
 package Farming_Startup
