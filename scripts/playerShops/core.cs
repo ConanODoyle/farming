@@ -19,9 +19,9 @@ package PlayerShops
 		if (%storageObj.getDatablock().isShop)
 		{
 			%brick.updateShopMenus();
-
-			if (getTrustLevel(%brick, %cl) >= 2)
-			{
+			%isTrustLocked = %brick.isTrustLocked();
+			if ((getTrustLevel(%brick, %cl) >= 2 && %isTrustLocked == 0) || getTrustLevel(%brick, %cl) == 3)
+			{ 
 				%cl.startCenterprintMenu(%brick.shopStorageMenu);
 			}
 			else
@@ -53,7 +53,7 @@ package PlayerShops
 		}
 	}
 
-	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot)
+	function insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot) // TODO Modify the parent function's trust check
 	{
 		if (!isObject(%storageObj) || !%storageObj.getDatablock().isShop) return parent::insertIntoStorage(%storageObj, %brick, %dataID, %storeItemDB, %insertCount, %itemDataID, %specificSlot);
 
@@ -357,7 +357,7 @@ function fxDTSBrick::updateShopMenus(%brick)
 		{
 			isCenterprintMenu = 1;
 
-			menuOptionCount = %count + 1;
+			menuOptionCount = %count + 2;
 
 			storageDataID = %dataID;
 			brick = %brick;
@@ -369,12 +369,14 @@ function fxDTSBrick::updateShopMenus(%brick)
 			%shopStorageMenu.menuOption[%i] = "Empty";
 		}
 		%shopStorageMenu.menuOption[%i] = "$0 - Last withdrawal: None";
+        %shopStorageMenu.menuOption[%i+1] = "Trust Lock: Enabled";
 
 		for (%i = 0; %i < %count; %i++)
 		{
 			%shopStorageMenu.menuFunction[%i] = "removeStack";
 		}
 		%shopStorageMenu.menuFunction[%i] = "removeMoney";
+        %shopStorageMenu.menuFunction[%i+1] = "toggleTrustLock";
 
 		%brick.shopStorageMenu = %shopStorageMenu;
 	}
@@ -410,6 +412,7 @@ function fxDTSBrick::updateShopMenus(%brick)
 	%lastWithdrawer = getDataIDArrayTagValue(%dataID, "lastWithdrawer");
 
 	%brick.shopStorageMenu.menuOption[%count] = "$" @ mFloatLength(%moneyStored, 2) @ " - Last withdrawal: " @ (%lastWithdrawer $= "" ? "None" : %lastWithdrawer);
+	%brick.shopStorageMenu.menuOption[%count+1] = "Trust Lock: " @ (!getDataIDArrayTagValue(%dataID, "trustLockOff") ? "\c2Enabled" : "\c0Disabled");
 
 	%brick.updateShopDisplay();
 }
@@ -540,6 +543,42 @@ function removeMoney(%cl, %menu, %option)
 
 	%cl.startCenterprintMenu(%menu);
 	%cl.displayCenterprintMenu(%option);
+}
+
+function toggleTrustLock(%cl, %menu, %option)
+{
+	%brick = %menu.brick;
+	if (getTrustLevel(%cl, %brick) < 3)
+	{
+		return;
+	}
+
+	%dataID = %brick.eventOutputParameter[0, 1];
+
+	%trustLock = %brick.isTrustLocked();
+	if (%trustLock == 1)
+	{
+		setDataIDArrayTagValue(%dataID, "trustLockOff", 1);
+		messageClient(%cl, '', "\c6Shop storage is \c0unlocked\c6. \c4Full trust players \c6can access shop storage.");
+	}
+	else
+	{
+		setDataIDArrayTagValue(%dataID, "trustLockOff", 0);
+		messageClient(%cl, '', "\c6Shop storage is \c2locked\c6. Only you can access shop storage.");
+	}
+
+	serverPlay3D(ToggleStartSound, %brick.getPosition());
+
+	%cl.startCenterprintMenu(%menu);
+	%cl.displayCenterprintMenu(%option);
+	%brick.updateShopMenus();
+	return;
+}
+
+function fxDTSBrick::isTrustLocked(%brick)
+{
+	%dataID = %brick.eventOutputParameter[0, 1];
+	return !getDataIDArrayTagValue(%dataID, "trustLockOff"); // BECAUSE DEFAULT  IS ON. I REALLY DONT LIKE TO DO THIS -- BRISTEM
 }
 
 function fxDTSBrick::storeMoney(%brick, %amount)
@@ -700,3 +739,4 @@ function messagePurchaseTotal(%cl, %dataBlock, %displayName)
 	%cl.shopPurchaseAmount[%dataBlock] = "";
 	%cl.shopPurchaseSched[%dataBlock] = "";
 }
+
