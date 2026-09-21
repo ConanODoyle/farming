@@ -1037,48 +1037,53 @@ package StorageBricks
 			%start = %pl.getEyePoint();
 			%end = vectorAdd(vectorScale(%pl.getEyeVector(), 6), %start);
 			%hit = getWord(containerRaycast(%start, %end, $Typemasks::fxBrickObjectType), 0);
-			if (isObject(%hit) && %hit.getDatablock().isStorageBrick && getTrustLevel(%hit, %cl) >= 2)
+
+			// adding shop check. reordered some checks for readability   and silently praying i didnt mess up anything -- bristem
+			if ((!isObject(%hit) || !%hit.getDatablock().isStorageBrick || getTrustLevel(%hit, %cl) < 2)
+				|| (%hit.getDatablock().isShop && %hit.isTrustLocked() && getTrustLevel(%hit, %cl) < 3)) 
 			{
-				%toolID = %pl.toolDataID[%slot];
-				%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1],
-												%item,
-												!%pl.tool[%slot].isStackable ? 1 : %pl.toolStackCount[%slot],
-												%toolID);
+				return parent::serverCmdDropTool(%cl, %slot);
+			}
+		
+			%toolID = %pl.toolDataID[%slot];
+			%success = %hit.insertIntoStorage(%hit.eventOutputParameter[0, 1],
+											%item,
+											!%pl.tool[%slot].isStackable ? 1 : %pl.toolStackCount[%slot],
+											%toolID);
 
-				if ((%success == 0 || %success == 1)
-					&& %item.hasDataID && %item.isDataIDTool && %toolID !$= "")
-				{
-					logItemAction(%toolID, "stored", %cl.bl_id);
-				}
+			if ((%success == 0 || %success == 1)
+				&& %item.hasDataID && %item.isDataIDTool && %toolID !$= "")
+			{
+				logItemAction(%toolID, "stored", %cl.bl_id);
+			}
 
-				if (%success == 0) //complete insertion
+			if (%success == 0) //complete insertion
+			{
+				%pl.toolStackCount[%slot] = 0;
+				%pl.tool[%slot] = 0;
+				messageClient(%cl, 'MsgItemPickup', "", %slot, 0);
+				if (%pl.currTool == %slot)
 				{
-					%pl.toolStackCount[%slot] = 0;
-					%pl.tool[%slot] = 0;
-					messageClient(%cl, 'MsgItemPickup', "", %slot, 0);
-					if (%pl.currTool == %slot)
-					{
-						%pl.unmountImage(0);
-					}
-					return;
+					%pl.unmountImage(0);
 				}
-				else if (%success == 1) //partial insertion
+				return;
+			}
+			else if (%success == 1) //partial insertion
+			{
+				%pl.toolStackCount[%slot] = getWord(%success, 1);
+				%db = getStackTypeDatablock(%pl.tool[%slot].stackType, getWord(%success, 1)).getID();
+				messageClient(%cl, 'MsgItemPickup', "", %slot, %db);
+				%pl.tool[%slot] = %db;
+				if (%pl.currTool == %slot)
 				{
-					%pl.toolStackCount[%slot] = getWord(%success, 1);
-					%db = getStackTypeDatablock(%pl.tool[%slot].stackType, getWord(%success, 1)).getID();
-					messageClient(%cl, 'MsgItemPickup', "", %slot, %db);
-					%pl.tool[%slot] = %db;
-					if (%pl.currTool == %slot)
-					{
-						%pl.mountImage(%db.image, 0);
-					}
-					return;
+					%pl.mountImage(%db.image, 0);
 				}
-				else if (isObject(%item) && !%pl.isDying)
-				{
-					commandToClient(%cl, 'MessageBoxOk', "Storage Full", "Cannot insert this item!");
-					return;
-				}
+				return;
+			}
+			else if (isObject(%item) && !%pl.isDying)
+			{
+				commandToClient(%cl, 'MessageBoxOk', "Storage Full", "Cannot insert this item!");
+				return;
 			}
 		}
 		return parent::serverCmdDropTool(%cl, %slot);
