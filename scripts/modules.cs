@@ -17,6 +17,7 @@ exec("./mining/server.cs");
 exec("./fishing/server.cs");
 exec("./currencies/server.cs");
 exec("./community/server.cs");
+exec("./itemStands/core.cs");
 
 // exec("./chatFilter.cs");
 exec("./chestScore.cs");

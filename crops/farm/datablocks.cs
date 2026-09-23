@@ -425,6 +425,27 @@ datablock fxDTSBrickData(brickScarecrowData)
 	customRadius = 1.95;
 };
 
+datablock fxDTSBrickData(brick1x1fItemStandData : brick1x1fData)
+{
+	category = "Farming";
+	subCategory = "Decor";
+	uiName = "1x1f Item Stand";
+	description = "(Displays 1 item, brick limit: 20)";
+
+	brickFile = "~/data/bricks/flats/1x1f.blb";
+
+	iconName = "base/client/ui/brickIcons/1x1F";
+
+	isItemStand = 1;
+	isStorageBrick = 1;
+	storageSlotCount = 1;
+	storageMultiplier = 1;
+	itemStackCount = 1;
+
+	cost = 250;
+	itemPos0 = "0 0 0";
+};
+
 datablock fxDTSBrickData (brickGarageDoor4xOpenData)
 {
 	brickFile = "./bricks/GarageDoor4xOpen.blb";
