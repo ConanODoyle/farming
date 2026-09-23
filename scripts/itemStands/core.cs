@@ -1,6 +1,4 @@
 // TODO: brick restriction
-// TODO: 1x2f 2x2f
-
 
 // TODO: refactor holy crap
 // TODO: tool rack?

@@ -432,7 +432,7 @@ datablock fxDTSBrickData(brick1x1fItemStandData : brick1x1fData)
 	uiName = "1x1f Item Stand";
 	description = "(Displays 1 item, brick limit: 20)";
 
-	brickFile = "~/data/bricks/flats/1x1f.blb";
+	brickFile = "base/data/bricks/flats/1x1f.blb";
 
 	iconName = "base/client/ui/brickIcons/1x1F";
 
@@ -444,6 +444,26 @@ datablock fxDTSBrickData(brick1x1fItemStandData : brick1x1fData)
 
 	cost = 250;
 	itemPos0 = "0 0 0";
+};
+
+datablock fxDTSBrickData(brick1x2fItemStandData : brick1x1fItemStandData)
+{
+	uiName = "1x2f Item Stand";
+	description = "(Displays 1 item, brick limit: 20)";
+
+	brickFile = "base/data/bricks/flats/1x2f.blb";
+
+	iconName = "base/client/ui/brickIcons/1x2F";
+};
+
+datablock fxDTSBrickData(brick2x2fItemStandData : brick1x1fItemStandData)
+{
+	uiName = "2x2f Item Stand";
+	description = "(Displays 1 item, brick limit: 20)";
+
+	brickFile = "base/data/bricks/flats/2x2f.blb";
+
+	iconName = "base/client/ui/brickIcons/2x2F";
 };
 
 datablock fxDTSBrickData (brickGarageDoor4xOpenData)
