@@ -60,21 +60,21 @@ function buyBrick(%b)
 	}
 	if (%cl.checkMoney(%db.cost) && %db.cost >= 0)
 	{
-		if (%db.isItemStand)
-		{
-			if (%cl.numItemStands >= $Farming::MaxItemStands)
-			{
-				%b.skipSell = 1;
-				%b.schedule(1, delete);
-				messageClient(%cl, '', "You cannot place more than" SPC $Farming::MaxItemStands SPC "item stands!");
-				return;
-			}
-			else
-			{
-				%cl.numItemStands++;
-				announce(%cl.numItemStands);
-			}
-		}
+		// if (%db.isItemStand)
+		// {
+		// 	if (%cl.numItemStands >= $Farming::MaxItemStands)
+		// 	{
+		// 		%b.skipSell = 1;
+		// 		%b.schedule(1, delete);
+		// 		messageClient(%cl, '', "You cannot place more than" SPC $Farming::MaxItemStands SPC "item stands!");
+		// 		return;
+		// 	}
+		// 	else
+		// 	{
+		// 		%cl.numItemStands++;
+		// 		announce(%cl.numItemStands);
+		// 	}
+		// }
 
 		%cl.subMoney(%db.cost);
 		%cl.deducted += %db.cost;
@@ -135,11 +135,11 @@ function sellObject(%b)
 		return;
 	}
 
-	if (%b.isItemStand)
-	{
-		%cl.numItemStands--;
-		announce(%cl.numItemStands);
-	}
+	// if (%b.isItemStand)
+	// {
+	// 	%cl.numItemStands--;
+	// 	announce(%cl.numItemStands);
+	// }
 
 	%cost = %db.cost;
 	
