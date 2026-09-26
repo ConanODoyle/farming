@@ -432,9 +432,9 @@ datablock fxDTSBrickData(brick1x1fItemStandData : brick1x1fData)
 	uiName = "1x1f Item Stand";
 	description = "(Displays 1 item, max 30 Item Stands)";
 
-	brickFile = "base/data/bricks/flats/1x1f.blb";
+	brickFile = "./bricks/1x1fitemStand.blb";
 
-	iconName = "base/client/ui/brickIcons/1x1F";
+	iconName = "Add-Ons/Server_Farming/icons/1x1fitemstand";
 
 	
 	isStorageBrick = 1;
@@ -453,18 +453,18 @@ datablock fxDTSBrickData(brick1x2fItemStandData : brick1x1fItemStandData)
 {
 	uiName = "1x2f Item Stand";
 
-	brickFile = "base/data/bricks/flats/1x2f.blb";
+	brickFile = "./bricks/1x2fitemStand.blb";
 
-	iconName = "base/client/ui/brickIcons/1x2F";
+	iconName = "Add-Ons/Server_Farming/icons/1x2fitemstand";
 };
 
 datablock fxDTSBrickData(brick2x2fItemStandData : brick1x1fItemStandData)
 {
 	uiName = "2x2f Item Stand";
 
-	brickFile = "base/data/bricks/flats/2x2f.blb";
+	brickFile = "./bricks/2x2fitemStand.blb";
 
-	iconName = "base/client/ui/brickIcons/2x2F";
+	iconName = "Add-Ons/Server_Farming/icons/2x2fitemstand";
 };
 
 datablock fxDTSBrickData (brickGarageDoor4xOpenData)
