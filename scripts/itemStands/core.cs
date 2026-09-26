@@ -1,10 +1,11 @@
 // TODO: brick restriction
-
-// TODO: refactor holy crap
 // TODO: tool rack?
-// TODO: modifiable item positions via wrench without unrestricting everything else about the wrench
 
+// TODO: offset bug on wrenchdata: probably due to order of calling calcitempos and calcitemdir
 
+$Farming::MaxItemStands = 30;
+
+// shoddy work rip from shop stalls im sorry
 package ItemStands
 {
 	function fxDTSBrick::accessStorage(%brick, %dataID, %cl)
@@ -119,10 +120,25 @@ package ItemStands
 		}
 		return parent::onCollision(%this, %obj, %col, %vec, %speed);
 	}
+
+	function serverCmdSetWrenchData(%cl, %data)
+	{
+		parent::serverCmdSetWrenchData(%cl, %data);
+
+		if (isObject(%cl.wrenchBrick))
+		{
+			%db = %cl.wrenchBrick.getDatablock();
+			if (%db.isItemStand)
+			{
+				%cl.wrenchBrick.updateItemStandDisplay(); // BUG: same bug, offset without double calling?
+				%cl.wrenchBrick.updateItemStandDisplay();
+			}
+		}
+	}
 };
 activatePackage(ItemStands);
 
-function fxDTSBrick::updateItemStandDisplay(%brick)
+function fxDTSBrick::updateItemStandDisplay(%brick, %dir)
 {
 	if (!%brick.storageObj.getDatablock().isItemStand)
 	{
@@ -134,73 +150,132 @@ function fxDTSBrick::updateItemStandDisplay(%brick)
 
 	//get storage data
 	%max = %storageObj.getDatablock().storageSlotCount;
-	%start = 1; //slot 0 is information
+	%start = 1; //slot 0 is information+
 
 	%count = 0;
 	for (%i = %start; %i < %max + 1; %i++)
 	{
 		%data[%count] = validateStorageValue(getDataIDArrayValue(%dataID, %i));
-		%dataBlock = getField(%data[%count], 0);
 		%count++;
-	}    
+	} 
 
-	%rotation = getWords(%brick.getTransform(), 3, 6);
-	%rotation = getWords(%rotation, 0, 2) SPC (getWord(%rotation, 3) + $pi);
-	for (%i = 0; %i < %count; %i++)
-	{
-		%currPos = %brick.getDatablock().itemPos[%i];
-		switch(%brick.angleID)
+	if (%count == 1)
+	{	
+		%dataBlock = getField(%data[0], 0);
+		if (!isObject(%dataBlock) && isObject(%brick.itemStandDisplayItem[0]))
 		{
-			case 0: %currPos = %currPos;
-			// case 1: %currPos = getWord(%currPos, 1) SPC -1 * getWord(%currPos, 0) SPC getWord(%currPos, 2);
-			// case 2: %currPos = -1 * getWord(%currPos, 0) SPC -1 * getWord(%currPos, 1) SPC getWord(%currPos, 2);
-			// case 3: %currPos = -1 * getWord(%currPos, 1) SPC getWord(%currPos, 0) SPC getWord(%currPos, 2);
-		}
-		%currPos = vectorAdd(%brick.getPosition(), %currPos);
-		%currPos = vectorAdd(%currPos, "0 0 0.2");
-		// %p = createBoxMarker(%currPos, "0 0 1 1", "0.5 0.5 0");
-		// %p.schedule(1000, delete);
-		%dataBlock = getField(%data[%i], 0);
-		// %itemCount = getField(%data[%i], 2);
-		// %dataID = getField(%data[%i], 3);
-
-		if (isObject(%dataBlock))
-		{
-			%item = %brick.itemStandDisplayItem[%i];
-			if (!isObject(%item))
-			{
-				%item = %brick.itemStandDisplayItem[%i] = new Item(ItemStandDisplayItems)
-				{
-					dataBlock = %dataBlock;
-					static = 1;
-					isItemStandItem = 1;
-				};
-			}
-			else
-			{
-				%brick.itemStandDisplayItem[%i].setDatablock(%dataBlock);
-			}
-
-			if (%dataBlock.doColorShift)
-			{
-				%item.setNodeColor("ALL", %dataBlock.colorShiftColor);
-			}
-
-			%realObjectBox = %item.getWorldBox();
-			%realObjectBox = vectorSub(getWords(%realObjectBox, 3, 5), getWords(%realObjectBox, 0, 2));
-
-			%offset = vectorSub(%item.getTransform(), %item.getWorldBoxCenter());
-			%offset = vectorAdd(%offset, 0 SPC 0 SPC getWord(%realObjectBox, 2) / 2);
-
-			//need to make the bottom of the item be the %currPos
-			%item.setTransform(vectorAdd(%currPos, %offset) SPC %rotation);
+			%brick.itemStandDisplayItem[0].delete();
 		}
 		else
 		{
-			if (isObject(%brick.itemStandDisplayItem[%i]))
+			%dataBlock = getField(%data[0], 0);
+			if (isObject(%dataBlock))
 			{
-				%brick.itemStandDisplayItem[%i].delete();
+				%item = %brick.itemStandDisplayItem[0];
+				if (!isObject(%item))
+				{
+					%item = %brick.itemStandDisplayItem[0] = new Item(ItemStandDisplayItems)
+					{
+						dataBlock = %dataBlock;
+						static = 1;
+						isItemStandItem = 1;
+					};
+				}
+				else
+				{
+
+					%brick.itemStandDisplayItem[0].setDatablock(%dataBlock);
+				}
+
+				if (%dataBlock.doColorShift)
+				{
+					%item.setNodeColor("ALL", %dataBlock.colorShiftColor);
+				}
+				%item.setTransform(%brick.calcItemPosition(%item));
 			}
 		}
 	}
+}
+
+function fxDTSBrick::calcItemPosition(%obj, %item)
+{
+	%dir = %obj.itemPosition;
+	// %obj.itemPosition = %dir;
+	if (!isObject(%item))
+	{
+		return;
+	}
+	%itemBox = %item.getWorldBox();
+	%itemBoxX = mAbs(getWord(%itemBox, 0) - getWord(%itemBox, 3)) / 2;
+	%itemBoxY = mAbs(getWord(%itemBox, 1) - getWord(%itemBox, 4)) / 2;
+	%itemBoxZ = mAbs(getWord(%itemBox, 2) - getWord(%itemBox, 5)) / 2;
+	%itemBoxCenter = %item.getWorldBoxCenter();
+	%itemCenter = %item.getPosition();
+	%itemOffset = VectorSub(%itemCenter, %itemBoxCenter);
+	%brickBox = %obj.getWorldBox();
+	%brickBoxX = mAbs(getWord(%brickBox, 0) - getWord(%brickBox, 3)) / 2;
+	%brickBoxY = mAbs(getWord(%brickBox, 1) - getWord(%brickBox, 4)) / 2;
+	%brickBoxZ = mAbs(getWord(%brickBox, 2) - getWord(%brickBox, 5)) / 2;
+	%pos = %obj.getPosition();
+	%pos = VectorAdd(%pos, %itemOffset);
+	%posX = getWord(%pos, 0);
+	%posY = getWord(%pos, 1);
+	%posZ = getWord(%pos, 2);
+	%rot = %obj.calcItemDirection(%item);
+	if (%dir == 0)
+	{
+		%posZ += %itemBoxZ + %brickBoxZ;
+	}
+	else if (%dir == 1)
+	{
+		%posZ -= %itemBoxZ + %brickBoxZ;
+	}
+	else if (%dir == 2)
+	{
+		%posY += %itemBoxY + %brickBoxY;
+	}
+	else if (%dir == 3)
+	{
+		%posX += %itemBoxX + %brickBoxX;
+	}
+	else if (%dir == 4)
+	{
+		%posY -= %itemBoxY + %brickBoxY;
+	}
+	else if (%dir == 5)
+	{
+		%posX -= %itemBoxX + %brickBoxX;
+	}
+	return %posX SPC %posY SPC %posZ SPC %rot;
+}
+
+function fxDTSBrick::calcItemDirection(%obj, %item)
+{
+	%dir = %obj.itemDirection;
+	if (!isObject(%item))
+	{
+		return;
+	}
+	%pos = getWords(%item.getTransform(), 0, 2);
+	if (%dir == 2)
+	{
+		%rot = "0 0 1 0";
+	}
+	else if (%dir == 3)
+	{
+		%rot = "0 0 1 " @ $piOver2;
+	}
+	else if (%dir == 4)
+	{
+		%rot = "0 0 -1 " @ $pi;
+	}
+	else if (%dir == 5)
+	{
+		%rot = "0 0 -1 " @ $piOver2;
+	}
+	else
+	{
+		%rot = "0 0 1 0";
+	}
+	return %rot;
 }

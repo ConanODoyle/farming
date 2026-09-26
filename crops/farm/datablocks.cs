@@ -430,26 +430,28 @@ datablock fxDTSBrickData(brick1x1fItemStandData : brick1x1fData)
 	category = "Farming";
 	subCategory = "Decor";
 	uiName = "1x1f Item Stand";
-	description = "(Displays 1 item, brick limit: 20)";
+	description = "(Displays 1 item, max 30 Item Stands)";
 
 	brickFile = "base/data/bricks/flats/1x1f.blb";
 
 	iconName = "base/client/ui/brickIcons/1x1F";
 
-	isItemStand = 1;
+	
 	isStorageBrick = 1;
 	storageSlotCount = 1;
 	storageMultiplier = 1;
 	itemStackCount = 1;
 
 	cost = 250;
+
+	isItemStand = 1;
 	itemPos0 = "0 0 0";
+	brickLimit = 15;
 };
 
 datablock fxDTSBrickData(brick1x2fItemStandData : brick1x1fItemStandData)
 {
 	uiName = "1x2f Item Stand";
-	description = "(Displays 1 item, brick limit: 20)";
 
 	brickFile = "base/data/bricks/flats/1x2f.blb";
 
@@ -459,7 +461,6 @@ datablock fxDTSBrickData(brick1x2fItemStandData : brick1x1fItemStandData)
 datablock fxDTSBrickData(brick2x2fItemStandData : brick1x1fItemStandData)
 {
 	uiName = "2x2f Item Stand";
-	description = "(Displays 1 item, brick limit: 20)";
 
 	brickFile = "base/data/bricks/flats/2x2f.blb";
 

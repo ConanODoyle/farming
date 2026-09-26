@@ -32,8 +32,9 @@ package disableWrenchData
 			if (isObject(%cl.wrenchBrick))
 			{
 				%db = %cl.wrenchBrick.getDatablock();
-				if (%db.isPlant || %db.isStorageBrick || %db.isSprinkler || %db.isWaterTank || %db.isDirt || %db.isGreenhouse || %db.isLot
-					|| %db.isShopLot || %db.isShopBrick || %db.isCompostBin || %db.isProcessor)
+				if (%db.isPlant || %db.isSprinkler || %db.isWaterTank || %db.isDirt || %db.isGreenhouse || %db.isLot
+					|| %db.isShopLot || %db.isShopBrick || %db.isCompostBin || %db.isProcessor
+					|| (%db.isStorageBrick && !%db.isItemStand))
 				{
 					messageClient(%cl, '', "You cannot edit wrench data on special bricks!");
 					return;
@@ -58,6 +59,18 @@ package disableWrenchData
 							%i--;
 							continue;
 						}
+					// case "IPOS":
+					// 	if (%cl.wrenchBrick.dataBlock.isItemStand)
+					// 	{
+					// 		continue;
+					// 	}
+					// 	else continue;
+					// case "IDIR":
+					// 	if (%cl.wrenchBrick.dataBlock.isItemStand)
+					// 	{
+					// 		continue;
+					// 	}
+					// 	else continue;
 					case "VDB":
 						if (%cl.wrenchBrick.dataBlock.specialBrickType $= "VehicleSpawn")
 						{
