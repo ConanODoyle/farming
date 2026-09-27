@@ -224,7 +224,7 @@ function farmingLoadEnd(%loadFile, %type, %dataObj, %brickGroup)
 			}
 
 			// check if brick is floating
-			if((!%brick.hasPathToGround() && %brick.getNumDownBricks() == 0) || %brick.getDataBlock().isLot || %brick.getDataBlock().isShopLot)
+			if(!%brick.hasPathToGround() && %brick.getNumDownBricks() == 0 && (%brick.getDataBlock().isLot || %brick.getDataBlock().isShopLot))
 			{
 				%brick.isBaseplate = true;
 				%brick.onToolBreak(); // fix strange bug
