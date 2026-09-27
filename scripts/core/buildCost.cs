@@ -60,21 +60,13 @@ function buyBrick(%b)
 	}
 	if (%cl.checkMoney(%db.cost) && %db.cost >= 0)
 	{
-		// if (%db.isItemStand)
-		// {
-		// 	if (%cl.numItemStands >= $Farming::MaxItemStands)
-		// 	{
-		// 		%b.skipSell = 1;
-		// 		%b.schedule(1, delete);
-		// 		messageClient(%cl, '', "You cannot place more than" SPC $Farming::MaxItemStands SPC "item stands!");
-		// 		return;
-		// 	}
-		// 	else
-		// 	{
-		// 		%cl.numItemStands++;
-		// 		announce(%cl.numItemStands);
-		// 	}
-		// }
+		if (%db.isItemStand && %cl.itemStandLimitCheck() == 2)
+		{
+			%b.skipSell = 1;
+			%b.schedule(1, delete);
+			messageClient(%cl, '', "You cannot place more than" SPC $Farming::MaxItemStands SPC "item stands!");
+			return;
+		}
 
 		%cl.subMoney(%db.cost);
 		%cl.deducted += %db.cost;

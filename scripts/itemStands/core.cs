@@ -197,6 +197,47 @@ function fxDTSBrick::updateItemStandDisplay(%brick, %dir)
 	}
 }
 
+function GameConnection::itemStandLimitCheck(%cl)
+{
+	if (!isObject(%cl))
+	{
+		return 2;
+	}
+
+	%timeSinceCheck = $sim::time - %cl.lastCheckTime;
+	if (%timeSinceCheck < 8)
+	{
+		if (%cl.activeItemStands >= $Farming::MaxItemStands)
+		{
+			return 2;
+		}
+		else if (%cl.activeItemStands > 0 && %cl.activeItemStands < $Farming::MaxItemStands)
+		{
+			%cl.activeItemStands++;
+			return 1;
+		}
+	}
+
+	%cl.activeItemStands = 0;
+	%cl.lastCheckTime = $sim::time;
+
+	%brickGroup = %cl.brickGroup;
+	for (%i = 0; %i < %brickGroup.getCount(); %i++)
+	{
+		%db = %brickGroup.getObject(%i).getDatablock();
+		if (%db.isItemStand)
+		{
+			%cl.activeItemStands++;
+		}
+
+		if (%cl.activeItemStands >= $Farming::MaxItemStands)
+		{
+			return 2;
+		}
+	}
+	return 1;
+}
+
 function fxDTSBrick::calcItemPosition(%obj, %item)
 {
 	%dir = %obj.itemPosition;
