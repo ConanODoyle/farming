@@ -204,7 +204,7 @@ function GameConnection::itemStandLimitCheck(%cl)
 		return 2;
 	}
 
-	%timeSinceCheck = $sim::time - %cl.lastCheckTime;
+	%timeSinceCheck = $sim::time - %cl.lastLimitCheckTime;
 	if (%timeSinceCheck < 8)
 	{
 		if (%cl.activeItemStands >= $Farming::MaxItemStands)
@@ -219,7 +219,7 @@ function GameConnection::itemStandLimitCheck(%cl)
 	}
 
 	%cl.activeItemStands = 0;
-	%cl.lastCheckTime = $sim::time;
+	%cl.lastLimitCheckTime = $sim::time;
 
 	%brickGroup = %cl.brickGroup;
 	for (%i = 0; %i < %brickGroup.getCount(); %i++)
