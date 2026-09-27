@@ -442,11 +442,10 @@ datablock fxDTSBrickData(brick1x1fItemStandData : brick1x1fData)
 	storageMultiplier = 1;
 	itemStackCount = 1;
 
-	cost = 250;
+	cost = 100;
 
 	isItemStand = 1;
 	itemPos0 = "0 0 0";
-	brickLimit = 15;
 };
 
 datablock fxDTSBrickData(brick1x2fItemStandData : brick1x1fItemStandData)
