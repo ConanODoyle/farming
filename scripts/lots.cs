@@ -48,6 +48,27 @@ datablock fxDTSBrickData(brick32x32SingleLotNoLadderData : brick32x32fData)
 	isSingle = 1;
 };
 
+function serverCmdToggleLotLadder(%cl)
+{
+	if (!isObject(%cl.brickgroup) || !isObject(%cl.brickgroup.lotlist))
+	{
+		messageClient(%cl, '', "\c5You have no lot, load or buy a lot first!");
+		return;
+	}
+	%brick = getWord(%cl.brickgroup.lotList, 0);
+	if (%brick.dataBlock.getName() $= "brick32x32SingleLotData")
+	{
+		%toggle = "brick32x32SingleLotNoLadderData";
+		messageClient(%cl, '', "\c5Toggled your center lot's ladder \c0OFF");
+	}
+	else
+	{
+		%toggle = "brick32x32SingleLotData";
+		messageClient(%cl, '', "\c5Toggled your center lot's ladder \c2ON");
+	}
+	%brick.setDatablock(%toggle);
+}
+
 function GameConnection::getTempBrickBounds(%cl)
 {
 	if (!isObject(%pl = %cl.player))
@@ -793,6 +814,7 @@ function serverCmdSellLot(%cl, %force)
 	}
 	else //sold single lot, remove saved lot
 	{
+		%hit.setDatablock(brick32x32SingleLotData); //force laddered lot
 		$Pref::Farming::LastLotAutosave[%cl.bl_id] = "";
 		%file = new FileObject();
 		%file.openForWrite("saves/Autosaver/Lots/" @ %cl.bl_id @ "/sold.bls");

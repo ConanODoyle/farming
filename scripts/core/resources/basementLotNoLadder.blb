@@ -897,7 +897,7 @@ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
-4
+5
 
 0 0 -12
 32 32 3
@@ -910,6 +910,9 @@ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
 -10 0 13
 12 32 1
+
+0 10 13
+8 12 1
 COVERAGE:
 0 : 99999
 0 : 99999

@@ -186,7 +186,7 @@ function postSaveClearLot(%collection)
 		fixLotColor(%lotBrick);
 		if(%lotBrick.getDatablock().isSingle)
 		{
-			
+			%lotBrick.setDatablock(brick32x32SingleLotData);
 		}
 		else if(%lotBrick.getDatablock().isLot)
 		{
