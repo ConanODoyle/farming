@@ -205,7 +205,7 @@ function GameConnection::itemStandLimitCheck(%cl)
 	}
 
 	%timeSinceCheck = $sim::time - %cl.lastLimitCheckTime;
-	if (%timeSinceCheck < 8)
+	if (%timeSinceCheck < 5)
 	{
 		if (%cl.activeItemStands >= $Farming::MaxItemStands)
 		{
