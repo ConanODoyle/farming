@@ -1,13 +1,15 @@
 //%money in dollars, eg $5.50 == 5.5
 function GameConnection::addMoney(%cl, %money)
 {
-	%money = (%money * 100) | 0;
+	%money = %money * 100;
+	%money = %money | 0;
 	%cl.score = IMath_Add(%cl.score, %money);
 }
 
 function GameConnection::subMoney(%cl, %money)
 {
-	%money = (%money * 100) | 0;
+	%money = %money * 100;
+	%money = %money | 0;
 	%cl.score = IMath_Subtract(%cl.score, %money);
 }
 
