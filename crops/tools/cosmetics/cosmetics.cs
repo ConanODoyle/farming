@@ -1,5 +1,7 @@
 $Farming::CosmeticList = "";
 
+exec("./tools/cosmetics/toolExchanger.cs");
+
 package Cosmetics
 {
 	function Player::mountImage(%obj, %img, %slot)
@@ -92,4 +94,14 @@ function ItemData::getReskinOptions(%item)
 	%reskinOptions = ltrim(%reskinOptions);
 
 	return %reskinOptions;
+}
+
+function ItemData::getNumReskins(%item)
+{
+	if (!isObject(%item))
+	{
+		return;
+	}
+
+	return getFieldCount(%item.getReskinOptions());
 }
