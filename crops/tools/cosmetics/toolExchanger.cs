@@ -41,6 +41,7 @@ $obj = new ScriptObject(ToolExchangerNoBux)
 $obj = new ScriptObject(ToolExchangerDialogueCore)
 {
 	response["CanReskin"] = "ReskinConfirmation";
+	response["CanReskinWithOptions"] = "ReskinOptionsCore";
 	response["InsufficientMoney"] = "ReskinFail";
 	response["CannotReskin"] = "ReskinInvalid";
 	response["Quit"] = "ExitResponse";
@@ -61,11 +62,32 @@ $ToolExchangerDialogueSet.add($obj);
 $obj = new ScriptObject(ReskinFail)
 {
 	messageCount = 1;
-	message[0] = "You don't have enough Bux! Reskinning costs %reskinPrice% Bux.";
+	message[0] = "You don't have enough Bux! Reskinning costs" SPC $Farming::ReskinPrice SPC "Bux.";
 	messageTimeout[0] = 1;
 
 	botTalkAnim = 1;
 	dialogueTransitionOnTimeout = "ExitResponse";
+};
+$ToolExchangerDialogueSet.add($obj);
+
+$obj = new ScriptObject(ReskinOptionsCore) // todo
+{
+	response["CanReskin"] = "ReskinConfirmation";
+	response["CannotReskin"] = "ReskinInvalid";
+	response["Quit"] = "ExitResponse";
+	response["Error"] = "ErrorResponse";
+
+	messageCount = 3;
+	message[0] = "%toolName% has multiple reskin options:";
+	messageTimeout[0] = 1;
+	message[1] = "%toolReskinList%";
+	messageTimeout[1] = 1;
+	message[2] = "Which one would you like to reskin to? Say the name or number of the reskin.";
+	messageTimeout[2] = 1;
+
+	botTalkAnim = 1;
+	waitForResponse = 1;
+	responseParser = "ReskinOptionsResponseParser";
 };
 $ToolExchangerDialogueSet.add($obj);
 
@@ -76,13 +98,26 @@ $obj = new ScriptObject(ReskinConfirmation)
 	response["Quit"] = "ExitResponse";
 	response["Error"] = "ErrorResponse";
 
-	messageCount = 1;
-	message[0] = "It will cost %reskinPrice% Bux to reskin your %toolName%. Are you sure? Say yes to confirm.";
+	messageCount = 2;
+	message[0] = "Your %toolName% will be reskinned to %toolReskinName%!";
 	messageTimeout[0] = 1;
+	message[1] = "It will cost" SPC $Farming::ReskinPrice SPC "Bux to reskin. Say yes to confirm.";
+	messageTimeout[1] = 1;
 
 	botTalkAnim = 1;
 	waitForResponse = 1;
 	responseParser = "yesNoResponseParser";
+};
+$ToolExchangerDialogueSet.add($obj);
+
+$obj = new ScriptObject(ReskinProduct)
+{
+	messageCount = 1;
+	message[0] = "I've reskinned your %toolName%! Come again soon!";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+	functionOnStart = "dialogue_ReskinProduct";
 };
 $ToolExchangerDialogueSet.add($obj);
 
@@ -116,16 +151,6 @@ $obj = new ScriptObject(ReskinInvalid)
 $ToolExchangerDialogueSet.add($obj);
 
 
-// $obj = new ScriptObject(RepairProduct)
-// {
-// 	messageCount = 1;
-// 	message[0] = "I've repaired your %toolName%! Come again soon!";
-// 	messageTimeout[0] = 1;
-
-// 	botTalkAnim = 1;
-// 	functionOnStart = "dialogue_RepairProduct";
-// };
-// $ToolExchangerDialogueSet.add($obj);
 
 
 
@@ -135,69 +160,32 @@ $ToolExchangerDialogueSet.add($obj);
 
 
 
+function dialogue_ReskinProduct(%dataObj)
+{
+	%pl = %dataObj.player;
+	%cl = %pl.client;
 
-
-
-
-// function dialogue_RepairProduct(%dataObj)
-// {
-// 	%pl = %dataObj.player;
-// 	%cl = %pl.client;
-
-// 	if (%cl.checkMoney(%dataObj.var_repairPrice))
-// 	{
-// 		%cl.subMoney(%dataObj.var_repairPrice);
-// 		for(%i = 0; %i < %dataObj.var_toolCount; %i++)
-// 		{
-// 			%toolDataID = %dataObj.var_toolDataID[%i];
-// 			%maxDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
-// 			setDataIDArrayTagValue(%toolDataID, "durability", %maxDurability | 0);
-// 		}
-// 	}
-// 	return 0;
-// }
-
-// function getRepairPrice(%itemDB, %durabilityLevel, %durabilityMax)
-// {
-// 	%basePrice = getBuyPrice(%itemDB);
-// 	if (%basePrice >= 1000)
-// 	{
-// 		%variableFactor = 50;
-// 	}
-// 	else
-// 	{
-// 		%variableFactor = %basePrice / 20;
-// 	}
-// 	%flatFee = %basePrice / 100; //$10 for $1000 item
-// 	%variableFee = mFloor(%variableFactor * ((%durabilityMax - %durabilityLevel) / %durabilityMax));
-// 	%price = mFloor(%flatFee + %variableFee);
-// 	return %price;
-// }
+	%cl.messageBoxOKLong("SAMPLE TEXT", "reskin goes hereS" NL "" NL "AMPLE TEXT");
+	
+	return 0;
+}
 
 function setupToolExchanger(%dataObj)
 {
-	%player = %dataObj.player;
+	%pl = %dataObj.player;
 	// %dataObj.var_reskinPrice = $Farming::ReskinPrice;
 	// %dataObj.var_reskinRemovePrice = $Farming::ReskinRemovePrice;
 	%exchanger = %dataObj.speaker;
 
-	for (%i = 0; %i < %player.getDatablock().maxTools; %i++)
-	{
-		%tool = %player.tool[%i];
-		if (isObject(%tool) && strstr(%tool.getName(), "Bux") >= 0)
-		{
-			%hasBux = true;
-			break;
-		}
-	}
+	%hasBux = %pl.hasAmountCurrency("Bux 1");
 
 	if (%hasBux)
 	{
-		%exchanger.startDialogue("ToolExchangerDialogueCore", %player.client);
+		%exchanger.startDialogue("ToolExchangerDialogueCore", %pl.client);
 	}
 	else
 	{
-		%exchanger.startDialogue("ToolExchangerNoBux", %player.client);
+		%exchanger.startDialogue("ToolExchangerNoBux", %pl.client);
 	}
 
 	return 1;
@@ -222,7 +210,7 @@ function ReskinResponseParser(%dataObj, %msg)
 		%msg = strLwr(%msg);
 		for (%i = 0; %i < %pl.getDatablock().maxTools; %i++)
 		{
-			%currTool = %pl.tool;
+			%currTool = %pl.tool[%i];
 			if (strPos(strLwr(%currTool.uiName), %msg) >= 0)
 			{
 				%tool = %currTool;
@@ -232,56 +220,40 @@ function ReskinResponseParser(%dataObj, %msg)
 		}
 	}
 
+	
+
 	if (!isObject(%tool) || %tool.getNumReskins() < 1
 		|| !%tool.hasDataID || trim(%toolDataID) $= "")
 	{
 		return "CannotReskin";
 	}
 
+	%dataObj.var_toolName = %tool.uiName;
 
-
-	%price = getRepairPrice(%tool, %durability, %maxDurability);
-
-	%dataObj.var_toolCount = %repairableToolCount;
-	for (%i = 0; %i < %repairableToolCount; %i++)
+	if (%tool.hasSkin) // todo proper skin check
 	{
-		%dataObj.var_tool[%i] = %repairableTool[%i];
-		%dataObj.var_toolDataID[%i] = %repairableToolDataID[%i];
-	}
-	
-	%repairMultipleTools = %toolCount > 1;
-	if (%repairMultipleTools)
-	{
-		%dataObj.var_toolName = "tools";
-		%dataObj.var_toolPlural = "don't";
-	}
-	else
-	{
-		%tool = %tool[0];
-		%toolDataID = %toolDataID[0];
-		%maxDurability = getDataIDArrayTagValue(%toolDataID, "maxDurability");
-		%dataObj.var_toolName = %tool.uiName;
-		%dataObj.var_maxDurability = %maxDurability;
-		%dataObj.var_toolPlural = "doesn't";
-	}
-
-	%dataObj.var_repairPrice = %totalRepairPrice;
-
-
-	if (!%pl.client.checkMoney(%totalRepairPrice))
-	{
-		return "InsufficientMoney";
-	}
-	else if (%pl.client.checkMoney(%totalRepairPrice))
-	{
-		if (%repairMultipleTools)
+		if (%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinRemovePrice))
 		{
-			return "CanRepairMultiple";
+			return "CanRemoveSkin";
 		}
 		else
 		{
-			return "CanRepair";
+			return "InsufficientMoneySkinRemove";  //  todo add this
 		}
 	}
+	else if (!%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinPrice))
+	{
+		return "InsufficientMoney";
+	}
+	else if (%tool.getNumReskins() > 1)
+	{
+		return "CanReskinWithOptions";
+	}
+	else if (%tool.getNumReskins() == 1)
+	{
+		%dataObj.var_toolReskinName = %tool.uiName;
+		return "CanReskin";
+	}
+
 	return "Error";
 }
