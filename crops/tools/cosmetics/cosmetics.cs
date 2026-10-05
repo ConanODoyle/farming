@@ -1,3 +1,5 @@
+$Farming::CosmeticList = "";
+
 package Cosmetics
 {
 	function Player::mountImage(%obj, %img, %slot)
@@ -41,6 +43,15 @@ function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, 
 	%str = %str @ "};";
 
 	eval(%str);
+
+	if ($Farming::CosmeticList $= "")
+	{
+		$Farming::CosmeticList = %inheritItem @ "_" @ stripChars(%name, " ") @ "Item";
+	}
+	else
+	{
+		$Farming::CosmeticList = $Farming::CosmeticList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Item";
+	}
 }
 
 registerCosmetic(WateringCatItem, WateringCatImage, "cat_black", "", 			"no_icon", "", "Black Cat");
@@ -60,3 +71,28 @@ registerCosmetic(TrowelItem, TrowelImage, 			"entrenchingtool", "",		"no_icon", 
 registerCosmetic(SickleItem, SickleImage, 			"communismsickle", "",		"no_icon", "", "Proletariat Sickle");
 
 registerCosmetic(hoeItem, hoeImage, 				"snowplow", "",				"no_icon", "", "Snowplow");
+
+function ItemData::getReskinOptions(%item)
+{
+	if (!isObject(%item))
+	{
+		return;
+	}
+
+	%itemName = %item.getName();
+
+	for (%i = 0; %i < getFieldCount($Farming::CosmeticList); %i++)
+	{
+		%cosmetic = getField($Farming::CosmeticList, %i);
+		%underscore = strstr(%cosmetic, "_");
+		%cosmeticBase = getSubStr(%cosmetic, 0, %underscore);
+
+		if (%cosmeticBase $= %itemName)
+		{
+			%cosmeticName = getSubStr(%cosmetic, %underscore + 1, strLen(%cosmetic) - %underscore);
+			%reskinOptions = %reskinOptions TAB %cosmeticName;
+		}
+	}
+
+	return %reskinOptions;
+}
