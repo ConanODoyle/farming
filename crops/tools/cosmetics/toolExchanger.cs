@@ -14,11 +14,29 @@ $obj = new ScriptObject(ToolExchangerDialogueStart)
 	message[0] = "Hello! I can reskin your tools!";
 	messageTimeout[0] = 1;
 
-	functionOnStart = "setupToolExchanger";
-
-	// dialogueTransitionOnTimeout = "ToolExchangerDialogueCore";
+	dialogueTransitionOnTimeout = "ToolExchangerDialogueHandler";
 };
 $ToolExchangerDialogueSet.add($obj);
+
+$obj = new ScriptObject(ToolExchangerDialogueHandler)
+{
+	response["Quit"] = "ExitResponse";
+	messageCount = 0;
+	functionOnStart = "setupToolExchanger";
+};
+$ToolExchangerDialogueSet.add($obj);
+
+$obj = new ScriptObject(ToolExchangerNoBux)
+{
+	messageCount = 2;
+	message[0] = "Reskins cost" SPC $Farming::ReskinPrice SPC "Bux! Come back when you have Bux to show me!";
+	messageTimeout[0] = 1;
+	message[1] = "You can get Bux by delivering daily quests to the Dailies Manager!";
+	messageTimeout[1] = 1;
+
+	botTalkAnim = 1;
+	dialogueTransitionOnTimeout = "ExitResponse";
+};
 
 $obj = new ScriptObject(ToolExchangerDialogueCore)
 {
@@ -159,14 +177,14 @@ $ToolExchangerDialogueSet.add($obj);
 function setupToolExchanger(%dataObj)
 {
 	%player = %dataObj.player;
-	%dataObj.var_reskinPrice = $Farming::ReskinPrice;
-	%dataObj.var_reskinRemovePrice = $Farming::ReskinRemovePrice;
+	// %dataObj.var_reskinPrice = $Farming::ReskinPrice;
+	// %dataObj.var_reskinRemovePrice = $Farming::ReskinRemovePrice;
 	%exchanger = %dataObj.speaker;
 
 	for (%i = 0; %i < %player.getDatablock().maxTools; %i++)
 	{
 		%tool = %player.tool[%i];
-		if (isObject(%tool) && strstr(%tool.getName(), "Bux") > 0))
+		if (isObject(%tool) && strstr(%tool.getName(), "Bux") >= 0)
 		{
 			%hasBux = true;
 			break;

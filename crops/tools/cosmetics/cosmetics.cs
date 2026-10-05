@@ -1,6 +1,6 @@
 $Farming::CosmeticList = "";
 
-exec("./tools/cosmetics/toolExchanger.cs");
+exec("./toolExchanger.cs");
 
 package Cosmetics
 {
