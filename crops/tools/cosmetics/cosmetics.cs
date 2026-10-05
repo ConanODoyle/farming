@@ -44,14 +44,7 @@ function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, 
 
 	eval(%str);
 
-	if ($Farming::CosmeticList $= "")
-	{
-		$Farming::CosmeticList = %inheritItem @ "_" @ stripChars(%name, " ") @ "Item";
-	}
-	else
-	{
-		$Farming::CosmeticList = $Farming::CosmeticList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Item";
-	}
+	$Farming::CosmeticList = ltrim($Farming::CosmeticList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Item");
 }
 
 registerCosmetic(WateringCatItem, WateringCatImage, "cat_black", "", 			"no_icon", "", "Black Cat");
@@ -71,6 +64,8 @@ registerCosmetic(TrowelItem, TrowelImage, 			"entrenchingtool", "",		"no_icon", 
 registerCosmetic(SickleItem, SickleImage, 			"communismsickle", "",		"no_icon", "", "Proletariat Sickle");
 
 registerCosmetic(hoeItem, hoeImage, 				"snowplow", "",				"no_icon", "", "Snowplow");
+
+// tbh i dont really know why im doing string arrays not that i know any alternatives
 
 function ItemData::getReskinOptions(%item)
 {
@@ -92,7 +87,9 @@ function ItemData::getReskinOptions(%item)
 			%cosmeticName = getSubStr(%cosmetic, %underscore + 1, strLen(%cosmetic) - %underscore);
 			%reskinOptions = %reskinOptions TAB %cosmeticName;
 		}
-	}
+	}									
+
+	%reskinOptions = ltrim(%reskinOptions);
 
 	return %reskinOptions;
 }
