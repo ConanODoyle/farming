@@ -110,7 +110,7 @@ $obj = new ScriptObject(ReskinConfirmation)
 };
 $ToolExchangerDialogueSet.add($obj);
 
-$obj = new ScriptObject(ReskinProduct)
+$obj = new ScriptObject(ReskinProduct) // todo need a handler for tix subtraction at moment of reskin
 {
 	messageCount = 1;
 	message[0] = "I've reskinned your %toolName%! Come again soon!";
@@ -245,8 +245,16 @@ function ReskinResponseParser(%dataObj, %msg)
 	{
 		return "InsufficientMoney";
 	}
-	else if (%tool.getNumReskins() > 1)
+
+	if (%tool.getNumReskins() > 1)
 	{
+		%str = "";
+		for (%i = 0; %i < getFieldCount(%tool.getReskinOptions()); %i++)
+		{
+			%cosmetic = getField(%tool.getReskinOptions(), %i);
+			%str = %str @ ", " @ %i+1 @ ")" SPC %cosmetic.uiName
+		}
+		%dataObj.var_toolReskinList = ltrim(strchar(%str, 1));
 		return "CanReskinWithOptions";
 	}
 	else if (%tool.getNumReskins() == 1)
