@@ -1,4 +1,5 @@
 $Farming::CosmeticList = "";
+$Farming::ReskinnableTools = "";
 
 exec("./toolExchanger.cs");
 
@@ -47,6 +48,12 @@ function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, 
 	eval(%str);
 
 	$Farming::CosmeticList = ltrim($Farming::CosmeticList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Item");
+	echo("	Registered " @ "Cosmetic__" @ stripChars(%name, " ") @ "Item for " @ %inheritItem);
+	if (strPos($Farming::ReskinnableTools, %inheritItem) == -1)
+	{
+		$Farming::ReskinnableTools = ltrim($Farming::ReskinnableTools TAB %inheritItem);
+		echo("	Registered " @ %inheritItem @ " as a reskinnable tool");
+	}
 }
 
 registerCosmetic(WateringCatItem, WateringCatImage, "cat_black", "", 			"no_icon", "", "Black Cat");
@@ -77,6 +84,23 @@ function ItemData::getReskinOptions(%item)
 	}
 
 	%itemName = %item.getName();
+
+	%isSkinnable = false;
+
+	for (%i = 0; %i < getFieldCount($Farming::ReskinnableTools); %i++)
+	{
+		%tool = getField($Farming::ReskinnableTools, %i);
+		if (%tool $= %itemName)
+		{
+			%isSkinnable = true;
+			break;
+		}
+	}
+
+	if (!%isSkinnable)
+	{
+		return %isSkinnable;
+	}
 
 	for (%i = 0; %i < getFieldCount($Farming::CosmeticList); %i++)
 	{
