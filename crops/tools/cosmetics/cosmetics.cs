@@ -21,9 +21,29 @@ activatePackage(Cosmetics);
 
 function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, %icon, %offset, %name)
 {
-	if (isObject("Cosmetic__" @ stripChars(%name, " ") @ "Item"))
+	%itemName = "Cosmetic__" @ stripChars(%name, " ") @ "Item";	
+	%itemNameListing = %inheritItem @ "_" @ stripChars(%name, " ") @ "Item";
+	
+	if (isObject(%itemName))
 	{
-		error("    Already registered item " @ %name @ "! Skipping...");
+		if (strpos($Farming::CosmeticList, %itemNameListing) == -1)
+		{
+			error("    WARNING: Registered item " @ %name @ " missing from faulty cosmetic list. Re-listing...");
+			$Farming::CosmeticList = ltrim($Farming::CosmeticList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Item");
+			%inheritItem.makeReskinnable();
+			return;
+		}
+		else
+		{
+			error("    Already registered item " @ %name @ "! Skipping...");
+			return;
+		}
+	}
+
+	if (strpos($Farming::CosmeticList, %itemNameListing) >= 0)
+	{
+		error("    WARNING: Aborted registration of item " @ %name @ " due to faulty cosmetic list.");
+		talk("    WARNING: Aborted registration of item " @ %name @ " due to faulty cosmetic list.");
 		return;
 	}
 
@@ -49,32 +69,19 @@ function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, 
 
 	$Farming::CosmeticList = ltrim($Farming::CosmeticList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Item");
 	echo("	Registered " @ "Cosmetic__" @ stripChars(%name, " ") @ "Item for " @ %inheritItem);
-	if (strPos($Farming::ReskinnableTools, %inheritItem) == -1)
-	{
-		$Farming::ReskinnableTools = ltrim($Farming::ReskinnableTools TAB %inheritItem);
-		echo("	Registered " @ %inheritItem @ " as a reskinnable tool");
-	}
+	%inheritItem.makeReskinnable();
 }
 
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_black", "", 			"no_icon", "", "Black Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_blackwhite", "", 		"no_icon", "", "BlackWhite Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_white", "", 			"no_icon", "", "White Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_orange", "", 			"no_icon", "", "Orange Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_calico", "", 			"no_icon", "", "Calico Cat");
-registerCosmetic(WateringCatItem, WateringCatImage, "cat_gray", "", 			"no_icon", "", "Gray Cat");
-
-registerCosmetic(WateringCatItem, WateringCatImage, "cup", "", 					"no_icon", "", "Mug");
-MugImage.hasSkin = 1;
-
-registerCosmetic(ClipperItem, ClipperImage, 		"scissors", "scissorsopen",	"no_icon", "", "Scissors");
-
-registerCosmetic(TrowelItem, TrowelImage, 			"entrenchingtool", "",		"no_icon", "", "Entrenching Tool");
-
-registerCosmetic(SickleItem, SickleImage, 			"communismsickle", "",		"no_icon", "", "Proletariat Sickle");
-
-registerCosmetic(hoeItem, hoeImage, 				"snowplow", "",				"no_icon", "", "Snowplow");
-
 // tbh i dont really know why im doing string arrays not that i know any alternatives
+
+function ItemData::makeReskinnable(%item)
+{
+	if (strPos($Farming::ReskinnableTools, %item) == -1)
+	{
+		$Farming::ReskinnableTools = ltrim($Farming::ReskinnableTools TAB %item);
+		echo("	Registered " @ %item @ " as a reskinnable tool");
+	}
+}
 
 function ItemData::getReskinOptions(%item)
 {
@@ -129,3 +136,21 @@ function ItemData::getNumReskins(%item)
 
 	return getFieldCount(%item.getReskinOptions());
 }
+
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_black", "", 			"no_icon", "", "Black Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_blackwhite", "", 		"no_icon", "", "BlackWhite Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_white", "", 			"no_icon", "", "White Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_orange", "", 			"no_icon", "", "Orange Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_calico", "", 			"no_icon", "", "Calico Cat");
+registerCosmetic(WateringCatItem, WateringCatImage, "cat_gray", "", 			"no_icon", "", "Gray Cat");
+
+registerCosmetic(WateringCatItem, WateringCatImage, "cup", "", 					"no_icon", "", "Mug");
+MugImage.hasSkin = 1;
+
+registerCosmetic(ClipperItem, ClipperImage, 		"scissors", "scissorsopen",	"no_icon", "", "Scissors");
+
+registerCosmetic(TrowelItem, TrowelImage, 			"entrenchingtool", "",		"no_icon", "", "Entrenching Tool");
+
+registerCosmetic(SickleItem, SickleImage, 			"communismsickle", "",		"no_icon", "", "Proletariat Sickle");
+
+registerCosmetic(hoeItem, hoeImage, 				"snowplow", "",				"no_icon", "", "Snowplow");
