@@ -41,7 +41,7 @@ $obj = new ScriptObject(ToolExchangerNoBux)
 $obj = new ScriptObject(ToolExchangerDialogueCore)
 {
 	response["CanReskin"] = "ReskinConfirmation";
-	response["CanReskinWithOptions"] = "ReskinOptionsCore";
+	response["CanReskinWithOptions"] = "ReskinOptions";
 	response["InsufficientMoney"] = "ReskinFail";
 	response["CannotReskin"] = "ReskinInvalid";
 	response["Quit"] = "ExitResponse";
@@ -70,7 +70,7 @@ $obj = new ScriptObject(ReskinFail)
 };
 $ToolExchangerDialogueSet.add($obj);
 
-$obj = new ScriptObject(ReskinOptionsCore) // todo
+$obj = new ScriptObject(ReskinOptions) // todo
 {
 	response["CanReskin"] = "ReskinConfirmation";
 	response["CannotReskin"] = "ReskinInvalid";
@@ -250,8 +250,10 @@ function ReskinResponseParser(%dataObj, %msg)
 		return "CanReskinWithOptions";
 	}
 	else if (%tool.getNumReskins() == 1)
-	{
-		%dataObj.var_toolReskinName = %tool.uiName;
+	{	
+		%reskin = getField(%tool.getReskinOptions(), 0);
+		%dataObj.var_toolReskin = %reskin;
+		%dataObj.var_toolReskinName = %reskin.uiName;
 		return "CanReskin";
 	}
 

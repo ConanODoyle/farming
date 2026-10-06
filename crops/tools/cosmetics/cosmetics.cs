@@ -105,7 +105,7 @@ function ItemData::getReskinOptions(%item)
 	}
 
 	if (!%isSkinnable)
-	{
+	{	
 		return %isSkinnable;
 	}
 
@@ -118,6 +118,7 @@ function ItemData::getReskinOptions(%item)
 		if (%cosmeticBase $= %itemName)
 		{
 			%cosmeticName = getSubStr(%cosmetic, %underscore + 1, strLen(%cosmetic) - %underscore);
+			%cosmeticName = "Cosmetic__" @ %cosmeticName;
 			%reskinOptions = %reskinOptions TAB %cosmeticName;
 		}
 	}									
@@ -132,6 +133,11 @@ function ItemData::getNumReskins(%item)
 	if (!isObject(%item))
 	{
 		return;
+	}
+
+	if (strpos(%item.getReskinOptions(), "Cosmetic__") == -1)
+	{
+		return 0;
 	}
 
 	return getFieldCount(%item.getReskinOptions());
