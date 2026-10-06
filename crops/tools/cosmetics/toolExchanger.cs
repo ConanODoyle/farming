@@ -252,7 +252,7 @@ function ReskinResponseParser(%dataObj, %msg)
 		for (%i = 0; %i < getFieldCount(%tool.getReskinOptions()); %i++)
 		{
 			%cosmetic = getField(%tool.getReskinOptions(), %i);
-			%str = %str @ ", " @ %i+1 @ ")" SPC %cosmetic.uiName
+			%str = %str @ ", " @ %i+1 @ ")" SPC %cosmetic.uiName;
 		}
 		%dataObj.var_toolReskinList = ltrim(strchar(%str, 1));
 		return "CanReskinWithOptions";
