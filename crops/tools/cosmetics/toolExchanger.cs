@@ -74,7 +74,7 @@ $obj = new ScriptObject(ReskinOptions)
 {
 	response["CanReskin"] = "ReskinConfirmation";
 	response["BadOption"] = "ReskinOptionInvalid";
-	response["Quit"] = "ToolExchangerDialogueCore";
+	response["Quit"] = "ExitResponse";
 	response["Error"] = "ErrorResponse";
 
 	messageCount = 3;
