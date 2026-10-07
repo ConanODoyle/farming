@@ -98,11 +98,9 @@ $obj = new ScriptObject(ReskinConfirmation)
 	response["Quit"] = "ExitResponse";
 	response["Error"] = "ErrorResponse";
 
-	messageCount = 2;
-	message[0] = "Your %toolName% will be reskinned to %toolReskinName%!";
+	messageCount = 1;
+	message[0] = "It will cost" SPC $Farming::ReskinPrice SPC "Bux to reskin your %toolName% into %article% %toolReskinName%. Say yes to confirm.";
 	messageTimeout[0] = 1;
-	message[1] = "It will cost" SPC $Farming::ReskinPrice SPC "Bux to reskin. Say yes to confirm.";
-	messageTimeout[1] = 1;
 
 	botTalkAnim = 1;
 	waitForResponse = 1;
@@ -254,16 +252,34 @@ function ReskinResponseParser(%dataObj, %msg)
 			%cosmetic = getField(%tool.getReskinOptions(), %i);
 			%str = %str @ ", " @ %i+1 @ ")" SPC %cosmetic.uiName;
 		}
-		%dataObj.var_toolReskinList = ltrim(strchar(%str, 1));
+		%dataObj.var_toolReskinList = ltrim(strchr(%str, 1));
 		return "CanReskinWithOptions";
 	}
 	else if (%tool.getNumReskins() == 1)
 	{	
 		%reskin = getField(%tool.getReskinOptions(), 0);
+		if (isVowel(getSubStr(%reskin.uiName, 0, 1)))
+		{
+			%dataObj.var_article = "an";
+		}
+		else
+		{
+			%dataObj.var_article = "a";
+		}
 		%dataObj.var_toolReskin = %reskin;
 		%dataObj.var_toolReskinName = %reskin.uiName;
 		return "CanReskin";
 	}
 
 	return "Error";
+}
+
+function isVowel(%letter)
+{
+	%letter = strLwr(%letter);
+	if (%letter $= "a" || %letter $= "e" || %letter $= "i" || %letter $= "o" || %letter $= "u")
+	{
+		return 1;
+	}
+	return 0;
 }

@@ -83,6 +83,7 @@ function ItemData::makeReskinnable(%item)
 	}
 }
 
+// Returns an item's cosmetics with prefix Cosmetic__
 function ItemData::getReskinOptions(%item)
 {
 	if (!isObject(%item))
@@ -117,6 +118,7 @@ function ItemData::getReskinOptions(%item)
 
 		if (%cosmeticBase $= %itemName)
 		{
+			
 			%cosmeticName = getSubStr(%cosmetic, %underscore + 1, strLen(%cosmetic) - %underscore);
 			%cosmeticName = "Cosmetic__" @ %cosmeticName;
 			%reskinOptions = %reskinOptions TAB %cosmeticName;
@@ -150,7 +152,7 @@ registerCosmetic(WateringCatItem, WateringCatImage, "cat_orange", "", 			"no_ico
 registerCosmetic(WateringCatItem, WateringCatImage, "cat_calico", "", 			"no_icon", "", "Calico Cat");
 registerCosmetic(WateringCatItem, WateringCatImage, "cat_gray", "", 			"no_icon", "", "Gray Cat");
 
-registerCosmetic(WateringCatItem, WateringCatImage, "cup", "", 					"no_icon", "", "Mug");
+registerCosmetic(WateringCatItem, WateringCatImage, "cup", "", 					"no_icon", "", "Mug"); // should be snake skin?
 MugImage.hasSkin = 1;
 
 registerCosmetic(ClipperItem, ClipperImage, 		"scissors", "scissorsopen",	"no_icon", "", "Scissors");
