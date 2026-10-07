@@ -70,11 +70,11 @@ $obj = new ScriptObject(ReskinFail)
 };
 $ToolExchangerDialogueSet.add($obj);
 
-$obj = new ScriptObject(ReskinOptions) // todo
+$obj = new ScriptObject(ReskinOptions)
 {
 	response["CanReskin"] = "ReskinConfirmation";
-	response["CannotReskin"] = "ReskinInvalid";
-	response["Quit"] = "ExitResponse";
+	response["BadOption"] = "ReskinOptionInvalid";
+	response["Quit"] = "ToolExchangerDialogueCore";
 	response["Error"] = "ErrorResponse";
 
 	messageCount = 3;
@@ -90,6 +90,16 @@ $obj = new ScriptObject(ReskinOptions) // todo
 	responseParser = "ReskinOptionsResponseParser";
 };
 $ToolExchangerDialogueSet.add($obj);
+
+$obj = new ScriptObject(ReskinOptionInvalid)
+{
+	messageCount = 1;
+	message[0] = "That isn't an option...";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+	dialogueTransitionOnTimeout = "ToolExchangerDialogueCore";
+};
 
 $obj = new ScriptObject(ReskinConfirmation)
 {
@@ -226,6 +236,7 @@ function ReskinResponseParser(%dataObj, %msg)
 		return "CannotReskin";
 	}
 
+	%dataObj.var_tool = %tool;
 	%dataObj.var_toolName = %tool.uiName;
 
 	if (%tool.hasSkin) // todo proper skin check
@@ -249,8 +260,8 @@ function ReskinResponseParser(%dataObj, %msg)
 		%str = "";
 		for (%i = 0; %i < getFieldCount(%tool.getReskinOptions()); %i++)
 		{
-			%cosmetic = getField(%tool.getReskinOptions(), %i);
-			%str = %str @ ", " @ %i+1 @ ")" SPC %cosmetic.uiName;
+			%reskin = getField(%tool.getReskinOptions(), %i);
+			%str = %str @ ", " @ %i+1 @ ")" SPC %reskin.uiName;
 		}
 		%dataObj.var_toolReskinList = ltrim(strchr(%str, 1));
 		return "CanReskinWithOptions";
@@ -274,12 +285,60 @@ function ReskinResponseParser(%dataObj, %msg)
 	return "Error";
 }
 
-function isVowel(%letter)
+function ReskinOptionsResponseParser(%dataObj, %msg)
 {
-	%letter = strLwr(%letter);
-	if (%letter $= "a" || %letter $= "e" || %letter $= "i" || %letter $= "o" || %letter $= "u")
+	%pl = %dataObj.player;
+	// %dataObj.var_reskinPrice = $Farming::ReskinPrice;
+	// %dataObj.var_reskinRemovePrice = $Farming::ReskinRemovePrice;
+	%exchanger = %dataObj.speaker;
+
+	%tool = %dataObj.var_tool;
+	%optionCount = %tool.getNumReskins();
+	%reskinOptions = %tool.getReskinOptions();
+
+	%choiceIdx = -1;
+
+	if (!isNumber(%msg))
 	{
-		return 1;
+		%choice = strLwr(%msg);
+		for (%i = 0; %i < getFieldCount(%reskinOptions); %i++)
+		{
+			%reskin = getField(%reskinOptions, %i);
+			if (strPos(strLwr(%reskin.uiName), %choice) >= 0)
+			{
+				%choiceIdx = %i;
+				break;
+			}
+		}
+
+		// no matching string
+		if (%choiceIdx == -1)
+		{
+			return "BadOption";
+		}
 	}
-	return 0;
+	else if (%msg > %optionCount || %msg < 1)
+	{
+		return "BadOption";
+	}
+	else
+	{
+		%choiceIdx = %msg - 1; // Displayed index starts at 1
+		
+	}
+
+	%choiceReskin = getField(%reskinOptions, %choiceIdx);
+	%dataObj.var_toolReskin = %choiceReskin;
+	%dataObj.var_toolReskinName = %choiceReskin.uiName;
+
+	if (isVowel(getSubStr(%choiceReskin.uiName, 0, 1)))
+	{
+		%dataObj.var_article = "an";
+	}
+	else
+	{
+		%dataObj.var_article = "a";
+	}
+
+	return "CanReskin";
 }

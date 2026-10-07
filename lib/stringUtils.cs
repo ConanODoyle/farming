@@ -47,3 +47,19 @@ function capitalizeFirstChar(%string)
 {
 	return strUpr(getSubStr(%string, 0, 1)) @ strLwr(getSubStr(%string, 1, -1));
 }
+
+function isVowel(%letter)
+{
+	%letter = strLwr(%letter);
+	if (%letter $= "a" || %letter $= "e" || %letter $= "i" || %letter $= "o" || %letter $= "u")
+	{
+		return 1;
+	}
+	return 0;
+}
+
+// ty irrel
+function isNumber(%val)
+{
+	return %val + 0 $= %val;
+}
