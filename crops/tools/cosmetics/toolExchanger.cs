@@ -263,7 +263,7 @@ function ReskinResponseParser(%dataObj, %msg)
 		for (%i = 0; %i < getFieldCount(%tool.getReskinOptions()); %i++)
 		{
 			%reskin = getField(%tool.getReskinOptions(), %i);
-			%str = %str @ ", " @ %i+1 @ ")" SPC %reskin.uiName;
+			%str = %str @ ", " @ %i+1 @ ")" SPC %reskin.displayName;
 		}
 		%dataObj.var_toolReskinList = ltrim(strchr(%str, 1));
 		return "CanReskinWithOptions";
@@ -271,7 +271,7 @@ function ReskinResponseParser(%dataObj, %msg)
 	else if (%tool.getNumReskins() == 1)
 	{	
 		%reskin = getField(%tool.getReskinOptions(), 0);
-		if (isVowel(getSubStr(%reskin.uiName, 0, 1)))
+		if (isVowel(getSubStr(%reskin.displayName, 0, 1)))
 		{
 			%dataObj.var_article = "an";
 		}
@@ -280,7 +280,7 @@ function ReskinResponseParser(%dataObj, %msg)
 			%dataObj.var_article = "a";
 		}
 		%dataObj.var_toolReskin = %reskin;
-		%dataObj.var_toolReskinName = %reskin.uiName;
+		%dataObj.var_toolReskinName = %reskin.displayName;
 		return "CanReskin";
 	}
 
@@ -306,7 +306,7 @@ function ReskinOptionsResponseParser(%dataObj, %msg)
 		for (%i = 0; %i < getFieldCount(%reskinOptions); %i++)
 		{
 			%reskin = getField(%reskinOptions, %i);
-			if (strPos(strLwr(%reskin.uiName), %choice) >= 0)
+			if (strPos(strLwr(%reskin.displayName), %choice) >= 0)
 			{
 				%choiceIdx = %i;
 				break;
@@ -331,9 +331,9 @@ function ReskinOptionsResponseParser(%dataObj, %msg)
 
 	%choiceReskin = getField(%reskinOptions, %choiceIdx);
 	%dataObj.var_toolReskin = %choiceReskin;
-	%dataObj.var_toolReskinName = %choiceReskin.uiName;
+	%dataObj.var_toolReskinName = %choiceReskin.displayName;
 
-	if (isVowel(getSubStr(%choiceReskin.uiName, 0, 1)))
+	if (isVowel(getSubStr(%choiceReskin.displayName, 0, 1)))
 	{
 		%dataObj.var_article = "an";
 	}

@@ -21,29 +21,29 @@ activatePackage(Cosmetics);
 
 function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, %icon, %offset, %name)
 {
-	%itemName = "Cosmetic__" @ stripChars(%name, " ") @ "Item";	
-	%itemNameListing = %inheritItem @ "_" @ stripChars(%name, " ") @ "Item";
+	%imageName = "Cosmetic__" @ stripChars(%name, " ") @ "Image";	
+	%imageNameListing = %inheritimage @ "_" @ stripChars(%name, " ") @ "Image";
 	
-	if (isObject(%itemName))
+	if (isObject(%imageName))
 	{
-		if (strpos($Farming::CosmeticList, %itemNameListing) == -1)
+		if (strpos($Farming::CosmeticList, %imageNameListing) == -1)
 		{
-			error("    WARNING: Registered item " @ %name @ " missing from faulty cosmetic list. Re-listing...");
-			$Farming::CosmeticList = ltrim($Farming::CosmeticList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Item");
-			%inheritItem.makeReskinnable();
+			error("    WARNING: Registered image " @ %name @ " missing from faulty cosmetic list. Re-listing...");
+			$Farming::CosmeticList = ltrim($Farming::CosmeticList TAB %inheritimage @ "_" @ stripChars(%name, " ") @ "Image");
+			%inheritimage.makeReskinnable();
 			return;
 		}
 		else
 		{
-			error("    Already registered item " @ %name @ "! Skipping...");
+			error("    Already registered image " @ %name @ "! Skipping...");
 			return;
 		}
 	}
 
-	if (strpos($Farming::CosmeticList, %itemNameListing) >= 0)
+	if (strpos($Farming::CosmeticList, %imageNameListing) >= 0)
 	{
-		error("    WARNING: Aborted registration of item " @ %name @ " due to faulty cosmetic list.");
-		talk("    WARNING: Aborted registration of item " @ %name @ " due to faulty cosmetic list.");
+		error("    WARNING: Aborted registration of image " @ %name @ " due to faulty cosmetic list.");
+		talk("    WARNING: Aborted registration of image " @ %name @ " due to faulty cosmetic list.");
 		return;
 	}
 
@@ -52,27 +52,29 @@ function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, 
 		%imagemodel = %itemmodel;
 	}
 
-	%str = %str @ "datablock ItemData(Cosmetic__" @ stripChars(%name, " ") @ "Item : " @ %inheritItem @ ") {";
-	%str = %str @ "    iconName = \"Add-ons/Server_Farming/icons/" @ %icon @ "\";";
-	%str = %str @ "    shapeFile = \"Add-ons/Server_Farming/crops/tools/cosmetics/" @ %itemmodel @ ".dts\";";
-	%str = %str @ "    uiName = \"" @ %name @ "\";";
-	%str = %str @ "    image = \"Cosmetic__" @ stripChars(%name, " ") @ "Image\";";
-	%str = %str @ "};";
+	// %str = %str @ "datablock ItemData(Cosmetic__" @ stripChars(%name, " ") @ "Item : " @ %inheritItem @ ") {";
+	// %str = %str @ "    iconName = \"Add-ons/Server_Farming/icons/" @ %icon @ "\";";
+	// %str = %str @ "    shapeFile = \"Add-ons/Server_Farming/crops/tools/cosmetics/" @ %itemmodel @ ".dts\";";
+	// %str = %str @ "    uiName = \"" @ %name @ "\";";
+	// %str = %str @ "    image = \"Cosmetic__" @ stripChars(%name, " ") @ "Image\";";
+	// %str = %str @ "};";
 
 	%str = %str @ "datablock ShapeBaseImageData(Cosmetic__" @ stripChars(%name, " ") @ "Image : " @ %inheritImage @ ") {";
 	%str = %str @ "    shapeFile = \"Add-ons/Server_Farming/crops/tools/cosmetics/" @ %imagemodel @ ".dts\";";
-	%str = %str @ "    item = \"Cosmetic__" @ stripChars(%name, " ") @ "Item\";";
+	%str = %str @ "    item =   \"" @ %inheritImage @ "\";";
 	%str = %str @ "    offset = \"" @ %offset @ "\";";
+	%str = %str @ "    displayName = \"" @ %name @ "\";";
 	%str = %str @ "};";
 
 	eval(%str);
 
-	$Farming::CosmeticList = ltrim($Farming::CosmeticList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Item");
-	echo("	Registered " @ "Cosmetic__" @ stripChars(%name, " ") @ "Item for " @ %inheritItem);
+	$Farming::CosmeticList = ltrim($Farming::CosmeticList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Image");
+	echo("	Registered " @ "Cosmetic__" @ stripChars(%name, " ") @ "Image for " @ %inheritItem);
 	%inheritItem.makeReskinnable();
 }
 
 // tbh i dont really know why im doing string arrays not that i know any alternatives
+// WHY DID YOU CHOOSE STRING ARRAYS
 
 function ItemData::makeReskinnable(%item)
 {
@@ -152,8 +154,7 @@ registerCosmetic(WateringCatItem, WateringCatImage, "cat_orange", "", 			"no_ico
 registerCosmetic(WateringCatItem, WateringCatImage, "cat_calico", "", 			"no_icon", "", "Calico Cat");
 registerCosmetic(WateringCatItem, WateringCatImage, "cat_gray", "", 			"no_icon", "", "Gray Cat");
 
-registerCosmetic(WateringCatItem, WateringCatImage, "cup", "", 					"no_icon", "", "Mug"); // should be snake skin?
-MugImage.hasSkin = 1;
+registerCosmetic(WateringCatItem, WateringCatImage, "cup", "", 					"no_icon", "", "Mug");
 
 registerCosmetic(ClipperItem, ClipperImage, 		"scissors", "scissorsopen",	"no_icon", "", "Scissors");
 
