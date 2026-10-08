@@ -42,7 +42,9 @@ $obj = new ScriptObject(ToolExchangerDialogueCore)
 {
 	response["CanReskin"] = "ReskinConfirmation";
 	response["CanReskinWithOptions"] = "ReskinOptions";
+	response["CanRemoveReskin"] = "RemoveReskinConfirmation";
 	response["InsufficientMoney"] = "ReskinFail";
+	response["RemoveInsufficientMoney"] = "RemoveReskinFail";
 	response["CannotReskin"] = "ReskinInvalid";
 	response["Quit"] = "ExitResponse";
 	response["Error"] = "ErrorResponse";
@@ -105,7 +107,7 @@ $obj = new ScriptObject(ReskinConfirmation)
 {
 	response["Yes"] = "ReskinProduct";
 	response["No"] = "ToolExchangerDialogueCore";
-	response["InsufficientMoney"] = "ReskinFail";
+	response["InsufficientMoney"] = "RemoveReskinFail";
 	response["Quit"] = "ExitResponse";
 	response["Error"] = "ErrorResponse";
 
@@ -119,7 +121,7 @@ $obj = new ScriptObject(ReskinConfirmation)
 };
 $ToolExchangerDialogueSet.add($obj);
 
-$obj = new ScriptObject(ReskinProduct) // todo need a handler for tix subtraction at moment of reskin
+$obj = new ScriptObject(ReskinProduct)
 {
 	messageCount = 1;
 	message[0] = "I've reskinned your %toolName%! Come again soon!";
@@ -129,6 +131,44 @@ $obj = new ScriptObject(ReskinProduct) // todo need a handler for tix subtractio
 	functionOnStart = "dialogue_ReskinProduct";
 };
 $ToolExchangerDialogueSet.add($obj);
+
+$obj = new ScriptObject(RemoveReskinFail)
+{
+	messageCount = 1;
+	message[0] = "You don't have enough Bux! Reskin removals cost" SPC $Farming::ReskinRemovePrice SPC "Bux.";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+	dialogueTransitionOnTimeout = "ExitResponse";
+};
+
+$obj = new ScriptObject(RemoveReskinConfirmation)
+{
+	response["Yes"] = "RemoveReskinProduct";
+	response["No"] = "ToolExchangerDialogueCore";
+	response["RemoveInsufficientMoney"] = "ReskinFail";
+	response["Quit"] = "ExitResponse";
+	response["Error"] = "ErrorResponse";
+
+	messageCount = 1;
+	message[0] = "It will cost" SPC $Farming::ReskinRemovePrice SPC "Bux to return your %toolReskinName% into %article% %toolName%. Say yes to confirm.";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+	waitForResponse = 1;
+	responseParser = "yesNoRemoveReskinPriceResponseParser";
+};
+$ToolExchangerDialogueSet.add($obj);
+
+$obj = new ScriptObject(RemoveReskinProduct)
+{
+	messageCount = 1;
+	message[0] = "I've returned your %toolName%! Come again soon!";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+	functionOnStart = "dialogue_RemoveReskinProduct";
+};
 
 // $obj = new ScriptObject(RepairConfirmationMultiple)
 // {
@@ -174,8 +214,19 @@ function dialogue_ReskinProduct(%dataObj)
 	%pl = %dataObj.player;
 	%cl = %pl.client;
 
-	%cl.messageBoxOKLong("SAMPLE TEXT", "reskin goes hereS" NL "" NL "AMPLE TEXT" NL "You lost 40 bux!");
-	%pl.removeStackableItemTotal("Bux", 40);
+	%dataObj.var_tool.reskinItem(%dataObj.var_toolDataID, %dataObj.var_toolReskin);
+	%pl.removeStackableItemTotal("Bux", $Farming::ReskinRemovePrice);
+	
+	return 0;
+}
+
+function dialogue_RemoveReskinProduct(%dataObj)
+{
+	%pl = %dataObj.player;
+	%cl = %pl.client;
+
+	%dataObj.var_tool.removeReskin(%dataObj.var_toolDataID);
+	%pl.removeStackableItemTotal("Bux", $Farming::ReskinPrice);
 	
 	return 0;
 }
@@ -239,17 +290,22 @@ function ReskinResponseParser(%dataObj, %msg)
 	}
 
 	%dataObj.var_tool = %tool;
+	%dataObj.var_toolDataID = %toolDataID;
 	%dataObj.var_toolName = %tool.uiName;
 
-	if (%tool.hasSkin) // todo proper skin check
+	if (getDataIDArrayTagValue(%toolDataID, "reskin") !$= "")
 	{
 		if (%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinRemovePrice))
 		{
-			return "CanRemoveSkin";
+			%reskin = getDataIDArrayTagValue(%toolDataID, "reskin");
+			%dataObj.var_article = getProperArticle(%tool);
+			%dataObj.var_toolReskin = %reskin;
+			%dataObj.var_toolReskinName = %reskin.displayName;
+			return "CanRemoveReskin";
 		}
 		else
 		{
-			return "InsufficientMoneySkinRemove";  //  todo add this
+			return "RemoveInsufficientMoney";  //  todo add this
 		}
 	}
 	else if (!%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinPrice))
@@ -349,6 +405,44 @@ function yesNoReskinPriceResponseParser(%dataObj, %msg)
 		if (strPos(%lwr, %word) >= 0)
 		{
 			if (!%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinPrice))
+			{
+				return "InsufficientMoney";
+			}
+
+			return "Yes";
+		}
+	}
+
+	for (%i = 0; %i < getFieldCount(%no); %i++)
+	{
+		%word = " " @ getField(%no, %i) @ " ";
+		if (strPos(%lwr, %word) >= 0)
+		{
+			return "No";
+		}
+	}
+
+	return "";
+}
+
+function yesNoRemoveReskinPriceResponseParser(%dataObj, %msg)
+{
+	%lwr = " " @ strLwr(%msg) @ " ";
+	%lwr = stripChars(%lwr, "!@#$%^&*()[];,.<>/?[]{}\\|-_=+");
+	%yes = "yes\tyeah\tye\tyea\ty\tok\talright\ti guess\tig\tsure";
+	%no = "no\tn\tnope\tcancel\tquit\tfuck off";
+
+	%pl = %dataObj.player;
+	%cl = %pl.client;
+
+	%price = %dataObj.var_price;
+
+	for (%i = 0; %i < getFieldCount(%yes); %i++)
+	{
+		%word = " " @ getField(%yes, %i) @ " ";
+		if (strPos(%lwr, %word) >= 0)
+		{
+			if (!%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinRemovePrice))
 			{
 				return "InsufficientMoney";
 			}
