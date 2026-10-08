@@ -232,7 +232,7 @@ function ReskinResponseParser(%dataObj, %msg)
 
 	
 
-	if (!isObject(%tool) || %tool.getNumReskins() < 1
+	if (!isObject(%tool) || %tool.getReskinCount() < 1
 		|| !%tool.hasDataID || trim(%toolDataID) $= "")
 	{
 		return "CannotReskin";
@@ -257,7 +257,7 @@ function ReskinResponseParser(%dataObj, %msg)
 		return "InsufficientMoney";
 	}
 
-	if (%tool.getNumReskins() > 1)
+	if (%tool.getReskinCount() > 1)
 	{
 		%str = "";
 		for (%i = 0; %i < getFieldCount(%tool.getReskinOptions()); %i++)
@@ -268,7 +268,7 @@ function ReskinResponseParser(%dataObj, %msg)
 		%dataObj.var_toolReskinList = ltrim(strchr(%str, 1));
 		return "CanReskinWithOptions";
 	}
-	else if (%tool.getNumReskins() == 1)
+	else if (%tool.getReskinCount() == 1)
 	{	
 		%reskin = getField(%tool.getReskinOptions(), 0);
 		if (isVowel(getSubStr(%reskin.displayName, 0, 1)))
@@ -295,7 +295,7 @@ function ReskinOptionsResponseParser(%dataObj, %msg)
 	%exchanger = %dataObj.speaker;
 
 	%tool = %dataObj.var_tool;
-	%optionCount = %tool.getNumReskins();
+	%optionCount = %tool.getReskinCount();
 	%reskinOptions = %tool.getReskinOptions();
 
 	%choiceIdx = -1;

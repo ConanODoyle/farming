@@ -7,13 +7,20 @@ package Cosmetics
 {
 	function Player::mountImage(%obj, %img, %slot)
 	{
-		if (isObject(%img) && %img.hasSkin) //assumed that the item will have a data id
+		%tool = %img.item;
+		%dataID = %obj.tooldataid[%obj.currtool];
+		if (%tool.getReskinCount() < 1 || %dataID $= "")
 		{
-			%tool = %obj.currTool;
-			%skin = getDataIDArrayTagValue(%obj.toolDataID[%obj.tool], "skin");
-			%obj.unmountImage(%slot);
-			return %obj.mountImage(%img, %slot, %skin);
+			return parent::mountImage(%obj, %img, %slot);
 		}
+
+		%reskin = getDataIDArrayTagValue(%dataID, "reskin");
+		if (%reskin !$= "")
+		{
+			talk("2");
+			return parent::mountImage(%obj, %reskin, %slot);
+		}
+		talk(3);
 		return parent::mountImage(%obj, %img, %slot);
 	}
 };
@@ -22,15 +29,15 @@ activatePackage(Cosmetics);
 function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, %icon, %offset, %name)
 {
 	%imageName = "Cosmetic__" @ stripChars(%name, " ") @ "Image";	
-	%imageNameListing = %inheritimage @ "_" @ stripChars(%name, " ") @ "Image";
+	%imageNameListing = %inheritItem @ "_" @ stripChars(%name, " ") @ "Image";
 	
 	if (isObject(%imageName))
 	{
 		if (strpos($Farming::CosmeticList, %imageNameListing) == -1)
 		{
 			error("    WARNING: Registered image " @ %name @ " missing from faulty cosmetic list. Re-listing...");
-			$Farming::CosmeticList = ltrim($Farming::CosmeticList TAB %inheritimage @ "_" @ stripChars(%name, " ") @ "Image");
-			%inheritimage.makeReskinnable();
+			$Farming::CosmeticList = ltrim($Farming::CosmeticList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Image");
+			%inheritItem.makeReskinnable();
 			return;
 		}
 		else
@@ -43,7 +50,6 @@ function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, 
 	if (strpos($Farming::CosmeticList, %imageNameListing) >= 0)
 	{
 		error("    WARNING: Aborted registration of image " @ %name @ " due to faulty cosmetic list.");
-		talk("    WARNING: Aborted registration of image " @ %name @ " due to faulty cosmetic list.");
 		return;
 	}
 
@@ -75,6 +81,27 @@ function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, 
 
 // tbh i dont really know why im doing string arrays not that i know any alternatives
 // WHY DID YOU CHOOSE STRING ARRAYS
+
+function ItemData::reskinItem(%item, %dataID, %reskin)
+{
+	%img = %item.image;
+	%reskinOptions = %item.getReskinOptions();
+	%field = restWords(containsField(%reskinOptions, %reskin));
+
+	if (%item.getReskinCount() < 1 || %field == -1)
+	{
+		return;
+	}
+
+	if (%dataID $= "")
+	{
+		talk("	ERROR: ItemData::reskinItem - Missing DataID!");
+		return;
+	}
+
+	setDataIDArrayTagValue(%dataID, "reskin", %reskin);
+	return 1;
+}
 
 function ItemData::makeReskinnable(%item)
 {
@@ -132,7 +159,7 @@ function ItemData::getReskinOptions(%item)
 	return %reskinOptions;
 }
 
-function ItemData::getNumReskins(%item)
+function ItemData::getReskinCount(%item)
 {
 	if (!isObject(%item))
 	{
