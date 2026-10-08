@@ -105,6 +105,7 @@ $obj = new ScriptObject(ReskinConfirmation)
 {
 	response["Yes"] = "ReskinProduct";
 	response["No"] = "ToolExchangerDialogueCore";
+	response["InsufficientMoney"] = "ReskinFail";
 	response["Quit"] = "ExitResponse";
 	response["Error"] = "ErrorResponse";
 
@@ -114,7 +115,7 @@ $obj = new ScriptObject(ReskinConfirmation)
 
 	botTalkAnim = 1;
 	waitForResponse = 1;
-	responseParser = "yesNoResponseParser";
+	responseParser = "yesNoReskinPriceResponseParser";
 };
 $ToolExchangerDialogueSet.add($obj);
 
@@ -173,7 +174,8 @@ function dialogue_ReskinProduct(%dataObj)
 	%pl = %dataObj.player;
 	%cl = %pl.client;
 
-	%cl.messageBoxOKLong("SAMPLE TEXT", "reskin goes hereS" NL "" NL "AMPLE TEXT");
+	%cl.messageBoxOKLong("SAMPLE TEXT", "reskin goes hereS" NL "" NL "AMPLE TEXT" NL "You lost 40 bux!");
+	%pl.removeStackableItemTotal("Bux", 40);
 	
 	return 0;
 }
@@ -341,4 +343,42 @@ function ReskinOptionsResponseParser(%dataObj, %msg)
 	}
 
 	return "CanReskin";
+}
+
+function yesNoReskinPriceResponseParser(%dataObj, %msg)
+{
+	%lwr = " " @ strLwr(%msg) @ " ";
+	%lwr = stripChars(%lwr, "!@#$%^&*()[];,.<>/?[]{}\\|-_=+");
+	%yes = "yes\tyeah\tye\tyea\ty\tok\talright\ti guess\tig\tsure";
+	%no = "no\tn\tnope\tcancel\tquit\tfuck off";
+
+	%pl = %dataObj.player;
+	%cl = %pl.client;
+
+	%price = %dataObj.var_price;
+
+	for (%i = 0; %i < getFieldCount(%yes); %i++)
+	{
+		%word = " " @ getField(%yes, %i) @ " ";
+		if (strPos(%lwr, %word) >= 0)
+		{
+			if (!%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinPrice))
+			{
+				return "InsufficientMoney";
+			}
+
+			return "Yes";
+		}
+	}
+
+	for (%i = 0; %i < getFieldCount(%no); %i++)
+	{
+		%word = " " @ getField(%no, %i) @ " ";
+		if (strPos(%lwr, %word) >= 0)
+		{
+			return "No";
+		}
+	}
+
+	return "";
 }
