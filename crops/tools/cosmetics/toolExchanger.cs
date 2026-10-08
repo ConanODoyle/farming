@@ -271,14 +271,7 @@ function ReskinResponseParser(%dataObj, %msg)
 	else if (%tool.getReskinCount() == 1)
 	{	
 		%reskin = getField(%tool.getReskinOptions(), 0);
-		if (isVowel(getSubStr(%reskin.displayName, 0, 1)))
-		{
-			%dataObj.var_article = "an";
-		}
-		else
-		{
-			%dataObj.var_article = "a";
-		}
+		%dataObj.var_article = getProperArticle(%reskin.displayName);
 		%dataObj.var_toolReskin = %reskin;
 		%dataObj.var_toolReskinName = %reskin.displayName;
 		return "CanReskin";
@@ -333,14 +326,7 @@ function ReskinOptionsResponseParser(%dataObj, %msg)
 	%dataObj.var_toolReskin = %choiceReskin;
 	%dataObj.var_toolReskinName = %choiceReskin.displayName;
 
-	if (isVowel(getSubStr(%choiceReskin.displayName, 0, 1)))
-	{
-		%dataObj.var_article = "an";
-	}
-	else
-	{
-		%dataObj.var_article = "a";
-	}
+	%dataObj.var_article = getProperArticle(%choiceReskin.displayName);
 
 	return "CanReskin";
 }
@@ -381,4 +367,16 @@ function yesNoReskinPriceResponseParser(%dataObj, %msg)
 	}
 
 	return "";
+}
+
+function getProperArticle(%str)
+{
+	if (isVowel(getSubStr(%str, 0, 1)))
+	{
+		return "an";
+	}
+	else
+	{
+		return "a";
+	}
 }

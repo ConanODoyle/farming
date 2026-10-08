@@ -17,10 +17,8 @@ package Cosmetics
 		%reskin = getDataIDArrayTagValue(%dataID, "reskin");
 		if (%reskin !$= "")
 		{
-			talk("2");
 			return parent::mountImage(%obj, %reskin, %slot);
 		}
-		talk(3);
 		return parent::mountImage(%obj, %img, %slot);
 	}
 };
