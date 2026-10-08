@@ -104,7 +104,7 @@ function registerCosmetic(%inheritItem, %inheritImage, %itemmodel, %imagemodel, 
 
 	%str = %str @ "datablock ShapeBaseImageData(Cosmetic__" @ stripChars(%name, " ") @ "Image : " @ %inheritImage @ ") {";
 	%str = %str @ "    shapeFile = \"Add-ons/Server_Farming/crops/tools/cosmetics/" @ %imagemodel @ ".dts\";";
-	%str = %str @ "    item =   \"" @ %inheritImage @ "\";";
+	%str = %str @ "    item =   \"" @ %inheritItem @ "\";";
 	%str = %str @ "    offset = \"" @ %offset @ "\";";
 	%str = %str @ "    displayName = \"" @ %name @ "\";";
 	%str = %str @ "};";
