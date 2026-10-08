@@ -1,3 +1,42 @@
+// DEBUG
+// REMOVE LATER ------------------------------------------------------------
+
+function Player::cattest(%pl)
+{
+    if (!%pl.client.isSuperAdmin)
+    {
+        return;
+    }
+
+    %pl.farmingadditem(trowelitem);
+	%pl.farmingadditem(sickleitem);
+    %pl.farmingadditem(wateringcatitem);
+}
+
+function Player::buxlol(%pl)
+{
+    if (!%pl.client.isSuperAdmin)
+    {
+        return;
+    }
+
+    %pl.farmingaddstackableitem(bux0item,200);
+}
+
+function Player::reskinHeld(%p, %reskin)
+{
+	%p.tool[%p.currtool].reskinItem(%p.tooldataid[%p.currtool], %reskin);
+}
+
+function Player::unskinHeld(%p)
+{
+	%p.tool[%p.currtool].removeReskin(%p.tooldataid[%p.currtool]);
+}
+
+
+// -----------------------------------------------------------------------
+
+
 $Farming::CosmeticList = "";
 $Farming::ReskinnableTools = "";
 
@@ -98,6 +137,25 @@ function ItemData::reskinItem(%item, %dataID, %reskin)
 	}
 
 	setDataIDArrayTagValue(%dataID, "reskin", %reskin);
+	return 1;
+}
+
+function ItemData::removeReskin(%item, %dataID)
+{
+	%img = %item.image;
+
+	if (%item.getReskinCount() < 1 && getDataIDArrayTagValue(%dataID, "reskin") !$= "")
+	{
+		return;
+	}
+
+	if (%dataID $= "")
+	{
+		talk("	ERROR: ItemData::reskinItem - Missing DataID!");
+		return;
+	}
+
+	setDataIDArrayTagValue(%dataID, "reskin", "");
 	return 1;
 }
 
