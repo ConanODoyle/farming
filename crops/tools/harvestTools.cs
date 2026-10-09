@@ -358,6 +358,10 @@ function centerprintHarvestToolInfo(%cl, %this, %obj, %slot)
 	%statTrak = %obj.getToolStatTrak();
 	%dataID = %obj.toolDataID[%obj.currTool];
 	%cropTrakType = getDataIDArrayTagValue(%dataID, "statTrakType");
+
+	%maxDurability = getDataIDArrayTagValue(%dataID, "maxDurability");
+	%durabilityPercent = "(" @ mFloor(%durability / %maxDurability * 100 ) @ "%)";
+
 	if (%statTrak !$= "")
 	{
 		%string = "\c4" @ %statTrak @ " ";
@@ -374,7 +378,7 @@ function centerprintHarvestToolInfo(%cl, %this, %obj, %slot)
 		%string = %string NL "[Press Light to toggle type] ";
 	}
 
-	%cl.centerprint("<just:right>\c3" @ %title @ "<color:cccccc>Durability: " @ %durability @ " \n" @ %string, 1);
+	%cl.centerprint("<just:right>\c3" @ %title @ "<color:cccccc>Durability: " @ %durability SPC %durabilityPercent @ " \n" @ %string, 1);
 }
 
 function getStatTrakBonusYield(%dataID, %type)
