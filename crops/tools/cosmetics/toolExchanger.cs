@@ -215,7 +215,7 @@ function dialogue_ReskinProduct(%dataObj)
 	%cl = %pl.client;
 
 	%dataObj.var_tool.reskinItem(%dataObj.var_toolDataID, %dataObj.var_toolReskin);
-	%pl.removeStackableItemTotal("Bux", $Farming::ReskinRemovePrice);
+	%pl.removeStackableItemTotal("Bux", $Farming::ReskinPrice);
 	
 	return 0;
 }
@@ -226,7 +226,7 @@ function dialogue_RemoveReskinProduct(%dataObj)
 	%cl = %pl.client;
 
 	%dataObj.var_tool.removeReskin(%dataObj.var_toolDataID);
-	%pl.removeStackableItemTotal("Bux", $Farming::ReskinPrice);
+	%pl.removeStackableItemTotal("Bux", $Farming::ReskinRemovePrice);
 	
 	return 0;
 }
