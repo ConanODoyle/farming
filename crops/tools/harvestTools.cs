@@ -549,7 +549,7 @@ function Player::getToolStatTrak(%pl)
 			case ("Clipper"): %dataID = %pl.toolDataID[%pl.currTool];
 			case ("Sickle"): %dataID = %pl.toolDataID[%pl.currTool];
 			case ("Hoe"): %dataID = %pl.toolDataID[%pl.currTool];
-			case ("TreeClipper"): %dataID = %pl.toolDataID[%pl.currTool];
+			case ("Tree Clipper"): %dataID = %pl.toolDataID[%pl.currTool];
 			default: return "";
 		}
 		%displayAsKills = getDataIDArrayTagValue(%dataID, "displayAsKills");
