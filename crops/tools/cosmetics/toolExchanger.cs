@@ -107,7 +107,7 @@ $obj = new ScriptObject(ReskinConfirmation)
 {
 	response["Yes"] = "ReskinProduct";
 	response["No"] = "ToolExchangerDialogueCore";
-	response["InsufficientMoney"] = "RemoveReskinFail";
+	response["InsufficientMoney"] = "ReskinFail";
 	response["Quit"] = "ExitResponse";
 	response["Error"] = "ErrorResponse";
 
@@ -132,21 +132,11 @@ $obj = new ScriptObject(ReskinProduct)
 };
 $ToolExchangerDialogueSet.add($obj);
 
-$obj = new ScriptObject(RemoveReskinFail)
-{
-	messageCount = 1;
-	message[0] = "You don't have enough Bux! Reskin removals cost" SPC $Farming::ReskinRemovePrice SPC "Bux.";
-	messageTimeout[0] = 1;
-
-	botTalkAnim = 1;
-	dialogueTransitionOnTimeout = "ExitResponse";
-};
-
 $obj = new ScriptObject(RemoveReskinConfirmation)
 {
 	response["Yes"] = "RemoveReskinProduct";
 	response["No"] = "ToolExchangerDialogueCore";
-	response["RemoveInsufficientMoney"] = "ReskinFail";
+	response["InsufficientMoney"] = "RemoveReskinFail";
 	response["Quit"] = "ExitResponse";
 	response["Error"] = "ErrorResponse";
 
@@ -159,6 +149,16 @@ $obj = new ScriptObject(RemoveReskinConfirmation)
 	responseParser = "yesNoRemoveReskinPriceResponseParser";
 };
 $ToolExchangerDialogueSet.add($obj);
+
+$obj = new ScriptObject(RemoveReskinFail)
+{
+	messageCount = 1;
+	message[0] = "You don't have enough Bux! Reskin removals cost" SPC $Farming::ReskinRemovePrice SPC "Bux.";
+	messageTimeout[0] = 1;
+
+	botTalkAnim = 1;
+	dialogueTransitionOnTimeout = "ExitResponse";
+};
 
 $obj = new ScriptObject(RemoveReskinProduct)
 {
@@ -397,9 +397,7 @@ function ReskinOptionsResponseParser(%dataObj, %msg)
 	else
 	{
 		%choiceIdx = %msg - 1; // Displayed index starts at 1
-		
 	}
-
 	%choiceReskin = getField(%reskinOptions, %choiceIdx);
 	%dataObj.var_toolReskin = %choiceReskin;
 	%dataObj.var_toolReskinName = %choiceReskin.uiName;
