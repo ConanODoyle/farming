@@ -170,24 +170,6 @@ $obj = new ScriptObject(RemoveReskinProduct)
 	functionOnStart = "dialogue_RemoveReskinProduct";
 };
 
-// $obj = new ScriptObject(RepairConfirmationMultiple)
-// {
-// 	response["Yes"] = "RepairProduct";
-// 	response["No"] = "ToolExchangerDialogueCore";
-// 	response["Quit"] = "ExitResponse";
-// 	response["Error"] = "ErrorResponse";
-
-// 	messageCount = 1;
-// 	message[0] = "It will cost $%repairPrice% to repair all of your tools. Are you sure? Say yes to confirm.";
-// 	messageTimeout[0] = 1;
-
-// 	botTalkAnim = 1;
-// 	waitForResponse = 1;
-// 	responseParser = "yesNoResponseParser";
-// };
-// $ToolExchangerDialogueSet.add($obj);
-
-
 $obj = new ScriptObject(ReskinInvalid)
 {
 	messageCount = 1;
@@ -213,11 +195,14 @@ function dialogue_ReskinProduct(%dataObj)
 {
 	%pl = %dataObj.player;
 	%cl = %pl.client;
+	%exchanger = %dataObj.speaker;
 
 	%result = %pl.reskinItem(%dataObj.var_tool, %dataObj.var_toolDataID, %dataObj.var_toolReskin);
 	if (%result == 1)
 	{
-		%pl.removeStackableItemTotal("Bux", $Farming::ReskinPrice);	
+		%pl.removeStackableItemTotal("Bux", $Farming::ReskinPrice);
+		%exchanger.mountReskinPreview("", 0); // reattach base tool after some time
+		%exchanger.setWeapon(-1);
 	}
 	else
 	{
@@ -273,6 +258,7 @@ function setupToolExchanger(%dataObj)
 function ReskinResponseParser(%dataObj, %msg)
 {
 	%pl = %dataObj.player;
+	%exchanger = %dataObj.speaker;
 
 	if (%msg > 0)
 	{
@@ -352,6 +338,8 @@ function ReskinResponseParser(%dataObj, %msg)
 		%dataObj.var_article = getProperArticle(%reskin.uiName);
 		%dataObj.var_toolReskin = %reskin;
 		%dataObj.var_toolReskinName = %reskin.uiName;
+		
+		%exchanger.mountReskinPreview(%reskin);
 		return "CanReskin";
 	}
 
@@ -404,6 +392,7 @@ function ReskinOptionsResponseParser(%dataObj, %msg)
 
 	%dataObj.var_article = getProperArticle(%choiceReskin.uiName);
 
+	%exchanger.mountReskinPreview(%choiceReskin);
 	return "CanReskin";
 }
 
@@ -483,14 +472,14 @@ function yesNoRemoveReskinPriceResponseParser(%dataObj, %msg)
 	return "";
 }
 
-function getProperArticle(%str)
+// Make bot hold the item for buyer preview
+function AIPlayer::mountReskinPreview(%bot, %item)
 {
-	if (isVowel(getSubStr(%str, 0, 1)))
+	if (isEventPending(%bot.mountSchedule))
 	{
-		return "an";
+		cancel(%bot.mountSchedule);
 	}
-	else
-	{
-		return "a";
-	}
+
+	%bot.setWeapon(%item);
+	%bot.mountSchedule = %bot.schedule(10000, setWeapon, UpgradeToolItem);
 }

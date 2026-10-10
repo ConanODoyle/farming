@@ -58,6 +58,18 @@ function isVowel(%letter)
 	return 0;
 }
 
+function getProperArticle(%str)
+{
+	if (isVowel(getSubStr(%str, 0, 1)))
+	{
+		return "an";
+	}
+	else
+	{
+		return "a";
+	}
+}
+
 // ty irrel
 function isNumber(%val)
 {
