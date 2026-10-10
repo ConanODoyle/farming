@@ -59,14 +59,14 @@ $Farming::ReskinnableTools = "";
 function registerReskin(%inheritItem, %inheritImage, %itemmodel, %imagemodel, %icon, %offset, %name)
 {
 	%itemName = "Reskin__" @ stripChars(%name, " ") @ "Item";	
-	%itemNameListing = %inheritItem @ "_" @ stripChars(%name, " ") @ "Item";
+	%itemNameListing = stripChars(%name, " ") @ "Item";
 	
 	if (isObject(%itemName))
 	{
 		if (strpos($Farming::ReskinList, %itemNameListing) == -1)
 		{
 			error("    WARNING: Registered item " @ %name @ " missing from faulty reskin list. Re-listing...");
-			$Farming::ReskinList = ltrim($Farming::ReskinList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Item");
+			$Farming::ReskinList = ltrim($Farming::ReskinList TAB "Reskin__" @ stripChars(%name, " ") @ "Item");
 			%inheritItem.makeReskinnable();
 			return;
 		}
@@ -104,7 +104,7 @@ function registerReskin(%inheritItem, %inheritImage, %itemmodel, %imagemodel, %i
 
 	eval(%str);
 
-	$Farming::ReskinList = ltrim($Farming::ReskinList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Item");
+	$Farming::ReskinList = ltrim($Farming::ReskinList TAB "Reskin__" @ stripChars(%name, " ") @ "Item");
 	echo("	Registered " @ "Reskin__" @ stripChars(%name, " ") @ "Item for " @ %inheritItem);
 
 	$StorageTypeToolsList = $StorageTypeToolsList TAB "Reskin__" @ stripChars(%name, " ") @ "Item";
@@ -196,7 +196,7 @@ function ItemData::getReskinOptions(%item)
 		return;
 	}
 
-	%itemName = %item.getName();
+	%itemName = trim(%item.getName());
 
 	%isSkinnable = false;
 
@@ -212,21 +212,19 @@ function ItemData::getReskinOptions(%item)
 
 	if (!%isSkinnable)
 	{	
-		return %isSkinnable;
+		return 0;
 	}
+
+	%itemName = strlwr(%itemName);
 
 	for (%i = 0; %i < getFieldCount($Farming::ReskinList); %i++)
 	{
-		%cosmetic = getField($Farming::ReskinList, %i);
-		%underscore = strstr(%cosmetic, "_");
-		%cosmeticBase = getSubStr(%cosmetic, 0, %underscore);
+		%cosmetic = trim(getField($Farming::ReskinList, %i));
+		%cosmeticBase = %cosmetic.skinBase;
 
-		if (%cosmeticBase $= %itemName)
+		if (stricmp(%cosmeticBase, %itemName) == 0)
 		{
-			
-			%cosmeticName = getSubStr(%cosmetic, %underscore + 1, strLen(%cosmetic) - %underscore);
-			%cosmeticName = "Reskin__" @ %cosmeticName;
-			%reskinOptions = %reskinOptions TAB %cosmeticName;
+			%reskinOptions = %reskinOptions TAB %cosmetic;
 		}
 	}									
 
