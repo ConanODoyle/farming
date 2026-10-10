@@ -214,8 +214,17 @@ function dialogue_ReskinProduct(%dataObj)
 	%pl = %dataObj.player;
 	%cl = %pl.client;
 
-	%dataObj.var_tool.reskinItem(%dataObj.var_toolDataID, %dataObj.var_toolReskin);
-	%pl.removeStackableItemTotal("Bux", $Farming::ReskinPrice);
+	%result = %pl.reskinItem(%dataObj.var_tool, %dataObj.var_toolDataID, %dataObj.var_toolReskin);
+	if (%result == 1)
+	{
+		%pl.removeStackableItemTotal("Bux", $Farming::ReskinPrice);	
+	}
+	else
+	{
+		error("	WARNING: dialogue_ReskinProduct input failure, BLID" SPC %cl.BL_ID);
+		commandToClient(%cl, 'MessageBoxOK', "Item not found!", "Your item could not be found! Please ensure it remains in your inventory. ");
+		messageClient(%cl, '', "The transaction was cancelled due to invalid data.");
+	}
 	
 	return 0;
 }
@@ -225,8 +234,17 @@ function dialogue_RemoveReskinProduct(%dataObj)
 	%pl = %dataObj.player;
 	%cl = %pl.client;
 
-	%dataObj.var_tool.removeReskin(%dataObj.var_toolDataID);
-	%pl.removeStackableItemTotal("Bux", $Farming::ReskinRemovePrice);
+	%result = %pl.removeitemreskin(%dataObj.var_tool, %dataObj.var_toolDataID);
+	if (%result == 1)
+	{
+		%pl.removeStackableItemTotal("Bux", $Farming::ReskinRemovePrice);	
+	}
+	else
+	{
+		error("	WARNING: dialogue_RemoveReskinProduct input failure, BLID" SPC %cl.BL_ID);
+		commandToClient(%cl, 'MessageBoxOK', "Item not found!", "Your item could not be found! Please ensure it remains in your inventory. You have not been charged.");
+		messageClient(%cl, '', "The transaction was cancelled due to invalid data.");
+	}
 	
 	return 0;
 }
@@ -281,10 +299,9 @@ function ReskinResponseParser(%dataObj, %msg)
 		}
 	}
 
-	
-
-	if (!isObject(%tool) || %tool.getReskinCount() < 1
-		|| !%tool.hasDataID || trim(%toolDataID) $= "")
+	if (!isObject(%tool)
+		|| !%tool.hasDataID || trim(%toolDataID) $= ""
+		|| (%tool.skinBase $= "" && %tool.getReskinCount() < 1))
 	{
 		return "CannotReskin";
 	}
@@ -293,19 +310,24 @@ function ReskinResponseParser(%dataObj, %msg)
 	%dataObj.var_toolDataID = %toolDataID;
 	%dataObj.var_toolName = %tool.uiName;
 
-	if (getDataIDArrayTagValue(%toolDataID, "reskin") !$= "")
+	%isReskin =  %tool.skinBase !$= "";
+
+	if (%isReskin)
 	{
 		if (%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinRemovePrice))
 		{
-			%reskin = getDataIDArrayTagValue(%toolDataID, "reskin");
+			%reskin = %tool;
+			%tool = %reskin.skinBase;
+			%dataObj.var_toolName = %tool.uiName;
+
 			%dataObj.var_article = getProperArticle(%tool);
 			%dataObj.var_toolReskin = %reskin;
-			%dataObj.var_toolReskinName = %reskin.displayName;
+			%dataObj.var_toolReskinName = %reskin.uiName;
 			return "CanRemoveReskin";
 		}
 		else
 		{
-			return "RemoveInsufficientMoney";  //  todo add this
+			return "RemoveInsufficientMoney";
 		}
 	}
 	else if (!%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinPrice))
@@ -319,7 +341,7 @@ function ReskinResponseParser(%dataObj, %msg)
 		for (%i = 0; %i < getFieldCount(%tool.getReskinOptions()); %i++)
 		{
 			%reskin = getField(%tool.getReskinOptions(), %i);
-			%str = %str @ ", " @ %i+1 @ ")" SPC %reskin.displayName;
+			%str = %str @ ", " @ %i+1 @ ")" SPC %reskin.uiName;
 		}
 		%dataObj.var_toolReskinList = ltrim(strchr(%str, 1));
 		return "CanReskinWithOptions";
@@ -327,9 +349,9 @@ function ReskinResponseParser(%dataObj, %msg)
 	else if (%tool.getReskinCount() == 1)
 	{	
 		%reskin = getField(%tool.getReskinOptions(), 0);
-		%dataObj.var_article = getProperArticle(%reskin.displayName);
+		%dataObj.var_article = getProperArticle(%reskin.uiName);
 		%dataObj.var_toolReskin = %reskin;
-		%dataObj.var_toolReskinName = %reskin.displayName;
+		%dataObj.var_toolReskinName = %reskin.uiName;
 		return "CanReskin";
 	}
 
@@ -355,7 +377,7 @@ function ReskinOptionsResponseParser(%dataObj, %msg)
 		for (%i = 0; %i < getFieldCount(%reskinOptions); %i++)
 		{
 			%reskin = getField(%reskinOptions, %i);
-			if (strPos(strLwr(%reskin.displayName), %choice) >= 0)
+			if (strPos(strLwr(%reskin.uiName), %choice) >= 0)
 			{
 				%choiceIdx = %i;
 				break;
@@ -380,9 +402,9 @@ function ReskinOptionsResponseParser(%dataObj, %msg)
 
 	%choiceReskin = getField(%reskinOptions, %choiceIdx);
 	%dataObj.var_toolReskin = %choiceReskin;
-	%dataObj.var_toolReskinName = %choiceReskin.displayName;
+	%dataObj.var_toolReskinName = %choiceReskin.uiName;
 
-	%dataObj.var_article = getProperArticle(%choiceReskin.displayName);
+	%dataObj.var_article = getProperArticle(%choiceReskin.uiName);
 
 	return "CanReskin";
 }

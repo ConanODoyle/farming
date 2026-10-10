@@ -1,7 +1,7 @@
 // DEBUG
 // REMOVE LATER ------------------------------------------------------------
 
-function Player::cattest(%pl)
+function Player::etest(%pl)
 {
     if (!%pl.client.isSuperAdmin)
     {
@@ -10,6 +10,20 @@ function Player::cattest(%pl)
 
     %pl.farmingadditem(trowelitem);
 	%pl.farmingadditem(sickleitem);
+	%pl.farmingadditem(clipperitem);
+	%pl.farmingadditem(hoeitem);
+    %pl.farmingadditem(wateringcatitem);
+}
+
+function Player::cattest(%pl)
+{
+    if (!%pl.client.isSuperAdmin)
+    {
+        return;
+    }
+	
+	%pl.farmingadditem(wateringcatitem);
+    %pl.farmingadditem(wateringcatitem);
     %pl.farmingadditem(wateringcatitem);
 }
 
