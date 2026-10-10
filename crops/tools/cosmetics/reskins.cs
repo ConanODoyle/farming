@@ -77,7 +77,7 @@ function registerReskin(%inheritItem, %inheritImage, %itemmodel, %imagemodel, %i
 	%str = %str @ "datablock ItemData(Reskin__" @ stripChars(%name, " ") @ "Item : " @ %inheritItem @ ") {";
 	%str = %str @ "    iconName = \"Add-ons/Server_Farming/icons/" @ %icon @ "\";";
 	%str = %str @ "    shapeFile = \"Add-ons/Server_Farming/crops/tools/cosmetics/" @ %itemmodel @ ".dts\";";
-	%str = %str @ "    uiName = \"" @ stripChars(%name, " ") @ "\";";
+	%str = %str @ "    uiName = \"" @ %name @ "\";";
 	%str = %str @ "    image = \"Reskin__" @ stripChars(%name, " ") @ "Image\";";
 	%str = %str @ "    skinBase = " @ %inheritItem @";";
 	%str = %str @ "};";
@@ -92,6 +92,8 @@ function registerReskin(%inheritItem, %inheritImage, %itemmodel, %imagemodel, %i
 
 	$Farming::ReskinList = ltrim($Farming::ReskinList TAB %inheritItem @ "_" @ stripChars(%name, " ") @ "Item");
 	echo("	Registered " @ "Reskin__" @ stripChars(%name, " ") @ "Item for " @ %inheritItem);
+
+	$StorageTypeToolsList = $StorageTypeToolsList TAB "Reskin__" @ stripChars(%name, " ") @ "Item";
 	%inheritItem.makeReskinnable();
 }
 
