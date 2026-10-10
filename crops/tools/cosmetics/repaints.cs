@@ -1,41 +1,4 @@
-// DEBUG
-// REMOVE LATER ------------------------------------------------------------
-
-function Player::cattest(%pl)
-{
-    if (!%pl.client.isSuperAdmin)
-    {
-        return;
-    }
-
-    %pl.farmingadditem(trowelitem);
-	%pl.farmingadditem(sickleitem);
-    %pl.farmingadditem(wateringcatitem);
-}
-
-function Player::buxlol(%pl)
-{
-    if (!%pl.client.isSuperAdmin)
-    {
-        return;
-    }
-
-    %pl.farmingaddstackableitem(bux0item,200);
-}
-
-function Player::reskinHeld(%p, %reskin)
-{
-	%p.tool[%p.currtool].reskinItem(%p.tooldataid[%p.currtool], %reskin);
-}
-
-function Player::unskinHeld(%p)
-{
-	%p.tool[%p.currtool].removeReskin(%p.tooldataid[%p.currtool]);
-}
-
-
-// -----------------------------------------------------------------------
-
+// DEPRECATED, FOR USE LATER
 
 $Farming::CosmeticList = "";
 $Farming::ReskinnableTools = "";

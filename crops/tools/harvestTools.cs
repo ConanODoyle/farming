@@ -458,15 +458,13 @@ function generateHarvestToolModifiers(%item, %dataID)
 
 function addStatTrak(%item, %dataID)
 {
-	switch$ (%item.uiName)
+	switch$ (%item.toolType)
 	{
 		case "Trowel": %list = $UndergroundCropsList;
 		case "Hoe": %list = $UndergroundCropsList;
 		case "Clipper": %list = $AbovegroundCropsList;
 		case "Sickle": %list = $AbovegroundCropsList;
 		case "Tree Clipper": %list = $TreeCropsList;
-		case "L4 - \"Silence\"": %list = $UndergroundCropsList;
-		case "L0 - \"Remorse\"": %list = $AbovegroundCropsList;
 		default: return 0;
 	}
 	%crop = getField(%list, getRandom(getFieldCount(%list) - 1));
@@ -545,15 +543,13 @@ function Player::getToolStatTrak(%pl)
 {
 	if (%pl.tool[%pl.currTool].isDataIDTool)
 	{
-		switch (%pl.tool[%pl.currTool])
+		switch (%pl.tool[%pl.currTool].toolType)
 		{
-			case (TrowelItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
-			case (ClipperItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
-			case (SickleItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
-			case (HoeItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
-			case (TreeClipperItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
-			case (L4SilenceItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
-			case (L0RemorseItem.getID()): %dataID = %pl.toolDataID[%pl.currTool];
+			case ("Trowel"): %dataID = %pl.toolDataID[%pl.currTool];
+			case ("Clipper"): %dataID = %pl.toolDataID[%pl.currTool];
+			case ("Sickle"): %dataID = %pl.toolDataID[%pl.currTool];
+			case ("Hoe"): %dataID = %pl.toolDataID[%pl.currTool];
+			case ("TreeClipper"): %dataID = %pl.toolDataID[%pl.currTool];
 			default: return "";
 		}
 		%displayAsKills = getDataIDArrayTagValue(%dataID, "displayAsKills");
