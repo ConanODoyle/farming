@@ -87,7 +87,7 @@ datablock ShapeBaseImageData(Bux0Image : Tix0Image)
 	shapeFile = "./resources/bux.dts";
 	item = "Bux0Item";
 	
-	toolTip = "Tree crop quest reward currency";
+	toolTip = "Crop quest reward currency";
 };
 
 datablock ItemData(Bux1Item : Bux0Item)
@@ -104,7 +104,7 @@ datablock ShapeBaseImageData(Bux1Image : Bux0Image)
 
 	offset = "-0.04 0.212 0";
 	
-	toolTip = "Tree crop quest reward currency";
+	toolTip = "Crop quest reward currency";
 };
 
 
