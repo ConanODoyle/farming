@@ -1,7 +1,6 @@
-// DEBUG
-// REMOVE LATER ------------------------------------------------------------
+// debug cmds
 
-function Player::etest(%pl)
+function Player::cosmeticstest(%pl)
 {
     if (!%pl.client.isSuperAdmin)
     {
@@ -15,7 +14,7 @@ function Player::etest(%pl)
     %pl.farmingadditem(wateringcatitem);
 }
 
-function Player::cattest(%pl)
+function Player::cosmeticscat(%pl)
 {
     if (!%pl.client.isSuperAdmin)
     {
@@ -27,7 +26,7 @@ function Player::cattest(%pl)
     %pl.farmingadditem(wateringcatitem);
 }
 
-function Player::buxlol(%pl)
+function Player::buxtest(%pl)
 {
     if (!%pl.client.isSuperAdmin)
     {
