@@ -262,19 +262,18 @@ function ItemData::ownsReskin(%item, %reskin)
 	return false;
 }
 
-registerReskin(WateringCatItem, WateringCatImage, "cat_black", "", 			"no_icon", "", "Black Cat");
-registerReskin(WateringCatItem, WateringCatImage, "cat_blackwhite", "", 		"no_icon", "", "BlackWhite Cat");
-registerReskin(WateringCatItem, WateringCatImage, "cat_white", "", 			"no_icon", "", "White Cat");
-registerReskin(WateringCatItem, WateringCatImage, "cat_orange", "", 			"no_icon", "", "Orange Cat");
-registerReskin(WateringCatItem, WateringCatImage, "cat_calico", "", 			"no_icon", "", "Calico Cat");
-registerReskin(WateringCatItem, WateringCatImage, "cat_gray", "", 			"no_icon", "", "Gray Cat");
+registerReskin(ClipperItem, ClipperImage, 		"scissors", "scissorsopen",	"scissors", "", "Scissors");
 
-registerReskin(WateringCatItem, WateringCatImage, "cup", "", 					"no_icon", "", "Mug");
+registerReskin(hoeItem, hoeImage, 				"snowplow", "",				"snowplow", "", "Snowplow");
 
-registerReskin(ClipperItem, ClipperImage, 		"scissors", "scissorsopen",	"no_icon", "", "Scissors");
+registerReskin(SickleItem, SickleImage, 			"communismsickle", "",		"proletariat_sickle", "", "Proletariat Sickle");
 
-registerReskin(TrowelItem, TrowelImage, 			"entrenchingtool", "",		"no_icon", "", "Entrenching Tool");
+registerReskin(TrowelItem, TrowelImage, 			"entrenchingtool", "",		"entrenching_tool", "", "Entrenching Tool");
 
-registerReskin(SickleItem, SickleImage, 			"communismsickle", "",		"no_icon", "", "Proletariat Sickle");
-
-registerReskin(hoeItem, hoeImage, 				"snowplow", "",				"no_icon", "", "Snowplow");
+registerReskin(WateringCatItem, WateringCatImage, "cup", "", 					"mug", "", "Mug");
+registerReskin(WateringCatItem, WateringCatImage, "cat_black", "", 			"gray_cat", "", "Black Cat");
+registerReskin(WateringCatItem, WateringCatImage, "cat_blackwhite", "", 		"gray_cat", "", "BlackWhite Cat");
+registerReskin(WateringCatItem, WateringCatImage, "cat_white", "", 			"gray_cat", "", "White Cat");
+registerReskin(WateringCatItem, WateringCatImage, "cat_orange", "", 			"gray_cat", "", "Orange Cat");
+registerReskin(WateringCatItem, WateringCatImage, "cat_calico", "", 			"gray_cat", "", "Calico Cat");
+registerReskin(WateringCatItem, WateringCatImage, "cat_gray", "", 			"gray_cat", "", "Gray Cat");
