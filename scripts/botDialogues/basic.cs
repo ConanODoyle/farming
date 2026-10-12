@@ -368,14 +368,15 @@ $BasicDialogueSet.add($obj);
 
 $obj = new ScriptObject(ReskinDialogue)
 {
-	messageCount = 4;
-	message[0] = "Cosmetic reskins change the appearance of tools you already own!";
+	messageCount = 3;
+	message[0] = "Cosmetic reskins change the appearance of your tools!";
 	messageTimeout[0] = 2;
-	message[1] = "Reskinning a tool keeps its original traits! It will retain things like its durability or any CropTrak bonuses.";
+	message[1] = "Reskinning items will require Bux, you can earn Bux by completing daily quests.";
 	messageTimeout[1] = 2;
-	message[2] = "The Tool Exchanger takes" SPC $Farming::ReskinPrice SPC "Bux to reskin, and" SPC $Farming::ReskinRemovePrice SPC "Bux to restore already reskinned items.";
+	message[2] = "Reskinning an item will keep its stats. You can also restore an item back into its original form with a smaller fee.";
 	messageTimeout[2] = 2;
-	message[3] = "You can get Bux currency by doing daily quests at the HTP bus stop!";
-	messageTimeout[3] = 2;
 };
 $BasicDialogueSet.add($obj);
+
+
+

@@ -14,17 +14,17 @@ $obj = new ScriptObject(ToolExchangerDialogueStart)
 	message[0] = "Hello! I can reskin your tools!";
 	messageTimeout[0] = 1;
 
-	dialogueTransitionOnTimeout = "ToolExchangerDialogueHandler";
+	dialogueTransitionOnTimeout = "ToolExchangerDialogueCore";
 };
 $ToolExchangerDialogueSet.add($obj);
 
-$obj = new ScriptObject(ToolExchangerDialogueHandler)
-{
-	response["Quit"] = "ExitResponse";
-	messageCount = 0;
-	functionOnStart = "setupToolExchanger";
-};
-$ToolExchangerDialogueSet.add($obj);
+// $obj = new ScriptObject(ToolExchangerDialogueHandler)
+// {
+// 	response["Quit"] = "ExitResponse";
+// 	messageCount = 0;
+// 	functionOnStart = "setupToolExchanger";
+// };
+// $ToolExchangerDialogueSet.add($obj);
 
 $obj = new ScriptObject(ToolExchangerNoBux)
 {
@@ -234,26 +234,26 @@ function dialogue_RemoveReskinProduct(%dataObj)
 	return 0;
 }
 
-function setupToolExchanger(%dataObj)
-{
-	%pl = %dataObj.player;
-	// %dataObj.var_reskinPrice = $Farming::ReskinPrice;
-	// %dataObj.var_reskinRemovePrice = $Farming::ReskinRemovePrice;
-	%exchanger = %dataObj.speaker;
+// function setupToolExchanger(%dataObj)
+// {
+// 	%pl = %dataObj.player;
+// 	// %dataObj.var_reskinPrice = $Farming::ReskinPrice;
+// 	// %dataObj.var_reskinRemovePrice = $Farming::ReskinRemovePrice;
+// 	%exchanger = %dataObj.speaker;
 
-	%hasBux = %pl.hasAmountCurrency("Bux 1");
+// 	%hasBux = %pl.hasAmountCurrency("Bux 1");
 
-	if (%hasBux)
-	{
-		%exchanger.startDialogue("ToolExchangerDialogueCore", %pl.client);
-	}
-	else
-	{
-		%exchanger.startDialogue("ToolExchangerNoBux", %pl.client);
-	}
+// 	if (%hasBux)
+// 	{
+// 		%exchanger.startDialogue("ToolExchangerDialogueCore", %pl.client);
+// 	}
+// 	else
+// 	{
+// 		%exchanger.startDialogue("ToolExchangerNoBux", %pl.client);
+// 	}
 
-	return 1;
-}
+// 	return 1;
+// }
 
 function ReskinResponseParser(%dataObj, %msg)
 {
@@ -300,26 +300,37 @@ function ReskinResponseParser(%dataObj, %msg)
 
 	if (%isReskin)
 	{
-		if (%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinRemovePrice))
-		{
-			%reskin = %tool;
-			%tool = %reskin.skinBase;
-			%dataObj.var_toolName = %tool.uiName;
+		%reskin = %tool;
+		%tool = %reskin.skinBase;
+		%dataObj.var_toolName = %tool.uiName;
 
-			%dataObj.var_article = getProperArticle(%tool);
-			%dataObj.var_toolReskin = %reskin;
-			%dataObj.var_toolReskinName = %reskin.uiName;
-			return "CanRemoveReskin";
-		}
-		else
-		{
-			return "RemoveInsufficientMoney";
-		}
+		%dataObj.var_article = getProperArticle(%tool);
+		%dataObj.var_toolReskin = %reskin;
+		%dataObj.var_toolReskinName = %reskin.uiName;
+		return "CanRemoveReskin";
+		
+		// if (%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinRemovePrice))
+		// {
+		// 	%reskin = %tool;
+		// 	%tool = %reskin.skinBase;
+		// 	%dataObj.var_toolName = %tool.uiName;
+
+		// 	%dataObj.var_article = getProperArticle(%tool);
+		// 	%dataObj.var_toolReskin = %reskin;
+		// 	%dataObj.var_toolReskinName = %reskin.uiName;
+		// 	return "CanRemoveReskin";
+		// }
+		// else
+		// {
+		// 	return "RemoveInsufficientMoney";
+		// }
+
+		
 	}
-	else if (!%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinPrice))
-	{
-		return "InsufficientMoney";
-	}
+	// else if (!%pl.hasAmountCurrency("Bux" SPC $Farming::ReskinPrice))
+	// {
+	// 	return "InsufficientMoney";
+	// }
 
 	if (%tool.getReskinCount() > 1)
 	{
