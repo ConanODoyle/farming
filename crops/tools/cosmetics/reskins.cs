@@ -78,8 +78,15 @@ function registerReskin(%inheritItem, %inheritImage, %itemmodel, %imagemodel, %i
 
 	if (strpos($Farming::ReskinList, %itemNameListing) >= 0)
 	{
-		error("    WARNING: Aborted registration of item " @ %name @ " due to faulty reskin list.");
-		return;
+		for (%i = 0; %i < getFieldCount($Farming::ReskinList); %i++)
+		{
+			if (getField($Farming::ReskinnableTools, %i) $= %itemName)
+			{
+				error("    WARNING: Item " @ %name @ " is already registered.");
+				talk("registerReskin() ERROR. READ CONSOLE");
+			}
+		}
+
 	}
 
 	if (%imagemodel $= "")

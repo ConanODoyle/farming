@@ -18,7 +18,7 @@ $buxGiverDialogueSet.add($obj);
 $obj = new ScriptObject(BuxGiverOfferDeal)
 {
 	messageCount = 3;
-	message[0] = "Hey kid. You look like you could use some bux!";
+	message[0] = "Hey kid. You look like you could use some Bux!";
 	messageTimeout[0] = 2;
 	message[1] = "How'd you like to get a stack of your own to hold on to?";
 	messageTimeout[1] = 2;
@@ -44,7 +44,7 @@ $obj = new ScriptObject(BuxGiverNoDeal)
 	messageCount = 2;
 	message[0] = "Buzz off, kid! I already cut you a stack of your own!";
 	messageTimeout[0] = 2;
-	message[1] = "You gotta work for the rest of your bux! Do some labor for a change!";
+	message[1] = "You gotta work for the rest of your Bux! Do some labor for a change!";
 	messageTimeout[1] = 2;
 
 	botTalkAnim = 1;
@@ -63,7 +63,7 @@ function setupBuxGiver(%dataObj)
 	%pl = %dataObj.player;
     %cl = %pl.client;
 	%bot = %dataObj.speaker;
-    %dataObj.speaker.e = "Bloobs McBux";
+    %dataObj.speaker.e = "Blooms McBux";
 
 	if (!isObject(%cl))
 	{
@@ -94,7 +94,7 @@ function GameConnection::buxGiverDeal(%cl)
 	
 	%tookBuxPackage = %cl.tookGiveaway;
 
-    %head = "TRADE OFFER:" SPC "Bloobs McBux";
+    %head = "TRADE OFFER:" SPC "Blooms McBux";
     %text = "<font:Arial:16>Redeem 35 Bux giveaway?";
     // %cl.messageBoxYesNo(%head, %text, 'attemptBuxGiveaway', '');
 	%cl.messageBoxYesNoCallBack = "serverCmdDeclinedBuxGiveaway";
@@ -126,14 +126,14 @@ function serverCmdAttemptBuxGiveaway(%cl)
         %pl.farmingaddstackableitem(bux0item,35);
 
 		%msg = "Don't spend it all in one place! Unless I own the place!";
-		%string = %starBitmap @ " \c3" @ "Bloobs McBux" @ "\c6: " @ %msg;
+		%string = %starBitmap @ " \c3" @ "Blooms McBux" @ "\c6: " @ %msg;
 		messageClient(%cl, '', %string);
         // %bot.startDialogue("BuxGiverDealed", %cl);
 	}
 	else
 	{
 		%msg = "This ain't a charity! I already gave you a cut.";
-		%string = %starBitmap @ " \c3" @ "Bloobs McBux" @ "\c6: " @ %msg;
+		%string = %starBitmap @ " \c3" @ "Blooms McBux" @ "\c6: " @ %msg;
 		messageClient(%cl, '', %string);
 	}
 
@@ -155,7 +155,7 @@ function serverCmdDeclinedBuxGiveaway(%cl)
 	}
 	
 	%msg = "Your loss, kid. I got plenty to spare!";
-	%string = %starBitmap @ " \c3" @ "Bloobs McBux" @ "\c6: " @ %msg;
+	%string = %starBitmap @ " \c3" @ "Blooms McBux" @ "\c6: " @ %msg;
 	messageClient(%cl, '', %string);
 
 	return 1;
@@ -163,4 +163,4 @@ function serverCmdDeclinedBuxGiveaway(%cl)
 
 
 
-RegisterPersistenceVar("tookBuxPackage", false, "");
+RegisterPersistenceVar("tookGiveaway", false, "");
