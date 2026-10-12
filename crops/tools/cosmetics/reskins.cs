@@ -279,8 +279,8 @@ registerReskin(TrowelItem, TrowelImage, 			"entrenchingtool", "",		"entrenching_
 
 registerReskin(WateringCatItem, WateringCatImage, "cup", "", 					"mug", "", "Mug");
 registerReskin(WateringCatItem, WateringCatImage, "cat_black", "", 			"gray_cat", "", "Black Cat");
-registerReskin(WateringCatItem, WateringCatImage, "cat_blackwhite", "", 		"gray_cat", "", "BlackWhite Cat");
 registerReskin(WateringCatItem, WateringCatImage, "cat_white", "", 			"gray_cat", "", "White Cat");
+registerReskin(WateringCatItem, WateringCatImage, "cat_blackwhite", "", 		"gray_cat", "", "BlackWhite Cat");
 registerReskin(WateringCatItem, WateringCatImage, "cat_orange", "", 			"gray_cat", "", "Orange Cat");
 registerReskin(WateringCatItem, WateringCatImage, "cat_calico", "", 			"gray_cat", "", "Calico Cat");
 registerReskin(WateringCatItem, WateringCatImage, "cat_gray", "", 			"gray_cat", "", "Gray Cat");
