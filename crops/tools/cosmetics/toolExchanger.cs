@@ -201,7 +201,6 @@ function dialogue_ReskinProduct(%dataObj)
 	if (%result == 1)
 	{
 		%pl.removeStackableItemTotal("Bux", $Farming::ReskinPrice);
-		%exchanger.mountReskinPreview("", 0); // reattach base tool after some time
 		%exchanger.setWeapon(-1);
 	}
 	else
@@ -492,5 +491,5 @@ function AIPlayer::mountReskinPreview(%bot, %item)
 	}
 
 	%bot.setWeapon(%item);
-	%bot.mountSchedule = %bot.schedule(10000, setWeapon, UpgradeToolItem);
+	%bot.mountSchedule = %bot.schedule(10000, setWeapon, -1);
 }
