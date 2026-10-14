@@ -1,4 +1,4 @@
-$minFreeLots = 5;
+$minFreeLots = 10;
 
 package LotMoving
 {
