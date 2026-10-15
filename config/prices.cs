@@ -135,3 +135,6 @@ $BuyCost_["Fertilizer_Mixer"] = 4500;
 
 $Farming::LotRotatePrice = 20;
 $Farming::LotUnloadPrice = 200;
+
+$Farming::ReskinPrice = 40; // in bux
+$Farming::ReskinRemovePrice = 5;

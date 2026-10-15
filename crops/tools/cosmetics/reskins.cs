@@ -96,14 +96,14 @@ function registerReskin(%inheritItem, %inheritImage, %itemmodel, %imagemodel, %i
 
 	%str = %str @ "datablock ItemData(Reskin__" @ stripChars(%name, " ") @ "Item : " @ %inheritItem @ ") {";
 	%str = %str @ "    iconName = \"Add-ons/Server_Farming/icons/" @ %icon @ "\";";
-	%str = %str @ "    shapeFile = \"Add-ons/Server_Farming/crops/tools/cosmetics/" @ %itemmodel @ ".dts\";";
+	%str = %str @ "    shapeFile = \"Add-ons/Server_Farming/crops/tools/cosmetics/assets/" @ %itemmodel @ ".dts\";";
 	%str = %str @ "    uiName = \"" @ %name @ "\";";
 	%str = %str @ "    image = \"Reskin__" @ stripChars(%name, " ") @ "Image\";";
 	%str = %str @ "    skinBase = " @ %inheritItem @";";
 	%str = %str @ "};";
 
 	%str = %str @ "datablock ShapeBaseImageData(Reskin__" @ stripChars(%name, " ") @ "Image : " @ %inheritImage @ ") {";
-	%str = %str @ "    shapeFile = \"Add-ons/Server_Farming/crops/tools/cosmetics/" @ %imagemodel @ ".dts\";";
+	%str = %str @ "    shapeFile = \"Add-ons/Server_Farming/crops/tools/cosmetics/assets/" @ %imagemodel @ ".dts\";";
 	%str = %str @ "    item =   \"" @ %inheritItem @ "\";";
 	%str = %str @ "    offset = \"" @ %offset @ "\";";
 	%str = %str @ "};";

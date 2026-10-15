@@ -1,6 +1,3 @@
-$Farming::ReskinPrice = 40; // in bux
-$Farming::ReskinRemovePrice = 5;
-
 if (!isObject($ToolExchangerDialogueSet))
 {
 	$ToolExchangerDialogueSet = new SimSet(ToolExchangerDialogueSet);
