@@ -284,3 +284,5 @@ registerReskin(WateringCatItem, WateringCatImage, "cat_blackwhite", "", 		"gray_
 registerReskin(WateringCatItem, WateringCatImage, "cat_orange", "", 			"gray_cat", "", "Orange Cat");
 registerReskin(WateringCatItem, WateringCatImage, "cat_calico", "", 			"gray_cat", "", "Calico Cat");
 registerReskin(WateringCatItem, WateringCatImage, "cat_gray", "", 			"gray_cat", "", "Gray Cat");
+
+registerReskin(WateringSnakeItem, WateringSnakeImage, "tankard", "", 			"ale_tankard", "", "Ale Tankard");
